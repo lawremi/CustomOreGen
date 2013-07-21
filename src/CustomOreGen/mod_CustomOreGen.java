@@ -144,7 +144,7 @@ public class mod_CustomOreGen extends BaseMod
 
                     if (!CustomOreGenBase.hasForge())
                     {
-                        handler.handleChat(new Packet3Chat("\u00a7cWarning: Minecraft Forge must be installed to view wireframes."));
+                        handler.handleChat(new Packet3Chat("{text: \"\u00a7cWarning: Minecraft Forge must be installed to view wireframes.\""));
                         return;
                     }
 
@@ -165,7 +165,7 @@ public class mod_CustomOreGen extends BaseMod
                         }
                         else
                         {
-                            handler.handleChat(new Packet3Chat("\u00a7cError: Invalid wireframe mode \'" + strMode + "\'"));
+                            handler.handleChat(new Packet3Chat("{text: \"\u00a7cError: Invalid wireframe mode \'" + strMode + "\'\""));
                         }
                     }
                     else
@@ -175,7 +175,7 @@ public class mod_CustomOreGen extends BaseMod
                         ClientState.dgRenderingMode = WireframeRenderMode.values()[var11];
                     }
 
-                    handler.handleChat(new Packet3Chat("COG Client wireframe mode: " + ClientState.dgRenderingMode.name()));
+                    handler.handleChat(new Packet3Chat("{text: \"COG Client wireframe mode: " + ClientState.dgRenderingMode.name() + "\"}"));
                     break;
 
                 case DebuggingGeometryReset:
