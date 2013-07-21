@@ -1,0 +1,932 @@
+<!--************************  CustomOreGen RedPower Ores Module **********************************
+*
+*   This file contains Presets, Options, and Distributions for the 8 Redpower 2 ores:
+*       Copper, Tin, Silver, Nikolite, Tungsten, Ruby, Sapphire, and Green Sapphire.
+*
+***********************************************************************************************-->
+<IfModInstalled name="RedPowerWorld">
+
+    <!--***************************   Options + Symbols   ***********************************
+    *
+    *   Below are options and symbols for each ore, similar to those for the standard ores.
+    *
+    *************************************************************************************-->
+    <ConfigSection>            
+    
+        <OptionDisplayGroup name='groupRedpower' displayName='Redpower' displayState='shown'>
+            <Description> 
+                Distribution options for the Redpower 2 ores.
+            </Description>
+        </OptionDisplayGroup>  
+        
+        <!--*******************   Copper   *********************-->
+        <ConfigSection>
+            
+            <OptionChoice name='rp2CopperDist' displayState='shown' displayGroup='groupRedpower'>
+                <Description> Controls how Redpower 2 Copper is generated </Description>
+                <DisplayName>RP2 Copper Type</DisplayName>
+                <Default>:= if(blockExists("rpores:5"),"layeredVeins","disabled")</Default>
+                <Choice value='layeredVeins' displayValue='Veins'>
+                    <Description> 
+                        Groups of long narrow veins found about one third of the way down to bedrock.  Especially common in jungles.  
+                    </Description>
+                </Choice>
+                <Choice value='strategicClouds' displayValue='Clouds'>
+                    <Description>
+                        Rare, sparsely populated clouds of ore extending over several chunks.  Found only in jungles.
+                    </Description>
+                </Choice>
+                <Choice value='vanillaStdGen' displayValue='Clusters'>
+                    <Description> 
+                        Small evenly scattered clusters of ore.  This is the default Redpower copper generation.
+                    </Description>
+                </Choice>
+                <Choice value='none' displayValue='None' description='No copper is generated at all.'/>
+                <Choice value='disabled' displayValue='Disabled' description='No copper is generated, and no copper symbols are available in Mystcraft ages.'/>
+            </OptionChoice>
+            
+            <OptionNumeric name='rp2CopperFreq' default='1'  min='0' max='5' displayState='hidden' displayGroup='groupRedpower'>
+                <Description> Frequency multiplier for Redpower 2 Copper distributions </Description>
+                <DisplayName>RP2 Copper Freq.</DisplayName>
+            </OptionNumeric>
+            
+            <OptionNumeric name='rp2CopperSize' default='1'  min='0' max='5' displayState='hidden' displayGroup='groupRedpower'>
+                <Description> Size multiplier for Redpower 2 Copper distributions </Description>
+                <DisplayName>RP2 Copper Size</DisplayName>
+            </OptionNumeric>
+            
+            <IfCondition condition=':= rp2CopperDist != "disabled"'>
+                <MystcraftSymbol name='rp2CopperClusters' displayName='Copper Clusters'/>
+                <MystcraftSymbol name='rp2CopperVeins' displayName='Copper Veins'/>
+                <MystcraftSymbol name='rp2CopperClouds' displayName='Copper Clouds'>
+                    <Instability>:= 50 * (age.rp2CopperClusters + age.rp2CopperVeins + age.rp2CopperClouds - 1)^3</Instability>
+                </MystcraftSymbol>
+            </IfCondition>
+       
+        </ConfigSection>
+        
+        <!--********************   Tin   ***********************-->
+        <ConfigSection>
+            
+            <OptionChoice name='rp2TinDist' displayState='shown' displayGroup='groupRedpower'>
+                <Description> Controls how Redpower 2 Tin is generated </Description>
+                <DisplayName>RP2 Tin Type</DisplayName>
+                <Default>:= if(blockExists("rpores:4"),"layeredVeins","disabled")</Default>
+                <Choice value='layeredVeins' displayValue='Veins'>
+                    <Description> 
+                        Groups of long narrow veins found about halfway down to bedrock.  More frequent in flat grassy plains.
+                    </Description>
+                </Choice>
+                <Choice value='strategicClouds' displayValue='Clouds'>
+                    <Description>
+                        Rare, sparsely populated clouds of ore extending over several chunks.  Found only in flat grassy plains.
+                    </Description>
+                </Choice>
+                <Choice value='vanillaStdGen' displayValue='Clusters'>
+                    <Description> 
+                        Small clusters of ore scattered evenly from bedrock about three quarters of the way to the surface.  This is the default Redpower tin generation.
+                    </Description>
+                </Choice>
+                <Choice value='none' displayValue='None' description='No tin is generated at all.'/>
+                <Choice value='disabled' displayValue='Disabled' description='No tin is generated, and no tin symbols are available in Mystcraft ages.'/>
+            </OptionChoice>
+            
+            <OptionNumeric name='rp2TinFreq' default='1'  min='0' max='5' displayState='hidden' displayGroup='groupRedpower'>
+                <Description> Frequency multiplier for Redpower 2 Tin distributions </Description>
+                <DisplayName>RP2 Tin Freq.</DisplayName>
+            </OptionNumeric>
+            
+            <OptionNumeric name='rp2TinSize' default='1'  min='0' max='5' displayState='hidden' displayGroup='groupRedpower'>
+                <Description> Size multiplier for Redpower 2 Tin distributions </Description>
+                <DisplayName>RP2 Tin Size</DisplayName>
+            </OptionNumeric>
+            
+            <IfCondition condition=':= rp2TinDist != "disabled"'>
+                <MystcraftSymbol name='rp2TinClusters' displayName='Tin Clusters'/>
+                <MystcraftSymbol name='rp2TinVeins' displayName='Tin Veins'/>
+                <MystcraftSymbol name='rp2TinClouds' displayName='Tin Clouds'>
+                    <Instability>:= 50 * (age.rp2TinClusters + age.rp2TinVeins + age.rp2TinClouds - 1)^3</Instability>
+                </MystcraftSymbol>
+            </IfCondition>
+       
+        </ConfigSection>
+        
+        <!--*******************   Silver   *********************-->
+        <ConfigSection>
+            
+            <OptionChoice name='rp2SilverDist' displayState='shown' displayGroup='groupRedpower'>
+                <Description> Controls how Redpower 2 Silver is generated </Description>
+                <DisplayName>RP2 Silver Type</DisplayName>
+                <Default>:= if(blockExists("rpores:3"),"layeredVeins","disabled")</Default>
+                <Choice value='layeredVeins' displayValue='Veins'>
+                    <Description> 
+                        Groups of long narrow veins found about two thirds of the way down to bedrock.  More common in temperate pine and fir forests (ExtraBiomesXL).
+                    </Description>
+                </Choice>
+                <Choice value='strategicClouds' displayValue='Clouds'>
+                    <Description>                         
+                        Rare, sparsely populated clouds of ore extending over several chunks.  Found only in temperate forests.
+                    </Description>
+                </Choice>
+                <Choice value='vanillaStdGen' displayValue='Clusters'>
+                    <Description> 
+                        Small clusters of ore scattered evenly from bedrock about halfway to the surface.  This is the default Redpower silver generation.
+                    </Description>
+                </Choice>
+                <Choice value='none' displayValue='None' description='No silver is generated at all.'/>
+                <Choice value='disabled' displayValue='Disabled' description='No silver is generated, and no silver symbols are available in Mystcraft ages.'/>
+            </OptionChoice>
+            
+            <OptionNumeric name='rp2SilverFreq' default='1'  min='0' max='5' displayState='hidden' displayGroup='groupRedpower'>
+                <Description> Frequency multiplier for Redpower 2 Silver distributions </Description>
+                <DisplayName>RP2 Silver Freq.</DisplayName>
+            </OptionNumeric>
+            
+            <OptionNumeric name='rp2SilverSize' default='1'  min='0' max='5' displayState='hidden' displayGroup='groupRedpower'>
+                <Description> Size multiplier for Redpower 2 Silver distributions </Description>
+                <DisplayName>RP2 Silver Size</DisplayName>
+            </OptionNumeric>
+            
+            <IfCondition condition=':= rp2SilverDist != "disabled"'>
+                <MystcraftSymbol name='rp2SilverClusters' displayName='Silver Clusters'/>
+                <MystcraftSymbol name='rp2SilverVeins' displayName='Silver Veins'/>
+                <MystcraftSymbol name='rp2SilverClouds' displayName='Silver Clouds'>
+                    <Instability>:= 50 * (age.rp2SilverClusters + age.rp2SilverVeins + age.rp2SilverClouds - 1)^3</Instability>
+                </MystcraftSymbol>
+            </IfCondition>
+       
+        </ConfigSection>
+        
+        <!--******************   Nikolite   ********************-->
+        <ConfigSection>
+            
+            <OptionChoice name='rp2NikoliteDist' displayState='shown' displayGroup='groupRedpower'>
+                <Description> Controls how Redpower 2 Nikolite is generated </Description>
+                <DisplayName>RP2 Nikolite Type</DisplayName>
+                <Default>:= if(blockExists("rpores:7"),"layeredVeins","disabled")</Default>
+                <Choice value='layeredVeins' displayValue='Veins'>
+                    <Description>  
+                        Groups of narrow veins starting under the surface and slanting steeply down to bedrock.  Most commonly found on the ocean floor.
+                    </Description>
+                </Choice>
+                <Choice value='strategicClouds' displayValue='Clouds'>
+                    <Description>
+                        Rare, sparsely populated clouds of ore extending over several chunks.  Found only under oceans.
+                    </Description>
+                </Choice>
+                <Choice value='vanillaStdGen' displayValue='Clusters'>
+                    <Description> 
+                        Small clusters of ore scattered evenly from bedrock about one quarter of the way to the surface.  This is the default Redpower nikolite generation.
+                    </Description>
+                </Choice>
+                <Choice value='none' displayValue='None' description='No nikolite is generated at all.'/>
+                <Choice value='disabled' displayValue='Disabled' description='No nikolite is generated, and no nikolite symbols are available in Mystcraft ages.'/>
+            </OptionChoice>
+            
+            <OptionNumeric name='rp2NikoliteFreq' default='1'  min='0' max='5' displayState='hidden' displayGroup='groupRedpower'>
+                <Description> Frequency multiplier for Redpower 2 Nikolite distributions </Description>
+                <DisplayName>RP2 Nikolite Freq.</DisplayName>
+            </OptionNumeric>
+            
+            <OptionNumeric name='rp2NikoliteSize' default='1'  min='0' max='5' displayState='hidden' displayGroup='groupRedpower'>
+                <Description> Size multiplier for Redpower 2 Nikolite distributions </Description>
+                <DisplayName>RP2 Nikolite Size</DisplayName>
+            </OptionNumeric>
+            
+            <IfCondition condition=':= rp2NikoliteDist != "disabled"'>
+                <MystcraftSymbol name='rp2NikoliteClusters' displayName='Nikolite Clusters'/>
+                <MystcraftSymbol name='rp2NikoliteVeins' displayName='Nikolite Veins'/>
+                <MystcraftSymbol name='rp2NikoliteClouds' displayName='Nikolite Clouds'>
+                    <Instability>:= 50 * (age.rp2NikoliteClusters + age.rp2NikoliteVeins + age.rp2NikoliteClouds - 1)^3</Instability>
+                </MystcraftSymbol>
+            </IfCondition>
+       
+        </ConfigSection>
+        
+        <!--******************   Tungsten   ********************-->
+        <ConfigSection>
+            
+            <OptionChoice name='rp2TungstenDist' displayState='shown' displayGroup='groupRedpower'>
+                <Description> Controls how Redpower 2 Tungsten is generated </Description>
+                <DisplayName>RP2 Tungsten Type</DisplayName>
+                <Default>:= if(blockExists("rpores:6"),"layeredVeins","disabled")</Default>
+                <Choice value='layeredVeins' displayValue='Veins'>
+                    <Description>  
+                        Short, isolated veins found just above bedrock and only sparsely filled with ore.  Most common in devestated wastelands (ExtraBiomesXL).
+                    </Description>
+                </Choice>
+                <Choice value='strategicClouds' displayValue='Clouds'>
+                    <Description>
+                        Rare, sparsely populated clouds of ore extending over one or two chunks.  Can be found anywhere, but most common in devestated wastelands (ExtraBiomesXL).
+                    </Description>
+                </Choice>
+                <Choice value='vanillaStdGen' displayValue='Clusters'>
+                    <Description> 
+                        Small, rare clusters of ore scattered evenly from bedrock about one quarter of the way to the surface.  This is the default Redpower tungsten generation.
+                    </Description>
+                </Choice>
+                <Choice value='none' displayValue='None' description='No tungsten is generated at all.'/>
+                <Choice value='disabled' displayValue='Disabled' description='No tungsten is generated, and no tungsten symbols are available in Mystcraft ages.'/>
+            </OptionChoice>
+            
+            <OptionNumeric name='rp2TungstenFreq' default='1'  min='0' max='5' displayState='hidden' displayGroup='groupRedpower'>
+                <Description> Frequency multiplier for Redpower 2 Tungsten distributions </Description>
+                <DisplayName>RP2 Tungsten Freq.</DisplayName>
+            </OptionNumeric>
+            
+            <OptionNumeric name='rp2TungstenSize' default='1'  min='0' max='5' displayState='hidden' displayGroup='groupRedpower'>
+                <Description> Size multiplier for Redpower 2 Tungsten distributions </Description>
+                <DisplayName>RP2 Tungsten Size</DisplayName>
+            </OptionNumeric>
+            
+            <IfCondition condition=':= rp2TungstenDist != "disabled"'>
+                <MystcraftSymbol name='rp2TungstenClusters' displayName='Tungsten Clusters'/>
+                <MystcraftSymbol name='rp2TungstenVeins' displayName='Tungsten Veins'/>
+                <MystcraftSymbol name='rp2TungstenClouds' displayName='Tungsten Clouds'>
+                    <Instability>:= 50 * (age.rp2TungstenClusters + age.rp2TungstenVeins + age.rp2TungstenClouds - 1)^3</Instability>
+                </MystcraftSymbol>
+            </IfCondition>
+       
+        </ConfigSection>
+        
+        <!--********************   Ruby   **********************-->
+        <ConfigSection>
+            
+            <OptionChoice name='rp2RubyDist' displayState='shown' displayGroup='groupRedpower'>
+                <Description> Controls how Redpower 2 Rubies are generated </Description>
+                <DisplayName>RP2 Ruby Type</DisplayName>
+                <Default>:= if(blockExists("rpores:0"),"layeredVeins","disabled")</Default>
+                <Choice value='layeredVeins' displayValue='Veins'>
+                    <Description> 
+                        Short lava-filled tubes extending upward from bedrock with ore around the edges.  More common under open grassy hills.
+                    </Description>
+                </Choice>
+                <Choice value='strategicClouds' displayValue='Clouds'>
+                    <Description>   
+                        Uncommon, sparsely populated clouds of ore covering roughly one chunk.  Found only under open grassy hills.
+                    </Description>
+                </Choice>
+                <Choice value='vanillaStdGen' displayValue='Clusters'>
+                    <Description> 
+                        Small clusters of ore scattered evenly from bedrock about three quarters of the way to the surface.  This is the default Redpower ruby generation.
+                    </Description>
+                </Choice>
+                <Choice value='none' displayValue='None' description='No rubies are generated at all.'/>
+                <Choice value='disabled' displayValue='Disabled' description='No rubies are generated, and no ruby symbols are available in Mystcraft ages.'/>
+            </OptionChoice>
+            
+            <OptionNumeric name='rp2RubyFreq' default='1'  min='0' max='5' displayState='hidden' displayGroup='groupRedpower'>
+                <Description> Frequency multiplier for Redpower 2 Ruby distributions </Description>
+                <DisplayName>RP2 Ruby Freq.</DisplayName>
+            </OptionNumeric>
+            
+            <OptionNumeric name='rp2RubySize' default='1'  min='0' max='5' displayState='hidden' displayGroup='groupRedpower'>
+                <Description> Size multiplier for Redpower 2 Ruby distributions </Description>
+                <DisplayName>RP2 Ruby Size</DisplayName>
+            </OptionNumeric>
+            
+            <IfCondition condition=':= rp2RubyDist != "disabled"'>
+                <MystcraftSymbol name='rp2RubyClusters' displayName='Ruby Clusters'/>
+                <MystcraftSymbol name='rp2RubyVeins' displayName='Ruby Veins'/>
+                <MystcraftSymbol name='rp2RubyClouds' displayName='Ruby Clouds'>
+                    <Instability>:= 50 * (age.rp2RubyClusters + age.rp2RubyVeins + age.rp2RubyClouds - 1)^3</Instability>
+                </MystcraftSymbol>
+            </IfCondition>
+       
+        </ConfigSection>
+        
+        <!--******************   Sapphire   ********************-->
+        <ConfigSection>
+            
+            <OptionChoice name='rp2SapphireDist' displayState='shown' displayGroup='groupRedpower'>
+                <Description> Controls how Redpower 2 Sapphires are generated </Description>
+                <DisplayName>RP2 Sapphire Type</DisplayName>
+                <Default>:= if(blockExists("rpores:2"),"layeredVeins","disabled")</Default>
+                <Choice value='layeredVeins' displayValue='Veins'>
+                    <Description> 
+                        Short lava-filled tubes extending upward from bedrock with ore around the edges.  More common under open grassy hills. 
+                    </Description>
+                </Choice>
+                <Choice value='strategicClouds' displayValue='Clouds'>
+                    <Description>
+                        Uncommon, sparsely populated clouds of ore covering roughly one chunk.  Found only under open grassy hills.
+                    </Description>
+                </Choice>
+                <Choice value='vanillaStdGen' displayValue='Clusters'>
+                    <Description> 
+                        Small clusters of ore scattered evenly from bedrock about three quarters of the way to the surface.  This is the default Redpower sapphire generation.
+                    </Description>
+                </Choice>
+                <Choice value='none' displayValue='None' description='No sapphires are generated at all.'/>
+                <Choice value='disabled' displayValue='Disabled' description='No sapphires are generated, and no sapphire symbols are available in Mystcraft ages.'/>
+            </OptionChoice>
+            
+            <OptionNumeric name='rp2SapphireFreq' default='1'  min='0' max='5' displayState='hidden' displayGroup='groupRedpower'>
+                <Description> Frequency multiplier for Redpower 2 Sapphire distributions </Description>
+                <DisplayName>RP2 Sapphire Freq.</DisplayName>
+            </OptionNumeric>
+            
+            <OptionNumeric name='rp2SapphireSize' default='1'  min='0' max='5' displayState='hidden' displayGroup='groupRedpower'>
+                <Description> Size multiplier for Redpower 2 Sapphire distributions </Description>
+                <DisplayName>RP2 Sapphire Size</DisplayName>
+            </OptionNumeric>
+            
+            <IfCondition condition=':= rp2SapphireDist != "disabled"'>
+                <MystcraftSymbol name='rp2SapphireClusters' displayName='Sapphire Clusters'/>
+                <MystcraftSymbol name='rp2SapphireVeins' displayName='Sapphire Veins'/>
+                <MystcraftSymbol name='rp2SapphireClouds' displayName='Sapphire Clouds'>
+                    <Instability>:= 50 * (age.rp2SapphireClusters + age.rp2SapphireVeins + age.rp2SapphireClouds - 1)^3</Instability>
+                </MystcraftSymbol>
+            </IfCondition>
+       
+        </ConfigSection>
+        
+        <!--***************   Green Sapphire   *****************-->
+        <ConfigSection>
+            
+            <OptionChoice name='rp2GreenSaphDist' displayState='shown' displayGroup='groupRedpower'>
+                <Description> Controls how Redpower 2 Green Sapphires are generated </Description>
+                <DisplayName>RP2 G. Sapphire Type</DisplayName>
+                <Default>:= if(blockExists("rpores:1"),"layeredVeins","disabled")</Default>
+                <Choice value='layeredVeins' displayValue='Veins'>
+                    <Description> 
+                        Short lava-filled tubes extending upward from bedrock with ore around the edges.  More common under open grassy hills.
+                    </Description>
+                </Choice>
+                <Choice value='strategicClouds' displayValue='Clouds'>
+                    <Description>
+                        Uncommon, sparsely populated clouds of ore covering roughly one chunk.  Found only under open grassy hills.
+                    </Description>
+                </Choice>
+                <Choice value='vanillaStdGen' displayValue='Clusters'>
+                    <Description> 
+                        Small clusters of ore scattered evenly from bedrock about three quarters of the way to the surface.  This is the default Redpower green sapphire generation.
+                    </Description>
+                </Choice>
+                <Choice value='none' displayValue='None' description='No green sapphires are generated at all.'/>
+                <Choice value='disabled' displayValue='Disabled' description='No green sapphires are generated, and no green sapphire symbols are available in Mystcraft ages.'/>
+            </OptionChoice>
+            
+            <OptionNumeric name='rp2GreenSaphFreq' default='1'  min='0' max='5' displayState='hidden' displayGroup='groupRedpower'>
+                <Description> Frequency multiplier for Redpower 2 Green Sapphire distributions </Description>
+                <DisplayName>RP2 G. Sapphire Freq.</DisplayName>
+            </OptionNumeric>
+            
+            <OptionNumeric name='rp2GreenSaphSize' default='1'  min='0' max='5' displayState='hidden' displayGroup='groupRedpower'>
+                <Description> Size multiplier for Redpower 2 Green Sapphire distributions </Description>
+                <DisplayName>RP2 G. Sapphire Size</DisplayName>
+            </OptionNumeric>
+            
+            <IfCondition condition=':= rp2GreenSaphDist != "disabled"'>
+                <MystcraftSymbol name='rp2GreenSaphClusters' displayName='Green Sapphire Clusters'/>
+                <MystcraftSymbol name='rp2GreenSaphVeins' displayName='Green Sapphire Veins'/>
+                <MystcraftSymbol name='rp2GreenSaphClouds' displayName='Green Sapphire Clouds'>
+                    <Instability>:= 50 * (age.rp2GreenSaphClusters + age.rp2GreenSaphVeins + age.rp2GreenSaphClouds - 1)^3</Instability>
+                </MystcraftSymbol>
+            </IfCondition>
+       
+        </ConfigSection>
+        
+     </ConfigSection>    
+   
+    <!--*****************************   Distributions   *************************************
+    *   
+    *   Below are the actual distributions for the overworld and mystcraft ages.
+    *
+    *************************************************************************************-->
+    <IfCondition condition=':= dimension.generator = "RandomLevelSource"'>
+        
+        <Substitute name='RP2Substitute' block='stone'>
+            <Description> 
+                Replace Redpower-generated ore clusters with stone.   
+            </Description>
+            <Comment>  
+                The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
+            </Comment>
+            <Replaces block='rpores'/>
+        </Substitute>
+        
+        <!--*******************   Copper   *********************-->            
+        <ConfigSection>
+        
+            <IfCondition condition=':= if(age, age.rp2CopperClusters > 0, rp2CopperDist = "vanillaStdGen")'>
+                <StandardGen name='RP2CopperStandard' block='rpores:5' inherits='PresetStandardGen'> 
+                    <Description> Equivalent to regular RP2 copper distribution </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40773300</WireframeColor> 
+                    <Setting name='Size' avg=':= 1.0 * rp2CopperSize * _default_'/> 
+                    <Setting name='Frequency' avg=':= 1.0 * rp2CopperFreq * if(age,age.rp2CopperClusters,1) * _default_'/>
+                    <Setting name='Height' avg=':= 32/64 * dimension.groundLevel' range=':= 32/64 * dimension.groundLevel'/> 
+                </StandardGen>
+            </IfCondition>   
+            
+            <IfCondition condition=':= if(age, age.rp2CopperVeins > 0, rp2CopperDist = "layeredVeins")'>             
+                <Veins name='RP2CopperVeins' block='rpores:5' inherits='PresetLayeredVeins'>
+                    <Description>  Average veins in the 30-50 range. </Description> 
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40773300</WireframeColor> 
+                    <Setting name='MotherlodeFrequency' avg=':= 0.9 * rp2CopperFreq * if(age,age.rp2CopperVeins,1) * _default_'/>
+                    <Setting name='MotherlodeSize' avg=':= rp2CopperSize * _default_' range=':= rp2CopperSize * _default_'/>
+                    <Setting name='MotherlodeHeight' avg=':= 43/64 * dimension.groundLevel' range=':= 10.5/64 * dimension.groundLevel' type='normal'/>
+                    <Setting name='BranchHeightLimit' avg='10.5'/>
+                    <Setting name='BranchLength' avg=':= 1.1 * _default_'/>
+                    <Setting name='SegmentRadius' avg=':= rp2CopperSize * _default_' range=':= rp2CopperSize * _default_'/>
+                </Veins>                
+                <Veins name='RP2CopperVeinsJungle' inherits='RP2CopperVeins'>
+                    <Description> This roughly triples the chance of finding Copper in jungle biomes. </Description> 
+                    <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                    <Setting name='MotherlodeHeight' avg=':=_default_' range=':= 2 * _default_'/>
+                    <Setting name='BranchHeightLimit' avg=':= 2 * _default_'/>  
+                    <Biome name='Jungle'/>
+                    <Biome name='Jungle\s*Hills'/>
+                    <Biome name='Extreme\s*Jungle'/> <Comment> ExtraBiomesXL </Comment>
+                    <Biome name='Mini\s*Jungle'/> <Comment> ExtraBiomesXL </Comment>  
+                </Veins>   
+            </IfCondition>     
+            
+            <IfCondition condition=':= if(age, age.rp2CopperClouds > 0, rp2CopperDist = "strategicClouds")'>
+                <Cloud name='RP2CopperCloud' block='rpores:5' inherits='PresetStrategicCloud'>
+                    <Description>  
+                        Diffuse cloud surrounded by single-block "hint" veins, found in jungle biomes.
+                    </Description> 
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40773300</WireframeColor> 
+                    <Setting name='DistributionFrequency' avg=':= 3.0 * rp2CopperFreq * if(age,age.rp2CopperClouds,1) * _default_'/>
+                    <Setting name='CloudRadius' avg=':= 1.0 * rp2CopperSize * _default_' range=':= rp2CopperSize * _default_'/>
+                    <Setting name='CloudThickness' avg=':= 1.0 * rp2CopperSize * _default_' range=':= rp2CopperSize * _default_'/> 
+                    <Biome name='Jungle'/>
+                    <Biome name='Jungle\s*Hills'/>
+                    <Biome name='Extreme\s*Jungle'/> <Comment> ExtraBiomesXL </Comment>
+                    <Biome name='Mini\s*Jungle'/> <Comment> ExtraBiomesXL </Comment>  
+                    <Veins name='RP2CopperHintVeins' block='rpores:5' inherits='PresetHintVeins'>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x40773300</WireframeColor> 
+                        <Setting name='MotherlodeFrequency' avg=':= _default_' range=':= _default_'/>   
+                        <Setting name='MotherlodeRangeLimit' avg=':= rp2CopperSize * _default_' range=':= rp2CopperSize * _default_'/>              
+                    </Veins>
+                </Cloud>
+            </IfCondition>  
+            
+        </ConfigSection>
+        
+        <!--********************   Tin   ***********************-->         
+        <ConfigSection>
+        
+            <IfCondition condition=':= if(age, age.rp2TinClusters > 0, rp2TinDist = "vanillaStdGen")'>
+                <StandardGen name='RP2TinStandard' block='rpores:4' inherits='PresetStandardGen'> 
+                    <Description> Equivalent to regular RP2 tin distribution </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40FFFFFF</WireframeColor>
+                    <Setting name='Size' avg=':= 1.0 * rp2TinSize * _default_'/> 
+                    <Setting name='Frequency' avg=':= 0.5 * rp2TinFreq * if(age,age.rp2TinClusters,1) * _default_'/>
+                    <Setting name='Height' avg=':= 24/64 * dimension.groundLevel' range=':= 24/64 * dimension.groundLevel'/> 
+                </StandardGen>
+            </IfCondition>   
+            
+            <IfCondition condition=':= if(age, age.rp2TinVeins > 0, rp2TinDist = "layeredVeins")'>  
+                <Veins name='RP2TinVeins' block='rpores:4' inherits='PresetLayeredVeins'>
+                    <Description> 
+                        Average veins in the 20-40 range.
+                    </Description> 
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40FFFFFF</WireframeColor> 
+                    <Setting name='MotherlodeFrequency' avg=':= 0.70 * rp2TinFreq * if(age,age.rp2TinVeins,1) * _default_'/>
+                    <Setting name='MotherlodeSize' avg=':= rp2TinSize * _default_' range=':= rp2TinSize * _default_'/>
+                    <Setting name='MotherlodeHeight' avg=':= 30/64 * dimension.groundLevel' range=':= 11/64 * dimension.groundLevel' type='normal'/>
+                    <Setting name='BranchFrequency' avg=':= 1.2 * _default_'/>
+                    <Setting name='BranchLength' avg=':= 0.75 * _default_'/>
+                    <Setting name='SegmentRadius' avg=':= rp2TinSize * _default_' range=':= rp2TinSize * _default_'/>
+                </Veins>
+                <Veins name='RP2TinVeinsPlains' inherits='RP2TinVeins'>
+                    <Description> This roughly triples the chance of finding tin in plains biomes. </Description> 
+                    <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                    <Setting name='MotherlodeHeight' avg=':=_default_' range=':= 2 * _default_'/>
+                    <Setting name='BranchHeightLimit' avg=':= 2 * _default_'/>  
+                    <Biome name='Plains'/>
+                    <Biome name='Meadow'/> <Comment> ExtraBiomesXL </Comment>
+                    <Biome name='Savanna'/> <Comment> ExtraBiomesXL </Comment>
+                    <Biome name='Shrubland'/> <Comment> ExtraBiomesXL </Comment>
+                </Veins>
+            </IfCondition>     
+            
+            <IfCondition condition=':= if(age, age.rp2TinClouds > 0, rp2TinDist = "strategicClouds")'>
+                <Cloud name='RP2TinCloud' block='rpores:4' inherits='PresetStrategicCloud'>
+                    <Description>  
+                        Diffuse cloud surrounded by single-block "hint" veins, found in plains biomes.
+                    </Description> 
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40FFFFFF</WireframeColor> 
+                    <Setting name='DistributionFrequency' avg=':= 4.0 * rp2TinFreq * if(age,age.rp2TinClouds,1) * _default_'/>
+                    <Setting name='CloudRadius' avg=':= 0.85 * rp2TinSize * _default_' range=':= rp2TinSize * _default_'/>
+                    <Setting name='CloudThickness' avg=':= 0.85 * rp2TinSize * _default_' range=':= rp2TinSize * _default_'/> 
+                    <Setting name='OreDensity' avg=':= 0.8 * _default_'/> 
+                    <Biome name='Plains'/>
+                    <Biome name='Meadow'/> <Comment> ExtraBiomesXL </Comment>
+                    <Biome name='Savanna'/> <Comment> ExtraBiomesXL </Comment>
+                    <Biome name='Shrubland'/> <Comment> ExtraBiomesXL </Comment>
+                    <Veins name='RP2TinHintVeins' block='rpores:4' inherits='PresetHintVeins'>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x40FFFFFF</WireframeColor> 
+                        <Setting name='MotherlodeFrequency' avg=':= 0.8 * _default_' range=':= _default_'/>   
+                        <Setting name='MotherlodeRangeLimit' avg=':= 0.85 * rp2TinSize * _default_' range=':= rp2TinSize * _default_'/>              
+                    </Veins>
+                </Cloud>
+            </IfCondition>  
+            
+        </ConfigSection>
+        
+        <!--*******************   Silver   *********************-->            
+        <ConfigSection>
+        
+            <IfCondition condition=':= if(age, age.rp2SilverClusters > 0, rp2SilverDist = "vanillaStdGen")'>
+                <StandardGen name='RP2SilverStandard' block='rpores:3' inherits='PresetStandardGen'> 
+                    <Description> Equivalent to regular RP2 silver distribution </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40808090</WireframeColor>
+                    <Setting name='Size' avg=':= 1.0 * rp2SilverSize * _default_'/> 
+                    <Setting name='Frequency' avg=':= 0.2 * rp2SilverFreq * if(age,age.rp2SilverClusters,1) * _default_'/>
+                    <Setting name='Height' avg=':= 16/64 * dimension.groundLevel' range=':= 16/64 * dimension.groundLevel'/> 
+                </StandardGen>
+            </IfCondition>   
+            
+            <IfCondition condition=':= if(age, age.rp2SilverVeins > 0, rp2SilverDist = "layeredVeins")'>
+                <Veins name='RP2SilverVeins' block='rpores:3' inherits='PresetLayeredVeins'> 
+                    <Description> 
+                        Short veins in the 10-30 range.
+                    </Description>  
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40808090</WireframeColor> 
+                    <Setting name='MotherlodeFrequency' avg=':= 0.85 * rp2SilverFreq * if(age,age.rp2SilverVeins,1) * _default_'/>
+                    <Setting name='MotherlodeSize' avg=':= 0.8 * rp2SilverSize * _default_' range=':= 0.5 * rp2SilverSize * _default_'/>
+                    <Setting name='MotherlodeHeight' avg=':= 20/64 * dimension.groundLevel' range=':= 10/64 * dimension.groundLevel' type='normal'/>
+                    <Setting name='BranchHeightLimit' avg='12'/>  
+                    <Setting name='BranchFrequency' avg=':= 1.2 * _default_'/>
+                    <Setting name='BranchLength' avg=':= 0.8 * _default_' range=':= 0.75 * _default_'/>
+                    <Setting name='SegmentRadius' avg=':= 0.8 * rp2SilverSize * _default_' range=':= 0.5 * rp2SilverSize * _default_'/>
+                    <Setting name='SegmentAngle' avg='0.6' range='0.40' /> 
+                </Veins>
+                <Veins name='RP2SilverVeinsTallForest' inherits='RP2SilverVeins'>
+                    <Description> This roughly triples the chance of finding silver in ExtraBiomes redwood, pine, and rainforest biomes. </Description> 
+                    <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                    <Setting name='MotherlodeHeight' avg=':=_default_' range=':= 2 * _default_'/>
+                    <Setting name='BranchHeightLimit' avg=':= 2 * _default_'/>
+                    <Biome name='Lush\s*Redwoods'/> <Comment> ExtraBiomesXL </Comment>
+                    <Biome name='Redwood\s*Forest'/> <Comment> ExtraBiomesXL </Comment>
+                    <Biome name='Pine\s*Forest'/> <Comment> ExtraBiomesXL </Comment>
+                    <Biome name='Temperate\s*Rainforest'/> <Comment> ExtraBiomesXL </Comment>
+                    <Biome name='Snowy\s*Rainforest'/> <Comment> ExtraBiomesXL </Comment>
+                </Veins>
+            </IfCondition>     
+            
+            <IfCondition condition=':= if(age, age.rp2SilverClouds > 0, rp2SilverDist = "strategicClouds")'>
+                <Cloud name='RP2SilverCloud' block='rpores:3' inherits='PresetStrategicCloud'>
+                    <Description>  
+                        Diffuse cloud surrounded by single-block "hint" veins, found only in forests.
+                    </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40808090</WireframeColor> 
+                    <Setting name='DistributionFrequency' avg=':= 4.5 * rp2SilverFreq * if(age,age.rp2SilverClouds,1) * _default_'/>
+                    <Setting name='CloudRadius' avg=':= 0.85 * rp2SilverSize * _default_' range=':= rp2SilverSize * _default_'/>
+                    <Setting name='CloudThickness' avg=':= 0.85 * rp2SilverSize * _default_' range=':= rp2SilverSize * _default_'/> 
+                    <Setting name='OreDensity' avg=':= 0.5 * _default_'/>
+                    <Biome name='Forest'/>    
+                    <Biome name='ForestHills'/>
+                    <Biome name='Birch\s*Forest'/> <Comment> ExtraBiomesXL </Comment>
+                    <Biome name='Autumn\s*Woods'/> <Comment> ExtraBiomesXL </Comment>
+                    <Biome name='Forested\s*Island'/> <Comment> ExtraBiomesXL </Comment>
+                    <Biome name='Forested\s*Hills'/> <Comment> ExtraBiomesXL </Comment>
+                    <Biome name='Rainforest'/> <Comment> ExtraBiomesXL </Comment>
+                    <Biome name='Woodlands'/> <Comment> ExtraBiomesXL </Comment>  
+                    <Biome name='Lush\s*Redwoods'/> <Comment> ExtraBiomesXL </Comment>
+                    <Biome name='Redwood\s*Forest'/> <Comment> ExtraBiomesXL </Comment>
+                    <Biome name='Pine\s*Forest'/> <Comment> ExtraBiomesXL </Comment>
+                    <Biome name='Temperate\s*Rainforest'/> <Comment> ExtraBiomesXL </Comment>
+                    <Biome name='Snowy\s*Rainforest'/> <Comment> ExtraBiomesXL </Comment>
+                    <Veins name='RP2SilverHintVeins' block='rpores:3' inherits='PresetHintVeins'>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x40808090</WireframeColor> 
+                        <Setting name='MotherlodeFrequency' avg=':= 0.5 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeRangeLimit' avg=':= 0.85 * rp2SilverSize * _default_' range=':= rp2SilverSize * _default_'/>              
+                    </Veins>
+                </Cloud>
+            </IfCondition>  
+            
+        </ConfigSection>
+        
+        <!--******************   Nikolite   ********************-->           
+        <ConfigSection>
+        
+            <IfCondition condition=':= if(age, age.rp2NikoliteClusters > 0, rp2NikoliteDist = "vanillaStdGen")'>
+                <StandardGen name='RP2NikoliteStandard' block='rpores:7' inherits='PresetStandardGen'> 
+                    <Description> Equivalent to regular RP2 nikolite distribution </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x4030A0A0</WireframeColor> 
+                    <Setting name='Size' avg=':= 1.25 * rp2NikoliteSize * _default_'/> 
+                    <Setting name='Frequency' avg=':= 0.2 * rp2NikoliteFreq * if(age,age.rp2NikoliteClusters,1) * _default_'/>
+                    <Setting name='Height' avg=':= 8/64 * dimension.groundLevel' range=':= 8/64 * dimension.groundLevel'/> 
+                </StandardGen>
+            </IfCondition>   
+            
+            <IfCondition condition=':= if(age, age.rp2NikoliteVeins > 0, rp2NikoliteDist = "layeredVeins")'>  
+                <Veins name='RP2NikoliteVeins' block='rpores:7' inherits='PresetVerticalVeins'>    
+                    <Description> 
+                        Groups of steeply slanted veins
+                    </Description>  
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x4030A0A0</WireframeColor>
+                    <Setting name='MotherlodeFrequency' avg=':= 0.40 * rp2NikoliteFreq * if(age,age.rp2NikoliteVeins,1) * _default_'/>
+                    <Setting name='MotherlodeHeight' avg=':= 50/64 * dimension.groundLevel' range=':= 2/64 * dimension.groundLevel' type='normal'/>
+                    <Setting name='BranchFrequency' avg='3' range='2' type='normal'/> 
+                    <Setting name='BranchInclination' avg='-1.05' range='0.25' type='uniform'/> 
+                    <Setting name='SegmentForkFrequency' avg='0'/>
+                    <Setting name='SegmentRadius' avg=':= 0.7 * rp2NikoliteSize * _default_' range=':= 0.7 * rp2NikoliteSize * _default_'/>      
+                </Veins>                
+                <Veins name='RP2NikoliteVeinsOcean' inherits='RP2NikoliteVeins'>
+                    <Description> This roughly triples the chance of finding nikolite under oceans. </Description> 
+                    <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>                    
+                    <Replaces block='stone'/>
+                    <Replaces block='dirt'/> 
+                    <Replaces block='sand'/>
+                    <Replaces block='water'/>
+                    <Biome name='Ocean'/> 
+                    <Biome name='Frozen\s*Ocean'/> 
+                </Veins>
+            </IfCondition>     
+            
+            <IfCondition condition=':= if(age, age.rp2NikoliteClouds > 0, rp2NikoliteDist = "strategicClouds")'>
+                <Cloud name='RP2NikoliteCloud' block='rpores:7' inherits='PresetStrategicCloud'>
+                    <Description> 
+                        Diffuse cloud surrounded by single-block "hint" veins, found in oceans.
+                    </Description> 
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x4030A0A0</WireframeColor> 
+                    <Setting name='DistributionFrequency' avg=':= 4.5 * rp2NikoliteFreq * if(age,age.rp2NikoliteClouds,1) * _default_'/>
+                    <Setting name='CloudRadius' avg=':= 0.65 * rp2NikoliteSize * _default_' range=':= 0.5 * rp2NikoliteSize * _default_'/>
+                    <Setting name='CloudThickness' avg=':= 0.7 * rp2NikoliteSize * _default_' range=':= 0.7 * rp2NikoliteSize * _default_'/>
+                    <Biome name='Ocean'/> 
+                    <Biome name='Frozen\s*Ocean'/> 
+                    <Veins name='RP2NikoliteHintVeins' block='rpores:7' inherits='PresetHintVeins'>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x4030A0A0</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 0.7 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeRangeLimit' avg=':= 0.65 * rp2NikoliteSize * _default_' range=':= 0.65 * rp2NikoliteSize * _default_'/>
+                        <Replaces block='stone'/>
+                        <Replaces block='dirt'/> 
+                        <Replaces block='sand'/>
+                    </Veins>         
+                </Cloud>
+            </IfCondition>  
+            
+        </ConfigSection>
+        
+        <!--******************   Tungsten   ********************-->           
+        <ConfigSection>
+        
+            <IfCondition condition=':= if(age, age.rp2TungstenClusters > 0, rp2TungstenDist = "vanillaStdGen")'>
+                <StandardGen name='RP2TungstenStandard' block='rpores:6' inherits='PresetStandardGen'> 
+                    <Description> Equivalent to regular RP2 tungsten distribution </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40FFCC33</WireframeColor> 
+                    <Setting name='Size' avg=':= 0.5 * rp2TungstenSize * _default_'/> 
+                    <Setting name='Frequency' avg=':= 0.05 * rp2TungstenFreq * if(age,age.rp2TungstenClusters,1) * _default_'/>
+                    <Setting name='Height' avg=':= 8/64 * dimension.groundLevel' range=':= 8/64 * dimension.groundLevel'/> 
+                </StandardGen>
+            </IfCondition>   
+            
+            <IfCondition condition=':= if(age, age.rp2TungstenVeins > 0, rp2TungstenDist = "layeredVeins")'>  
+                <Veins name='RP2TungstenVeins' block='rpores:6' inherits='PresetSparseVeins'>    
+                    <Description>
+                        Short sparse veins in the 0-20 range.
+                    </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40FFCC33</WireframeColor>
+                    <Setting name='MotherlodeFrequency' avg=':= 5.0 * rp2TungstenFreq * if(age,age.rp2TungstenVeins,1) * _default_'/>
+                    <Setting name='MotherlodeSize' avg=':= 0.4 * rp2TungstenSize * _default_' range=':= 0.4 * rp2TungstenSize * _default_'/>
+                    <Setting name='MotherlodeHeight' avg=':= 10/64 * dimension.groundLevel' range=':= 10/64 * dimension.groundLevel'/>
+                    <Setting name='BranchLength' avg=':= 0.1 * _default_' range=':= 0.1 * _default_'/>
+                    <Setting name='BranchInclination' avg='0' range='0.10'/>
+                    <Setting name='BranchHeightLimit' avg='12'/>
+                    <Setting name='SegmentAngle' avg='0' range='0.25'/>
+                    <Setting name='SegmentRadius' avg=':= 0.5 * rp2TungstenSize * _default_' range=':= 0.5 * rp2TungstenSize * _default_'/>
+                    <Setting name='OreDensity' avg=':= 1.2 * _default_' range=':= _default_'/>
+                </Veins>
+                <Veins name='RP2TungstenVeinsWasteland' inherits='RP2TungstenVeins'>
+                    <Description>  This roughly triples the chance of finding tungsten in an ExtraBiomes wasteland. </Description>      
+                    <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                    <Setting name='MotherlodeHeight' avg=':= _default_' range=':= 2 * _default_'/>
+                    <Setting name='BranchHeightLimit' avg=':= 2 * _default_'/> 
+                    <Biome name='Wasteland'/> <Comment> ExtraBiomesXL </Comment>
+                </Veins>
+            </IfCondition>     
+            
+            <IfCondition condition=':= if(age, age.rp2TungstenClouds > 0, rp2TungstenDist = "strategicClouds")'>
+                <Cloud name='RP2TungstenCloud' block='rpores:6' inherits='PresetStrategicCloud'>
+                    <Description>  
+                        Diffuse cloud surrounded by single-block "hint" veins, found mostly in ExtraBiomes wasteland biomes.
+                    </Description> 
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40FFCC33</WireframeColor> 
+                    <Setting name='DistributionFrequency' avg=':= 4 * rp2TungstenFreq * if(age,age.rp2TungstenClouds,1) * _default_'/>
+                    <Setting name='CloudRadius' avg=':= 0.4 * rp2TungstenSize * _default_' range=':= 0.5 * rp2TungstenSize * _default_'/>
+                    <Setting name='CloudThickness' avg=':= 0.4 * rp2TungstenSize * _default_' range=':= 0.5 * rp2TungstenSize * _default_'/>                
+                    <Setting name='OreVolumeNoiseCutoff' avg='0'/>
+                    <Setting name='OreDensity' avg=':= 0.5 * _default_'/>
+                    <Biome name='.*' weight='0.2'/>
+                    <Biome name='Wasteland'/> <Comment> ExtraBiomesXL </Comment>
+                    <Veins name='RP2TungstenHintVeins' block='rpores:6' inherits='PresetHintVeins'>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x40FFCC33</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 0.5 * _default_' range=':= _default_'/>   
+                        <Setting name='MotherlodeRangeLimit' avg=':= 0.5 * rp2TungstenSize * _default_' range=':= 0.5 * rp2TungstenSize * _default_'/>              
+                    </Veins>
+                </Cloud>
+            </IfCondition>  
+            
+        </ConfigSection>
+        
+        <!--********************   Ruby   **********************-->          
+        <ConfigSection>
+        
+            <IfCondition condition=':= if(age, age.rp2RubyClusters > 0, rp2RubyDist = "vanillaStdGen")'>
+                <StandardGen name='RP2RubyStandard' block='rpores:0' inherits='PresetStandardGen'> 
+                    <Description> Equivalent to regular RP2 ruby distribution </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40FF2020</WireframeColor> 
+                    <Setting name='Size' avg=':= 7/8 * rp2RubySize * _default_'/> 
+                    <Setting name='Frequency' avg=':= 0.1 * rp2RubyFreq * if(age,age.rp2RubyClusters,1) * _default_'/>
+                    <Setting name='Height' avg=':= 24/64 * dimension.groundLevel' range=':= 24/64 * dimension.groundLevel'/> 
+                </StandardGen>
+            </IfCondition>   
+            
+            <IfCondition condition=':= if(age, age.rp2RubyVeins > 0, rp2RubyDist = "layeredVeins")'>  
+                <Veins name='RP2RubyVeins' block='rpores:0' inherits='PresetPipeVeins' seed='0xFF0300'>
+                    <Description> Short sparsely filled tubes starting at bedrock.  3x more common in Extreme Hills. </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40FF2020</WireframeColor> 
+                    <Setting name='MotherlodeFrequency' avg=':= 1.5 * rp2RubyFreq * if(age,age.rp2RubyVeins,1) * _default_'/> 
+                    <Setting name='MotherlodeHeight' avg=':= 3/64 * dimension.groundLevel' range='0'/>
+                    <Setting name='MotherlodeSize' avg=':= rp2RubySize * _default_' range=':= rp2RubySize * _default_'/>
+                    <Setting name='SegmentRadius' avg=':= rp2RubySize * _default_' range=':= rp2RubySize * _default_'/>
+                    <Setting name='OreDensity' avg=':= 1.5 * _default_'/>
+                    <Biome name='.*' weight='0.35'/>
+                    <Biome name='Extreme\s*Hills'/>
+                    <Biome name='Extreme\s*Hills\s*Edge'/>
+                    <Biome name='Green\s*Hills'/> <Comment> ExtraBiomesXL </Comment>
+                </Veins>
+                <Veins name='RP2RubyVeinsLava' block='10' inherits='RP2RubyVeins' seed='0xFF0300'>
+                    <Description> Fills center of each tube with lava </Description>
+                    <Setting name='MotherlodeSize' avg=':= 0.4 * _default_'/>
+                    <Setting name='SegmentRadius' avg=':= 0.4 * _default_'/>
+                    <Setting name='OreDensity' avg='0.5' range='0'/>
+                    <Replaces block='stone'/>
+                    <Replaces block='rpores:0'/>
+                </Veins>
+            </IfCondition>     
+            
+            <IfCondition condition=':= if(age, age.rp2RubyClouds > 0, rp2RubyDist = "strategicClouds")'>
+                <Cloud name='RP2RubyCloud' block='rpores:0' inherits='PresetStrategicCloud'>
+                    <Description>  
+                        Diffuse cloud with no internal density noise, found in extreme hills.
+                    </Description> 
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40FF2020</WireframeColor>                
+                    <Setting name='DistributionFrequency' avg=':= 35 * rp2RubyFreq * if(age,age.rp2RubyClouds,1) * _default_'/>
+                    <Setting name='CloudRadius' avg=':= 0.4 * rp2RubySize * _default_' range=':= 0.4 * rp2RubySize * _default_'/>
+                    <Setting name='CloudThickness' avg=':= 0.2 * rp2RubySize * _default_' range=':= 0.17 * rp2RubySize * _default_'/>
+                    <Setting name='CloudHeight' avg=':= 15/64 * dimension.groundLevel' range=':= 5/64 * dimension.groundLevel'/>
+                    <Setting name='OreRadiusMult' avg='1' range='0.2'/> 
+                    <Setting name='OreDensity' avg=':= 0.8 * _default_'/> 
+                    <Setting name='OreVolumeNoiseCutoff' avg='0'/>   
+                    <Biome name='Extreme\s*Hills'/>
+                    <Biome name='Extreme\s*Hills\s*Edge'/>
+                    <Biome name='Green\s*Hills'/> <Comment> ExtraBiomesXL </Comment>
+                </Cloud>
+            </IfCondition>  
+            
+        </ConfigSection>
+        
+        <!--******************   Sapphire   ********************-->           
+        <ConfigSection>
+        
+            <IfCondition condition=':= if(age, age.rp2SapphireClusters > 0, rp2SapphireDist = "vanillaStdGen")'>
+                <StandardGen name='RP2SapphireStandard' block='rpores:2' inherits='PresetStandardGen'> 
+                    <Description> Equivalent to regular RP2 sapphire distribution </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x402020FF</WireframeColor> 
+                    <Setting name='Size' avg=':= 7/8 * rp2SapphireSize * _default_'/> 
+                    <Setting name='Frequency' avg=':= 0.1 * rp2SapphireFreq * if(age,age.rp2SapphireClusters,1) * _default_'/>
+                    <Setting name='Height' avg=':= 24/64 * dimension.groundLevel' range=':= 24/64 * dimension.groundLevel'/> 
+                </StandardGen>
+            </IfCondition>   
+            
+            <IfCondition condition=':= if(age, age.rp2SapphireVeins > 0, rp2SapphireDist = "layeredVeins")'>  
+                <Veins name='RP2SapphireVeins' block='rpores:2' inherits='PresetPipeVeins' seed='0xFF0302'>
+                    <Description> Short sparsely filled tubes starting at bedrock.  3x more common in Extreme Hills. </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x402020FF</WireframeColor> 
+                    <Setting name='MotherlodeFrequency' avg=':= 1.5 * rp2SapphireFreq * if(age,age.rp2SapphireVeins,1) * _default_'/> 
+                    <Setting name='MotherlodeHeight' avg=':= 3/64 * dimension.groundLevel' range='0'/>
+                    <Setting name='MotherlodeSize' avg=':= rp2SapphireSize * _default_' range=':= rp2SapphireSize * _default_'/>
+                    <Setting name='SegmentRadius' avg=':= rp2SapphireSize * _default_' range=':= rp2SapphireSize * _default_'/>
+                    <Setting name='OreDensity' avg=':= 1.5 * _default_'/>
+                    <Biome name='.*' weight='0.35'/>
+                    <Biome name='Extreme\s*Hills'/>
+                    <Biome name='Extreme\s*Hills\s*Edge'/>
+                    <Biome name='Green\s*Hills'/> <Comment> ExtraBiomesXL </Comment>
+                </Veins>
+                <Veins name='RP2SapphireVeinsLava' block='10' inherits='RP2SapphireVeins' seed='0xFF0302'>
+                    <Description> Fills center of each tube with lava </Description>
+                    <Setting name='MotherlodeSize' avg=':= 0.4 * _default_'/>
+                    <Setting name='SegmentRadius' avg=':= 0.4 * _default_'/>
+                    <Setting name='OreDensity' avg='0.5' range='0'/>
+                    <Replaces block='stone'/>
+                    <Replaces block='rpores:2'/>
+                </Veins>
+            </IfCondition>     
+            
+            <IfCondition condition=':= if(age, age.rp2SapphireClouds > 0, rp2SapphireDist = "strategicClouds")'>
+                <Cloud name='RP2SapphireCloud' block='rpores:2' inherits='PresetStrategicCloud'>
+                    <Description>  
+                        Diffuse cloud with no internal density noise, found in extreme hills.
+                    </Description> 
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x402020FF</WireframeColor>                
+                    <Setting name='DistributionFrequency' avg=':= 35 * rp2SapphireFreq * if(age,age.rp2SapphireClouds,1) * _default_'/>
+                    <Setting name='CloudRadius' avg=':= 0.4 * rp2SapphireSize * _default_' range=':= 0.4 * rp2SapphireSize * _default_'/>
+                    <Setting name='CloudThickness' avg=':= 0.2 * rp2SapphireSize * _default_' range=':= 0.17 * rp2SapphireSize * _default_'/>
+                    <Setting name='CloudHeight' avg=':= 15/64 * dimension.groundLevel' range=':= 5/64 * dimension.groundLevel'/>
+                    <Setting name='OreRadiusMult' avg='1' range='0.2'/> 
+                    <Setting name='OreDensity' avg=':= 0.8 * _default_'/> 
+                    <Setting name='OreVolumeNoiseCutoff' avg='0'/>   
+                    <Biome name='Extreme\s*Hills'/>
+                    <Biome name='Extreme\s*Hills\s*Edge'/>
+                    <Biome name='Green\s*Hills'/> <Comment> ExtraBiomesXL </Comment>
+                </Cloud>
+            </IfCondition>  
+            
+        </ConfigSection>
+        
+        <!--***************   Green Sapphire   *****************-->         
+        <ConfigSection>
+        
+            <IfCondition condition=':= if(age, age.rp2GreenSaphClusters > 0, rp2GreenSaphDist = "vanillaStdGen")'>
+                <StandardGen name='RP2GreenSaphStandard' block='rpores:1' inherits='PresetStandardGen'> 
+                    <Description> Equivalent to regular RP2 green sapphire distribution </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x4020FF20</WireframeColor> 
+                    <Setting name='Size' avg=':= 7/8 * rp2GreenSaphSize * _default_'/> 
+                    <Setting name='Frequency' avg=':= 0.1 * rp2GreenSaphFreq * if(age,age.rp2GreenSaphClusters,1) * _default_'/>
+                    <Setting name='Height' avg=':= 24/64 * dimension.groundLevel' range=':= 24/64 * dimension.groundLevel'/> 
+                </StandardGen>
+            </IfCondition>   
+            
+            <IfCondition condition=':= if(age, age.rp2GreenSaphVeins > 0, rp2GreenSaphDist = "layeredVeins")'>  
+                <Veins name='RP2GreenSaphVeins' block='rpores:1' inherits='PresetPipeVeins' seed='0xFF0301'>
+                    <Description> Short sparsely filled tubes starting at bedrock.  3x more common in Extreme Hills. </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x4020FF20</WireframeColor> 
+                    <Setting name='MotherlodeFrequency' avg=':= 1.5 * rp2GreenSaphFreq * if(age,age.rp2GreenSaphVeins,1) * _default_'/> 
+                    <Setting name='MotherlodeHeight' avg=':= 3/64 * dimension.groundLevel' range='0'/>
+                    <Setting name='MotherlodeSize' avg=':= rp2GreenSaphSize * _default_' range=':= rp2GreenSaphSize * _default_'/>
+                    <Setting name='SegmentRadius' avg=':= rp2GreenSaphSize * _default_' range=':= rp2GreenSaphSize * _default_'/>
+                    <Setting name='OreDensity' avg=':= 1.5 * _default_'/>
+                    <Biome name='.*' weight='0.35'/>
+                    <Biome name='Extreme\s*Hills'/>
+                    <Biome name='Extreme\s*Hills\s*Edge'/>
+                    <Biome name='Green\s*Hills'/> <Comment> ExtraBiomesXL </Comment>
+                </Veins>
+                <Veins name='RP2GreenSaphVeinsLava' block='10' inherits='RP2GreenSaphVeins' seed='0xFF0301'>
+                    <Description> Fills center of each tube with lava </Description>
+                    <Setting name='MotherlodeSize' avg=':= 0.4 * _default_'/>
+                    <Setting name='SegmentRadius' avg=':= 0.4 * _default_'/>
+                    <Setting name='OreDensity' avg='0.5' range='0'/>
+                    <Replaces block='stone'/>
+                    <Replaces block='rpores:1'/>
+                </Veins>
+            </IfCondition>     
+            
+            <IfCondition condition=':= if(age, age.rp2GreenSaphClouds > 0, rp2GreenSaphDist = "strategicClouds")'>
+                <Cloud name='RP2GreenSaphCloud' block='rpores:1' inherits='PresetStrategicCloud'>
+                    <Description>  
+                        Diffuse cloud with no internal density noise, found in extreme hills.
+                    </Description> 
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x4020FF20</WireframeColor>                
+                    <Setting name='DistributionFrequency' avg=':= 35 * rp2GreenSaphFreq * if(age,age.rp2GreenSaphClouds,1) * _default_'/>
+                    <Setting name='CloudRadius' avg=':= 0.4 * rp2GreenSaphSize * _default_' range=':= 0.4 * rp2GreenSaphSize * _default_'/>
+                    <Setting name='CloudThickness' avg=':= 0.2 * rp2GreenSaphSize * _default_' range=':= 0.17 * rp2GreenSaphSize * _default_'/>
+                    <Setting name='CloudHeight' avg=':= 15/64 * dimension.groundLevel' range=':= 5/64 * dimension.groundLevel'/>
+                    <Setting name='OreRadiusMult' avg='1' range='0.2'/> 
+                    <Setting name='OreDensity' avg=':= 0.8 * _default_'/> 
+                    <Setting name='OreVolumeNoiseCutoff' avg='0'/>   
+                    <Biome name='Extreme\s*Hills'/>
+                    <Biome name='Extreme\s*Hills\s*Edge'/>
+                    <Biome name='Green\s*Hills'/> <Comment> ExtraBiomesXL </Comment>
+                </Cloud>
+            </IfCondition>  
+            
+        </ConfigSection>
+        
+    </IfCondition>
+    
+</IfModInstalled>
