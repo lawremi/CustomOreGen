@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 import net.minecraft.block.Block;
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
 
-public class BlockDescriptor implements Copyable
+public class BlockDescriptor implements Copyable<BlockDescriptor>
 {
     protected LinkedList<Descriptor> _descriptors = new LinkedList();
     protected Map<Integer,Float> _matches = new Hashtable();
@@ -345,11 +345,6 @@ public class BlockDescriptor implements Copyable
         }
 
         return breakdown;
-    }
-
-    public void copyFrom(Object x0)
-    {
-        this.copyFrom((BlockDescriptor)x0);
     }
     
     private class Descriptor

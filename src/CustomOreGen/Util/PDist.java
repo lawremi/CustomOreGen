@@ -4,7 +4,7 @@ import java.util.Random;
 
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
 
-public class PDist implements Copyable
+public class PDist implements Copyable<PDist>
 {
     public float mean;
     public float range;
@@ -110,10 +110,5 @@ public class PDist implements Copyable
     public String toString()
     {
         return String.format("%f +- %f %s", new Object[] {Float.valueOf(this.mean), Float.valueOf(this.range), this.type.name()});
-    }
-
-    public void copyFrom(Object x0)
-    {
-        this.copyFrom((PDist)x0);
     }
 }

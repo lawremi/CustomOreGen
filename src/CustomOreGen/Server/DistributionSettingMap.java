@@ -183,9 +183,9 @@ public class DistributionSettingMap
         }
     }
     
-    public interface Copyable
+    public interface Copyable<T>
     {
-        void copyFrom(Object var1);
+        void copyFrom(T var1);
     }
     
     @Retention(RetentionPolicy.RUNTIME)
