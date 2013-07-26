@@ -37,6 +37,7 @@ import CustomOreGen.MystcraftInterface;
 import CustomOreGen.MystcraftSymbolData;
 import CustomOreGen.Config.ConfigParser;
 import CustomOreGen.Config.PropertyIO;
+import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.CIStringMap;
 import CustomOreGen.Util.MapCollection;
 
@@ -56,6 +57,7 @@ public class WorldConfig
     private Map loadedOptions;
     private Map<String,Integer> worldProperties;
     private Map cogSymbolData;
+	private Collection<BiomeDescriptor> biomeSets;
 
     public static WorldConfig createEmptyConfig()
     {
@@ -94,6 +96,7 @@ public class WorldConfig
         this.loadedOptions = new CIStringMap(new LinkedHashMap());
         this.worldProperties = new CIStringMap(new LinkedHashMap());
         this.cogSymbolData = new CIStringMap(new LinkedHashMap());
+        this.biomeSets = new LinkedList();
         String configFile;
 
         if (world != null)
@@ -368,7 +371,7 @@ public class WorldConfig
         }
     }
 
-    public Collection getOreDistributions()
+    public Collection<IOreDistribution> getOreDistributions()
     {
         return this.oreDistributions;
     }
@@ -399,7 +402,7 @@ public class WorldConfig
         return this.configOptions.get(optionName);
     }
 
-    public Collection getConfigOptions()
+    public Collection<ConfigOption> getConfigOptions()
     {
     	return new MapCollection<String,ConfigOption>(this.configOptions) {
      	    protected String getKey(ConfigOption v)
@@ -460,7 +463,7 @@ public class WorldConfig
 
         		if (count == null)
         		{
-        			worldProperties.put("age." + v.symbolName, Integer.valueOf(0));
+        			worldProperties.put("age." + v.symbolName, 0);
         		}
         		else
         		{
@@ -472,5 +475,29 @@ public class WorldConfig
 
         };
     }
+
+    public Collection<BiomeDescriptor> getBiomeSets() {
+    	return biomeSets;
+    }
+    
+	public Collection<BiomeDescriptor> getBiomeSets(String namePattern) {
+        LinkedList<BiomeDescriptor> matches = new LinkedList();
+
+        if (namePattern != null)
+        {
+            Pattern pattern = Pattern.compile(namePattern, Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher("");
+            for (BiomeDescriptor desc : this.biomeSets) {
+            	matcher.reset(desc.getName());
+
+                if (matcher.matches())
+                {
+                    matches.add(desc);
+                }
+            }
+        }
+
+        return Collections.unmodifiableCollection(matches);
+	}
 
 }

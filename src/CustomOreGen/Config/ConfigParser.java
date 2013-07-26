@@ -20,6 +20,7 @@ import javax.xml.parsers.SAXParserFactory;
 import net.minecraft.src.ModLoader;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.UserDataHandler;
 import org.xml.sax.SAXException;
 
@@ -83,34 +84,35 @@ public class ConfigParser
         this.saxParser.parse(file, new LineAwareSAXHandler(fileDOM));
         ValidatorNode validator = new ValidatorNode(this, fileDOM);
         Vector topLevelNodes = new Vector();
-        validator.addGlobalValidator((short)1, "Import", new ValidatorImport.Factory(true));
-        validator.addGlobalValidator((short)1, "OptionalImport", new ValidatorImport.Factory(false));
-        validator.addGlobalValidator((short)1, "Description", new ValidatorAnnotation.Factory());
-        validator.addGlobalValidator((short)2, "Description", new ValidatorAnnotation.Factory());
-        validator.addGlobalValidator((short)1, "Comment", new ValidatorAnnotation.Factory());
-        validator.addGlobalValidator((short)1, "ConfigSection", new ValidatorSection.Factory());
-        validator.addGlobalValidator((short)1, "IfCondition", new ValidatorIfCondition.Factory());
-        validator.addGlobalValidator((short)1, "IfChoice", new ValidatorIfChoice.Factory(false));
-        validator.addGlobalValidator((short)1, "IfNotChoice", new ValidatorIfChoice.Factory(true));
-        validator.addGlobalValidator((short)1, "IfModInstalled", new ValidatorIfModInstalled.Factory(false));
-        validator.addGlobalValidator((short)1, "IfNotModInstalled", new ValidatorIfModInstalled.Factory(true));
-        validator.addGlobalValidator((short)1, "GetOption", new ValidatorRefOption.Factory());
-        validator.addGlobalValidator((short)1, "Expression", new ValidatorExpression.Factory(this.defaultEvaluator));
+        validator.addGlobalValidator(Node.ELEMENT_NODE, "Import", new ValidatorImport.Factory(true));
+        validator.addGlobalValidator(Node.ELEMENT_NODE, "OptionalImport", new ValidatorImport.Factory(false));
+        validator.addGlobalValidator(Node.ELEMENT_NODE, "Description", new ValidatorAnnotation.Factory());
+        validator.addGlobalValidator(Node.ATTRIBUTE_NODE, "Description", new ValidatorAnnotation.Factory());
+        validator.addGlobalValidator(Node.ELEMENT_NODE, "Comment", new ValidatorAnnotation.Factory());
+        validator.addGlobalValidator(Node.ELEMENT_NODE, "ConfigSection", new ValidatorSection.Factory());
+        validator.addGlobalValidator(Node.ELEMENT_NODE, "IfCondition", new ValidatorIfCondition.Factory());
+        validator.addGlobalValidator(Node.ELEMENT_NODE, "IfChoice", new ValidatorIfChoice.Factory(false));
+        validator.addGlobalValidator(Node.ELEMENT_NODE, "IfNotChoice", new ValidatorIfChoice.Factory(true));
+        validator.addGlobalValidator(Node.ELEMENT_NODE, "IfModInstalled", new ValidatorIfModInstalled.Factory(false));
+        validator.addGlobalValidator(Node.ELEMENT_NODE, "IfNotModInstalled", new ValidatorIfModInstalled.Factory(true));
+        validator.addGlobalValidator(Node.ELEMENT_NODE, "GetOption", new ValidatorRefOption.Factory());
+        validator.addGlobalValidator(Node.ELEMENT_NODE, "Expression", new ValidatorExpression.Factory(this.defaultEvaluator));
         topLevelNodes.add("OptionDisplayGroup");
-        validator.addGlobalValidator((short)1, "OptionDisplayGroup", new ValidatorOption.Factory(ConfigOption.DisplayGroup.class));
+        validator.addGlobalValidator(Node.ELEMENT_NODE, "OptionDisplayGroup", new ValidatorOption.Factory(ConfigOption.DisplayGroup.class));
         topLevelNodes.add("OptionChoice");
-        validator.addGlobalValidator((short)1, "OptionChoice", new ValidatorOption.Factory(ChoiceOption.class));
+        validator.addGlobalValidator(Node.ELEMENT_NODE, "OptionChoice", new ValidatorOption.Factory(ChoiceOption.class));
         topLevelNodes.add("OptionNumeric");
-        validator.addGlobalValidator((short)1, "OptionNumeric", new ValidatorOption.Factory(NumericOption.class));
+        validator.addGlobalValidator(Node.ELEMENT_NODE, "OptionNumeric", new ValidatorOption.Factory(NumericOption.class));
         topLevelNodes.add("MystcraftSymbol");
-        validator.addGlobalValidator((short)1, "MystcraftSymbol", new ValidatorMystcraftSymbol.Factory());
+        validator.addGlobalValidator(Node.ELEMENT_NODE, "MystcraftSymbol", new ValidatorMystcraftSymbol.Factory());
+        validator.addGlobalValidator(Node.ELEMENT_NODE, "BiomeSet", new ValidatorBiomeSet.Factory());
         
         for (Entry<String,IValidatorFactory> entry : distributionValidators.entrySet()) {
-        	validator.addGlobalValidator((short)1, entry.getKey(), entry.getValue());
+        	validator.addGlobalValidator(Node.ELEMENT_NODE, entry.getKey(), entry.getValue());
             topLevelNodes.add(entry.getKey());
         }
         
-        validator.addGlobalValidator((short)1, "Config", new ValidatorRoot.Factory(topLevelNodes));
+        validator.addGlobalValidator(Node.ELEMENT_NODE, "Config", new ValidatorRoot.Factory(topLevelNodes));
 
         if (this.target.worldInfo == null)
         {

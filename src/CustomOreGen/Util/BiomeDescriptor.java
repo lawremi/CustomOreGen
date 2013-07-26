@@ -1,8 +1,8 @@
 package CustomOreGen.Util;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -12,13 +12,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.BiomeDictionary;
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
 
-public class BiomeDescriptor implements Copyable
+public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 {
     protected LinkedList<Descriptor> _descriptors = new LinkedList();
     protected Map<BiomeGenBase,Float> _matches = new Hashtable();
     protected boolean _compiled = false;
+    
+    private String name;
 
     public BiomeDescriptor()
     {
@@ -29,21 +32,29 @@ public class BiomeDescriptor implements Copyable
     {
         this.set(descriptor);
     }
-
+    
     public void copyFrom(BiomeDescriptor source)
     {
         this._descriptors = new LinkedList(source._descriptors);
         this._matches = new Hashtable(source._matches);
         this._compiled = source._compiled;
     }
-
+    
+    public String getName() {
+    	return name;
+    }
+    
+    public void setName(String name) {
+    	this.name = name;
+    }
+    
     public BiomeDescriptor set(String descriptor)
     {
         this.clear();
 
         if (descriptor != null)
         {
-            this._descriptors.add(new Descriptor(descriptor, 1.0F));
+            this.add(descriptor);
         }
 
         return this;
@@ -56,14 +67,31 @@ public class BiomeDescriptor implements Copyable
 
     public BiomeDescriptor add(String descriptor, float weight)
     {
+        return this.add(descriptor, 1.0F, new Climate(), false);
+    }
+    
+    public BiomeDescriptor add(String descriptor, float weight, Climate climate, boolean describesType)
+    {
         if (descriptor != null && weight != 0.0F)
         {
             this._compiled = false;
-            this._descriptors.add(new Descriptor(descriptor, weight));
+            this._descriptors.add(new Descriptor(descriptor, weight, climate, describesType));
         }
 
         return this;
     }
+    
+    public BiomeDescriptor addAll(BiomeDescriptor descriptor, float weight) {
+    	this._compiled = false;
+    	if (weight == 1.0F) {
+    		this._descriptors.addAll(descriptor._descriptors);
+    	} else {
+    		for (Descriptor desc : descriptor._descriptors) {
+    			add(desc.description, desc.weight * weight, desc.climate, desc.describesType);
+    		}
+    	}
+    	return this;
+	}
 
     public BiomeDescriptor clear()
     {
@@ -92,34 +120,54 @@ public class BiomeDescriptor implements Copyable
         }
     }
 
-    protected float regexMatch(String id, String name)
+    protected float matchingWeight(BiomeGenBase biome)
     {
         float totalWeight = 0.0F;
+        
+        String id = Integer.toString(biome.biomeID);
+        String name = biome.biomeName;
+        BiomeDictionary.Type[] types = BiomeDictionary.getTypesForBiome(biome);
         
         for (Descriptor desc : this._descriptors) {
             int oldMatches = desc.matches;
             Matcher matcher;
+            
+            if (!desc.climate.isCompatible(biome))
+            	continue;
+            
+            if (desc.describesType) {
+            	for (BiomeDictionary.Type type : types) {	
+            		matcher = desc.getPattern().matcher(type.name());
+            	
+            		if (matcher.matches())
+            		{
+            			++desc.matches;
+            			totalWeight += desc.weight;
+            			break;
+            		}
+            	}
+            } else {
+            	if (desc.matches == oldMatches && id != null)
+            	{
+            		matcher = desc.getPattern().matcher(id);
 
-            if (id != null)
-            {
-                matcher = desc.getPattern().matcher(id);
+            		if (matcher.matches())
+            		{
+            			++desc.matches;
+            			totalWeight += desc.weight;
+            		}
+            	}
 
-                if (matcher.matches())
-                {
-                    ++desc.matches;
-                    totalWeight += desc.weight;
-                }
-            }
+            	if (desc.matches == oldMatches && name != null)
+            	{
+            		matcher = desc.getPattern().matcher(name);
 
-            if (desc.matches == oldMatches && name != null)
-            {
-                matcher = desc.getPattern().matcher(name);
-
-                if (matcher.matches())
-                {
-                    ++desc.matches;
-                    totalWeight += desc.weight;
-                }
+            		if (matcher.matches())
+            		{
+            			++desc.matches;
+            			totalWeight += desc.weight;
+            		}
+            	}
             }
         }
         return totalWeight;
@@ -139,9 +187,7 @@ public class BiomeDescriptor implements Copyable
             for (BiomeGenBase biome : BiomeGenBase.biomeList) {
                 if (biome != null)
                 {
-                    String id = Integer.toString(biome.biomeID);
-                    String name = biome.biomeName;
-                    this.add(biome, this.regexMatch(id, name));
+                    this.add(biome, this.matchingWeight(biome));
                 }            	
             }
         }
@@ -283,29 +329,28 @@ public class BiomeDescriptor implements Copyable
         return breakdown;
     }
 
-    public void copyFrom(Object x0)
-    {
-        this.copyFrom((BiomeDescriptor)x0);
-    }
-    
-    private class Descriptor
+    private static class Descriptor
     {
         public final String description;
         public final float weight;
+        public final Climate climate;
+        public final boolean describesType;
         public int matches = 0;
         private Pattern pattern = null;
 
-        public Descriptor(String description, float weight)
+        public Descriptor(String description, float weight, Climate climate, boolean describesType)
         {
             this.description = description;
             this.weight = weight;
+			this.climate = climate;
+            this.describesType = describesType;
         }
 
         public Pattern getPattern()
         {
             if (this.pattern == null)
             {
-                this.pattern = Pattern.compile(this.description, 2);
+                this.pattern = Pattern.compile(this.description, Pattern.CASE_INSENSITIVE);
             }
 
             return this.pattern;
@@ -315,6 +360,28 @@ public class BiomeDescriptor implements Copyable
         {
             return this.description + " - " + Float.toString(this.weight);
         }
+    }
+    
+    public static class Climate {
+    	public final float minTemperature, maxTemperature;
+        public final float minRainfall, maxRainfall;
+        
+        public Climate(float minTemperature, float maxTemperature, float minRainfall, float maxRainfall) {
+        	this.minTemperature = minTemperature;
+			this.maxTemperature = maxTemperature;
+			this.minRainfall = minRainfall;
+			this.maxRainfall = maxRainfall;
+        }
+        
+        public Climate() {
+        	this.minTemperature = this.minRainfall = 0F;
+			this.maxTemperature = this.maxRainfall = 2.0F;
+        }
+        
+        public boolean isCompatible(BiomeGenBase biome) {
+			return biome.temperature >= minTemperature && biome.temperature <= maxTemperature &&
+				   biome.rainfall >= minRainfall && biome.rainfall <= maxRainfall;
+		}
     }
 
 }

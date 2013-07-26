@@ -39,7 +39,7 @@ public class ValidatorDistribution extends ValidatorNode
         this.getParser().target.getOreDistributions().add(this.distribution);
         this.getNode().setUserData("value", this.distribution, (UserDataHandler)null);
         super.validateChildren();
-        String inherits = (String)this.validateNamedAttribute(String.class, "Inherits", (Object)null, true);
+        String inherits = this.validateNamedAttribute(String.class, "Inherits", null, true);
 
         if (inherits != null)
         {
@@ -70,7 +70,7 @@ public class ValidatorDistribution extends ValidatorNode
 
         if (settings1.contains(nameKey))
         {
-            String newName = (String)this.validateNamedAttribute(String.class, nameKey, (Object)null, true);
+            String newName = this.validateNamedAttribute(String.class, nameKey, null, true);
 
             try
             {
@@ -134,7 +134,7 @@ public class ValidatorDistribution extends ValidatorNode
         if (settings.contains(oreBlockKey1))
         {
             BlockDescriptor replacesKey1 = new BlockDescriptor();
-            biomeKey = (String)this.validateNamedAttribute(String.class, "Block", (Object)null, true);
+            biomeKey = this.validateNamedAttribute(String.class, "Block", null, true);
 
             if (biomeKey != null)
             {
@@ -197,23 +197,32 @@ public class ValidatorDistribution extends ValidatorNode
         if (settings.contains(biomeKey))
         {
             BiomeDescriptor biomeDescriptor = new BiomeDescriptor();
-            for (ValidatorBiomeDescriptor value : validateNamedChildren(2, "Biome", new ValidatorBiomeDescriptor.Factory())) {
-            	biomeDescriptor.add(value.biome, value.weight);
+            
+            for (ValidatorBiomeDescriptor biome : validateNamedChildren(2, "Biome", new ValidatorBiomeDescriptor.Factory())) {
+            	biomeDescriptor.add(biome.biome, biome.weight, biome.climate, false);
             }
 
+            for (ValidatorBiomeDescriptor biomeType : validateNamedChildren(2, "BiomeType", new ValidatorBiomeDescriptor.Factory())) {
+            	biomeDescriptor.add(biomeType.biome, biomeType.weight, biomeType.climate, true);
+            }
+            
+            for (ValidatorBiomeSet biomeSet : validateNamedChildren(2, "BiomeSet", new ValidatorBiomeSet.Factory())) {
+            	biomeDescriptor.addAll(biomeSet.biomeSet, 1.0F);
+            }
+            
             if (!biomeDescriptor.getDescriptors().isEmpty())
             {
                 try
                 {
                     this.distribution.setDistributionSetting(biomeKey, biomeDescriptor);
                 }
-                catch (IllegalAccessException var12)
+                catch (IllegalAccessException e)
                 {
-                    throw new ParserException("Biomes are not configurable.", this.getNode(), var12);
+                    throw new ParserException("Biomes are not configurable.", this.getNode(), e);
                 }
-                catch (IllegalArgumentException var13)
+                catch (IllegalArgumentException e)
                 {
-                    throw new ParserException("Biomes are not supported by this distribution.", this.getNode(), var13);
+                    throw new ParserException("Biomes are not supported by this distribution.", this.getNode(), e);
                 }
             }
 
@@ -232,11 +241,11 @@ public class ValidatorDistribution extends ValidatorNode
                     continue;
                 }
 
-                value1 = this.validateNamedAttribute(value1.getClass(), settingName3, value1, true);
+                value1 = this.validateNamedAttribute((Class<Object>)value1.getClass(), settingName3, value1, true);
             }
             else
             {
-                value1 = this.validateNamedAttribute(String.class, settingName3, (Object)null, true);
+                value1 = this.validateNamedAttribute(String.class, settingName3, null, true);
             }
 
             try
