@@ -20,7 +20,7 @@ public class ValidatorNode
 {
     private ConfigParser _parser = null;
     private Node _node = null;
-    private Hashtable _validatorMap = null;
+    private Hashtable<List,IValidatorFactory> _validatorMap = null;
     private boolean _validatorMapShared = false;
 
     public ValidatorNode(ConfigParser parser, Node node)
@@ -55,7 +55,7 @@ public class ValidatorNode
 
     public final void addGlobalValidator(short nodeType, String nodeName, IValidatorFactory factory)
     {
-        List key = Arrays.asList(new Object[] {Short.valueOf(nodeType), nodeName.toLowerCase()});
+        List key = Arrays.asList(new Object[] { nodeType, nodeName.toLowerCase()});
 
         if (this._validatorMap == null)
         {
@@ -83,7 +83,7 @@ public class ValidatorNode
     {
         if (this._validatorMap != null)
         {
-            LinkedList childList = new LinkedList();
+            LinkedList<Node> childList = new LinkedList();
             NamedNodeMap attributes = this._node.getAttributes();
 
             for (int children = 0; attributes != null && children < attributes.getLength(); ++children)
@@ -91,20 +91,16 @@ public class ValidatorNode
                 childList.addLast(attributes.item(children));
             }
 
-            NodeList var9 = this._node.getChildNodes();
+            NodeList elements = this._node.getChildNodes();
 
-            for (int i$ = 0; var9 != null && i$ < var9.getLength(); ++i$)
+            for (int children = 0; elements != null && children < elements.getLength(); ++children)
             {
-                childList.addLast(var9.item(i$));
+                childList.addLast(elements.item(children));
             }
 
-            Iterator var10 = childList.iterator();
-
-            while (var10.hasNext())
-            {
-                Node child = (Node)var10.next();
-                List key = Arrays.asList(new Object[] {Short.valueOf(child.getNodeType()), child.getNodeName().toLowerCase()});
-                IValidatorFactory factory = (IValidatorFactory)this._validatorMap.get(key);
+            for (Node child : childList) {
+            	List key = Arrays.asList(new Object[] { child.getNodeType(), child.getNodeName().toLowerCase()});
+                IValidatorFactory factory = this._validatorMap.get(key);
 
                 if (factory != null)
                 {
@@ -143,14 +139,14 @@ public class ValidatorNode
 
             switch (child.getNodeType())
             {
-                case 3:
+                case Node.TEXT_NODE:
                     if (child.getNodeValue() == null || child.getNodeValue().trim().isEmpty())
                     {
                         break;
                     }
 
-                case 8:
-                case 9:
+                case Node.COMMENT_NODE:
+                case Node.DOCUMENT_NODE:
                     break;
 
                 default:
@@ -192,11 +188,11 @@ public class ValidatorNode
         return childList;
     }
 
-    protected final Object validateNamedAttribute(Class attrType, String attrName, Object defaultValue, boolean allowElements) throws ParserException
+    protected final <T> T validateNamedAttribute(Class<T> attrType, String attrName, T defaultValue, boolean allowElements) throws ParserException
     {
         ConfigExpressionEvaluator evaluator = defaultValue == null ? null :
-        	new ConfigExpressionEvaluator(this.getParser(), defaultValue);
-        Object value = null;
+        	this.getParser().new ConfigExpressionEvaluator(defaultValue);
+        T value = null;
         int mask = 4;
 
         if (allowElements)
@@ -204,19 +200,19 @@ public class ValidatorNode
             mask |= 2;
         }
 
-        LinkedList children = this.validateNamedChildren(mask, attrName, new ValidatorSimpleNode.Factory(attrType, evaluator));
+        LinkedList<ValidatorSimpleNode> children = this.validateNamedChildren(mask, attrName, new ValidatorSimpleNode.Factory(attrType, evaluator));
 
         if (!children.isEmpty())
         {
-            value = ((ValidatorSimpleNode)children.getLast()).content;
+            value = (T)(children.getLast()).content;
         }
 
         return value == null ? defaultValue : value;
     }
 
-    protected final Object validateRequiredAttribute(Class attrType, String attrName, boolean allowElements) throws ParserException
+    protected final <T> T validateRequiredAttribute(Class<T> attrType, String attrName, boolean allowElements) throws ParserException
     {
-        Object value = this.validateNamedAttribute(attrType, attrName, (Object)null, allowElements);
+        T value = this.validateNamedAttribute(attrType, attrName, null, allowElements);
 
         if (value != null)
         {

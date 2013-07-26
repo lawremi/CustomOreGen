@@ -13,8 +13,8 @@ public class ValidatorIfChoice extends ValidatorCondition
 
     protected boolean evaluateCondition() throws ParserException
     {
-        String optionName = (String)this.validateRequiredAttribute(String.class, "name", true);
-        String strValue = (String)this.validateNamedAttribute(String.class, "value", (Object)null, true);
+        String optionName = this.validateRequiredAttribute(String.class, "name", true);
+        String strValue = this.validateNamedAttribute(String.class, "value", null, true);
         ConfigOption option = this.getParser().target.getConfigOption(optionName);
         boolean isOptionValid = option != null && option instanceof ChoiceOption;
 

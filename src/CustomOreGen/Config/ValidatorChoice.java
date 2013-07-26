@@ -16,9 +16,9 @@ public class ValidatorChoice extends ValidatorNode
     protected boolean validateChildren() throws ParserException
     {
         super.validateChildren();
-        this.value = (String)this.validateRequiredAttribute(String.class, "Value", true);
-        this.displayValue = (String)this.validateNamedAttribute(String.class, "DisplayValue", this.displayValue, true);
-        this.description = (String)this.validateNamedAttribute(String.class, "Description", (Object)null, true);
+        this.value = this.validateRequiredAttribute(String.class, "Value", true);
+        this.displayValue = this.validateNamedAttribute(String.class, "DisplayValue", this.displayValue, true);
+        this.description = this.validateNamedAttribute(String.class, "Description", null, true);
         return true;
     }
     

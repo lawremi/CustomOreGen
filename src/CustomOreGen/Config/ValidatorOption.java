@@ -22,8 +22,8 @@ public class ValidatorOption extends ValidatorNode
     protected boolean validateChildren() throws ParserException
     {
         super.validateChildren();
-        String optionName = (String)this.validateRequiredAttribute(String.class, "name", true);
-        Object option = null;
+        String optionName = this.validateRequiredAttribute(String.class, "name", true);
+        ConfigOption option = null;
         Class valueType = null;
 
         if (this._type == ChoiceOption.class)
@@ -31,11 +31,11 @@ public class ValidatorOption extends ValidatorNode
             valueType = String.class;
             ChoiceOption groupName = new ChoiceOption(optionName);
             option = groupName;
-            Iterator defValue = this.validateNamedChildren(2, "Choice", new ValidatorChoice.Factory()).iterator();
+            Iterator<ValidatorChoice> defValue = this.validateNamedChildren(2, "Choice", new ValidatorChoice.Factory()).iterator();
 
             while (defValue.hasNext())
             {
-                ValidatorChoice loadedValueStr = (ValidatorChoice)defValue.next();
+                ValidatorChoice loadedValueStr = defValue.next();
                 groupName.addPossibleValue(loadedValueStr.value, loadedValueStr.displayValue, loadedValueStr.description);
             }
 
@@ -49,17 +49,17 @@ public class ValidatorOption extends ValidatorNode
             valueType = Double.class;
             NumericOption groupName1 = new NumericOption(optionName);
             option = groupName1;
-            double defValue1 = ((Double)this.validateNamedAttribute(valueType, "min", Double.valueOf(groupName1.getMin()), true)).doubleValue();
-            double err = ((Double)this.validateNamedAttribute(valueType, "max", Double.valueOf(groupName1.getMax()), true)).doubleValue();
+            double defValue1 = this.validateNamedAttribute(valueType, "min", groupName1.getMin(), true);
+            double err = this.validateNamedAttribute(valueType, "max", groupName1.getMax(), true);
 
             if (!groupName1.setLimits(defValue1, err))
             {
                 throw new ParserException("Numeric option value range [" + defValue1 + "," + err + "] is invalid.", this.getNode());
             }
 
-            double dmin = ((Double)this.validateNamedAttribute(valueType, "displayMin", Double.valueOf(groupName1.getMin()), true)).doubleValue();
-            double dmax = ((Double)this.validateNamedAttribute(valueType, "displayMax", Double.valueOf(groupName1.getMax()), true)).doubleValue();
-            double dincr = ((Double)this.validateNamedAttribute(valueType, "displayIncrement", Double.valueOf((dmax - dmin) / 100.0D), true)).doubleValue();
+            double dmin = this.validateNamedAttribute(valueType, "displayMin", groupName1.getMin(), true);
+            double dmax = this.validateNamedAttribute(valueType, "displayMax", groupName1.getMax(), true);
+            double dincr = this.validateNamedAttribute(valueType, "displayIncrement", (dmax - dmin) / 100.0D, true);
 
             if (!groupName1.setDisplayLimits(dmin, dmax, dincr))
             {
@@ -71,10 +71,10 @@ public class ValidatorOption extends ValidatorNode
             option = new ConfigOption.DisplayGroup(optionName);
         }
 
-        ((ConfigOption)option).setDisplayState((ConfigOption.DisplayState)this.validateNamedAttribute(ConfigOption.DisplayState.class, "displayState", ((ConfigOption)option).getDisplayState(), true));
-        ((ConfigOption)option).setDisplayName((String)this.validateNamedAttribute(String.class, "displayName", ((ConfigOption)option).getDisplayName(), true));
-        ((ConfigOption)option).setDescription((String)this.validateNamedAttribute(String.class, "description", ((ConfigOption)option).getDescription(), true));
-        String groupName2 = (String)this.validateNamedAttribute(String.class, "displayGroup", (Object)null, true);
+        option.setDisplayState(this.validateNamedAttribute(ConfigOption.DisplayState.class, "displayState", option.getDisplayState(), true));
+        option.setDisplayName(this.validateNamedAttribute(String.class, "displayName", option.getDisplayName(), true));
+        option.setDescription(this.validateNamedAttribute(String.class, "description", option.getDescription(), true));
+        String groupName2 = this.validateNamedAttribute(String.class, "displayGroup", null, true);
 
         if (groupName2 != null)
         {
@@ -85,19 +85,19 @@ public class ValidatorOption extends ValidatorNode
                 throw new ParserException("Option \'" + groupName2 + "\' is not a recognized Display Group.", this.getNode());
             }
 
-            ((ConfigOption)option).setDisplayGroup((ConfigOption.DisplayGroup)defValue3);
+            option.setDisplayGroup((ConfigOption.DisplayGroup)defValue3);
         }
 
         Object defValue2 = valueType == null ? null : this.validateNamedAttribute(valueType, "default", (Object)null, true);
 
-        if (this.getParser().target.getConfigOption(((ConfigOption)option).getName()) != null)
+        if (this.getParser().target.getConfigOption(option.getName()) != null)
         {
-            throw new ParserException("An Option named \'" + ((ConfigOption)option).getName() + "\' already exists.", this.getNode());
+            throw new ParserException("An Option named \'" + option.getName() + "\' already exists.", this.getNode());
         }
         else
         {
             this.getParser().target.getConfigOptions().add(option);
-            String loadedValueStr1 = this.getParser().target.loadConfigOption(((ConfigOption)option).getName());
+            String loadedValueStr1 = this.getParser().target.loadConfigOption(option.getName());
 
             if (loadedValueStr1 != null)
             {
@@ -122,12 +122,12 @@ public class ValidatorOption extends ValidatorNode
                     return true;
                 }
 
-                CustomOreGenBase.log.warning("The saved value \'" + loadedValueStr1 + "\' for Config Option \'" + ((ConfigOption)option).getName() + "\' is invalid" + err1 + ".  " + "The default value \'" + (defValue2 == null ? ((ConfigOption)option).getValue() : defValue2) + "\' will be used instead.");
+                CustomOreGenBase.log.warning("The saved value \'" + loadedValueStr1 + "\' for Config Option \'" + ((ConfigOption)option).getName() + "\' is invalid" + err1 + ".  " + "The default value \'" + (defValue2 == null ? option.getValue() : defValue2) + "\' will be used instead.");
             }
 
-            if (defValue2 != null && !((ConfigOption)option).setValue(defValue2))
+            if (defValue2 != null && !(option.setValue(defValue2)))
             {
-                throw new ParserException("Invalid default value \'" + defValue2 + "\' for option \'" + ((ConfigOption)option).getName() + "\'.", this.getNode());
+                throw new ParserException("Invalid default value \'" + defValue2 + "\' for option \'" + option.getName() + "\'.", this.getNode());
             }
             else
             {

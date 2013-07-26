@@ -23,7 +23,7 @@ public class ValidatorRoot extends ValidatorNode
 
         if (parent != null && parent.getNodeType() == 9)
         {
-            this.getNode().setUserData("validated", Boolean.valueOf(true), (UserDataHandler)null);
+            this.getNode().setUserData("validated", true, (UserDataHandler)null);
 
             if (this._topLevelNodes != null)
             {
