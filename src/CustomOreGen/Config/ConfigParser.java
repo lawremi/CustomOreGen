@@ -302,25 +302,21 @@ public class ConfigParser
         addDistributionType("SubstitutePreset", WorldGenSubstitution.class, false);
     }
     
-    public static class ConfigExpressionEvaluator extends ExpressionEvaluator
+    public class ConfigExpressionEvaluator extends ExpressionEvaluator
     {
         private Map localIdentifiers;
 
-        final ConfigParser this$0;
-
-        public ConfigExpressionEvaluator(ConfigParser var1)
+        public ConfigExpressionEvaluator()
         {
-            this.this$0 = var1;
             this.localIdentifiers = new CIStringMap();
             this.localIdentifiers.put("isModInstalled", new EvaluationDelegate(false, ModLoader.class, "isModLoaded", new Class[] {String.class}));
-            this.localIdentifiers.put("blockExists", new EvaluationDelegate(false, var1, "blockExists", new Class[] {String.class}));
-            this.localIdentifiers.put("biomeExists", new EvaluationDelegate(false, var1, "biomeExists", new Class[] {String.class}));
-            this.localIdentifiers.put("world.nextRandom", new EvaluationDelegate(false, var1, "nextRandom", new Class[0]));
+            this.localIdentifiers.put("blockExists", new EvaluationDelegate(false, ConfigParser.this, "blockExists", new Class[] {String.class}));
+            this.localIdentifiers.put("biomeExists", new EvaluationDelegate(false, ConfigParser.this, "biomeExists", new Class[] {String.class}));
+            this.localIdentifiers.put("world.nextRandom", new EvaluationDelegate(false, ConfigParser.this, "nextRandom", new Class[0]));
         }
 
-        public ConfigExpressionEvaluator(ConfigParser var1, Object defaultValue)
+        public ConfigExpressionEvaluator(Object defaultValue)
         {
-            this.this$0 = var1;
             this.localIdentifiers = new CIStringMap();
             this.localIdentifiers.put("_default_", defaultValue);
         }
@@ -328,7 +324,7 @@ public class ConfigParser
         protected Object getIdentifierValue(String identifier)
         {
             String lkey = identifier.toLowerCase();
-            ConfigOption option = this.this$0.target.getConfigOption(identifier);
+            ConfigOption option = target.getConfigOption(identifier);
 
             if (option != null)
             {
@@ -336,7 +332,7 @@ public class ConfigParser
             }
             else
             {
-                Object property = this.this$0.target.getWorldProperty(identifier);
+                Object property = target.getWorldProperty(identifier);
 
                 if (property != null)
                 {
