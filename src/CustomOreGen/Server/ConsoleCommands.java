@@ -352,14 +352,14 @@ public class ConsoleCommands
                         throw new IllegalArgumentException("Setting " + settingName + " on Distribution \'" + dist + "\' is not a descriptor.");
                     }
 
-                    BiomeDescriptor var13 = (BiomeDescriptor)ex;
+                    BiomeDescriptor desc = (BiomeDescriptor)ex;
 
                     if (clear)
                     {
-                        var13.clear();
+                        desc.clear();
                     }
 
-                    var13.add(descriptor, weight);
+                    desc.add(descriptor, weight);
                     ++count;
                 }
 

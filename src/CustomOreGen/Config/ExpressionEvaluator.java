@@ -576,14 +576,8 @@ public class ExpressionEvaluator
 
     static
     {
-        TokenType[] arr$ = TokenType.values();
-        int len$ = arr$.length;
-
-        for (int i$ = 0; i$ < len$; ++i$)
-        {
-            TokenType type = arr$[i$];
-
-            if (type.symbol != null)
+    	for (TokenType type : TokenType.values()) {
+        	if (type.symbol != null)
             {
                 _symbolMap.put(type.symbol, type);
             }
