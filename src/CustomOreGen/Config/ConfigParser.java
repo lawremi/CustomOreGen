@@ -214,7 +214,7 @@ public class ConfigParser
         }
     }
 
-    public static Number convertNumber(Class type, Number value) throws IllegalArgumentException
+    public static <T extends Number> Number convertNumber(Class<T> type, Number value) throws IllegalArgumentException
     {
         if (type != null && value != null)
         {
