@@ -142,9 +142,7 @@ public class DistributionSettingMap
 
     public void inheritAll(IOreDistribution source, IOreDistribution destination)
     {
-        Iterator i$ = this._settingMap.entrySet().iterator();
-
-        for (Entry<String,Object[]> entry : _settingMap.entrySet()) {
+    	for (Entry<String,Object[]> entry : _settingMap.entrySet()) {
             Field field = (Field)(entry.getValue())[0];
             DistributionSetting annotation = (DistributionSetting)(entry.getValue())[1];
 
