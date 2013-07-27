@@ -76,7 +76,7 @@ public class MapGenClusters extends MapGenOreDistribution
         public ClusterComponent(StructureGroup structureGroup, float x, float y, float z, Random random)
         {
             super(structureGroup);
-            this.size = clSize.getIntValue(random);
+            this.size = Math.max(0, clSize.getIntValue(random));
             double horizAngle = (double)random.nextFloat() * Math.PI;
             this.ptA = new float[3];
             this.ptB = new float[3];
