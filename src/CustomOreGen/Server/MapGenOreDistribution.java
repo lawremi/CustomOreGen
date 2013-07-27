@@ -644,6 +644,8 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
                 if (this.populatedBlocks == totalVolume && this.structureGroup != null)
                 {
+                	// TODO: this is where can log a row in the debugging table
+                	// Record: some x/y/z of component (add this), biome (lookup), attempted (record) and placed blocks
                     ++this.structureGroup.completeComponents;
                     this.structureGroup.completeComponentBlocks += this.placedBlocks;
                 }
