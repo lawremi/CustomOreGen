@@ -39,20 +39,18 @@ public class CustomOreGenBase
         ConsoleCommands.createAndRegister();
         File configPath = Loader.instance().getConfigDir();
 
-        if (unpackResourceFile("CustomOreGen_Config.xml", new File(configPath, "CustomOreGen_Config.xml")))
-        {
-            File cfg = new File(configPath, "CustomOreGen Standard Modules");
-            cfg.mkdir();
-            String[] ex = new String[] {"ExtraCaves.xml", "MinecraftOres.xml", "IndustrialCraft2.xml", "Forestry.xml", "Redpower2.xml"};
-            String[] extraModules = ex;
-            
-            for (String module : extraModules) {
-            	unpackResourceFile("CustomOreGen Standard Modules/" + module, new File(cfg, module));
-            }
-            
-            File var9 = new File(configPath, "CustomOreGen Extra Modules");
-            var9.mkdir();
+        unpackResourceFile("CustomOreGen_Config.xml", new File(configPath, "CustomOreGen_Config.xml"));
+        
+        File cfg = new File(configPath, "CustomOreGen Standard Modules");
+        cfg.mkdir();
+        String[] ex = new String[] {"ExtraCaves.xml", "MinecraftOres.xml", "IndustrialCraft2.xml", "Forestry.xml", "Redpower2.xml"};
+        String[] extraModules = ex;
+        for (String module : extraModules) {
+        	unpackResourceFile("CustomOreGen Standard Modules/" + module, new File(cfg, module));
         }
+        
+        File var9 = new File(configPath, "CustomOreGen Extra Modules");
+        var9.mkdir();
 
         hasMystcraft();
         WorldConfig var8 = null;
