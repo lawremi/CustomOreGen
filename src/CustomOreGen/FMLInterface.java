@@ -32,12 +32,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @Mod(
-        modid = "CustomOreGen",
-        name = "Custom Ore Generation",
+        modid = "@MODID@",
+        name = "@MODNAME@",
         version = "@VERSION@",
         acceptedMinecraftVersions = "@MCVERSION@",
-        dependencies = "after:*;",
-        useMetadata = false
+        dependencies = "after:*;"
 )
 public class FMLInterface implements ITickHandler, IWorldGenerator
 {

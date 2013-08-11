@@ -3,9 +3,9 @@
 
   <property name="mc.version" value="1.6.2"/>
   <property name="forge.version" value="9.10.0.800"/>
+  <property name="mod.name" value="Custom Ore Generation: First Revival"/>
+  <property name="mod.id" value="${ant.project.name}"/>
   
-  <property name="mod.name" value="${ant.project.name}"/>
-
   <property name="build.dir" value="build"/>
   <property name="src.dir" value="${basedir}/src"/>
   <property name="resources.dir" value="${basedir}/resources"/>
@@ -81,7 +81,7 @@
       </and>
     </condition>
     <echo>
-      Building ${mod.name} version ${project.complete.version}
+      Building ${mod.id} version ${project.complete.version}
       (${project.version})
     </echo>
   </target>
@@ -130,6 +130,8 @@
       <filterset>
         <filter token="VERSION" value="${project.complete.version}" />
         <filter token="MCVERSION" value="[${mc.version}]" />
+        <filter token="MODID" value="${mod.id}" />
+        <filter token="MODNAME" value="${mod.name}" />
       </filterset>
     </copy>
   </target>
@@ -179,9 +181,13 @@
     
     <!-- Copy resources -->
     <copy todir="${classes.dir}">
-      <fileset dir="${resources.dir}">
-        <exclude name="build.xml"/>
-      </fileset>
+      <fileset dir="${resources.dir}"/>
+      <filterset>
+        <filter token="VERSION" value="${project.complete.version}" />
+        <filter token="MCVERSION" value="[${mc.version}]" />
+        <filter token="MODID" value="${mod.id}" />
+        <filter token="MODNAME" value="${mod.name}" />
+      </filterset>
     </copy>
     
     <!-- Reset src dir to post-forge-install state -->
@@ -196,7 +202,7 @@
       <fileset dir="${jar.dir}" includes="**/*"/>
     </delete>
     <property name="jar.file.name"
-       value="${jar.dir}/${mod.name}-${mc.version}-${project.version}.jar"/>
+       value="${jar.dir}/${mod.id}-${mc.version}-${project.version}.jar"/>
                
     <jar destfile="${jar.file.name}" basedir="${classes.dir}"/>
     
