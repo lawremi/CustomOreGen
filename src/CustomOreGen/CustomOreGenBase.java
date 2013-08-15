@@ -148,8 +148,10 @@ public class CustomOreGenBase
 
                 if (ModLoader.isModLoaded("Mystcraft"))
                 {
+                	/* FIXME: re-enable after restoring Mystcraft compatibility
                     MystcraftInterface.init();
                     _hasMystcraft = 1;
+                    */
                 }
             }
             catch (Throwable var1)
