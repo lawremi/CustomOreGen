@@ -695,7 +695,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                         if (placed)
                         {
                             ++this.placedBlocks;
-                            ++placedBlocks;
+                            ++MapGenOreDistribution.this.placedBlocks;
                             world.markBlockForUpdate(x, y, z);
                         }
 
