@@ -42,7 +42,7 @@ import CustomOreGen.Util.CIStringMap;
 public class ConfigParser
 {
     public final WorldConfig target;
-    public final ConfigExpressionEvaluator defaultEvaluator = new ConfigExpressionEvaluator(this);
+    public final ConfigExpressionEvaluator defaultEvaluator = new ConfigExpressionEvaluator();
     protected Random rng = null;
     protected final DocumentBuilder domBuilder;
     protected final SAXParser saxParser;
