@@ -39,6 +39,7 @@ import CustomOreGen.MystcraftSymbolData;
 import CustomOreGen.Server.GuiCustomOreGenSettings.GuiOpenMenuButton;
 import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.SimpleProfiler;
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -46,7 +47,7 @@ public class ServerState
 {
     private static MinecraftServer _server = null;
     private static Map _worldConfigs = new HashMap();
-    private static Map _populatedChunks = new HashMap();
+    private static Map<Integer,Map<ChunkCoordIntPair,int[]>> _populatedChunks = new HashMap();
     private static Object _optionsGuiButton = null;
 
     private static boolean isChunkSavedPopulated(World world, int chunkX, int chunkZ)
@@ -252,12 +253,21 @@ public class ServerState
         }
     }
 
+    /* For tracking which chunks have been populated, the server bins the chunks into 4x4 meta-chunks.
+     * Each meta-chunk is represented by a 16 integer array, indexed by the local X coordinate of a 
+     * given chunk. Each integer contains two bits of information for every chunk, by splitting the 
+     * 4-byte integer into two 2-byte parts. The local Z coordinate indexes into
+     * the 16 bits of each part. The least significant part indicates whether an attempt has been
+     * made to populate the chunk, while the most significant indicates whether we have checked
+     * if the chunk was marked populated in the save (presumably this is an expensive check and 
+     * thus is memoized).
+     */
     public static void onPopulateChunk(World world, Random rand, int chunkX, int chunkZ)
     {
         WorldConfig cfg = getWorldConfig(world);
-        Object dimChunkMap = null;
-        Integer cRange = Integer.valueOf(world.provider.dimensionId);
-        dimChunkMap = (Map)_populatedChunks.get(cRange);
+        Map<ChunkCoordIntPair,int[]> dimChunkMap = null;
+        int cRange = world.provider.dimensionId;
+        dimChunkMap = _populatedChunks.get(cRange);
 
         if (dimChunkMap == null)
         {
@@ -266,12 +276,12 @@ public class ServerState
         }
 
         ChunkCoordIntPair neighborMax = new ChunkCoordIntPair(chunkX >>> 4, chunkZ >>> 4);
-        int[] cX = (int[])((Map)dimChunkMap).get(neighborMax);
+        int[] cX = dimChunkMap.get(neighborMax);
 
         if (cX == null)
         {
             cX = new int[16];
-            ((Map)dimChunkMap).put(neighborMax, cX);
+            dimChunkMap.put(neighborMax, cX);
         }
 
         cX[chunkX & 15] |= 65537 << (chunkZ & 15);
@@ -289,30 +299,36 @@ public class ServerState
                     for (int iZ = cZ - var16; iZ <= cZ + var16; ++iZ)
                     {
                         ChunkCoordIntPair chunkKey = new ChunkCoordIntPair(iX >>> 4, iZ >>> 4);
-                        int[] chunkData = (int[])((Map)dimChunkMap).get(chunkKey);
+                        int[] chunkData = dimChunkMap.get(chunkKey);
 
                         if (chunkData == null)
                         {
                             chunkData = new int[16];
-                            ((Map)dimChunkMap).put(chunkKey, chunkData);
+                            dimChunkMap.put(chunkKey, chunkData);
                         }
 
                         if ((chunkData[iX & 15] >>> (iZ & 15) & 65536) == 0)
                         {
                             boolean populated = isChunkSavedPopulated(world, iX, iZ);
+                            //if (populated)
+                            	//FMLLog.info("[%d/%d](%d/%d): populated in save", var18, cZ, iX, iZ);
                             chunkData[iX & 15] |= (populated ? 65537 : 65536) << (iZ & 15);
                         }
 
                         if ((chunkData[iX & 15] >>> (iZ & 15) & 1) != 0)
                         {
-                            ++neighborCount;
+                        	//FMLLog.info("[%d/%d](%d/%d): is neighbor", var18, cZ, iX, iZ);
+                        	++neighborCount;
                         }
                     }
                 }
 
                 if (neighborCount == var17)
                 {
+                	//FMLLog.info("[%d/%d]: populating", var18, cZ);
                     populateDistributions(cfg.getOreDistributions(), world, var18, cZ);
+                } else {
+                	//FMLLog.info("[%d/%d]: only %d neighbors", var18, cZ, neighborCount);
                 }
             }
         }

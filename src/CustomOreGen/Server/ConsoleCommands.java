@@ -641,7 +641,7 @@ public class ConsoleCommands
         WorldConfig config = ServerState.getWorldConfig(world);
         Collection allOptions = config.getConfigOptions();
         Collection<ConfigOption> options = option != null && !option.isEmpty() ? config.getConfigOptions(option) : null;
-        msg.append("CustomOreGen [1.4.6]v2 (");
+        msg.append("@MODNAME@ @VERSION@ (");
 
         if (config.world != null)
         {
@@ -684,13 +684,13 @@ public class ConsoleCommands
             ) String value)
     {
         WorldConfig cfg = ServerState.getWorldConfig(world);
-        Collection options = cfg.getConfigOptions(option);
+        Collection<ConfigOption> options = cfg.getConfigOptions(option);
         int count = 0;
-        Iterator path = options.iterator();
+        Iterator<ConfigOption> path = options.iterator();
 
         while (path.hasNext())
         {
-            ConfigOption opt = (ConfigOption)path.next();
+            ConfigOption opt = path.next();
 
             if (opt.setValue(value))
             {
