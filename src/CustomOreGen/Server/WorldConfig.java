@@ -2,6 +2,7 @@ package CustomOreGen.Server;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
@@ -29,6 +30,7 @@ import net.minecraft.world.storage.WorldInfo;
 
 import org.xml.sax.SAXException;
 
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
 
 import CustomOreGen.CustomOreGenBase;
@@ -54,7 +56,7 @@ public class WorldConfig
     public boolean vanillaOreGen;
     private Collection<IOreDistribution> oreDistributions;
     private Map<String,ConfigOption> configOptions;
-    private Map loadedOptions;
+    private Map<String,String> loadedOptions;
     private Map<String,Integer> worldProperties;
     private Map cogSymbolData;
 	private Collection<BiomeDescriptor> biomeSets;
@@ -98,41 +100,44 @@ public class WorldConfig
         this.cogSymbolData = new CIStringMap(new LinkedHashMap());
         this.biomeSets = new LinkedList();
         String configFile;
+        String dimensionBasename;
 
         if (world != null)
         {
             if (world.getSaveHandler() != null && world.getSaveHandler() instanceof SaveHandler)
             {
-                worldBaseDir = (File)ModLoader.getPrivateValue(SaveHandler.class, (SaveHandler)world.getSaveHandler(), 1);
+                worldBaseDir = ((SaveHandler)world.getSaveHandler()).getWorldDirectory();
             }
             else
             {
                 worldBaseDir = null;
             }
 
-            configFile = world.provider.dimensionId == 0 ? null : "DIM" + world.provider.dimensionId;
+            dimensionBasename = "DIM" + world.provider.dimensionId;
 
-            if (CustomOreGenBase.hasForge())
+            if (CustomOreGenBase.hasForge() && world.provider.dimensionId != 0)
             {
-                configFile = ForgeInterface.getWorldDimensionFolder(world);
+            	dimensionBasename = ForgeInterface.getWorldDimensionFolder(world);
             }
 
-            if (configFile == null)
+            if (worldBaseDir == null)	
             {
-                dimensionDir = worldBaseDir;
-            }
-            else if (worldBaseDir == null)
-            {
-                dimensionDir = new File(configFile);
+                dimensionDir = new File(dimensionBasename);
             }
             else
             {
-                dimensionDir = new File(worldBaseDir, configFile);
+                dimensionDir = new File(worldBaseDir, dimensionBasename);
             }
 
             worldInfo = world.getWorldInfo();
         }
 
+        if (dimensionDir == null && worldBaseDir != null) {
+        	dimensionDir = new File(worldBaseDir, "DIM0");
+            if (!dimensionDir.exists())
+            	dimensionDir.mkdir();
+        }
+        
         this.world = world;
         this.worldInfo = worldInfo;
         populateWorldProperties(this.worldProperties, world, worldInfo);
@@ -143,10 +148,6 @@ public class WorldConfig
         if (dimensionDir != null)
         {
             CustomOreGenBase.log.finer("Loading config data for dimension \'" + dimensionDir + "\' ...");
-        }
-        else if (worldBaseDir != null)
-        {
-            CustomOreGenBase.log.finer("Loading config data for world \'" + worldBaseDir + "\' ...");
         }
         else
         {
@@ -160,17 +161,13 @@ public class WorldConfig
 
         configFile = null;
         File[] configFileList = new File[3];
-        int configFileDepth = this.buildFileList("CustomOreGen_Config.xml", configFileList);
+        int configFileDepth = this.buildFileList("CustomOreGen_Config.xml", configFileList, true);
 
         if (configFileDepth < 0)
         {
             if (dimensionDir != null)
             {
                 CustomOreGenBase.log.warning("No config file found for dimension \'" + dimensionDir + "\' at any scope!");
-            }
-            else if (worldBaseDir != null)
-            {
-                CustomOreGenBase.log.finer("No config file found for world \'" + worldBaseDir + "\' at any scope.");
             }
             else
             {
@@ -179,33 +176,15 @@ public class WorldConfig
         }
         else
         {
-            File var16 = configFileList[configFileDepth];
+        	File var16 = configFileList[configFileDepth];
             File[] optionsFileList = new File[3];
-            int optionsFileDepth = this.buildFileList("CustomOreGen_Options.txt", optionsFileList);
-            File optionsFile = optionsFileList[Math.max(Math.max(1, configFileDepth), optionsFileDepth)];
+            this.buildFileList("CustomOreGen_Options.txt", optionsFileList, false);
+            File optionsFile = optionsFileList[2];
             ConfigOption vangen;
 
             for (int defpopOption = configFileDepth; defpopOption < optionsFileList.length; ++defpopOption)
             {
-                if (optionsFileList[defpopOption] != null && optionsFileList[defpopOption].exists())
-                {
-                    PropertyIO.load(this.loadedOptions, new FileInputStream(optionsFileList[defpopOption]));
-                }
-
-                if (loadedOptionOverrides[defpopOption] != null)
-                {
-                    Iterator dbgmd = loadedOptionOverrides[defpopOption].iterator();
-
-                    while (dbgmd.hasNext())
-                    {
-                        vangen = (ConfigOption)dbgmd.next();
-
-                        if (vangen.getValue() != null)
-                        {
-                            this.loadedOptions.put(vangen.getName(), vangen.getValue().toString());
-                        }
-                    }
-                }
+                loadOptions(optionsFileList[defpopOption], this.loadedOptionOverrides[defpopOption], this.loadedOptions);
             }
 
             (new ConfigParser(this)).parseFile(var16);
@@ -213,17 +192,20 @@ public class WorldConfig
 
             if (optionsFile != null && !optionsFile.exists())
             {
-            	for (ConfigOption option : this.configOptions.values()) {
-            		if (option.getValue() != null) {
-            			this.loadedOptions.put(option.getName(), option.getValue().toString());
-            		}
-            	}
-                
-                optionsFile.createNewFile();
-                String var19 = "CustomOreGen @VERSION@ Config Options";
-                PropertyIO.save(this.loadedOptions, new FileOutputStream(optionsFile), var19);
+            	putOptions(this.configOptions.values(), this.loadedOptions);
+            	saveOptions(optionsFile, this.loadedOptions);
             }
 
+            /* Options are now always saved per-dimension, and the overworld is treated separate from the save.
+        	 * This means we need to fill-in the save-level options with any global options file and level-0 loaded 
+        	 * option overrides.
+        	 */
+            if (optionsFileList[1] != null && !optionsFileList[1].exists()) {
+            	Map<String,String> saveLevelOptions = new LinkedHashMap();
+            	loadOptions(optionsFileList[0], this.loadedOptionOverrides[0], saveLevelOptions);
+            	saveOptions(optionsFileList[1], saveLevelOptions);
+            }
+            
             ConfigOption var21 = (ConfigOption)this.configOptions.get("deferredPopulationRange");
 
             if (var21 != null && var21 instanceof NumericOption)
@@ -262,7 +244,33 @@ public class WorldConfig
         }
     }
 
-    private int buildFileList(String fileName, File[] files)
+    private void loadOptions(File file, Collection<ConfigOption> overrides, Map<String, String> map) throws FileNotFoundException, IOException {
+		if (file != null && file.exists())
+        {
+            PropertyIO.load(map, new FileInputStream(file));
+        }
+
+        if (overrides != null)
+        {
+        	putOptions(overrides, map);
+        }
+	}
+
+	private void putOptions(Collection<ConfigOption> options, Map<String, String> map) {
+    	for (ConfigOption option : options) {
+    		if (option.getValue() != null) {
+    			map.put(option.getName(), option.getValue().toString());
+    		}
+    	}
+	}
+
+	private void saveOptions(File optionsFile, Map<String, String> options) throws IOException {
+    	optionsFile.createNewFile();
+        String header = "@MODNAME@ @VERSION@ Config Options";
+        PropertyIO.save(options, new FileOutputStream(optionsFile), header);
+	}
+
+	private int buildFileList(String fileName, File[] files, boolean mustExist)
     {
         if (files == null)
         {
@@ -286,34 +294,13 @@ public class WorldConfig
 
         for (int i = files.length - 1; i >= 0; --i)
         {
-            if (files[i] != null && files[i].exists())
+            if (files[i] != null && (!mustExist || files[i].exists()))
             {
                 return i;
             }
         }
 
         return -1;
-    }
-
-    private void loadOptions(File optionsFile, boolean createIfMissing) throws IOException
-    {
-        if (optionsFile != null)
-        {
-            Properties savedOptions = new Properties();
-
-            if (optionsFile.exists())
-            {
-                savedOptions.load(new FileInputStream(optionsFile));
-                this.loadedOptions.putAll(savedOptions);
-            }
-            else if (createIfMissing)
-            {
-                optionsFile.createNewFile();
-                savedOptions.putAll(this.loadedOptions);
-                String headerComment = "CustomOreGen [1.4.6]v2 Config Options";
-                savedOptions.store(new FileOutputStream(optionsFile), headerComment);
-            }
-        }
     }
 
     private static void populateWorldProperties(Map properties, World world, WorldInfo worldInfo)

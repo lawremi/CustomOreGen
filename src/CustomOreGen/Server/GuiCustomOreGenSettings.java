@@ -1,11 +1,10 @@
 package CustomOreGen.Server;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
-
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -16,6 +15,10 @@ import net.minecraft.client.gui.GuiSlider;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.settings.EnumOptions;
+
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -67,7 +70,13 @@ public class GuiCustomOreGenSettings extends GuiScreen
                     visibleGroups = WorldConfig.createEmptyConfig();
                 }
 
-                WorldConfig.loadedOptionOverrides[0] = visibleGroups.getConfigOptions();
+                WorldConfig.loadedOptionOverrides[0] = new ArrayList();
+                for (ConfigOption option : visibleGroups.getConfigOptions()) {
+                    if (option.getDisplayState() != null && option.getDisplayState() != ConfigOption.DisplayState.hidden)
+                    {
+                    	WorldConfig.loadedOptionOverrides[0].add(option);
+                    }
+                }
 
                 if (currentGroup != null)
                 {
@@ -87,34 +96,31 @@ public class GuiCustomOreGenSettings extends GuiScreen
         
         nextOption: for (ConfigOption option : WorldConfig.loadedOptionOverrides[0]) {
         	
-            if (option.getDisplayState() != null && option.getDisplayState() != ConfigOption.DisplayState.hidden)
+            ConfigOption.DisplayGroup group;
+
+            if (option instanceof ConfigOption.DisplayGroup)
             {
-                ConfigOption.DisplayGroup group;
-
-                if (option instanceof ConfigOption.DisplayGroup)
-                {
-                    for (group = currentGroup; group != option.getDisplayGroup(); group = group.getDisplayGroup())
+            	for (group = currentGroup; group != option.getDisplayGroup(); group = group.getDisplayGroup())
+            	{
+            		if (group == null)
                     {
-                        if (group == null)
-                        {
-                            continue nextOption;
-                        }
+            			continue nextOption;
                     }
+            	}
 
-                    visibleGroups1.add((ConfigOption.DisplayGroup)option);
-                }
-                else
-                {
-                    for (group = option.getDisplayGroup(); group != currentGroup; group = group.getDisplayGroup())
-                    {
-                        if (group == null)
-                        {
-                            continue nextOption;
-                        }
+            	visibleGroups1.add((ConfigOption.DisplayGroup)option);
+            }
+            else
+            {
+            	for (group = option.getDisplayGroup(); group != currentGroup; group = group.getDisplayGroup())
+            	{
+            		if (group == null)
+            		{
+            			continue nextOption;
                     }
+            	}
 
-                    visibleOptions1.add(option);
-                }
+            	visibleOptions1.add(option);
             }
         }
 
