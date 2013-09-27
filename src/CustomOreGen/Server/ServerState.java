@@ -75,29 +75,6 @@ public class ServerState
         return false;
     }
 
-    private static void patchBiomeDecorator(BiomeDecorator decorator)
-    {
-        try
-        {
-            WorldGenerator ex = (WorldGenerator)ModLoader.getPrivateValue(BiomeDecorator.class, decorator, 10);
-            WorldGenerator ironGen = (WorldGenerator)ModLoader.getPrivateValue(BiomeDecorator.class, decorator, 11);
-            WorldGenerator goldGen = (WorldGenerator)ModLoader.getPrivateValue(BiomeDecorator.class, decorator, 12);
-            WorldGenerator redstoneGen = (WorldGenerator)ModLoader.getPrivateValue(BiomeDecorator.class, decorator, 13);
-            WorldGenerator diamondGen = (WorldGenerator)ModLoader.getPrivateValue(BiomeDecorator.class, decorator, 14);
-            WorldGenerator lapisGen = (WorldGenerator)ModLoader.getPrivateValue(BiomeDecorator.class, decorator, 15);
-            ModLoader.setPrivateValue(BiomeDecorator.class, decorator, 10, new WorldGenEmpty(ex));
-            ModLoader.setPrivateValue(BiomeDecorator.class, decorator, 11, new WorldGenEmpty(ironGen));
-            ModLoader.setPrivateValue(BiomeDecorator.class, decorator, 12, new WorldGenEmpty(goldGen));
-            ModLoader.setPrivateValue(BiomeDecorator.class, decorator, 13, new WorldGenEmpty(redstoneGen));
-            ModLoader.setPrivateValue(BiomeDecorator.class, decorator, 14, new WorldGenEmpty(diamondGen));
-            ModLoader.setPrivateValue(BiomeDecorator.class, decorator, 15, new WorldGenEmpty(lapisGen));
-        }
-        catch (Exception var7)
-        {
-            CustomOreGenBase.log.throwing("CustomOreGenBase", "patchBiomeDecorator", var7);
-        }
-    }
-
     public static WorldConfig getWorldConfig(World world)
     {
         WorldConfig cfg = (WorldConfig)_worldConfigs.get(world);
@@ -387,16 +364,6 @@ public class ServerState
         CustomOreGenBase.log.finer("Server world changed to " + worldInfo.getWorldName());
         BiomeGenBase[] worldBaseDir = BiomeGenBase.biomeList;
         int saveFormat = worldBaseDir.length;
-
-        for (int cfg = 0; cfg < saveFormat; ++cfg)
-        {
-            BiomeGenBase ex = worldBaseDir[cfg];
-
-            if (ex != null && ex.theBiomeDecorator != null)
-            {
-                patchBiomeDecorator(ex.theBiomeDecorator);
-            }
-        }
 
         File var8 = null;
         ISaveFormat var9 = _server.getActiveAnvilConverter();

@@ -1,9 +1,5 @@
 package CustomOreGen;
 
-import CustomOreGen.Client.ClientState;
-import CustomOreGen.Server.ServerState;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.server.MinecraftServer;
@@ -11,8 +7,14 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.world.WorldEvent.Load;
+import CustomOreGen.Client.ClientState;
+import CustomOreGen.Server.ServerState;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ForgeInterface
 {
@@ -21,6 +23,7 @@ public class ForgeInterface
         CustomOreGenBase.log.finer("Registering Forge interface ...");
         ForgeInterface inst = new ForgeInterface();
         MinecraftForge.EVENT_BUS.register(inst);
+        MinecraftForge.ORE_GEN_BUS.register(inst);
         return inst;
     }
 
@@ -45,6 +48,15 @@ public class ForgeInterface
         }
     }
 
+    @ForgeSubscribe
+    public void onGenerateMinable(OreGenEvent.GenerateMinable event)
+    {
+    	ServerState.checkIfServerChanged(MinecraftServer.getServer(), event.world.getWorldInfo());
+        boolean vanillaOreGen = ServerState.getWorldConfig(event.world).vanillaOreGen;
+        boolean isCustom = event.type == OreGenEvent.GenerateMinable.EventType.CUSTOM;
+        event.setResult((vanillaOreGen || isCustom) ? Result.ALLOW : Result.DENY);
+    }
+    
     public static String getWorldDimensionFolder(World world)
     {
         return world.provider.getSaveFolder();
