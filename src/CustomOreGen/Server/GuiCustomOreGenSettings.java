@@ -327,7 +327,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
             Tessellator tess1 = Tessellator.instance;
             GL11.glDisable(2929);
-            mc.func_110434_K().func_110577_a(Gui.field_110325_k);
+            mc.getTextureManager().bindTexture(Gui.optionsBackground);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             double texSize1 = 32.0D;
             tess1.startDrawingQuads();

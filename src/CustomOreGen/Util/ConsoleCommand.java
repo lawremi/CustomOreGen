@@ -71,7 +71,7 @@ public class ConsoleCommand extends CommandBase
             }
             else
             {
-                recipient.sendChatToPlayer(ChatMessageComponent.func_111066_d(text));
+                recipient.sendChatToPlayer(ChatMessageComponent.createFromText(text));
             }
         }
     }
