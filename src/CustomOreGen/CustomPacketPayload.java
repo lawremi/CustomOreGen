@@ -180,6 +180,7 @@ public class CustomPacketPayload
             TranslatingObjectInputStream objStream1 = new TranslatingObjectInputStream((InputStream)ex);
             PayloadType type1 = PayloadType.values()[objStream1.readByte()];
             Serializable data1 = (Serializable)objStream1.readObject();
+            objStream1.close();
             return new CustomPacketPayload(type1, data1);
         }
         catch (Exception var9)
