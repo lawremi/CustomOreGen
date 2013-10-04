@@ -1,13 +1,14 @@
 <project name="CustomOreGenRevived" default="main">
   <!-- Properties -->
 
-  <property name="mc.version" value="1.6.2"/>
-  <property name="forge.version" value="9.10.0.800"/>
+  <property name="mc.version" value="1.6.4"/>
+  <property name="forge.version" value="9.11.0.891"/>
   <property name="mod.name" value="Custom Ore Generation: First Revival"/>
   <property name="mod.id" value="${ant.project.name}"/>
   
   <property name="build.dir" value="build"/>
   <property name="src.dir" value="${basedir}/src"/>
+  <property name="api.dir" value="${basedir}/api"/>
   <property name="resources.dir" value="${basedir}/resources"/>
   
   <property name="download.dir" value="download"/>
@@ -121,11 +122,14 @@
       <fileset dir="${mcpsrc.dir}/minecraft">
         <present present="both" targetdir="${src.dir}" />
       </fileset>
+      <fileset dir="${mcpsrc.dir}/minecraft">
+        <present present="both" targetdir="${api.dir}" />
+      </fileset>
     </delete>
   </target>
   <target name="copy-src" depends="clean-src,initialize-version">
     <!-- Copy sources -->
-    <copy todir="${mcpsrc.dir}/minecraft" verbose="true">
+    <copy todir="${mcpsrc.dir}/minecraft" verbose="false">
       <fileset dir="${src.dir}"/>
       <filterset>
         <filter token="VERSION" value="${project.complete.version}" />
@@ -133,6 +137,9 @@
         <filter token="MODID" value="${mod.id}" />
         <filter token="MODNAME" value="${mod.name}" />
       </filterset>
+    </copy>
+    <copy todir="${mcpsrc.dir}/minecraft" verbose="false">
+      <fileset dir="${api.dir}"/>
     </copy>
   </target>
   
