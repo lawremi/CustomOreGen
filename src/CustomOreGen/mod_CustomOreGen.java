@@ -213,7 +213,7 @@ public class mod_CustomOreGen extends BaseMod
                 case DebuggingGeometryRequest:
                     GeometryData geometryData = null;
 
-                    if (handler.getPlayer().mcServer.getConfigurationManager().areCommandsAllowed(handler.getPlayer().username))
+                    if (handler.getPlayer().mcServer.getConfigurationManager().isPlayerOpped(handler.getPlayer().username))
                     {
                         geometryData = ServerState.getDebuggingGeometryData((GeometryRequestData)payload.data);
                     }
