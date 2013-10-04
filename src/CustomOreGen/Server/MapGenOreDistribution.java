@@ -7,12 +7,14 @@ import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.structure.MapGenStructure;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
@@ -351,7 +353,29 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         return group;
     }
 
-    protected void recursiveGenerate(World world, int chunkX, int chunkZ, int rootX, int rootZ, byte[] chunkBlocks)
+    // FIXME: copy-and-pasted this from MapGenBase, because MapGenStructure now declares recursiveGenerate as 'final'. 
+    // We worked around this by renaming to recursiveGenerate2, which is called by this method. 
+    public void generate(IChunkProvider par1IChunkProvider, World par2World, int par3, int par4, byte[] par5ArrayOfByte)
+    {
+        int k = this.range;
+        this.worldObj = par2World;
+        this.rand.setSeed(par2World.getSeed());
+        long l = this.rand.nextLong();
+        long i1 = this.rand.nextLong();
+
+        for (int j1 = par3 - k; j1 <= par3 + k; ++j1)
+        {
+            for (int k1 = par4 - k; k1 <= par4 + k; ++k1)
+            {
+                long l1 = (long)j1 * l;
+                long i2 = (long)k1 * i1;
+                this.rand.setSeed(l1 ^ i2 ^ par2World.getSeed());
+                this.recursiveGenerate2(par2World, j1, k1, par3, par4, par5ArrayOfByte);
+            }
+        }
+    }
+    
+    protected void recursiveGenerate2(World world, int chunkX, int chunkZ, int rootX, int rootZ, byte[] chunkBlocks)
     {
         if (this.parent != null)
         {
@@ -372,7 +396,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             if (this.canSpawnStructureAtCoords(chunkX, chunkZ))
             {
                 group1 = (StructureGroup)this.getStructureStart(chunkX, chunkZ);
-                Long key = Long.valueOf(ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ));
+                long key = ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ);
                 super.structureMap.put(key, group1);
             }
         }
