@@ -287,7 +287,7 @@ public class WorldConfig
             files[1] = new File(this.worldBaseDir, fileName);
         }
 
-        if (this.dimensionDir != null)
+        if (this.dimensionDir != null && dimensionDir.exists())
         {
             files[2] = new File(this.dimensionDir, fileName);
         }
