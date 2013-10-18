@@ -43,7 +43,15 @@ public class CustomOreGenBase
         
         File cfg = new File(configPath, "CustomOreGen Standard Modules");
         cfg.mkdir();
-        String[] ex = new String[] {"ExtraCaves.xml", "MinecraftOres.xml", "IndustrialCraft2.xml", "Forestry.xml", "Redpower2.xml"};
+        String[] ex = new String[] {
+            "ExtraCaves.xml",
+            "MinecraftOres.xml",
+            "IndustrialCraft2.xml",
+            "Forestry.xml",
+            "ProjectRed.xml",
+            "TinkersConstruct.xml",
+            "Dartcraft.xml"
+        };
         String[] extraModules = ex;
         for (String module : extraModules) {
         	unpackResourceFile("CustomOreGen Standard Modules/" + module, new File(cfg, module));
