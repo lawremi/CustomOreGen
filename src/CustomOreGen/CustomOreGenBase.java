@@ -50,7 +50,8 @@ public class CustomOreGenBase
             "Forestry.xml",
             "ProjectRed.xml",
             "TinkersConstruct.xml",
-            "Dartcraft.xml"
+            "Dartcraft.xml",
+            "Metallurgy.xml"
         };
         String[] extraModules = ex;
         for (String module : extraModules) {
