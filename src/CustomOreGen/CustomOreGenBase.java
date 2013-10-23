@@ -51,7 +51,9 @@ public class CustomOreGenBase
             "ProjectRed.xml",
             "TinkersConstruct.xml",
             "Dartcraft.xml",
-            "Metallurgy.xml"
+            "Metallurgy.xml",
+            "Railcraft.xml",
+            "Thaumcraft4.xml"
         };
         String[] extraModules = ex;
         for (String module : extraModules) {
