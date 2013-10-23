@@ -3,6 +3,7 @@ package CustomOreGen.Config;
 import org.w3c.dom.Node;
 
 import CustomOreGen.Server.IOreDistribution;
+import CustomOreGen.Util.HeightPDist;
 import CustomOreGen.Util.PDist;
 import CustomOreGen.Util.PDist.Type;
 
@@ -44,9 +45,17 @@ public class ValidatorPDist extends ValidatorNode
             }
         }
 
-        this.pdist.mean = ((Float)this.validateNamedAttribute(Float.class, "Avg", Float.valueOf(this.pdist.mean), true)).floatValue();
-        this.pdist.range = ((Float)this.validateNamedAttribute(Float.class, "Range", Float.valueOf(this.pdist.range), true)).floatValue();
-        this.pdist.type = (Type)this.validateNamedAttribute(Type.class, "Type", this.pdist.type, true);
+        this.pdist.mean =  this.validateNamedAttribute(Float.class, "Avg", this.pdist.mean, true);
+        this.pdist.range = this.validateNamedAttribute(Float.class, "Range", this.pdist.range, true);
+        this.pdist.type = this.validateNamedAttribute(Type.class, "Type", this.pdist.type, true);
+        
+        /* An alternative to special casing this would be a <HeightSetting> element, but that would just complicate
+         * the format further. For the user's sake, we compromise here.
+         */
+        if (this.pdist instanceof HeightPDist) {
+        	((HeightPDist)this.pdist).surfaceRelative = 
+        			this.validateNamedAttribute(Boolean.class, "surfaceRelative", ((HeightPDist)this.pdist).surfaceRelative, true);
+        }
 
         if (this._parentDist != null)
         {

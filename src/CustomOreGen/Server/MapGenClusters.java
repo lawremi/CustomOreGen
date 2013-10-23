@@ -6,6 +6,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
+import CustomOreGen.Util.HeightPDist;
 import CustomOreGen.Util.IGeometryBuilder;
 import CustomOreGen.Util.IGeometryBuilder.PrimitiveType;
 import CustomOreGen.Util.PDist;
@@ -29,14 +30,15 @@ public class MapGenClusters extends MapGenOreDistribution
             name = "Height",
             info = "Vertical height of the deposits.  Normal distributions are approximated."
     )
-    public final PDist clHeight;
+    public final HeightPDist clHeight;
+    
     protected static final DistributionSettingMap _clusterSettingsMap = new DistributionSettingMap(MapGenClusters.class);
 
     public MapGenClusters(int distributionID, boolean canGenerate)
     {
         super(_clusterSettingsMap, distributionID, canGenerate);
         this.clFreq = this.frequency;
-        this.clHeight = new PDist(64.0F, 64.0F, Type.uniform);
+        this.clHeight = new HeightPDist(64.0F, 64.0F, Type.uniform);
         this.name = "StandardGen_" + distributionID;
         this.frequency.set(20.0F, 0.0F, Type.uniform);
     }
@@ -51,9 +53,9 @@ public class MapGenClusters extends MapGenOreDistribution
     public Component generateStructure(StructureGroup structureGroup, Random random)
     {
         float clX = (random.nextFloat() + (float)structureGroup.chunkX) * 16.0F;
-        float clY = this.clHeight.getValue(random);
         float clZ = (random.nextFloat() + (float)structureGroup.chunkZ) * 16.0F;
-
+        float clY = this.clHeight.getValue(random, worldObj, clX, clZ);
+        
         if (!structureGroup.canPlaceComponentAt(0, clX, clY, clZ, random))
         {
             return null;

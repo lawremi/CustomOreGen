@@ -6,6 +6,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
+import CustomOreGen.Util.HeightPDist;
 import CustomOreGen.Util.IGeometryBuilder;
 import CustomOreGen.Util.IGeometryBuilder.PrimitiveType;
 import CustomOreGen.Util.NoiseGenerator;
@@ -35,7 +36,7 @@ public class MapGenCloud extends MapGenOreDistribution
             name = "CloudHeight",
             info = "Height of cloud, in meters"
     )
-    public final PDist clHeight;
+    public final HeightPDist clHeight;
     @DistributionSetting(
             name = "CloudInclination",
             info = "Cloud angle from horizontal plane, in radians"
@@ -61,7 +62,7 @@ public class MapGenCloud extends MapGenOreDistribution
     public MapGenCloud(int distributionID, boolean canGenerate)
     {
         super(_cloudSettingsMap, distributionID, canGenerate);
-        this.clHeight = new PDist(32.0F, 16.0F, Type.normal);
+        this.clHeight = new HeightPDist(32.0F, 16.0F, Type.normal);
         this.clInclination = new PDist(0.0F, 0.35F);
         this.orRadiusMult = new PDist(1.0F, 0.1F);
         this.orDensity = new PDist(0.1F, 0.0F);
@@ -82,9 +83,9 @@ public class MapGenCloud extends MapGenOreDistribution
     public Component generateStructure(StructureGroup structureGroup, Random random)
     {
         float clX = (random.nextFloat() + (float)structureGroup.chunkX) * 16.0F;
-        float clY = this.clHeight.getValue(random);
         float clZ = (random.nextFloat() + (float)structureGroup.chunkZ) * 16.0F;
-
+        float clY = this.clHeight.getValue(random, worldObj, clX, clZ);
+        
         if (!structureGroup.canPlaceComponentAt(0, clX, clY, clZ, random))
         {
             return null;

@@ -74,6 +74,16 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
     )
     public final PDist parentRangeLimit;
     @DistributionSetting(
+            name = "MinHeight",
+            info = "Minimum absolute height allowed"
+    )
+    public int minHeight;
+    @DistributionSetting(
+            name = "MaxHeight",
+            info = "Maximum absolute height allowed"
+    )
+    public int maxHeight;
+    @DistributionSetting(
             name = "drawBoundBox",
             info = "Whether bounding boxes are drawn for components"
     )
@@ -143,6 +153,8 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         this.seed = (new Random((long)distributionID)).nextLong();
         this._canGenerate = canGenerate;
         this._settingMap = settingMap;
+        this.minHeight = 0;
+        this.maxHeight = 256;
     }
 
     public void inheritFrom(IOreDistribution inherits) throws IllegalArgumentException
@@ -302,6 +314,12 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         if (biomeMatchWeight <= 0.0F)
         {
             ;
+        }
+        
+        if (this.minHeight > this.maxHeight)
+        {
+            this._valid = false;
+            throw new IllegalStateException("Invalid height range [" + this.minHeight + "," + this.maxHeight + "] for " + this);
         }
 
         return this._valid && this._canGenerate;
@@ -574,6 +592,13 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                 }
             }
 
+            if (componentType == 0)
+            {
+            	if (iY < minHeight || iY > maxHeight) {
+            		return false;
+            	}
+            }
+            
             if (componentType == 0)
             {
                 float dist1 = parentRangeLimit.getValue(random);

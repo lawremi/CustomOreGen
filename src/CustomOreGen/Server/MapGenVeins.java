@@ -6,6 +6,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
+import CustomOreGen.Util.HeightPDist;
 import CustomOreGen.Util.IGeometryBuilder;
 import CustomOreGen.Util.IGeometryBuilder.PrimitiveType;
 import CustomOreGen.Util.PDist;
@@ -39,7 +40,7 @@ public class MapGenVeins extends MapGenOreDistribution
             name = "MotherlodeHeight",
             info = "Height of motherlode, in meters"
     )
-    public final PDist mlHeight;
+    public final HeightPDist mlHeight;
     @DistributionSetting(
             name = "BranchFrequency",
             info = "Number of branches per motherlode"
@@ -104,7 +105,7 @@ public class MapGenVeins extends MapGenOreDistribution
         this.mlFrequency = this.frequency;
         this.mlRangeLimit = this.parentRangeLimit;
         this.mlSize = new PDist(2.5F, 1.0F);
-        this.mlHeight = new PDist(32.0F, 16.0F, Type.normal);
+        this.mlHeight = new HeightPDist(32.0F, 16.0F, Type.normal);
         this.brFrequency = new PDist(3.0F, 2.0F);
         this.brInclination = new PDist(0.0F, 0.55F);
         this.brLength = new PDist(120.0F, 60.0F);
@@ -136,9 +137,9 @@ public class MapGenVeins extends MapGenOreDistribution
     public Component generateStructure(StructureGroup structureGroup, Random random)
     {
         float mlX = (random.nextFloat() + (float)structureGroup.chunkX) * 16.0F;
-        float mlY = this.mlHeight.getValue(random);
         float mlZ = (random.nextFloat() + (float)structureGroup.chunkZ) * 16.0F;
-
+        float mlY = this.mlHeight.getValue(random, worldObj, mlX, mlZ);
+        
         if (!structureGroup.canPlaceComponentAt(0, mlX, mlY, mlZ, random))
         {
             return null;

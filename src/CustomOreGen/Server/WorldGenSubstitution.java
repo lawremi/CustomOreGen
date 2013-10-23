@@ -58,6 +58,16 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
     )
     public int maxHeight;
     @DistributionSetting(
+            name = "minAbsHeight",
+            info = "Minimum surface-relative substitution height"
+    )
+    public int minSurfRelHeight;
+    @DistributionSetting(
+            name = "maxAbsHeight",
+            info = "Maximum surface-relative substitution height"
+    )
+    public int maxSurfRelHeight;
+    @DistributionSetting(
             name = "populatedChunks",
             info = "Chunks populated during current game session."
     )
@@ -79,6 +89,8 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
         this.additionalRange = 0;
         this.minHeight = Integer.MIN_VALUE;
         this.maxHeight = Integer.MAX_VALUE;
+        this.minSurfRelHeight = Integer.MIN_VALUE;
+        this.maxSurfRelHeight = Integer.MAX_VALUE;
         this.populatedChunks = 0;
         this.placedBlocks = 0L;
         this._valid = false;
@@ -185,6 +197,11 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
             this._valid = false;
             throw new IllegalStateException("Invalid height range [" + this.minHeight + "," + this.maxHeight + "] for " + this);
         }
+        else if (this.minSurfRelHeight > this.maxSurfRelHeight)
+        {
+            this._valid = false;
+            throw new IllegalStateException("Invalid height range [" + this.minSurfRelHeight + "," + this.maxSurfRelHeight + "] for " + this);
+        }
         else
         {
             return this._valid && this._canGenerate;
@@ -195,12 +212,13 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
     {
         if (this._canGenerate && this._valid && this.oreBlock != null)
         {
+        	int surfh = world.getHeightValue(depositX, depositZ);
             int depositCX = depositX / 16;
             int depositCZ = depositZ / 16;
             int cRange = (this.additionalRange + 15) / 16;
             int hRange = (this.additionalRange + 7) / 8;
-            int minh = Math.max(0, this.minHeight);
-            int maxh = Math.min(world.getHeight() - 1, this.maxHeight);
+            int minh = Math.max(0, Math.max(this.minSurfRelHeight + surfh, this.minHeight));
+            int maxh = Math.min(world.getHeight() - 1, Math.min(this.maxSurfRelHeight + surfh, this.maxHeight));
 
             for (int dCX = -cRange; dCX <= cRange; ++dCX)
             {
