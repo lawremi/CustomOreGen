@@ -58,12 +58,12 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
     )
     public int maxHeight;
     @DistributionSetting(
-            name = "minAbsHeight",
+            name = "minSurfRelHeight",
             info = "Minimum surface-relative substitution height"
     )
     public int minSurfRelHeight;
     @DistributionSetting(
-            name = "maxAbsHeight",
+            name = "maxSurfRelHeight",
             info = "Maximum surface-relative substitution height"
     )
     public int maxSurfRelHeight;
@@ -218,14 +218,16 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
             int cRange = (this.additionalRange + 15) / 16;
             int hRange = (this.additionalRange + 7) / 8;
             int minh = Math.max(0, Math.max(this.minSurfRelHeight + surfh, this.minHeight));
-            int maxh = Math.min(world.getHeight() - 1, Math.min(this.maxSurfRelHeight + surfh, this.maxHeight));
+            int maxh = Math.min(world.getHeight() - 1, 
+            		            Math.min(this.maxSurfRelHeight + Math.min(surfh, Integer.MAX_VALUE - this.maxSurfRelHeight), 
+            		            		 this.maxHeight));
 
             for (int dCX = -cRange; dCX <= cRange; ++dCX)
             {
                 for (int dCZ = -cRange; dCZ <= cRange; ++dCZ)
                 {
+                	int chunkZ = depositCZ + dCZ;
                     int chunkX = depositCX + dCX;
-                    int chunkZ = depositCZ + dCZ;
 
                     if (world.blockExists(chunkX * 16, 0, chunkZ * 16))
                     {
