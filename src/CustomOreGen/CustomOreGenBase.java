@@ -53,7 +53,9 @@ public class CustomOreGenBase
             "Dartcraft.xml",
             "Metallurgy.xml",
             "Railcraft.xml",
-            "Thaumcraft4.xml"
+            "Thaumcraft4.xml",
+            "BiomesOPlenty.xml",
+            "Factorization.xml"
         };
         String[] extraModules = ex;
         for (String module : extraModules) {
