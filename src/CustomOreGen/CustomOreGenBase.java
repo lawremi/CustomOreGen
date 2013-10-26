@@ -17,6 +17,10 @@ public class CustomOreGenBase
     public static final String version = "@VERSION@";
     public static final String mcVersion = "@MCVERSION@";
     public static Logger log = Logger.getLogger("STDOUT");
+    
+    public static final String OPTIONS_FILENAME = "CustomOreGen_Options.txt";
+	public static final String BASE_CONFIG_FILENAME = "CustomOreGen_Config.xml";
+
     private static int _hasFML = 0;
     private static int _hasForge = 0;
     private static int _hasMystcraft = 0;
@@ -37,13 +41,26 @@ public class CustomOreGenBase
     public static void onModPostLoad()
     {
         ConsoleCommands.createAndRegister();
-        File configPath = Loader.instance().getConfigDir();
+        unpackConfigs();
+        hasMystcraft();
+    }
 
-        unpackResourceFile("CustomOreGen_Config.xml", new File(configPath, "CustomOreGen_Config.xml"));
+    private static void unpackConfigs() {
+    	File configPath = getConfigDir();
+        File modulesDir = new File(configPath, "modules");
         
-        File cfg = new File(configPath, "CustomOreGen Standard Modules");
-        cfg.mkdir();
-        String[] ex = new String[] {
+        File defaultModulesDir = new File(modulesDir, "default");
+        if (defaultModulesDir.exists()) {
+        	File[] defaultModules = defaultModulesDir.listFiles();
+        	for (File defaultModule : defaultModules) {
+        		defaultModule.delete();
+        	}
+        } else {
+        	configPath.mkdir();
+        	modulesDir.mkdir();
+        	defaultModulesDir.mkdir();
+        }
+        String[] extraModules = new String[] {
             "ExtraCaves.xml",
             "MinecraftOres.xml",
             "IndustrialCraft2.xml",
@@ -57,58 +74,48 @@ public class CustomOreGenBase
             "BiomesOPlenty.xml",
             "Factorization.xml"
         };
-        String[] extraModules = ex;
         for (String module : extraModules) {
-        	unpackResourceFile("CustomOreGen Standard Modules/" + module, new File(cfg, module));
+        	unpackConfigFile("modules/" + module, new File(defaultModulesDir, module));
         }
         
-        File var9 = new File(configPath, "CustomOreGen Extra Modules");
-        var9.mkdir();
+        new File(modulesDir, "custom").mkdir();
 
-        hasMystcraft();
-        WorldConfig var8 = null;
+        WorldConfig config = loadWorldConfig();
+        if (config != null && !config.custom) {
+        	unpackConfigFile(BASE_CONFIG_FILENAME, new File(configPath, BASE_CONFIG_FILENAME));
+        	loadWorldConfig();
+        }
+	}
 
-        while (var8 == null)
+	private static WorldConfig loadWorldConfig() {
+    	WorldConfig config = null;
+
+        while (config == null)
         {
             try
             {
-                var8 = new WorldConfig();
+                config = new WorldConfig();
             }
-            catch (Exception var7)
+            catch (Exception e)
             {
-                if (!ServerState.onConfigError(var7))
+                if (!ServerState.onConfigError(e))
                 {
                     break;
                 }
 
-                var8 = null;
+                config = null;
             }
         }
-    }
-
-    public static File unpackStandardModule(String moduleName)
+        
+        return config;
+	}
+	
+    public static boolean unpackConfigFile(String configName, File destination)
     {
-        File file = new File(Loader.instance().getConfigDir(), "CustomOreGen Standard Modules" + moduleName);
-
-        if (!file.exists())
-        {
-            unpackResourceFile("CustomOreGen Standard Modules/" + moduleName, file);
-        }
-
-        return file;
-    }
-
-    public static boolean unpackResourceFile(String resourceName, File destination)
-    {
-        if (destination.exists())
-        {
-            return false;
-        }
-        else
-        {
-            try
+    	String resourceName = "config/" + configName;
+        try
             {
-                log.fine("Unpacking \'" + resourceName + "\' ...");
+        	    log.fine("Unpacking \'" + resourceName + "\' ...");
                 InputStream ex = CustomOreGenBase.class.getClassLoader().getResourceAsStream(resourceName);
                 BufferedOutputStream streamOut = new BufferedOutputStream(new FileOutputStream(destination));
                 byte[] buffer = new byte[1024];
@@ -128,9 +135,12 @@ public class CustomOreGenBase
             {
                 throw new RuntimeException("Failed to unpack resource \'" + resourceName + "\'", var6);
             }
-        }
     }
 
+    public static File getConfigDir() {
+    	return new File(Loader.instance().getConfigDir(), "CustomOreGen");
+    }
+    
     public static boolean hasFML()
     {
         if (_hasFML == 0)

@@ -19,6 +19,9 @@ public class ValidatorRoot extends ValidatorNode
     protected boolean validateChildren() throws ParserException
     {
         super.validateChildren();
+        
+        this.getParser().target.custom = this.validateNamedAttribute(boolean.class, "custom", false, true);
+        
         Node parent = this.getNode().getParentNode();
 
         if (parent != null && parent.getNodeType() == 9)

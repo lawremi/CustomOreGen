@@ -5,33 +5,27 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.minecraft.src.ModLoader;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.ChunkProviderEnd;
 import net.minecraft.world.gen.ChunkProviderFlat;
 import net.minecraft.world.gen.ChunkProviderGenerate;
 import net.minecraft.world.gen.ChunkProviderHell;
-import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.SaveHandler;
 import net.minecraft.world.storage.WorldInfo;
 
 import org.xml.sax.SAXException;
-
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.Loader;
 
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.ForgeInterface;
@@ -45,7 +39,7 @@ import CustomOreGen.Util.MapCollection;
 
 public class WorldConfig
 {
-    public static Collection<ConfigOption>[] loadedOptionOverrides = new Collection[3];
+	public static Collection<ConfigOption>[] loadedOptionOverrides = new Collection[3];
     public final World world;
     public final WorldInfo worldInfo;
     public final File globalConfigDir;
@@ -54,6 +48,7 @@ public class WorldConfig
     public int deferredPopulationRange;
     public boolean debuggingMode;
     public boolean vanillaOreGen;
+    public boolean custom;
     private Collection<IOreDistribution> oreDistributions;
     private Map<String,ConfigOption> configOptions;
     private Map<String,String> loadedOptions;
@@ -75,17 +70,17 @@ public class WorldConfig
 
     public WorldConfig() throws IOException, ParserConfigurationException, SAXException
     {
-        this(Loader.instance().getConfigDir(), (WorldInfo)null, (File)null, (World)null, (File)null);
+        this(CustomOreGenBase.getConfigDir(), (WorldInfo)null, (File)null, (World)null, (File)null);
     }
 
     public WorldConfig(WorldInfo worldInfo, File worldBaseDir) throws IOException, ParserConfigurationException, SAXException
     {
-        this(Loader.instance().getConfigDir(), worldInfo, worldBaseDir, (World)null, (File)null);
+        this(CustomOreGenBase.getConfigDir(), worldInfo, worldBaseDir, (World)null, (File)null);
     }
 
     public WorldConfig(World world) throws IOException, ParserConfigurationException, SAXException
     {
-        this(Loader.instance().getConfigDir(), (WorldInfo)null, (File)null, world, (File)null);
+        this(CustomOreGenBase.getConfigDir(), (WorldInfo)null, (File)null, world, (File)null);
     }
 
     private WorldConfig(File globalConfigDir, WorldInfo worldInfo, File worldBaseDir, World world, File dimensionDir) throws IOException, ParserConfigurationException, SAXException
@@ -99,7 +94,6 @@ public class WorldConfig
         this.worldProperties = new CIStringMap(new LinkedHashMap());
         this.cogSymbolData = new CIStringMap(new LinkedHashMap());
         this.biomeSets = new LinkedList();
-        String configFile;
         String dimensionBasename;
 
         if (world != null)
@@ -159,9 +153,8 @@ public class WorldConfig
             CustomOreGenBase.log.finer("Loading global config \'" + globalConfigDir + "\' ...");
         }
 
-        configFile = null;
         File[] configFileList = new File[3];
-        int configFileDepth = this.buildFileList("CustomOreGen_Config.xml", configFileList, true);
+        int configFileDepth = this.buildFileList(CustomOreGenBase.BASE_CONFIG_FILENAME, configFileList, true);
 
         if (configFileDepth < 0)
         {
@@ -178,7 +171,7 @@ public class WorldConfig
         {
         	File var16 = configFileList[configFileDepth];
             File[] optionsFileList = new File[3];
-            this.buildFileList("CustomOreGen_Options.txt", optionsFileList, false);
+            this.buildFileList(CustomOreGenBase.OPTIONS_FILENAME, optionsFileList, false);
             File optionsFile = optionsFileList[2];
             ConfigOption vangen;
 

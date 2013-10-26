@@ -1,21 +1,40 @@
-<!--*************************  CustomOreGen Configuration *****************************************
+<!--*************************  CustomOreGen Configuration **********************>
 *
-*   CustomOreGen allows you to customize the generation of Ore within your worlds.  This file
-*   contains a list of "distributions", which place a specific block according to a specific
-*   algorithm.  You can have as many distributions as you want, including multiple distributions for
-*   the same block type.
+*   IMPORTANT: UPON MODIFYING THIS FILE, CHANGE THE 'custom' ATTRIBUTE
+*              ON <Config> TO 'true'; OTHERWISE, THIS FILE WILL BE OVERWRITTEN
+*              EVERY TIME THE MOD LOADS. SEE BELOW.
+*
+*              To override the configuration for specific worlds,
+*              or specific dimensions, copy this file to the
+*              corresponding save directory.
+*
+*   CustomOreGen allows you to customize the generation of Ore within
+*   your worlds. This file contains a list of "distributions", which
+*   place a specific block according to a specific
+*   algorithm.  You can have as many distributions as you want, including
+*   multiple distributions for the same block type.
 *   
-*   There are four basic algorithms available, "StandardGen", "Susbstitute", "Veins", and "Cloud".
+*   There are four basic algorithms available:
+*   "StandardGen", "Susbstitute", "Veins", and "Cloud".
 *
-*   This file is written in XML.  All names and values are ***CASE SENSISTIVE***.  
+*   This file is written in XML.
+*   Many names and values are ***CASE SENSISTIVE***.  
 *
-*   For details on how to edit this file, please see the online CustomOreGen documentation:
+*   For details on how to edit this file, please see the online documentation:
 *
+*   Documentation for original features by JRoush:
 *       http://customoregen.shoutwiki.com/wiki/Main_Page
 *
-***********************************************************************************************-->
-<Config>
-            
+*   Documentation for features added by current maintainer:
+*       https://github.com/lawremi/CustomOreGen/wiki/Documentation
+*
+******************************************************************************-->
+
+<!-- UPON MODIFYING THIS FILE, CHANGE THE FOLLOWING LINE TO THIS:
+<Config custom='true'>
+-->
+<Config custom='false'>
+  
     <!--************************   Global Config Options   *********************************
     *   Below are options to control the general behavior of all distributions.
     *************************************************************************************-->
@@ -335,29 +354,40 @@
         </CloudPreset>
         
     </ConfigSection>
-    
-    <!--****************************   Standard Ores   *************************************
-    *   Import the standard ores module, containing options, presets, and distributions
-    *   for coal, iron, gold, redstone, diamond, lapis lazuli, and emeralds.
-    *************************************************************************************-->
-    <OptionalImport file='CustomOreGen Standard Modules/MinecraftOres.xml'/>
-    
-    <!--*******************************   Mod Ores   ***************************************
-    *   Import modules for supported mods if they are present.
-    *************************************************************************************-->
-    <OptionalImport file='CustomOreGen Standard Modules/IndustrialCraft2.xml'/>
-    <OptionalImport file='CustomOreGen Standard Modules/Forestry.xml'/>
-    <OptionalImport file='CustomOreGen Standard Modules/Redpower2.xml'/>
 
-    <!--************************   User-added Distributions   ******************************
-    *   If you add your own distributions, you can put them here.
-    *   You can also put them in a seperate file in the "CustomOreGen Extra Modules" folder.
-    *************************************************************************************-->
-    <OptionalImport file='CustomOreGen Extra Modules/*'/>
+    <!-- ******************** Import Standard Configs ********************** -->
+    <!--
+         NOTE: to override a default config, remove the corresponding
+         directive (and optionally add something to 'modules/custom')
+    -->
+
+    <Import file='modules/default/ExtraCaves.xml'/>
+    <Import file='modules/default/MinecraftOres.xml'/>
+    <Import file='modules/default/IndustrialCraft2.xml'/>
+    <Import file='modules/default/Forestry.xml'/>
+    <Import file='modules/default/ProjectRed.xml'/>
+    <Import file='modules/default/Dartcraft.xml'/>
+    <Import file='modules/default/TinkersConstruct.xml'/>
+    <Import file='modules/default/Metallurgy.xml'/>
+    <Import file='modules/default/Railcraft.xml'/>
+    <Import file='modules/default/Thaumcraft4.xml'/>
+    <Import file='modules/default/BiomesOPlenty.xml'/>
+    <Import file='modules/default/Factorization.xml'/>   
+
+    <!-- Possible mods to support as standard configs:
+         * EmasherResource
+         * GasCraft (natural gas)
+         * Pam's Harvest Craft (salt)
+         * Gregtech
+         * Mariculture
+    -->
     
-    <!--*************************   Testing & Debugging   **********************************
+    <!-- ******************** Import Custom Configs ************************ -->
+    <OptionalImport file='modules/custom/*.xml'/>
+    
+    <!--*************************   Testing & Debugging   *********************
     *   I use this section for quick-and-dirty experiments
-    *************************************************************************************-->
+    **************************************************************************-->
     <IfChoice name='debugDist' value='true'>
        
         <!-- Experimental distributions should go here -->
