@@ -153,23 +153,36 @@ public class WorldConfig
             CustomOreGenBase.log.finer("Loading global config \'" + globalConfigDir + "\' ...");
         }
 
+        File configFile = null;
         File[] configFileList = new File[3];
         int configFileDepth = this.buildFileList(CustomOreGenBase.BASE_CONFIG_FILENAME, configFileList, true);
 
-        if (configFileDepth < 0)
+        if (configFileDepth >= 0) 
         {
-            if (dimensionDir != null)
-            {
-                CustomOreGenBase.log.warning("No config file found for dimension \'" + dimensionDir + "\' at any scope!");
-            }
-            else
-            {
-                CustomOreGenBase.log.finer("No global config file found.");
-            }
+        	configFile = configFileList[configFileDepth];
+        } 
+        else 
+        {
+        	File defaultConfigFile = new File(globalConfigDir, CustomOreGenBase.DEFAULT_BASE_CONFIG_FILENAME);
+        	if (defaultConfigFile.exists()) 
+        	{
+        		configFile = defaultConfigFile;
+        		configFileDepth = 0;
+        	}
+        	else 
+        	{
+        		if (dimensionDir != null)
+        		{
+        			CustomOreGenBase.log.warning("No config file found for dimension \'" + dimensionDir + "\' at any scope!");
+        		}
+        		else
+        		{
+        			CustomOreGenBase.log.finer("No global config file found.");
+        		}
+        	}
         }
-        else
-        {
-        	File var16 = configFileList[configFileDepth];
+        
+        if (configFile != null) {
             File[] optionsFileList = new File[3];
             this.buildFileList(CustomOreGenBase.OPTIONS_FILENAME, optionsFileList, false);
             File optionsFile = optionsFileList[2];
@@ -180,7 +193,7 @@ public class WorldConfig
                 loadOptions(optionsFileList[defpopOption], this.loadedOptionOverrides[defpopOption], this.loadedOptions);
             }
 
-            (new ConfigParser(this)).parseFile(var16);
+            (new ConfigParser(this)).parseFile(configFile);
             ConfigOption var20;
 
             if (optionsFile != null && !optionsFile.exists())

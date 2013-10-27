@@ -20,6 +20,7 @@ public class CustomOreGenBase
     
     public static final String OPTIONS_FILENAME = "CustomOreGen_Options.txt";
 	public static final String BASE_CONFIG_FILENAME = "CustomOreGen_Config.xml";
+	public static final String DEFAULT_BASE_CONFIG_FILENAME = "CustomOreGen_Config_Default.xml";
 
     private static int _hasFML = 0;
     private static int _hasForge = 0;
@@ -80,11 +81,8 @@ public class CustomOreGenBase
         
         new File(modulesDir, "custom").mkdir();
 
-        WorldConfig config = loadWorldConfig();
-        if (config != null && !config.custom) {
-        	unpackConfigFile(BASE_CONFIG_FILENAME, new File(configPath, BASE_CONFIG_FILENAME));
-        	loadWorldConfig();
-        }
+        unpackConfigFile(DEFAULT_BASE_CONFIG_FILENAME, new File(configPath, DEFAULT_BASE_CONFIG_FILENAME));
+        loadWorldConfig();
 	}
 
 	private static WorldConfig loadWorldConfig() {
