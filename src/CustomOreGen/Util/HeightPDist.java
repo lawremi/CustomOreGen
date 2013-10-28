@@ -52,11 +52,29 @@ public class HeightPDist extends PDist {
 
 	public float getValue(Random rand, World world, float x, float z) {
 		float y = this.getValue(rand);
+		boolean fractional = this.mean > 0 && this.mean < 1;
 		if (this.surfaceRelative) {
         	int iX = MathHelper.floor_float(x);
             int iZ = MathHelper.floor_float(z);
-        	y += world.getHeightValue(iX, iZ);
+            int surfaceHeight = world.getHeightValue(iX, iZ);
+            if (fractional) {
+    			y *= surfaceHeight; 
+    		} else {
+    			y += surfaceHeight; 
+    		}
+        } else if (fractional) {
+        	y *= world.provider.getAverageGroundLevel();
         }
 		return y;
 	}
+	
+	public void copyFrom(PDist source)
+    {
+        this.mean = source.mean;
+        this.range = source.range;
+        this.type = source.type;
+        if (source instanceof HeightPDist) {
+        	this.surfaceRelative = ((HeightPDist) source).surfaceRelative;
+        }
+    }
 }
