@@ -138,7 +138,7 @@ public class MapGenVeins extends MapGenOreDistribution
     {
         float mlX = (random.nextFloat() + (float)structureGroup.chunkX) * 16.0F;
         float mlZ = (random.nextFloat() + (float)structureGroup.chunkZ) * 16.0F;
-        float mlY = this.mlHeight.getValue(random, worldObj, mlX, mlZ);
+        float mlY = this.mlHeight.getValue(random, worldObj);
         
         if (!structureGroup.canPlaceComponentAt(0, mlX, mlY, mlZ, random))
         {

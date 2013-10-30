@@ -84,7 +84,7 @@ public class MapGenCloud extends MapGenOreDistribution
     {
         float clX = (random.nextFloat() + (float)structureGroup.chunkX) * 16.0F;
         float clZ = (random.nextFloat() + (float)structureGroup.chunkZ) * 16.0F;
-        float clY = this.clHeight.getValue(random, worldObj, clX, clZ);
+        float clY = this.clHeight.getValue(random, worldObj);
         
         if (!structureGroup.canPlaceComponentAt(0, clX, clY, clZ, random))
         {

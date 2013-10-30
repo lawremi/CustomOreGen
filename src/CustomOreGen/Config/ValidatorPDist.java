@@ -49,14 +49,6 @@ public class ValidatorPDist extends ValidatorNode
         this.pdist.range = this.validateNamedAttribute(Float.class, "Range", this.pdist.range, true);
         this.pdist.type = this.validateNamedAttribute(Type.class, "Type", this.pdist.type, true);
         
-        /* An alternative to special casing this would be a <HeightSetting> element, but that would just complicate
-         * the format further. For the user's sake, we compromise here.
-         */
-        if (this.pdist instanceof HeightPDist) {
-        	((HeightPDist)this.pdist).surfaceRelative = 
-        			this.validateNamedAttribute(Boolean.class, "surfaceRelative", ((HeightPDist)this.pdist).surfaceRelative, true);
-        }
-
         if (this._parentDist != null)
         {
             try
