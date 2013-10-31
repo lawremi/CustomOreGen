@@ -3,7 +3,10 @@ package CustomOreGen.Server;
 import java.util.Map;
 import java.util.Random;
 
+import cpw.mods.fml.common.FMLLog;
+
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
@@ -212,15 +215,12 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
     {
         if (this._canGenerate && this._valid && this.oreBlock != null)
         {
-        	int surfh = world.getHeightValue(depositX, depositZ);
-            int depositCX = depositX / 16;
+        	int depositCX = depositX / 16;
             int depositCZ = depositZ / 16;
             int cRange = (this.additionalRange + 15) / 16;
             int hRange = (this.additionalRange + 7) / 8;
-            int minh = Math.max(0, Math.max(this.minSurfRelHeight + surfh, this.minHeight));
-            int maxh = Math.min(world.getHeight() - 1, 
-            		            Math.min(this.maxSurfRelHeight + Math.min(surfh, Integer.MAX_VALUE - this.maxSurfRelHeight), 
-            		            		 this.maxHeight));
+            int minh = Math.max(0, this.minHeight);
+            int maxh = Math.min(world.getHeight() - 1, this.maxHeight);
 
             for (int dCX = -cRange; dCX <= cRange; ++dCX)
             {
@@ -245,7 +245,16 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
 
                                 if (biome == null || this.biomes.getWeight(biome) > 0.5F)
                                 {
-                                    for (int y = minh; y <= maxh; ++y)
+                                	int xzminh = minh;
+                                	int xzmaxh = maxh;
+                                	if (this.minSurfRelHeight != Integer.MIN_VALUE || this.maxSurfRelHeight != Integer.MAX_VALUE) {
+                                		int surfh = findSurfaceHeight(chunk, x, z);
+                                		FMLLog.info("surface: %d", surfh);
+	                                	xzminh = Math.max(xzminh, this.minSurfRelHeight + surfh);
+	                                	xzmaxh = Math.min(xzmaxh, this.maxSurfRelHeight + 
+	                                			                  Math.min(surfh, Integer.MAX_VALUE - this.maxSurfRelHeight));
+                                	}
+                                    for (int y = xzminh; y <= xzmaxh; ++y)
                                     {
                                         int currentBlock = chunk.getBlockID(x, y, z);
                                         int fastCheck = this.replaceableBlocks.matchesBlock_fast(currentBlock);
@@ -279,7 +288,27 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
         }
     }
 
-    public String toString()
+    private boolean isSurfaceBlock(int id) {
+    	Material material = id == 0 ? Material.air : Block.blocksList[id].blockMaterial;
+    	return 
+    	  material == Material.clay || 
+		  material == Material.grass || 
+		  material == Material.ground || 
+		  material == Material.ice ||
+		  material == Material.rock ||
+		  material == Material.sand;
+    }
+    
+    private int findSurfaceHeight(Chunk chunk, int x, int z) {
+		int surfh = chunk.getHeightValue(x, z);
+		while (surfh > 0 && !isSurfaceBlock(chunk.getBlockID(x, surfh, z))) 
+		{
+			surfh--;
+		}
+		return surfh;
+	}
+
+	public String toString()
     {
         return this.name;
     }
