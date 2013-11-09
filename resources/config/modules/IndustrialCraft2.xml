@@ -45,12 +45,12 @@
                 <Choice value='disabled' displayValue='Disabled' description='No copper is generated, and no copper symbols are available in Mystcraft ages.'/>
             </OptionChoice>
             
-            <OptionNumeric name='ic2CopperFreq' default='1'  min='0' max='5' displayState='hidden' displayGroup='groupIC2'>
+            <OptionNumeric name='ic2CopperFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupIC2'>
                 <Description> Frequency multiplier for IndustrialCraft^2 Copper distributions </Description>
                 <DisplayName>IC2 Copper Freq.</DisplayName>
             </OptionNumeric>
             
-            <OptionNumeric name='ic2CopperSize' default='1'  min='0' max='5' displayState='hidden' displayGroup='groupIC2'>
+            <OptionNumeric name='ic2CopperSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupIC2'>
                 <Description> Size multiplier for IndustrialCraft^2 Copper distributions </Description>
                 <DisplayName>IC2 Copper Size</DisplayName>
             </OptionNumeric>
@@ -91,12 +91,12 @@
                 <Choice value='disabled' displayValue='Disabled' description='No tin is generated, and no tin symbols are available in Mystcraft ages.'/>
             </OptionChoice>
             
-            <OptionNumeric name='ic2TinFreq' default='1'  min='0' max='5' displayState='hidden' displayGroup='groupIC2'>
+            <OptionNumeric name='ic2TinFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupIC2'>
                 <Description> Frequency multiplier for IndustrialCraft^2 Tin distributions </Description>
                 <DisplayName>IC2 Tin Freq.</DisplayName>
             </OptionNumeric>
             
-            <OptionNumeric name='ic2TinSize' default='1'  min='0' max='5' displayState='hidden' displayGroup='groupIC2'>
+            <OptionNumeric name='ic2TinSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupIC2'>
                 <Description> Size multiplier for IndustrialCraft^2 Tin distributions </Description>
                 <DisplayName>IC2 Tin Size</DisplayName>
             </OptionNumeric>  
@@ -120,12 +120,12 @@
                 <Default>:= if(blockExists("blockOreUran"),"layeredVeins","disabled")</Default>
                 <Choice value='layeredVeins' displayValue='Veins'>
                     <Description> 
-                        Isolated veins found about two thirds of the way down to bedrock and only sparsely filled with ore.  Unusually common in devestated wastelands (ExtraBiomesXL).
+                        Isolated veins found about two thirds of the way down to bedrock and only sparsely filled with ore.  Unusually common in devestated wastelands.
                     </Description>
                 </Choice>
                 <Choice value='strategicClouds' displayValue='Clouds'>
                     <Description> 
-                        Rare, sparsely populated clouds of ore extending over one or two chunks.  Can be found anywhere, but most common in devestated wastelands (ExtraBiomesXL).
+                        Rare, sparsely populated clouds of ore extending over one or two chunks.  Can be found anywhere, but most common in devestated wastelands.
                     </Description>
                 </Choice>
                 <Choice value='vanillaStdGen' displayValue='Clusters'>
@@ -137,12 +137,12 @@
                 <Choice value='disabled' displayValue='Disabled' description='No uranium is generated, and no uranium symbols are available in Mystcraft ages.'/>
             </OptionChoice>
             
-            <OptionNumeric name='ic2UraniumFreq' default='1'  min='0' max='5' displayState='hidden' displayGroup='groupIC2'>
+            <OptionNumeric name='ic2UraniumFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupIC2'>
                 <Description> Frequency multiplier for IndustrialCraft^2 Uranium distributions </Description>
                 <DisplayName>IC2 Uranium Freq.</DisplayName>
             </OptionNumeric>
             
-            <OptionNumeric name='ic2UraniumSize' default='1'  min='0' max='5' displayState='hidden' displayGroup='groupIC2'>
+            <OptionNumeric name='ic2UraniumSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupIC2'>
                 <Description> Size multiplier for IndustrialCraft^2 Uranium distributions </Description>
                 <DisplayName>IC2 Uranium Size</DisplayName>
             </OptionNumeric>
@@ -176,6 +176,7 @@
             <Replaces block='blockOreCopper'/> 
             <Replaces block='blockOreTin'/> 
             <Replaces block='blockOreUran'/>
+            <Replaces block='blockOreLead'/>
         </Substitute>
         
         <!--*******************   Copper   *********************-->            
@@ -329,18 +330,18 @@
                     <Setting name='OreDensity' avg=':= 1.85 * _default_' range=':= _default_'/>
                 </Veins>
                 <Veins name='IC2UraniumVeinsWasteland' inherits='IC2UraniumVeins'>
-                    <Description>  This roughly triples the chance of finding uranium in an ExtraBiomes wasteland. </Description>      
+                    <Description>  This roughly triples the chance of finding uranium in an wasteland. </Description>      
                     <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
                     <Setting name='MotherlodeHeight' avg=':= _default_' range=':= 2 * _default_'/>
                     <Setting name='BranchHeightLimit' avg=':= 2 * _default_'/>
-                    <Biome name='Wasteland'/>
+                    <BiomeType name='Wasteland'/>
                 </Veins>
             </IfCondition>     
             
             <IfCondition condition=':= if(age, age.ic2UraniumClouds > 0, ic2UraniumDist = "strategicClouds")'>
                 <Cloud name='IC2UraniumCloud' block='blockOreUran' inherits='PresetStrategicCloud'>
                     <Description>  
-                        Diffuse uranium cloud surrounded by single-block "hint" veins, found mostly in ExtraBiomes wasteland biomes.
+                        Diffuse uranium cloud surrounded by single-block "hint" veins, found mostly in wasteland biomes.
                     </Description> 
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x4044FF00</WireframeColor> 
@@ -350,7 +351,7 @@
                     <Setting name='OreVolumeNoiseCutoff' avg='0'/>
                     <Setting name='OreDensity' avg=':= 1.1 * _default_'/>
                     <Biome name='.*' weight='0.2'/>
-                    <Biome name='Wasteland'/>
+                    <BiomeType name='Wasteland'/>
                     <Veins name='IC2UraniumHintVeins' block='blockOreUran' inherits='PresetHintVeins'>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x4080FF00</WireframeColor>
