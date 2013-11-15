@@ -18,7 +18,7 @@ import CustomOreGen.Server.DistributionSettingMap.Copyable;
 public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 {
     protected LinkedList<Descriptor> _descriptors = new LinkedList();
-    protected Map<BiomeGenBase,Float> _matches = new Hashtable();
+    protected Map<Integer,Float> _matches = new Hashtable();
     protected boolean _compiled = false;
     
     private String name;
@@ -109,14 +109,14 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
     {
         if (biome != null && weight != 0.0F)
         {
-            Float currentValue = (Float)this._matches.get(biome);
+            Float currentValue = (Float)this._matches.get(biome.biomeID);
 
             if (currentValue != null)
             {
                 weight += currentValue.floatValue();
             }
 
-            this._matches.put(biome, Float.valueOf(weight));
+            this._matches.put(biome.biomeID, Float.valueOf(weight));
         }
     }
 
@@ -183,26 +183,20 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
             for (Descriptor desc : this._descriptors) {
             	desc.matches = 0;
             }
-            	
+            
             for (BiomeGenBase biome : BiomeGenBase.biomeList) {
                 if (biome != null)
                 {
-                    this.add(biome, this.matchingWeight(biome));
-                }            	
+                	this.add(biome, this.matchingWeight(biome));
+                }
             }
         }
     }
-
-    public Map getMatches()
-    {
-        this.compileMatches();
-        return Collections.unmodifiableMap(this._matches);
-    }
-
+    
     public float getWeight(BiomeGenBase biome)
     {
         this.compileMatches();
-        Float value = (Float)this._matches.get(biome);
+        Float value = (Float)this._matches.get(biome.biomeID);
         return value == null ? 0.0F : value.floatValue();
     }
 
@@ -234,9 +228,9 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
         this.compileMatches();
         float value = -1.0F;
         
-        for (Entry<BiomeGenBase,Float> entry : this._matches.entrySet()) {
+        for (Entry<Integer,Float> entry : this._matches.entrySet()) {
         	float weight = entry.getValue();
-            BiomeGenBase biome = entry.getKey();
+            BiomeGenBase biome = BiomeGenBase.biomeList[entry.getKey()];
 
             if (weight > 0.0F)
             {
@@ -309,9 +303,9 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 
         int i = 1;
 
-        for (Entry<BiomeGenBase,Float> entry : this._matches.entrySet()) {
+        for (Entry<Integer,Float> entry : this._matches.entrySet()) {
         	float weight = entry.getValue();
-            BiomeGenBase biome = entry.getKey();
+            BiomeGenBase biome = BiomeGenBase.biomeList[entry.getKey()];
 
             if (biome == null)
             {
