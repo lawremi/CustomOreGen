@@ -125,7 +125,7 @@ public class ConsoleCommands
         WorldConfig config = ServerState.getWorldConfig(world);
         Collection allDists = config.getOreDistributions();
         Collection<IOreDistribution> dists = distribution != null && !distribution.isEmpty() ? config.getOreDistributions(distribution) : null;
-        msg.append("CustomOreGen [1.4.6]v2 (");
+        msg.append("@MODNAME@ @VERSION@ (");
 
         if (config.world != null)
         {
