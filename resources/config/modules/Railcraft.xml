@@ -270,13 +270,17 @@
             
             <IfCondition condition=':= if(age, age.RCSulfurVeins > 0, RCSulfurDist = "layeredVeins")'>  
                 <Veins name='RCSulfurVeins' block='railcraft.ore:0'
-                       inherits='DiamondVeins' seed='0xFF0300'>
+                       inherits='PresetPipeVeins' seed='0xFF0300'>
                     <Description> Short sparsely filled tubes starting at bedrock.  3x more common in Extreme Hills. </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40FF2020</WireframeColor> 
                     <Setting name='MotherlodeFrequency' avg=':= RCSulfurFreq * if(age,age.RCSulfurVeins,1) * _default_'/> 
                     <Setting name='MotherlodeSize' avg=':= RCSulfurSize * _default_' range=':= RCSulfurSize * _default_'/>
-                    <Setting name='SegmentRadius' avg=':= RCSulfurSize * _default_' range=':= RCSulfurSize * _default_'/>
+                    <Setting name='SegmentRadius'
+                             avg=':= RCSulfurSize * _default_'
+                             range=':= RCSulfurSize * _default_'/>
+                    <Setting name='MotherlodeHeight'
+                             avg=':= 3/64 * dimension.groundLevel' range='0'/>
                     <Biome name='.*' weight='0.35'/>
                     <BiomeType name='Mountain'/>
                 </Veins>
