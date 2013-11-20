@@ -118,13 +118,14 @@
   </target>
 
   <target name="clean-src">
-    <delete verbose="true">
+    <delete verbose="false" includeEmptyDirs="true" quiet="true">
       <fileset dir="${mcpsrc.dir}/minecraft">
         <present present="both" targetdir="${src.dir}" />
       </fileset>
       <fileset dir="${mcpsrc.dir}/minecraft">
         <present present="both" targetdir="${api.dir}" />
       </fileset>
+      <fileset dir="${mcp.dir}/reobf/minecraft"/>
     </delete>
   </target>
   <target name="copy-src" depends="clean-src,initialize-version">
@@ -182,7 +183,9 @@
     <!-- Copy classes -->
     <copy todir="${classes.dir}">
       <fileset dir="${mcp.dir}/reobf/minecraft">
-        <exclude name="**/xcompwiz/**"/>
+        <exclude name="**/com/**"/>
+        <exclude name="**/net/**"/>
+        <exclude name="**/cpw/**"/>
       </fileset>
     </copy>
     
