@@ -3,7 +3,6 @@ package CustomOreGen.Util;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +10,11 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.regex.Pattern;
 
+import cpw.mods.fml.common.FMLLog;
+
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
 
 public class BlockDescriptor implements Copyable<BlockDescriptor>
@@ -45,7 +48,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
 
         if (descriptor != null)
         {
-            this._descriptors.add(new Descriptor(descriptor, 1.0F));
+            this._descriptors.add(new Descriptor(descriptor, 1.0F, false));
         }
 
         return this;
@@ -53,15 +56,19 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
 
     public BlockDescriptor add(String descriptor)
     {
-        return this.add(descriptor, 1.0F);
+        return this.add(descriptor, 1.0F, false);
     }
 
-    public BlockDescriptor add(String descriptor, float weight)
+    public BlockDescriptor add(String descriptor, float weight) {
+    	return this.add(descriptor, weight, false);
+    }
+    
+    public BlockDescriptor add(String descriptor, float weight, boolean describesOre)
     {
         if (descriptor != null && weight != 0.0F)
         {
             this._compiled = false;
-            this._descriptors.add(new Descriptor(descriptor, weight));
+            this._descriptors.add(new Descriptor(descriptor, weight, describesOre));
         }
 
         return this;
@@ -83,7 +90,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
     {
         if (weight != 0.0F)
         {
-            Integer key = Integer.valueOf(blockID << 16 | metaData & 65535);
+            Integer key = Integer.valueOf(blockID << Short.SIZE | metaData & Short.MAX_VALUE);
             Float currentValue = (Float)this._matches.get(key);
 
             if (currentValue != null)
@@ -95,7 +102,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
 
             if (blockID >= 0 && blockID < this._fastMatch.length)
             {
-                if (metaData == -1 && !Float.isNaN(this._fastMatch[blockID]))
+                if (metaData == OreDictionary.WILDCARD_VALUE && !Float.isNaN(this._fastMatch[blockID]))
                 {
                     this._fastMatch[blockID] += weight;
                 }
@@ -107,14 +114,16 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         }
     }
 
-    protected float[] regexMatch(String id, String name)
+    protected float[] regexMatch(String id, String name, boolean describesOre)
     {
-        float[] weights = new float[17];
+        float[] weights = new float[Short.SIZE + 1];
         
         for (Descriptor desc : this._descriptors) {
+        	if (desc.describesOre != describesOre)
+        		continue;
         	if ((id == null || !desc.getPattern().matcher(id).matches()) && (name == null || !desc.getPattern().matcher(name).matches()))
             {
-                for (int m = 0; m < 16; ++m)
+                for (int m = 0; m < Short.SIZE; ++m)
                 {
                     if (id != null && desc.getPattern().matcher(id + ":" + m).matches() || name != null && desc.getPattern().matcher(name + ":" + m).matches())
                     {
@@ -126,7 +135,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             else
             {
                 ++desc.matches;
-                weights[16] += desc.weight;
+                weights[Short.SIZE] += desc.weight;
             }
         }
 
@@ -145,22 +154,32 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             	desc.matches = 0;
             }
             
-            float[] var10 = this.regexMatch("0", "air");
-            this.add(0, -1, var10[16]);
+            float[] var10 = this.regexMatch("0", "air", false);
+            this.add(0, OreDictionary.WILDCARD_VALUE, var10[Short.SIZE]);
             
             for (Block block : Block.blocksList) {
             	if (block != null && block.blockID != 0)
                 {
                     String id = Integer.toString(block.blockID);
                     String name = block.getUnlocalizedName() == null ? null : block.getUnlocalizedName().replace("tile.", "");
-                    float[] weights = this.regexMatch(id, name);
-                    this.add(block.blockID, -1, weights[16]);
+                    float[] weights = this.regexMatch(id, name, false);
+                    this.add(block.blockID, OreDictionary.WILDCARD_VALUE, weights[Short.SIZE]);
 
-                    for (int m = 0; m < 16; ++m)
+                    for (int m = 0; m < Short.SIZE; ++m)
                     {
                         this.add(block.blockID, m, weights[m]);
                     }
                 }
+            }
+            
+            for (String oreName : OreDictionary.getOreNames()) {
+            	float[] weights = this.regexMatch(Integer.toString(OreDictionary.getOreID(oreName)), oreName, true);
+            	for (ItemStack ore : OreDictionary.getOres(oreName)) {
+            		boolean isBlock = ore.itemID < Block.blocksList.length;
+            		if (isBlock) {
+            			this.add(ore.itemID, ore.getItemDamage(), weights[Short.SIZE]);
+                	}
+            	}
             }
         }
     }
@@ -181,7 +200,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
     {
         this.compileMatches();
         float value = 0.0F;
-        Float noMetaValue = (Float)this._matches.get(Integer.valueOf(blockID << 16 | 65535));
+        Float noMetaValue = (Float)this._matches.get(Integer.valueOf(blockID << Short.SIZE | OreDictionary.WILDCARD_VALUE));
 
         if (noMetaValue != null)
         {
@@ -190,7 +209,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
 
         if (metaData >= 0)
         {
-            Float metaValue = (Float)this._matches.get(Integer.valueOf(blockID << 16 | metaData & 65535));
+            Float metaValue = (Float)this._matches.get(Integer.valueOf(blockID << Short.SIZE | metaData & Short.MAX_VALUE));
 
             if (metaValue != null)
             {
@@ -237,10 +256,10 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         
         for (Entry<Integer,Float> entry : _matches.entrySet()) {
         	float weight = entry.getValue();
-            int blockID = entry.getKey() >>> 16;
-            int metaData = entry.getKey() & 65535;
+            int blockID = entry.getKey() >>> Short.SIZE;
+            int metaData = entry.getKey() & Short.MAX_VALUE;
 
-            if (metaData >= 32768)
+            if (metaData >= Short.MAX_VALUE)
             {
                 metaData = 0;
             }
@@ -249,7 +268,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             {
                 if (weight >= 1.0F)
                 {
-                    return blockID << 16 | metaData;
+                    return blockID << Short.SIZE | metaData;
                 }
 
                 if (value < 0.0F)
@@ -266,7 +285,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
 
                 if (value < 0.0F)
                 {
-                    return blockID << 16 | metaData;
+                    return blockID << Short.SIZE | metaData;
                 }
             }
         }
@@ -319,8 +338,8 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
 
         for (Entry<Integer,Float> entry : _matches.entrySet()) {
         	float weight = entry.getValue();
-            int blockID = entry.getKey() >>> 16;
-            int metaData = entry.getKey() & 65535;
+            int blockID = entry.getKey() >>> Short.SIZE;
+            int metaData = entry.getKey() & Short.MAX_VALUE;
             Block block = Block.blocksList[blockID];
 
             if (block == null)
@@ -334,7 +353,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
 
             breakdown[i] = breakdown[i] + " (" + blockID;
 
-            if (metaData < 32768)
+            if (metaData != OreDictionary.WILDCARD_VALUE)
             {
                 breakdown[i] = breakdown[i] + ":" + metaData;
             }
@@ -351,13 +370,15 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
     {
         public final String description;
         public final float weight;
+        public final boolean describesOre;
         public int matches = 0;
         private Pattern pattern = null;
 
-        public Descriptor(String description, float weight)
+        public Descriptor(String description, float weight, boolean describesOre)
         {
             this.description = description;
             this.weight = weight;
+			this.describesOre = describesOre;
         }
 
         public Pattern getPattern()

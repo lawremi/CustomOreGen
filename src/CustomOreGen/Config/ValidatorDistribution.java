@@ -170,7 +170,10 @@ public class ValidatorDistribution extends ValidatorNode
         {
             BlockDescriptor biomeKey1 = new BlockDescriptor();
             for (ValidatorBlockDescriptor settingName : validateNamedChildren(2, "Replaces", new ValidatorBlockDescriptor.Factory())) {
-            	biomeKey1.add(settingName.blocks, settingName.weight);
+            	biomeKey1.add(settingName.blocks, settingName.weight, false);
+            }
+            for (ValidatorBlockDescriptor settingName : validateNamedChildren(2, "ReplacesOre", new ValidatorBlockDescriptor.Factory())) {
+            	biomeKey1.add(settingName.blocks, settingName.weight, true);
             }
             
             if (!biomeKey1.getDescriptors().isEmpty())
