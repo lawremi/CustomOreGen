@@ -11,18 +11,20 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Locale.Category;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
 import net.minecraft.world.World;
-import xcompwiz.mystcraft.api.symbol.AgeSymbol;
-import xcompwiz.mystcraft.api.symbol.DrawableSymbol;
-import xcompwiz.mystcraft.api.symbol.IAgeController;
-import xcompwiz.mystcraft.api.symbol.IPopulate;
-import xcompwiz.mystcraft.api.symbol.ITerrainModifier;
 import CustomOreGen.Util.CIStringMap;
 import CustomOreGen.Util.MapCollection;
+
+import com.xcompwiz.mystcraft.api.symbol.IAgeController;
+import com.xcompwiz.mystcraft.api.symbol.IAgeSymbol;
+import com.xcompwiz.mystcraft.api.symbol.logic.IPopulate;
+import com.xcompwiz.mystcraft.api.symbol.logic.ITerrainAlteration;
+
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.ReflectionHelper.UnableToFindMethodException;
 
@@ -212,7 +214,7 @@ public class MystcraftInterface
         }
     }
 
-    private static class OldSymbol extends AgeSymbol implements IPopulate, ITerrainModifier
+    private static class OldSymbol implements IPopulate, ITerrainAlteration, IAgeSymbol
     {
         private final SymbolHandler _handler;
 
@@ -221,9 +223,7 @@ public class MystcraftInterface
             this._handler = handler;
         }
 
-        public void affectTerrain(World worldObj, int chunkX, int chunkZ, short[] blocks, byte[] metadata) {}
-
-        public void affectTerrain(World worldObj, int chunkX, int chunkZ, byte[] metadata) {}
+        public void alterTerrain(World worldObj, int chunkX, int chunkZ, short[] blocks, byte[] metadata) {}
 
         public boolean populate(World world, Random rand, int chunkX, int chunkZ, boolean flag)
         {
@@ -273,7 +273,7 @@ public class MystcraftInterface
             return this._handler.getWeight();
         }
 
-        public AgeSymbol setSymbolRarity(float rarity)
+        public IAgeSymbol setSymbolRarity(float rarity)
         {
             this._handler.setWeight(rarity);
             return this;
@@ -284,21 +284,16 @@ public class MystcraftInterface
             return this._handler.getDisplayName();
         }
 
-        public DrawableSymbol setDisplayName(String name)
-        {
-            this._handler.setDisplayName(name);
-            return this;
-        }
-
-        public boolean equals(Object otherObject)
-        {
-            return this.compareTo(otherObject) == 0;
-        }
-
         public String toString()
         {
             return this._handler.getName();
         }
+
+		@Override
+		public String[] getPoem() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 
     }
     
