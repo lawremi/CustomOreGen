@@ -73,7 +73,8 @@ public class CustomOreGenBase
             "Railcraft.xml",
             "Thaumcraft4.xml",
             "BiomesOPlenty.xml",
-            "Factorization.xml"
+            "Factorization.xml",
+            "ThermalExpansion.xml"
         };
         for (String module : extraModules) {
         	unpackConfigFile("modules/" + module, new File(defaultModulesDir, module));
