@@ -54,7 +54,9 @@ public class ForgeInterface
     	ServerState.checkIfServerChanged(MinecraftServer.getServer(), event.world.getWorldInfo());
         boolean vanillaOreGen = ServerState.getWorldConfig(event.world).vanillaOreGen;
         boolean isCustom = event.type == OreGenEvent.GenerateMinable.EventType.CUSTOM;
-        event.setResult((vanillaOreGen || isCustom) ? Result.ALLOW : Result.DENY);
+        boolean isOre = event.type != OreGenEvent.GenerateMinable.EventType.GRAVEL && 
+        		        event.type != OreGenEvent.GenerateMinable.EventType.DIRT; 
+        event.setResult((vanillaOreGen || isCustom || !isOre) ? Result.ALLOW : Result.DENY);
     }
     
     public static String getWorldDimensionFolder(World world)
