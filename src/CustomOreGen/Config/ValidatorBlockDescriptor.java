@@ -15,8 +15,8 @@ public class ValidatorBlockDescriptor extends ValidatorNode
     protected boolean validateChildren() throws ParserException
     {
         super.validateChildren();
-        this.blocks = (String)this.validateRequiredAttribute(String.class, "Block", true);
-        this.weight = ((Float)this.validateNamedAttribute(Float.class, "Weight", Float.valueOf(this.weight), true)).floatValue();
+        this.blocks = this.validateRequiredAttribute(String.class, "Block", true);
+        this.weight = this.validateNamedAttribute(Float.class, "Weight", this.weight, true);
         return true;
     }
     

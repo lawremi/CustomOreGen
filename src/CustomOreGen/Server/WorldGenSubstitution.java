@@ -25,6 +25,12 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
     )
     public String name;
     @DistributionSetting(
+            name = "DisplayName",
+            inherited = false,
+            info = "Distribution name for display in user interfaces."
+    )
+    public String displayName;
+    @DistributionSetting(
             name = "Seed",
             inherited = false,
             info = "Distribution random number seed."

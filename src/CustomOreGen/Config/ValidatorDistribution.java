@@ -90,6 +90,35 @@ public class ValidatorDistribution extends ValidatorNode
 
             settings1.remove(nameKey);
         }
+        
+        String displayNameKey = IOreDistribution.StandardSettings.DisplayName.name();
+
+        if (settings1.contains(displayNameKey))
+        {
+            String newName = this.validateNamedAttribute(String.class, displayNameKey, null, true);
+
+            if (newName == null) {
+            	newName = (String)this.distribution.getDistributionSetting(nameKey);
+            }
+            
+            try
+            {
+                if (newName != null)
+                {
+                    this.distribution.setDistributionSetting(displayNameKey, newName);
+                }
+            }
+            catch (IllegalAccessException e)
+            {
+                throw new ParserException("Attribute \'" + displayNameKey + "\' is not configurable.", this.getNode(), e);
+            }
+            catch (IllegalArgumentException e)
+            {
+                throw new ParserException("Attribute \'" + displayNameKey + "\' cannot be set (" + e.getMessage() + ").", this.getNode(), e);
+            }
+
+            settings1.remove(displayNameKey);
+        }
 
         this.validateDistributionSettings(settings1);
         return true;

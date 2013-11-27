@@ -34,6 +34,7 @@ public interface IOreDistribution
     public enum StandardSettings
     {
         Name,
+        DisplayName,
         Seed,
         OreBlock,
         ReplaceableBlock,

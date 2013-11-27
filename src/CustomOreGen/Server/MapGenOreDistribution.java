@@ -38,6 +38,12 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
     )
     public String name;
     @DistributionSetting(
+            name = "DisplayName",
+            inherited = false,
+            info = "Distribution name for display in user interfaces."
+    )
+    public String displayName;
+    @DistributionSetting(
             name = "Seed",
             inherited = false,
             info = "Distribution random number seed."
