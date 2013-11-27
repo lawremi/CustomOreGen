@@ -35,11 +35,6 @@
 						Rare, sparsely populated clouds of ore extending over several chunks.
 					</Description>
 				</Choice>
-				<Choice value='vanillaStdGen' displayValue='Clusters'>
-					<Description>
-						Small evenly scattered clusters of ore. This is the vanilla Amber generation.
-					</Description>
-				</Choice>
 				<Choice value='none' displayValue='None' description='No Amber is generated at all.'/>
 			</OptionChoice>
 
@@ -81,7 +76,9 @@
 			</Choice>
 			<Choice value='vanillaStdGen' displayValue='Clusters'>
 				<Description>
-					Small evenly scattered clusters of ore. This is the vanilla Cinnabar generation.
+					Small evenly scattered
+                                        clusters of ore. This is the
+                                        standard Cinnabar generation.
 				</Description>
 			</Choice>
 			<Choice value='none' displayValue='None' description='No Cinnabar is generated at all.'/>
@@ -125,7 +122,7 @@
 			</Choice>
 			<Choice value='vanillaStdGen' displayValue='Clusters'>
 				<Description>
-					Small evenly scattered clusters of ore. This is the vanilla Infused Stone generation.
+					Small evenly scattered clusters of ore. This is the standard Infused Stone generation.
 				</Description>
 			</Choice>
 			<Choice value='none' displayValue='None' description='No Infused Stone is generated at all.'/>
@@ -222,18 +219,7 @@
 
 		<!--******************* Amber ***********************-->
 		<ConfigSection>
-
-			<IfCondition condition=':= if(age, age.AmberClusters > 0, AmberStoneDist = "vanillaStdGen")'>
-				<StandardGen name='AmberStandard' block='BlockCustomOre:7' inherits='PresetStandardGen'>
-					<Description> Equivalent to vanilla minecraft Amber distribution </Description>
-					<DrawWireframe>:=drawWireframes</DrawWireframe>
-					<WireframeColor>0x40FF7E00</WireframeColor>
-					<Setting name='Size' avg=':= AmberStoneSize'/>
-					<Setting name='Frequency' avg=':= AmberStoneFreq * if(age,age.AmberClusters,1) * _default_'/>
-					<Setting name='Height' avg=':= 64/64 * dimension.groundLevel' range=':= 20/64 * dimension.groundLevel'/>
-				</StandardGen>
-			</IfCondition>
-
+			
 			<IfCondition condition=':= if(age, age.AmberVeins > 0, AmberStoneDist = "layeredVeins")'>
 				<Veins name='AmberVeins' block='BlockCustomOre:7' inherits='PresetSmallDeposits'>
 					<Description>
@@ -241,7 +227,9 @@
 					</Description>
 					<DrawWireframe>:=drawWireframes</DrawWireframe>
 					<WireframeColor>0x40FF7E00</WireframeColor>
-					<Setting name='MotherlodeFrequency' avg=':= 0.9 * AmberStoneFreq * if(age,age.AmberVeins,1) * _default_'/>
+					<Setting
+                                            name='MotherlodeFrequency'
+                                            avg=':= 3 * AmberStoneFreq * if(age,age.AmberVeins,1) * _default_'/>
 					<Setting name='MotherlodeSize' avg=':= AmberStoneSize * _default_' range=':= AmberStoneSize * _default_'/>
 					<Setting name='MotherlodeHeight' avg=':= 56/64 * dimension.groundLevel' range=':= 10/64 * dimension.groundLevel' type='normal'/>
 				</Veins>
@@ -283,35 +271,40 @@
 					<Description> Equivalent to vanilla minecraft Cinnabar distribution </Description>
 					<DrawWireframe>:=drawWireframes</DrawWireframe>
 					<WireframeColor>0x40E44D2E</WireframeColor>
-					<Setting name='Size' avg=':= CinnabarSize'/>
-					<Setting name='Frequency' avg=':= CinnabarFreq * if(age,age.CinnabarClusters,1) * _default_'/>
+					<Setting name='Size'
+                                                 avg=':= 1/6 * CinnabarSize'/>
+					<Setting name='Frequency'
+                                                 avg=':= 1/10 * CinnabarFreq * if(age,age.CinnabarClusters,1) * _default_'/>
 					<Setting name='Height' avg=':= 52/64 * dimension.groundLevel' range=':= 20/64 * dimension.groundLevel'/>
 				</StandardGen>
 			</IfCondition>
 
 			<IfCondition condition=':= if(age, age.CinnabarVeins > 0, CinnabarDist = "layeredVeins")'>
 				<Veins name='CinnabarVeins' block='BlockCustomOre:0' inherits='PresetSparseVeins'>
-					<Description>
-						Cinnabar in rare veins just under the surface.  It is more common in Ocean Biomes.
-					</Description>
-					<DrawWireframe>:=drawWireframes</DrawWireframe>
-					<WireframeColor>0x40E44D2E</WireframeColor>
-					<Setting name='MotherlodeFrequency' avg=':= 2 * CinnabarFreq * if(age,age.CinnabarVeins,1) * _default_'/>
-					<Setting name='MotherlodeSize' avg=':= CinnabarSize * _default_' range=':= CinnabarSize * _default_'/>
-					<Setting name='MotherlodeHeight' avg=':= 52/64 * dimension.groundLevel' range=':= 20/64 * dimension.groundLevel' type='normal'/>
-					<Setting name='BranchHeightLimit' avg='10.5'/>
-					<Setting name='SegmentRadius' avg=':= CinnabarSize * _default_' range=':= CinnabarSize * _default_'/>
+				  <Description>
+				    Cinnabar in rare veins just under the surface.  It is more common in Ocean Biomes.
+				  </Description>
+				  <DrawWireframe>:=drawWireframes</DrawWireframe>
+				  <WireframeColor>0x40E44D2E</WireframeColor>
+				  <Setting name='MotherlodeFrequency' avg=':= 3.0 * CinnabarFreq * if(age,age.CinnabarVeins,1) * _default_'/>
+                                  <Setting name='MotherlodeSize' avg=':= 0.8 * CinnabarSize * _default_' range=':= 0.8 * CinnabarSize * _default_'/>
+                                  <Setting name='MotherlodeHeight' avg=':= 50/64 * dimension.groundLevel' range=':= 10/64 * dimension.groundLevel'/>
+                                  <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
+                                  <Setting name='BranchInclination' avg='0' range='0.35'/>
+                                  <Setting name='BranchHeightLimit' avg='12'/>
+                                  <Setting name='SegmentRadius' avg=':= 0.6 * CinnabarSize * _default_' range=':= 0.6 * CinnabarSize * _default_'/>
+                                  <Setting name='OreDensity' avg=':= 1.85 * _default_' range=':= _default_'/>
 				</Veins>
 				<Veins name='CinnabarVeinsOcean' inherits='CinnabarVeins'>
-					<Description> This roughly triples the chance of finding Cinnabar in ocean biomes. </Description>
-					<Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
-					<Setting
-                                            name='MotherlodeHeight'
-                                            avg=':= 0.5 * _default_'
-                                            range=':= 0.5 * _default_'/>
-					<Setting name='BranchHeightLimit' avg=':= 2 * _default_'/>
-					<BiomeType name='water'/>
-                                        <Biome name='river' weight='-1'/>
+				  <Description> This roughly triples the chance of finding Cinnabar in ocean biomes. </Description>
+				  <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+				  <Setting
+                                      name='MotherlodeHeight'
+                                      avg=':= 0.5 * _default_'
+                                      range=':= 0.5 * _default_'/>
+				  <Setting name='BranchHeightLimit' avg=':= 2 * _default_'/>
+				  <BiomeType name='water'/>
+                                  <Biome name='river' weight='-1'/>
 				</Veins>
 			</IfCondition>
 
@@ -322,23 +315,39 @@
 					</Description>
 					<DrawWireframe>:=drawWireframes</DrawWireframe>
 					<WireframeColor>0x40E44D2E</WireframeColor>
-					<Setting name='DistributionFrequency' avg=':= 0.5 * CinnabarFreq * if(age,age.CinnabarClouds,1) * _default_'/>
-					<Setting name='CloudRadius' avg=':= CinnabarSize * _default_' range=':= CinnabarSize * _default_'/>
-					<Setting name='CloudThickness' avg=':= CinnabarSize * _default_' range=':= CinnabarSize * _default_'/>
+					<Setting name='DistributionFrequency' avg=':= 4.5 * CinnabarFreq * if(age,age.CinnabarClouds,1) * _default_'/>
+                                        <Setting name='CloudRadius' avg=':= 0.5 * CinnabarSize * _default_' range=':= 0.5 * CinnabarSize * _default_'/>
+                                        <Setting name='CloudThickness' avg=':= 0.5 * CinnabarSize * _default_' range=':= 0.5 * CinnabarSize * _default_'/>                
+                                        <Setting name='OreVolumeNoiseCutoff' avg='0'/>
+                                        <Biome name='.*' weight='0.2'/>
 					<BiomeType name='water'/>
                                         <Biome name='river' weight='-1'/>
+                                        <Setting name='CloudHeight' avg=':= 24/64 * dimension.groundLevel' range=':= 8/64 * dimension.groundLevel' type='normal'/>
 					<Veins name='CinnabarHintVeins' block='BlockCustomOre:0' inherits='PresetHintVeins'>
 						<DrawWireframe>:=drawWireframes</DrawWireframe>
 						<WireframeColor>0x40E44D2E</WireframeColor>
-						<Setting name='MotherlodeFrequency' avg=':= _default_' range=':= _default_'/>
-						<Setting name='MotherlodeRangeLimit' avg=':= CinnabarSize * _default_' range=':= CinnabarSize * _default_'/>
-						<Setting name='OreDensity' avg='.025' range='0'/>
+						<Setting name='MotherlodeRangeLimit' avg=':= 0.5 * CinnabarSize * _default_' range=':= 0.5 * CinnabarSize * _default_'/>
+                                                <Setting name='MotherlodeHeight' avg=':= 24/64 * dimension.groundLevel' range=':= 8/64 * dimension.groundLevel' type='normal'/>
 					</Veins>
 				</Cloud>
 			</IfCondition>
 
 		</ConfigSection>
 
+                <CloudPreset name='InfusedStoneCloud' block='BlockCustomOre:1' inherits='PresetStrategicCloud'>
+		  <DrawWireframe>:=drawWireframes</DrawWireframe>
+                  <Setting name='DistributionFrequency' avg=':= 4.5 * InfusedStoneFreq * _default_'/>
+                  <Setting name='CloudRadius' avg=':= 0.5 * InfusedStoneSize * _default_' range=':= 0.5 * InfusedStoneSize * _default_'/>
+                  <Setting name='CloudThickness' avg=':= 0.5 * InfusedStoneSize * _default_' range=':= 0.5 * InfusedStoneSize * _default_'/>
+                  <Setting name='OreVolumeNoiseCutoff' avg='0'/>
+		</CloudPreset>
+
+                <VeinsPreset name='InfusedStoneHintVeins' block='BlockCustomOre:0' inherits='PresetHintVeins'>
+		  <DrawWireframe>:=drawWireframes</DrawWireframe>
+		  <Setting name='MotherlodeFrequency' avg=':= _default_' range=':= _default_'/>
+		  <Setting name='MotherlodeRangeLimit' avg=':= 0.5 * InfusedStoneSize * _default_' range=':= 0.5 * InfusedStoneSize * _default_'/>
+		</VeinsPreset>
+                
 		<!--******************* Air Infused Stone ***********************-->
 		<ConfigSection>
 
@@ -350,8 +359,9 @@
                                         </Description>
 					<DrawWireframe>:=drawWireframes</DrawWireframe>
 					<WireframeColor>0x40FFCC00</WireframeColor>
-					<Setting name='Size' avg=':= 2 * InfusedStoneSize'/>
-					<Setting name='Frequency' avg=':= InfusedStoneFreq * if(age,age.AirInfusedStoneClusters,1) * _default_'/>
+					<Setting name='Size' avg=':= 1/6 * InfusedStoneSize'/>
+					<Setting name='Frequency'
+                                                 avg=':= 1/10 * InfusedStoneFreq * if(age,age.AirInfusedStoneClusters,1) * _default_'/>
 					<Setting name='Height' avg=':= 35/64 * dimension.groundLevel' range=':= 20/64 * dimension.groundLevel'/>
 				</StandardGen>
 			</IfCondition>
@@ -365,10 +375,15 @@
 					<DrawWireframe>:=drawWireframes</DrawWireframe>
 					<WireframeColor>0x40FFCC00</WireframeColor>
 					<Setting name='MotherlodeFrequency' avg=':= InfusedStoneFreq * if(age,age.AirInfusedStoneVeins,1) * _default_'/>
-					<Setting name='MotherlodeSize' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
+					<Setting name='MotherlodeSize'
+                                                 avg=':= 0.75 * InfusedStoneSize * _default_'
+                                                 range=':= 0.75 * InfusedStoneSize * _default_'/>
 					<Setting name='MotherlodeHeight' avg=':= 35/64 * dimension.groundLevel' range=':= 20/64 * dimension.groundLevel' type='normal'/>
-					<Setting name='BranchHeightLimit' avg='10.5'/>
-					<Setting name='SegmentRadius' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
+					<Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
+                                        <Setting name='BranchInclination' avg='0' range='0.35'/>
+                                        <Setting name='BranchHeightLimit' avg='12'/>
+                                        <Setting name='SegmentRadius' avg=':= 0.6 * InfusedStoneSize * _default_' range=':= 0.6 * InfusedStoneSize * _default_'/>
+                                        <Setting name='OreDensity' avg=':= 1.85 * _default_' range=':= _default_'/>
 				</Veins>
 				<Veins name='AirInfusedStoneVeinsPlains' inherits='AirInfusedStoneVeins'>
 					<Description> This roughly triples the chance of finding Infused Stone in Plains biomes. </Description>
@@ -379,21 +394,19 @@
 			</IfCondition>
 
 			<IfCondition condition=':= if(age, age.AirInfusedStoneClouds > 0, InfusedStoneDist = "strategicClouds")'>
-				<Cloud name='InfusedStoneCloud' block='BlockCustomOre:1' inherits='PresetStrategicCloud'>
+				<Cloud name='AirInfusedStoneCloud' block='BlockCustomOre:1' inherits='InfusedStoneCloud'>
 					<Description>
-						Diffuse Infused Stone cloud surrounded by single-block "hint" veins, found in Plains Biomes.
+					  Diffuse Air Infused Stone
+                                          cloud surrounded by
+                                          single-block "hint" veins,
+                                          found mainly in Plains Biomes.
 					</Description>
-					<DrawWireframe>:=drawWireframes</DrawWireframe>
 					<WireframeColor>0x40FFCC00</WireframeColor>
-                                        <Setting name='DistributionFrequency' avg=':= 2.5 * InfusedStoneFreq * if(age,age.AirInfusedStoneClouds,1) * _default_'/>
-					<Setting name='CloudRadius' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
-					<Setting name='CloudThickness' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
-					<BiomeType name='Plains'/>
-					<Veins name='InfusedStoneHintVeins' block='BlockCustomOre:0' inherits='PresetHintVeins'>
-						<DrawWireframe>:=drawWireframes</DrawWireframe>
+                                        <Setting name='DistributionFrequency' avg=':= if(age,age.InfusedStoneClouds,1) * _default_'/>
+                                        <BiomeType name='Plains'/>
+                                        <Biome name='.*' weight='0.2'/>
+					<Veins name='AirInfusedStoneHintVeins' block='BlockCustomOre:0' inherits='InfusedStoneHintVeins'>
 						<WireframeColor>0x40FFCC00</WireframeColor>
-						<Setting name='MotherlodeFrequency' avg=':= _default_' range=':= _default_'/>
-						<Setting name='MotherlodeRangeLimit' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
 					</Veins>
 				</Cloud>
 			</IfCondition>
@@ -408,8 +421,10 @@
 					<Description> Equivalent to default Fire Infused Stone distribution </Description>
 					<DrawWireframe>:=drawWireframes</DrawWireframe>
 					<WireframeColor>0x40CC0000</WireframeColor>
-					<Setting name='Size' avg=':= InfusedStoneSize'/>
-					<Setting name='Frequency' avg=':= InfusedStoneFreq * if(age,age.FireInfusedStoneClusters,1) * _default_'/>
+					<Setting name='Size'
+                                                 avg=':= 1/6 * InfusedStoneSize'/>
+					<Setting name='Frequency'
+                                                 avg=':= 1/10 * InfusedStoneFreq * if(age,age.FireInfusedStoneClusters,1) * _default_'/>
 					<Setting name='Height' avg=':= 35/64 * dimension.groundLevel' range=':= 20/64 * dimension.groundLevel'/>
 				</StandardGen>
 			</IfCondition>
@@ -422,10 +437,15 @@
 					<DrawWireframe>:=drawWireframes</DrawWireframe>
 					<WireframeColor>0x40CC0000</WireframeColor>
 					<Setting name='MotherlodeFrequency' avg=':= InfusedStoneFreq * if(age,age.FireInfusedStoneVeins,1) * _default_'/>
-					<Setting name='MotherlodeSize' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
+					<Setting name='MotherlodeSize'
+                                                 avg=':= 0.75 * InfusedStoneSize * _default_'
+                                                 range=':= 0.75 * InfusedStoneSize * _default_'/>
 					<Setting name='MotherlodeHeight' avg=':= 35/64 * dimension.groundLevel' range=':= 20/64 * dimension.groundLevel' type='normal'/>
-					<Setting name='BranchHeightLimit' avg='10.5'/>
-					<Setting name='SegmentRadius' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
+					<Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
+                                        <Setting name='BranchInclination' avg='0' range='0.35'/>
+                                        <Setting name='BranchHeightLimit' avg='12'/>
+                                        <Setting name='SegmentRadius' avg=':= 0.6 * InfusedStoneSize * _default_' range=':= 0.6 * InfusedStoneSize * _default_'/>
+                                        <Setting name='OreDensity' avg=':= 1.85 * _default_' range=':= _default_'/>
 				</Veins>
 				<Veins name='FireInfusedStoneVeinsDesert' inherits='FireInfusedStoneVeins'>
 					<Description> This roughly
@@ -439,21 +459,21 @@
 			</IfCondition>
 
 			<IfCondition condition=':= if(age, age.FireInfusedStoneClouds > 0, InfusedStoneDist = "strategicClouds")'>
-				<Cloud name='FireInfusedStoneCloud' block='BlockCustomOre:2' inherits='PresetStrategicCloud'>
+				<Cloud name='FireInfusedStoneCloud' block='BlockCustomOre:2' inherits='InfusedStoneCloud'>
 					<Description>
-						Diffuse Infused Stone cloud surrounded by single-block "hint" veins, found in Desert Biomes.
+						Diffuse Fire Infused
+						Stone cloud surrounded
+						by single-block "hint"
+						veins, found mainly in
+						Desert Biomes.
 					</Description>
 					<DrawWireframe>:=drawWireframes</DrawWireframe>
 					<WireframeColor>0x40CC0000</WireframeColor>
-                                        <Setting name='DistributionFrequency' avg=':= 2.5 * InfusedStoneFreq * if(age,age.FireInfusedStoneClouds,1) * _default_'/>
-					<Setting name='CloudRadius' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
-					<Setting name='CloudThickness' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
+                                        <Setting name='DistributionFrequency' avg=':= if(age,age.FireInfusedStoneClouds,1) * _default_'/>
 					<BiomeType name='Desert'/>
-					<Veins name='InfusedStoneHintVeins' block='BlockCustomOre:2' inherits='PresetHintVeins'>
-						<DrawWireframe>:=drawWireframes</DrawWireframe>
+                                        <Biome name='.*' weight='0.2'/>
+					<Veins name='FireInfusedStoneHintVeins' block='BlockCustomOre:2' inherits='InfusedStoneHintVeins'>
 						<WireframeColor>0x40CC0000</WireframeColor>
-						<Setting name='MotherlodeFrequency' avg=':= _default_' range=':= _default_'/>
-						<Setting name='MotherlodeRangeLimit' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
 					</Veins>
 				</Cloud>
 			</IfCondition>
@@ -468,8 +488,10 @@
 					<Description> Equivalent to vanilla minecraft Water Infused Stone distribution </Description>
 					<DrawWireframe>:=drawWireframes</DrawWireframe>
 					<WireframeColor>0x40129793</WireframeColor>
-					<Setting name='Size' avg=':= InfusedStoneSize'/>
-					<Setting name='Frequency' avg=':= InfusedStoneFreq * if(age,age.WaterInfusedStoneClusters,1) * _default_'/>
+					<Setting name='Size'
+                                                 avg=':= 1/6 * InfusedStoneSize'/>
+					<Setting name='Frequency'
+                                                 avg=':= 1/10 * InfusedStoneFreq * if(age,age.WaterInfusedStoneClusters,1) * _default_'/>
 					<Setting name='Height' avg=':= 35/64 * dimension.groundLevel' range=':= 20/64 * dimension.groundLevel'/>
 				</StandardGen>
 			</IfCondition>
@@ -482,10 +504,15 @@
 					<DrawWireframe>:=drawWireframes</DrawWireframe>
 					<WireframeColor>0x40129793</WireframeColor>
 					<Setting name='MotherlodeFrequency' avg=':= InfusedStoneFreq * if(age,age.WaterInfusedStoneVeins,1) * _default_'/>
-					<Setting name='MotherlodeSize' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
+					<Setting name='MotherlodeSize'
+                                                 avg=':= 0.75 * InfusedStoneSize * _default_'
+                                                 range=':= 0.75 * InfusedStoneSize * _default_'/>
 					<Setting name='MotherlodeHeight' avg=':= 35/64 * dimension.groundLevel' range=':= 20/64 * dimension.groundLevel' type='normal'/>
-					<Setting name='BranchHeightLimit' avg='10.5'/>
-					<Setting name='SegmentRadius' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
+					<Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
+                                        <Setting name='BranchInclination' avg='0' range='0.35'/>
+                                        <Setting name='BranchHeightLimit' avg='12'/>
+                                        <Setting name='SegmentRadius' avg=':= 0.6 * InfusedStoneSize * _default_' range=':= 0.6 * InfusedStoneSize * _default_'/>
+                                        <Setting name='OreDensity' avg=':= 1.85 * _default_' range=':= _default_'/>
 				</Veins>
 				<Veins name='WaterInfusedStoneVeinsWater' inherits='WaterInfusedStoneVeins'>
 					<Description> This roughly triples the chance of finding Infused Stone in Water biomes. </Description>
@@ -497,22 +524,22 @@
 			</IfCondition>
 
 			<IfCondition condition=':= if(age, age.WaterInfusedStoneClouds > 0, InfusedStoneDist = "strategicClouds")'>
-				<Cloud name='WaterInfusedStoneCloud' block='BlockCustomOre:3' inherits='PresetStrategicCloud'>
+				<Cloud name='WaterInfusedStoneCloud' block='BlockCustomOre:3' inherits='InfusedStoneCloud'>
 					<Description>
-						Diffuse Water Infused Stone cloud surrounded by single-block "hint" veins, found in Water Biomes.
+						Diffuse Water Infused
+						Stone cloud surrounded
+						by single-block "hint"
+						veins, found mainly in
+						Water Biomes.
 					</Description>
-					<DrawWireframe>:=drawWireframes</DrawWireframe>
 					<WireframeColor>0x40129793</WireframeColor>
                                         <Setting name='CloudHeight' avg=':= 25/64 * dimension.groundLevel' range=':= 10/64 * dimension.groundLevel' type='normal'/>
-					<Setting name='DistributionFrequency' avg=':= 2.5 * InfusedStoneFreq * if(age,age.WaterInfusedStoneClouds,1) * _default_'/>
-					<Setting name='CloudRadius' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
-					<Setting name='CloudThickness' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
+					<Setting name='DistributionFrequency' avg=':= if(age,age.WaterInfusedStoneClouds,1) * _default_'/>
 					<BiomeType name='Water'/>
-					<Veins name='InfusedStoneHintVeins' block='BlockCustomOre:3' inherits='PresetHintVeins'>
-						<DrawWireframe>:=drawWireframes</DrawWireframe>
+                                        <Biome name='.*' weight='0.2'/>
+					<Veins name='WaterInfusedStoneHintVeins' block='BlockCustomOre:3' inherits='InfusedStoneHintVeins'>
 						<WireframeColor>0x40129793</WireframeColor>
-						<Setting name='MotherlodeFrequency' avg=':= _default_' range=':= _default_'/>
-						<Setting name='MotherlodeRangeLimit' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
+                                                <Setting name='MotherlodeHeight' avg=':= 25/64 * dimension.groundLevel' range=':= 10/64 * dimension.groundLevel' type='normal'/>
 					</Veins>
 				</Cloud>
 			</IfCondition>
@@ -527,8 +554,9 @@
 					<Description> Equivalent to vanilla minecraft Earth Infused Stone distribution </Description>
 					<DrawWireframe>:=drawWireframes</DrawWireframe>
 					<WireframeColor>0x407ABA7A</WireframeColor>
-					<Setting name='Size' avg=':= InfusedStoneSize'/>
-					<Setting name='Frequency' avg=':= InfusedStoneFreq * if(age,age.EarthInfusedStoneClusters,1) * _default_'/>
+					<Setting name='Size' avg=':= 1/6 * InfusedStoneSize'/>
+					<Setting name='Frequency'
+                                                 avg=':= 1/10 * InfusedStoneFreq * if(age,age.EarthInfusedStoneClusters,1) * _default_'/>
 					<Setting name='Height' avg=':= 64/64 * dimension.groundLevel' range=':= 20/64 * dimension.groundLevel'/>
 				</StandardGen>
 			</IfCondition>
@@ -541,10 +569,15 @@
 					<DrawWireframe>:=drawWireframes</DrawWireframe>
 					<WireframeColor>0x407ABA7A</WireframeColor>
 					<Setting name='MotherlodeFrequency' avg=':= InfusedStoneFreq * if(age,age.EarthInfusedStoneVeins,1) * _default_'/>
-					<Setting name='MotherlodeSize' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
-					<Setting name='MotherlodeHeight' avg=':= 64/64 * dimension.groundLevel' range=':= 20/64 * dimension.groundLevel' type='normal'/>
-					<Setting name='BranchHeightLimit' avg='10.5'/>
-					<Setting name='SegmentRadius' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
+					<Setting name='MotherlodeSize'
+                                                 avg=':= 0.75 * InfusedStoneSize * _default_'
+                                                 range=':= 0.75 * InfusedStoneSize * _default_'/>
+					<Setting name='MotherlodeHeight' avg=':= 35/64 * dimension.groundLevel' range=':= 20/64 * dimension.groundLevel' type='normal'/>
+					<Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
+                                        <Setting name='BranchInclination' avg='0' range='0.35'/>
+                                        <Setting name='BranchHeightLimit' avg='12'/>
+                                        <Setting name='SegmentRadius' avg=':= 0.6 * InfusedStoneSize * _default_' range=':= 0.6 * InfusedStoneSize * _default_'/>
+                                        <Setting name='OreDensity' avg=':= 1.85 * _default_' range=':= _default_'/>
 				</Veins>
 				<Veins name='EarthInfusedStoneVeinsMountain' inherits='EarthInfusedStoneVeins'>
 					<Description> This roughly triples the chance of finding Infused Stone in Mountain biomes. </Description>
@@ -556,23 +589,23 @@
 			</IfCondition>
 
 			<IfCondition condition=':= if(age, age.EarthInfusedStoneClouds > 0, InfusedStoneDist = "strategicClouds")'>
-				<Cloud name='EarthInfusedStoneCloud' block='BlockCustomOre:4' inherits='PresetStrategicCloud'>
+				<Cloud name='EarthInfusedStoneCloud' block='BlockCustomOre:4' inherits='InfusedStoneCloud'>
 					<Description>
-						Diffuse Earth Infused Stone cloud surrounded by single-block "hint" veins, found in Mountain Biomes.
+						Diffuse Earth Infused
+						Stone cloud surrounded
+						by single-block "hint"
+						veins, found mainly in
+						Mountain Biomes.
 					</Description>
 					<DrawWireframe>:=drawWireframes</DrawWireframe>
 					<WireframeColor>0x407ABA7A</WireframeColor>
                                         <Setting name='CloudHeight' avg=':= 80/64 * dimension.groundLevel' range=':= 20/64 * dimension.groundLevel' type='normal'/>
-					<Setting name='DistributionFrequency' avg=':= 2.5 * InfusedStoneFreq * if(age,age.EarthInfusedStoneClouds,1) * _default_'/>
-					<Setting name='CloudRadius' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
-					<Setting name='CloudThickness' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
+					<Setting name='DistributionFrequency' avg=':= if(age,age.EarthInfusedStoneClouds,1) * _default_'/>
 					<BiomeType name='Mountain'/>
-					<Veins name='InfusedStoneHintVeins' block='BlockCustomOre:4' inherits='PresetHintVeins'>
-						<DrawWireframe>:=drawWireframes</DrawWireframe>
+                                        <Biome name='.*' weight='0.2'/>
+					<Veins name='EarthInfusedStoneHintVeins' block='BlockCustomOre:4' inherits='InfusedStoneHintVeins'>
 						<WireframeColor>0x407ABA7A</WireframeColor>
                                                 <Setting name='MotherlodeHeight' avg=':= 80/64 * dimension.groundLevel' range=':= 40/64 * dimension.groundLevel' type='normal'/>
-						<Setting name='MotherlodeFrequency' avg=':= _default_' range=':= _default_'/>
-						<Setting name='MotherlodeRangeLimit' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
 					</Veins>
 				</Cloud>
 			</IfCondition>
@@ -587,8 +620,9 @@
 					<Description> Equivalent to vanilla minecraft Order Infused Stone distribution </Description>
 					<DrawWireframe>:=drawWireframes</DrawWireframe>
 					<WireframeColor>0x40CCCCCC</WireframeColor>
-					<Setting name='Size' avg=':= InfusedStoneSize'/>
-					<Setting name='Frequency' avg=':= InfusedStoneFreq * if(age,age.OrderInfusedStoneClusters,1) * _default_'/>
+					<Setting name='Size' avg=':= 1/6 * InfusedStoneSize'/>
+					<Setting name='Frequency'
+                                                 avg=':= 1/10 * InfusedStoneFreq * if(age,age.OrderInfusedStoneClusters,1) * _default_'/>
 					<Setting name='Height' avg=':= 354/64 * dimension.groundLevel' range=':= 20/64 * dimension.groundLevel'/>
 				</StandardGen>
 			</IfCondition>
@@ -601,10 +635,15 @@
 					<DrawWireframe>:=drawWireframes</DrawWireframe>
 					<WireframeColor>0x40CCCCCC</WireframeColor>
 					<Setting name='MotherlodeFrequency' avg=':= InfusedStoneFreq * if(age,age.OrderInfusedStoneVeins,1) * _default_'/>
-					<Setting name='MotherlodeSize' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
+					<Setting name='MotherlodeSize'
+                                                 avg=':= 0.75 * InfusedStoneSize * _default_'
+                                                 range=':= 0.75 * InfusedStoneSize * _default_'/>
 					<Setting name='MotherlodeHeight' avg=':= 35/64 * dimension.groundLevel' range=':= 20/64 * dimension.groundLevel' type='normal'/>
-					<Setting name='BranchHeightLimit' avg='10.5'/>
-					<Setting name='SegmentRadius' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
+					<Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
+                                        <Setting name='BranchInclination' avg='0' range='0.35'/>
+                                        <Setting name='BranchHeightLimit' avg='12'/>
+                                        <Setting name='SegmentRadius' avg=':= 0.6 * InfusedStoneSize * _default_' range=':= 0.6 * InfusedStoneSize * _default_'/>
+                                        <Setting name='OreDensity' avg=':= 1.85 * _default_' range=':= _default_'/>
 				</Veins>
 				<Veins name='OrderInfusedStoneVeinsMagic' inherits='OrderInfusedStoneVeins'>
 					<Description> This roughly triples the chance of finding Infused Stone in Magic biomes. </Description>
@@ -615,21 +654,20 @@
 			</IfCondition>
 
 			<IfCondition condition=':= if(age, age.OrderInfusedStoneClouds > 0, InfusedStoneDist = "strategicClouds")'>
-				<Cloud name='OrderInfusedStoneCloud' block='BlockCustomOre:5' inherits='PresetStrategicCloud'>
+				<Cloud name='OrderInfusedStoneCloud' block='BlockCustomOre:5' inherits='InfusedStoneCloud'>
 					<Description>
-						Diffuse Order Infused Stone cloud surrounded by single-block "hint" veins, found in Magic Biomes.
+						Diffuse Order Infused
+						Stone cloud surrounded
+						by single-block "hint"
+						veins, found mainly in
+						Magic Biomes.
 					</Description>
-					<DrawWireframe>:=drawWireframes</DrawWireframe>
 					<WireframeColor>0x40CCCCCC</WireframeColor>
-					<Setting name='DistributionFrequency' avg=':= 2.5 * InfusedStoneFreq * if(age,age.OrderInfusedStoneClouds,1) * _default_'/>
-					<Setting name='CloudRadius' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
-					<Setting name='CloudThickness' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
+					<Setting name='DistributionFrequency' avg=':= if(age,age.OrderInfusedStoneClouds,1) * _default_'/>
 					<BiomeType name='Magic'/>
-					<Veins name='InfusedStoneHintVeins' block='BlockCustomOre:5' inherits='PresetHintVeins'>
-						<DrawWireframe>:=drawWireframes</DrawWireframe>
+                                        <Biome name='.*' weight='0.2'/>
+					<Veins name='OrderInfusedStoneHintVeins' block='BlockCustomOre:5' inherits='InfusedStoneHintVeins'>
 						<WireframeColor>0x40CCCCCC</WireframeColor>
-						<Setting name='MotherlodeFrequency' avg=':= _default_' range=':= _default_'/>
-						<Setting name='MotherlodeRangeLimit' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
 					</Veins>
 				</Cloud>
 			</IfCondition>
@@ -644,8 +682,9 @@
 					<Description> Equivalent to vanilla minecraft Entropy Infused Stone distribution </Description>
 					<DrawWireframe>:=drawWireframes</DrawWireframe>
 					<WireframeColor>0x40666666</WireframeColor>
-					<Setting name='Size' avg=':= InfusedStoneSize'/>
-					<Setting name='Frequency' avg=':= InfusedStoneFreq * if(age,age.EntropyInfusedStoneClusters,1) * _default_'/>
+					<Setting name='Size' avg=':= 1/6 * InfusedStoneSize'/>
+					<Setting name='Frequency'
+                                                 avg=':= 1/10 * InfusedStoneFreq * if(age,age.EntropyInfusedStoneClusters,1) * _default_'/>
 					<Setting name='Height' avg=':= 64/64 * dimension.groundLevel' range=':= 20/64 * dimension.groundLevel'/>
 				</StandardGen>
 			</IfCondition>
@@ -658,10 +697,15 @@
 					<DrawWireframe>:=drawWireframes</DrawWireframe>
 					<WireframeColor>0x40666666</WireframeColor>
 					<Setting name='MotherlodeFrequency' avg=':= InfusedStoneFreq * if(age,age.EntropyInfusedStoneVeins,1) * _default_'/>
-					<Setting name='MotherlodeSize' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
+					<Setting name='MotherlodeSize'
+                                                 avg=':= 0.75 * InfusedStoneSize * _default_'
+                                                 range=':= 0.75 * InfusedStoneSize * _default_'/>
 					<Setting name='MotherlodeHeight' avg=':= 35/64 * dimension.groundLevel' range=':= 20/64 * dimension.groundLevel' type='normal'/>
-					<Setting name='BranchHeightLimit' avg='10.5'/>
-					<Setting name='SegmentRadius' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
+					<Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
+                                        <Setting name='BranchInclination' avg='0' range='0.35'/>
+                                        <Setting name='BranchHeightLimit' avg='12'/>
+                                        <Setting name='SegmentRadius' avg=':= 0.6 * InfusedStoneSize * _default_' range=':= 0.6 * InfusedStoneSize * _default_'/>
+                                        <Setting name='OreDensity' avg=':= 1.85 * _default_' range=':= _default_'/>
 				</Veins>
 				<Veins name='EntropyInfusedStoneVeinsMagic' inherits='EntropyInfusedStoneVeins'>
 					<Description> This roughly triples the chance of finding Infused Stone in Magic biomes. </Description>
@@ -672,21 +716,22 @@
 			</IfCondition>
 
 			<IfCondition condition=':= if(age, age.EntropyInfusedStoneClouds > 0, InfusedStoneDist = "strategicClouds")'>
-				<Cloud name='EntropyInfusedStoneCloud' block='BlockCustomOre:6' inherits='PresetStrategicCloud'>
+				<Cloud name='EntropyInfusedStoneCloud' block='BlockCustomOre:6' inherits='InfusedStoneCloud'>
 					<Description>
-						Diffuse Entropy Infused Stone cloud surrounded by single-block "hint" veins, found in Magic Biomes.
+						Diffuse Entropy
+                                                Infused Stone cloud
+                                                surrounded by
+                                                single-block "hint"
+                                                veins, found in mainly
+                                                Magic Biomes.
 					</Description>
 					<DrawWireframe>:=drawWireframes</DrawWireframe>
 					<WireframeColor>0x40666666</WireframeColor>
-					<Setting name='DistributionFrequency' avg=':= 2.5 * InfusedStoneFreq * if(age,age.EntropyInfusedStoneClouds,1) * _default_'/>
-					<Setting name='CloudRadius' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
-					<Setting name='CloudThickness' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
+					<Setting name='DistributionFrequency' avg=':= if(age,age.EntropyInfusedStoneClouds,1) * _default_'/>
 					<BiomeType name='Magic'/>
-					<Veins name='InfusedStoneHintVeins' block='BlockCustomOre:6' inherits='PresetHintVeins'>
-						<DrawWireframe>:=drawWireframes</DrawWireframe>
+                                        <Biome name='.*' weight='0.2'/>
+					<Veins name='EntropyInfusedStoneHintVeins' block='BlockCustomOre:6' inherits='InfusedStoneHintVeins'>
 						<WireframeColor>0x40666666</WireframeColor>
-						<Setting name='MotherlodeFrequency' avg=':= _default_' range=':= _default_'/>
-						<Setting name='MotherlodeRangeLimit' avg=':= InfusedStoneSize * _default_' range=':= InfusedStoneSize * _default_'/>
 					</Veins>
 				</Cloud>
 			</IfCondition>
