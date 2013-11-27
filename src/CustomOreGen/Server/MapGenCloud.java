@@ -2,6 +2,8 @@ package CustomOreGen.Server;
 
 import java.util.Random;
 
+import com.xcompwiz.mystcraft.api.symbol.words.WordData;
+
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
@@ -315,5 +317,10 @@ public class MapGenCloud extends MapGenOreDistribution
 	@Override
 	public String func_143025_a() {
 		return "COG:Cloud";
+	}
+
+	@Override
+	public String getNarayanWord() {
+		return WordData.Entropy;
 	}
 }

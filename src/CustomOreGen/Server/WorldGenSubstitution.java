@@ -3,6 +3,8 @@ package CustomOreGen.Server;
 import java.util.Map;
 import java.util.Random;
 
+import com.xcompwiz.mystcraft.api.symbol.words.WordData;
+
 import cpw.mods.fml.common.FMLLog;
 
 import net.minecraft.block.Block;
@@ -318,4 +320,9 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
     {
         return this.name;
     }
+
+	@Override
+	public String getNarayanWord() {
+		return WordData.Change;
+	}
 }
