@@ -95,7 +95,7 @@ public class ValidatorImport extends ValidatorNode
                         nextFiles.add(var13);
                     }
                 }
-                else
+                else if (dir.isDirectory())
                 {
                     File[] file = dir.listFiles(new WildcardFileFilter(var12));
                     for (File file1 : file) {

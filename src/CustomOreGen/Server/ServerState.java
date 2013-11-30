@@ -46,7 +46,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ServerState
 {
     private static MinecraftServer _server = null;
-    private static Map _worldConfigs = new HashMap();
+    private static Map<World,WorldConfig> _worldConfigs = new HashMap();
     private static Map<Integer,Map<ChunkCoordIntPair,int[]>> _populatedChunks = new HashMap();
     private static Object _optionsGuiButton = null;
 
@@ -77,7 +77,7 @@ public class ServerState
 
     public static WorldConfig getWorldConfig(World world)
     {
-        WorldConfig cfg = (WorldConfig)_worldConfigs.get(world);
+        WorldConfig cfg = _worldConfigs.get(world);
 
         while (cfg == null)
         {
