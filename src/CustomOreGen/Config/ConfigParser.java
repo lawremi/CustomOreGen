@@ -319,7 +319,7 @@ public class ConfigParser
 
         public ConfigExpressionEvaluator(Object defaultValue)
         {
-            this.localIdentifiers = new CIStringMap();
+            this();
             this.localIdentifiers.put("_default_", defaultValue);
         }
 
