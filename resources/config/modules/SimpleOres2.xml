@@ -1,34 +1,35 @@
-<!--*********************  CustomOreGen SimpleOres2 Ores Module ******************************
+<!--*********************  CustomOreGen SimpleOres2 Ores Module *****************
 *
-*   This file contains Presets, Options, and Distributions for 4 SimpleOres2 ores:
-*       Copper, Tin, Mythril, and Adamantium. (Onyx support has not been added.)
+*   This file contains Presets, Options, and Distributions for 4 SimpleOres2 ore
+*   Copper, Tin, Mythril, and Adamantium. (Onyx support has not been added.)
+*   Based on the configuration files for IC2 Copper, Tin, and Urainum
+*   (for Adamantium), with tweaks to more closely fit the heights and
+*   frequency of default SO2.
 *
-*   Based on the configuration files for IC2 Copper, Tin, and Urainum (for Adamantium),
-*       with tweaks to more closely fit the heights and frequency of default SO2.
-*
-*   This is an incomplete adaptation. Only "Veins" distributions have been adjusted from
-*       the values borrowed from the IC2 file, i.e., choosing "Standard" will work but
-*       will not behave as expected. Similarly, "Clouds" will not give expected results.
+*   This is an incomplete adaptation. Only "Veins" distributions have
+*   been adjusted from the values borrowed from the IC2 file, i.e.,
+*   choosing "Standard" will work but will not behave as expected.
+*   Similarly, "Clouds" will not give expected results.
 *
 *   TODO:
 *
 *       - Add Onyx support
-*       - Tune SO2TinVeins down a bit (playtesting shows veins are slightly too frequent
-*         and much too long)
-*       - Reduce max height of Tin and Copper veins while also allowing to generate inside mountains
-*         (maybe by implementing child distributions for just the tall parts of tall biomes?)
+*       - Reduce max height of Tin and Copper veins while also allowing
+*         to generate inside mountains
+*         (maybe by implementing child distributions for just the tall
+*          parts of tall biomes?)
 *       - Do Standard adaptations
 *       - Do Cloud adapatations
 *       - Develop biome-specific child distributions for Mythril and Adamantium
 *
-***********************************************************************************************-->
+*****************************************************************************-->
 <IfModInstalled name="simpleores">
 
-    <!--***************************   Options + Symbols   ***********************************
-    *
-    *   Below are options and symbols for each ore, similar to those for the standard ores.
-    *
-    *************************************************************************************-->
+    <!--*************************** Options + Symbols
+         *********************************** * * Below are options and
+         symbols for each ore, similar to those for the standard ores.
+         *
+         ****************************************************************-->
     <ConfigSection>                
     
         <OptionDisplayGroup name='groupSO2' displayName='SimpleOres 2' displayState='shown'>
@@ -40,7 +41,7 @@
         <!--*******************   Copper   *********************-->
         <ConfigSection>
             
-            <OptionChoice name='so2CopperDist' displayState='shown' displayGroup='groupSO2'>
+            <OptionChoice name='so2CopperDist' displayState='hidden' displayGroup='groupSO2'>
                 <Description> Controls how SimpleOres 2 Copper is generated </Description>
                 <DisplayName>SO2 Copper Type</DisplayName>
                 <Default>:= if(blockExists("copperOre"),"layeredVeins","disabled")</Default>
@@ -86,7 +87,7 @@
         <!--********************   Tin   ***********************-->
         <ConfigSection>
             
-            <OptionChoice name='so2TinDist' displayState='shown' displayGroup='groupSO2'>
+            <OptionChoice name='so2TinDist' displayState='hidden' displayGroup='groupSO2'>
                 <Description> Controls how SimpleOres 2 Tin is generated </Description>
                 <DisplayName>SO2 Tin Type</DisplayName>
                 <Default>:= if(blockExists("tinOre"),"layeredVeins","disabled")</Default>
@@ -132,7 +133,7 @@
         <!--********************   Mythril   ***********************-->
         <ConfigSection>
             
-            <OptionChoice name='so2MythrilDist' displayState='shown' displayGroup='groupSO2'>
+            <OptionChoice name='so2MythrilDist' displayState='hidden' displayGroup='groupSO2'>
                 <Description> Controls how SimpleOres 2 Mythril is generated </Description>
                 <DisplayName>SO2 Mythril Type</DisplayName>
                 <Default>:= if(blockExists("mythrilOre"),"layeredVeins","disabled")</Default>
@@ -178,7 +179,7 @@
         <!--********************   Adamantium   ***********************-->
         <ConfigSection>
             
-            <OptionChoice name='so2AdamantiumDist' displayState='shown' displayGroup='groupSO2'>
+            <OptionChoice name='so2AdamantiumDist' displayState='hidden' displayGroup='groupSO2'>
                 <Description> Controls how SimpleOres 2 Adamantium is generated </Description>
                 <DisplayName>SO2 Adamantium Type</DisplayName>
                 <Default>:= if(blockExists("adamantiumOre"),"layeredVeins","disabled")</Default>
@@ -278,10 +279,7 @@
                     <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
                     <Setting name='MotherlodeHeight' avg=':=_default_' range=':= 2 * _default_'/>
                     <Setting name='BranchHeightLimit' avg=':= 2 * _default_'/>  
-                    <Biome name='Jungle'/>
-                    <Biome name='Jungle\s*Hills'/>
-                    <Biome name='Extreme\s*Jungle'/> <Comment> ExtraBiomesXL </Comment>
-                    <Biome name='Mini\s*Jungle'/> <Comment> ExtraBiomesXL </Comment>  
+                    <BiomeType name='Jungle'/>
                 </Veins>   
             </IfCondition>     
             
@@ -295,10 +293,7 @@
                     <Setting name='DistributionFrequency' avg=':= 3.5 * so2CopperFreq * if(age,age.so2CopperClouds,1) * _default_'/>
                     <Setting name='CloudRadius' avg=':= 1.1 * so2CopperSize * _default_' range=':= so2CopperSize * _default_'/>
                     <Setting name='CloudThickness' avg=':= 1.1 * so2CopperSize * _default_' range=':= so2CopperSize * _default_'/> 
-                    <Biome name='Jungle'/>
-                    <Biome name='Jungle\s*Hills'/>
-                    <Biome name='Extreme\s*Jungle'/> <Comment> ExtraBiomesXL </Comment>
-                    <Biome name='Mini\s*Jungle'/> <Comment> ExtraBiomesXL </Comment>  
+                    <BiomeType name='Jungle'/>
                     <Veins name='SO2CopperHintVeins' block='copperOre' inherits='PresetHintVeins'>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x40773300</WireframeColor> 
@@ -332,11 +327,11 @@
                     </Description> 
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40FFFFFF</WireframeColor> 
-                    <Setting name='MotherlodeFrequency' avg=':= 1.10 * so2TinFreq * if(age,age.so2TinVeins,1) * _default_'/>
+                    <Setting name='MotherlodeFrequency' avg=':= 0.9 * so2TinFreq * if(age,age.so2TinVeins,1) * _default_'/>
                     <Setting name='MotherlodeSize' avg=':= so2TinSize * _default_' range=':= so2TinSize * _default_'/>
                     <Setting name='MotherlodeHeight' avg=':= 50/64 * dimension.groundLevel' range=':= 40/64 * dimension.groundLevel' type='normal'/>
                     <Setting name='BranchHeightLimit' avg='20'/>
-                    <Setting name='BranchLength' avg=':= 0.8 * _default_'/>
+                    <Setting name='BranchLength' avg=':= 0.5 * _default_'/>
                     <Setting name='SegmentRadius' avg=':= so2TinSize * _default_' range=':= so2TinSize * _default_'/>
                 </Veins>
                 <Veins name='SO2TinVeinsPlains' inherits='SO2TinVeins'>
@@ -344,10 +339,7 @@
                     <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
                     <Setting name='MotherlodeHeight' avg=':=_default_' range=':= 2 * _default_'/>
                     <Setting name='BranchHeightLimit' avg=':= 2 * _default_'/>  
-                    <Biome name='Plains'/>
-                    <Biome name='Meadow'/> <Comment> ExtraBiomesXL </Comment>
-                    <Biome name='Savanna'/> <Comment> ExtraBiomesXL </Comment>
-                    <Biome name='Shrubland'/> <Comment> ExtraBiomesXL </Comment>
+                    <BiomeType name='Plains'/>
                 </Veins>
             </IfCondition>     
             
@@ -361,10 +353,7 @@
                     <Setting name='DistributionFrequency' avg=':= 4 * so2TinFreq * if(age,age.so2TinClouds,1) * _default_'/>
                     <Setting name='CloudRadius' avg=':= 0.9 * so2TinSize * _default_' range=':= so2TinSize * _default_'/>
                     <Setting name='CloudThickness' avg=':= 0.9 * so2TinSize * _default_' range=':= so2TinSize * _default_'/> 
-                    <Biome name='Plains'/>
-                    <Biome name='Meadow'/> <Comment> ExtraBiomesXL </Comment>
-                    <Biome name='Savanna'/> <Comment> ExtraBiomesXL </Comment>
-                    <Biome name='Shrubland'/> <Comment> ExtraBiomesXL </Comment>
+                    <BiomeType name='Plains'/>
                     <Veins name='SO2TinHintVeins' block='tinOre' inherits='PresetHintVeins'>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x40FFFFFF</WireframeColor> 
@@ -430,10 +419,7 @@
                     <Setting name='DistributionFrequency' avg=':= 4 * so2MythrilFreq * if(age,age.so2MythrilClouds,1) * _default_'/>
                     <Setting name='CloudRadius' avg=':= 0.9 * so2MythrilSize * _default_' range=':= so2MythrilSize * _default_'/>
                     <Setting name='CloudThickness' avg=':= 0.9 * so2MythrilSize * _default_' range=':= so2MythrilSize * _default_'/> 
-                    <Biome name='Plains'/>
-                    <Biome name='Meadow'/> <Comment> ExtraBiomesXL </Comment>
-                    <Biome name='Savanna'/> <Comment> ExtraBiomesXL </Comment>
-                    <Biome name='Shrubland'/> <Comment> ExtraBiomesXL </Comment>
+                    <BiomeType name='Plains'/>
                     <Veins name='SO2MythrilHintVeins' block='mythrilOre' inherits='PresetHintVeins'>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x4000A6F4</WireframeColor> 
@@ -499,10 +485,7 @@
                     <Setting name='DistributionFrequency' avg=':= 4 * so2AdamantiumFreq * if(age,age.so2AdamantiumClouds,1) * _default_'/>
                     <Setting name='CloudRadius' avg=':= 0.9 * so2AdamantiumSize * _default_' range=':= so2AdamantiumSize * _default_'/>
                     <Setting name='CloudThickness' avg=':= 0.9 * so2AdamantiumSize * _default_' range=':= so2AdamantiumSize * _default_'/> 
-                    <Biome name='Plains'/>
-                    <Biome name='Meadow'/> <Comment> ExtraBiomesXL </Comment>
-                    <Biome name='Savanna'/> <Comment> ExtraBiomesXL </Comment>
-                    <Biome name='Shrubland'/> <Comment> ExtraBiomesXL </Comment>
+                    <BiomeType name='Plains'/>
                     <Veins name='SO2AdamantiumHintVeins' block='adamantiumOre' inherits='PresetHintVeins'>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x4033BA31</WireframeColor> 

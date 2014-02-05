@@ -74,7 +74,8 @@ public class CustomOreGenBase
             "Thaumcraft4.xml",
             "BiomesOPlenty.xml",
             "Factorization.xml",
-            "ThermalExpansion.xml"
+            "ThermalExpansion.xml",
+            "SimpleOres2.xml"
         };
         for (String module : extraModules) {
         	unpackConfigFile("modules/" + module, new File(defaultModulesDir, module));
