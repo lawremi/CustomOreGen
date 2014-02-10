@@ -91,14 +91,14 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         if (weight != 0.0F)
         {
             Integer key = Integer.valueOf(blockID << Short.SIZE | metaData & Short.MAX_VALUE);
-            Float currentValue = (Float)this._matches.get(key);
+            Float currentValue = this._matches.get(key);
 
             if (currentValue != null)
             {
-                weight += currentValue.floatValue();
+                weight += currentValue;
             }
 
-            this._matches.put(key, Float.valueOf(weight));
+            this._matches.put(key, weight);
 
             if (blockID >= 0 && blockID < this._fastMatch.length)
             {
@@ -298,10 +298,10 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         this.compileMatches();
         float weight = 0.0F;
         
-        for (Float val : _matches.values()) {
-        	if (val.floatValue() > 0.0F)
+        for (float val : _matches.values()) {
+        	if (val > 0.0F)
             {
-                weight += val.floatValue();
+                weight += val;
             }
         }
 
