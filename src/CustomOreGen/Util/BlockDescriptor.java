@@ -207,7 +207,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             value = noMetaValue.floatValue();
         }
 
-        if (metaData >= 0)
+        if (metaData != OreDictionary.WILDCARD_VALUE)
         {
             Float metaValue = (Float)this._matches.get(Integer.valueOf(blockID << Short.SIZE | metaData & Short.MAX_VALUE));
 
