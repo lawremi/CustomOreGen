@@ -257,7 +257,6 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
                                 	int xzmaxh = maxh;
                                 	if (this.minSurfRelHeight != Integer.MIN_VALUE || this.maxSurfRelHeight != Integer.MAX_VALUE) {
                                 		int surfh = findSurfaceHeight(chunk, x, z);
-                                		FMLLog.info("surface: %d", surfh);
 	                                	xzminh = Math.max(xzminh, this.minSurfRelHeight + surfh);
 	                                	xzmaxh = Math.min(xzmaxh, this.maxSurfRelHeight + 
 	                                			                  Math.min(surfh, Integer.MAX_VALUE - this.maxSurfRelHeight));
