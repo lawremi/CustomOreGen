@@ -1,6 +1,5 @@
 package CustomOreGen;
 
-import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Random;
 
@@ -12,6 +11,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.storage.WorldInfo;
+import net.minecraftforge.common.ForgeChunkManager.ForceChunkEvent;
 import CustomOreGen.Client.ClientState;
 import CustomOreGen.Server.ServerState;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -20,8 +20,6 @@ import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.Mod.Metadata;
-import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
@@ -69,7 +67,7 @@ public class FMLInterface implements ITickHandler, IWorldGenerator
         ServerState.checkIfServerChanged(MinecraftServer.getServer(), world.getWorldInfo());
         ServerState.onPopulateChunk(world, random, chunkX, chunkZ);
     }
-
+    
     public void tickStart(EnumSet type, Object ... tickData) {}
 
     public void tickEnd(EnumSet type, Object ... tickData)
