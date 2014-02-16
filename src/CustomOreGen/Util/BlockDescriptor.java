@@ -15,6 +15,7 @@ import cpw.mods.fml.common.FMLLog;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
 
 public class BlockDescriptor implements Copyable<BlockDescriptor>
@@ -114,12 +115,12 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         }
     }
 
-    protected float[] regexMatch(String id, String name, boolean describesOre)
+    protected float[] regexMatch(String id, String name)
     {
         float[] weights = new float[Short.SIZE + 1];
         
         for (Descriptor desc : this._descriptors) {
-        	if (desc.describesOre != describesOre)
+        	if (desc.describesOre)
         		continue;
         	if ((id == null || !desc.getPattern().matcher(id).matches()) && (name == null || !desc.getPattern().matcher(name).matches()))
             {
@@ -154,7 +155,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             	desc.matches = 0;
             }
             
-            float[] var10 = this.regexMatch("0", "air", false);
+            float[] var10 = this.regexMatch("0", "air");
             this.add(0, OreDictionary.WILDCARD_VALUE, var10[Short.SIZE]);
             
             for (Block block : Block.blocksList) {
@@ -162,7 +163,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
                 {
                     String id = Integer.toString(block.blockID);
                     String name = block.getUnlocalizedName() == null ? null : block.getUnlocalizedName().replace("tile.", "");
-                    float[] weights = this.regexMatch(id, name, false);
+                    float[] weights = this.regexMatch(id, name);
                     this.add(block.blockID, OreDictionary.WILDCARD_VALUE, weights[Short.SIZE]);
 
                     for (int m = 0; m < Short.SIZE; ++m)
@@ -171,16 +172,17 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
                     }
                 }
             }
-            
-            for (String oreName : OreDictionary.getOreNames()) {
-            	float[] weights = this.regexMatch(Integer.toString(OreDictionary.getOreID(oreName)), oreName, true);
-            	for (ItemStack ore : OreDictionary.getOres(oreName)) {
-            		boolean isBlock = ore.itemID < Block.blocksList.length;
-            		if (isBlock) {
-            			this.add(ore.itemID, ore.getItemDamage(), weights[Short.SIZE]);
-                	}
-            	}
-            }
+         
+            for (Descriptor desc : this._descriptors) {
+        		if (!desc.describesOre)
+            		continue;
+        		for (ItemStack ore : OreDictionary.getOres(desc.description)) {
+        			boolean isBlock = ore.itemID < Block.blocksList.length;
+        			if (isBlock) {
+        				this.add(ore.itemID, ore.getItemDamage(), desc.weight);
+        			}
+        		}
+        	}
         }
     }
 
