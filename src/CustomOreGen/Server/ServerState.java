@@ -450,4 +450,17 @@ public class ServerState
             }
         }
     }
+
+	public static void chunkForced(World world, ChunkCoordIntPair location) {
+		WorldConfig cfg = getWorldConfig(world);
+		int radius = (cfg.deferredPopulationRange + 15) / 16;
+        
+        for (int cX = location.chunkXPos - radius; cX <= location.chunkXPos + radius; ++cX)
+        {
+            for (int cZ = location.chunkZPos - radius; cZ <= location.chunkZPos + radius; ++cZ)
+            {
+            	world.getChunkFromChunkCoords(cX, cZ);
+            }
+        }
+	}
 }

@@ -7,12 +7,14 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.ForgeChunkManager.ForceChunkEvent;
 import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.world.WorldEvent.Load;
 import CustomOreGen.Client.ClientState;
 import CustomOreGen.Server.ServerState;
+import CustomOreGen.Server.WorldConfig;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -57,6 +59,11 @@ public class ForgeInterface
         boolean isOre = event.type != OreGenEvent.GenerateMinable.EventType.GRAVEL && 
         		        event.type != OreGenEvent.GenerateMinable.EventType.DIRT; 
         event.setResult((vanillaOreGen || isCustom || !isOre) ? Result.ALLOW : Result.DENY);
+    }
+    
+    @ForgeSubscribe
+    public void onForceChunk(ForceChunkEvent event) {
+    	ServerState.chunkForced(event.ticket.world, event.location);
     }
     
     public static String getWorldDimensionFolder(World world)
