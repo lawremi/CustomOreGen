@@ -378,9 +378,11 @@
                     </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x60101010</WireframeColor>
-                    <Setting name='MotherlodeFrequency' avg=':= 10.7 * coalFreq * if(age,age.coalVeins,1) * _default_'/>
+                    <Setting name='MotherlodeFrequency'
+                             avg=':= 10.7 * coalFreq * if(age,age.coalVeins,1) * _default_'/>
                     <Setting name='MotherlodeSize' avg=':= coalSize * _default_' range=':= coalSize * _default_'/>
-                    <Setting name='MotherlodeHeight' avg=':= 60/64 * dimension.groundLevel' range=':= 10/64 * dimension.groundLevel'/>
+                    <Setting name='MotherlodeHeight' avg='60'
+                             range='10' scaleTo='sealevel'/>
                     <Setting name='BranchLength' avg=':= 0.45 * _default_' range=':= 0.45 * _default_'/>
                     <Setting name='BranchInclination' avg='0' range='0.35'/>
                     <Setting name='BranchHeightLimit' avg='10'/>
@@ -429,10 +431,10 @@
                     <WireframeColor>0x40221100</WireframeColor> 
                     <Setting name='Size' avg=':= ironSize * _default_'/> 
                     <Setting name='Frequency' avg=':= ironFreq * if(age,age.ironClusters,1) * _default_'/>
-                    <Setting name='Height' avg=':= 32/64 * dimension.groundLevel' range=':= 32/64 * dimension.groundLevel'/> 
+                    <Setting name='Height' avg='32' range='32' scaleTo='sealevel'/> 
                 </StandardGen> 
             </IfCondition>
-                
+            
             <IfCondition condition=':= if(age, age.ironVeins > 0, ironDist = "layeredVeins")'>
                 <Veins name='IronVeins' block='oreIron' inherits='PresetLayeredVeins'>
                     <Description> 
@@ -442,7 +444,8 @@
                     <WireframeColor>0x40221100</WireframeColor> 
                     <Setting name='MotherlodeFrequency' avg=':= 0.9 * ironFreq * if(age,age.ironVeins,1) * _default_'/>
                     <Setting name='MotherlodeSize' avg=':= ironSize * _default_' range=':= ironSize * _default_'/>
-                    <Setting name='MotherlodeHeight' avg=':= 43/64 * dimension.groundLevel' range=':= 10.5/64 * dimension.groundLevel' type='normal'/>
+                    <Setting name='MotherlodeHeight' avg='43'
+                             range='10.5' type='normal' scaleTo='sealevel'/>
                     <Setting name='BranchHeightLimit' avg='10.5'/>
                     <Setting name='SegmentRadius' avg=':= ironSize * _default_' range=':= ironSize * _default_'/>
                 </Veins>

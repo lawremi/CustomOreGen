@@ -9,7 +9,7 @@ public class PDist implements Copyable<PDist>
     public float mean;
     public float range;
     public Type type;
-
+        
     public enum Type
     {
         uniform,
@@ -31,7 +31,11 @@ public class PDist implements Copyable<PDist>
         this.set(0.0F, 0.0F, Type.uniform);
     }
 
-    public void copyFrom(PDist source)
+    public PDist(PDist pdist) {
+		this.copyFrom(pdist);
+	}
+
+	public void copyFrom(PDist source)
     {
         this.mean = source.mean;
         this.range = source.range;
@@ -92,7 +96,11 @@ public class PDist implements Copyable<PDist>
     public int getIntValue(Random rand)
     {
         float fval = this.getValue(rand);
-        int ival = (int)fval;
+        return roundToInt(fval, rand);
+    }
+
+    public static int roundToInt(float fval, Random rand) {
+    	int ival = (int)fval;
         fval -= (float)ival;
 
         if (fval > 0.0F && fval > rand.nextFloat())
@@ -105,9 +113,9 @@ public class PDist implements Copyable<PDist>
         }
 
         return ival;
-    }
+	}
 
-    public String toString()
+	public String toString()
     {
         return String.format("%f +- %f %s", new Object[] {Float.valueOf(this.mean), Float.valueOf(this.range), this.type.name()});
     }

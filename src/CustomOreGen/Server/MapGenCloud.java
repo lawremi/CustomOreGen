@@ -2,13 +2,11 @@ package CustomOreGen.Server;
 
 import java.util.Random;
 
-import com.xcompwiz.mystcraft.api.symbol.words.WordData;
-
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
-import CustomOreGen.Util.HeightPDist;
+import CustomOreGen.Util.HeightScaledPDist;
 import CustomOreGen.Util.IGeometryBuilder;
 import CustomOreGen.Util.IGeometryBuilder.PrimitiveType;
 import CustomOreGen.Util.NoiseGenerator;
@@ -16,6 +14,8 @@ import CustomOreGen.Util.PDist;
 import CustomOreGen.Util.PDist.Type;
 import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.WireframeShapes;
+
+import com.xcompwiz.mystcraft.api.symbol.words.WordData;
 
 public class MapGenCloud extends MapGenOreDistribution
 {
@@ -28,7 +28,7 @@ public class MapGenCloud extends MapGenOreDistribution
             name = "CloudThickness",
             info = "Cloud thickness (vertical radius), in meters"
     )
-    public final PDist clThickness = new PDist(14.0F, 6.0F);
+    public final HeightScaledPDist clThickness = new HeightScaledPDist(14.0F, 6.0F);
     @DistributionSetting(
             name = "CloudSizeNoise",
             info = "Noise level added to cloud radius and thickness"
@@ -38,7 +38,7 @@ public class MapGenCloud extends MapGenOreDistribution
             name = "CloudHeight",
             info = "Height of cloud, in meters"
     )
-    public final HeightPDist clHeight;
+    public final HeightScaledPDist clHeight;
     @DistributionSetting(
             name = "CloudInclination",
             info = "Cloud angle from horizontal plane, in radians"
@@ -53,7 +53,7 @@ public class MapGenCloud extends MapGenOreDistribution
             name = "OreDensity",
             info = "Density multiplier for individual ore blocks"
     )
-    public final PDist orDensity;
+    public final HeightScaledPDist orDensity;
     @DistributionSetting(
             name = "OreVolumeNoiseCutoff",
             info = "Minimum threshold for density noise on individual ore blocks"
@@ -64,10 +64,10 @@ public class MapGenCloud extends MapGenOreDistribution
     public MapGenCloud(int distributionID, boolean canGenerate)
     {
         super(_cloudSettingsMap, distributionID, canGenerate);
-        this.clHeight = new HeightPDist(32.0F, 16.0F, Type.normal);
+        this.clHeight = new HeightScaledPDist(32.0F, 16.0F, Type.normal);
         this.clInclination = new PDist(0.0F, 0.35F);
         this.orRadiusMult = new PDist(1.0F, 0.1F);
-        this.orDensity = new PDist(0.1F, 0.0F);
+        this.orDensity = new HeightScaledPDist(0.1F, 0.0F);
         this.orVolumeNoiseCutoff = new PDist(0.5F, 0.0F);
         this.name = "Cloud_" + distributionID;
         this.frequency.set(0.001F, 0.0F, Type.uniform);
@@ -75,7 +75,7 @@ public class MapGenCloud extends MapGenOreDistribution
 
     public boolean validate() throws IllegalStateException
     {
-        float r = Math.max(this.clRadius.getMax(), this.clThickness.getMax());
+        float r = Math.max(this.clRadius.getMax(), this.clThickness.pdist.getMax());
         r *= 1.0F + this.clSizeNoise.getMax() * 2.0F;
         r *= this.orRadiusMult.getMax();
         super.range = (int)(r + 15.9999F) / 16;
@@ -86,7 +86,7 @@ public class MapGenCloud extends MapGenOreDistribution
     {
         float clX = (random.nextFloat() + (float)structureGroup.chunkX) * 16.0F;
         float clZ = (random.nextFloat() + (float)structureGroup.chunkZ) * 16.0F;
-        float clY = this.clHeight.getValue(random, worldObj);
+        float clY = this.clHeight.getValue(random, this.worldObj, clX, clZ) + this.heightOffset.getValue(random);
         
         if (!structureGroup.canPlaceComponentAt(0, clX, clY, clZ, random))
         {
@@ -99,7 +99,8 @@ public class MapGenCloud extends MapGenOreDistribution
             clMat.rotateZInto(0.0F, 1.0F, 0.0F);
             clMat.rotateZ(random.nextFloat() * ((float)Math.PI * 2F));
             clMat.rotateY(this.clInclination.getValue(random));
-            clMat.scale(this.clRadius.getValue(random), this.clRadius.getValue(random), this.clThickness.getValue(random));
+            float thickness = this.clThickness.getValue(random, this.worldObj, clX, clZ);
+            clMat.scale(this.clRadius.getValue(random), this.clRadius.getValue(random), thickness);
             DiffuseCloudComponent cloud = new DiffuseCloudComponent(this, structureGroup, clMat, random);
             structureGroup.addComponent(cloud, (Component)null);
             return cloud;
@@ -213,7 +214,10 @@ public class MapGenCloud extends MapGenOreDistribution
                                     }
                                 }
 
-                                if (orVolumeNoiseCutoff.getMin() <= 1.0F && (orVolumeNoiseCutoff.getMax() <= 0.0F || (this.getNoise(pos[0], pos[1], pos[2]) + 1.0F) / 2.0F >= orVolumeNoiseCutoff.getValue(random)) && orDensity.getIntValue(random) >= 1)
+                                if (orVolumeNoiseCutoff.getMin() <= 1.0F && 
+                                	(orVolumeNoiseCutoff.getMax() <= 0.0F || 
+                                	 (this.getNoise(pos[0], pos[1], pos[2]) + 1.0F) / 2.0F >= orVolumeNoiseCutoff.getValue(random)) && 
+                                	orDensity.getIntValue(random, world, x, z) >= 1)
                                 {
                                     this.attemptPlaceBlock(world, random, x, y, z, bounds);
                                 }

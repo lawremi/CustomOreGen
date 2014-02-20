@@ -23,6 +23,7 @@ import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
 import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.GeometryStream;
+import CustomOreGen.Util.HeightScaledPDist;
 import CustomOreGen.Util.IGeometryBuilder;
 import CustomOreGen.Util.PDist;
 import CustomOreGen.Util.PDist.Type;
@@ -68,7 +69,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             name = "DistributionFrequency",
             info = "Number of distribution structures per 16x16 chunk"
     )
-    public final PDist frequency;
+    public final HeightScaledPDist frequency;
     @DistributionSetting(
             name = "Parent",
             info = "The parent distribution, or null if no parent"
@@ -89,6 +90,11 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             info = "Maximum absolute height allowed"
     )
     public int maxHeight;
+    @DistributionSetting(
+            name = "HeightOffset",
+            info = "Number, in blocks, to add to the scaled height"
+    )
+    public PDist heightOffset;
     @DistributionSetting(
             name = "drawBoundBox",
             info = "Whether bounding boxes are drawn for components"
@@ -140,7 +146,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
     {
         this.replaceableBlocks = new BlockDescriptor(Integer.toString(Block.stone.blockID));
         this.biomes = new BiomeDescriptor(".*");
-        this.frequency = new PDist(0.025F, 0.0F);
+        this.frequency = new HeightScaledPDist(0.025F, 0.0F);
         this.parent = null;
         this.parentRangeLimit = new PDist(32.0F, 32.0F, Type.normal);
         this.wfHasBB = false;
@@ -161,6 +167,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         this._settingMap = settingMap;
         this.minHeight = 0;
         this.maxHeight = 256;
+        this.heightOffset = new PDist();
     }
 
     public void inheritFrom(IOreDistribution inherits) throws IllegalArgumentException
@@ -220,7 +227,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
     {
         if (this._canGenerate)
         {
-            int groupsToSave = (int)(6.0F * Math.min(1.0F, this.frequency.getMax()) * (float)(2 * super.range + 1) * (float)(2 * super.range + 1));
+            int groupsToSave = (int)(6.0F * Math.min(1.0F, this.frequency.pdist.getMax()) * (float)(2 * super.range + 1) * (float)(2 * super.range + 1));
 
             if (super.structureMap.size() > groupsToSave * 3)
             {
@@ -278,7 +285,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             }
             else
             {
-                long key = (long)chunkX << 32 | (long)chunkZ & 4294967295L;
+                long key = (long)chunkX << Integer.SIZE | (long)chunkZ & 4294967295L;
                 return (GeometryStream)this.debuggingGeometryMap.get(Long.valueOf(key));
             }
         }
@@ -428,12 +435,25 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
     protected boolean canSpawnStructureAtCoords(int chunkX, int chunkZ)
     {
-        return this._canGenerate && this._valid ? (this.frequency.getMax() >= 1.0F ? true : this.frequency.getIntValue(super.rand) == 1) : false;
+    	int blockX = chunkX << 4;
+    	int blockZ = chunkZ << 4;
+    	boolean canSpawn = false;
+        if (this._canGenerate && this._valid) {
+        	if (this.frequency.getMax(this.worldObj, blockX, blockZ) >= 1.0F) {
+        		canSpawn = true; 
+        	} else {
+        		canSpawn = this.frequency.getIntValue(super.rand, this.worldObj, blockX, blockZ) == 1;
+        	}
+        }
+        return canSpawn;
     }
 
     protected StructureStart getStructureStart(int chunkX, int chunkZ)
     {
-        int count = this.frequency.getMax() >= 1.0F ? this.frequency.getIntValue(super.rand) : 1;
+    	int blockX = chunkX << 4;
+    	int blockZ = chunkZ << 4;
+        int count = this.frequency.getMax(this.worldObj, blockX, blockZ) >= 1.0F ? 
+        		this.frequency.getIntValue(super.rand, this.worldObj, blockX, blockZ) : 1;
         StructureGroup group = new StructureGroup(chunkX, chunkZ, count);
         group.newerGroup = null;
         group.olderGroup = this.newestGroup;

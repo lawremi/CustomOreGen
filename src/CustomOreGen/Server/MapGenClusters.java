@@ -2,19 +2,19 @@ package CustomOreGen.Server;
 
 import java.util.Random;
 
-import com.xcompwiz.mystcraft.api.symbol.words.WordData;
-
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
-import CustomOreGen.Util.HeightPDist;
+import CustomOreGen.Util.HeightScaledPDist;
 import CustomOreGen.Util.IGeometryBuilder;
 import CustomOreGen.Util.IGeometryBuilder.PrimitiveType;
 import CustomOreGen.Util.PDist;
 import CustomOreGen.Util.PDist.Type;
 import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.WireframeShapes;
+
+import com.xcompwiz.mystcraft.api.symbol.words.WordData;
 
 public class MapGenClusters extends MapGenOreDistribution
 {
@@ -27,12 +27,12 @@ public class MapGenClusters extends MapGenOreDistribution
             name = "Frequency",
             info = "Number of deposits per 16x16 chunk.  No range."
     )
-    public final PDist clFreq;
+    public final HeightScaledPDist clFreq;
     @DistributionSetting(
             name = "Height",
             info = "Vertical height of the deposits.  Normal distributions are approximated."
     )
-    public final HeightPDist clHeight;
+    public final HeightScaledPDist clHeight;
     
     protected static final DistributionSettingMap _clusterSettingsMap = new DistributionSettingMap(MapGenClusters.class);
 
@@ -40,7 +40,7 @@ public class MapGenClusters extends MapGenOreDistribution
     {
         super(_clusterSettingsMap, distributionID, canGenerate);
         this.clFreq = this.frequency;
-        this.clHeight = new HeightPDist(64.0F, 64.0F, Type.uniform);
+        this.clHeight = new HeightScaledPDist(64.0F, 64.0F, Type.uniform);
         this.name = "StandardGen_" + distributionID;
         this.frequency.set(20.0F, 0.0F, Type.uniform);
     }
@@ -56,7 +56,7 @@ public class MapGenClusters extends MapGenOreDistribution
     {
         float clX = (random.nextFloat() + (float)structureGroup.chunkX) * 16.0F;
         float clZ = (random.nextFloat() + (float)structureGroup.chunkZ) * 16.0F;
-        float clY = this.clHeight.getValue(random, worldObj);
+        float clY = this.clHeight.getValue(random, this.worldObj, clX, clZ) + this.heightOffset.getValue(random);
         
         if (!structureGroup.canPlaceComponentAt(0, clX, clY, clZ, random))
         {

@@ -3,7 +3,8 @@ package CustomOreGen.Config;
 import org.w3c.dom.Node;
 
 import CustomOreGen.Server.IOreDistribution;
-import CustomOreGen.Util.HeightPDist;
+import CustomOreGen.Util.HeightScale;
+import CustomOreGen.Util.HeightScaledPDist;
 import CustomOreGen.Util.PDist;
 import CustomOreGen.Util.PDist.Type;
 
@@ -24,21 +25,24 @@ public class ValidatorPDist extends ValidatorNode
         super.validateChildren();
         this.name = (String)this.validateRequiredAttribute(String.class, "Name", true);
 
+        HeightScaledPDist heightScaledPDist = null;
+        
         if (this._parentDist == null)
         {
             this.pdist = new PDist();
         }
         else
         {
-            try
-            {
-                this.pdist = (PDist)this._parentDist.getDistributionSetting(this.name);
-            }
-            catch (ClassCastException var4)
-            {
-                throw new ParserException("Setting \'" + this.name + "\' is not supported by this distribution.", this.getNode(), var4);
-            }
-
+        	Object setting = this._parentDist.getDistributionSetting(this.name);
+        	if (setting instanceof PDist) {
+        		this.pdist = (PDist)setting;
+        	} else if (setting instanceof HeightScaledPDist) {
+        		heightScaledPDist = (HeightScaledPDist)setting;
+        		this.pdist = heightScaledPDist.pdist;
+        	} else {
+        		throw new ParserException("Setting \'" + this.name + "\' is not supported by this distribution.", this.getNode());
+        	}
+            
             if (this.pdist == null)
             {
                 throw new ParserException("Setting \'" + this.name + "\' is not supported by this distribution.", this.getNode());
@@ -49,11 +53,20 @@ public class ValidatorPDist extends ValidatorNode
         this.pdist.range = this.validateNamedAttribute(Float.class, "Range", this.pdist.range, true);
         this.pdist.type = this.validateNamedAttribute(Type.class, "Type", this.pdist.type, true);
         
+        HeightScaleType scaleType = this.validateNamedAttribute(HeightScaleType.class, "ScaleTo", null, true);
+        if (scaleType != null) {
+        	if (heightScaledPDist == null) {
+        		throw new ParserException("Setting '" + this.name + "' does not support height scaling.", this.getNode());
+        	} else {
+        		heightScaledPDist.scaleTo = scaleType.getHeightScale();
+        	}
+        }
+        
         if (this._parentDist != null)
         {
             try
             {
-                this._parentDist.setDistributionSetting(this.name, this.pdist);
+                this._parentDist.setDistributionSetting(this.name, heightScaledPDist != null ? heightScaledPDist: this.pdist);
             }
             catch (IllegalAccessException var2)
             {

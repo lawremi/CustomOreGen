@@ -2,19 +2,19 @@ package CustomOreGen.Server;
 
 import java.util.Random;
 
-import com.xcompwiz.mystcraft.api.symbol.words.WordData;
-
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
-import CustomOreGen.Util.HeightPDist;
+import CustomOreGen.Util.HeightScaledPDist;
 import CustomOreGen.Util.IGeometryBuilder;
 import CustomOreGen.Util.IGeometryBuilder.PrimitiveType;
 import CustomOreGen.Util.PDist;
 import CustomOreGen.Util.PDist.Type;
 import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.WireframeShapes;
+
+import com.xcompwiz.mystcraft.api.symbol.words.WordData;
 
 public class MapGenVeins extends MapGenOreDistribution
 {
@@ -27,7 +27,7 @@ public class MapGenVeins extends MapGenOreDistribution
             name = "MotherlodeFrequency",
             info = "Number of motherlodes per 16x16 chunk"
     )
-    public final PDist mlFrequency;
+    public final HeightScaledPDist mlFrequency;
     @DistributionSetting(
             name = "MotherlodeRangeLimit",
             info = "Max horizontal distance that a motherlode may be from the parent distribution, in meters"
@@ -42,7 +42,7 @@ public class MapGenVeins extends MapGenOreDistribution
             name = "MotherlodeHeight",
             info = "Height of motherlode, in meters"
     )
-    public final HeightPDist mlHeight;
+    public final HeightScaledPDist mlHeight;
     @DistributionSetting(
             name = "BranchFrequency",
             info = "Number of branches per motherlode"
@@ -62,7 +62,7 @@ public class MapGenVeins extends MapGenOreDistribution
             name = "BranchHeightLimit",
             info = "Max vertical distance that a branch may go above/below motherlode, in meters"
     )
-    public final PDist brHeightLimit;
+    public final HeightScaledPDist brHeightLimit;
     @DistributionSetting(
             name = "SegmentForkFrequency",
             info = "Forking rate of each segment"
@@ -107,11 +107,11 @@ public class MapGenVeins extends MapGenOreDistribution
         this.mlFrequency = this.frequency;
         this.mlRangeLimit = this.parentRangeLimit;
         this.mlSize = new PDist(2.5F, 1.0F);
-        this.mlHeight = new HeightPDist(32.0F, 16.0F, Type.normal);
+        this.mlHeight = new HeightScaledPDist(32.0F, 16.0F, Type.normal);
         this.brFrequency = new PDist(3.0F, 2.0F);
         this.brInclination = new PDist(0.0F, 0.55F);
         this.brLength = new PDist(120.0F, 60.0F);
-        this.brHeightLimit = new PDist(16.0F, 0.0F);
+        this.brHeightLimit = new HeightScaledPDist(16.0F, 0.0F);
         this.sgForkFrequency = new PDist(0.2F, 0.0F);
         this.sgForkLenMult = new PDist(0.75F, 0.25F);
         this.sgLength = new PDist(15.0F, 6.0F);
@@ -140,7 +140,7 @@ public class MapGenVeins extends MapGenOreDistribution
     {
         float mlX = (random.nextFloat() + (float)structureGroup.chunkX) * 16.0F;
         float mlZ = (random.nextFloat() + (float)structureGroup.chunkZ) * 16.0F;
-        float mlY = this.mlHeight.getValue(random, worldObj);
+        float mlY = this.mlHeight.getValue(random, this.worldObj, mlX, mlZ) + this.heightOffset.getValue(random);
         
         if (!structureGroup.canPlaceComponentAt(0, mlX, mlY, mlZ, random))
         {
@@ -163,8 +163,8 @@ public class MapGenVeins extends MapGenOreDistribution
                 segMat.translate(mlX, mlY, mlZ);
                 segMat.rotateY(brRandom.nextFloat() * ((float)Math.PI * 2F));
                 segMat.rotateX(-this.brInclination.getValue(brRandom));
-                float maxHeight = mlY + this.brHeightLimit.getValue(brRandom);
-                float minHeight = mlY - this.brHeightLimit.getValue(brRandom);
+                float maxHeight = mlY + this.brHeightLimit.getValue(brRandom, this.worldObj, mlX, mlZ);
+                float minHeight = mlY - this.brHeightLimit.getValue(brRandom, this.worldObj, mlX, mlZ);
                 this.generateBranch(structureGroup, this.brLength.getValue(brRandom), maxHeight, minHeight, segMat, motherlode, brRandom);
             }
 
