@@ -169,7 +169,7 @@ public class CustomOreGenBase
             {
                 _hasMystcraft = -1;
 
-                if (ModLoader.isModLoaded("Mystcraft"))
+                if (Loader.isModLoaded("Mystcraft"))
                 {
                 	/* FIXME: re-enable after restoring Mystcraft compatibility
                     MystcraftInterface.init();
