@@ -1,0 +1,67 @@
+    <IfCondition condition=':= dimension.generator = "RandomLevelSource" | dimension.generator = "ATGLevelSource"'>
+        <ConfigSection>
+        <!--*****************   Emerald   **********************-->
+  
+            <IfCondition condition=':= if(age, age.emeraldClusters > 0, emeraldDist = "vanillaStdGen")'>
+                <StandardGen name='EmeraldStandard' block='oreEmerald' inherits='PresetStandardGen'> 
+                    <Description> Equivalent to vanilla minecraft diamond distribution </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40339966</WireframeColor> 
+                    <Setting name='Size' avg=':= 2/8 * emeraldSize * _default_'/>
+                    <Setting name='Frequency' avg=':= 6/20 * emeraldFreq * if(age,age.emeraldClusters,1) * _default_' 
+                                              range=':= 2 * emeraldFreq * if(age,age.emeraldClusters,1)'/>
+                    <Setting name='Height' avg=':= 18/64 * dimension.groundLevel' range=':= 14/64 * dimension.groundLevel'/>
+                    <BiomeType name='Mountain'/>
+                    <Biome name='Green\s*Hills'/> <Comment> ExtraBiomesXL </Comment>
+                </StandardGen>   
+            </IfCondition>         
+                
+            <IfCondition condition=':= if(age, age.emeraldVeins > 0, emeraldDist = "layeredVeins")'>
+                <Veins name="EmeraldVeins" block='oreEmerald' inherits='PresetPipeVeins' seed='0x3966'>
+                    <Description> Short sparsely filled tubes.  5x more common in Extreme Hills. </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40339966</WireframeColor>
+                    <Setting name='MotherlodeFrequency' avg=':= 0.9 * emeraldFreq * if(age,age.emeraldVeins,1) * _default_'/> 
+                    <Setting name='MotherlodeHeight' avg=':= 10/64 * dimension.groundLevel' range=':= 4/64 * dimension.groundLevel'/>
+                    <Setting name='MotherlodeSize' avg=':= 0.85 * emeraldSize * _default_' range=':= 0.7 * emeraldSize * _default_'/>
+                    <Setting name='BranchInclination' avg='0.55' range='0.7' type='normal'/>
+                    <Setting name='SegmentRadius' avg=':= 0.85 * emeraldSize * _default_' range=':= 0.7 * emeraldSize * _default_'/>
+                    <Setting name='OreDensity' avg=':= 1.2 * _default_'/>
+                    <Biome name='.*' weight='0.20'/>
+                    <BiomeType name='Mountain'/>
+                    <Biome name='Green\s*Hills'/> <Comment> ExtraBiomesXL </Comment>
+                </Veins>
+                <Veins name="EmeraldVeinsSilverfish" block='monsterStoneEgg' inherits='EmeraldVeins' seed='0x3966'>
+                    <Description> 
+                        Fill center of tubes with silverfish spawners. 
+                        Credit: based on novel examples by AnonymousViking from the MC forums.
+                    </Description>
+                    <Setting name='MotherlodeSize' avg='0.51' range='0.1'/>
+                    <Setting name='SegmentRadius' avg='0.51' range='0.1'/>
+                    <Setting name='OreDensity' avg='1' range='0'/>
+                    <ReplacesOre block='stone'/>
+                    <Replaces block='oreEmerald'/>
+                </Veins>
+            </IfCondition>
+                
+            <IfCondition condition=':= if(age, age.emeraldClouds > 0, emeraldDist = "strategicClouds")'>
+                <Cloud name='EmeraldCloud' block='oreEmerald' inherits='PresetStrategicCloud'>
+                    <Description>  
+                        Diffuse emerald cloud with no internal density noise, found in extreme hills.
+                    </Description> 
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40339966</WireframeColor>                
+                    <Setting name='DistributionFrequency' avg=':= 45 * emeraldFreq * if(age,age.emeraldClouds,1) * _default_'/>
+                    <Setting name='CloudRadius' avg=':= 0.4 * emeraldSize * _default_' range=':= 0.4 * emeraldSize * _default_'/>
+                    <Setting name='CloudThickness' avg=':= 0.2 * emeraldSize * _default_' range=':= 0.17 * emeraldSize * _default_'/>
+                    <Setting name='CloudHeight' avg=':= 10/64 * dimension.groundLevel' range=':= 5/64 * dimension.groundLevel'/>
+                    <Setting name='OreRadiusMult' avg='1' range='0.2'/> 
+                    <Setting name='OreDensity' avg=':= 0.4 * _default_'/> 
+                    <Setting name='OreVolumeNoiseCutoff' avg='0'/>   
+                    <BiomeType name='Mountain'/>
+                    <Biome name='Green\s*Hills'/> <Comment> ExtraBiomesXL </Comment>
+                </Cloud>
+            </IfCondition>
+            
+        </ConfigSection>
+    </IfCondition>

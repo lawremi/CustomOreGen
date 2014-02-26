@@ -1,0 +1,41 @@
+        <ConfigSection> 
+        <!--***************   Lapis Lazuli   *******************-->
+        
+            <OptionChoice name='lapisDist' default='layeredVeins' displayState='shown' displayGroup='groupStdOres'>
+                <Description> Controls how Lapis Lazuli is generated </Description>
+                <DisplayName>Lapis Lazuli Type</DisplayName>
+                <Choice value='layeredVeins' displayValue='Veins'>
+                    <Description> 
+                        Single vertical veins starting near bedrock and extending about halfway to the surface.  Most common under ocean floors.
+                    </Description>
+                </Choice>
+                <Choice value='strategicClouds' displayValue='Clouds'>
+                    <Description> 
+                        Rare, sparsely populated clouds of ore extending over several chunks.  Found only under oceans.
+                    </Description>
+                </Choice>
+                <Choice value='vanillaStdGen' displayValue='Clusters'>
+                    <Description> 
+                        Small clusters of ore scattered evenly from bedrock about halfway to the surface.  This is the vanilla lapis lazuli generation.
+                    </Description>
+                </Choice>
+                <Choice value='none' displayValue='None' description='No lapis lazuli is generated at all.'/>
+            </OptionChoice>
+            
+            <OptionNumeric name='lapisFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupStdOres'>
+                <Description> Frequency multiplier for Lapis Lazuli distributions </Description>
+                <DisplayName>Lapis Lazuli Freq.</DisplayName>
+            </OptionNumeric>
+            
+            <OptionNumeric name='lapisSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupStdOres'>
+                <Description> Size multiplier for Lapis Lazuli distributions </Description>
+                <DisplayName>Lapis Lazuli Size</DisplayName>
+            </OptionNumeric>    
+            
+            <MystcraftSymbol name='lapisClusters' displayName='Lapis Lazuli Clusters'/>
+            <MystcraftSymbol name='lapisVeins' displayName='Lapis Lazuli Veins'/>
+            <MystcraftSymbol name='lapisClouds' displayName='Lapis Lazuli Clouds'>
+                <Instability>:= 50 * (age.lapisClusters + age.lapisVeins + age.lapisClouds - 1)^3</Instability>
+            </MystcraftSymbol>
+            
+        </ConfigSection>           

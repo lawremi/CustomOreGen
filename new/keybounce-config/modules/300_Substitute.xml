@@ -1,0 +1,41 @@
+    <IfCondition condition=':= dimension.generator = "RandomLevelSource" | dimension.generator = "ATGLevelSource"'>
+        <Substitute name='StandardOreSubstitute' block='1'>
+        <!--**********   Vanilla Deposit Removal   *************-->
+        <!-- This really should be inside a test for vanilla ore generation.
+             I am amazed that it is not -- it will ruin any ground ores, such as
+             Mystcraft ages or Twilight Forest special locations. -->
+
+        <!-- I am not kidding. I consider this bugged. I am leaving this unchanged
+             in this first version because I'm not trying to alter anything, just
+             adjust the formatting/distribution.
+
+             What I used in my configs:
+
+            <IfCondition condition='?vanillaOreGen'>
+                <Comment> Only replace stuff if you are using the vanilla ore gen.
+                          Do not replace stuff if not (implies special ground treasures)
+                </Comment>
+
+            If you do want to leave substitute enabled (bad news for mystcraft ages with
+            ore tendrils, for example), then put a max height of 27 in the twilight forest.
+
+            <maxHeight>:= if (dimension.generator = "TwilightLevelSource", 27.6, 255)
+               </maxHeight> 
+
+        --> 
+
+            <Description> 
+                Replace vanilla-generated ore clusters with stone.   
+            </Description>
+            <Comment>  
+                The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
+            </Comment>
+            <Replaces block='oreCoal'/> 
+            <Replaces block='oreIron'/> 
+            <Replaces block='oreGold'/> 
+            <Replaces block='oreRedstone'/> 
+            <Replaces block='oreDiamond'/> 
+            <Replaces block='oreLapis'/> 
+            <Replaces block='oreEmerald'/>
+        </Substitute>
+    </IfCondition>

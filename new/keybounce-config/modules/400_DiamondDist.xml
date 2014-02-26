@@ -1,0 +1,55 @@
+    <IfCondition condition=':= dimension.generator = "RandomLevelSource" | dimension.generator = "ATGLevelSource"'>
+        <ConfigSection> 
+        <!--*****************   Diamond   **********************-->
+            
+            <IfCondition condition=':= if(age, age.diamondClusters > 0, diamondDist = "vanillaStdGen")'>
+                <StandardGen name='DiamondStandard' block='oreDiamond' inherits='PresetStandardGen'> 
+                    <Description> Equivalent to vanilla minecraft diamond distribution </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40336699</WireframeColor> 
+                    <Setting name='Size' avg=':= 7/8 * diamondSize * _default_'/>
+                    <Setting name='Frequency' avg=':= 1/20 * diamondFreq * if(age,age.diamondClusters,1) * _default_'/>
+                    <Setting name='Height' avg=':= 8/64 * dimension.groundLevel' range=':= 8/64 * dimension.groundLevel'/>
+                </StandardGen>
+            </IfCondition>
+                
+            <IfCondition condition=':= if(age, age.diamondVeins > 0, diamondDist = "layeredVeins")'>
+                <Veins name="DiamondVeins" block='oreDiamond' inherits='PresetPipeVeins' seed='0xF186'>
+                    <Description> Short sparsely filled tubes starting at bedrock. </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40336699</WireframeColor> 
+                    <Setting name='MotherlodeFrequency' avg=':= 0.8 * diamondFreq * if(age,age.diamondVeins,1) * _default_'/> 
+                    <Setting name='MotherlodeHeight' avg=':= 3/64 * dimension.groundLevel' range='0'/>
+                    <Setting name='MotherlodeSize' avg=':= diamondSize * _default_' range=':= diamondSize * _default_'/>
+                    <Setting name='SegmentRadius' avg=':= diamondSize * _default_' range=':= diamondSize * _default_'/>
+                    <Setting name='OreDensity' avg=':= 1.0 * _default_'/>
+                </Veins>
+                <Veins name="DiamondVeinsLava" block='10' inherits='DiamondVeins' seed='0xF186'>
+                    <Description> Fills center of each tube with lava, forming "kimberlite pipes" </Description>
+                    <Setting name='MotherlodeSize' avg=':= 0.5 * _default_'/>
+                    <Setting name='SegmentRadius' avg=':= 0.5 * _default_'/>
+                    <Setting name='OreDensity' avg='1' range='0'/>
+                    <ReplacesOre block='stone'/>
+                    <Replaces block='dirt'/>
+                    <Replaces block='gravel'/>
+                    <Replaces block='oreDiamond'/>
+                </Veins>
+            </IfCondition>
+                
+            <IfCondition condition=':= if(age, age.diamondClouds > 0, diamondDist = "strategicClouds")'>
+                <Cloud name='DiamondCloud' block='oreDiamond' inherits='PresetStrategicCloud'>
+                    <Description>  Diffuse diamond cloud with no internal density noise. </Description> 
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40336699</WireframeColor> 
+                    <Setting name='DistributionFrequency' avg=':= 10 * diamondFreq * if(age,age.diamondClouds,1) * _default_'/>
+                    <Setting name='CloudRadius' avg=':= 0.5 * diamondSize * _default_' range=':= 0.5 * diamondSize * _default_'/>
+                    <Setting name='CloudThickness' avg=':= 0.2 * diamondSize * _default_' range=':= 0.17 * diamondSize * _default_'/>
+                    <Setting name='CloudHeight' avg=':= 14/64 * dimension.groundLevel' range=':= 5/64 * dimension.groundLevel'/>
+                    <Setting name='OreRadiusMult' avg='1' range='0.2'/>
+                    <Setting name='OreDensity' avg=':= 0.4 * _default_'/>                
+                    <Setting name='OreVolumeNoiseCutoff' avg='0'/>   
+                </Cloud>
+            </IfCondition>
+        
+        </ConfigSection>           
+    </IfCondition>

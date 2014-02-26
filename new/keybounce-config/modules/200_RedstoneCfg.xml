@@ -1,0 +1,41 @@
+        <ConfigSection>        
+        <!--*****************   Redstone   *********************-->
+        
+            <OptionChoice name='redstoneDist' default='layeredVeins' displayState='shown' displayGroup='groupStdOres'>
+                <Description> Controls how Redstone is generated </Description>
+                <DisplayName>Redstone Type</DisplayName>
+                <Choice value='layeredVeins' displayValue='Veins'>
+                    <Description> 
+                        Single vertical veins starting near the surface and extending down about halfway to bedrock.  Most common in desert climates.
+                    </Description>
+                </Choice>
+                <Choice value='strategicClouds' displayValue='Clouds'>
+                    <Description> 
+                        Rare, sparsely populated clouds of ore extending over several chunks.  Found only in desert climates.
+                    </Description>
+                </Choice>
+                <Choice value='vanillaStdGen' displayValue='Clusters'>
+                    <Description> 
+                        Small clusters of ore scattered evenly from bedrock about one quarter of the way to the surface.  This is the vanilla redstone generation.
+                    </Description>
+                </Choice>
+                <Choice value='none' displayValue='None' description='No redstone is generated at all.'/>
+            </OptionChoice>
+            
+            <OptionNumeric name='redstoneFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupStdOres'>
+                <Description> Frequency multiplier for Redstone distributions </Description>
+                <DisplayName>Redstone Freq.</DisplayName>
+            </OptionNumeric>
+            
+            <OptionNumeric name='redstoneSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupStdOres'>
+                <Description> Size multiplier for Redstone distributions </Description>
+                <DisplayName>Redstone Size</DisplayName>
+            </OptionNumeric>    
+                
+            <MystcraftSymbol name='redstoneClusters' displayName='Redstone Clusters'/>
+            <MystcraftSymbol name='redstoneVeins' displayName='Redstone Veins'/>
+            <MystcraftSymbol name='redstoneClouds' displayName='Redstone Clouds'>
+                <Instability>:= 50 * (age.redstoneClusters + age.redstoneVeins + age.redstoneClouds - 1)^3</Instability>
+            </MystcraftSymbol>
+            
+        </ConfigSection>           

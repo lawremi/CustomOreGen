@@ -1,0 +1,64 @@
+    <IfCondition condition=':= dimension.generator = "RandomLevelSource" | dimension.generator = "ATGLevelSource"'>
+        <!--*******************   Gold   ***********************-->
+        <ConfigSection>
+        
+            <IfCondition condition=':= if(age, age.goldClusters > 0, goldDist = "vanillaStdGen")'>
+                <StandardGen name='GoldStandard' block='oreGold' inherits='PresetStandardGen'> 
+                    <Description> Equivalent to vanilla minecraft gold distribution </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40443300</WireframeColor> 
+                    <Setting name='Size' avg=':= goldSize * _default_'/> 
+                    <Setting name='Frequency' avg=':= 0.1 * goldFreq * if(age,age.goldClusters,1) * _default_'/>
+                    <Setting name='Height' avg=':= 16/64 * dimension.groundLevel' range=':= 16/64 * dimension.groundLevel'/>
+                </StandardGen> 
+            </IfCondition>
+                
+            <IfCondition condition=':= if(age, age.goldVeins > 0, goldDist = "layeredVeins")'>
+                <Veins name='GoldVeins' block='oreGold' inherits='PresetLayeredVeins'> 
+                    <Description> 
+                        Gold spawns in the height 10-30 range.  The veins are shorter than average,
+                        and much rarer overall.  Gold is not easy to find.
+                    </Description>  
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40443300</WireframeColor> 
+                    <Setting name='MotherlodeFrequency' avg=':= 0.85 * goldFreq * if(age,age.goldVeins,1) * _default_'/>
+                    <Setting name='MotherlodeSize' avg=':= 0.8 * goldSize * _default_' range=':= 0.5 * goldSize * _default_'/>
+                    <Setting name='MotherlodeHeight' avg=':= 20/64 * dimension.groundLevel' range=':= 10/64 * dimension.groundLevel' type='normal'/>
+                    <Setting name='BranchHeightLimit' avg='10'/>  
+                    <Setting name='BranchFrequency' avg=':= 0.85 * _default_'/> 
+                    <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.66 * _default_'/>
+                    <Setting name='SegmentRadius' avg=':= 0.7 * goldSize * _default_' range=':= 0.5 * goldSize * _default_'/>
+                    <Setting name='SegmentAngle' avg='0.6' range='0.40' /> 
+                </Veins>
+                <Veins name='GoldVeinsForest' inherits='GoldVeins'>
+                    <Description> This roughly triples the chance of finding gold in forested biomes. </Description> 
+                    <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                    <Setting name='MotherlodeHeight' avg=':=_default_' range=':= 2 * _default_'/>
+                    <Setting name='BranchHeightLimit' avg=':= 2 * _default_'/>  
+                    <BiomeType name='Forest'/>    
+                </Veins>
+            </IfCondition>
+                
+            <IfCondition condition=':= if(age, age.goldClouds > 0, goldDist = "strategicClouds")'>
+                <Cloud name='GoldCloud' block='oreGold' inherits='PresetStrategicCloud'>
+                    <Description>  
+                        Diffuse gold cloud surrounded by single-block "hint" veins, found in forest biomes.
+                    </Description> 
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40443300</WireframeColor> 
+                    <Setting name='DistributionFrequency' avg=':= 4.5 * goldFreq * if(age,age.goldClouds,1) * _default_'/>
+                    <Setting name='CloudRadius' avg=':= 0.8 * goldSize * _default_' range=':= 0.8 * goldSize * _default_'/>
+                    <Setting name='CloudThickness' avg=':= 0.8 * goldSize * _default_' range=':= goldSize * _default_'/>
+                    <Setting name='OreDensity' avg=':= 0.3 * _default_'/>
+                    <BiomeType name='Forest'/>    
+                    <Veins name='GoldHintVeins' block='oreGold' inherits='PresetHintVeins'>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x40443300</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 0.3 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeRangeLimit' avg=':= 0.75 * goldSize * _default_' range=':= 0.65 * goldSize * _default_'/>                    
+                    </Veins>             
+                </Cloud>
+            </IfCondition>      
+       
+        </ConfigSection>           
+    </IfCondition>
