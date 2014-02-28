@@ -1,0 +1,66 @@
+    <IfCondition condition=':= dimension.generator = "RandomLevelSource" | dimension.generator = "ATGLevelSource"'>
+        <ConfigSection>
+        <!--*******************   Coal   ***********************-->
+        
+            <IfCondition condition=':= if(age, age.coalClusters > 0, coalDist = "vanillaStdGen")'>    
+                <StandardGen name='CoalStandard' block='oreCoal' inherits='PresetStandardGen'> 
+                    <Description> Equivalent to vanilla minecraft coal distribution </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x60101010</WireframeColor>
+                    <Setting name='Size' avg=':= 2 * coalSize * _default_'/> 
+                    <Setting name='Frequency' avg=':= coalFreq * if(age,age.coalClusters,1) * _default_'/>
+                </StandardGen> 
+            </IfCondition>   
+            
+            <IfCondition condition=':= if(age, age.coalVeins > 0, coalDist = "layeredVeins")'>    
+                <Veins name='CoalVeins' block='oreCoal' inherits='PresetSparseVeins'>    
+                    <Description>
+                        Coal spawns just near the surface, and up into hills and mountains.  The veins are
+                        long and thick, but sparsely filled with ore and often broken up by caves or depressions
+                        in the terrain.
+                    </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x60101010</WireframeColor>
+                    <Setting name='MotherlodeFrequency'
+                             avg=':= 10.7 * coalFreq * if(age,age.coalVeins,1) * _default_'/>
+                    <Setting name='MotherlodeSize' avg=':= coalSize * _default_' range=':= coalSize * _default_'/>
+                    <Setting name='MotherlodeHeight' avg='60'
+                             range='10' scaleTo='sealevel'/>
+                    <Setting name='BranchLength' avg=':= 0.45 * _default_' range=':= 0.45 * _default_'/>
+                    <Setting name='BranchInclination' avg='0' range='0.35'/>
+                    <Setting name='BranchHeightLimit' avg='10'/>
+                    <Setting name='SegmentRadius' avg=':= coalSize * _default_' range=':= coalSize * _default_'/>
+                    <Setting name='OreDensity' avg=':= 1.75 * _default_' range=':= _default_'/>
+                </Veins>
+                <Veins name='CoalVeinsSwamp' inherits='CoalVeins'>
+                    <Description>  This roughly triples the chance of finding coal in a swamp. </Description>      
+                    <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                    <Setting name='MotherlodeHeight' avg=':= _default_' range=':= 2 * _default_'/>
+                    <Setting name='BranchHeightLimit' avg=':= 2 * _default_'/>  
+                    <BiomeType name='Swamp'/>
+                </Veins>      
+            </IfCondition>     
+            
+            <IfCondition condition=':= if(age, age.coalClouds > 0, coalDist = "strategicClouds")'>    
+                <Cloud name='CoalCloud' block='oreCoal' inherits='PresetStrategicCloud'>
+                    <Description>  
+                        Diffuse coal cloud surrounded by single-block "hint" veins, found in swamps.
+                    </Description> 
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x60101010</WireframeColor> 
+                    <Setting name='DistributionFrequency' avg=':= 5 * coalFreq * if(age,age.coalClouds,1) * _default_'/>
+                    <Setting name='CloudRadius' avg=':= 1.2 * coalSize * _default_' range=':= 1.2 * coalSize * _default_'/>
+                    <Setting name='CloudThickness' avg=':= coalSize * _default_' range=':= coalSize * _default_'/>
+                    <Setting name='OreDensity' avg=':= 0.75 * _default_'/>
+                    <BiomeType name='Swampland'/>
+                    <Veins name='CoalHintVeins' block='oreCoal' inherits='PresetHintVeins'>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60101010</WireframeColor> 
+                        <Setting name='MotherlodeFrequency' avg=':= 1.2 * _default_' range=':= _default_'/> 
+                        <Setting name='MotherlodeRangeLimit' avg=':= coalSize * _default_' range=':= coalSize * _default_'/>
+                    </Veins>                
+                </Cloud>
+            </IfCondition>  
+            
+        </ConfigSection>
+    </IfCondition>

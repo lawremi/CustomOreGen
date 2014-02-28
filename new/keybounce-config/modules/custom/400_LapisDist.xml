@@ -1,0 +1,61 @@
+    <IfCondition condition=':= dimension.generator = "RandomLevelSource" | dimension.generator = "ATGLevelSource"'>
+        <ConfigSection> 
+        <!--***************   Lapis Lazuli   *******************-->
+        
+            <IfCondition condition=':= if(age, age.lapisClusters > 0, lapisDist = "vanillaStdGen")'>
+                <StandardGen name='LapisLazuliStandard' block='oreLapis' inherits='PresetStandardGen'> 
+                    <Description> Equivalent to vanilla minecraft lapis lazuli distribution </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40000055</WireframeColor> 
+                    <Setting name='Size' avg=':= 6/8 * lapisSize * _default_'/>
+                    <Setting name='Frequency' avg=':= 0.05 * lapisFreq * if(age,age.lapisClusters,1) * _default_'/>
+                    <Setting name='Height' avg=':= 16/64 * dimension.groundLevel' range=':= 16/64 * dimension.groundLevel' type='normal'/>
+                </StandardGen>
+            </IfCondition>
+                
+            <IfCondition condition=':= if(age, age.lapisVeins > 0, lapisDist = "layeredVeins")'>
+                <Veins name='LapisLazuliVeins' block='oreLapis' inherits='PresetVerticalVeins'>         
+                    <Description> 
+                        Lapis Lazuli spawns in isolated veins that run vertically upward, much like redstone.  However,
+                        lapis veins are too deep to break the suface except occassionally under oceans.
+                    </Description> 
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40000055</WireframeColor> 
+                    <Setting name='MotherlodeFrequency' avg=':= 0.4 * lapisFreq * if(age,age.lapisVeins,1) * _default_'/>
+                    <Setting name='MotherlodeHeight' avg=':= 8/64 * dimension.groundLevel' range='4'/>
+                    <Setting name='BranchLength' avg=':= 36/64 * dimension.groundLevel' range='12' type='normal'/>
+                    <Setting name='BranchInclination' avg=':= -_default_' range=':=_default_'/>     
+                    <Setting name='SegmentRadius' avg=':= lapisSize * _default_' range=':= lapisSize * _default_'/>          
+                </Veins> 
+                <Veins name='LapisLazuliVeinsOcean' inherits='LapisLazuliVeins'>
+                    <Description> This roughly triples the chance of finding lapis lazuli under oceans. </Description> 
+                    <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                    <ReplacesOre block='stone'/>
+                    <Replaces block='dirt'/> 
+                    <Replaces block='sand'/>
+                    <BiomeType name='Water'/>
+                    <Biome name='River' weight='-1'/>
+                </Veins>
+            </IfCondition>
+                
+            <IfCondition condition=':= if(age, age.lapisClouds > 0, lapisDist = "strategicClouds")'>
+                <Cloud name='LapisLazuliCloud' block='oreLapis' inherits='PresetStrategicCloud'>
+                    <Description>  Diffuse lapis lazuli cloud surrounded by single-block "hint" veins, found under oceans </Description> 
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x40000055</WireframeColor> 
+                    <Setting name='DistributionFrequency' avg=':= 2.5 * lapisFreq * if(age,age.lapisClouds,1) * _default_'/>
+                    <Setting name='CloudRadius' avg=':= 0.65 * lapisSize * _default_' range=':= 0.5 * lapisSize * _default_'/>
+                    <Setting name='CloudThickness' avg=':= 0.7 * lapisSize * _default_' range=':= 0.7 * lapisSize * _default_'/> 
+                    <BiomeType name='Water'/>
+                    <Biome name='River' weight='-1'/>
+                    <Veins name='LapisLazuliHintVeins' block='oreLapis' inherits='PresetHintVeins'>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x40000055</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 0.7 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeRangeLimit' avg=':= 0.65 * lapisSize * _default_' range=':= 0.65 * lapisSize * _default_'/>                  
+                    </Veins>                    
+                </Cloud>
+            </IfCondition>
+        
+        </ConfigSection>           
+    </IfCondition>

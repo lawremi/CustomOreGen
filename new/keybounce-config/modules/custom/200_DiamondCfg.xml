@@ -1,0 +1,41 @@
+        <ConfigSection> 
+        <!--*****************   Diamond   **********************-->
+        
+            <OptionChoice name='diamondDist' default='layeredVeins' displayState='shown' displayGroup='groupStdOres'>
+                <Description> Controls how Diamonds are generated </Description>
+                <DisplayName>Diamond Type</DisplayName>
+                <Choice value='layeredVeins' displayValue='Veins'>
+                    <Description> 
+                        Short lava-filled tubes extending upward from bedrock with diamonds around the edges. 
+                    </Description>
+                </Choice>
+                <Choice value='strategicClouds' displayValue='Clouds'>
+                    <Description> 
+                        Uncommon, sparsely populated clouds of ore covering roughly one chunk.
+                    </Description>
+                </Choice>
+                <Choice value='vanillaStdGen' displayValue='Clusters'>
+                    <Description> 
+                        Small clusters of ore scattered evenly from bedrock about one quarter of the way to the surface.  This is the vanilla diamond generation.
+                    </Description>
+                </Choice>
+                <Choice value='none' displayValue='None' description='No diamonds are generated at all.'/>
+            </OptionChoice>
+            
+            <OptionNumeric name='diamondFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupStdOres'>
+                <Description> Frequency multiplier for Diamond distributions </Description>
+                <DisplayName>Diamond Freq.</DisplayName>
+            </OptionNumeric>
+            
+            <OptionNumeric name='diamondSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupStdOres'>
+                <Description> Size multiplier for Diamond distributions </Description>
+                <DisplayName>Diamond Size</DisplayName>
+            </OptionNumeric>    
+                
+            <MystcraftSymbol name='diamondClusters' displayName='Diamond Clusters'/>
+            <MystcraftSymbol name='diamondVeins' displayName='Diamond Veins'/>
+            <MystcraftSymbol name='diamondClouds' displayName='Diamond Clouds'>
+                <Instability>:= 50 * (age.diamondClusters + age.diamondVeins + age.diamondClouds - 1)^3</Instability>
+            </MystcraftSymbol>
+            
+        </ConfigSection>           

@@ -1,0 +1,99 @@
+<!--*************************  CustomOreGen Configuration **********************>
+*
+*   IMPORTANT: TO CUSTOMIZE THIS CONFIGURATION, COPY THIS FILE TO
+*              "CustomOreGen_Config.xml".
+*              THIS FILE WILL BE OVERWRITTEN EVERY TIME THE MOD LOADS.
+*
+*              To override the configuration for specific worlds,
+*              or specific dimensions, copy this file to the
+*              corresponding save directory.
+*
+*   CustomOreGen allows you to customize the generation of Ore within
+*   your worlds. This file contains a list of "distributions", which
+*   place a specific block according to a specific
+*   algorithm.  You can have as many distributions as you want, including
+*   multiple distributions for the same block type.
+*   
+*   There are four basic algorithms available:
+*   "StandardGen", "Susbstitute", "Veins", and "Cloud".
+*
+*   This file is written in XML.
+*   Many names and values are ***CASE SENSISTIVE***.  
+*
+*   For details on how to edit this file, please see the online documentation:
+*
+*   Documentation for original features by JRoush:
+*       http://customoregen.shoutwiki.com/wiki/Main_Page
+*
+*   Documentation for features added by current maintainer:
+*       https://github.com/lawremi/CustomOreGen/wiki/Documentation
+*
+******************************************************************************-->
+
+<Config>
+
+    <!-- ******************** Import Standard Configs ********************** -->
+    <!--
+         NOTE: to override a default config, remove the corresponding
+         directive (and optionally add something to 'modules/custom')
+    -->
+
+<!--
+        Can't do this, sadly. I'd like to just say "Import all stock configs", but since
+        all stock configs are replaced at each run - with no way to say "this is the change" -
+        it fails.
+
+        Potential fix: ModuleInclude. Would import a module from default only if it does not
+        exist in custom; would imply that a module in custom automatically overrides the same
+        name in default. Then, extend it to work with "*.xml".
+
+    <Import file='modules/default/*.xml'/>
+-->
+
+    <Import file='modules/default/ExtraCaves.xml'/>
+<!-- <Import file='modules/default/MinecraftOres.xml'/> -->
+    <Import file='modules/default/IndustrialCraft2.xml'/>
+    <Import file='modules/default/Forestry.xml'/>
+    <Import file='modules/default/ProjectRed.xml'/>
+    <Import file='modules/default/Dartcraft.xml'/>
+    <Import file='modules/default/TinkersConstruct.xml'/>
+    <Import file='modules/default/Metallurgy.xml'/>
+    <Import file='modules/default/Railcraft.xml'/>
+    <Import file='modules/default/Thaumcraft4.xml'/>
+    <Import file='modules/default/BiomesOPlenty.xml'/>
+    <Import file='modules/default/Factorization.xml'/>
+    <Import file='modules/default/ThermalExpansion.xml'/>
+    <Import file='modules/default/SimpleOres2.xml'/>
+
+    <!-- Possible mods to support as standard configs:
+         * EmasherResource
+         * GasCraft (natural gas)
+         * Pam's Harvest Craft (salt)
+         * Gregtech
+         * Mariculture
+    -->
+
+    <!-- ***************** Import Mod-provided configs ********************* -->
+    <!-- NOTE: mods will overwrite these configs upon each load -->
+
+    <!-- *!*!*!** What the Frak!???!!
+            Mods overwrite this on each load.
+            But there is no way to alter/customize/change these
+            ... This ... is a disaster!
+    -->
+
+    <OptionalImport file='modules/mods/*.xml'/>
+    
+    <!-- ******************** Import Custom Configs ************************ -->
+    <OptionalImport file='modules/custom/*.xml'/>
+    
+    <!--*************************   Testing & Debugging   *********************
+    *   I use this section for quick-and-dirty experiments
+    **************************************************************************-->
+    <IfChoice name='debugDist' value='true'>
+       
+        <!-- Experimental distributions should go here -->
+        
+    </IfChoice>
+    
+</Config>

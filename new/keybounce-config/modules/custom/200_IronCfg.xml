@@ -1,0 +1,41 @@
+        <ConfigSection>
+        <!--*******************   Iron   ***********************-->
+            
+            <OptionChoice name='ironDist' default='layeredVeins' displayState='shown' displayGroup='groupStdOres'>
+                <Description> Controls how Iron is generated </Description>
+                <DisplayName>Iron Type</DisplayName>
+                <Choice value='layeredVeins' displayValue='Veins'>
+                    <Description> 
+                        Groups of long narrow veins found about one third of the way down to bedrock.  Especially common in snowy or icy areas.  
+                    </Description>
+                </Choice>
+                <Choice value='strategicClouds' displayValue='Clouds'>
+                    <Description> 
+                        Rare, sparsely populated clouds of ore extending over several chunks.  Found only in snowy or icy areas.
+                    </Description>
+                </Choice>
+                <Choice value='vanillaStdGen' displayValue='Clusters'>
+                    <Description> 
+                        Small evenly scattered clusters of ore.  This is the vanilla iron generation.
+                    </Description>
+                </Choice>
+                <Choice value='none' displayValue='None' description='No iron is generated at all.'/>
+            </OptionChoice>
+            
+            <OptionNumeric name='ironFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupStdOres'>
+                <Description> Frequency multiplier for Iron distributions </Description>
+                <DisplayName>Iron Freq.</DisplayName>
+            </OptionNumeric>
+            
+            <OptionNumeric name='ironSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupStdOres'>
+                <Description> Size multiplier for Iron distributions </Description>
+                <DisplayName>Iron Size</DisplayName>
+            </OptionNumeric>    
+            
+            <MystcraftSymbol name='ironClusters' displayName='Iron Clusters'/>
+            <MystcraftSymbol name='ironVeins' displayName='Iron Veins'/>
+            <MystcraftSymbol name='ironClouds' displayName='Iron Clouds'>
+                <Instability>:= 50 * (age.ironClusters + age.ironVeins + age.ironClouds - 1)^3</Instability>
+            </MystcraftSymbol>
+            
+        </ConfigSection>           

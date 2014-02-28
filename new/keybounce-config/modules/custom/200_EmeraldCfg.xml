@@ -1,0 +1,40 @@
+        <ConfigSection>
+        <!--*****************   Emerald   **********************-->
+        
+            <OptionChoice name='emeraldDist' default='layeredVeins' displayState='shown' displayGroup='groupStdOres'>
+                <Description> Controls how Emeralds are generated </Description>
+                <DisplayName>Emerald Type</DisplayName>
+                <Choice value='layeredVeins' displayValue='Veins'>
+                    <Description> 
+                        Short sloping tubes filled sparsely with emeralds and a few ... surprises.  Vastly more common under open grassy hills.
+                    </Description>
+                </Choice>
+                <Choice value='strategicClouds' displayValue='Clouds'>
+                    <Description> 
+                        Uncommon, sparsely populated clouds of ore covering roughly one chunk.  Found only under open grassy hills.
+                    </Description>
+                </Choice>
+                <Choice value='vanillaStdGen' displayValue='Clusters'>
+                    <Description> 
+                        Single blocks scattered near bedrock under open grassy highlands.  This is the vanilla emerald generation.
+                    </Description>
+                </Choice>
+                <Choice value='none' displayValue='None' description='No emeralds are generated at all.'/>
+            </OptionChoice>
+            
+            <OptionNumeric name='emeraldFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupStdOres'>
+                <Description> Frequency multiplier for Emerald distributions </Description>
+                <DisplayName>Emerald Freq.</DisplayName>
+            </OptionNumeric>
+            
+            <OptionNumeric name='emeraldSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupStdOres'>
+                <Description> Size multiplier for Emerald distributions </Description>
+                <DisplayName>Emerald Size</DisplayName>
+            </OptionNumeric> 
+            
+            <MystcraftSymbol name='emeraldClusters' displayName='Emerald Clusters'/>
+            <MystcraftSymbol name='emeraldVeins' displayName='Emerald Veins'/>
+            <MystcraftSymbol name='emeraldClouds' displayName='Emerald Clouds'>
+                <Instability>:= 50 * (age.emeraldClusters + age.emeraldVeins + age.emeraldClouds - 1)^3</Instability>
+            </MystcraftSymbol>
+        </ConfigSection>

@@ -1,0 +1,41 @@
+        <ConfigSection>
+        <!--*******************   Gold   ***********************-->
+        
+            <OptionChoice name='goldDist' default='layeredVeins' displayState='shown' displayGroup='groupStdOres'>
+                <Description> Controls how Gold is generated </Description>
+                <DisplayName>Gold Type</DisplayName>
+                <Choice value='layeredVeins' displayValue='Veins'>
+                    <Description> 
+                        Groups of long narrow veins found about two thirds of the way down to bedrock.  Most common in temperate hardwood forests, but still very rare.
+                    </Description>
+                </Choice>
+                <Choice value='strategicClouds' displayValue='Clouds'>
+                    <Description> 
+                        Rare, sparsely populated clouds of ore extending over several chunks.  Found only in temperate hardwood forests.
+                    </Description>
+                </Choice>
+                <Choice value='vanillaStdGen' displayValue='Clusters'>
+                    <Description> 
+                        Small clusters of ore scattered evenly from bedrock about halfway to the surface.  This is the vanilla gold generation.
+                    </Description>
+                </Choice>
+                <Choice value='none' displayValue='None' description='No gold is generated at all.'/>
+            </OptionChoice>
+            
+            <OptionNumeric name='goldFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupStdOres'>
+                <Description> Frequency multiplier for Gold distributions </Description>
+                <DisplayName>Gold Freq.</DisplayName>
+            </OptionNumeric>
+            
+            <OptionNumeric name='goldSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupStdOres'>
+                <Description> Size multiplier for Gold distributions </Description>
+                <DisplayName>Gold Size</DisplayName>
+            </OptionNumeric> 
+            
+            <MystcraftSymbol name='goldClusters' displayName='Gold Clusters'/>
+            <MystcraftSymbol name='goldVeins' displayName='Gold Veins'/>
+            <MystcraftSymbol name='goldClouds' displayName='Gold Clouds'>
+                <Instability>:= 50 * (age.goldClusters + age.goldVeins + age.goldClouds - 1)^3</Instability>
+            </MystcraftSymbol>
+            
+        </ConfigSection>           

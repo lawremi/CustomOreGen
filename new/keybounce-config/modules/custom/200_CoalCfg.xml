@@ -1,0 +1,40 @@
+        <ConfigSection>
+        <!--*******************   Coal   ***********************-->
+        
+            <OptionChoice name='coalDist' default='layeredVeins' displayState='shown' displayGroup='groupStdOres'>
+                <Description> Controls how Coal is generated </Description>
+                <DisplayName>Coal Type</DisplayName>
+                <Choice value='layeredVeins' displayValue='Veins'>
+                    <Description> 
+                        Single short, wide veins found near ground level and only sparsely filled with ore.  Most common in swamps.  
+                    </Description>
+                </Choice>
+                <Choice value='strategicClouds' displayValue='Clouds'>
+                    <Description> 
+                        Rare, sparsely populated clouds of ore extending over several chunks.  Found only in swamps. 
+                    </Description>
+                </Choice>
+                <Choice value='vanillaStdGen' displayValue='Clusters'>
+                    <Description> 
+                        Small evenly scattered clusters of ore.  This is the vanilla coal generation.
+                    </Description>
+                </Choice>
+                <Choice value='none' displayValue='None' description='No coal is generated at all.'/>
+            </OptionChoice>
+            
+            <OptionNumeric name='coalFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupStdOres'>
+                <Description> Frequency multiplier for Coal distributions </Description>
+                <DisplayName>Coal Freq.</DisplayName>
+            </OptionNumeric> 
+            
+            <OptionNumeric name='coalSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupStdOres'>
+                <Description> Size multiplier for Coal distributions </Description>
+                <DisplayName>Coal Size</DisplayName>
+            </OptionNumeric>
+
+            <MystcraftSymbol name='coalClusters' displayName='Coal Clusters'/>
+            <MystcraftSymbol name='coalVeins' displayName='Coal Veins'/>
+            <MystcraftSymbol name='coalClouds' displayName='Coal Clouds'>
+                <Instability>:= 50 * (age.coalClusters + age.coalVeins + age.coalClouds - 1)^3</Instability>
+            </MystcraftSymbol>
+        </ConfigSection>        
