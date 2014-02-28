@@ -38,11 +38,20 @@
          directive (and optionally add something to 'modules/custom')
     -->
 
-    <Import file='modules/default/*.xml'/>
-
 <!--
+        Can't do this, sadly. I'd like to just say "Import all stock configs", but since
+        all stock configs are replaced at each run -- with no way to say "this is the change" --
+        it fails.
+
+        Potential fix: ModuleInclude. Would import a module from default only if it does not
+        exist in custom; would imply that a module in custom automatically overrides the same
+        name in default. Then, extend it to work with "*.xml".
+
+    <Import file='modules/default/*.xml'/>
+-->
+
     <Import file='modules/default/ExtraCaves.xml'/>
-    <Import file='modules/default/MinecraftOres.xml'/>
+<!-- <Import file='modules/default/MinecraftOres.xml'/> -->
     <Import file='modules/default/IndustrialCraft2.xml'/>
     <Import file='modules/default/Forestry.xml'/>
     <Import file='modules/default/ProjectRed.xml'/>
@@ -55,7 +64,6 @@
     <Import file='modules/default/Factorization.xml'/>
     <Import file='modules/default/ThermalExpansion.xml'/>
     <Import file='modules/default/SimpleOres2.xml'/>
--->
 
     <!-- Possible mods to support as standard configs:
          * EmasherResource
@@ -67,6 +75,13 @@
 
     <!-- ***************** Import Mod-provided configs ********************* -->
     <!-- NOTE: mods will overwrite these configs upon each load -->
+
+    <!-- *!*!*!** What the Frak!???!!
+            Mods overwrite this on each load.
+            But there is no way to alter/customize/change these
+            ... This ... is a disaster!
+    -->
+
     <OptionalImport file='modules/mods/*.xml'/>
     
     <!-- ******************** Import Custom Configs ************************ -->
