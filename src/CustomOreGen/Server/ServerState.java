@@ -40,6 +40,7 @@ import CustomOreGen.Server.GuiCustomOreGenSettings.GuiOpenMenuButton;
 import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.SimpleProfiler;
 import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -370,7 +371,7 @@ public class ServerState
 
         if (var9 != null && var9 instanceof SaveFormatOld)
         {
-            var8 = (File)ModLoader.getPrivateValue(SaveFormatOld.class, (SaveFormatOld)var9, 0);
+            var8 = (File)ReflectionHelper.getPrivateValue(SaveFormatOld.class, (SaveFormatOld)var9, 0);
         }
 
         var8 = new File(var8, _server.getFolderName());
