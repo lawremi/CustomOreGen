@@ -255,15 +255,13 @@
         <ConfigSection>
         
             <IfCondition condition=':= if(age, age.RCSulfurClusters > 0, RCSulfurDist = "vanillaStdGen")'>
-                <StandardGen name='RCSulfurStandard' block='railcraft.ore:0' inherits='PresetLavaDeposits'> 
-                    <Description> Equivalent to regular RC Sulfur distribution </Description>
+                <StandardGen name='RCSulfurStandard' block='railcraft.ore:0' inherits='PresetStandardGen'> 
+                    <Description> Rare clusters of sulfur near lava </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40edff21</WireframeColor> 
-                    <Setting name='MotherlodeFrequency' avg=':= 0.025 * RCSulfurFreq * if(age,age.RCSulfurVeins,1) * _default_'/> 
-                    <Setting name='MotherlodeHeight' avg=':= 3/64 * dimension.groundLevel' range='0'/>
-                    <Setting name='MotherlodeSize' avg=':= RCSulfurSize * _default_' range=':= RCSulfurSize * _default_'/>
-                    <Setting name='SegmentRadius' avg=':= RCSulfurSize * _default_' range=':= RCSulfurSize * _default_'/>
-                    <Setting name='OreDensity' avg=':= 1.5 * _default_'/>
+                    <Setting name='Frequency' avg=':= 0.025 * RCSulfurFreq * if(age,age.RCSulfurClusters,1) * _default_'/> 
+                    <Setting name='Height' avg=':= 8/64 * dimension.groundLevel' range='0'/>
+                    <Setting name='Size' avg=':= RCSulfurSize * _default_' range=':= RCSulfurSize * _default_'/>
                     <Biome name='.*'/>
                 </StandardGen>
             </IfCondition>   
