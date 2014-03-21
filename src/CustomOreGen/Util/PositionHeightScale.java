@@ -4,7 +4,7 @@ import CustomOreGen.Integration.ATG.ATGIntegration;
 import cpw.mods.fml.common.Loader;
 import net.minecraft.world.World;
 
-public class SurfaceHeightScale implements HeightScale {
+public class PositionHeightScale implements HeightScale {
 
 	@Override
 	public int getHeight(World world, int x, int z) {
@@ -12,13 +12,13 @@ public class SurfaceHeightScale implements HeightScale {
 			if (ATGIntegration.worldIsATG(world)) {
 				return ATGIntegration.getSurfaceHeight(world, x, z);
 			}
-		} 
+		}
 		return new BiomeHeightScale().getHeight(world, x, z);
 	}
 
 	@Override
 	public String getName() {
-		return "surface";
+		return "position";
 	}
 
 }

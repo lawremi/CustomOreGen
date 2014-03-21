@@ -10,10 +10,10 @@ public class BiomeHeightScale implements HeightScale {
 
 	@Override
 	public int getHeight(World world, int x, int z) {
-		if (world.provider.hasNoSky) {
-			return world.provider.getAverageGroundLevel();
-		}
 		BiomeGenBase biome = world.getBiomeGenForCoords(x, z);
+		if (world.provider.hasNoSky || biome == null) {
+			return new WorldHeightScale().getHeight(world, x, z);
+		}
 		int maxBlockHeight = biomeToBlockHeight(biome.maxHeight, world);
 		int minBlockHeight = biomeToBlockHeight(biome.minHeight, world);
 		int avgBlockHeight = (maxBlockHeight + minBlockHeight) / 2;

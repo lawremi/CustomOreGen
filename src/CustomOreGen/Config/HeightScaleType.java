@@ -3,7 +3,7 @@ package CustomOreGen.Config;
 import CustomOreGen.Util.HeightScale;
 
 public enum HeightScaleType {
-	Base, Sealevel, Biome, Surface;
+	Base, World, Biome, Position, SeaLevel, CloudLevel;
 	
 	public HeightScale getHeightScale() throws ParserException {
 		String className = "CustomOreGen.Util." + name() + "HeightScale";

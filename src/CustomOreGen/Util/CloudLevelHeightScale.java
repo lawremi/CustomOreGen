@@ -2,16 +2,16 @@ package CustomOreGen.Util;
 
 import net.minecraft.world.World;
 
-public class SealevelHeightScale implements HeightScale {
+public class CloudLevelHeightScale implements HeightScale {
 
 	@Override
 	public int getHeight(World world, int x, int z) {
-		return world.provider.getAverageGroundLevel();
+		return (int)world.provider.getCloudHeight();
 	}
 
 	@Override
 	public String getName() {
-		return "sealevel";
+		return "cloudlevel";
 	}
 
 }
