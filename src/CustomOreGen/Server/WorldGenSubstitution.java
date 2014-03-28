@@ -271,7 +271,7 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
                                             int match = this.oreBlock.getMatchingBlock(random);
                                             int matchID = match >>> 16;
                                             int matchMeta = match & 65535;
-                                            if (match != -1 && Block.blocksList[matchID].canBlockStay(world, x, y, z) && 
+                                            if (match != -1 && (matchID == 0 || Block.blocksList[matchID].canBlockStay(world, x, y, z)) && 
                                             		chunk.setBlockIDWithMetadata(x, y, z, matchID, matchMeta))
                                             {
                                                 ++this.placedBlocks;
