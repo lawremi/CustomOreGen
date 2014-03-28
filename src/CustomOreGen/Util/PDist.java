@@ -115,6 +115,25 @@ public class PDist implements Copyable<PDist>
         return ival;
 	}
 
+    public float standardize(float x) {
+    	return (x - this.mean) / this.range;
+    }
+    
+    public float cdf(float x) {
+    	switch (this.type)
+        {
+            case uniform:
+                return standardize(x);
+
+            case normal:
+            	float z = standardize(x);
+                return (float)(1/(1 + Math.exp(-0.07056 * Math.pow(z, 3) - 1.5976 * z)));
+            	
+            default:
+                return 0.0F;
+        }
+    }
+    
 	public String toString()
     {
         return String.format("%f +- %f %s", new Object[] {Float.valueOf(this.mean), Float.valueOf(this.range), this.type.name()});

@@ -747,4 +747,40 @@ public class MapGenVeins extends MapGenOreDistribution
 		return WordData.Flow;
 	}
 
+	public int getAverageBranchLength() {
+		return this.getAverageBranchLength(this.brLength.mean);
+	}
+	
+	private int getAverageBranchLength(float length)
+    {
+        int avgBrLength = 0;
+        
+        while (length > 0.0F)
+        {
+        	float segLen = this.sgLength.mean;
+            
+        	if (segLen > length)
+            {
+                segLen = length;
+            }
+        	avgBrLength += segLen;
+            length -= segLen;
+            
+            for (int axisTheta = Math.round(this.sgForkFrequency.mean); axisTheta > 0; --axisTheta)
+            {
+                float fkLenMult = this.sgForkLenMult.mean;
+                avgBrLength += this.getAverageBranchLength(length * (fkLenMult > 1.0F ? 1.0F : fkLenMult));
+            }
+        }
+        return avgBrLength;
+    }
+
+	@Override
+	public double getAverageOreCount() {
+		double mlVolume = MathHelper.sphericalVolume(this.mlSize.mean * this.orRadiusMult.mean);
+		double brVolume = MathHelper.cylindricalVolume(this.getAverageBranchLength(), this.sgRadius.mean * this.orRadiusMult.mean);
+		double totalVolume = this.brFrequency.mean * brVolume + mlVolume;
+		return this.orDensity.mean * totalVolume;
+	}
+
 }

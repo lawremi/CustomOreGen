@@ -327,4 +327,14 @@ public class MapGenCloud extends MapGenOreDistribution
 	public String getNarayanWord() {
 		return WordData.Entropy;
 	}
+
+	@Override
+	public double getAverageOreCount() {
+		float radius = this.clRadius.mean * this.orRadiusMult.mean;
+		float thickness = this.clThickness.pdist.mean * this.orRadiusMult.mean;
+		float v = (4.0F / 3.0F) * radius * radius * thickness;
+		PDist simplex = new PDist(0.5F, 0.1F, Type.normal);
+		double aboveNoiseCutoff = (1 - simplex.cdf(this.orVolumeNoiseCutoff.mean));
+		return v * this.orDensity.pdist.mean * aboveNoiseCutoff;
+	}
 }

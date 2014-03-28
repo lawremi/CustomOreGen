@@ -6,15 +6,15 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ForgeChunkManager.ForceChunkEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.world.WorldEvent.Load;
 import CustomOreGen.Client.ClientState;
+import CustomOreGen.Integration.MystCraft.MystcraftObserver;
 import CustomOreGen.Server.ServerState;
-import CustomOreGen.Server.WorldConfig;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -26,6 +26,8 @@ public class ForgeInterface
         ForgeInterface inst = new ForgeInterface();
         MinecraftForge.EVENT_BUS.register(inst);
         MinecraftForge.ORE_GEN_BUS.register(inst);
+        //Enable when ready
+        //MinecraftForge.EVENT_BUS.register(MystcraftObserver.instance());
         return inst;
     }
 

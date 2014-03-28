@@ -160,6 +160,7 @@ public class ConsoleCommands
                             values.put(entry.getKey(), value);
                         }
                     }
+                    values.put("Expected ores per chunk", (float)dist.getOresPerChunk());
 
                     msg.append(" (" + values.size() + "/" + descriptions.size() + " settings)");
 

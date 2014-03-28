@@ -115,6 +115,12 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         }
     }
 
+	public void add(BlockDescriptor desc, float weight) {
+		for (Descriptor d : desc._descriptors) {
+			this.add(d.description, d.weight * weight, d.describesOre);
+		}
+	}
+
     protected float[] regexMatch(String id, String name)
     {
         float[] weights = new float[Short.SIZE + 1];
@@ -398,5 +404,4 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             return this.description + " - " + Float.toString(this.weight);
         }
     }
-
 }

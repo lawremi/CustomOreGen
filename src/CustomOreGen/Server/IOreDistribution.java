@@ -28,6 +28,8 @@ public interface IOreDistribution
     
     String getNarayanWord();
     
+    double getOresPerChunk();
+    
     public static interface IDistributionFactory
     {
         IOreDistribution createDistribution(int var1);

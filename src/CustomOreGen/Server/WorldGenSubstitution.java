@@ -324,4 +324,9 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
 	public String getNarayanWord() {
 		return WordData.Change;
 	}
+
+	@Override
+	public double getOresPerChunk() {
+		return this.maxHeight - this.minHeight;
+	}
 }

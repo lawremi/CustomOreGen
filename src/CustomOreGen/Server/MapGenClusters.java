@@ -99,7 +99,7 @@ public class MapGenClusters extends MapGenOreDistribution
             {
                 float ns = (float)s / (float)(this.rad.length - 1);
                 float baseRadius = (float)random.nextDouble() * (float)this.size / 32.0F;
-                this.rad[s] = ((float)Math.sin((double)ns * Math.PI) + 1.0F) * baseRadius + 0.5F;
+                this.rad[s] = MapGenClusters.adjustRadius(baseRadius, ns);
                 float xCenter = this.ptA[0] + (this.ptB[0] - this.ptA[0]) * ns;
                 float yCenter = this.ptA[1] + (this.ptB[1] - this.ptA[1]) * ns;
                 float zCenter = this.ptA[2] + (this.ptB[2] - this.ptA[2]) * ns;
@@ -192,7 +192,7 @@ public class MapGenClusters extends MapGenOreDistribution
                     }
 
                     gb.setPositionTransform(trans);
-                    float radius = ((float)Math.sin(Math.PI * (double)step / (double)((float)stepCount)) + 1.0F) * (float)this.size / 32.0F + 0.5F;
+                    float radius = MapGenClusters.adjustRadius(this.size / 32.0F, (double)step/(double)stepCount);
 
                     for (int s = 0; s < circleSides; ++s)
                     {
@@ -216,6 +216,21 @@ public class MapGenClusters extends MapGenOreDistribution
 	@Override
 	public String getNarayanWord() {
 		return WordData.Tradition;
+	}
+
+	private static float adjustRadius(double baseRadius, double fraction) {
+		return (float)((Math.sin(fraction * Math.PI) + 1.0F) * baseRadius + 0.5F);
+	}
+	
+	@Override
+	public double getAverageOreCount() {
+		int segLen = MathHelper.ceiling_float_int(this.clSize.mean / 8.0F) * 2;
+		double volume = 0;
+		for (int s = 0; s < segLen; s++) {
+			float rad = adjustRadius(this.clSize.mean / 64.0F, (double)s / (double)segLen);
+			volume += MathHelper.cylindricalVolume(1.0F, rad);
+		}
+		return volume;
 	}
 
 }

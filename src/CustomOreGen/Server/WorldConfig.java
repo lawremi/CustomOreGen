@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -34,6 +33,7 @@ import CustomOreGen.MystcraftSymbolData;
 import CustomOreGen.Config.ConfigParser;
 import CustomOreGen.Config.PropertyIO;
 import CustomOreGen.Util.BiomeDescriptor;
+import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.CIStringMap;
 import CustomOreGen.Util.MapCollection;
 
@@ -55,6 +55,7 @@ public class WorldConfig
     private Map<String,Integer> worldProperties;
     private Map cogSymbolData;
 	private Collection<BiomeDescriptor> biomeSets;
+	private BlockDescriptor equivalentBlockDescriptor;
 
     public static WorldConfig createEmptyConfig()
     {
@@ -493,4 +494,23 @@ public class WorldConfig
         return Collections.unmodifiableCollection(matches);
 	}
 
+	public BlockDescriptor getEquivalentBlockDescriptor() {
+		if (this.equivalentBlockDescriptor == null) {
+			this.equivalentBlockDescriptor = this.makeEquivalentBlockDescriptor();
+		}
+		return this.equivalentBlockDescriptor;
+	}
+
+	private BlockDescriptor makeEquivalentBlockDescriptor() {
+		double totalWeight = 0;
+		for (IOreDistribution dist : this.oreDistributions) {
+			totalWeight += dist.getOresPerChunk();
+		}
+		BlockDescriptor desc = new BlockDescriptor();
+		for (IOreDistribution dist : this.oreDistributions) {
+			BlockDescriptor oreBlock = (BlockDescriptor)dist.getDistributionSetting("OreBlock");
+			desc.add(oreBlock, (float)(dist.getOresPerChunk() / totalWeight));
+		}
+		return desc;
+	}
 }

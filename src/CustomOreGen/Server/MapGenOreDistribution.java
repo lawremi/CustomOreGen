@@ -274,8 +274,15 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             this.completedStructureBlocks = this.placedBlocks = 0L;
         }
     }
+    
+    public abstract double getAverageOreCount();
+    
+    @Override
+	public double getOresPerChunk() {
+		return this.frequency.pdist.mean * getAverageOreCount();
+	}
 
-    public GeometryStream getDebuggingGeometry(World world, int chunkX, int chunkZ)
+	public GeometryStream getDebuggingGeometry(World world, int chunkX, int chunkZ)
     {
         if (this._canGenerate && this._valid)
         {
