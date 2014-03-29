@@ -111,12 +111,12 @@
        
         </ConfigSection>
         
-        <!--***************   Green Sapphire   *****************-->
+        <!--***************   Peridot   *****************-->
         <ConfigSection>
             
             <OptionChoice name='PRPeridotDist' displayState='shown' displayGroup='groupProjectRed'>
-                <Description> Controls how Project Red 2 Green Sapphires are generated </Description>
-                <DisplayName>PR G. Sapphire Type</DisplayName>
+                <Description> Controls how Project Red 2 Peridots are generated </Description>
+                <DisplayName>PR Peridot Type</DisplayName>
                 <Default>:= if(blockExists("projectred.exploration.ore:2"),"layeredVeins","disabled")</Default>
                 <Choice value='layeredVeins' displayValue='Veins'>
                     <Description> 
@@ -130,27 +130,27 @@
                 </Choice>
                 <Choice value='vanillaStdGen' displayValue='Clusters'>
                     <Description> 
-                        Small clusters of ore scattered evenly from bedrock about three quarters of the way to the surface.  This is the default Project Red green sapphire generation.
+                        Small clusters of ore scattered evenly from bedrock about three quarters of the way to the surface.  This is the default Project Red peridot generation.
                     </Description>
                 </Choice>
-                <Choice value='none' displayValue='None' description='No green sapphires are generated at all.'/>
-                <Choice value='disabled' displayValue='Disabled' description='No green sapphires are generated, and no green sapphire symbols are available in Mystcraft ages.'/>
+                <Choice value='none' displayValue='None' description='No peridots are generated at all.'/>
+                <Choice value='disabled' displayValue='Disabled' description='No peridots are generated, and no peridots symbols are available in Mystcraft ages.'/>
             </OptionChoice>
             
             <OptionNumeric name='PRPeridotFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupProjectRed'>
-                <Description> Frequency multiplier for Project Red 2 Green Sapphire distributions </Description>
-                <DisplayName>PR G. Sapphire Freq.</DisplayName>
+                <Description> Frequency multiplier for Project Red 2 Peridot distributions </Description>
+                <DisplayName>PR Peridot Freq.</DisplayName>
             </OptionNumeric>
             
             <OptionNumeric name='PRPeridotSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupProjectRed'>
-                <Description> Size multiplier for Project Red 2 Green Sapphire distributions </Description>
-                <DisplayName>PR G. Sapphire Size</DisplayName>
+                <Description> Size multiplier for Project Red 2 Peridot distributions </Description>
+                <DisplayName>PR Peridot Size</DisplayName>
             </OptionNumeric>
             
             <IfCondition condition=':= PRPeridotDist != "disabled"'>
-                <MystcraftSymbol name='PRPeridotClusters' displayName='Green Sapphire Clusters'/>
-                <MystcraftSymbol name='PRPeridotVeins' displayName='Green Sapphire Veins'/>
-                <MystcraftSymbol name='PRPeridotClouds' displayName='Green Sapphire Clouds'>
+                <MystcraftSymbol name='PRPeridotClusters' displayName='Peridot Clusters'/>
+                <MystcraftSymbol name='PRPeridotVeins' displayName='Peridot Veins'/>
+                <MystcraftSymbol name='PRPeridotClouds' displayName='Peridot Clouds'>
                     <Instability>:= 50 * (age.PRPeridotClusters + age.PRPeridotVeins + age.PRPeridotClouds - 1)^3</Instability>
                 </MystcraftSymbol>
             </IfCondition>
@@ -299,7 +299,7 @@
         
             <IfCondition condition=':= if(age, age.PRPeridotClusters > 0, PRPeridotDist = "vanillaStdGen")'>
                 <StandardGen name='PRPeridotStandard' block='projectred.exploration.ore:2' inherits='PresetStandardGen'> 
-                    <Description> Equivalent to regular PR green sapphire distribution </Description>
+                    <Description> Equivalent to regular PR peridot distribution </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x4020FF20</WireframeColor> 
                     <Setting name='Size' avg=':= 7/8 * PRPeridotSize * _default_'/> 
