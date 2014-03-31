@@ -75,7 +75,8 @@ public class CustomOreGenBase
             "BiomesOPlenty.xml",
             "Factorization.xml",
             "ThermalExpansion.xml",
-            "SimpleOres2.xml"
+            "SimpleOres2.xml",
+            "Galacticraft.xml"
         };
         for (String module : extraModules) {
         	unpackConfigFile("modules/" + module, new File(defaultModulesDir, module));
