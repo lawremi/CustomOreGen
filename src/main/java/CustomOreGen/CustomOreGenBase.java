@@ -41,7 +41,6 @@ public class CustomOreGenBase
 
     public static void onModPostLoad()
     {
-        ConsoleCommands.createAndRegister();
         unpackConfigs();
         hasMystcraft();
     }

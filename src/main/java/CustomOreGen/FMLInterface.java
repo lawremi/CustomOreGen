@@ -1,5 +1,6 @@
 package CustomOreGen;
 
+import java.lang.reflect.Method;
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
@@ -12,7 +13,10 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.storage.WorldInfo;
 import CustomOreGen.Client.ClientState;
+import CustomOreGen.Server.ConsoleCommands;
 import CustomOreGen.Server.ServerState;
+import CustomOreGen.Util.ConsoleCommand;
+import CustomOreGen.Util.ConsoleCommand.CommandDelegate;
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -56,10 +60,23 @@ public class FMLInterface implements IWorldGenerator
     @EventHandler
     public void onServerStarting(FMLServerStartingEvent event)
     {
-        ServerState.checkIfServerChanged(MinecraftServer.getServer(), (WorldInfo)null);
+        ServerState.checkIfServerChanged(MinecraftServer.getServer(), (WorldInfo)null);    
+        registerCommands(event);
     }
 
-    public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
+    private void registerCommands(FMLServerStartingEvent event) {
+    	CustomOreGenBase.log.debug("Registering Console command interface ...");
+        ConsoleCommands commands = new ConsoleCommands();
+        
+        for (Method method : ConsoleCommands.class.getMethods()) {
+        	if (method.getAnnotation(CommandDelegate.class) != null)
+            {
+                event.registerServerCommand(new ConsoleCommand(commands, method));
+            }
+        }
+	}
+
+	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
     {
         ServerState.checkIfServerChanged(MinecraftServer.getServer(), world.getWorldInfo());
         ServerState.onPopulateChunk(world, random, chunkX, chunkZ);

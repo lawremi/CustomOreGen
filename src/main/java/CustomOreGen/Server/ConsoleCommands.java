@@ -27,21 +27,6 @@ import CustomOreGen.Util.PDist.Type;
 
 public class ConsoleCommands
 {
-    public static ConsoleCommands createAndRegister()
-    {
-        CustomOreGenBase.log.debug("Registering Console command interface ...");
-        ConsoleCommands commands = new ConsoleCommands();
-        
-        for (Method method : ConsoleCommands.class.getMethods()) {
-        	if (method.getAnnotation(CommandDelegate.class) != null)
-            {
-                ModLoader.addCommand(new ConsoleCommand(commands, method));
-            }
-        }
-
-        return commands;
-    }
-
     private static void resetClientGeometryCache()
     {
         (new CustomPacketPayload(PayloadType.DebuggingGeometryReset, (Serializable)null)).sendToAllClients();
