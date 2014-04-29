@@ -8,13 +8,12 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.ForgeChunkManager.ForceChunkEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.Event.Result;
-import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.world.WorldEvent.Load;
 import CustomOreGen.Client.ClientState;
-import CustomOreGen.Integration.MystCraft.MystcraftObserver;
 import CustomOreGen.Server.ServerState;
+import cpw.mods.fml.common.eventhandler.Event.Result;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -31,14 +30,14 @@ public class ForgeInterface
         return inst;
     }
 
-    @ForgeSubscribe
+    @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onRenderWorldLast(RenderWorldLastEvent event)
     {
         ClientState.onRenderWorld(Minecraft.getMinecraft().renderViewEntity, (double)event.partialTicks);
     }
 
-    @ForgeSubscribe
+    @SubscribeEvent
     public void onLoadWorld(Load event)
     {
         if (event.world instanceof WorldServer)
@@ -52,7 +51,7 @@ public class ForgeInterface
         }
     }
 
-    @ForgeSubscribe
+    @SubscribeEvent
     public void onGenerateMinable(OreGenEvent.GenerateMinable event)
     {
     	ServerState.checkIfServerChanged(MinecraftServer.getServer(), event.world.getWorldInfo());
@@ -63,7 +62,7 @@ public class ForgeInterface
         event.setResult((vanillaOreGen || isCustom || !isOre) ? Result.ALLOW : Result.DENY);
     }
     
-    @ForgeSubscribe
+    @SubscribeEvent
     public void onForceChunk(ForceChunkEvent event) {
     	ServerState.chunkForced(event.ticket.world, event.location);
     }
