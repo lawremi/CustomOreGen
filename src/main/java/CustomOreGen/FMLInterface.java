@@ -11,20 +11,19 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.storage.WorldInfo;
-import net.minecraftforge.common.ForgeChunkManager.ForceChunkEvent;
 import CustomOreGen.Client.ClientState;
 import CustomOreGen.Server.ServerState;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -35,7 +34,7 @@ import cpw.mods.fml.relauncher.SideOnly;
         acceptedMinecraftVersions = "@MCVERSION@",
         dependencies = "after:*;"
 )
-public class FMLInterface implements ITickHandler, IWorldGenerator
+public class FMLInterface implements IWorldGenerator
 {
     @Instance("CustomOreGen")
     public static FMLInterface instance;
@@ -47,7 +46,6 @@ public class FMLInterface implements ITickHandler, IWorldGenerator
     {
         CustomOreGenBase.log = event.getModLog();
         CustomOreGenBase.log.finer("Registering FML interface ...");
-        TickRegistry.registerTickHandler(this, FMLCommonHandler.instance().getSide());
         GameRegistry.registerWorldGenerator(this);
 
         ForgeInterface.createAndRegister();
@@ -67,30 +65,22 @@ public class FMLInterface implements ITickHandler, IWorldGenerator
         ServerState.onPopulateChunk(world, random, chunkX, chunkZ);
     }
     
-    public void tickStart(EnumSet type, Object ... tickData) {}
-
-    public void tickEnd(EnumSet type, Object ... tickData)
+    @SubscribeEvent
+    public void onServerTick(ServerTickEvent event)
     {
-        if (type.contains(TickType.SERVER))
-        {
-            this.onServerTick();
-        }
-
-        if (type.contains(TickType.CLIENT))
-        {
-            this.onClientTick();
-        }
-    }
-
-    private void onServerTick()
-    {
-        ServerState.checkIfServerChanged(MinecraftServer.getServer(), (WorldInfo)null);
-        ++this._serverTickCount;
+    	if (event.phase == TickEvent.Phase.END) {
+    		ServerState.checkIfServerChanged(MinecraftServer.getServer(), (WorldInfo)null);
+    		++this._serverTickCount;
+    	}
     }
 
     @SideOnly(Side.CLIENT)
-    private void onClientTick()
+    @SubscribeEvent
+    private void onClientTick(ClientTickEvent event)
     {
+    	if (event.phase != TickEvent.Phase.END) {
+    		return;
+    	}
         Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.theWorld == null && mc.currentScreen != null)
@@ -116,20 +106,17 @@ public class FMLInterface implements ITickHandler, IWorldGenerator
             ServerState.onWorldCreationMenuTick((GuiCreateWorld)null);
         }
 
+        /* Still needed?
         if (mc.isSingleplayer())
         {
             this.onServerTick();
         }
+        */
 
         if (mc.theWorld != null && ClientState.hasWorldChanged(mc.theWorld))
         {
             ClientState.onWorldChanged(mc.theWorld);
         }
-    }
-
-    public EnumSet ticks()
-    {
-        return EnumSet.of(TickType.CLIENT, TickType.SERVER);
     }
 
     public String getLabel()
