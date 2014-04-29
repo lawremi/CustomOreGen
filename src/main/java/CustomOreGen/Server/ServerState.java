@@ -18,14 +18,11 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.src.ModLoader;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.storage.RegionFileCache;
-import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.SaveFormatOld;
 import net.minecraft.world.storage.WorldInfo;
@@ -424,7 +421,7 @@ public class ServerState
             }
 
             GuiOpenMenuButton button1 = (GuiOpenMenuButton)_optionsGuiButton;
-            Collection controlList = (Collection)ModLoader.getPrivateValue(GuiScreen.class, gui, 3);
+            Collection controlList = (Collection)ReflectionHelper.getPrivateValue(GuiScreen.class, gui, 3);
 
             if (!controlList.contains(button1))
             {
@@ -433,7 +430,7 @@ public class ServerState
                 controlList.add(button1);
             }
 
-            button1.drawButton = !((Boolean)ModLoader.getPrivateValue(GuiCreateWorld.class, gui, 11)).booleanValue();
+            button1.drawButton = !((Boolean)ReflectionHelper.getPrivateValue(GuiCreateWorld.class, gui, 11)).booleanValue();
         }
     }
 
