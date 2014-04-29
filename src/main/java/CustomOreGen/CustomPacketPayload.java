@@ -1,5 +1,7 @@
 package CustomOreGen;
 
+import static io.netty.buffer.Unpooled.wrappedBuffer;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -16,22 +18,24 @@ import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
-import net.minecraft.network.NetServerHandler;
-import net.minecraft.network.packet.Packet250CustomPayload;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.src.BaseMod;
-import net.minecraft.src.ModLoader;
+import cpw.mods.fml.common.network.FMLEventChannel;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 
 public class CustomPacketPayload
 {
     public final PayloadType type;
     public final Serializable data;
-    private static Map _xpacketMap = new HashMap();
+    private static Map<String, FMLEventChannel> channels = new HashMap();
+    private static Map<Integer, ByteArrayOutputStream> _xpacketMap = new HashMap();
     private static AtomicInteger _xpacketNextID = new AtomicInteger(0);
-    private static final String CHANNEL = "CustomOreGen";
-    private static final String XCHANNEL = "CustomOreGenX";
+    private static final String CHANNEL_NAME = "CustomOreGen";
+    private static final String XCHANNEL_NAME = "CustomOreGenX";
     private static final int MAX_SIZE = 32000;
-
+    
+    
     public CustomPacketPayload(PayloadType type, Serializable data)
     {
         this.type = type;
@@ -40,26 +44,26 @@ public class CustomPacketPayload
 
     public void sendToServer()
     {
-    	for (Packet250CustomPayload packet : this.createPackets()) {
-    		ModLoader.sendPacket(packet);
+    	for (FMLProxyPacket packet : this.createPackets()) {
+    		channels.get(packet.channel()).sendToServer(packet);
         }
     }
 
-    public void sendToClient(NetServerHandler handler)
+    public void sendToClient(EntityPlayerMP player)
     {
-    	for (Packet250CustomPayload packet : this.createPackets()) {
-    		ModLoader.serverSendPacket(handler, packet);
+    	for (FMLProxyPacket packet : this.createPackets()) {
+    		channels.get(packet.channel()).sendTo(packet, player);
         }
     }
 
     public void sendToAllClients()
     {
-    	for (Packet250CustomPayload packet : this.createPackets()) {
-    		MinecraftServer.getServer().getConfigurationManager().sendPacketToAllPlayers(packet);
+    	for (FMLProxyPacket packet : this.createPackets()) {
+    		channels.get(packet.channel()).sendToAll(packet);
         }
     }
 
-    private Packet250CustomPayload[] createPackets()
+    private FMLProxyPacket[] createPackets()
     {
         Object payloadData = null;
         boolean compressed = false;
@@ -83,12 +87,12 @@ public class CustomPacketPayload
 
         if (!compressed)
         {
-            return new Packet250CustomPayload[] {new Packet250CustomPayload("CustomOreGen", var11)};
+            return new FMLProxyPacket[] {new FMLProxyPacket(wrappedBuffer(var11), CHANNEL_NAME)};
         }
         else
         {
             int var12 = (var11.length + 32000 - 1) / 32000;
-            Packet250CustomPayload[] var13 = new Packet250CustomPayload[var12];
+            FMLProxyPacket[] var13 = new FMLProxyPacket[var12];
             int id = _xpacketNextID.incrementAndGet();
             int i = 1;
 
@@ -106,42 +110,41 @@ public class CustomPacketPayload
                 piece[7] = (byte)(i >> 8);
                 System.arraycopy(var11, offset, piece, 8, dataLen);
                 offset += dataLen;
-                var13[i - 1] = new Packet250CustomPayload("CustomOreGenX", piece);
+                var13[i - 1] = new FMLProxyPacket(wrappedBuffer(piece), XCHANNEL_NAME);
             }
 
             return var13;
         }
     }
 
-    public static CustomPacketPayload decodePacket(Packet250CustomPayload packet)
+    public static CustomPacketPayload decodePacket(FMLProxyPacket packet)
     {
         try
         {
             Object ex = null;
 
-            if (packet.channel.equals("CustomOreGenX"))
+            if (packet.channel().equals(XCHANNEL_NAME))
             {
-                int objStream = packet.data[0] & 255;
-                objStream |= (packet.data[1] & 255) << 8;
-                objStream |= (packet.data[2] & 255) << 16;
-                objStream |= (packet.data[3] & 255) << 24;
-                int type = packet.data[4] & 255;
-                type |= (packet.data[5] & 255) << 8;
-                int data = packet.data[6] & 255;
-                data |= (packet.data[7] & 255) << 8;
+            	byte[] packetData = packet.payload().array();
+                int objStream = packetData[0] & 255;
+                objStream |= (packetData[1] & 255) << 8;
+                objStream |= (packetData[2] & 255) << 16;
+                objStream |= (packetData[3] & 255) << 24;
+                int type = packetData[4] & 255;
+                type |= (packetData[5] & 255) << 8;
+                int data = packetData[6] & 255;
+                data |= (packetData[7] & 255) << 8;
 
                 if (type > 1)
                 {
-                    Map var5 = _xpacketMap;
-
                     synchronized (_xpacketMap)
                     {
-                        ByteArrayOutputStream partialData = (ByteArrayOutputStream)_xpacketMap.get(Integer.valueOf(objStream));
+                        ByteArrayOutputStream partialData = _xpacketMap.get(objStream);
 
                         if (partialData == null)
                         {
                             partialData = new ByteArrayOutputStream(32000 * (type + 1));
-                            _xpacketMap.put(Integer.valueOf(objStream), partialData);
+                            _xpacketMap.put(objStream, partialData);
                         }
 
                         if (partialData.size() != (data - 1) * 32000)
@@ -149,32 +152,32 @@ public class CustomPacketPayload
                             throw new RuntimeException("Packet # " + data + "/" + type + " in group " + objStream + " does not match next position in buffer " + (partialData.size() / 32000 + 1));
                         }
 
-                        partialData.write(packet.data, 8, packet.data.length - 8);
+                        partialData.write(packetData, 8, packetData.length - 8);
 
                         if (data < type)
                         {
                             return null;
                         }
 
-                        _xpacketMap.remove(Integer.valueOf(objStream));
+                        _xpacketMap.remove(objStream);
                         partialData.close();
                         ex = new InflaterInputStream(new ByteArrayInputStream(partialData.toByteArray()));
                     }
                 }
                 else
                 {
-                    ex = new InflaterInputStream(new ByteArrayInputStream(packet.data, 8, packet.data.length - 8));
+                    ex = new InflaterInputStream(new ByteArrayInputStream(packetData, 8, packetData.length - 8));
                 }
             }
             else
             {
-                if (!packet.channel.equals("CustomOreGen"))
+                if (!packet.channel().equals(CHANNEL_NAME))
                 {
-                    CustomOreGenBase.log.warning("Invalid custom packet channel: \'" + packet.channel + "\'");
+                    CustomOreGenBase.log.warning("Invalid custom packet channel: \'" + packet.channel() + "\'");
                     return null;
                 }
 
-                ex = new ByteArrayInputStream(packet.data);
+                ex = new ByteArrayInputStream(packet.payload().array());
             }
 
             TranslatingObjectInputStream objStream1 = new TranslatingObjectInputStream((InputStream)ex);
@@ -190,12 +193,18 @@ public class CustomPacketPayload
         }
     }
 
-    public static void registerChannels(BaseMod mod)
+    public static void registerChannels(Object mod)
     {
-        ModLoader.registerPacketChannel(mod, "CustomOreGen");
-        ModLoader.registerPacketChannel(mod, "CustomOreGenX");
+    	registerChannel(mod, CHANNEL_NAME);
+    	registerChannel(mod, XCHANNEL_NAME);
     }
     
+    private static void registerChannel(Object mod, String name) {
+    	FMLEventChannel channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(name);
+        channels.put(name, channel);
+        channel.register(mod);
+    }
+        
     private class AutoCompressionStream extends OutputStream
     {
         private int compressionThreshold;

@@ -11,8 +11,6 @@ import java.util.regex.Pattern;
 
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.network.NetServerHandler;
-import net.minecraft.src.ModLoader;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.WorldServer;
 import CustomOreGen.CustomOreGenBase;
@@ -190,8 +188,7 @@ public class ConsoleCommands
     {
         if (sender instanceof EntityPlayerMP)
         {
-            NetServerHandler handler = ((EntityPlayerMP)sender).playerNetServerHandler;
-            (new CustomPacketPayload(PayloadType.DebuggingGeometryRenderMode, renderMode)).sendToClient(handler);
+            (new CustomPacketPayload(PayloadType.DebuggingGeometryRenderMode, renderMode)).sendToClient((EntityPlayerMP)sender);
         }
         else
         {

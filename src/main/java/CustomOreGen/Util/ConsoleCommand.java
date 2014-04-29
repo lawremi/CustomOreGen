@@ -17,10 +17,9 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.SyntaxErrorException;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.network.NetServerHandler;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatMessageComponent;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import CustomOreGen.CustomPacketPayload;
@@ -66,12 +65,11 @@ public class ConsoleCommand extends CommandBase
         {
             if (recipient instanceof EntityPlayerMP)
             {
-                NetServerHandler handler = ((EntityPlayerMP)recipient).playerNetServerHandler;
-                (new CustomPacketPayload(PayloadType.CommandResponse, text)).sendToClient(handler);
+                (new CustomPacketPayload(PayloadType.CommandResponse, text)).sendToClient((EntityPlayerMP)recipient);
             }
             else
             {
-                recipient.sendChatToPlayer(ChatMessageComponent.createFromText(text));
+                recipient.addChatMessage(new ChatComponentText(text));
             }
         }
     }

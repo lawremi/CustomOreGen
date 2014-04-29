@@ -50,10 +50,9 @@ public class FMLInterface implements ITickHandler, IWorldGenerator
         TickRegistry.registerTickHandler(this, FMLCommonHandler.instance().getSide());
         GameRegistry.registerWorldGenerator(this);
 
-        if (CustomOreGenBase.hasForge())
-        {
-            ForgeInterface.createAndRegister();
-        }
+        ForgeInterface.createAndRegister();
+     
+        CustomPacketPayload.registerChannels(new FMLNetworkHandler());
     }
 
     @EventHandler
