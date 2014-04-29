@@ -134,7 +134,6 @@ public class ServerState
             }
         }
 
-        ModLoader.throwException((String)null, error);
         return false;
     }
 
