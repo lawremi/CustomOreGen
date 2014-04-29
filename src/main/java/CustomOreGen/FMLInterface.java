@@ -52,7 +52,7 @@ public class FMLInterface implements ITickHandler, IWorldGenerator
 
         ForgeInterface.createAndRegister();
      
-        CustomPacketPayload.registerChannels(new FMLNetworkHandler());
+        CustomPacketPayload.registerChannels(new CustomPacketPayloadHandler());
     }
 
     @EventHandler
