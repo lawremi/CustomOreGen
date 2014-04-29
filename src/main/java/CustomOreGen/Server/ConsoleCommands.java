@@ -29,7 +29,7 @@ public class ConsoleCommands
 {
     public static ConsoleCommands createAndRegister()
     {
-        CustomOreGenBase.log.finer("Registering Console command interface ...");
+        CustomOreGenBase.log.debug("Registering Console command interface ...");
         ConsoleCommands commands = new ConsoleCommands();
         
         for (Method method : ConsoleCommands.class.getMethods()) {
@@ -174,7 +174,7 @@ public class ConsoleCommands
             }
         }
 
-        CustomOreGenBase.log.finer(msg.toString());
+        CustomOreGenBase.log.info(msg.toString());
         return msg.toString();
     }
 
@@ -663,7 +663,7 @@ public class ConsoleCommands
             }
         }
 
-        CustomOreGenBase.log.finer(msg.toString());
+        CustomOreGenBase.log.info(msg.toString());
         return msg.toString();
     }
 

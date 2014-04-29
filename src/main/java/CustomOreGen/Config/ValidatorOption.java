@@ -122,7 +122,7 @@ public class ValidatorOption extends ValidatorNode
                     return true;
                 }
 
-                CustomOreGenBase.log.warning("The saved value \'" + loadedValueStr1 + "\' for Config Option \'" + ((ConfigOption)option).getName() + "\' is invalid" + err1 + ".  " + "The default value \'" + (defValue2 == null ? option.getValue() : defValue2) + "\' will be used instead.");
+                CustomOreGenBase.log.warn("The saved value \'" + loadedValueStr1 + "\' for Config Option \'" + ((ConfigOption)option).getName() + "\' is invalid" + err1 + ".  " + "The default value \'" + (defValue2 == null ? option.getValue() : defValue2) + "\' will be used instead.");
             }
 
             if (defValue2 != null && !(option.setValue(defValue2)))

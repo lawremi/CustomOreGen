@@ -173,7 +173,7 @@ public class CustomPacketPayload
             {
                 if (!packet.channel().equals(CHANNEL_NAME))
                 {
-                    CustomOreGenBase.log.warning("Invalid custom packet channel: \'" + packet.channel() + "\'");
+                    CustomOreGenBase.log.warn("Invalid custom packet channel: \'" + packet.channel() + "\'");
                     return null;
                 }
 
@@ -188,7 +188,7 @@ public class CustomPacketPayload
         }
         catch (Exception var9)
         {
-            CustomOreGenBase.log.warning("Error while decoding custom packet payload: " + var9.getMessage());
+            CustomOreGenBase.log.warn("Error while decoding custom packet payload: " + var9.getMessage());
             return null;
         }
     }

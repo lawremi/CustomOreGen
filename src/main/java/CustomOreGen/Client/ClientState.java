@@ -162,7 +162,7 @@ public class ClientState
     public static void onWorldChanged(World currentWorld)
     {
         _world = currentWorld;
-        CustomOreGenBase.log.finer("Client world changed to " + (_world == null ? null : _world.getWorldInfo().getWorldName()));
+        CustomOreGenBase.log.debug("Client world changed to " + (_world == null ? null : _world.getWorldInfo().getWorldName()));
         clearDebuggingGeometry();
     }
 
@@ -282,7 +282,7 @@ public class ClientState
     {
         if (CustomOreGenBase.hasMystcraft())
         {
-            CustomOreGenBase.log.finer("Downloaded symbol \'" + symbolData.symbolName + "\' from remote server.");
+            CustomOreGenBase.log.debug("Downloaded symbol \'" + symbolData.symbolName + "\' from remote server.");
             MystcraftInterface.addCOGSymbol(symbolData);
         }
     }

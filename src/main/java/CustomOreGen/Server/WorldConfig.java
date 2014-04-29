@@ -142,7 +142,7 @@ public class WorldConfig
 
         if (dimensionDir != null)
         {
-            CustomOreGenBase.log.finer("Loading config data for dimension \'" + dimensionDir + "\' ...");
+            CustomOreGenBase.log.info("Loading config data for dimension \'" + dimensionDir + "\' ...");
         }
         else
         {
@@ -151,7 +151,7 @@ public class WorldConfig
                 return;
             }
 
-            CustomOreGenBase.log.finer("Loading global config \'" + globalConfigDir + "\' ...");
+            CustomOreGenBase.log.info("Loading global config \'" + globalConfigDir + "\' ...");
         }
 
         File configFile = null;
@@ -174,11 +174,11 @@ public class WorldConfig
         	{
         		if (dimensionDir != null)
         		{
-        			CustomOreGenBase.log.warning("No config file found for dimension \'" + dimensionDir + "\' at any scope!");
+        			CustomOreGenBase.log.warn("No config file found for dimension \'" + dimensionDir + "\' at any scope!");
         		}
         		else
         		{
-        			CustomOreGenBase.log.finer("No global config file found.");
+        			CustomOreGenBase.log.info("No global config file found.");
         		}
         	}
         }
@@ -222,7 +222,7 @@ public class WorldConfig
             }
             else
             {
-                CustomOreGenBase.log.warning("Numeric Option \'" + var21 + "\' not found in config file - defaulting to \'" + this.deferredPopulationRange + "\'.");
+                CustomOreGenBase.log.warn("Numeric Option \'" + var21 + "\' not found in config file - defaulting to \'" + this.deferredPopulationRange + "\'.");
             }
 
             var20 = (ConfigOption)this.configOptions.get("debugMode");
@@ -234,7 +234,7 @@ public class WorldConfig
             }
             else
             {
-                CustomOreGenBase.log.warning("Choice Option \'" + var20 + "\' not found in config file - defaulting to \'" + this.debuggingMode + "\'.");
+                CustomOreGenBase.log.warn("Choice Option \'" + var20 + "\' not found in config file - defaulting to \'" + this.debuggingMode + "\'.");
             }
 
             vangen = (ConfigOption)this.configOptions.get("vanillaOreGen");
@@ -246,7 +246,7 @@ public class WorldConfig
             }
             else
             {
-                CustomOreGenBase.log.warning("Choice Option \'" + vangen + "\' not found in config file - defaulting to \'" + this.vanillaOreGen + "\'.");
+                CustomOreGenBase.log.warn("Choice Option \'" + vangen + "\' not found in config file - defaulting to \'" + this.vanillaOreGen + "\'.");
             }
         }
     }

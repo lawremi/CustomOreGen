@@ -39,7 +39,6 @@ import CustomOreGen.MystcraftSymbolData;
 import CustomOreGen.Server.GuiCustomOreGenSettings.GuiOpenMenuButton;
 import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.SimpleProfiler;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -123,7 +122,7 @@ public class ServerState
 
     public static boolean onConfigError(Throwable error)
     {
-        CustomOreGenBase.log.throwing("CustomOreGen.ServerState", "loadWorldConfig", error);
+        CustomOreGenBase.log.error("Problem loading world config", error);
         Frame[] frames = Frame.getFrames();
 
         if (frames != null && frames.length > 0)
@@ -362,7 +361,7 @@ public class ServerState
         }
 
         _server = server;
-        CustomOreGenBase.log.finer("Server world changed to " + worldInfo.getWorldName());
+        CustomOreGenBase.log.debug("Server world changed to " + worldInfo.getWorldName());
         BiomeGenBase[] worldBaseDir = BiomeGenBase.biomeList;
         int saveFormat = worldBaseDir.length;
 

@@ -22,7 +22,7 @@ public class ForgeInterface
 {
     public static ForgeInterface createAndRegister()
     {
-        CustomOreGenBase.log.finer("Registering Forge interface ...");
+        CustomOreGenBase.log.debug("Registering Forge interface ...");
         ForgeInterface inst = new ForgeInterface();
         MinecraftForge.EVENT_BUS.register(inst);
         MinecraftForge.ORE_GEN_BUS.register(inst);

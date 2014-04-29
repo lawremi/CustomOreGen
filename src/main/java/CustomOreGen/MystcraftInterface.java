@@ -34,7 +34,7 @@ public class MystcraftInterface
 
     public static void init() throws NoSuchMethodException, IllegalAccessException
     {
-        CustomOreGenBase.log.finer("Initializing Mystcraft interface ...");
+        CustomOreGenBase.log.info("Initializing Mystcraft interface ...");
         MystcraftAge.init();
         MystcraftSymbolManager.init();
     }
@@ -71,7 +71,7 @@ public class MystcraftInterface
 
             if (age.isAgeValid())
             {
-                CustomOreGenBase.log.finest("Merging symbol \'" + ageSpecificData.symbolName + "\' (" + "Dimension = " + ageSpecificData.dimensionID + ", " + "Count = " + ageSpecificData.count + ", " + "Instability = " + Math.round(ageSpecificData.instability) + ") ...");
+                CustomOreGenBase.log.debug("Merging symbol \'" + ageSpecificData.symbolName + "\' (" + "Dimension = " + ageSpecificData.dimensionID + ", " + "Count = " + ageSpecificData.count + ", " + "Instability = " + Math.round(ageSpecificData.instability) + ") ...");
             }
 
             String ageProp = null;
@@ -418,7 +418,7 @@ public class MystcraftInterface
             }
             catch (Exception var9)
             {
-                CustomOreGenBase.log.throwing("SymbolHandler", "invoke:" + method.getName(), var9);
+                CustomOreGenBase.log.catching(var9);
                 return null;
             }
         }
@@ -528,7 +528,7 @@ public class MystcraftInterface
             }
             catch (Exception var2)
             {
-                CustomOreGenBase.log.throwing("MystcraftSymbolManager", "createSymbol", var2);
+                CustomOreGenBase.log.catching(var2);
                 return null;
             }
         }
@@ -543,7 +543,7 @@ public class MystcraftInterface
                 }
                 catch (Exception var2)
                 {
-                    CustomOreGenBase.log.throwing("MystcraftSymbolManager", "getSymbolName", var2);
+                    CustomOreGenBase.log.catching(var2);
                 }
             }
 
@@ -561,7 +561,7 @@ public class MystcraftInterface
                 }
                 catch (Exception var2)
                 {
-                    CustomOreGenBase.log.throwing("MystcraftSymbolManager", "registerSymbol", var2);
+                    CustomOreGenBase.log.catching(var2);
                 }
             }
 
@@ -578,7 +578,7 @@ public class MystcraftInterface
                 }
                 catch (Exception var2)
                 {
-                    CustomOreGenBase.log.throwing("MystcraftInterface", "unregisterSymbol", var2);
+                    CustomOreGenBase.log.catching(var2);
                 }
             }
 
@@ -633,7 +633,7 @@ public class MystcraftInterface
                 }
                 catch (Exception var4)
                 {
-                    CustomOreGenBase.log.throwing("MystcraftAge", "[ctor](world)", var4);
+                    CustomOreGenBase.log.catching(var4);
                 }
             }
 
@@ -653,7 +653,7 @@ public class MystcraftInterface
                 }
                 catch (Exception var4)
                 {
-                    CustomOreGenBase.log.throwing("MystcraftAge", "[ctor](controller)", var4);
+                    CustomOreGenBase.log.catching(var4);
                 }
             }
 
@@ -680,7 +680,7 @@ public class MystcraftInterface
                 }
                 catch (Exception var3)
                 {
-                    CustomOreGenBase.log.throwing("MystcraftAge", "registerPopulator", var3);
+                    CustomOreGenBase.log.catching(var3);
                 }
             }
         }
@@ -695,7 +695,7 @@ public class MystcraftInterface
                 }
                 catch (Exception var3)
                 {
-                    CustomOreGenBase.log.throwing("MystcraftAge", "registerTerrainModifier", var3);
+                    CustomOreGenBase.log.catching(var3);
                 }
             }
         }
@@ -717,7 +717,7 @@ public class MystcraftInterface
                 }
                 catch (Exception var3)
                 {
-                    CustomOreGenBase.log.throwing("MystcraftAge", "addInstability", var3);
+                    CustomOreGenBase.log.catching(var3);
                 }
             }
 
@@ -749,7 +749,7 @@ public class MystcraftInterface
                 }
                 catch (Exception var6)
                 {
-                    CustomOreGenBase.log.throwing("MystcraftAge", "getAgeSymbolCounts", var6);
+                    CustomOreGenBase.log.catching(var6);
                 }
 
                 if (symbolCounts1 == null)
