@@ -1,12 +1,12 @@
 package CustomOreGen;
 
-import java.util.EnumSet;
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiCreateWorld;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiSelectWorld;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -20,6 +20,7 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
@@ -118,6 +119,18 @@ public class FMLInterface implements IWorldGenerator
         }
     }
 
+    @SubscribeEvent
+    public void onClientLogin(PlayerLoggedInEvent event)
+    {
+        World handlerWorld = event.player == null ? null : event.player.worldObj;
+        ServerState.checkIfServerChanged(MinecraftServer.getServer(), handlerWorld == null ? null : handlerWorld.getWorldInfo());
+
+        if (event.player != null)
+        {
+            ServerState.onClientLogin((EntityPlayerMP)event.player);
+        }
+    }
+    
     public String getLabel()
     {
         return "CustomOreGen.FMLInterface";
