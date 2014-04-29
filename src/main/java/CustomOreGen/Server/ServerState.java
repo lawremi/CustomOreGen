@@ -429,7 +429,7 @@ public class ServerState
                 controlList.add(button1);
             }
 
-            button1.drawButton = !((Boolean)ReflectionHelper.getPrivateValue(GuiCreateWorld.class, gui, 11)).booleanValue();
+            button1.visible = !((Boolean)ReflectionHelper.getPrivateValue(GuiCreateWorld.class, gui, 11)).booleanValue();
         }
     }
 
