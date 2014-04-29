@@ -447,7 +447,7 @@ public class ServerState
             while (i.hasNext())
             {
                 MystcraftSymbolData symbolData = (MystcraftSymbolData)i.next();
-                (new CustomPacketPayload(PayloadType.MystcraftSymbolData, symbolData)).sendToClient(player.playerNetServerHandler);
+                (new CustomPacketPayload(PayloadType.MystcraftSymbolData, symbolData)).sendToClient(player);
             }
         }
     }
