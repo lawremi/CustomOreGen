@@ -45,7 +45,6 @@ public class FMLInterface implements IWorldGenerator
     public void onFMLPreInit(FMLPreInitializationEvent event)
     {
         CustomOreGenBase.log = event.getModLog();
-        CustomOreGenBase.log.finer("Registering FML interface ...");
         GameRegistry.registerWorldGenerator(this);
 
         ForgeInterface.createAndRegister();

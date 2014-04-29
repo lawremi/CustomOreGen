@@ -4,9 +4,9 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.util.logging.Logger;
 
-import net.minecraft.src.ModLoader;
+import org.apache.logging.log4j.Logger;
+
 import CustomOreGen.Server.ConsoleCommands;
 import CustomOreGen.Server.ServerState;
 import CustomOreGen.Server.WorldConfig;
@@ -16,7 +16,7 @@ public class CustomOreGenBase
 {
     public static final String version = "@VERSION@";
     public static final String mcVersion = "@MCVERSION@";
-    public static Logger log = Logger.getLogger("STDOUT");
+    public static Logger log;
     
     public static final String OPTIONS_FILENAME = "CustomOreGen_Options.txt";
 	public static final String BASE_CONFIG_FILENAME = "CustomOreGen_Config.xml";
@@ -116,8 +116,7 @@ public class CustomOreGenBase
     	String resourceName = "config/" + configName;
         try
             {
-        	    log.fine("Unpacking \'" + resourceName + "\' ...");
-                InputStream ex = CustomOreGenBase.class.getClassLoader().getResourceAsStream(resourceName);
+        	    InputStream ex = CustomOreGenBase.class.getClassLoader().getResourceAsStream(resourceName);
                 BufferedOutputStream streamOut = new BufferedOutputStream(new FileOutputStream(destination));
                 byte[] buffer = new byte[1024];
                 boolean len = false;
@@ -180,8 +179,7 @@ public class CustomOreGenBase
             }
             catch (Throwable var1)
             {
-                log.severe("COG Mystcraft interface appears to be incompatible with the installed version of Mystcraft.");
-                log.throwing("MystcraftInterface", "checkInterface", var1);
+                log.error("COG Mystcraft interface appears to be incompatible with the installed version of Mystcraft.", var1);
             }
         }
 
