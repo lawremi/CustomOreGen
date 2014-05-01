@@ -10,13 +10,13 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.regex.Pattern;
 
-import cpw.mods.fml.common.FMLLog;
-
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
+import cpw.mods.fml.common.registry.GameData;
 
 public class BlockDescriptor implements Copyable<BlockDescriptor>
 {
@@ -75,6 +75,10 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         return this;
     }
 
+    protected void add(Block block, int m, float weight) {
+		this.add(Block.getIdFromBlock(block), m, weight);
+	}
+
     public BlockDescriptor clear()
     {
         this._compiled = false;
@@ -87,7 +91,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         return Collections.unmodifiableList(this._descriptors);
     }
 
-    protected void add(int blockID, int metaData, float weight)
+    private void add(int blockID, int metaData, float weight)
     {
         if (weight != 0.0F)
         {
@@ -121,18 +125,18 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
 		}
 	}
 
-    protected float[] regexMatch(String id, String name)
+    protected float[] regexMatch(String name)
     {
         float[] weights = new float[Short.SIZE + 1];
         
         for (Descriptor desc : this._descriptors) {
         	if (desc.describesOre)
         		continue;
-        	if ((id == null || !desc.getPattern().matcher(id).matches()) && (name == null || !desc.getPattern().matcher(name).matches()))
+        	if (name == null || !desc.getPattern().matcher(name).matches())
             {
                 for (int m = 0; m < Short.SIZE; ++m)
                 {
-                    if (id != null && desc.getPattern().matcher(id + ":" + m).matches() || name != null && desc.getPattern().matcher(name + ":" + m).matches())
+                    if (name != null && desc.getPattern().matcher(name + ":" + m).matches())
                     {
                         ++desc.matches;
                         weights[m] += desc.weight;
@@ -161,38 +165,34 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             	desc.matches = 0;
             }
             
-            float[] var10 = this.regexMatch("0", "air");
-            this.add(0, OreDictionary.WILDCARD_VALUE, var10[Short.SIZE]);
+            // FIXME: we need to support the option of exact matching; this is a huge bottleneck.
             
-            for (Block block : Block.blocksList) {
-            	if (block != null && block.blockID != 0)
-                {
-                    String id = Integer.toString(block.blockID);
-                    String name = block.getUnlocalizedName() == null ? null : block.getUnlocalizedName().replace("tile.", "");
-                    float[] weights = this.regexMatch(id, name);
-                    this.add(block.blockID, OreDictionary.WILDCARD_VALUE, weights[Short.SIZE]);
+            for (Block block : (Iterable<Block>)GameData.getBlockRegistry()) {
+            	String name = block.getUnlocalizedName() == null ? null : block.getUnlocalizedName().replace("tile.", "");
+            	float[] weights = this.regexMatch(name);
+            	this.add(block, OreDictionary.WILDCARD_VALUE, weights[Short.SIZE]);	
 
-                    for (int m = 0; m < Short.SIZE; ++m)
-                    {
-                        this.add(block.blockID, m, weights[m]);
-                    }
-                }
+            	for (int m = 0; m < Short.SIZE; ++m)
+            	{
+            		this.add(block, m, weights[m]);
+            	}
             }
          
             for (Descriptor desc : this._descriptors) {
         		if (!desc.describesOre)
             		continue;
         		for (ItemStack ore : OreDictionary.getOres(desc.description)) {
-        			boolean isBlock = ore.itemID < Block.blocksList.length;
-        			if (isBlock) {
-        				this.add(ore.itemID, ore.getItemDamage(), desc.weight);
+        			Item oreItem = ore.getItem();
+        			if (oreItem instanceof ItemBlock) {
+        				Block oreBlock = ((ItemBlock)oreItem).field_150939_a;
+        				this.add(oreBlock, ore.getItemDamage(), desc.weight);
         			}
         		}
         	}
         }
     }
 
-    public Map getMatches()
+   	public Map getMatches()
     {
         this.compileMatches();
         return Collections.unmodifiableMap(this._matches);
@@ -348,7 +348,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         	float weight = entry.getValue();
             int blockID = entry.getKey() >>> Short.SIZE;
             int metaData = entry.getKey() & Short.MAX_VALUE;
-            Block block = Block.blocksList[blockID];
+            Block block = Block.getBlockById(blockID);
 
             if (block == null)
             {
