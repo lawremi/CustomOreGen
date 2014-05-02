@@ -26,8 +26,6 @@ public interface IOreDistribution
 
     void inheritFrom(IOreDistribution var1) throws IllegalArgumentException;
     
-    String getNarayanWord();
-    
     double getOresPerChunk();
     
     public static interface IDistributionFactory

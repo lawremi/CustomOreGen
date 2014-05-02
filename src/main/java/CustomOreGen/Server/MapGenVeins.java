@@ -14,8 +14,6 @@ import CustomOreGen.Util.PDist.Type;
 import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.WireframeShapes;
 
-import com.xcompwiz.mystcraft.api.symbol.words.WordData;
-
 public class MapGenVeins extends MapGenOreDistribution
 {
     @DistributionSetting(
@@ -740,11 +738,6 @@ public class MapGenVeins extends MapGenOreDistribution
 	@Override
 	public String func_143025_a() {
 		return "COG:Veins";
-	}
-
-	@Override
-	public String getNarayanWord() {
-		return WordData.Flow;
 	}
 
 	public int getAverageBranchLength() {

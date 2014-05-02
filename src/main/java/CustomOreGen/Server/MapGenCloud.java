@@ -15,8 +15,6 @@ import CustomOreGen.Util.PDist.Type;
 import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.WireframeShapes;
 
-import com.xcompwiz.mystcraft.api.symbol.words.WordData;
-
 public class MapGenCloud extends MapGenOreDistribution
 {
     @DistributionSetting(
@@ -321,11 +319,6 @@ public class MapGenCloud extends MapGenOreDistribution
 	@Override
 	public String func_143025_a() {
 		return "COG:Cloud";
-	}
-
-	@Override
-	public String getNarayanWord() {
-		return WordData.Entropy;
 	}
 
 	@Override

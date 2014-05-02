@@ -15,8 +15,6 @@ import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.GeometryStream;
 
-import com.xcompwiz.mystcraft.api.symbol.words.WordData;
-
 public class WorldGenSubstitution extends WorldGenerator implements IOreDistribution
 {
     @DistributionSetting(
@@ -321,11 +319,6 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
     {
         return this.name;
     }
-
-	@Override
-	public String getNarayanWord() {
-		return WordData.Change;
-	}
 
 	@Override
 	public double getOresPerChunk() {

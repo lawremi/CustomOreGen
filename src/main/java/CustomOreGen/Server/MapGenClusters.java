@@ -14,8 +14,6 @@ import CustomOreGen.Util.PDist.Type;
 import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.WireframeShapes;
 
-import com.xcompwiz.mystcraft.api.symbol.words.WordData;
-
 public class MapGenClusters extends MapGenOreDistribution
 {
     @DistributionSetting(
@@ -211,11 +209,6 @@ public class MapGenClusters extends MapGenOreDistribution
 	@Override
 	public String func_143025_a() {
 		return "COG:Clusters";
-	}
-
-	@Override
-	public String getNarayanWord() {
-		return WordData.Tradition;
 	}
 
 	private static float adjustRadius(double baseRadius, double fraction) {
