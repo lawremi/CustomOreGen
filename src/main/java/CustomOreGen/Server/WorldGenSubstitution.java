@@ -3,12 +3,9 @@ package CustomOreGen.Server;
 import java.util.Map;
 import java.util.Random;
 
-import com.xcompwiz.mystcraft.api.symbol.words.WordData;
-
-import cpw.mods.fml.common.FMLLog;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
@@ -17,6 +14,8 @@ import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
 import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.GeometryStream;
+
+import com.xcompwiz.mystcraft.api.symbol.words.WordData;
 
 public class WorldGenSubstitution extends WorldGenerator implements IOreDistribution
 {
@@ -94,7 +93,7 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
 
     public WorldGenSubstitution(int distributionID, boolean canGenerate)
     {
-        this.oreBlock = new BlockDescriptor(Integer.toString(Block.stone.blockID));
+        this.oreBlock = new BlockDescriptor(Blocks.stone);
         this.replaceableBlocks = new BlockDescriptor();
         this.biomes = new BiomeDescriptor(".*");
         this.additionalRange = 0;
@@ -249,7 +248,7 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
                         {
                             for (int z = minZ; z < maxZ; ++z)
                             {
-                                BiomeGenBase biome = chunk.getBiomeGenForWorldCoords(x, z, world.provider.worldChunkMgr);
+                            	BiomeGenBase biome = chunk.getBiomeGenForWorldCoords(x, z, world.provider.worldChunkMgr);
 
                                 if (biome == null || this.biomes.getWeight(biome) > 0.5F)
                                 {
@@ -263,16 +262,19 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
                                 	}
                                     for (int y = xzminh; y <= xzmaxh; ++y)
                                     {
-                                        int currentBlock = chunk.getBlockID(x, y, z);
+                                        Block currentBlock = chunk.getBlock(x, y, z);
                                         int fastCheck = this.replaceableBlocks.matchesBlock_fast(currentBlock);
 
                                         if (fastCheck != 0 && (fastCheck != -1 || this.replaceableBlocks.matchesBlock(currentBlock, chunk.getBlockMetadata(x, y, z), random)))
                                         {
+                                        	int worldX = chunkX * 16 + x;
+                                        	int worldZ = chunkZ * 16 + z;
                                             int match = this.oreBlock.getMatchingBlock(random);
                                             int matchID = match >>> 16;
                                             int matchMeta = match & 65535;
-                                            if (match != -1 && (matchID == 0 || Block.blocksList[matchID].canBlockStay(world, x, y, z)) && 
-                                            		chunk.setBlockIDWithMetadata(x, y, z, matchID, matchMeta))
+                                            Block matchBlock = Block.getBlockById(matchID);
+                                            if (match != -1 && matchBlock.canBlockStay(world, worldX, y, worldZ) && 
+                                            	world.setBlock(worldX, y, worldZ, matchBlock, matchMeta, 2))
                                             {
                                                 ++this.placedBlocks;
                                                 world.markBlockForUpdate(chunkX * 16 + x, y, chunkZ * 16 + z);
@@ -295,8 +297,8 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
         }
     }
 
-    private boolean isSurfaceBlock(int id) {
-    	Material material = id == 0 ? Material.air : Block.blocksList[id].blockMaterial;
+    private boolean isSurfaceBlock(Block block) {
+    	Material material = block.getMaterial();
     	return 
     	  material == Material.clay || 
 		  material == Material.grass || 
@@ -307,8 +309,8 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
     }
     
     private int findSurfaceHeight(Chunk chunk, int x, int z) {
-		int surfh = chunk.getHeightValue(x, z);
-		while (surfh > 0 && !isSurfaceBlock(chunk.getBlockID(x, surfh, z))) 
+    	int surfh = chunk.getHeightValue(x, z);
+		while (surfh > 0 && !isSurfaceBlock(chunk.getBlock(x, surfh, z))) 
 		{
 			surfh--;
 		}

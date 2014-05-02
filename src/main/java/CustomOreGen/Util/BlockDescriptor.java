@@ -35,7 +35,11 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         this.set(descriptor);
     }
 
-    public void copyFrom(BlockDescriptor source)
+    public BlockDescriptor(Block stone) {
+		this.set(stone);
+	}
+
+	public void copyFrom(BlockDescriptor source)
     {
         this._descriptors = new LinkedList(source._descriptors);
         this._matches = new Hashtable(source._matches);
@@ -43,6 +47,10 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         this._fastMatch = (float[])source._fastMatch.clone();
     }
 
+	public BlockDescriptor set(Block block) {
+		return this.set(block.getUnlocalizedName().replace("tile.", ""));
+	}
+	
     public BlockDescriptor set(String descriptor)
     {
         this.clear();
@@ -198,16 +206,18 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         return Collections.unmodifiableMap(this._matches);
     }
 
-    public float getWeight_fast(int blockID)
+    public float getWeight_fast(Block block)
     {
         this.compileMatches();
+        int blockID = Block.getIdFromBlock(block);
         return blockID >= 0 && blockID < this._fastMatch.length ? this._fastMatch[blockID] : Float.NaN;
     }
 
-    public float getWeight(int blockID, int metaData)
+    public float getWeight(Block block, int metaData)
     {
         this.compileMatches();
         float value = 0.0F;
+        int blockID = Block.getIdFromBlock(block);
         Float noMetaValue = (Float)this._matches.get(Integer.valueOf(blockID << Short.SIZE | OreDictionary.WILDCARD_VALUE));
 
         if (noMetaValue != null)
@@ -228,15 +238,15 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         return value;
     }
 
-    public int matchesBlock_fast(int blockID)
+    public int matchesBlock_fast(Block block)
     {
-        float weight = this.getWeight_fast(blockID);
+        float weight = this.getWeight_fast(block);
         return Float.isNaN(weight) ? -1 : (weight <= 0.0F ? 0 : (weight < 1.0F ? -1 : 1));
     }
 
-    public boolean matchesBlock(int blockID, int metaData, Random rand)
+    public boolean matchesBlock(Block block, int metaData, Random rand)
     {
-        float weight = this.getWeight(blockID, metaData);
+        float weight = this.getWeight(block, metaData);
 
         if (weight <= 0.0F)
         {
