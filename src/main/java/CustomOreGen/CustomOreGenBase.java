@@ -22,8 +22,6 @@ public class CustomOreGenBase
 	public static final String BASE_CONFIG_FILENAME = "CustomOreGen_Config.xml";
 	public static final String DEFAULT_BASE_CONFIG_FILENAME = "CustomOreGen_Config_Default.xml";
 
-    private static int _hasFML = 0;
-    private static int _hasForge = 0;
     private static int _hasMystcraft = 0;
 
     public static boolean isClassLoaded(String className)
