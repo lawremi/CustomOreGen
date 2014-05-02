@@ -184,7 +184,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
             	desc.matches = 0;
             }
             
-            for (BiomeGenBase biome : BiomeGenBase.biomeList) {
+            for (BiomeGenBase biome : BiomeGenBase.getBiomeGenArray()) {
                 if (biome != null)
                 {
                 	this.add(biome, this.matchingWeight(biome));
@@ -230,7 +230,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
         
         for (Entry<Integer,Float> entry : this._matches.entrySet()) {
         	float weight = entry.getValue();
-            BiomeGenBase biome = BiomeGenBase.biomeList[entry.getKey()];
+            BiomeGenBase biome = BiomeGenBase.getBiome(entry.getKey());
 
             if (weight > 0.0F)
             {
@@ -305,7 +305,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 
         for (Entry<Integer,Float> entry : this._matches.entrySet()) {
         	float weight = entry.getValue();
-            BiomeGenBase biome = BiomeGenBase.biomeList[entry.getKey()];
+            BiomeGenBase biome = BiomeGenBase.getBiome(entry.getKey());
 
             if (biome == null)
             {
