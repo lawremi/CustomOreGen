@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
@@ -751,14 +752,14 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                 Chunk chunk = world.getChunkFromBlockCoords(x, z);
                 int cx = x & 15;
                 int cz = z & 15;
-                int currentBlock = chunk.getBlockID(cx, y, cz);
-                int fastCheck = replaceableBlocks.matchesBlock_fast(currentBlock);
+                Block block = chunk.getBlock(cx, y, cz);
+                int fastCheck = replaceableBlocks.matchesBlock_fast(block);
 
                 if (fastCheck == 0)
                 {
                     return false;
                 }
-                else if (fastCheck == -1 && !replaceableBlocks.matchesBlock(currentBlock, chunk.getBlockMetadata(cx, y, cz), random))
+                else if (fastCheck == -1 && !replaceableBlocks.matchesBlock(block, chunk.getBlockMetadata(cx, y, cz), random))
                 {
                     return false;
                 }
@@ -772,7 +773,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                     }
                     else
                     {
-                        boolean placed = chunk.setBlockIDWithMetadata(cx, y, cz, match >>> 16, match & 65535);
+                        boolean placed = world.setBlock(x, y, z, block, match & 65535, 2);
 
                         if (placed)
                         {
