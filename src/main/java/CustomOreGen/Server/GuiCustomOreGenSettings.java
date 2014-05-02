@@ -1,7 +1,6 @@
 package CustomOreGen.Server;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -11,10 +10,8 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiSlider;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.settings.EnumOptions;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -738,6 +735,19 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 this.onValueChanged();
             }
         }
+
+		@Override
+		protected void elementClicked(int var1, boolean var2, int var3, int var4) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		protected void drawSlot(int var1, int var2, int var3, int var4,
+				Tessellator var5, int var6, int var7) {
+			// TODO Auto-generated method stub
+			
+		}
 
     }
 
