@@ -12,6 +12,7 @@ import CustomOreGen.Util.IGeometryBuilder.PrimitiveType;
 import CustomOreGen.Util.PDist;
 import CustomOreGen.Util.PDist.Type;
 import CustomOreGen.Util.Transform;
+import CustomOreGen.Util.VolumeHelper;
 import CustomOreGen.Util.WireframeShapes;
 
 public class MapGenClusters extends MapGenOreDistribution
@@ -221,7 +222,7 @@ public class MapGenClusters extends MapGenOreDistribution
 		double volume = 0;
 		for (int s = 0; s < segLen; s++) {
 			float rad = adjustRadius(this.clSize.mean / 64.0F, (double)s / (double)segLen);
-			volume += MathHelper.cylindricalVolume(1.0F, rad);
+			volume += VolumeHelper.cylindricalVolume(1.0F, rad);
 		}
 		return volume;
 	}

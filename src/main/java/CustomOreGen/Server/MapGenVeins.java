@@ -12,6 +12,7 @@ import CustomOreGen.Util.IGeometryBuilder.PrimitiveType;
 import CustomOreGen.Util.PDist;
 import CustomOreGen.Util.PDist.Type;
 import CustomOreGen.Util.Transform;
+import CustomOreGen.Util.VolumeHelper;
 import CustomOreGen.Util.WireframeShapes;
 
 public class MapGenVeins extends MapGenOreDistribution
@@ -770,8 +771,8 @@ public class MapGenVeins extends MapGenOreDistribution
 
 	@Override
 	public double getAverageOreCount() {
-		double mlVolume = MathHelper.sphericalVolume(this.mlSize.mean * this.orRadiusMult.mean);
-		double brVolume = MathHelper.cylindricalVolume(this.getAverageBranchLength(), this.sgRadius.mean * this.orRadiusMult.mean);
+		double mlVolume = VolumeHelper.sphericalVolume(this.mlSize.mean * this.orRadiusMult.mean);
+		double brVolume = VolumeHelper.cylindricalVolume(this.getAverageBranchLength(), this.sgRadius.mean * this.orRadiusMult.mean);
 		double totalVolume = this.brFrequency.mean * brVolume + mlVolume;
 		return this.orDensity.mean * totalVolume;
 	}
