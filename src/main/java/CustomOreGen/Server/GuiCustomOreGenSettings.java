@@ -460,7 +460,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
             public void drawButton(Minecraft mc, int mouseX, int mouseY)
             {
-                if (this.isButtonVisible() && super.drawButton)
+                if (this.isButtonVisible() && super.visible)
                 {
                     super.field_146123_n = mouseX >= super.xPosition && mouseY >= super.yPosition && mouseX < super.xPosition + super.width && mouseY < super.yPosition + super.height;
                     int hoverState = this.getHoverState(super.field_146123_n);
@@ -503,7 +503,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
         public GuiOptionSlot(int top, int bottom, int slotHeight, Vector options)
         {
-            super(mc, width, height, top, bottom, slotHeight);
+            super(mc, GuiCustomOreGenSettings.this.width, GuiCustomOreGenSettings.this.height, top, bottom, slotHeight);
             this._optionControls = new Vector();
             this._clickTarget = null;
 
