@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Vector;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -382,7 +384,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
                     if (control.getControl().mousePressed(mc, mouseX, mouseY))
                     {
                         this._currentButton = control.getControl();
-                        mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+                        mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
                         break;
                     }
                 }
@@ -544,7 +546,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
             if (control.getControl().mousePressed(mc, super.mouseX, super.mouseY))
             {
-                mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+            	mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
                 this._clickTarget = control;
             }
         }
