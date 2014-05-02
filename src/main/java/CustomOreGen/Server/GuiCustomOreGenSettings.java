@@ -10,9 +10,11 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiOptionSlider;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Mouse;
@@ -514,11 +516,11 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
                 if (option instanceof ChoiceOption)
                 {
-                    this._optionControls.add(new GuiChoiceButton(this, c, 2 * width / 5 + 15, 0, width / 10 + 100, slotHeight - 6, (ChoiceOption)option));
+                    this._optionControls.add(new GuiChoiceButton(c, 2 * width / 5 + 15, 0, width / 10 + 100, slotHeight - 6, (ChoiceOption)option));
                 }
                 else if (option instanceof NumericOption)
                 {
-                    this._optionControls.add(new GuiNumericSlider(this, c, 2 * width / 5 + 15, 0, width / 10 + 100, slotHeight - 6, (NumericOption)option));
+                    this._optionControls.add(new GuiNumericSlider(c, 2 * width / 5 + 15, 0, width / 10 + 100, slotHeight - 6, (NumericOption)option));
                 }
             }
         }
@@ -608,12 +610,9 @@ public class GuiCustomOreGenSettings extends GuiScreen
             private int mouseX;
             private int mouseY;
 
-            final GuiOptionSlot this$1;
-
-            public GuiChoiceButton(GuiOptionSlot var1, int id, int x, int y, int maxWidth, int height, ChoiceOption choice)
+            public GuiChoiceButton(int id, int x, int y, int maxWidth, int height, ChoiceOption choice)
             {
                 super(id, x, y, maxWidth, height, (String)null);
-                this.this$1 = var1;
                 this.mouseX = 0;
                 this.mouseY = 0;
                 this._choice = choice;
@@ -654,7 +653,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
             public int getHoverState(boolean mouseOver)
             {
-                if (this.this$1.isInBounds(this.mouseX, this.mouseY))
+                if (GuiOptionSlot.this.isInBounds(this.mouseX, this.mouseY))
                 {
                     return super.getHoverState(mouseOver);
                 }
@@ -676,16 +675,13 @@ public class GuiCustomOreGenSettings extends GuiScreen
             }
         }
 
-        class GuiNumericSlider extends GuiSlider implements IOptionControl
+        class GuiNumericSlider extends GuiOptionSlider implements IOptionControl
         {
             private final NumericOption _numeric;
-
-            final GuiOptionSlot this$1;
-
-            public GuiNumericSlider(GuiOptionSlot var1, int id, int x, int y, int width, int height, NumericOption numeric)
+            
+            public GuiNumericSlider(int id, int x, int y, int width, int height, NumericOption numeric)
             {
-                super(id, x, y, EnumOptions.ANAGLYPH, (String)null, (float)numeric.getNormalizedDisplayValue());
-                this.this$1 = var1;
+                super(id, x, y, GameSettings.Options.ANAGLYPH);
                 this._numeric = numeric;
                 super.width = width;
                 super.height = height;
@@ -715,13 +711,29 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
                 super.displayString = String.format("%." + prec + "f", new Object[] {Double.valueOf(this._numeric.getDisplayValue())});
             }
+            
+            private void updateSliderValue(int mouseX) {
+            	double sliderValue = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
+
+                if (sliderValue < 0.0F)
+                {
+                    sliderValue = 0.0F;
+                }
+
+                if (sliderValue > 1.0F)
+                {
+                    sliderValue = 1.0F;
+                }
+                
+                this._numeric.setNormalizedDisplayValue(sliderValue);
+            	this.onValueChanged();
+            }
 
             public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
             {
                 if (super.mousePressed(mc, mouseX, mouseY))
                 {
-                    this._numeric.setNormalizedDisplayValue((double)super.sliderValue);
-                    this.onValueChanged();
+                	this.updateSliderValue(mouseX);
                     return true;
                 }
                 else
@@ -733,8 +745,9 @@ public class GuiCustomOreGenSettings extends GuiScreen
             protected void mouseDragged(Minecraft mc, int mouseX, int mouseY)
             {
                 super.mouseDragged(mc, mouseX, mouseY);
-                this._numeric.setNormalizedDisplayValue((double)super.sliderValue);
-                this.onValueChanged();
+                if (super.field_146135_o) {
+                	this.updateSliderValue(mouseX);
+                }
             }
         }
 
