@@ -31,7 +31,6 @@ import CustomOreGen.CustomPacketPayload;
 import CustomOreGen.CustomPacketPayload.PayloadType;
 import CustomOreGen.GeometryData;
 import CustomOreGen.GeometryRequestData;
-import CustomOreGen.MystcraftInterface;
 import CustomOreGen.MystcraftSymbolData;
 import CustomOreGen.Server.GuiCustomOreGenSettings.GuiOpenMenuButton;
 import CustomOreGen.Util.GeometryStream;
@@ -83,17 +82,6 @@ public class ServerState
                 cfg = new WorldConfig(world);
                 validateOptions(cfg.getConfigOptions(), true);
                 validateDistributions(cfg.getOreDistributions(), true);
-
-                if (CustomOreGenBase.hasMystcraft())
-                {
-                    Iterator ex = cfg.getMystcraftSymbols().iterator();
-
-                    while (ex.hasNext())
-                    {
-                        MystcraftSymbolData symbolData = (MystcraftSymbolData)ex.next();
-                        MystcraftInterface.appyAgeSpecificCOGSymbol(symbolData);
-                    }
-                }
             }
             catch (Exception var4)
             {
@@ -351,14 +339,9 @@ public class ServerState
         WorldConfig.loadedOptionOverrides[1] = WorldConfig.loadedOptionOverrides[2] = null;
         _populatedChunks.clear();
 
-        if (CustomOreGenBase.hasMystcraft())
-        {
-            MystcraftInterface.clearCOGSymbols();
-        }
-
         _server = server;
         CustomOreGenBase.log.debug("Server world changed to " + worldInfo.getWorldName());
-        BiomeGenBase[] worldBaseDir = BiomeGenBase.biomeList;
+        BiomeGenBase[] worldBaseDir = BiomeGenBase.getBiomeGenArray();
         int saveFormat = worldBaseDir.length;
 
         File var8 = null;
@@ -379,17 +362,6 @@ public class ServerState
                 var10 = new WorldConfig(worldInfo, var8);
                 validateOptions(var10.getConfigOptions(), false);
                 validateDistributions(var10.getOreDistributions(), false);
-
-                if (CustomOreGenBase.hasMystcraft())
-                {
-                    Iterator var11 = var10.getMystcraftSymbols().iterator();
-
-                    while (var11.hasNext())
-                    {
-                        MystcraftSymbolData symbolData = (MystcraftSymbolData)var11.next();
-                        MystcraftInterface.addCOGSymbol(symbolData);
-                    }
-                }
             }
             catch (Exception var7)
             {

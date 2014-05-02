@@ -93,14 +93,6 @@ public class CustomPacketPayloadHandler {
                     ClientState.clearDebuggingGeometry();
                     break;
 
-                case MystcraftSymbolData:
-                    if (!mc.isSingleplayer())
-                    {
-                        ClientState.addMystcraftSymbol((MystcraftSymbolData)payload.data);
-                    }
-
-                    break;
-
                 case CommandResponse:
                     player.addChatMessage(new ChatComponentText((String)payload.data));
                     break;

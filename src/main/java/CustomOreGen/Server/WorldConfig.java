@@ -28,7 +28,6 @@ import org.xml.sax.SAXException;
 
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.ForgeInterface;
-import CustomOreGen.MystcraftInterface;
 import CustomOreGen.MystcraftSymbolData;
 import CustomOreGen.Config.ConfigParser;
 import CustomOreGen.Config.PropertyIO;
@@ -358,11 +357,6 @@ public class WorldConfig
         properties.put("dimension.groundLevel", Integer.valueOf(world == null ? 0 : world.provider.getAverageGroundLevel()));
         properties.put("dimension.height", Integer.valueOf(world == null ? 0 : world.getHeight()));
         properties.put("age", Boolean.FALSE);
-
-        if (CustomOreGenBase.hasMystcraft())
-        {
-            MystcraftInterface.populateAgePropertyMap(world, properties);
-        }
     }
 
     public Collection<IOreDistribution> getOreDistributions()

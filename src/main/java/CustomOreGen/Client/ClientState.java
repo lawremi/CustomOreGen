@@ -20,8 +20,6 @@ import CustomOreGen.CustomPacketPayload;
 import CustomOreGen.CustomPacketPayload.PayloadType;
 import CustomOreGen.GeometryData;
 import CustomOreGen.GeometryRequestData;
-import CustomOreGen.MystcraftInterface;
-import CustomOreGen.MystcraftSymbolData;
 import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.GeometryStream.GeometryStreamException;
 import CustomOreGen.Util.IGeometryBuilder.PrimitiveType;
@@ -275,15 +273,5 @@ public class ClientState
         dgEnabled = true;
         _dgScanCounter = (new Random()).nextInt(40);
         ++_dgBatchID;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public static void addMystcraftSymbol(MystcraftSymbolData symbolData)
-    {
-        if (CustomOreGenBase.hasMystcraft())
-        {
-            CustomOreGenBase.log.debug("Downloaded symbol \'" + symbolData.symbolName + "\' from remote server.");
-            MystcraftInterface.addCOGSymbol(symbolData);
-        }
     }
 }
