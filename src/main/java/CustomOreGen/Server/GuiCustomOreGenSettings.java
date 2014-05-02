@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Vector;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -167,21 +166,21 @@ public class GuiCustomOreGenSettings extends GuiScreen
         this.drawDefaultBackground();
         this._optionPanel.drawScreen(mouseX, mouseY, partialTick);
         this._groupPanel.drawScreen(mouseX, mouseY, partialTick);
-        this.drawCenteredString(super.fontRenderer, "CustomOreGen Options", super.width / 2, 4, 16777215);
+        this.drawCenteredString(super.fontRendererObj, "CustomOreGen Options", super.width / 2, 4, 16777215);
         super.drawScreen(mouseX, mouseY, partialTick);
 
         if (this._toolTip != null)
         {
-            List<String> lines = super.fontRenderer.listFormattedStringToWidth(this._toolTip, 2 * super.width / 5 - 8);
+            List<String> lines = super.fontRendererObj.listFormattedStringToWidth(this._toolTip, 2 * super.width / 5 - 8);
             int[] lineWidths = new int[lines.size()];
             int tipW = 0;
-            int tipH = 8 + super.fontRenderer.FONT_HEIGHT * lines.size();
+            int tipH = 8 + super.fontRendererObj.FONT_HEIGHT * lines.size();
             int l = 0;
 
             for (Iterator tipX = lines.iterator(); tipX.hasNext(); ++l)
             {
                 String tipY = (String)tipX.next();
-                lineWidths[l] = super.fontRenderer.getStringWidth(tipY) + 8;
+                lineWidths[l] = super.fontRendererObj.getStringWidth(tipY) + 8;
 
                 if (tipW < lineWidths[l])
                 {
@@ -206,7 +205,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
             l = 0;
 
             for (String line : lines) {
-            	super.fontRenderer.drawString(line, var13 + (tipW - lineWidths[l]) / 2 + 4, var14 + 4 + l * super.fontRenderer.FONT_HEIGHT, 16777215);
+            	super.fontRendererObj.drawString(line, var13 + (tipW - lineWidths[l]) / 2 + 4, var14 + 4 + l * super.fontRendererObj.FONT_HEIGHT, 16777215);
             	++l;
             }
 
@@ -263,7 +262,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
             {
                 ConfigOption.DisplayGroup group = c < 0 ? null : (ConfigOption.DisplayGroup)groups.get(c);
                 String text = c < 0 ? "[ All ]" : group.getDisplayName();
-                int btnWidth = fontRenderer.getStringWidth(text) + 10;
+                int btnWidth = fontRendererObj.getStringWidth(text) + 10;
                 GuiGroupButton control = new GuiGroupButton(c + 1, scrollWidth, 0, btnWidth, height, text, group);
                 this._groupButtons.add(control);
 
@@ -479,9 +478,9 @@ public class GuiCustomOreGenSettings extends GuiScreen
                         drawRect(super.xPosition + super.width - 1, super.yPosition, super.xPosition + super.width, super.yPosition + super.height, -16777216);
                     }
 
-                    FontRenderer fontRenderer = mc.fontRenderer;
+                    fontRendererObj fontRendererObj = mc.fontRendererObj;
                     int textColor = super.enabled ? (super.field_82253_i ? 16777120 : 14737632) : 10526880;
-                    this.drawCenteredString(fontRenderer, super.displayString, super.xPosition + super.width / 2, super.yPosition + (super.height - 8) / 2, textColor);
+                    this.drawCenteredString(fontRendererObj, super.displayString, super.xPosition + super.width / 2, super.yPosition + (super.height - 8) / 2, textColor);
 
                     if (this.func_82252_a() && this._group != null)
                     {
@@ -567,11 +566,11 @@ public class GuiCustomOreGenSettings extends GuiScreen
             ConfigOption option = optCtrl.getOption();
             GuiButton control = optCtrl.getControl();
             String optionName = option.getDisplayName();
-            int nameW = fontRenderer.getStringWidth(optionName);
+            int nameW = fontRendererObj.getStringWidth(optionName);
             int nameX = 2 * width / 5 - 15 - nameW;
-            int nameH = fontRenderer.FONT_HEIGHT;
+            int nameH = fontRendererObj.FONT_HEIGHT;
             int nameY = slotY + 8;
-            drawString(fontRenderer, optionName, nameX, nameY, 16777215);
+            drawString(fontRendererObj, optionName, nameX, nameY, 16777215);
 
             if (super.mouseX >= nameX && super.mouseX <= nameX + nameW && super.mouseY >= nameY && super.mouseY <= nameY + nameH && this.isInBounds(super.mouseX, super.mouseY))
             {
@@ -632,7 +631,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
             protected void onValueChanged()
             {
                 super.displayString = this._choice.getDisplayValue();
-                int strWidth = super.displayString == null ? 0 : fontRenderer.getStringWidth(super.displayString);
+                int strWidth = super.displayString == null ? 0 : fontRendererObj.getStringWidth(super.displayString);
                 super.width = Math.min(this._maxWidth, strWidth + 10);
             }
 
