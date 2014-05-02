@@ -1,8 +1,5 @@
 package CustomOreGen.Util;
 
-import CustomOreGen.Integration.ATG.ATGIntegration;
-import ttftcuts.atg.api.ATGAPI;
-import cpw.mods.fml.common.Loader;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
@@ -14,10 +11,7 @@ public class BiomeHeightScale implements HeightScale {
 		if (world.provider.hasNoSky || biome == null) {
 			return new WorldHeightScale().getHeight(world, x, z);
 		}
-		int maxBlockHeight = biomeToBlockHeight(biome.maxHeight, world);
-		int minBlockHeight = biomeToBlockHeight(biome.minHeight, world);
-		int avgBlockHeight = (maxBlockHeight + minBlockHeight) / 2;
-		return avgBlockHeight;
+		return (int)biome.rootHeight;
 	}
 
 	private int biomeToBlockHeight(float biomeHeight, World world) {
