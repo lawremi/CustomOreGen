@@ -349,7 +349,7 @@ public class ServerState
 
         if (var9 != null && var9 instanceof SaveFormatOld)
         {
-            var8 = (File)ReflectionHelper.getPrivateValue(SaveFormatOld.class, (SaveFormatOld)var9, 0);
+            var8 = ((SaveFormatOld)var9).savesDirectory;
         }
 
         var8 = new File(var8, _server.getFolderName());
