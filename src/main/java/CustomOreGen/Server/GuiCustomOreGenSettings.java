@@ -461,7 +461,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 if (this.isButtonVisible() && super.drawButton)
                 {
                     super.field_146123_n = mouseX >= super.xPosition && mouseY >= super.yPosition && mouseX < super.xPosition + super.width && mouseY < super.yPosition + super.height;
-                    int hoverState = this.getHoverState(super.field_82253_i);
+                    int hoverState = this.getHoverState(super.field_146123_n);
                     this.mouseDragged(mc, mouseX, mouseY);
 
                     if (_currentGroup == this)
