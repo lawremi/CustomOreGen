@@ -140,26 +140,6 @@ public class CustomOreGenBase
     	return new File(Loader.instance().getConfigDir(), "CustomOreGen");
     }
     
-    public static boolean hasFML()
-    {
-        if (_hasFML == 0)
-        {
-            _hasFML = isClassLoaded("cpw.mods.fml.common.FMLCommonHandler") ? 1 : -1;
-        }
-
-        return _hasFML == 1;
-    }
-
-    public static boolean hasForge()
-    {
-        if (_hasForge == 0)
-        {
-            _hasForge = isClassLoaded("net.minecraftforge.common.MinecraftForge") ? 1 : -1;
-        }
-
-        return _hasForge == 1;
-    }
-
     public static boolean hasMystcraft()
     {
         if (_hasMystcraft == 0)

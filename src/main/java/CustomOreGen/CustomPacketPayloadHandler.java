@@ -53,12 +53,6 @@ public class CustomPacketPayloadHandler {
                         return;
                     }
 
-                    if (!CustomOreGenBase.hasForge())
-                    {
-                        player.addChatMessage(new ChatComponentText("{text: \"\u00a7cWarning: Minecraft Forge must be installed to view wireframes.\"}"));
-                        return;
-                    }
-
                     if (strMode != null)
                     {
                         WireframeRenderMode idx = null;

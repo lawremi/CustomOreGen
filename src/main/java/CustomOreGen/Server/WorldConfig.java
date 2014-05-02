@@ -109,7 +109,7 @@ public class WorldConfig
 
             dimensionBasename = "DIM" + world.provider.dimensionId;
 
-            if (CustomOreGenBase.hasForge() && world.provider.dimensionId != 0)
+            if (world.provider.dimensionId != 0)
             {
             	dimensionBasename = ForgeInterface.getWorldDimensionFolder(world);
             }
