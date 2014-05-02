@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
@@ -144,7 +144,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
     public MapGenOreDistribution(DistributionSettingMap settingMap, int distributionID, boolean canGenerate)
     {
-        this.replaceableBlocks = new BlockDescriptor(Integer.toString(Block.stone.blockID));
+        this.replaceableBlocks = new BlockDescriptor(Blocks.stone);
         this.biomes = new BiomeDescriptor(".*");
         this.frequency = new HeightScaledPDist(0.025F, 0.0F);
         this.parent = null;
@@ -525,8 +525,8 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                 	for (Component vc : (List<Component>)vs.getComponents()) {
                 		if (vc.getComponentType() == 0)
                         {
-                            ChunkPosition center = vc.getCenter();
-                            int dist2 = (center.x - x) * (center.x - x) + (center.z - z) * (center.z - z);
+                            ChunkPosition center = vc.func_151553_a();
+                            int dist2 = (center.chunkPosX - x) * (center.chunkPosX - x) + (center.chunkPosZ - z) * (center.chunkPosZ - z);
 
                             if (dist2 < minDist2)
                             {
@@ -650,8 +650,8 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                         return false;
                     }
 
-                    float dx = (float)(parentPos.x - iX);
-                    float dz = (float)(parentPos.z - iZ);
+                    float dx = (float)(parentPos.chunkPosX - iX);
+                    float dz = (float)(parentPos.chunkPosZ - iZ);
 
                     if (dx * dx + dz * dz > dist1 * dist1)
                     {
