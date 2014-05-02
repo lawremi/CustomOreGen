@@ -17,10 +17,12 @@ import CustomOreGen.Server.ConsoleCommands;
 import CustomOreGen.Server.ServerState;
 import CustomOreGen.Util.ConsoleCommand;
 import CustomOreGen.Util.ConsoleCommand.CommandDelegate;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -51,12 +53,17 @@ public class FMLInterface implements IWorldGenerator
     {
         CustomOreGenBase.log = event.getModLog();
         GameRegistry.registerWorldGenerator(this, Integer.MAX_VALUE);
-
         ForgeInterface.createAndRegister();
-     
         CustomPacketPayload.registerChannels(new CustomPacketPayloadHandler());
+        FMLCommonHandler.instance().bus().register(this);
     }
 
+    @EventHandler
+    public void onFMLPostInit(FMLPostInitializationEvent event)
+    {
+    	CustomOreGenBase.onModPostLoad();
+    }
+    
     @EventHandler
     public void onServerStarting(FMLServerStartingEvent event)
     {
@@ -93,7 +100,7 @@ public class FMLInterface implements IWorldGenerator
 
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
-    private void onClientTick(ClientTickEvent event)
+    public void onClientTick(ClientTickEvent event)
     {
     	if (event.phase != TickEvent.Phase.END) {
     		return;
