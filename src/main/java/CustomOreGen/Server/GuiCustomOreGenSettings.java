@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Vector;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -430,7 +431,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
             public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
             {
-                if (this.isButtonVisible() && this.func_82252_a() && super.mousePressed(mc, mouseX, mouseY))
+                if (this.isButtonVisible() && this.func_146115_a() && super.mousePressed(mc, mouseX, mouseY))
                 {
                     _currentGroup = this;
                     refreshGui = 1;
@@ -450,7 +451,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 }
                 else
                 {
-                    super.field_82253_i = false;
+                    super.field_146123_n = false;
                     return 1;
                 }
             }
@@ -459,7 +460,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
             {
                 if (this.isButtonVisible() && super.drawButton)
                 {
-                    super.field_82253_i = mouseX >= super.xPosition && mouseY >= super.yPosition && mouseX < super.xPosition + super.width && mouseY < super.yPosition + super.height;
+                    super.field_146123_n = mouseX >= super.xPosition && mouseY >= super.yPosition && mouseX < super.xPosition + super.width && mouseY < super.yPosition + super.height;
                     int hoverState = this.getHoverState(super.field_82253_i);
                     this.mouseDragged(mc, mouseX, mouseY);
 
@@ -478,11 +479,11 @@ public class GuiCustomOreGenSettings extends GuiScreen
                         drawRect(super.xPosition + super.width - 1, super.yPosition, super.xPosition + super.width, super.yPosition + super.height, -16777216);
                     }
 
-                    fontRendererObj fontRendererObj = mc.fontRendererObj;
-                    int textColor = super.enabled ? (super.field_82253_i ? 16777120 : 14737632) : 10526880;
+                    FontRenderer fontRendererObj = mc.fontRenderer;
+                    int textColor = super.enabled ? (super.field_146123_n ? 16777120 : 14737632) : 10526880;
                     this.drawCenteredString(fontRendererObj, super.displayString, super.xPosition + super.width / 2, super.yPosition + (super.height - 8) / 2, textColor);
 
-                    if (this.func_82252_a() && this._group != null)
+                    if (this.func_146115_a() && this._group != null)
                     {
                         _toolTip = this._group.getDescription();
                     }
@@ -657,7 +658,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 }
                 else
                 {
-                    super.field_82253_i = false;
+                    super.field_146123_n = false;
                     return 1;
                 }
             }
@@ -666,7 +667,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
             {
                 super.drawButton(mc, mouseX, mouseY);
 
-                if (this.func_82252_a())
+                if (this.func_146115_a())
                 {
                     _toolTip = this._choice.getValueDescription();
                 }
