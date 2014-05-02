@@ -1,9 +1,8 @@
 package CustomOreGen.Config;
 
-import net.minecraft.src.ModLoader;
 import org.w3c.dom.Node;
 
-import CustomOreGen.Config.ValidatorNode.IValidatorFactory;
+import cpw.mods.fml.common.Loader;
 
 public class ValidatorIfModInstalled extends ValidatorCondition
 {
@@ -15,7 +14,7 @@ public class ValidatorIfModInstalled extends ValidatorCondition
     protected boolean evaluateCondition() throws ParserException
     {
         String modName = (String)this.validateRequiredAttribute(String.class, "name", true);
-        return ModLoader.isModLoaded(modName);
+        return Loader.isModLoaded(modName);
     }
     
     public static class Factory implements IValidatorFactory<ValidatorIfModInstalled>

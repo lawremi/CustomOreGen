@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -16,8 +15,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
-import net.minecraft.src.ModLoader;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -38,6 +35,7 @@ import CustomOreGen.Server.WorldGenSubstitution;
 import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.CIStringMap;
+import cpw.mods.fml.common.Loader;
 
 public class ConfigParser
 {
@@ -311,7 +309,7 @@ public class ConfigParser
         public ConfigExpressionEvaluator()
         {
             this.localIdentifiers = new CIStringMap();
-            this.localIdentifiers.put("isModInstalled", new EvaluationDelegate(false, ModLoader.class, "isModLoaded", new Class[] {String.class}));
+            this.localIdentifiers.put("isModInstalled", new EvaluationDelegate(false, Loader.class, "isModLoaded", new Class[] {String.class}));
             this.localIdentifiers.put("blockExists", new EvaluationDelegate(false, ConfigParser.this, "blockExists", new Class[] {String.class}));
             this.localIdentifiers.put("biomeExists", new EvaluationDelegate(false, ConfigParser.this, "biomeExists", new Class[] {String.class}));
             this.localIdentifiers.put("world.nextRandom", new EvaluationDelegate(false, ConfigParser.this, "nextRandom", new Class[0]));
