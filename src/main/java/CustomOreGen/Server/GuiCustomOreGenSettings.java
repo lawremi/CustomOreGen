@@ -20,6 +20,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -234,7 +235,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
         protected int _scrollOffsetMax;
         protected int mouseX;
         protected int mouseY;
-        protected final Vector _groupButtons;
+        protected final Vector<IOptionControl> _groupButtons;
         protected GuiButton _groupScrollLButton;
         protected GuiButton _groupScrollRButton;
         protected IOptionControl _currentGroup;
@@ -318,11 +319,11 @@ public class GuiCustomOreGenSettings extends GuiScreen
         {
             this.mouseX = mouseX;
             this.mouseY = mouseY;
-            Iterator tess = this._groupButtons.iterator();
+            Iterator<IOptionControl> tess = this._groupButtons.iterator();
 
             while (tess.hasNext())
             {
-                IOptionControl texSize = (IOptionControl)tess.next();
+                IOptionControl texSize = tess.next();
                 texSize.getControl().drawButton(mc, mouseX, mouseY);
             }
 
@@ -377,12 +378,8 @@ public class GuiCustomOreGenSettings extends GuiScreen
             if (buttonID == 0)
             {
                 this._currentButton = null;
-                Iterator i$ = this._groupButtons.iterator();
-
-                while (i$.hasNext())
-                {
-                    IOptionControl control = (IOptionControl)i$.next();
-
+                
+                for (IOptionControl control : this._groupButtons) {
                     if (control.getControl().mousePressed(mc, mouseX, mouseY))
                     {
                         this._currentButton = control.getControl();
@@ -496,7 +493,6 @@ public class GuiCustomOreGenSettings extends GuiScreen
         }
 
     }
-
     
     public class GuiOptionSlot extends GuiSlot
     {
@@ -530,11 +526,12 @@ public class GuiCustomOreGenSettings extends GuiScreen
             return this._optionControls.size();
         }
 
-        protected void elementClicked(int index, boolean doubleClicked)
+        @Override
+        protected void elementClicked(int index, boolean doubleClicked, int mouseX, int mouseY)
         {
             if (this._clickTarget != null)
             {
-                this._clickTarget.getControl().mouseReleased(super.mouseX, super.mouseY);
+                this._clickTarget.getControl().mouseReleased(mouseX, mouseY);
 
                 if (this._clickTarget.getOption().getDisplayState() == ConfigOption.DisplayState.shown_dynamic)
                 {
@@ -546,7 +543,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
             IOptionControl control = (IOptionControl)this._optionControls.get(index);
 
-            if (control.getControl().mousePressed(mc, super.mouseX, super.mouseY))
+            if (control.getControl().mousePressed(mc, mouseX, mouseY))
             {
             	mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
                 this._clickTarget = control;
@@ -565,7 +562,8 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
         protected void drawBackground() {}
 
-        protected void drawSlot(int index, int slotX, int slotY, int slotH, Tessellator tess)
+		@Override
+        protected void drawSlot(int index, int slotX, int slotY, int slotH, Tessellator tess, int mouseX, int mouseY)
         {
             IOptionControl optCtrl = (IOptionControl)this._optionControls.get(index);
             ConfigOption option = optCtrl.getOption();
@@ -681,14 +679,19 @@ public class GuiCustomOreGenSettings extends GuiScreen
             
             public GuiNumericSlider(int id, int x, int y, int width, int height, NumericOption numeric)
             {
-                super(id, x, y, GameSettings.Options.ANAGLYPH);
+                super(id, x, y, GameSettings.Options.ANAGLYPH);            
                 this._numeric = numeric;
                 super.width = width;
                 super.height = height;
+                ReflectionHelper.setPrivateValue(GuiOptionSlider.class, this, (float)numeric.getNormalizedDisplayValue(), 0);
                 this.onValueChanged();
             }
+            
+            private int mouseXForOptionValue(NumericOption numeric) {
+            	return (int)(numeric.getNormalizedDisplayValue() * (this.width - 8) + this.xPosition + 4);
+			}
 
-            public ConfigOption getOption()
+			public ConfigOption getOption()
             {
                 return this._numeric;
             }
@@ -750,20 +753,6 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 }
             }
         }
-
-		@Override
-		protected void elementClicked(int var1, boolean var2, int var3, int var4) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		protected void drawSlot(int var1, int var2, int var3, int var4,
-				Tessellator var5, int var6, int var7) {
-			// TODO Auto-generated method stub
-			
-		}
-
     }
 
     public static class GuiOpenMenuButton extends GuiButton

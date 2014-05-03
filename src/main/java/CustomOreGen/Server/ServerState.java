@@ -392,7 +392,7 @@ public class ServerState
             }
 
             GuiOpenMenuButton button1 = (GuiOpenMenuButton)_optionsGuiButton;
-            Collection controlList = (Collection)ReflectionHelper.getPrivateValue(GuiScreen.class, gui, 3);
+            Collection controlList = (Collection)ReflectionHelper.getPrivateValue(GuiScreen.class, gui, 4);
 
             if (!controlList.contains(button1))
             {
