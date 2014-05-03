@@ -70,7 +70,7 @@ public class CustomPacketPayloadHandler {
                         }
                         else
                         {
-                            player.addChatMessage(new ChatComponentText("{text: \"\u00a7cError: Invalid wireframe mode \'" + strMode + "\'\"}"));
+                            player.addChatMessage(new ChatComponentText("\u00a7cError: Invalid wireframe mode '" + strMode + "'"));
                         }
                     }
                     else
@@ -80,7 +80,7 @@ public class CustomPacketPayloadHandler {
                         ClientState.dgRenderingMode = WireframeRenderMode.values()[var11];
                     }
 
-                    player.addChatMessage(new ChatComponentText("{text: \"COG Client wireframe mode: " + ClientState.dgRenderingMode.name() + "\"}"));
+                    player.addChatMessage(new ChatComponentText("COG Client wireframe mode: " + ClientState.dgRenderingMode.name()));
                     break;
 
                 case DebuggingGeometryReset:
