@@ -108,7 +108,7 @@ public class ConsoleCommands
         WorldConfig config = ServerState.getWorldConfig(world);
         Collection allDists = config.getOreDistributions();
         Collection<IOreDistribution> dists = distribution != null && !distribution.isEmpty() ? config.getOreDistributions(distribution) : null;
-        msg.append("@MODNAME@ @VERSION@ (");
+        msg.append(CustomOreGenBase.getDisplayString() + " (");
 
         if (config.world != null)
         {
@@ -624,7 +624,7 @@ public class ConsoleCommands
         WorldConfig config = ServerState.getWorldConfig(world);
         Collection allOptions = config.getConfigOptions();
         Collection<ConfigOption> options = option != null && !option.isEmpty() ? config.getConfigOptions(option) : null;
-        msg.append("@MODNAME@ @VERSION@ (");
+        msg.append(CustomOreGenBase.getDisplayString() + " (");
 
         if (config.world != null)
         {

@@ -272,7 +272,7 @@ public class WorldConfig
 
 	private void saveOptions(File optionsFile, Map<String, String> options) throws IOException {
     	optionsFile.createNewFile();
-        String header = "@MODNAME@ @VERSION@ Config Options";
+        String header = CustomOreGenBase.getDisplayString() + " Config Options";
         PropertyIO.save(options, new FileOutputStream(optionsFile), header);
 	}
 

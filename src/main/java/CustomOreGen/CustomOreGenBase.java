@@ -7,15 +7,13 @@ import java.io.InputStream;
 
 import org.apache.logging.log4j.Logger;
 
-import CustomOreGen.Server.ConsoleCommands;
 import CustomOreGen.Server.ServerState;
 import CustomOreGen.Server.WorldConfig;
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.ModContainer;
 
 public class CustomOreGenBase
 {
-    public static final String version = "@VERSION@";
-    public static final String mcVersion = "@MCVERSION@";
     public static Logger log;
     
     public static final String OPTIONS_FILENAME = "CustomOreGen_Options.txt";
@@ -161,5 +159,9 @@ public class CustomOreGenBase
         }
 
         return _hasMystcraft == 1;
+    }
+    
+    public static String getDisplayString() {
+    	return FMLInterface.getDisplayString();
     }
 }

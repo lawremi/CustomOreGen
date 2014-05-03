@@ -22,6 +22,7 @@ import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
@@ -34,13 +35,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@Mod(
-        modid = "@MODID@",
-        name = "@MODNAME@",
-        version = "@VERSION@",
-        acceptedMinecraftVersions = "@MCVERSION@",
-        dependencies = "after:*;"
-)
+@Mod(modid = "CustomOreGen", useMetadata=true)
 public class FMLInterface implements IWorldGenerator
 {
     @Instance("CustomOreGen")
@@ -154,9 +149,13 @@ public class FMLInterface implements IWorldGenerator
             ServerState.onClientLogin((EntityPlayerMP)event.player);
         }
     }
-    
-    public String getLabel()
-    {
-        return "CustomOreGen.FMLInterface";
-    }
+
+	private static ModContainer getModContainer() {
+		return FMLCommonHandler.instance().findContainerFor(instance);
+	}
+
+	public static String getDisplayString() {
+		ModContainer metadata = FMLInterface.getModContainer();
+    	return metadata.getName() + " " + metadata.getVersion();
+	}
 }
