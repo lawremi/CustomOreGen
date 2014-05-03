@@ -773,7 +773,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                     }
                     else
                     {
-                        boolean placed = world.setBlock(x, y, z, block, match & 65535, 2);
+                        boolean placed = world.setBlock(x, y, z, Block.getBlockById(match >> 16), match & 65535, 2);
 
                         if (placed)
                         {

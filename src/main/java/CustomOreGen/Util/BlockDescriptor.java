@@ -140,11 +140,11 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         for (Descriptor desc : this._descriptors) {
         	if (desc.describesOre)
         		continue;
-        	if (name == null || !desc.getPattern().matcher(name).matches())
+        	if (!desc.getPattern().matcher(name).matches())
             {
                 for (int m = 0; m < Short.SIZE; ++m)
                 {
-                    if (name != null && desc.getPattern().matcher(name + ":" + m).matches())
+                    if (desc.getPattern().matcher(name + ":" + m).matches())
                     {
                         ++desc.matches;
                         weights[m] += desc.weight;
@@ -179,7 +179,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             	String name = Block.blockRegistry.getNameForObject(block);
             	float[] weights = this.regexMatch(name);
             	this.add(block, OreDictionary.WILDCARD_VALUE, weights[Short.SIZE]);	
-
+            	
             	for (int m = 0; m < Short.SIZE; ++m)
             	{
             		this.add(block, m, weights[m]);
@@ -193,6 +193,9 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         			Item oreItem = ore.getItem();
         			if (oreItem instanceof ItemBlock) {
         				Block oreBlock = ((ItemBlock)oreItem).field_150939_a;
+        				// FIXME: Blocks tend to be registered as meta 0, even when the meta is irrelevant,
+        				// so we are unable to take advantage of the fast ID hash. 
+        				// This is particularly true of vanilla 'stone'.
         				this.add(oreBlock, ore.getItemDamage(), desc.weight);
         			}
         		}
