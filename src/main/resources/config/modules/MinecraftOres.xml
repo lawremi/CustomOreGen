@@ -340,27 +340,27 @@
     <IfCondition condition=':= dimension.generator = "RandomLevelSource" | dimension.generator = "ATGLevelSource"'>
         
         <!--**********   Vanilla Deposit Removal   *************-->
-        <Substitute name='StandardOreSubstitute' block='1'>
+        <Substitute name='StandardOreSubstitute' block='minecraft:stone'>
             <Description> 
                 Replace vanilla-generated ore clusters with stone.   
             </Description>
             <Comment>  
                 The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
             </Comment>
-            <Replaces block='oreCoal'/> 
-            <Replaces block='oreIron'/> 
-            <Replaces block='oreGold'/> 
-            <Replaces block='oreRedstone'/> 
-            <Replaces block='oreDiamond'/> 
-            <Replaces block='oreLapis'/> 
-            <Replaces block='oreEmerald'/>
+            <Replaces block='minecraft:coal_ore'/> 
+            <Replaces block='minecraft:iron_ore'/> 
+            <Replaces block='minecraft:gold_ore'/> 
+            <Replaces block='minecraft:redstone_ore'/> 
+            <Replaces block='minecraft:diamond_ore'/> 
+            <Replaces block='minecraft:lapis_ore'/> 
+            <Replaces block='minecraft:emerald_ore'/>
         </Substitute>
         
         <!--*******************   Coal   ***********************-->
         <ConfigSection>
         
             <IfCondition condition=':= if(age, age.coalClusters > 0, coalDist = "vanillaStdGen")'>    
-                <StandardGen name='CoalStandard' block='oreCoal' inherits='PresetStandardGen'> 
+                <StandardGen name='CoalStandard' block='minecraft:coal_ore' inherits='PresetStandardGen'> 
                     <Description> Equivalent to vanilla minecraft coal distribution </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x60101010</WireframeColor>
@@ -370,7 +370,7 @@
             </IfCondition>   
             
             <IfCondition condition=':= if(age, age.coalVeins > 0, coalDist = "layeredVeins")'>    
-                <Veins name='CoalVeins' block='oreCoal' inherits='PresetSparseVeins'>    
+                <Veins name='CoalVeins' block='minecraft:coal_ore' inherits='PresetSparseVeins'>    
                     <Description>
                         Coal spawns just near the surface, and up into hills and mountains.  The veins are
                         long and thick, but sparsely filled with ore and often broken up by caves or depressions
@@ -399,7 +399,7 @@
             </IfCondition>     
             
             <IfCondition condition=':= if(age, age.coalClouds > 0, coalDist = "strategicClouds")'>    
-                <Cloud name='CoalCloud' block='oreCoal' inherits='PresetStrategicCloud'>
+                <Cloud name='CoalCloud' block='minecraft:coal_ore' inherits='PresetStrategicCloud'>
                     <Description>  
                         Diffuse coal cloud surrounded by single-block "hint" veins, found in swamps.
                     </Description> 
@@ -410,7 +410,7 @@
                     <Setting name='CloudThickness' avg=':= coalSize * _default_' range=':= coalSize * _default_'/>
                     <Setting name='OreDensity' avg=':= 0.75 * _default_'/>
                     <BiomeType name='Swampland'/>
-                    <Veins name='CoalHintVeins' block='oreCoal' inherits='PresetHintVeins'>
+                    <Veins name='CoalHintVeins' block='minecraft:coal_ore' inherits='PresetHintVeins'>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60101010</WireframeColor> 
                         <Setting name='MotherlodeFrequency' avg=':= 1.2 * _default_' range=':= _default_'/> 
@@ -425,7 +425,7 @@
         <ConfigSection>
         
             <IfCondition condition=':= if(age, age.ironClusters > 0, ironDist = "vanillaStdGen")'>
-                <StandardGen name='IronStandard' block='oreIron' inherits='PresetStandardGen'> 
+                <StandardGen name='IronStandard' block='minecraft:iron_ore' inherits='PresetStandardGen'> 
                     <Description> Equivalent to vanilla minecraft iron distribution </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40221100</WireframeColor> 
@@ -436,7 +436,7 @@
             </IfCondition>
             
             <IfCondition condition=':= if(age, age.ironVeins > 0, ironDist = "layeredVeins")'>
-                <Veins name='IronVeins' block='oreIron' inherits='PresetLayeredVeins'>
+                <Veins name='IronVeins' block='minecraft:iron_ore' inherits='PresetLayeredVeins'>
                     <Description> 
                         Iron spawns in the height 30-50 range.  The veins are average in length and size.
                     </Description> 
@@ -460,7 +460,7 @@
             </IfCondition>   
                 
             <IfCondition condition=':= if(age, age.ironClouds > 0, ironDist = "strategicClouds")'>
-                <Cloud name='IronCloud' block='oreIron' inherits='PresetStrategicCloud'>
+                <Cloud name='IronCloud' block='minecraft:iron_ore' inherits='PresetStrategicCloud'>
                     <Description>  
                         Diffuse iron cloud surrounded by single-block "hint" veins, found in cold biomes.
                     </Description> 
@@ -471,7 +471,7 @@
                     <Setting name='CloudThickness' avg=':= ironSize * _default_' range=':= ironSize * _default_'/> 
                     <BiomeType name='Frozen'/>
                     <BiomeType name='Water' weight='-1'/>
-                    <Veins name='IronHintVeins' block='oreIron' inherits='PresetHintVeins'>
+                    <Veins name='IronHintVeins' block='minecraft:iron_ore' inherits='PresetHintVeins'>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x40221100</WireframeColor>
                         <Setting name='MotherlodeFrequency' avg=':= _default_' range=':= _default_'/>   
@@ -486,7 +486,7 @@
         <ConfigSection>
         
             <IfCondition condition=':= if(age, age.goldClusters > 0, goldDist = "vanillaStdGen")'>
-                <StandardGen name='GoldStandard' block='oreGold' inherits='PresetStandardGen'> 
+                <StandardGen name='GoldStandard' block='minecraft:gold_ore' inherits='PresetStandardGen'> 
                     <Description> Equivalent to vanilla minecraft gold distribution </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40443300</WireframeColor> 
@@ -497,7 +497,7 @@
             </IfCondition>
                 
             <IfCondition condition=':= if(age, age.goldVeins > 0, goldDist = "layeredVeins")'>
-                <Veins name='GoldVeins' block='oreGold' inherits='PresetLayeredVeins'> 
+                <Veins name='GoldVeins' block='minecraft:gold_ore' inherits='PresetLayeredVeins'> 
                     <Description> 
                         Gold spawns in the height 10-30 range.  The veins are shorter than average,
                         and much rarer overall.  Gold is not easy to find.
@@ -523,7 +523,7 @@
             </IfCondition>
                 
             <IfCondition condition=':= if(age, age.goldClouds > 0, goldDist = "strategicClouds")'>
-                <Cloud name='GoldCloud' block='oreGold' inherits='PresetStrategicCloud'>
+                <Cloud name='GoldCloud' block='minecraft:gold_ore' inherits='PresetStrategicCloud'>
                     <Description>  
                         Diffuse gold cloud surrounded by single-block "hint" veins, found in forest biomes.
                     </Description> 
@@ -534,7 +534,7 @@
                     <Setting name='CloudThickness' avg=':= 0.8 * goldSize * _default_' range=':= goldSize * _default_'/>
                     <Setting name='OreDensity' avg=':= 0.3 * _default_'/>
                     <BiomeType name='Forest'/>    
-                    <Veins name='GoldHintVeins' block='oreGold' inherits='PresetHintVeins'>
+                    <Veins name='GoldHintVeins' block='minecraft:gold_ore' inherits='PresetHintVeins'>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x40443300</WireframeColor>
                         <Setting name='MotherlodeFrequency' avg=':= 0.3 * _default_' range=':= _default_'/>
@@ -549,9 +549,9 @@
         <ConfigSection>
        
             <IfCondition condition=':= if(age, age.redstoneClusters > 0, redstoneDist = "vanillaStdGen")'>
-                <StandardGen name='RedstoneStandard' block='73' inherits='PresetStandardGen'> 
+                <StandardGen name='RedstoneStandard' block='minecraft:redstone_ore' inherits='PresetStandardGen'> 
                     <Description> Equivalent to vanilla minecraft redstone distribution </Description>
-                    <Comment> The name "oreRedstone" is ambiguous, so we have to use the block ID (73) </Comment>
+                    <Comment> The name "redstone_ore" is ambiguous, so we have to use the block ID (73) </Comment>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40550000</WireframeColor> 
                     <Setting name='Size' avg=':= 7/8 * redstoneSize * _default_'/>
@@ -561,8 +561,8 @@
             </IfCondition>
                 
             <IfCondition condition=':= if(age, age.redstoneVeins > 0, redstoneDist = "layeredVeins")'>
-                <Veins name='RedstoneVeins' block='73' inherits='PresetVerticalVeins'> 
-                    <Comment> The name "oreRedstone" is ambiguous, so we have to use the block ID (73) </Comment>    
+                <Veins name='RedstoneVeins' block='minecraft:redstone_ore' inherits='PresetVerticalVeins'> 
+                    <Comment> The name "redstone_ore" is ambiguous, so we have to use the block ID (73) </Comment>    
                     <Description> 
                         Isolated veins (no motherlodes) that run vertically.  These veins are fairly common, but a challenge to mine because you have to tunnel straight down.
                     </Description>  
@@ -574,15 +574,14 @@
                 <Veins name='RedstoneVeinsDesert' inherits='RedstoneVeins'> 
                     <Description> This roughly triples the chance of finding redstone in deserts. </Description> 
                     <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/> 
-                    <ReplacesOre block='stone'/>
-                    <Replaces block='sandstone'/> 
+                    <ReplacesOre block='minecraft:stone'/>
+                    <Replaces block='minecraft:sandstone'/> 
                     <BiomeType name='Desert'/>    
                 </Veins>
             </IfCondition>
                 
             <IfCondition condition=':= if(age, age.redstoneClouds > 0, redstoneDist = "strategicClouds")'>
-                <Cloud name='RedstoneCloud' block='73' inherits='PresetStrategicCloud'>
-                    <Comment> The name "oreRedstone" is ambiguous, so we have to use the block ID (73) </Comment> 
+                <Cloud name='RedstoneCloud' block='minecraft:redstone_ore' inherits='PresetStrategicCloud'>
                     <Description> 
                         Diffuse redstone cloud surrounded by single-block "hint" veins, found in deserts.
                     </Description> 
@@ -592,13 +591,13 @@
                     <Setting name='CloudRadius' avg=':= 0.65 * redstoneSize * _default_' range=':= 0.5 * redstoneSize * _default_'/>
                     <Setting name='CloudThickness' avg=':= 0.7 * redstoneSize * _default_' range=':= 0.7 * redstoneSize * _default_'/>
                     <BiomeType name='Desert'/>    
-                    <Veins name='RedstoneHintVeins' block='73' inherits='PresetHintVeins'>
+                    <Veins name='RedstoneHintVeins' block='minecraft:redstone_ore' inherits='PresetHintVeins'>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x40550000</WireframeColor>
                         <Setting name='MotherlodeFrequency' avg=':= 0.7 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeRangeLimit' avg=':= 0.65 * redstoneSize * _default_' range=':= 0.65 * redstoneSize * _default_'/>                    
-                        <ReplacesOre block='stone'/>
-                        <Replaces block='sandstone'/>             
+                        <ReplacesOre block='minecraft:stone'/>
+                        <Replaces block='minecraft:sandstone'/>             
                     </Veins>         
                 </Cloud>
             </IfCondition>  
@@ -609,7 +608,7 @@
         <ConfigSection> 
             
             <IfCondition condition=':= if(age, age.diamondClusters > 0, diamondDist = "vanillaStdGen")'>
-                <StandardGen name='DiamondStandard' block='oreDiamond' inherits='PresetStandardGen'> 
+                <StandardGen name='DiamondStandard' block='minecraft:diamond_ore' inherits='PresetStandardGen'> 
                     <Description> Equivalent to vanilla minecraft diamond distribution </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40336699</WireframeColor> 
@@ -620,7 +619,7 @@
             </IfCondition>
                 
             <IfCondition condition=':= if(age, age.diamondVeins > 0, diamondDist = "layeredVeins")'>
-                <Veins name="DiamondVeins" block='oreDiamond' inherits='PresetPipeVeins' seed='0xF186'>
+                <Veins name="DiamondVeins" block='minecraft:diamond_ore' inherits='PresetPipeVeins' seed='0xF186'>
                     <Description> Short sparsely filled tubes starting at bedrock. </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40336699</WireframeColor> 
@@ -630,20 +629,20 @@
                     <Setting name='SegmentRadius' avg=':= diamondSize * _default_' range=':= diamondSize * _default_'/>
                     <Setting name='OreDensity' avg=':= 1.0 * _default_'/>
                 </Veins>
-                <Veins name="DiamondVeinsLava" block='10' inherits='DiamondVeins' seed='0xF186'>
+                <Veins name="DiamondVeinsLava" block='minecraft:lava' inherits='DiamondVeins' seed='0xF186'>
                     <Description> Fills center of each tube with lava, forming "kimberlite pipes" </Description>
                     <Setting name='MotherlodeSize' avg=':= 0.5 * _default_'/>
                     <Setting name='SegmentRadius' avg=':= 0.5 * _default_'/>
                     <Setting name='OreDensity' avg='1' range='0'/>
-                    <ReplacesOre block='stone'/>
-                    <Replaces block='dirt'/>
-                    <Replaces block='gravel'/>
-                    <Replaces block='oreDiamond'/>
+                    <ReplacesOre block='minecraft:stone'/>
+                    <Replaces block='minecraft:dirt'/>
+                    <Replaces block='minecraft:gravel'/>
+                    <Replaces block='minecraft:diamond_ore'/>
                 </Veins>
             </IfCondition>
                 
             <IfCondition condition=':= if(age, age.diamondClouds > 0, diamondDist = "strategicClouds")'>
-                <Cloud name='DiamondCloud' block='oreDiamond' inherits='PresetStrategicCloud'>
+                <Cloud name='DiamondCloud' block='minecraft:diamond_ore' inherits='PresetStrategicCloud'>
                     <Description>  Diffuse diamond cloud with no internal density noise. </Description> 
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40336699</WireframeColor> 
@@ -663,7 +662,7 @@
         <ConfigSection> 
         
             <IfCondition condition=':= if(age, age.lapisClusters > 0, lapisDist = "vanillaStdGen")'>
-                <StandardGen name='LapisLazuliStandard' block='oreLapis' inherits='PresetStandardGen'> 
+                <StandardGen name='LapisLazuliStandard' block='minecraft:lapis_ore' inherits='PresetStandardGen'> 
                     <Description> Equivalent to vanilla minecraft lapis lazuli distribution </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40000055</WireframeColor> 
@@ -674,7 +673,7 @@
             </IfCondition>
                 
             <IfCondition condition=':= if(age, age.lapisVeins > 0, lapisDist = "layeredVeins")'>
-                <Veins name='LapisLazuliVeins' block='oreLapis' inherits='PresetVerticalVeins'>         
+                <Veins name='LapisLazuliVeins' block='minecraft:lapis_ore' inherits='PresetVerticalVeins'>         
                     <Description> 
                         Lapis Lazuli spawns in isolated veins that run vertically upward, much like redstone.  However,
                         lapis veins are too deep to break the suface except occassionally under oceans.
@@ -690,16 +689,16 @@
                 <Veins name='LapisLazuliVeinsOcean' inherits='LapisLazuliVeins'>
                     <Description> This roughly triples the chance of finding lapis lazuli under oceans. </Description> 
                     <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
-                    <ReplacesOre block='stone'/>
-                    <Replaces block='dirt'/> 
-                    <Replaces block='sand'/>
+                    <ReplacesOre block='minecraft:stone'/>
+                    <Replaces block='minecraft:dirt'/> 
+                    <Replaces block='minecraft:sand'/>
                     <BiomeType name='Water'/>
                     <Biome name='River' weight='-1'/>
                 </Veins>
             </IfCondition>
                 
             <IfCondition condition=':= if(age, age.lapisClouds > 0, lapisDist = "strategicClouds")'>
-                <Cloud name='LapisLazuliCloud' block='oreLapis' inherits='PresetStrategicCloud'>
+                <Cloud name='LapisLazuliCloud' block='minecraft:lapis_ore' inherits='PresetStrategicCloud'>
                     <Description>  Diffuse lapis lazuli cloud surrounded by single-block "hint" veins, found under oceans </Description> 
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40000055</WireframeColor> 
@@ -708,7 +707,7 @@
                     <Setting name='CloudThickness' avg=':= 0.7 * lapisSize * _default_' range=':= 0.7 * lapisSize * _default_'/> 
                     <BiomeType name='Water'/>
                     <Biome name='River' weight='-1'/>
-                    <Veins name='LapisLazuliHintVeins' block='oreLapis' inherits='PresetHintVeins'>
+                    <Veins name='LapisLazuliHintVeins' block='minecraft:lapis_ore' inherits='PresetHintVeins'>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x40000055</WireframeColor>
                         <Setting name='MotherlodeFrequency' avg=':= 0.7 * _default_' range=':= _default_'/>
@@ -723,7 +722,7 @@
         <ConfigSection>
 
             <IfCondition condition=':= if(age, age.emeraldClusters > 0, emeraldDist = "vanillaStdGen")'>
-                <StandardGen name='EmeraldStandard' block='oreEmerald' inherits='PresetStandardGen'> 
+                <StandardGen name='EmeraldStandard' block='minecraft:emerald_ore' inherits='PresetStandardGen'> 
                     <Description> Equivalent to vanilla minecraft diamond distribution </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40339966</WireframeColor> 
@@ -737,7 +736,7 @@
             </IfCondition>         
                 
             <IfCondition condition=':= if(age, age.emeraldVeins > 0, emeraldDist = "layeredVeins")'>
-                <Veins name="EmeraldVeins" block='oreEmerald' inherits='PresetPipeVeins' seed='0x3966'>
+                <Veins name="EmeraldVeins" block='minecraft:emerald_ore' inherits='PresetPipeVeins' seed='0x3966'>
                     <Description> Short sparsely filled tubes.  5x more common in Extreme Hills. </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40339966</WireframeColor>
@@ -751,7 +750,7 @@
                     <BiomeType name='Mountain'/>
                     <Biome name='Green\s*Hills'/> <Comment> ExtraBiomesXL </Comment>
                 </Veins>
-                <Veins name="EmeraldVeinsSilverfish" block='monsterStoneEgg' inherits='EmeraldVeins' seed='0x3966'>
+                <Veins name="EmeraldVeinsSilverfish" block='minecraft:monster_egg' inherits='EmeraldVeins' seed='0x3966'>
                     <Description> 
                         Fill center of tubes with silverfish spawners. 
                         Credit: based on novel examples by AnonymousViking from the MC forums.
@@ -759,13 +758,13 @@
                     <Setting name='MotherlodeSize' avg='0.51' range='0.1'/>
                     <Setting name='SegmentRadius' avg='0.51' range='0.1'/>
                     <Setting name='OreDensity' avg='1' range='0'/>
-                    <ReplacesOre block='stone'/>
-                    <Replaces block='oreEmerald'/>
+                    <ReplacesOre block='minecraft:stone'/>
+                    <Replaces block='minecraft:emerald_ore'/>
                 </Veins>
             </IfCondition>
                 
             <IfCondition condition=':= if(age, age.emeraldClouds > 0, emeraldDist = "strategicClouds")'>
-                <Cloud name='EmeraldCloud' block='oreEmerald' inherits='PresetStrategicCloud'>
+                <Cloud name='EmeraldCloud' block='minecraft:emerald_ore' inherits='PresetStrategicCloud'>
                     <Description>  
                         Diffuse emerald cloud with no internal density noise, found in extreme hills.
                     </Description> 

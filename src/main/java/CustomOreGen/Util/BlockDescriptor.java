@@ -48,7 +48,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
     }
 
 	public BlockDescriptor set(Block block) {
-		return this.set(block.getUnlocalizedName().replace("tile.", ""));
+		return this.set(Block.blockRegistry.getNameForObject(block));
 	}
 	
     public BlockDescriptor set(String descriptor)
@@ -176,7 +176,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             // FIXME: we need to support the option of exact matching; this is a huge bottleneck.
             
             for (Block block : (Iterable<Block>)GameData.getBlockRegistry()) {
-            	String name = block.getUnlocalizedName() == null ? null : block.getUnlocalizedName().replace("tile.", "");
+            	String name = Block.blockRegistry.getNameForObject(block);
             	float[] weights = this.regexMatch(name);
             	this.add(block, OreDictionary.WILDCARD_VALUE, weights[Short.SIZE]);	
 
