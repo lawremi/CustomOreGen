@@ -26,7 +26,7 @@
             <OptionChoice name='AbyssalGeodesDist' displayState='shown' displayGroup='groupRailcraft'>
                 <Description> Controls how Railcraft Abyssal Geodes is generated </Description>
                 <DisplayName>Abyssal Geodes Type</DisplayName>
-                <Default>:= if(blockExists("railcraft.cube:6"),"strategicClouds","disabled")</Default>
+                <Default>:= if(blockExists("Railcraft:tile.railcraft.cube:6"),"strategicClouds","disabled")</Default>
                 <Choice value='strategicClouds' displayValue='Clouds'>
                     <Description> 
                         Large Geodes of Abyssal Stone containing
@@ -61,7 +61,7 @@
             <OptionChoice name='RCSulfurDist' displayState='shown' displayGroup='groupRailcraft'>
                 <Description> Controls how Railcraft Sulfur are generated </Description>
                 <DisplayName>RC Sulfur Type</DisplayName>
-                <Default>:= if(blockExists("railcraft.ore:0"),"layeredVeins","disabled")</Default>
+                <Default>:= if(blockExists("Railcraft:tile.railcraft.ore:0"),"layeredVeins","disabled")</Default>
                 <Choice value='layeredVeins' displayValue='Veins'>
                     <Description> 
                         Short lava-filled tubes extending upward from bedrock with ore around the edges.  Found everywhere.
@@ -101,9 +101,9 @@
             <OptionChoice name='RCSaltpeterDist' displayState='shown' displayGroup='groupRailcraft'>
                 <Description> Controls how Railcraft Saltpeter is generated </Description>
                 <DisplayName>RC Saltpeter Type</DisplayName>
-<!--                <Default>:= if(blockExists("railcraft.ore:1"),"strategicClouds","disabled")</Default>
+<!--                <Default>:= if(blockExists("Railcraft:tile.railcraft.ore:1"),"strategicClouds","disabled")</Default>
 -->
-                <Default>:= if(blockExists("railcraft.ore:1"),"default","disabled")</Default>
+                <Default>:= if(blockExists("Railcraft:tile.railcraft.ore:1"),"default","disabled")</Default>
                 <Choice value='layeredVeins' displayValue='Veins'>
                     <Description> 
                         Sparsely filled veins near the surface of deserts. Only replaces sand and sandstone. Will not respawn like vanilla RC.
@@ -160,8 +160,8 @@
             <Comment>  
                 The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
             </Comment>
-	    <Replaces block='railcraft.cube:6'/>
-            <Replaces block='railcraft.ore:0'/>
+	    <Replaces block='Railcraft:tile.railcraft.cube:6'/>
+            <Replaces block='Railcraft:tile.railcraft.ore:0'/>
         </Substitute>
         <IfCondition condition=':= RCSaltpeterDist != "default"'>
         <Substitute name='RailcraftSubstitute2' block='sand'>
@@ -171,7 +171,7 @@
             <Comment>  
                 The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
             </Comment>
-            <Replaces block='railcraft.ore:1'/>
+            <Replaces block='Railcraft:tile.railcraft.ore:1'/>
         </Substitute>
 	</IfCondition>
         <Substitute name='RailcraftSubstitute3' block='minecraft:stone'>
@@ -181,9 +181,9 @@
             <Comment>  
                 The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
             </Comment>
-	    <Replaces block='railcraft.ore:2'/>
-	    <Replaces block='railcraft.ore:3'/>
-	    <Replaces block='railcraft.ore:4'/>
+	    <Replaces block='Railcraft:tile.railcraft.ore:2'/>
+	    <Replaces block='Railcraft:tile.railcraft.ore:3'/>
+	    <Replaces block='Railcraft:tile.railcraft.ore:4'/>
 	</Substitute>
 	
         <!--*******************   Abyssal Geodes   *********************-->            
@@ -202,11 +202,11 @@
             <Setting name='BranchHeightLimit' avg='10.5'/>
             <Setting name='SegmentRadius' avg=':= _default_'
                      range=':= _default_'/>
-            <Replaces block='railcraft.cube:6'/>
+            <Replaces block='Railcraft:tile.railcraft.cube:6'/>
           </VeinsPreset>
           
             <IfCondition condition=':= if(age, age.AbyssalGeodesGeode > 0, AbyssalGeodesDist = "strategicClouds")'>
-              <Cloud name='AbyssalGeode' block='railcraft.cube:6' 
+              <Cloud name='AbyssalGeode' block='Railcraft:tile.railcraft.cube:6' 
                      inherits='PresetStrategicCloud'>
                 <DrawWireframe>:=drawWireframes</DrawWireframe>
                 <WireframeColor>0x401fffe1</WireframeColor> 
@@ -227,7 +227,7 @@
 		<BiomeType name='water'/>
                 <Biome name='river' weight='-1'/>
               
-                <Veins name='DarkDiamondVeins' block='railcraft.ore:2'
+                <Veins name='DarkDiamondVeins' block='Railcraft:tile.railcraft.ore:2'
                        inherits='PresetAbyssalVeins'>
                   <Description>  
                     Dark diamond veins in abyssal geodes.
@@ -236,7 +236,7 @@
                   <WireframeColor>0x400f000f</WireframeColor>
                 </Veins>
 
-                <Veins name='DarkLapisVeins' block='railcraft.ore:4'
+                <Veins name='DarkLapisVeins' block='Railcraft:tile.railcraft.ore:4'
                        inherits='PresetAbyssalVeins'>
                   <Description>  
                     Dark lapis veins in abyssal geodes.
@@ -245,7 +245,7 @@
                   <WireframeColor>0x400f000f</WireframeColor>
                 </Veins>
 
-                <Veins name='DarkEmeraldVeins' block='railcraft.ore:3'
+                <Veins name='DarkEmeraldVeins' block='Railcraft:tile.railcraft.ore:3'
                        inherits='PresetAbyssalVeins'>
                   <Description>  
                     Dark emerald veins in abyssal geodes.
@@ -260,7 +260,7 @@
         <ConfigSection>
         
             <IfCondition condition=':= if(age, age.RCSulfurClusters > 0, RCSulfurDist = "vanillaStdGen")'>
-                <StandardGen name='RCSulfurStandard' block='railcraft.ore:0' inherits='PresetStandardGen'> 
+                <StandardGen name='RCSulfurStandard' block='Railcraft:tile.railcraft.ore:0' inherits='PresetStandardGen'> 
                     <Description> Rare clusters of sulfur near lava </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40edff21</WireframeColor> 
@@ -272,7 +272,7 @@
             </IfCondition>   
             
             <IfCondition condition=':= if(age, age.RCSulfurVeins > 0, RCSulfurDist = "layeredVeins")'>  
-                <Veins name='RCSulfurVeins' block='railcraft.ore:0'
+                <Veins name='RCSulfurVeins' block='Railcraft:tile.railcraft.ore:0'
                        inherits='PresetPipeVeins' seed='0xFF0300'>
                     <Description> Short sparsely filled tubes starting at bedrock.  3x more common in Extreme Hills. </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
@@ -297,7 +297,7 @@
                   <ReplacesOre block='minecraft:stone'/>
                   <Replaces block='dirt'/>
                   <Replaces block='gravel'/>
-                  <Replaces block='railcraft.ore:0'/>
+                  <Replaces block='Railcraft:tile.railcraft.ore:0'/>
                 </Veins>
             </IfCondition>     
             
@@ -307,7 +307,7 @@
         <ConfigSection>
         
             <IfCondition condition=':= if(age, age.RCSaltpeterClusters > 0, RCSaltpeterDist = "vanillaStdGen")'>
-                <StandardGen name='RCSaltpeterStandard' block='railcraft.ore:1' inherits='PresetStandardGen'> 
+                <StandardGen name='RCSaltpeterStandard' block='Railcraft:tile.railcraft.ore:1' inherits='PresetStandardGen'> 
                     <Description> Small clusters of saltpeter </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40FFFFCC</WireframeColor> 
@@ -321,7 +321,7 @@
             </IfCondition>   
             
             <IfCondition condition=':= if(age, age.RCSaltpeterVeins > 0, RCSaltpeterDist = "layeredVeins")'>  
-              <Veins name='RCSaltpeterVeins' block='railcraft.ore:1' inherits='PresetPipeVeins'>
+              <Veins name='RCSaltpeterVeins' block='Railcraft:tile.railcraft.ore:1' inherits='PresetPipeVeins'>
                 <Description>
                   Swathes of Saltpeter.  Found only in deserts.
                 </Description>
@@ -348,7 +348,7 @@
             </IfCondition>     
             
             <IfCondition condition=':= if(age, age.RCSaltpeterClouds > 0, RCSaltpeterDist = "strategicClouds")'>
-                <Cloud name='RCSaltpeterCloud' block='railcraft.ore:1' inherits='PresetStrategicCloud'  seed='0xFEEDDEAD'>
+                <Cloud name='RCSaltpeterCloud' block='Railcraft:tile.railcraft.ore:1' inherits='PresetStrategicCloud'  seed='0xFEEDDEAD'>
                 <Description>  
                   Diffuse cloud with no internal density noise, found in deserts, will respawn as normal.
                 </Description> 

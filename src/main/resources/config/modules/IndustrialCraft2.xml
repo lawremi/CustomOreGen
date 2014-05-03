@@ -22,10 +22,10 @@
         <!--*******************   Copper   *********************-->
         <ConfigSection>
             
-            <OptionChoice name='ic2CopperDist' displayState=':= if(blockExists("blockOreCopper"),"shown","hidden")' displayGroup='groupIC2'>
+            <OptionChoice name='ic2CopperDist' displayState=':= if(blockExists("IC2:blockOreCopper"),"shown","hidden")' displayGroup='groupIC2'>
                 <Description> Controls how IndustrialCraft^2 Copper is generated </Description>
                 <DisplayName>IC2 Copper Type</DisplayName>
-                <Default>:= if(blockExists("blockOreCopper"),"layeredVeins","disabled")</Default>
+                <Default>:= if(blockExists("IC2:blockOreCopper"),"layeredVeins","disabled")</Default>
                 <Choice value='layeredVeins' displayValue='Veins'>
                     <Description> 
                         Groups of long narrow veins found about one third of the way down to bedrock.  Especially common in jungles.  
@@ -70,10 +70,10 @@
         <!--********************   Tin   ***********************-->
         <ConfigSection>
             
-            <OptionChoice name='ic2TinDist' displayState=':= if(blockExists("blockOreTin"),"shown","hidden")' displayGroup='groupIC2'>
+            <OptionChoice name='ic2TinDist' displayState=':= if(blockExists("IC2:blockOreTin"),"shown","hidden")' displayGroup='groupIC2'>
                 <Description> Controls how IndustrialCraft^2 Tin is generated </Description>
                 <DisplayName>IC2 Tin Type</DisplayName>
-                <Default>:= if(blockExists("blockOreTin"),"layeredVeins","disabled")</Default>
+                <Default>:= if(blockExists("IC2:blockOreTin"),"layeredVeins","disabled")</Default>
                 <Choice value='layeredVeins' displayValue='Veins'>
                     <Description> 
                         Groups of long narrow veins found about halfway down to bedrock.  More frequent in flat grassy plains.  
@@ -116,10 +116,10 @@
         <!--******************   Uranium   *********************-->
         <ConfigSection>
         
-            <OptionChoice name='ic2UraniumDist' displayState=':= if(blockExists("blockOreUran"),"shown","hidden")' displayGroup='groupIC2'>
+            <OptionChoice name='ic2UraniumDist' displayState=':= if(blockExists("IC2:blockOreUran"),"shown","hidden")' displayGroup='groupIC2'>
                 <Description> Controls how IndustrialCraft^2 Uranium is generated </Description>
                 <DisplayName>IC2 Uranium Type</DisplayName>
-                <Default>:= if(blockExists("blockOreUran"),"layeredVeins","disabled")</Default>
+                <Default>:= if(blockExists("IC2:blockOreUran"),"layeredVeins","disabled")</Default>
                 <Choice value='layeredVeins' displayValue='Veins'>
                     <Description> 
                         Isolated veins found about two thirds of the way down to bedrock and only sparsely filled with ore.  Unusually common in devestated wastelands.
@@ -162,10 +162,10 @@
         <!--*******************   Lead   *********************-->
         <ConfigSection>
             
-            <OptionChoice name='ic2LeadDist' displayState=':= if(blockExists("blockOreLead"),"shown","hidden")' displayGroup='groupIC2'>
+            <OptionChoice name='ic2LeadDist' displayState=':= if(blockExists("IC2:blockOreLead"),"shown","hidden")' displayGroup='groupIC2'>
                 <Description> Controls how IndustrialCraft^2 Lead is generated </Description>
                 <DisplayName>IC2 Lead Type</DisplayName>
-                <Default>:= if(blockExists("blockOreLead"),"layeredVeins","disabled")</Default>
+                <Default>:= if(blockExists("IC2:blockOreLead"),"layeredVeins","disabled")</Default>
                 <Choice value='layeredVeins' displayValue='Veins'>
                     <Description> 
                         Groups of long narrow veins found about one third of the way down to bedrock.  Especially common in jungles.  
@@ -221,17 +221,17 @@
             <Comment>  
                 The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
             </Comment>
-            <Replaces block='blockOreCopper'/> 
-            <Replaces block='blockOreTin'/> 
-            <Replaces block='blockOreUran'/>
-            <Replaces block='blockOreLead'/>
+            <Replaces block='IC2:blockOreCopper'/> 
+            <Replaces block='IC2:blockOreTin'/> 
+            <Replaces block='IC2:blockOreUran'/>
+            <Replaces block='IC2:blockOreLead'/>
         </Substitute>
         
         <!--*******************   Copper   *********************-->            
         <ConfigSection>
         
             <IfCondition condition=':= if(age, age.ic2CopperClusters > 0, ic2CopperDist = "vanillaStdGen")'>
-                <StandardGen name='IC2CopperStandard' block='blockOreCopper' inherits='PresetStandardGen'> 
+                <StandardGen name='IC2CopperStandard' block='IC2:blockOreCopper' inherits='PresetStandardGen'> 
                     <Description> Equivalent to regular IC2 copper distribution </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40773300</WireframeColor> 
@@ -243,7 +243,7 @@
             </IfCondition>   
             
             <IfCondition condition=':= if(age, age.ic2CopperVeins > 0, ic2CopperDist = "layeredVeins")'>             
-                <Veins name='IC2CopperVeins' block='blockOreCopper' inherits='PresetLayeredVeins'>
+                <Veins name='IC2CopperVeins' block='IC2:blockOreCopper' inherits='PresetLayeredVeins'>
                     <Description>  Average veins in the 30-50 range. </Description> 
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40773300</WireframeColor> 
@@ -265,7 +265,7 @@
             </IfCondition>     
             
             <IfCondition condition=':= if(age, age.ic2CopperClouds > 0, ic2CopperDist = "strategicClouds")'>
-                <Cloud name='IC2CopperCloud' block='blockOreCopper' inherits='PresetStrategicCloud'>
+                <Cloud name='IC2CopperCloud' block='IC2:blockOreCopper' inherits='PresetStrategicCloud'>
                     <Description>  
                         Diffuse copper cloud surrounded by single-block "hint" veins, found in jungle biomes.
                     </Description> 
@@ -275,7 +275,7 @@
                     <Setting name='CloudRadius' avg=':= 1.1 * ic2CopperSize * _default_' range=':= ic2CopperSize * _default_'/>
                     <Setting name='CloudThickness' avg=':= 1.1 * ic2CopperSize * _default_' range=':= ic2CopperSize * _default_'/> 
                     <BiomeType name='Jungle'/>
-                    <Veins name='IC2CopperHintVeins' block='blockOreCopper' inherits='PresetHintVeins'>
+                    <Veins name='IC2CopperHintVeins' block='IC2:blockOreCopper' inherits='PresetHintVeins'>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x40773300</WireframeColor> 
                         <Setting name='MotherlodeFrequency' avg=':= _default_' range=':= _default_'/>   
@@ -290,7 +290,7 @@
         <ConfigSection>
         
             <IfCondition condition=':= if(age, age.ic2TinClusters > 0, ic2TinDist = "vanillaStdGen")'>            
-                <StandardGen name='IC2TinStandard' block='blockOreTin' inherits='PresetStandardGen'> 
+                <StandardGen name='IC2TinStandard' block='IC2:blockOreTin' inherits='PresetStandardGen'> 
                     <Description> Equivalent to regular IC2 tin distribution </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40FFFFFF</WireframeColor> 
@@ -302,7 +302,7 @@
             </IfCondition>   
             
             <IfCondition condition=':= if(age, age.ic2TinVeins > 0, ic2TinDist = "layeredVeins")'>    
-                <Veins name='IC2TinVeins' block='blockOreTin' inherits='PresetLayeredVeins'>
+                <Veins name='IC2TinVeins' block='IC2:blockOreTin' inherits='PresetLayeredVeins'>
                     <Description> 
                         Average veins in the 20-40 range.
                     </Description> 
@@ -325,7 +325,7 @@
             </IfCondition>     
             
             <IfCondition condition=':= if(age, age.ic2TinClouds > 0, ic2TinDist = "strategicClouds")'>
-                <Cloud name='IC2TinCloud' block='blockOreTin' inherits='PresetStrategicCloud'>
+                <Cloud name='IC2TinCloud' block='IC2:blockOreTin' inherits='PresetStrategicCloud'>
                     <Description>  
                         Diffuse tin cloud surrounded by single-block "hint" veins, found in plains biomes.
                     </Description> 
@@ -335,7 +335,7 @@
                     <Setting name='CloudRadius' avg=':= 0.9 * ic2TinSize * _default_' range=':= ic2TinSize * _default_'/>
                     <Setting name='CloudThickness' avg=':= 0.9 * ic2TinSize * _default_' range=':= ic2TinSize * _default_'/> 
                     <BiomeType name='Plains'/>
-                    <Veins name='IC2TinHintVeins' block='blockOreTin' inherits='PresetHintVeins'>
+                    <Veins name='IC2TinHintVeins' block='IC2:blockOreTin' inherits='PresetHintVeins'>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x40FFFFFF</WireframeColor> 
                         <Setting name='MotherlodeFrequency' avg=':= _default_' range=':= _default_'/>   
@@ -350,7 +350,7 @@
         <ConfigSection>
         
             <IfCondition condition=':= if(age, age.ic2UraniumClusters > 0, ic2UraniumDist = "vanillaStdGen")'>
-                <StandardGen name='IC2UraniumStandard' block='blockOreUran' inherits='PresetStandardGen'> 
+                <StandardGen name='IC2UraniumStandard' block='IC2:blockOreUran' inherits='PresetStandardGen'> 
                     <Description> Equivalent to regular IC2 uranium distribution </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x4080FF00</WireframeColor> 
@@ -362,7 +362,7 @@
             </IfCondition>   
             
             <IfCondition condition=':= if(age, age.ic2UraniumVeins > 0, ic2UraniumDist = "layeredVeins")'>    
-                <Veins name='IC2UraniumVeins' block='blockOreUran' inherits='PresetSparseVeins'>    
+                <Veins name='IC2UraniumVeins' block='IC2:blockOreUran' inherits='PresetSparseVeins'>    
                     <Description>
                         Sparse veins in the 10-30 range.
                     </Description>
@@ -387,7 +387,7 @@
             </IfCondition>     
             
             <IfCondition condition=':= if(age, age.ic2UraniumClouds > 0, ic2UraniumDist = "strategicClouds")'>
-                <Cloud name='IC2UraniumCloud' block='blockOreUran' inherits='PresetStrategicCloud'>
+                <Cloud name='IC2UraniumCloud' block='IC2:blockOreUran' inherits='PresetStrategicCloud'>
                     <Description>  
                         Diffuse uranium cloud surrounded by single-block "hint" veins, found mostly in wasteland biomes.
                     </Description> 
@@ -400,7 +400,7 @@
                     <Setting name='OreDensity' avg=':= 1.1 * _default_'/>
                     <Biome name='.*' weight='0.2'/>
                     <BiomeType name='Wasteland'/>
-                    <Veins name='IC2UraniumHintVeins' block='blockOreUran' inherits='PresetHintVeins'>
+                    <Veins name='IC2UraniumHintVeins' block='IC2:blockOreUran' inherits='PresetHintVeins'>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x4080FF00</WireframeColor>
                         <Setting name='MotherlodeFrequency' avg=':= _default_' range=':= _default_'/>   
@@ -415,7 +415,7 @@
         <ConfigSection>
         
             <IfCondition condition=':= if(age, age.ic2LeadClusters > 0, ic2LeadDist = "vanillaStdGen")'>
-                <StandardGen name='IC2LeadStandard' block='blockOreLead' inherits='PresetStandardGen'> 
+                <StandardGen name='IC2LeadStandard' block='IC2:blockOreLead' inherits='PresetStandardGen'> 
                     <Description> Equivalent? to regular IC2 lead distribution </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40222222</WireframeColor> 
@@ -427,7 +427,7 @@
             </IfCondition>   
             
             <IfCondition condition=':= if(age, age.ic2LeadVeins > 0, ic2LeadDist = "layeredVeins")'>             
-                <Veins name='IC2LeadVeins' block='blockOreLead' inherits='PresetLayeredVeins'>
+                <Veins name='IC2LeadVeins' block='IC2:blockOreLead' inherits='PresetLayeredVeins'>
                     <Description>  Average veins in the 30-50 range;
                     more common in deserts. </Description> 
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
@@ -450,7 +450,7 @@
             </IfCondition>     
             
             <IfCondition condition=':= if(age, age.ic2LeadClouds > 0, ic2LeadDist = "strategicClouds")'>
-                <Cloud name='IC2LeadCloud' block='blockOreLead' inherits='PresetStrategicCloud'>
+                <Cloud name='IC2LeadCloud' block='IC2:blockOreLead' inherits='PresetStrategicCloud'>
                     <Description>  
                         Diffuse copper cloud surrounded by single-block "hint" veins, found in desert biomes.
                     </Description> 
@@ -460,7 +460,7 @@
                     <Setting name='CloudRadius' avg=':= 1.1 * ic2LeadSize * _default_' range=':= ic2LeadSize * _default_'/>
                     <Setting name='CloudThickness' avg=':= 1.1 * ic2LeadSize * _default_' range=':= ic2LeadSize * _default_'/> 
                     <BiomeType name='Desert'/>
-                    <Veins name='IC2LeadHintVeins' block='blockOreLead' inherits='PresetHintVeins'>
+                    <Veins name='IC2LeadHintVeins' block='IC2:blockOreLead' inherits='PresetHintVeins'>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x40222222</WireframeColor> 
                         <Setting name='MotherlodeFrequency' avg=':= _default_' range=':= _default_'/>   
