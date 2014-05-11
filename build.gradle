@@ -17,14 +17,25 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.1.0"
-group= "org.pfaa.CustomOreGen" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "CustomOreGen"
+version = getVersionName()
+group= "org.pfaa.CustomOreGen"
 
 minecraft {
     version = "1.7.2-10.12.1.1060"
     assetDir = "eclipse/assets"
 }
+
+def getVersionName()
+{
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'describe', '--tags'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+archivesBaseName = "CustomOreGen-" + project.minecraft.version
 
 processResources
 {
