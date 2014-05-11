@@ -35,7 +35,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@Mod(modid="CustomOreGen", dependencies="after:*", useMetadata=true)
+@Mod(modid="CustomOreGen", useMetadata=true)
 public class FMLInterface implements IWorldGenerator
 {
     @Instance("CustomOreGen")
