@@ -11,18 +11,12 @@ public class BiomeHeightScale implements HeightScale {
 		if (world.provider.hasNoSky || biome == null) {
 			return new WorldHeightScale().getHeight(world, x, z);
 		}
-		return (int)biome.rootHeight;
+		return this.biomeToBlockHeight(biome.rootHeight, world);
 	}
 
 	private int biomeToBlockHeight(float biomeHeight, World world) {
-		int range;
 		int groundHeight = world.provider.getAverageGroundLevel();
-		if (biomeHeight > 0) {
-			range = world.getHeight() - groundHeight;
-		} else {
-			range = groundHeight;
-		}
-		return (int)(groundHeight + biomeHeight / 4 * range);
+		return (int)(groundHeight + Math.min(biomeHeight, 4.0) / 2 * groundHeight);
 	}
 	
 	@Override
