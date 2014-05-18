@@ -71,7 +71,8 @@ public class CustomOreGenBase
             "Factorization.xml",
             "ThermalExpansion.xml",
             "SimpleOres2.xml",
-            "Galacticraft.xml"
+            "Galacticraft.xml",
+            "Chisel.xml"
         };
         for (String module : extraModules) {
         	unpackConfigFile("modules/" + module, new File(defaultModulesDir, module));
