@@ -20,6 +20,9 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import CustomOreGen.Util.Localization;
+
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -267,7 +270,8 @@ public class GuiCustomOreGenSettings extends GuiScreen
             for (int c = -1; !groups.isEmpty() && c < groups.size(); ++c)
             {
                 ConfigOption.DisplayGroup group = c < 0 ? null : (ConfigOption.DisplayGroup)groups.get(c);
-                String text = c < 0 ? "[ All ]" : group.getDisplayName();
+                String ALL = Localization.maybeLocalize("ALL.displayName", "ALL");
+                String text = c < 0 ? "[ " + ALL + " ]" : group.getDisplayName();
                 int btnWidth = fontRendererObj.getStringWidth(text) + 10;
                 GuiGroupButton control = new GuiGroupButton(c + 1, scrollWidth, 0, btnWidth, height, text, group);
                 this._groupButtons.add(control);

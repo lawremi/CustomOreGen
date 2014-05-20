@@ -8,6 +8,7 @@ import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.Server.ChoiceOption;
 import CustomOreGen.Server.ConfigOption;
 import CustomOreGen.Server.NumericOption;
+import CustomOreGen.Util.Localization;
 
 public class ValidatorOption extends ValidatorNode
 {
@@ -36,7 +37,10 @@ public class ValidatorOption extends ValidatorNode
             while (defValue.hasNext())
             {
                 ValidatorChoice loadedValueStr = defValue.next();
-                groupName.addPossibleValue(loadedValueStr.value, loadedValueStr.displayValue, loadedValueStr.description);
+                String choiceKey = optionName + "." + loadedValueStr.value;
+                String displayValue = Localization.maybeLocalize(choiceKey + ".displayValue", loadedValueStr.displayValue);
+                String description = Localization.maybeLocalize(choiceKey + ".description", loadedValueStr.description);
+                groupName.addPossibleValue(loadedValueStr.value, displayValue, description);
             }
 
             if (groupName.getValue() == null)
@@ -72,8 +76,8 @@ public class ValidatorOption extends ValidatorNode
         }
 
         option.setDisplayState(this.validateNamedAttribute(ConfigOption.DisplayState.class, "displayState", option.getDisplayState(), true));
-        option.setDisplayName(this.validateNamedAttribute(String.class, "displayName", option.getDisplayName(), true));
-        option.setDescription(this.validateNamedAttribute(String.class, "description", option.getDescription(), true));
+        option.setDisplayName(this.validateAndLocalizeNamedAttribute(optionName, "displayName", option.getDisplayName(), true));
+        option.setDescription(this.validateAndLocalizeNamedAttribute(optionName, "description", option.getDescription(), true));
         String groupName2 = this.validateNamedAttribute(String.class, "displayGroup", null, true);
 
         if (groupName2 != null)

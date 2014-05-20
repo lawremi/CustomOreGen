@@ -3,7 +3,6 @@ package CustomOreGen.Config;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,6 +14,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.UserDataHandler;
 
 import CustomOreGen.Config.ConfigParser.ConfigExpressionEvaluator;
+import CustomOreGen.Util.Localization;
 
 public class ValidatorNode
 {
@@ -210,6 +210,12 @@ public class ValidatorNode
         return value == null ? defaultValue : value;
     }
 
+    protected final String validateAndLocalizeNamedAttribute(String key, String attrName, String defaultValue, boolean allowElements) throws ParserException 
+    {
+    	String attrValue = this.validateNamedAttribute(String.class, attrName, defaultValue, allowElements);
+    	return Localization.maybeLocalize(key + "." + attrName, attrValue);
+    }
+    
     protected final <T> T validateRequiredAttribute(Class<T> attrType, String attrName, boolean allowElements) throws ParserException
     {
         T value = this.validateNamedAttribute(attrType, attrName, null, allowElements);
