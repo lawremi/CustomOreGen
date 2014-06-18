@@ -7,6 +7,7 @@ import ttftcuts.atg.api.events.*;
 import ttftcuts.atg.api.events.listenable.ATGBiomeGroupAssignmentEvent;
 import ttftcuts.atg.api.events.listenable.ATGBiomeGroupAssignmentEvent.ATGGroupActivationEvent;
 
+import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -60,16 +61,19 @@ public abstract class ATGBiomes {
 	 * 
 	 * WARNING: This is a VERY expensive calculation and the result is NOT cached, so please use as little as possible!
 	 * 
+	 * @param world
+	 * 			The world that you want to get the information for.
+	 * 
 	 * @param x
 	 * 			X coordinate of the point to query.
 	 * 
 	 * @param z
 	 * 			Z coordinate of the point to query.
 	 * 
-	 * @return a list of three doubles corresponding to the height, temperature and moisture at the specified point in the ranges 0.0-1.0.
+	 * @return an array of three doubles corresponding to the height, temperature and moisture at the specified point in the ranges 0.0-1.0.
 	 */
-	public static List<Double> getGeneratorInfo(double x, double z) {
-		final ATGGeneratorInfoEvent event = new ATGGeneratorInfoEvent(x,z);
+	public static double[] getGeneratorInfo(World world, double x, double z) {
+		final ATGGeneratorInfoEvent event = new ATGGeneratorInfoEvent(world,x,z);
 		MinecraftForge.EVENT_BUS.post(event);
 		return event.info;
 	}
