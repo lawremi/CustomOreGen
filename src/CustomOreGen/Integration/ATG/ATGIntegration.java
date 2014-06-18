@@ -11,7 +11,7 @@ public class ATGIntegration {
 	}
 
 	public static int getSurfaceHeight(World world, int x, int z) {
-		double normalizedHeight = ATGBiomes.getGeneratorInfo(x, z).get(0);
+		double normalizedHeight = ATGBiomes.getGeneratorInfo(world, x, z)[0];
 		return (int)(normalizedHeight * world.getHeight());
 	}
 
