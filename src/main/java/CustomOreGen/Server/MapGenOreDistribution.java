@@ -208,7 +208,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                 this.clear();
             }
 
-            this.generate(world.getChunkProvider(), world, chunkX, chunkZ, (byte[])null);
+            this.func_151539_a(world.getChunkProvider(), world, chunkX, chunkZ, (Block[])null);
         }
     }
 
@@ -394,7 +394,8 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
     // FIXME: copy-and-pasted this from MapGenBase, because MapGenStructure now declares recursiveGenerate as 'final'. 
     // We worked around this by renaming to recursiveGenerate2, which is called by this method. 
-    public void generate(IChunkProvider par1IChunkProvider, World par2World, int par3, int par4, byte[] par5ArrayOfByte)
+    @Override
+    public void func_151539_a(IChunkProvider par1IChunkProvider, World par2World, int par3, int par4, Block[] chunkBlocks)
     {
         int k = this.range;
         this.worldObj = par2World;
@@ -409,12 +410,12 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                 long l1 = (long)j1 * l;
                 long i2 = (long)k1 * i1;
                 this.rand.setSeed(l1 ^ i2 ^ par2World.getSeed());
-                this.recursiveGenerate2(par2World, j1, k1, par3, par4, par5ArrayOfByte);
+                this.recursiveGenerate2(par2World, j1, k1, par3, par4, chunkBlocks);
             }
         }
     }
     
-    protected void recursiveGenerate2(World world, int chunkX, int chunkZ, int rootX, int rootZ, byte[] chunkBlocks)
+    protected void recursiveGenerate2(World world, int chunkX, int chunkZ, int rootX, int rootZ, Block[] chunkBlocks)
     {
         if (this.parent != null)
         {
