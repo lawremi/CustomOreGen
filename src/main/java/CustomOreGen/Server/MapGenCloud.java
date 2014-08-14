@@ -173,7 +173,7 @@ public class MapGenCloud extends MapGenOreDistribution
 
                 for (int x = Math.max(super.boundingBox.minX, bounds.minX); x <= Math.min(super.boundingBox.maxX, bounds.maxX); ++x)
                 {
-                    for (int y = Math.max(super.boundingBox.minY, bounds.minY); y <= Math.min(super.boundingBox.maxY, bounds.maxY); ++y)
+                    for (int y = Math.min(super.boundingBox.maxY, bounds.maxY); y >= Math.max(super.boundingBox.minY, bounds.minY); --y)
                     {
                         for (int z = Math.max(super.boundingBox.minZ, bounds.minZ); z <= Math.min(super.boundingBox.maxZ, bounds.maxZ); ++z)
                         {
