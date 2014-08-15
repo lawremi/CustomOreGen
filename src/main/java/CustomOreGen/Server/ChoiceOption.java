@@ -1,9 +1,13 @@
 package CustomOreGen.Server;
 
 import java.util.LinkedHashMap;
-import java.util.Set;
+
+import net.minecraft.client.resources.I18n;
 
 import CustomOreGen.Util.CIStringMap;
+import CustomOreGen.Util.Localization;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ChoiceOption extends ConfigOption
 {
@@ -121,4 +125,19 @@ public class ChoiceOption extends ConfigOption
         String[] display = this._valueMap.get(this._value);
         return display == null ? null : display[1];
     }
+
+    @SideOnly(Side.CLIENT)
+    public String getLocalizedValueDescription() {
+    	return this.localize("description", this.getValueDescription());
+    }
+
+    @SideOnly(Side.CLIENT)
+    public String getLocalizedDisplayValue() {
+    	return this.localize("displayValue", this.getDisplayValue());
+    }
+
+    @SideOnly(Side.CLIENT)
+	private String localize(String key, String value) {
+		return Localization.maybeLocalize(this.getName() + "." + this.getValue() + "." + key, value); 
+	}
 }

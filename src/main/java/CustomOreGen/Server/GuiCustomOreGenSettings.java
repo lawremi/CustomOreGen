@@ -129,15 +129,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
             }
         }
 
-        if (!visibleGroups1.isEmpty())
-        {
-            this._groupPanel = new GuiGroupPanel(0, 20, super.width, 20, currentGroup, visibleGroups1);
-        }
-        else
-        {
-            this._groupPanel = null;
-        }
-
+        this._groupPanel = new GuiGroupPanel(0, 20, super.width, 20, currentGroup, visibleGroups1);
         this._optionPanel = new GuiOptionSlot(visibleGroups1.isEmpty() ? 16 : 40, super.height - 30, 25, visibleOptions1);
         this._optionPanel.registerScrollButtons(1, 2);
         this._doneButton = new GuiButton(0, super.width / 2 - 155, super.height - 24, 150, 20, "Done");
@@ -271,7 +263,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
             {
                 ConfigOption.DisplayGroup group = c < 0 ? null : (ConfigOption.DisplayGroup)groups.get(c);
                 String ALL = Localization.maybeLocalize("ALL.displayName", "ALL");
-                String text = c < 0 ? "[ " + ALL + " ]" : group.getDisplayName();
+                String text = c < 0 ? "[ " + ALL + " ]" : group.getLocalizedDisplayName();
                 int btnWidth = fontRendererObj.getStringWidth(text) + 10;
                 GuiGroupButton control = new GuiGroupButton(c + 1, scrollWidth, 0, btnWidth, height, text, group);
                 this._groupButtons.add(control);
@@ -490,7 +482,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
                     if (this.func_146115_a() && this._group != null)
                     {
-                        _toolTip = this._group.getDescription();
+                        _toolTip = this._group.getLocalizedDescription();
                     }
                 }
             }
@@ -572,7 +564,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
             IOptionControl optCtrl = (IOptionControl)this._optionControls.get(index);
             ConfigOption option = optCtrl.getOption();
             GuiButton control = optCtrl.getControl();
-            String optionName = option.getDisplayName();
+            String optionName = option.getLocalizedDisplayName();
             int nameW = fontRendererObj.getStringWidth(optionName);
             int nameX = 2 * width / 5 - 15 - nameW;
             int nameH = fontRendererObj.FONT_HEIGHT;
@@ -581,7 +573,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
             if (super.mouseX >= nameX && super.mouseX <= nameX + nameW && super.mouseY >= nameY && super.mouseY <= nameY + nameH && this.isInBounds(super.mouseX, super.mouseY))
             {
-                _toolTip = option.getDescription();
+                _toolTip = option.getLocalizedDescription();
             }
 
             control.yPosition = slotY + 3;
@@ -634,7 +626,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
             protected void onValueChanged()
             {
-                super.displayString = this._choice.getDisplayValue();
+                super.displayString = this._choice.getLocalizedDisplayValue();
                 int strWidth = super.displayString == null ? 0 : fontRendererObj.getStringWidth(super.displayString);
                 super.width = Math.min(this._maxWidth, strWidth + 10);
             }
@@ -672,7 +664,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
                 if (this.func_146115_a())
                 {
-                    _toolTip = this._choice.getValueDescription();
+                    _toolTip = this._choice.getLocalizedValueDescription();
                 }
             }
         }
