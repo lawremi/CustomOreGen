@@ -57,7 +57,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
 
         if (descriptor != null)
         {
-            this._descriptors.add(new Descriptor(descriptor, 1.0F, false));
+            this._descriptors.add(new Descriptor(descriptor, 1.0F, false, false));
         }
 
         return this;
@@ -65,19 +65,19 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
 
     public BlockDescriptor add(String descriptor)
     {
-        return this.add(descriptor, 1.0F, false);
+        return this.add(descriptor, 1.0F, false, false);
     }
 
     public BlockDescriptor add(String descriptor, float weight) {
-    	return this.add(descriptor, weight, false);
+    	return this.add(descriptor, weight, false, false);
     }
     
-    public BlockDescriptor add(String descriptor, float weight, boolean describesOre)
+    public BlockDescriptor add(String descriptor, float weight, boolean describesOre, boolean regexp)
     {
         if (descriptor != null && weight != 0.0F)
         {
             this._compiled = false;
-            this._descriptors.add(new Descriptor(descriptor, weight, describesOre));
+            this._descriptors.add(new Descriptor(descriptor, weight, describesOre, regexp));
         }
 
         return this;
@@ -129,37 +129,9 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
 
 	public void add(BlockDescriptor desc, float weight) {
 		for (Descriptor d : desc._descriptors) {
-			this.add(d.description, d.weight * weight, d.describesOre);
+			this.add(d.description, d.weight * weight, d.describesOre, d.regexp);
 		}
 	}
-
-    protected float[] regexMatch(String name)
-    {
-        float[] weights = new float[Short.SIZE + 1];
-        
-        for (Descriptor desc : this._descriptors) {
-        	if (desc.describesOre)
-        		continue;
-        	if (!desc.getPattern().matcher(name).matches())
-            {
-                for (int m = 0; m < Short.SIZE; ++m)
-                {
-                    if (desc.getPattern().matcher(name + ":" + m).matches())
-                    {
-                        ++desc.matches;
-                        weights[m] += desc.weight;
-                    }
-                }
-            }
-            else
-            {
-                ++desc.matches;
-                weights[Short.SIZE] += desc.weight;
-            }
-        }
-
-        return weights;
-    }
 
     protected void compileMatches()
     {
@@ -171,35 +143,34 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             
             for (Descriptor desc : this._descriptors) {
             	desc.matches = 0;
-            }
-            
-            // FIXME: we need to support the option of exact matching; this is a huge bottleneck.
-            
-            for (Block block : (Iterable<Block>)GameData.getBlockRegistry()) {
-            	String name = Block.blockRegistry.getNameForObject(block);
-            	float[] weights = this.regexMatch(name);
-            	this.add(block, OreDictionary.WILDCARD_VALUE, weights[Short.SIZE]);	
-            	
-            	for (int m = 0; m < Short.SIZE; ++m)
-            	{
-            		this.add(block, m, weights[m]);
+            	if (desc.describesOre) {
+            		for (ItemStack ore : OreDictionary.getOres(desc.description)) {
+            			Item oreItem = ore.getItem();
+            			if (oreItem instanceof ItemBlock) {
+            				Block oreBlock = ((ItemBlock)oreItem).field_150939_a;
+            				// FIXME: Blocks tend to be registered as meta 0, even when the meta is irrelevant,
+            				// so we are unable to take advantage of the fast ID hash. 
+            				// This is particularly true of vanilla 'stone'.
+            				this.add(oreBlock, ore.getItemDamage(), desc.weight);
+            			}
+            		}            		
+            	} else if (desc.regexp) {
+            		for (Block block : (Iterable<Block>)GameData.getBlockRegistry()) {
+                    	String name = Block.blockRegistry.getNameForObject(block);
+                    	float[] weights = desc.regexMatch(name);
+                    	this.add(block, OreDictionary.WILDCARD_VALUE, weights[Short.SIZE]);	
+                    	
+                    	for (int m = 0; m < Short.SIZE; ++m)
+                    	{
+                    		this.add(block, m, weights[m]);
+                    	}
+                    }
+            	} else {
+            		Block block = Block.getBlockFromName(desc.getBlockName());
+            		if (block != null)
+            		  this.add(block, desc.getMeta(), desc.weight);
             	}
-            }
-         
-            for (Descriptor desc : this._descriptors) {
-        		if (!desc.describesOre)
-            		continue;
-        		for (ItemStack ore : OreDictionary.getOres(desc.description)) {
-        			Item oreItem = ore.getItem();
-        			if (oreItem instanceof ItemBlock) {
-        				Block oreBlock = ((ItemBlock)oreItem).field_150939_a;
-        				// FIXME: Blocks tend to be registered as meta 0, even when the meta is irrelevant,
-        				// so we are unable to take advantage of the fast ID hash. 
-        				// This is particularly true of vanilla 'stone'.
-        				this.add(oreBlock, ore.getItemDamage(), desc.weight);
-        			}
-        		}
-        	}
+            }   
         }
     }
 
@@ -392,26 +363,69 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         public final String description;
         public final float weight;
         public final boolean describesOre;
-        public int matches = 0;
+        public final boolean regexp;
+        public int matches = -1;
         private Pattern pattern = null;
-
-        public Descriptor(String description, float weight, boolean describesOre)
+        
+        public Descriptor(String description, float weight, boolean describesOre, boolean regexp)
         {
             this.description = description;
             this.weight = weight;
 			this.describesOre = describesOre;
+			this.regexp = regexp;
         }
 
         public Pattern getPattern()
         {
             if (this.pattern == null)
             {
-                this.pattern = Pattern.compile(this.description, 2);
+                this.pattern = Pattern.compile(this.description, Pattern.CASE_INSENSITIVE);
             }
 
             return this.pattern;
         }
+        
+        public String getBlockName() {
+        	boolean hasMeta = this.description.indexOf(':') != this.description.lastIndexOf(':');
+        	if (hasMeta) {
+        		return this.description.substring(0, this.description.lastIndexOf(':'));
+        	} else {
+        		return this.description;
+        	}
+        }
+        
+        public int getMeta() {
+        	boolean hasMeta = this.getBlockName().length() < this.description.length();
+        	if (hasMeta) {
+        		return Integer.valueOf(this.description.substring(this.getBlockName().length() + 1));
+        	} else {
+        		return OreDictionary.WILDCARD_VALUE;
+        	}
+        }
 
+        public float[] regexMatch(String name)
+        {
+            float[] weights = new float[Short.SIZE + 1];
+            
+            if (!this.getPattern().matcher(name).matches())
+            {
+            	for (int m = 0; m < Short.SIZE; ++m)
+            	{
+            		if (this.getPattern().matcher(name + ":" + m).matches())
+            		{
+            			++this.matches;
+            			weights[m] += this.weight;
+            		}
+            	}
+            }
+            else
+            {
+            	++this.matches;
+            	weights[Short.SIZE] += this.weight;
+            }
+            return weights;
+        }
+        
         public String toString()
         {
             return this.description + " - " + Float.toString(this.weight);

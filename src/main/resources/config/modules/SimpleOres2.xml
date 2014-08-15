@@ -44,7 +44,7 @@
             <OptionChoice name='so2CopperDist' displayState='hidden' displayGroup='groupSO2'>
                 <Description> Controls how SimpleOres 2 Copper is generated </Description>
                 <DisplayName>SO2 Copper Type</DisplayName>
-                <Default>:= if(blockExists("copperOre"),"layeredVeins","disabled")</Default>
+                <Default>:= if(blockExists("simpleores:copper_ore"),"layeredVeins","disabled")</Default>
                 <Choice value='layeredVeins' displayValue='Veins'>
                     <Description> 
                         Groups of long narrow veins found about one third of the way down to bedrock.  Especially common in jungles.  
@@ -90,7 +90,7 @@
             <OptionChoice name='so2TinDist' displayState='hidden' displayGroup='groupSO2'>
                 <Description> Controls how SimpleOres 2 Tin is generated </Description>
                 <DisplayName>SO2 Tin Type</DisplayName>
-                <Default>:= if(blockExists("tinOre"),"layeredVeins","disabled")</Default>
+                <Default>:= if(blockExists("simpleores:tin_ore"),"layeredVeins","disabled")</Default>
                 <Choice value='layeredVeins' displayValue='Veins'>
                     <Description> 
                         Groups of long narrow veins found about halfway down to bedrock.  More frequent in flat grassy plains.  
@@ -136,7 +136,7 @@
             <OptionChoice name='so2MythrilDist' displayState='hidden' displayGroup='groupSO2'>
                 <Description> Controls how SimpleOres 2 Mythril is generated </Description>
                 <DisplayName>SO2 Mythril Type</DisplayName>
-                <Default>:= if(blockExists("mythrilOre"),"layeredVeins","disabled")</Default>
+                <Default>:= if(blockExists("simpleores:mythril_ore"),"layeredVeins","disabled")</Default>
                 <Choice value='layeredVeins' displayValue='Veins'>
                     <Description> 
                         Groups of long narrow veins found about halfway down to bedrock.
@@ -182,7 +182,7 @@
             <OptionChoice name='so2AdamantiumDist' displayState='hidden' displayGroup='groupSO2'>
                 <Description> Controls how SimpleOres 2 Adamantium is generated </Description>
                 <DisplayName>SO2 Adamantium Type</DisplayName>
-                <Default>:= if(blockExists("adamantiumOre"),"layeredVeins","disabled")</Default>
+                <Default>:= if(blockExists("simpleores:adamantium_ore"),"layeredVeins","disabled")</Default>
                 <Choice value='layeredVeins' displayValue='Veins'>
                     <Description> 
                         Short narrow veins found about two-thirds of the way down to bedrock.
@@ -240,17 +240,17 @@
             <Comment>  
                 The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
             </Comment>
-            <Replaces block='copperOre'/> 
-            <Replaces block='tinOre'/> 
-            <Replaces block='mythrilOre'/>
-            <Replaces block='adamantiumOre'/>
+            <Replaces block='simpleores:copper_ore'/> 
+            <Replaces block='simpleores:tin_ore'/> 
+            <Replaces block='simpleores:mythril_ore'/>
+            <Replaces block='simpleores:adamantium_ore'/>
         </Substitute>
        
         <!--*******************   Copper   *********************-->            
         <ConfigSection>
         
             <IfCondition condition=':= if(age, age.so2CopperClusters > 0, so2CopperDist = "vanillaStdGen")'>
-                <StandardGen name='SO2CopperStandard' block='copperOre' inherits='PresetStandardGen'> 
+                <StandardGen name='SO2CopperStandard' block='simpleores:copper_ore' inherits='PresetStandardGen'> 
                     <Description> Equivalent to regular SO2 copper distribution </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40773300</WireframeColor> 
@@ -262,7 +262,7 @@
             </IfCondition>   
             
             <IfCondition condition=':= if(age, age.so2CopperVeins > 0, so2CopperDist = "layeredVeins")'>             
-                <Veins name='SO2CopperVeins' block='copperOre' inherits='PresetLayeredVeins'>
+                <Veins name='SO2CopperVeins' block='simpleores:copper_ore' inherits='PresetLayeredVeins'>
                     <Description>  Average veins in the 10-90 range. </Description> 
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40773300</WireframeColor> 
@@ -284,7 +284,7 @@
             </IfCondition>     
             
             <IfCondition condition=':= if(age, age.so2CopperClouds > 0, so2CopperDist = "strategicClouds")'>
-                <Cloud name='SO2CopperCloud' block='copperOre' inherits='PresetStrategicCloud'>
+                <Cloud name='SO2CopperCloud' block='simpleores:copper_ore' inherits='PresetStrategicCloud'>
                     <Description>  
                         Diffuse copper cloud surrounded by single-block "hint" veins, found in jungle biomes.
                     </Description> 
@@ -294,7 +294,7 @@
                     <Setting name='CloudRadius' avg=':= 1.1 * so2CopperSize * _default_' range=':= so2CopperSize * _default_'/>
                     <Setting name='CloudThickness' avg=':= 1.1 * so2CopperSize * _default_' range=':= so2CopperSize * _default_'/> 
                     <BiomeType name='Jungle'/>
-                    <Veins name='SO2CopperHintVeins' block='copperOre' inherits='PresetHintVeins'>
+                    <Veins name='SO2CopperHintVeins' block='simpleores:copper_ore' inherits='PresetHintVeins'>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x40773300</WireframeColor> 
                         <Setting name='MotherlodeFrequency' avg=':= _default_' range=':= _default_'/>   
@@ -309,7 +309,7 @@
         <ConfigSection>
         
             <IfCondition condition=':= if(age, age.so2TinClusters > 0, so2TinDist = "vanillaStdGen")'>            
-                <StandardGen name='SO2TinStandard' block='tinOre' inherits='PresetStandardGen'> 
+                <StandardGen name='SO2TinStandard' block='simpleores:tin_ore' inherits='PresetStandardGen'> 
                     <Description> Equivalent to regular SO2 tin distribution </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40FFFFFF</WireframeColor> 
@@ -321,7 +321,7 @@
             </IfCondition>   
             
             <IfCondition condition=':= if(age, age.so2TinVeins > 0, so2TinDist = "layeredVeins")'>    
-                <Veins name='SO2TinVeins' block='tinOre' inherits='PresetLayeredVeins'>
+                <Veins name='SO2TinVeins' block='simpleores:tin_ore' inherits='PresetLayeredVeins'>
                     <Description> 
                         Average veins in the 10-90 range.
                     </Description> 
@@ -344,7 +344,7 @@
             </IfCondition>     
             
             <IfCondition condition=':= if(age, age.so2TinClouds > 0, so2TinDist = "strategicClouds")'>
-                <Cloud name='SO2TinCloud' block='tinOre' inherits='PresetStrategicCloud'>
+                <Cloud name='SO2TinCloud' block='simpleores:tin_ore' inherits='PresetStrategicCloud'>
                     <Description>  
                         Diffuse tin cloud surrounded by single-block "hint" veins, found in plains biomes.
                     </Description> 
@@ -354,7 +354,7 @@
                     <Setting name='CloudRadius' avg=':= 0.9 * so2TinSize * _default_' range=':= so2TinSize * _default_'/>
                     <Setting name='CloudThickness' avg=':= 0.9 * so2TinSize * _default_' range=':= so2TinSize * _default_'/> 
                     <BiomeType name='Plains'/>
-                    <Veins name='SO2TinHintVeins' block='tinOre' inherits='PresetHintVeins'>
+                    <Veins name='SO2TinHintVeins' block='simpleores:tin_ore' inherits='PresetHintVeins'>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x40FFFFFF</WireframeColor> 
                         <Setting name='MotherlodeFrequency' avg=':= _default_' range=':= _default_'/>   
@@ -370,7 +370,7 @@
         <ConfigSection>
         
             <IfCondition condition=':= if(age, age.so2MythrilClusters > 0, so2MythrilDist = "vanillaStdGen")'>            
-                <StandardGen name='SO2MythrilStandard' block='mythrilOre' inherits='PresetStandardGen'> 
+                <StandardGen name='SO2MythrilStandard' block='simpleores:mythril_ore' inherits='PresetStandardGen'> 
                     <Description> Equivalent to regular SO2 mythril distribution </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x4000A6F4</WireframeColor> 
@@ -382,7 +382,7 @@
             </IfCondition>   
             
             <IfCondition condition=':= if(age, age.so2MythrilVeins > 0, so2MythrilDist = "layeredVeins")'>    
-                <Veins name='SO2MythrilVeins' block='mythrilOre' inherits='PresetLayeredVeins'>
+                <Veins name='SO2MythrilVeins' block='simpleores:mythril_ore' inherits='PresetLayeredVeins'>
                     <Description> 
                         Small veins in the 4-35 range.
                     </Description> 
@@ -410,7 +410,7 @@
             </IfCondition>     
             
             <IfCondition condition=':= if(age, age.so2MythrilClouds > 0, so2MythrilDist = "strategicClouds")'>
-                <Cloud name='SO2MythrilCloud' block='mythrilOre' inherits='PresetStrategicCloud'>
+                <Cloud name='SO2MythrilCloud' block='simpleores:mythril_ore' inherits='PresetStrategicCloud'>
                     <Description>  
                         Diffuse mythril cloud surrounded by single-block "hint" veins, found in plains biomes.
                     </Description> 
@@ -420,7 +420,7 @@
                     <Setting name='CloudRadius' avg=':= 0.9 * so2MythrilSize * _default_' range=':= so2MythrilSize * _default_'/>
                     <Setting name='CloudThickness' avg=':= 0.9 * so2MythrilSize * _default_' range=':= so2MythrilSize * _default_'/> 
                     <BiomeType name='Plains'/>
-                    <Veins name='SO2MythrilHintVeins' block='mythrilOre' inherits='PresetHintVeins'>
+                    <Veins name='SO2MythrilHintVeins' block='simpleores:mythril_ore' inherits='PresetHintVeins'>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x4000A6F4</WireframeColor> 
                         <Setting name='MotherlodeFrequency' avg=':= _default_' range=':= _default_'/>   
@@ -436,7 +436,7 @@
         <ConfigSection>
         
             <IfCondition condition=':= if(age, age.so2AdamantiumClusters > 0, so2AdamantiumDist = "vanillaStdGen")'>            
-                <StandardGen name='SO2AdamantiumStandard' block='adamantiumOre' inherits='PresetStandardGen'> 
+                <StandardGen name='SO2AdamantiumStandard' block='simpleores:adamantium_ore' inherits='PresetStandardGen'> 
                     <Description> Equivalent to regular SO2 adamantium distribution </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x4033BA31</WireframeColor> 
@@ -448,7 +448,7 @@
             </IfCondition>   
             
             <IfCondition condition=':= if(age, age.so2AdamantiumVeins > 0, so2AdamantiumDist = "layeredVeins")'>    
-                <Veins name='SO2AdamantiumVeins' block='adamantiumOre' inherits='PresetLayeredVeins'>
+                <Veins name='SO2AdamantiumVeins' block='simpleores:adamantium_ore' inherits='PresetLayeredVeins'>
                     <Description> 
                         Small veins in the 2-20 range.
                     </Description> 
@@ -476,7 +476,7 @@
             </IfCondition>     
             
             <IfCondition condition=':= if(age, age.so2AdamantiumClouds > 0, so2AdamantiumDist = "strategicClouds")'>
-                <Cloud name='SO2AdamantiumCloud' block='adamantiumOre' inherits='PresetStrategicCloud'>
+                <Cloud name='SO2AdamantiumCloud' block='simpleores:adamantium_ore' inherits='PresetStrategicCloud'>
                     <Description>  
                         Diffuse adamantium cloud surrounded by single-block "hint" veins, found in plains biomes.
                     </Description> 
@@ -486,7 +486,7 @@
                     <Setting name='CloudRadius' avg=':= 0.9 * so2AdamantiumSize * _default_' range=':= so2AdamantiumSize * _default_'/>
                     <Setting name='CloudThickness' avg=':= 0.9 * so2AdamantiumSize * _default_' range=':= so2AdamantiumSize * _default_'/> 
                     <BiomeType name='Plains'/>
-                    <Veins name='SO2AdamantiumHintVeins' block='adamantiumOre' inherits='PresetHintVeins'>
+                    <Veins name='SO2AdamantiumHintVeins' block='simpleores:adamantium_ore' inherits='PresetHintVeins'>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x4033BA31</WireframeColor> 
                         <Setting name='MotherlodeFrequency' avg=':= _default_' range=':= _default_'/>   
