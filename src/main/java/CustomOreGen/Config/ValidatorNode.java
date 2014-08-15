@@ -210,12 +210,6 @@ public class ValidatorNode
         return value == null ? defaultValue : value;
     }
 
-    protected final String validateAndLocalizeNamedAttribute(String key, String attrName, String defaultValue, boolean allowElements) throws ParserException 
-    {
-    	String attrValue = this.validateNamedAttribute(String.class, attrName, defaultValue, allowElements);
-    	return Localization.maybeLocalize(key + "." + attrName, attrValue);
-    }
-    
     protected final <T> T validateRequiredAttribute(Class<T> attrType, String attrName, boolean allowElements) throws ParserException
     {
         T value = this.validateNamedAttribute(attrType, attrName, null, allowElements);

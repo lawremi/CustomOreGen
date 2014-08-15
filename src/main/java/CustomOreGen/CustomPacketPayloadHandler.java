@@ -112,7 +112,7 @@ public class CustomPacketPayloadHandler {
                 case DebuggingGeometryRequest:
                     GeometryData geometryData = null;
 
-                    if (player.mcServer.getConfigurationManager().isPlayerOpped(player.getCommandSenderName()))
+                    if (player.mcServer.getConfigurationManager().func_152596_g(player.getGameProfile()));
                     {
                         geometryData = ServerState.getDebuggingGeometryData((GeometryRequestData)payload.data);
                     }

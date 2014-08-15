@@ -1,5 +1,9 @@
 package CustomOreGen.Server;
 
+import CustomOreGen.Util.Localization;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 
 public abstract class ConfigOption
 {
@@ -35,6 +39,21 @@ public abstract class ConfigOption
     {
         return this._description;
     }
+
+    @SideOnly(Side.CLIENT)
+    public String getLocalizedDescription() {
+    	return this.localize("description", this.getDescription());
+    }
+
+    @SideOnly(Side.CLIENT)
+    public String getLocalizedDisplayName() {
+    	return this.localize("displayName", this.getDisplayName());
+    }
+
+    @SideOnly(Side.CLIENT)
+	private String localize(String key, String value) {
+		return Localization.maybeLocalize(this.getName() + "." + key, value); 
+	}
 
     public void setDescription(String description)
     {
