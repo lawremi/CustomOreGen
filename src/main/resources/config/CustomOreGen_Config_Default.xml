@@ -36,7 +36,27 @@
     *   Below are options to control the general behavior of all distributions.
     *************************************************************************************-->
     <ConfigSection>
-    
+      
+        <OptionDisplayGroup name='groupInternal' displayName=''
+                            displayState='hidden'>
+            <Description> 
+                Hidden, mostly internal options.
+            </Description>
+        </OptionDisplayGroup>
+
+        <OptionChoice name='COGActive'
+                      default=':= dimension.generator = "RandomLevelSource" | dimension.generator = "ATGLevelSource"'
+                      displayGroup='groupInternal'>
+            <Choice value='true' displayValue='On'/>
+            <Choice value='false' displayValue='Off'/>
+            <Comment>
+              Controls whether COG is active in the current
+              dimension. Copy this file to CustomOreGen_Config.xml and
+              modify the expression for the default value to control
+              where COG is active by default.
+            </Comment>
+        </OptionChoice>
+
         <OptionDisplayGroup name='groupGeneral' displayName='General' displayState='shown'>
             <Description> 
                 Options affecting all ore distributions.
@@ -82,8 +102,8 @@
             <Max>128</Max>
             <DisplayIncrement>16</DisplayIncrement>
         </OptionNumeric> 
-        
-        <OptionChoice name='vanillaOreGen' default='true' displayGroup='groupGeneral'>
+
+        <OptionChoice name='vanillaOreGen' default=':=!?COGActive' displayGroup='groupGeneral'>
             <Description> 
                 Enable/disable the vanilla ore generators for coal, iron, gold, redstone, lapis lazuli, and diamond.  
             </Description>
@@ -131,7 +151,7 @@
           <Choice value='true' displayValue='On'/>
           <Choice value='false' displayValue='Off'/>
         </OptionChoice>
-       
+
     </ConfigSection>
     
     <!--*******************************   Presets   ****************************************
@@ -387,6 +407,7 @@
     <Import file='modules/default/SimpleOres2.xml'/>
     <Import file='modules/default/Galacticraft.xml'/>
     <Import file='modules/default/Chisel.xml'/>
+    <Import file='modules/default/Mekanism.xml'/>
 
     <!-- Possible mods to support as standard configs:
          * EmasherResource
