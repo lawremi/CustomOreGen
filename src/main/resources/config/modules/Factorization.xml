@@ -65,7 +65,33 @@ Silver
           </MystcraftSymbol>
           
          </ConfigSection>
-            </ConfigSection> 
+
+         <ConfigSection>
+           <OptionChoice name='factDarkIronDist' default='layeredVeins' displayState='shown' displayGroup='groupfactorization'> 
+             <Description> Controls how Dark Iron is generated </Description> 
+             <DisplayName>Factorization Dark Iron</DisplayName>
+             <Choice value='layeredVeins' displayValue='Veins'>
+               <Description>
+                 Veins of Ore leading to a Motherlode.  Most realistic placement. 
+               </Description>
+             </Choice>
+             <Choice value='none' displayValue='None'
+                     description='No Dark Iron is generated at all.'/>
+           </OptionChoice>
+           
+           <OptionNumeric name='factDarkIronFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupfactorization'>
+             <Description> Frequency multiplier for Factorization Dark
+             Iron distributions </Description>
+             <DisplayName>Factorization Dark Iron Freq.</DisplayName>
+           </OptionNumeric>
+           
+           <OptionNumeric name='factDarkIronSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupfactorization'>
+             <Description> Size multiplier for Factorization Dark Iron distributions </Description>
+             <DisplayName>Factorization Dark Iron Size</DisplayName>
+           </OptionNumeric>
+
+         </ConfigSection>
+    </ConfigSection> 
     
     <IfCondition condition=':= ?COGActive'>
     
@@ -78,6 +104,7 @@ Silver
                 The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32)
             </Comment>
             <Replaces block='factorization:ResourceBlock'/>
+            <Replaces block='factorization:DarkIronOre'/>
         </Substitute>
                 <ConfigSection>
         
@@ -130,6 +157,51 @@ Silver
                     </Veins>             
                 </Cloud>
             </IfCondition> 
+        </ConfigSection>
+
+        <ConfigSection>
+
+          <IfCondition condition=':= factDarkIronDist = "layeredVeins"'>
+            
+          <Veins name='DarkIronVeins' block='factorization:DarkIronOre' inherits='PresetVerticalVeins'>
+            <Description>
+              Isolated veins (no motherlodes) that run
+              vertically. These veins are fairly common, but a
+              challenge to mine because you have to tunnel straight
+              down.
+            </Description>
+            <DrawWireframe>:=drawWireframes</DrawWireframe>
+            <WireframeColor>0x40550000</WireframeColor>
+            <Setting name='MotherlodeFrequency'
+                     avg=':= 1.3 * factDarkIronFreq * _default_'/>
+            <Setting name='MotherlodeHeight' avg='8' range='2'/>
+            <Setting name='MotherlodeRangeLimit' avg='8' range='2'
+                     type='normal'/>
+            <Setting name='MotherlodeSize'
+                     avg=':= factDarkIronSize * _default_' range=':= _default_'/>
+            <Setting name='SegmentRadius'
+                     avg=':= factDarkIronSize * _default_' range=':= _default_'/>
+            <Setting name='BranchLength' avg='8' range='2' type='normal'/>
+            <ReplacesOre block='stone'/>
+            <Replaces block='minecraft:bedrock' />
+            <Replaces block='minecraft:dirt'/>
+            <Replaces block='minecraft:gravel'/>
+          </Veins>
+          <Veins name='DarkIronVeinsDesert' inherits='DarkIronVeins'>
+            <Description>
+              This roughly triples the chance of finding redstone in
+              deserts.
+            </Description>
+            <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+            <ReplacesOre block='stone'/>
+            <Replaces block='minecraft:bedrock' />
+            <Replaces block='minecraft:dirt'/>
+            <Replaces block='minecraft:gravel'/>
+            <BiomeType name='Desert'/>
+          </Veins>
+
+          </IfCondition>
+          
         </ConfigSection>
 
     </IfCondition>
