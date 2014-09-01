@@ -126,7 +126,6 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
         
         String id = Integer.toString(biome.biomeID);
         String name = biome.biomeName;
-        BiomeDictionary.Type[] types = BiomeDictionary.getTypesForBiome(biome);
         
         for (Descriptor desc : this._descriptors) {
             int oldMatches = desc.matches;
@@ -136,15 +135,11 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
             	continue;
             
             if (desc.describesType) {
-            	for (BiomeDictionary.Type type : types) {	
-            		matcher = desc.getPattern().matcher(type.name());
-            	
-            		if (matcher.matches())
-            		{
-            			++desc.matches;
-            			totalWeight += desc.weight;
-            			break;
-            		}
+            	BiomeDictionary.Type type = BiomeDictionary.Type.getType(desc.description);
+            	if (BiomeDictionary.isBiomeOfType(biome, type))
+            	{
+            		++desc.matches;
+            		totalWeight += desc.weight;
             	}
             } else {
             	if (desc.matches == oldMatches && id != null)
