@@ -363,8 +363,8 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
         }
         
         public Climate() {
-        	this.minTemperature = this.minRainfall = 0F;
-			this.maxTemperature = this.maxRainfall = 2.0F;
+        	this.minTemperature = this.minRainfall = Float.NEGATIVE_INFINITY;
+			this.maxTemperature = this.maxRainfall = Float.POSITIVE_INFINITY;
         }
         
         public boolean isCompatible(BiomeGenBase biome) {
