@@ -1,6 +1,5 @@
 package CustomOreGen.Util;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Hashtable;
 import java.util.LinkedList;
@@ -124,13 +123,10 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
     {
         float totalWeight = 0.0F;
         
-        String id = Integer.toString(biome.biomeID);
         String name = biome.biomeName;
         
         for (Descriptor desc : this._descriptors) {
-            int oldMatches = desc.matches;
             Matcher matcher;
-            
             if (!desc.climate.isCompatible(biome))
             	continue;
             
@@ -142,18 +138,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
             		totalWeight += desc.weight;
             	}
             } else {
-            	if (desc.matches == oldMatches && id != null)
-            	{
-            		matcher = desc.getPattern().matcher(id);
-
-            		if (matcher.matches())
-            		{
-            			++desc.matches;
-            			totalWeight += desc.weight;
-            		}
-            	}
-
-            	if (desc.matches == oldMatches && name != null)
+            	if (name != null)
             	{
             		matcher = desc.getPattern().matcher(name);
 
