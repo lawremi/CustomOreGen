@@ -25,7 +25,7 @@
             <OptionChoice name='forestryCopperDist' displayState='shown' displayGroup='groupForestry'>
                 <Description> Controls how Forestry Copper is generated </Description>
                 <DisplayName>Forestry Copper Type</DisplayName>
-                <Default>:= if(blockExists("Forestry:tile.resources:1"),"layeredVeins","disabled")</Default>
+                <Default>:= if(blockExists("Forestry:resources:1"),"layeredVeins","disabled")</Default>
                 <Choice value='layeredVeins' displayValue='Veins'>
                     <Description> 
                         Groups of long narrow veins found about one third of the way down to bedrock.  Especially common in jungles.  
@@ -71,7 +71,7 @@
             <OptionChoice name='forestryTinDist' displayState='shown' displayGroup='groupForestry'>
                 <Description> Controls how Forestry Tin is generated </Description>
                 <DisplayName>Forestry Tin Type</DisplayName>
-                <Default>:= if(blockExists("Forestry:tile.resources:2"),"layeredVeins","disabled")</Default>
+                <Default>:= if(blockExists("Forestry:resources:2"),"layeredVeins","disabled")</Default>
                 <Choice value='layeredVeins' displayValue='Veins'>
                     <Description> 
                         Groups of long narrow veins found about halfway down to bedrock.  More frequent in flat grassy plains.  
@@ -117,7 +117,7 @@
             <OptionChoice name='forestryApatiteDist' displayState='shown' displayGroup='groupForestry'>
                 <Description> Controls how Forestry Apatite is generated </Description>
                 <DisplayName>Forestry Apatite Type</DisplayName>
-                <Default>:= if(blockExists("Forestry:tile.resources:0"),"layeredVeins","disabled")</Default>
+                <Default>:= if(blockExists("Forestry:resources:0"),"layeredVeins","disabled")</Default>
                 <Choice value='layeredVeins' displayValue='Veins'>
                     <Description> 
                         Short hollow tubes extending downward from just below the surface with ore around the edges.  More common in temperate forests.
@@ -173,16 +173,16 @@
             <Comment>  
                 The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
             </Comment>
-            <Replaces block='Forestry:tile.resources:1'/> 
-            <Replaces block='Forestry:tile.resources:2'/> 
-            <Replaces block='Forestry:tile.resources:0'/>
+            <Replaces block='Forestry:resources:1'/> 
+            <Replaces block='Forestry:resources:2'/> 
+            <Replaces block='Forestry:resources:0'/>
         </Substitute>
         
         <!--*******************   Copper   *********************-->            
         <ConfigSection>
         
             <IfCondition condition=':= if(age, age.forestryCopperClusters > 0, forestryCopperDist = "vanillaStdGen")'>
-                <StandardGen name='ForestryCopperStandard' block='Forestry:tile.resources:1' inherits='PresetStandardGen'> 
+                <StandardGen name='ForestryCopperStandard' block='Forestry:resources:1' inherits='PresetStandardGen'> 
                     <Description> Equivalent to regular Forestry copper distribution </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40773300</WireframeColor> 
@@ -193,7 +193,7 @@
             </IfCondition>   
             
             <IfCondition condition=':= if(age, age.forestryCopperVeins > 0, forestryCopperDist = "layeredVeins")'>             
-                <Veins name='ForestryCopperVeins' block='Forestry:tile.resources:1' inherits='PresetLayeredVeins'>
+                <Veins name='ForestryCopperVeins' block='Forestry:resources:1' inherits='PresetLayeredVeins'>
                     <Description>  Average veins in the 30-50 range. </Description> 
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40773300</WireframeColor> 
@@ -216,7 +216,7 @@
             </IfCondition>     
             
             <IfCondition condition=':= if(age, age.forestryCopperClouds > 0, forestryCopperDist = "strategicClouds")'>
-                <Cloud name='ForestryCopperCloud' block='Forestry:tile.resources:1' inherits='PresetStrategicCloud'>
+                <Cloud name='ForestryCopperCloud' block='Forestry:resources:1' inherits='PresetStrategicCloud'>
                     <Description>  
                         Diffuse copper cloud surrounded by single-block "hint" veins, found in jungle biomes.
                     </Description> 
@@ -229,7 +229,7 @@
                     <BiomeType name='Jungle'/>
                     <Biome name='Extreme\s*Jungle'/> <Comment> ExtraBiomesXL </Comment>
                     <Biome name='Mini\s*Jungle'/> <Comment> ExtraBiomesXL </Comment>  
-                    <Veins name='ForestryCopperHintVeins' block='Forestry:tile.resources:1' inherits='PresetHintVeins'>
+                    <Veins name='ForestryCopperHintVeins' block='Forestry:resources:1' inherits='PresetHintVeins'>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x40773300</WireframeColor> 
                         <Setting name='MotherlodeFrequency' avg=':= _default_' range=':= _default_'/>   
@@ -244,7 +244,7 @@
         <ConfigSection>
         
             <IfCondition condition=':= if(age, age.forestryTinClusters > 0, forestryTinDist = "vanillaStdGen")'>            
-                <StandardGen name='ForestryTinStandard' block='Forestry:tile.resources:2' inherits='PresetStandardGen'> 
+                <StandardGen name='ForestryTinStandard' block='Forestry:resources:2' inherits='PresetStandardGen'> 
                     <Description> Equivalent to regular Forestry tin distribution </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40FFFFFF</WireframeColor> 
@@ -255,7 +255,7 @@
             </IfCondition>   
             
             <IfCondition condition=':= if(age, age.forestryTinVeins > 0, forestryTinDist = "layeredVeins")'>    
-                <Veins name='ForestryTinVeins' block='Forestry:tile.resources:2' inherits='PresetLayeredVeins'>
+                <Veins name='ForestryTinVeins' block='Forestry:resources:2' inherits='PresetLayeredVeins'>
                     <Description> 
                         Average veins in the 20-40 range.
                     </Description> 
@@ -282,7 +282,7 @@
             </IfCondition>     
             
             <IfCondition condition=':= if(age, age.forestryTinClouds > 0, forestryTinDist = "strategicClouds")'>
-                <Cloud name='ForestryTinCloud' block='Forestry:tile.resources:2' inherits='PresetStrategicCloud'>
+                <Cloud name='ForestryTinCloud' block='Forestry:resources:2' inherits='PresetStrategicCloud'>
                     <Description>  
                         Diffuse tin cloud surrounded by single-block "hint" veins, found in plains biomes.
                     </Description> 
@@ -296,7 +296,7 @@
                     <Biome name='Meadow'/> <Comment> ExtraBiomesXL </Comment>
                     <Biome name='Savanna'/> <Comment> ExtraBiomesXL </Comment>
                     <Biome name='Shrubland'/> <Comment> ExtraBiomesXL </Comment>
-                    <Veins name='ForestryTinHintVeins' block='Forestry:tile.resources:2' inherits='PresetHintVeins'>
+                    <Veins name='ForestryTinHintVeins' block='Forestry:resources:2' inherits='PresetHintVeins'>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x40FFFFFF</WireframeColor> 
                         <Setting name='MotherlodeFrequency' avg=':= _default_' range=':= _default_'/>   
@@ -311,7 +311,7 @@
         <ConfigSection>
         
             <IfCondition condition=':= if(age, age.forestryApatiteClusters > 0, forestryApatiteDist = "vanillaStdGen")'>
-                <StandardGen name='ForestryApatiteStandard' block='Forestry:tile.resources:0' inherits='PresetStandardGen'> 
+                <StandardGen name='ForestryApatiteStandard' block='Forestry:resources:0' inherits='PresetStandardGen'> 
                     <Description> Equivalent to regular Forestry resources distribution </Description>
                     <DrawWireframe>:=drawWireframes</DrawWireframe>
                     <WireframeColor>0x40300060</WireframeColor> 
@@ -322,7 +322,7 @@
             </IfCondition>   
             
             <IfCondition condition=':= if(age, age.forestryApatiteVeins > 0, forestryApatiteDist = "layeredVeins")'>    
-                <Veins name='ForestryApatiteVeins' block='Forestry:tile.resources:0' inherits='PresetPipeVeins' seed='0x4A18'>    
+                <Veins name='ForestryApatiteVeins' block='Forestry:resources:0' inherits='PresetPipeVeins' seed='0x4A18'>    
                     <Description>
                         Short sparsely filled tubes starting at the surface and extending downwards.
                         Roughly 3x more common in forests.
@@ -345,12 +345,12 @@
                     <Setting name='SegmentRadius' avg=':= 0.35 * _default_'/>
                     <Setting name='OreDensity' avg='1' range='0'/>
                     <ReplacesOre block='stone'/>
-                    <Replaces block='Forestry:tile.resources:0'/>
+                    <Replaces block='Forestry:resources:0'/>
                 </Veins>
             </IfCondition>     
             
             <IfCondition condition=':= if(age, age.forestryApatiteClouds > 0, forestryApatiteDist = "strategicClouds")'>
-                <Cloud name='ForestryApatiteCloud' block='Forestry:tile.resources:0' inherits='PresetStrategicCloud'>
+                <Cloud name='ForestryApatiteCloud' block='Forestry:resources:0' inherits='PresetStrategicCloud'>
                     <Description>  
                         Diffuse resources cloud surrounded by single-block "hint" veins, found in forests.
                     </Description> 
@@ -361,7 +361,7 @@
                     <Setting name='CloudThickness' avg=':= 0.7 * forestryApatiteSize * _default_' range=':= 0.7 * forestryApatiteSize * _default_'/>   
                     <Setting name='OreDensity' avg=':= 0.8 * _default_'/>
                     <BiomeType name='Forest'/>    
-                    <Veins name='ForestryApatiteHintVeins' block='Forestry:tile.resources:0' inherits='PresetHintVeins'>
+                    <Veins name='ForestryApatiteHintVeins' block='Forestry:resources:0' inherits='PresetHintVeins'>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x40300060</WireframeColor>
                         <Setting name='MotherlodeFrequency' avg=':= 0.7 * _default_' range=':= _default_'/>   
