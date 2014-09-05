@@ -86,7 +86,7 @@ public class HeightScaledPDist implements Copyable<HeightScaledPDist> {
     }
 	
 	public String toString() {
-		return pdist.toString() + " * " + scaleTo.toString() + "/" + scaleFrom.toString();
+		return pdist.toString() + " * " + scaleTo.getName() + "/" + scaleFrom.getName();
 	}
 	
 }
