@@ -63,14 +63,16 @@ public class ConsoleCommand extends CommandBase
     {
         if (text != null && recipient != null)
         {
-            if (recipient instanceof EntityPlayerMP)
-            {
-                (new CustomPacketPayload(PayloadType.CommandResponse, text)).sendToClient((EntityPlayerMP)recipient);
-            }
-            else
-            {
-                recipient.addChatMessage(new ChatComponentText(text));
-            }
+        	for (String line : text.split("\n")) {
+        		if (recipient instanceof EntityPlayerMP)
+        		{
+        			(new CustomPacketPayload(PayloadType.CommandResponse, line)).sendToClient((EntityPlayerMP)recipient);
+        		}
+	            else
+	            {
+	            	recipient.addChatMessage(new ChatComponentText(line));
+	            }
+        	}
         }
     }
 
