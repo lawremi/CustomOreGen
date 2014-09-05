@@ -194,11 +194,9 @@ public class ServerState
             {
                 int geomSize = 0;
                 LinkedList streams = new LinkedList();
-                IOreDistribution dist;
 
-                for (Iterator i$ = cfg.getOreDistributions().iterator(); i$.hasNext(); dist.cull())
+                for (IOreDistribution dist : cfg.getOreDistributions())
                 {
-                    dist = (IOreDistribution)i$.next();
                     dist.generate(request.world, request.chunkX, request.chunkZ);
                     GeometryStream stream = dist.getDebuggingGeometry(request.world, request.chunkX, request.chunkZ);
 
@@ -207,6 +205,7 @@ public class ServerState
                         streams.add(stream);
                         geomSize += stream.getStreamDataSize();
                     }
+                    dist.cull();
                 }
 
                 return new GeometryData(request, streams);
