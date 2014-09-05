@@ -36,7 +36,6 @@ public class ValidatorDistribution extends ValidatorNode
             throw new ParserException("Failed to create distribution using \'" + this._distributionFactory + "\'.", this.getNode(), var7);
         }
 
-        this.getParser().target.getOreDistributions().add(this.distribution);
         this.getNode().setUserData("value", this.distribution, (UserDataHandler)null);
         super.validateChildren();
         String inherits = this.validateNamedAttribute(String.class, "Inherits", null, true);
@@ -76,6 +75,7 @@ public class ValidatorDistribution extends ValidatorNode
             {
                 if (newName != null)
                 {
+                	this.getParser().target.registerDistribution(newName, this.distribution);
                     this.distribution.setDistributionSetting(nameKey, newName);
                 }
             }

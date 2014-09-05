@@ -48,7 +48,7 @@ public class WorldConfig
     public boolean debuggingMode;
     public boolean vanillaOreGen;
     public boolean custom;
-    private Collection<IOreDistribution> oreDistributions;
+    private Map<String,IOreDistribution> oreDistributions;
     private Map<String,ConfigOption> configOptions;
     private Map<String,String> loadedOptions;
     private Map<String,Integer> worldProperties;
@@ -88,7 +88,7 @@ public class WorldConfig
         this.deferredPopulationRange = 0;
         this.debuggingMode = false;
         this.vanillaOreGen = false;
-        this.oreDistributions = new LinkedList();
+        this.oreDistributions = new LinkedHashMap();
         this.configOptions = new CIStringMap(new LinkedHashMap());
         this.loadedOptions = new CIStringMap(new LinkedHashMap());
         this.worldProperties = new CIStringMap(new LinkedHashMap());
@@ -361,7 +361,7 @@ public class WorldConfig
 
     public Collection<IOreDistribution> getOreDistributions()
     {
-        return this.oreDistributions;
+        return this.oreDistributions.values();
     }
 
     public Collection<IOreDistribution> getOreDistributions(String namePattern)
@@ -372,7 +372,7 @@ public class WorldConfig
         {
             Pattern pattern = Pattern.compile(namePattern, 2);
             Matcher matcher = pattern.matcher("");
-            for (IOreDistribution dist : this.oreDistributions) {
+            for (IOreDistribution dist : this.oreDistributions.values()) {
             	matcher.reset(dist.toString());
 
                 if (matcher.matches())
@@ -497,14 +497,18 @@ public class WorldConfig
 
 	private BlockDescriptor makeEquivalentBlockDescriptor() {
 		double totalWeight = 0;
-		for (IOreDistribution dist : this.oreDistributions) {
+		for (IOreDistribution dist : this.oreDistributions.values()) {
 			totalWeight += dist.getOresPerChunk();
 		}
 		BlockDescriptor desc = new BlockDescriptor();
-		for (IOreDistribution dist : this.oreDistributions) {
+		for (IOreDistribution dist : this.oreDistributions.values()) {
 			BlockDescriptor oreBlock = (BlockDescriptor)dist.getDistributionSetting("OreBlock");
 			desc.add(oreBlock, (float)(dist.getOresPerChunk() / totalWeight));
 		}
 		return desc;
+	}
+
+	public void registerDistribution(String newName, IOreDistribution distribution) {
+		this.oreDistributions.put(newName, distribution);
 	}
 }
