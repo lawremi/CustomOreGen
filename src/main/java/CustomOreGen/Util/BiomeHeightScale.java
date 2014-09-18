@@ -1,7 +1,10 @@
 package CustomOreGen.Util;
 
 import net.minecraft.world.World;
+import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.ChunkProviderGenerate;
 
 public class BiomeHeightScale implements HeightScale {
 
@@ -16,6 +19,9 @@ public class BiomeHeightScale implements HeightScale {
 
 	private int biomeToBlockHeight(float biomeHeight, World world) {
 		int groundHeight = world.provider.getAverageGroundLevel();
+		if (world.provider.terrainType == WorldType.AMPLIFIED) {
+			biomeHeight = 1.0F + biomeHeight * 2.0F; 
+		}
 		return (int)(groundHeight + Math.min(biomeHeight, 4.0) / 2 * groundHeight);
 	}
 	
