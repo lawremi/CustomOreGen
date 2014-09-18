@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Random;
 
 import net.minecraft.block.BlockSand;
 import net.minecraft.client.gui.GuiCreateWorld;
@@ -22,7 +21,10 @@ import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.chunk.storage.AnvilChunkLoader;
+import net.minecraft.world.chunk.storage.IChunkLoader;
 import net.minecraft.world.chunk.storage.RegionFileCache;
+import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.SaveFormatOld;
 import net.minecraft.world.storage.WorldInfo;
@@ -213,88 +215,59 @@ public class ServerState
         }
     }
 
-    /* For tracking which chunks have been populated, the server bins the chunks into 4x4 meta-chunks.
-     * Each meta-chunk is represented by a 16 integer array, indexed by the local X coordinate of a 
-     * given chunk. Each integer contains two bits of information for every chunk, by splitting the 
-     * 4-byte integer into two 2-byte parts. The local Z coordinate indexes into
-     * the 16 bits of each part. The least significant part indicates whether an attempt has been
-     * made to populate the chunk, while the most significant indicates whether we have checked
-     * if the chunk was marked populated in the save (presumably this is an expensive check and 
-     * thus is memoized).
-     */
-    public static void onPopulateChunk(World world, Random rand, int chunkX, int chunkZ)
-    {
-        WorldConfig cfg = getWorldConfig(world);
-        Map<ChunkCoordIntPair,int[]> dimChunkMap = null;
-        int cRange = world.provider.dimensionId;
-        dimChunkMap = _populatedChunks.get(cRange);
-
-        if (dimChunkMap == null)
+    public static void onPopulateChunk(World world, int chunkX, int chunkZ) {
+    	WorldConfig cfg = getWorldConfig(world);
+    	int range = (cfg.deferredPopulationRange + 15) / 16;
+    	for (int iX = chunkX - range; iX <= chunkX + range; ++iX)
         {
-            dimChunkMap = new HashMap();
-            _populatedChunks.put(cRange, dimChunkMap);
-        }
-
-        ChunkCoordIntPair neighborMax = new ChunkCoordIntPair(chunkX >>> 4, chunkZ >>> 4);
-        int[] cX = dimChunkMap.get(neighborMax);
-
-        if (cX == null)
-        {
-            cX = new int[16];
-            dimChunkMap.put(neighborMax, cX);
-        }
-
-        cX[chunkX & 15] |= 65537 << (chunkZ & 15);
-        int var16 = (cfg.deferredPopulationRange + 15) / 16;
-        int var17 = 4 * var16 * (var16 + 1) + 1;
-
-        for (int var18 = chunkX - var16; var18 <= chunkX + var16; ++var18)
-        {
-            for (int cZ = chunkZ - var16; cZ <= chunkZ + var16; ++cZ)
+            for (int iZ = chunkZ - range; iZ <= chunkZ + range; ++iZ)
             {
-                int neighborCount = 0;
-
-                for (int iX = var18 - var16; iX <= var18 + var16; ++iX)
-                {
-                    for (int iZ = cZ - var16; iZ <= cZ + var16; ++iZ)
-                    {
-                        ChunkCoordIntPair chunkKey = new ChunkCoordIntPair(iX >>> 4, iZ >>> 4);
-                        int[] chunkData = dimChunkMap.get(chunkKey);
-
-                        if (chunkData == null)
-                        {
-                            chunkData = new int[16];
-                            dimChunkMap.put(chunkKey, chunkData);
-                        }
-
-                        if ((chunkData[iX & 15] >>> (iZ & 15) & 65536) == 0)
-                        {
-                            boolean populated = isChunkSavedPopulated(world, iX, iZ);
-                            //if (populated)
-                            	//FMLLog.info("[%d/%d](%d/%d): populated in save", var18, cZ, iX, iZ);
-                            chunkData[iX & 15] |= (populated ? 65537 : 65536) << (iZ & 15);
-                        }
-
-                        if ((chunkData[iX & 15] >>> (iZ & 15) & 1) != 0)
-                        {
-                        	//FMLLog.info("[%d/%d](%d/%d): is neighbor", var18, cZ, iX, iZ);
-                        	++neighborCount;
-                        }
-                    }
-                }
-
-                if (neighborCount == var17)
-                {
-                	//FMLLog.info("[%d/%d]: populating", var18, cZ);
-                    populateDistributions(cfg.getOreDistributions(), world, var18, cZ);
-                } else {
-                	//FMLLog.info("[%d/%d]: only %d neighbors", var18, cZ, neighborCount);
-                }
+            	if (allNeighborsPopulated(world, iX, iZ, range)) {
+            		//CustomOreGenBase.log.info("[" + iX + "," + iZ + "]: POPULATING");
+            		populateDistributions(cfg.getOreDistributions(), world, iX, iZ);
+            	}
             }
         }
     }
 
-    public static boolean checkIfServerChanged(MinecraftServer currentServer, WorldInfo worldInfo)
+    private static boolean allNeighborsPopulated(World world, int chunkX, int chunkZ, int range) {
+    	int area = 4 * range * (range + 1) + 1;
+    	int neighborCount = 0;
+        for (int iX = chunkX - range; iX <= chunkX + range; ++iX)
+        {
+            for (int iZ = chunkZ - range; iZ <= chunkZ + range; ++iZ)
+            {
+            	if (chunkHasBeenPopulated(world, iX, iZ)) 
+            	{
+            		//CustomOreGenBase.log.info("[" + iX + "," + iZ + "]: populated neighbor");
+            		neighborCount++;
+            	}
+            }
+        }
+		return neighborCount == area; 
+	}
+
+	private static boolean chunkHasBeenPopulated(World world, int chunkX, int chunkZ) {
+		return chunkHasBeenGenerated(world, chunkX, chunkZ) && 
+			world.getChunkFromChunkCoords(chunkX, chunkZ).isTerrainPopulated;
+	}
+
+	private static boolean chunkHasBeenGenerated(World world, int chunkX, int chunkZ) {
+		if (world.getChunkProvider().chunkExists(chunkX, chunkZ)) {
+			//CustomOreGenBase.log.info("[" + chunkX + "," + chunkZ + "]: loaded"); 
+			return true;
+		} else if (world.getChunkProvider() instanceof ChunkProviderServer) {
+			IChunkLoader loader = ((ChunkProviderServer)world.getChunkProvider()).currentChunkLoader;
+			if (loader instanceof AnvilChunkLoader) {
+				//if (((AnvilChunkLoader) loader).chunkExists(world, chunkX, chunkZ))
+				//	CustomOreGenBase.log.info("[" + chunkX + "," + chunkZ + "]: saved on disk");
+				return ((AnvilChunkLoader) loader).chunkExists(world, chunkX, chunkZ);
+			}
+		}
+		return false;
+	}
+
+	public static boolean checkIfServerChanged(MinecraftServer currentServer, WorldInfo worldInfo)
     {
         if (_server == currentServer)
         {

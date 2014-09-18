@@ -81,7 +81,7 @@ public class FMLInterface implements IWorldGenerator
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
     {
         ServerState.checkIfServerChanged(MinecraftServer.getServer(), world.getWorldInfo());
-        ServerState.onPopulateChunk(world, random, chunkX, chunkZ);
+        ServerState.onPopulateChunk(world, chunkX, chunkZ);
     }
     
     @SubscribeEvent
