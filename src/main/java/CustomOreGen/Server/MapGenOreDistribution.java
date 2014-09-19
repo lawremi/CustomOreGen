@@ -2,13 +2,18 @@ package CustomOreGen.Server;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.ChunkPosition;
@@ -28,6 +33,7 @@ import CustomOreGen.Util.HeightScaledPDist;
 import CustomOreGen.Util.IGeometryBuilder;
 import CustomOreGen.Util.PDist;
 import CustomOreGen.Util.PDist.Type;
+import CustomOreGen.Util.TileEntityHelper;
 import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.WireframeShapes;
 
@@ -766,18 +772,21 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                 }
                 else
                 {
-                    int match = oreBlock.getMatchingBlock(random);
+                    ItemStack match = oreBlock.getMatchingBlock(random);
 
-                    if (match == -1)
+                    if (match == null)
                     {
                         return false;
                     }
                     else
                     {
-                        boolean placed = world.setBlock(x, y, z, Block.getBlockById(match >> 16), match & 65535, 2);
+                    	Block oreBlock = ((ItemBlock)match.getItem()).field_150939_a;
+                    	int metadata = match.getItemDamage();
+                        boolean placed = world.setBlock(x, y, z, oreBlock, metadata, 2);
 
                         if (placed)
                         {
+                        	TileEntityHelper.readFromPartialNBT(world, x, y, z, match.stackTagCompound);
                             ++this.placedBlocks;
                             ++MapGenOreDistribution.this.placedBlocks;
                             world.markBlockForUpdate(x, y, z);

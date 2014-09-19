@@ -57,7 +57,7 @@ public class ValidatorSimpleNode extends ValidatorNode
                 {
                     this.content = ConfigParser.parseString(this._targetClass, ex.toString());
                 }
-            }
+            } 
             else
             {
                 this.content = ConfigParser.parseString(this._targetClass, input1);

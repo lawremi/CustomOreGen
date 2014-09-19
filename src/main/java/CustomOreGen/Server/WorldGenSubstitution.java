@@ -6,6 +6,9 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
@@ -14,6 +17,7 @@ import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
 import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.GeometryStream;
+import CustomOreGen.Util.TileEntityHelper;
 
 public class WorldGenSubstitution extends WorldGenerator implements IOreDistribution
 {
@@ -267,15 +271,15 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
                                         {
                                         	int worldX = chunkX * 16 + x;
                                         	int worldZ = chunkZ * 16 + z;
-                                            int match = this.oreBlock.getMatchingBlock(random);
-                                            int matchID = match >>> 16;
-                                            int matchMeta = match & 65535;
-                                            Block matchBlock = Block.getBlockById(matchID);
-                                            if (match != -1 && matchBlock.canBlockStay(world, worldX, y, worldZ) && 
+                                            ItemStack match = this.oreBlock.getMatchingBlock(random);
+                                            int matchMeta = match.getItemDamage();
+                                            Block matchBlock = ((ItemBlock)match.getItem()).field_150939_a;
+                                            if (match != null && matchBlock.canBlockStay(world, worldX, y, worldZ) && 
                                             	world.setBlock(worldX, y, worldZ, matchBlock, matchMeta, 2))
                                             {
                                                 ++this.placedBlocks;
-                                                world.markBlockForUpdate(chunkX * 16 + x, y, chunkZ * 16 + z);
+                                                TileEntityHelper.readFromPartialNBT(world, worldX, y, worldZ, match.stackTagCompound);
+                                                world.markBlockForUpdate(worldX, y, worldZ);
                                             }
                                         }
                                     }

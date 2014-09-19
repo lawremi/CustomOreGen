@@ -1,7 +1,6 @@
 package CustomOreGen.Server;
 
 import java.io.Serializable;
-import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -11,6 +10,9 @@ import java.util.regex.Pattern;
 
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.WorldServer;
 import CustomOreGen.CustomOreGenBase;
@@ -302,7 +304,48 @@ public class ConsoleCommands
         return "Changed parent for " + var12 + " distributions";
     }
 
-    private static int changeDescriptor(String settingName, ICommandSender sender, WorldServer world, String distribution, String descriptor, float weight, boolean clear)
+    private static int changeBiomeDescriptor(String settingName, ICommandSender sender, WorldServer world, String distribution, String descriptor, float weight, boolean clear)
+    {
+        int count = 0;
+        
+        for (IOreDistribution dist : ServerState.getWorldConfig(world).getOreDistributions(distribution)) {
+        	try
+            {
+                Object ex = dist.getDistributionSetting(settingName);
+
+                if (ex == null)
+                {
+                    throw new IllegalArgumentException("Distribution \'" + dist + "\' does not support descriptor " + settingName + ".");
+                }
+                
+                if (!(ex instanceof BiomeDescriptor))
+                {
+                    throw new IllegalArgumentException("Setting " + settingName + " on Distribution \'" + dist + "\' is not a biome descriptor.");
+                }
+
+                BiomeDescriptor desc = (BiomeDescriptor)ex;
+
+                if (clear)
+                {
+                    desc.clear();
+                }
+
+                desc.add(descriptor, weight);
+                ++count;
+
+                dist.clear();
+                dist.validate();
+            } catch (Exception var12)
+            {
+                ConsoleCommand.sendText(sender, "\u00a7c" + var12.getMessage());
+            }
+        }
+        
+        resetClientGeometryCache();
+        return count;
+    }
+    
+    private static int changeBlockDescriptor(String settingName, ICommandSender sender, WorldServer world, String distribution, String descriptor, float weight, boolean clear, boolean replacesOre, boolean isRegexp, String nbt)
     {
         int count = 0;
         
@@ -316,6 +359,11 @@ public class ConsoleCommands
                     throw new IllegalArgumentException("Distribution \'" + dist + "\' does not support descriptor " + settingName + ".");
                 }
 
+                if (!(ex instanceof BlockDescriptor))
+                {
+                    throw new IllegalArgumentException("Setting " + settingName + " on Distribution \'" + dist + "\' is not a block descriptor.");
+                }
+                
                 if (ex instanceof BlockDescriptor)
                 {
                     BlockDescriptor desc = (BlockDescriptor)ex;
@@ -325,27 +373,14 @@ public class ConsoleCommands
                         desc.clear();
                     }
 
-                    desc.add(descriptor, weight);
+                    NBTBase nbtBase = JsonToNBT.func_150315_a(nbt);
+                    if (!(nbtBase instanceof NBTTagCompound)) {
+                    	throw new IllegalArgumentException("NBT is not a compound tag");
+                    }
+                    desc.add(descriptor, weight, replacesOre, isRegexp, nbt == null ? null : (NBTTagCompound)nbtBase);
                     ++count;
                 }
-                else
-                {
-                    if (!(ex instanceof BiomeDescriptor))
-                    {
-                        throw new IllegalArgumentException("Setting " + settingName + " on Distribution \'" + dist + "\' is not a descriptor.");
-                    }
-
-                    BiomeDescriptor desc = (BiomeDescriptor)ex;
-
-                    if (clear)
-                    {
-                        desc.clear();
-                    }
-
-                    desc.add(descriptor, weight);
-                    ++count;
-                }
-
+                
                 dist.clear();
                 dist.validate();
             }
@@ -377,10 +412,14 @@ public class ConsoleCommands
             )
             @ArgOptional(
                     defValue = "1"
-            ) float weight)
+            ) float weight,
+            @ArgName(
+            		name = "nbt"
+            )
+    		@ArgOptional String nbt)
     {
         String setting = IOreDistribution.StandardSettings.OreBlock.name();
-        int count = changeDescriptor(setting, sender, world, distribution, block, weight, false);
+        int count = changeBlockDescriptor(setting, sender, world, distribution, block, weight, false, false, false, nbt);
         return "Added ore block for " + count + " distributions";
     }
 
@@ -402,10 +441,14 @@ public class ConsoleCommands
             )
             @ArgOptional(
                     defValue = "1"
-            ) float weight)
+            ) float weight,
+            @ArgName(
+            		name = "nbt"
+            )
+    		@ArgOptional String nbt)
     {
         String setting = IOreDistribution.StandardSettings.OreBlock.name();
-        int count = changeDescriptor(setting, sender, world, distribution, block, weight, true);
+        int count = changeBlockDescriptor(setting, sender, world, distribution, block, weight, true, false, false, nbt);
         return "Set ore block for " + count + " distributions";
     }
 
@@ -427,10 +470,16 @@ public class ConsoleCommands
             )
             @ArgOptional(
                     defValue = "1"
-            ) float weight)
+            ) float weight,
+            @ArgName(
+            		name = "replacesOre"
+            ) @ArgOptional boolean replacesOre,
+            @ArgName(
+            		name = "isRegexp"
+            ) @ArgOptional boolean isRegexp)
     {
         String setting = IOreDistribution.StandardSettings.ReplaceableBlock.name();
-        int count = changeDescriptor(setting, sender, world, distribution, block, weight, false);
+        int count = changeBlockDescriptor(setting, sender, world, distribution, block, weight, false, replacesOre, isRegexp, null);
         return "Added replaceable block for " + count + " distributions";
     }
 
@@ -452,10 +501,16 @@ public class ConsoleCommands
             )
             @ArgOptional(
                     defValue = "1"
-            ) float weight)
+            ) float weight,
+            @ArgName(
+            		name = "replacesOre"
+            ) @ArgOptional boolean replacesOre,
+            @ArgName(
+            		name = "isRegexp"
+            ) @ArgOptional boolean isRegexp)
     {
         String setting = IOreDistribution.StandardSettings.ReplaceableBlock.name();
-        int count = changeDescriptor(setting, sender, world, distribution, block, weight, true);
+        int count = changeBlockDescriptor(setting, sender, world, distribution, block, weight, true, replacesOre, isRegexp, null);
         return "Set replaceable block for " + count + " distributions";
     }
 
@@ -480,7 +535,7 @@ public class ConsoleCommands
             ) float weight)
     {
         String setting = IOreDistribution.StandardSettings.TargetBiome.name();
-        int count = changeDescriptor(setting, sender, world, distribution, biome, weight, false);
+        int count = changeBiomeDescriptor(setting, sender, world, distribution, biome, weight, false);
         return "Added biome for " + count + " distributions";
     }
 
@@ -505,7 +560,7 @@ public class ConsoleCommands
             ) float weight)
     {
         String setting = IOreDistribution.StandardSettings.TargetBiome.name();
-        int count = changeDescriptor(setting, sender, world, distribution, biome, weight, true);
+        int count = changeBiomeDescriptor(setting, sender, world, distribution, biome, weight, true);
         return "Set biome for " + count + " distributions";
     }
 
