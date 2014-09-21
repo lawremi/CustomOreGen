@@ -252,7 +252,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
 
         if (metaData != OreDictionary.WILDCARD_VALUE)
         {
-            Match metaValue = this._matches.get(new ItemStackKey(block, OreDictionary.WILDCARD_VALUE, nbt));
+            Match metaValue = this._matches.get(new ItemStackKey(block, metaData, nbt));
 
             if (metaValue != null)
             {
@@ -301,12 +301,11 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         	float weight = entry.getValue().weight;
             ItemStack itemStack = entry.getKey().itemStack;
             
-            /*
-            if (metaData >= Short.MAX_VALUE)
+            if (itemStack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
             {
-                metaData = 0;
+                itemStack.setItemDamage(0);
             }
-			*/
+			
             if (weight > 0.0F)
             {
                 if (weight >= 1.0F)
