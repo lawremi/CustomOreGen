@@ -24,53 +24,61 @@ import cpw.mods.fml.common.registry.GameData;
 public class BlockDescriptor implements Copyable<BlockDescriptor>
 {
 	/* Credit for this ItemStackKey goes to Forge / FluidContainerRegistry */
-	private static class ItemStackKey
+	public static class BlockInfo
     {
-        ItemStack itemStack;
-        private ItemStackKey(Block block, int metadata, NBTTagCompound nbt)
-        {
-            this.itemStack = new ItemStack(block, 1, metadata);
-            this.itemStack.stackTagCompound = nbt;
-        }
-        @Override
+        private Block block;
+        private int metadata;
+        private NBTTagCompound nbt;
+        
+        public BlockInfo(Block block, int metadata, NBTTagCompound nbt) {
+			super();
+			this.block = block;
+			this.metadata = metadata;
+			this.nbt = nbt;
+		}
+        
+		@Override
         public int hashCode()
         {
-            int code = 1;
-            //int code = blockID << Short.SIZE | metaData & Short.MAX_VALUE
-            if (itemStack.getItem() != null) {
-            	code = 31*code + itemStack.getItem().hashCode();
-            	code = 31*code + itemStack.getItemDamage();
-            }
-            if (itemStack.stackTagCompound != null)
-            	code = 31*code + itemStack.stackTagCompound.hashCode();
+            int code = Block.getIdFromBlock(this.block) << Short.SIZE | this.metadata & Short.MAX_VALUE;
+            if (this.nbt != null)
+            	code += nbt.hashCode();
             return code;
         }
+		
         @Override
         public boolean equals(Object o)
         {
-            if (!(o instanceof ItemStackKey)) return false;
-            ItemStackKey ok = (ItemStackKey)o;
-            if (itemStack.getItem() != ok.itemStack.getItem()) return false;
-            if (itemStack.getItemDamage() != ok.itemStack.getItemDamage()) return false;
-            if (itemStack.stackTagCompound != ok.itemStack.stackTagCompound) return false;
+            if (!(o instanceof BlockInfo)) return false;
+            BlockInfo ok = (BlockInfo)o;
+            if (this.block != ok.block) return false;
+            if (this.metadata != ok.metadata) return false;
+            if ((this.nbt != null || ok.nbt != null) && (this.nbt == null || !this.nbt.equals(ok.nbt))) return false;
             return true;
         }
+        public int getMetadata() {
+        	return this.metadata;
+        }
+        public Block getBlock() {
+        	return this.block;
+        }
+		public NBTTagCompound getNBT() {
+			return this.nbt;
+		}
     }
 	
 	private static class Match
     {
 		public final float weight;
-		public final NBTBase nbt;
 		
-		public Match(float weight, NBTBase nbt) {
+		public Match(float weight) {
 			super();
 			this.weight = weight;
-			this.nbt = nbt;
 		}
     }
 	
     protected LinkedList<Descriptor> _descriptors = new LinkedList();
-    protected Map<ItemStackKey,Match> _matches = new Hashtable();
+    protected Map<BlockInfo,Match> _matches = new Hashtable();
     protected boolean _compiled = false;
     protected float[] _fastMatch = new float[256];
 
@@ -152,15 +160,15 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
     	}
         if (weight != 0.0F)
         {
-            ItemStackKey key = new ItemStackKey(block, metadata, nbt);
+            BlockInfo key = new BlockInfo(block, metadata, nbt);
             Match match = this._matches.get(key);
 
             if (match != null)
             {
-                match = new Match(match.weight + weight, nbt);
+                match = new Match(match.weight + weight);
             } else 
             {
-            	match = new Match(weight, null);
+            	match = new Match(weight);
             }
 
             this._matches.put(key, match);
@@ -244,7 +252,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
     {
         this.compileMatches();
         float value = 0.0F;
-        Match noMetaValue = this._matches.get(new ItemStackKey(block, OreDictionary.WILDCARD_VALUE, nbt));
+        Match noMetaValue = this._matches.get(new BlockInfo(block, OreDictionary.WILDCARD_VALUE, nbt));
 
         if (noMetaValue != null)
         {
@@ -253,7 +261,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
 
         if (metaData != OreDictionary.WILDCARD_VALUE)
         {
-            Match metaValue = this._matches.get(new ItemStackKey(block, metaData, nbt));
+            Match metaValue = this._matches.get(new BlockInfo(block, metaData, nbt));
 
             if (metaValue != null)
             {
@@ -293,25 +301,25 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         }
     }
 
-    public ItemStack getMatchingBlock(Random rand)
+    public BlockInfo getMatchingBlock(Random rand)
     {
         this.compileMatches();
         float value = -1.0F;
         
-        for (Entry<ItemStackKey,Match> entry : _matches.entrySet()) {
+        for (Entry<BlockInfo,Match> entry : _matches.entrySet()) {
         	float weight = entry.getValue().weight;
-            ItemStack itemStack = entry.getKey().itemStack;
+            BlockInfo info = entry.getKey();
             
-            if (itemStack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
+            if (info.getMetadata() == OreDictionary.WILDCARD_VALUE)
             {
-                itemStack.setItemDamage(0);
+                info = new BlockInfo(info.getBlock(), 0, info.getNBT());
             }
 			
             if (weight > 0.0F)
             {
                 if (weight >= 1.0F)
                 {
-                    return itemStack;
+                    return info;
                 }
 
                 if (value < 0.0F)
@@ -328,7 +336,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
 
                 if (value < 0.0F)
                 {
-                    return itemStack;
+                    return info;
                 }
             }
         }
@@ -379,10 +387,10 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
 
         int i = 1;
 
-        for (Entry<ItemStackKey,Match> entry : _matches.entrySet()) {
+        for (Entry<BlockInfo,Match> entry : _matches.entrySet()) {
         	float weight = entry.getValue().weight;
-            int metaData = entry.getKey().itemStack.getItemDamage();
-            Block block = ((ItemBlock)entry.getKey().itemStack.getItem()).field_150939_a;
+            int metaData = entry.getKey().getMetadata();
+            Block block = entry.getKey().getBlock();
             
             breakdown[i] = Block.blockRegistry.getNameForObject(block);
             

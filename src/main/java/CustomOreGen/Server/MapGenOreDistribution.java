@@ -9,7 +9,6 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
@@ -25,6 +24,7 @@ import net.minecraft.world.gen.structure.StructureStart;
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
 import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockDescriptor;
+import CustomOreGen.Util.BlockDescriptor.BlockInfo;
 import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.HeightScaledPDist;
 import CustomOreGen.Util.IGeometryBuilder;
@@ -769,7 +769,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                 }
                 else
                 {
-                    ItemStack match = oreBlock.getMatchingBlock(random);
+                    BlockInfo match = oreBlock.getMatchingBlock(random);
 
                     if (match == null)
                     {
@@ -777,13 +777,13 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                     }
                     else
                     {
-                    	Block oreBlock = ((ItemBlock)match.getItem()).field_150939_a;
-                    	int metadata = match.getItemDamage();
+                    	Block oreBlock = match.getBlock();
+                    	int metadata = match.getMetadata();
                         boolean placed = world.setBlock(x, y, z, oreBlock, metadata, 2);
 
                         if (placed)
                         {
-                        	TileEntityHelper.readFromPartialNBT(world, x, y, z, match.stackTagCompound);
+                        	TileEntityHelper.readFromPartialNBT(world, x, y, z, match.getNBT());
                             ++this.placedBlocks;
                             ++MapGenOreDistribution.this.placedBlocks;
                             world.markBlockForUpdate(x, y, z);
