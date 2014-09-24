@@ -37,8 +37,10 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         {
             int code = 1;
             //int code = blockID << Short.SIZE | metaData & Short.MAX_VALUE
-            code = 31*code + itemStack.getItem().hashCode();
-            code = 31*code + itemStack.getItemDamage();
+            if (itemStack.getItem() != null) {
+            	code = 31*code + itemStack.getItem().hashCode();
+            	code = 31*code + itemStack.getItemDamage();
+            }
             if (itemStack.stackTagCompound != null)
             	code = 31*code + itemStack.stackTagCompound.hashCode();
             return code;
@@ -242,7 +244,6 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
     {
         this.compileMatches();
         float value = 0.0F;
-        int blockID = Block.getIdFromBlock(block);
         Match noMetaValue = this._matches.get(new ItemStackKey(block, OreDictionary.WILDCARD_VALUE, nbt));
 
         if (noMetaValue != null)
