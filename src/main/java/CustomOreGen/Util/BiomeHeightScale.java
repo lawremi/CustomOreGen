@@ -19,7 +19,7 @@ public class BiomeHeightScale implements HeightScale {
 
 	private int biomeToBlockHeight(float biomeHeight, World world) {
 		int groundHeight = world.provider.getAverageGroundLevel();
-		if (world.provider.terrainType == WorldType.AMPLIFIED) {
+		if (world.provider.terrainType == WorldType.AMPLIFIED && biomeHeight > 0) {
 			biomeHeight = 1.0F + biomeHeight * 2.0F; 
 		}
 		return (int)(groundHeight + Math.min(biomeHeight, 4.0) / 2 * groundHeight);
