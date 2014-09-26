@@ -23,7 +23,6 @@ import cpw.mods.fml.common.registry.GameData;
 
 public class BlockDescriptor implements Copyable<BlockDescriptor>
 {
-	/* Credit for this ItemStackKey goes to Forge / FluidContainerRegistry */
 	public static class BlockInfo
     {
         private Block block;
@@ -42,7 +41,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         {
             int code = Block.getIdFromBlock(this.block) << Short.SIZE | this.metadata & Short.MAX_VALUE;
             if (this.nbt != null)
-            	code += nbt.hashCode();
+            	code ^= nbt.hashCode();
             return code;
         }
 		
