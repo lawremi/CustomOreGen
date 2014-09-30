@@ -24,7 +24,7 @@ public class ValidatorBiomeSet extends ValidatorNode {
 		String name = this.validateNamedAttribute(String.class, "name", null, true);
 		if (name != null) {
 			this.biomeSet.setName(name);
-			this.getParser().target.getBiomeSets().add(this.biomeSet);
+			this.getParser().target.registerBiomeSet(this.biomeSet);
 		}
 		
 		this.weight = this.validateNamedAttribute(Float.class, "Weight", this.weight, true);
@@ -32,21 +32,16 @@ public class ValidatorBiomeSet extends ValidatorNode {
 		String inherits = this.validateNamedAttribute(String.class, "inherits", null, true);
 		if (inherits != null)	
 		{
-			Collection<BiomeDescriptor> sets = this.getParser().target.getBiomeSets(inherits);
+			BiomeDescriptor set = this.getParser().target.getBiomeSet(inherits);
 
-			if (sets.isEmpty())
+			if (set == null)
 			{
 				throw new ParserException("Cannot inherit biomes (\'" + inherits + "\' is not a loaded biome set).", this.getNode());
 			}
 
-			if (sets.size() > 1)
-			{
-	            throw new ParserException("Cannot inherit biomes (\'" + inherits + "\' is ambiguous; matching " + sets.size() + " loaded biome sets).", this.getNode());
-			}
-
 			try
 			{
-				this.biomeSet.addAll(sets.iterator().next(), this.weight);
+				this.biomeSet.addAll(set, this.weight);
 			}
 			catch (IllegalArgumentException e)
 			{
