@@ -497,15 +497,20 @@
       <OptionChoice name='GregtechGenClay' default='false'
                     displayState=':=if(?GregtechGenOres, "shown", "hidden")'
                     displayGroup='groupGregtech'>
-        <Description>
-          Generate mineral clay deposits, including
-          bentonite, Fuller's earth and kaolinite.
-        </Description>
+        <Description>Generate mineral clay deposits, including bentonite, Fuller's earth and kaolinite.</Description>
         <DisplayName>Mineral clay deposits</DisplayName>
         <Choice value='true' displayValue='On'/>
         <Choice value='false' displayValue='Off'/>
       </OptionChoice>
-    
+
+      <OptionChoice name='GregtechNativeOres' default=':=?GregtechGenOres'
+                    displayState=':=if(?GregtechGenOres, "shown", "hidden")'
+                    displayGroup='groupGregtechOres'>
+        <Description>Generate deposits of native gold, silver, electrum and copper.</Description>
+        <DisplayName>Native metals</DisplayName>
+        <Choice value='true' displayValue='On'/>
+        <Choice value='false' displayValue='Off'/>
+      </OptionChoice>
     </ConfigSection>
     
     <ConfigSection>
@@ -2862,10 +2867,12 @@
         </VeinsPreset>
       </ConfigSection>
       <ConfigSection>
-        <Veins name='NativeGold' inherits='PresetNativeGold'/>
-        <Veins name='NativeCopper' inherits='PresetNativeCopper'/>
-        <Veins name='NativeSilver' inherits='PresetNativeSilver'/>
-        <Veins name='NativeElectrum' inherits='PresetNativeElectrum'/>
+        <IfChoice name='GregtechGenNativeOres' value='true'>
+          <Veins name='NativeGold' inherits='PresetNativeGold'/>
+          <Veins name='NativeCopper' inherits='PresetNativeCopper'/>
+          <Veins name='NativeSilver' inherits='PresetNativeSilver'/>
+          <Veins name='NativeElectrum' inherits='PresetNativeElectrum'/>
+        </IfChoice>
       </ConfigSection>
     </ConfigSection>
 
