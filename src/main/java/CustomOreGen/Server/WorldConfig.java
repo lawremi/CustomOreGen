@@ -196,20 +196,18 @@ public class WorldConfig
             (new ConfigParser(this)).parseFile(configFile);
             ConfigOption var20;
 
-            if (optionsFile != null && !optionsFile.exists())
+            if (optionsFile != null)
             {
-            	putOptions(this.configOptions.values(), this.loadedOptions);
-            	saveOptions(optionsFile, this.loadedOptions);
+            	Map<String,String> dimLevelOptions = new LinkedHashMap();
+            	loadOptions(optionsFile, this.loadedOptionOverrides[2], dimLevelOptions);
+            	saveOptions(optionsFile, dimLevelOptions);
             }
 
-            /* Options are now always saved per-dimension, and the overworld is treated separate from the save.
-        	 * This means we need to fill-in the save-level options with any global options file and level-0 loaded 
-        	 * option overrides.
-        	 */
             if (optionsFileList[1] != null && !optionsFileList[1].exists()) {
             	Map<String,String> saveLevelOptions = new LinkedHashMap();
             	loadOptions(optionsFileList[0], this.loadedOptionOverrides[0], saveLevelOptions);
             	saveOptions(optionsFileList[1], saveLevelOptions);
+            	this.loadedOptionOverrides[0] = null;
             }
             
             ConfigOption var21 = (ConfigOption)this.configOptions.get("deferredPopulationRange");

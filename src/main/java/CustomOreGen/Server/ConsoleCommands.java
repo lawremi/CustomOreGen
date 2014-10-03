@@ -740,7 +740,7 @@ public class ConsoleCommands
             }
         }
 
-        WorldConfig.loadedOptionOverrides[2] = cfg.getConfigOptions();
+        WorldConfig.loadedOptionOverrides[2] = options;
         ServerState.clearWorldConfig(world);
         cfg = ServerState.getWorldConfig(world);
         String var10 = cfg.dimensionDir.toString();
