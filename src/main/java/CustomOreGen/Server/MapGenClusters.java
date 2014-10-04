@@ -171,6 +171,9 @@ public class MapGenClusters extends MapGenOreDistribution
                 float segLenY = this.ptB[1] - this.ptA[1];
                 float segLenZ = this.ptB[2] - this.ptA[2];
                 float segLen = (float)Math.sqrt((double)(segLenX * segLenX + segLenY * segLenY + segLenZ * segLenZ));
+                if (segLen == 0.0F) {
+                	return;
+                }
                 int stepCount = MathHelper.ceiling_float_int(segLen);
                 byte circleSides = 8;
                 float[][] pts = WireframeShapes.getCirclePoints(circleSides, (float[][])null);
@@ -183,7 +186,7 @@ public class MapGenClusters extends MapGenOreDistribution
                     if (step == 0)
                     {
                         trans.translate(this.ptA[0], this.ptA[1], this.ptA[2]);
-                        trans.rotateZInto(this.ptB[0] - this.ptA[0], this.ptB[1] - this.ptA[1], this.ptB[2] - this.ptA[2]);
+                        trans.rotateZInto(segLenX, segLenY, segLenZ);
                     }
                     else
                     {
