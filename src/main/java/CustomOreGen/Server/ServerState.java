@@ -399,7 +399,9 @@ public class ServerState
         {
             for (int cZ = location.chunkZPos - radius; cZ <= location.chunkZPos + radius; ++cZ)
             {
-            	world.getChunkFromChunkCoords(cX, cZ);
+            	if (cX != location.chunkXPos && cZ != location.chunkZPos) {
+            		world.getChunkFromChunkCoords(cX, cZ);
+            	}
             }
         }
 	}
