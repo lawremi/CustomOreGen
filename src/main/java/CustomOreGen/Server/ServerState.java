@@ -35,6 +35,7 @@ import CustomOreGen.GeometryData;
 import CustomOreGen.GeometryRequestData;
 import CustomOreGen.MystcraftSymbolData;
 import CustomOreGen.Server.GuiCustomOreGenSettings.GuiOpenMenuButton;
+import CustomOreGen.Util.CogOreGenEvent;
 import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.SimpleProfiler;
 import cpw.mods.fml.relauncher.ReflectionHelper;
@@ -215,7 +216,7 @@ public class ServerState
         }
     }
 
-    public static void onPopulateChunk(World world, int chunkX, int chunkZ) {
+    public static void onPopulateChunk(World world, int chunkX, int chunkZ, Random rand) {
     	WorldConfig cfg = getWorldConfig(world);
     	int range = (cfg.deferredPopulationRange + 15) / 16;
     	for (int iX = chunkX - range; iX <= chunkX + range; ++iX)
@@ -225,6 +226,7 @@ public class ServerState
             	if (allNeighborsPopulated(world, iX, iZ, range)) {
             		//CustomOreGenBase.log.info("[" + iX + "," + iZ + "]: POPULATING");
             		populateDistributions(cfg.getOreDistributions(), world, iX, iZ);
+            		MinecraftForge.ORE_GEN_BUS.post(new CogOreGenEvent(world, rand, iX*16, iZ*16));
             	}
             }
         }
