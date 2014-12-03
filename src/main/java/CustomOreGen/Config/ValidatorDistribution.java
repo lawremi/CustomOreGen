@@ -157,28 +157,27 @@ public class ValidatorDistribution extends ValidatorNode
             settings.remove(parentKey);
         }
 
-        String oreBlockKey1 = IOreDistribution.StandardSettings.OreBlock.name();
-        String biomeKey;
-
-        if (settings.contains(oreBlockKey1))
+        String oreBlockKey = IOreDistribution.StandardSettings.OreBlock.name();
+        
+        if (settings.contains(oreBlockKey))
         {
-            BlockDescriptor replacesKey1 = new BlockDescriptor();
-            biomeKey = this.validateNamedAttribute(String.class, "Block", null, true);
+            BlockDescriptor oreBlockDesc = new BlockDescriptor();
+            String oreBlockName = this.validateNamedAttribute(String.class, "Block", null, true);
 
-            if (biomeKey != null)
+            if (oreBlockName != null)
             {
-                replacesKey1.add(biomeKey);
+                oreBlockDesc.add(oreBlockName);
             }
 
-            for (ValidatorBlockDescriptor settingName : validateNamedChildren(2, "OreBlock", new ValidatorBlockDescriptor.Factory())) {
-                replacesKey1.add(settingName.blocks, settingName.weight, settingName.nbt);	
+            for (ValidatorBlockDescriptor oreBlock : validateNamedChildren(2, "OreBlock", new ValidatorBlockDescriptor.Factory())) {
+                oreBlockDesc.add(oreBlock.blocks, oreBlock.weight, oreBlock.nbt);	
             }
             
-            if (!replacesKey1.getDescriptors().isEmpty())
+            if (!oreBlockDesc.getDescriptors().isEmpty())
             {
                 try
                 {
-                    this.distribution.setDistributionSetting(oreBlockKey1, replacesKey1);
+                    this.distribution.setDistributionSetting(oreBlockKey, oreBlockDesc);
                 }
                 catch (IllegalAccessException var16)
                 {
@@ -190,29 +189,29 @@ public class ValidatorDistribution extends ValidatorNode
                 }
             }
 
-            settings.remove(oreBlockKey1);
+            settings.remove(oreBlockKey);
         }
 
-        String replacesKey2 = IOreDistribution.StandardSettings.ReplaceableBlock.name();
+        String replacesKey = IOreDistribution.StandardSettings.ReplaceableBlock.name();
 
-        if (settings.contains(replacesKey2))
+        if (settings.contains(replacesKey))
         {
-            BlockDescriptor biomeKey1 = new BlockDescriptor();
-            for (ValidatorBlockDescriptor settingName : validateNamedChildren(2, "Replaces", new ValidatorBlockDescriptor.Factory())) {
-            	biomeKey1.add(settingName.blocks, settingName.weight, false, false, null);
+            BlockDescriptor replacesDesc = new BlockDescriptor();
+            for (ValidatorBlockDescriptor replaces : validateNamedChildren(2, "Replaces", new ValidatorBlockDescriptor.Factory())) {
+            	replacesDesc.add(replaces.blocks, replaces.weight, false, false, null);
             }
-            for (ValidatorBlockDescriptor settingName : validateNamedChildren(2, "ReplacesOre", new ValidatorBlockDescriptor.Factory())) {
-            	biomeKey1.add(settingName.blocks, settingName.weight, true, false, null);
+            for (ValidatorBlockDescriptor replaces : validateNamedChildren(2, "ReplacesOre", new ValidatorBlockDescriptor.Factory())) {
+            	replacesDesc.add(replaces.blocks, replaces.weight, true, false, null);
             }
-            for (ValidatorBlockDescriptor settingName : validateNamedChildren(2, "ReplacesRegexp", new ValidatorBlockDescriptor.Factory())) {
-            	biomeKey1.add(settingName.blocks, settingName.weight, false, true, null);
+            for (ValidatorBlockDescriptor replaces : validateNamedChildren(2, "ReplacesRegexp", new ValidatorBlockDescriptor.Factory())) {
+            	replacesDesc.add(replaces.blocks, replaces.weight, false, true, null);
             }
             
-            if (!biomeKey1.getDescriptors().isEmpty())
+            if (!replacesDesc.getDescriptors().isEmpty())
             {
                 try
                 {
-                    this.distribution.setDistributionSetting(replacesKey2, biomeKey1);
+                    this.distribution.setDistributionSetting(replacesKey, replacesDesc);
                 }
                 catch (IllegalAccessException var14)
                 {
@@ -224,10 +223,10 @@ public class ValidatorDistribution extends ValidatorNode
                 }
             }
 
-            settings.remove(replacesKey2);
+            settings.remove(replacesKey);
         }
 
-        biomeKey = IOreDistribution.StandardSettings.TargetBiome.name();
+        String biomeKey = IOreDistribution.StandardSettings.TargetBiome.name();
 
         if (settings.contains(biomeKey))
         {
@@ -266,37 +265,37 @@ public class ValidatorDistribution extends ValidatorNode
 
         validateNamedChildren(2, "Setting", new ValidatorPDist.Factory(this.distribution));
         
-        for (String settingName3 : settings) {
-        	Object value1 = this.distribution.getDistributionSetting(settingName3);
+        for (String settingName : settings) {
+        	Object setting = this.distribution.getDistributionSetting(settingName);
 
-            if (value1 != null)
+            if (setting != null)
             {
-                if (value1 instanceof PDist)
+                if (setting instanceof PDist)
                 {
                     continue;
                 }
 
-                value1 = this.validateNamedAttribute((Class<Object>)value1.getClass(), settingName3, value1, true);
+                setting = this.validateNamedAttribute((Class<Object>)setting.getClass(), settingName, setting, true);
             }
             else
             {
-                value1 = this.validateNamedAttribute(String.class, settingName3, null, true);
+                setting = this.validateNamedAttribute(String.class, settingName, null, true);
             }
 
             try
             {
-                if (value1 != null)
+                if (setting != null)
                 {
-                    this.distribution.setDistributionSetting(settingName3, value1);
+                    this.distribution.setDistributionSetting(settingName, setting);
                 }
             }
             catch (IllegalAccessException var10)
             {
-                throw new ParserException("Attribute \'" + settingName3 + "\' is not configurable.", this.getNode(), var10);
+                throw new ParserException("Attribute \'" + settingName + "\' is not configurable.", this.getNode(), var10);
             }
             catch (IllegalArgumentException var11)
             {
-                throw new ParserException("Attribute \'" + settingName3 + "\' cannot be set (" + var11.getMessage() + ").", this.getNode(), var11);
+                throw new ParserException("Attribute \'" + settingName + "\' cannot be set (" + var11.getMessage() + ").", this.getNode(), var11);
             }
         }
     }
