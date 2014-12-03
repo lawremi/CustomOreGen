@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Random;
 
 import net.minecraft.block.BlockSand;
 import net.minecraft.client.gui.GuiCreateWorld;
@@ -28,6 +29,7 @@ import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.SaveFormatOld;
 import net.minecraft.world.storage.WorldInfo;
+import net.minecraftforge.common.MinecraftForge;
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.CustomPacketPayload;
 import CustomOreGen.CustomPacketPayload.PayloadType;
