@@ -50,6 +50,7 @@ public class ServerState
     private static Map<World,WorldConfig> _worldConfigs = new HashMap();
     private static Map<Integer,Map<ChunkCoordIntPair,int[]>> _populatedChunks = new HashMap();
     private static Object _optionsGuiButton = null;
+    private static boolean forcingChunk;
 
     private static boolean isChunkSavedPopulated(World world, int chunkX, int chunkZ)
     {
@@ -396,6 +397,11 @@ public class ServerState
     }
 
 	public static void chunkForced(World world, ChunkCoordIntPair location) {
+		if (forcingChunk) { // prevent infinite recursion when there are multiple chunk loaders
+			return;
+		}
+		forcingChunk = true;
+		
 		WorldConfig cfg = getWorldConfig(world);
 		int radius = (cfg.deferredPopulationRange + 15) / 16;
         
@@ -408,5 +414,7 @@ public class ServerState
             	}
             }
         }
+        
+        forcingChunk = false;
 	}
 }
