@@ -29,7 +29,7 @@ public class ValidatorDistribution extends ValidatorNode
     {
         try
         {
-            this.distribution = this._distributionFactory.createDistribution(this.getParser().target.getOreDistributions().size());
+            this.distribution = this._distributionFactory.createDistribution(this.getParser().target.nextDistributionID());
         }
         catch (Exception var7)
         {

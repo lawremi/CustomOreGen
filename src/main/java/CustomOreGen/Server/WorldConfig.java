@@ -55,6 +55,7 @@ public class WorldConfig
     private Map cogSymbolData;
 	private Map<String,BiomeDescriptor> biomeSets;
 	private BlockDescriptor equivalentBlockDescriptor;
+	private int idCounter;
 
     public static WorldConfig createEmptyConfig()
     {
@@ -495,5 +496,9 @@ public class WorldConfig
 
 	public void registerBiomeSet(BiomeDescriptor biomeSet) {
 		this.biomeSets.put(biomeSet.getName(), biomeSet);
+	}
+	
+	public int nextDistributionID() {
+		return this.idCounter++;
 	}
 }
