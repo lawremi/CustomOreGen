@@ -131,7 +131,9 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
             	continue;
             
             if (desc.describesType) {
-            	BiomeDictionary.Type type = BiomeDictionary.Type.getType(desc.description);
+            	BiomeDictionary.Type type = BiomeDictionary.Type.valueOf(desc.description.toUpperCase());
+            	// instead of this, because we do not want to add a new type if it does not exist:
+            	//BiomeDictionary.Type type = BiomeDictionary.Type.getType(desc.description);
             	if (BiomeDictionary.isBiomeOfType(biome, type))
             	{
             		++desc.matches;
