@@ -26,6 +26,8 @@ import net.minecraft.world.storage.WorldInfo;
 
 import org.xml.sax.SAXException;
 
+import com.google.common.collect.Maps;
+
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.ForgeInterface;
 import CustomOreGen.MystcraftSymbolData;
@@ -197,20 +199,25 @@ public class WorldConfig
             (new ConfigParser(this)).parseFile(configFile);
             ConfigOption var20;
 
+            Map<String,String> saveLevelOptions = new LinkedHashMap();
+            if (optionsFileList[1] != null) {
+            	if (!optionsFileList[1].exists()) {
+            		loadOptions(optionsFileList[0], this.loadedOptionOverrides[0], saveLevelOptions);
+            		saveOptions(optionsFileList[1], saveLevelOptions);
+            		this.loadedOptionOverrides[0] = null;
+            	} else {
+            		loadOptions(optionsFileList[1], null, saveLevelOptions);
+            	}
+            }
+            
             if (optionsFile != null)
             {
-            	Map<String,String> dimLevelOptions = new LinkedHashMap();
+            	putOptions(this.configOptions.values(), this.loadedOptions);
+            	Map<String,String> dimLevelOptions = setdiffOptions(this.loadedOptions, saveLevelOptions);
             	loadOptions(optionsFile, this.loadedOptionOverrides[2], dimLevelOptions);
             	saveOptions(optionsFile, dimLevelOptions);
             }
 
-            if (optionsFileList[1] != null && !optionsFileList[1].exists()) {
-            	Map<String,String> saveLevelOptions = new LinkedHashMap();
-            	loadOptions(optionsFileList[0], this.loadedOptionOverrides[0], saveLevelOptions);
-            	saveOptions(optionsFileList[1], saveLevelOptions);
-            	this.loadedOptionOverrides[0] = null;
-            }
-            
             ConfigOption var21 = (ConfigOption)this.configOptions.get("deferredPopulationRange");
 
             if (var21 != null && var21 instanceof NumericOption)
@@ -249,7 +256,11 @@ public class WorldConfig
         }
     }
 
-    private void loadOptions(File file, Collection<ConfigOption> overrides, Map<String, String> map) throws FileNotFoundException, IOException {
+	private Map<String, String> setdiffOptions(Map<String, String> x, Map<String, String> y) {
+		return new LinkedHashMap(Maps.difference(x, y).entriesOnlyOnLeft());
+	}
+
+	private void loadOptions(File file, Collection<ConfigOption> overrides, Map<String, String> map) throws FileNotFoundException, IOException {
 		if (file != null && file.exists())
         {
             PropertyIO.load(map, new FileInputStream(file));
