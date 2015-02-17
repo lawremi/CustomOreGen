@@ -83,6 +83,11 @@ public class MapGenVeins extends MapGenOreDistribution
     )
     public final PDist sgAngle;
     @DistributionSetting(
+            name = "SegmentPitch",
+            info = "Angle at which each segment rises or falls from the previous segment, in radians"
+    )
+    public final PDist sgPitch;
+    @DistributionSetting(
             name = "SegmentRadius",
             info = "Cross-section radius of branch segments, in meters"
     )
@@ -115,6 +120,7 @@ public class MapGenVeins extends MapGenOreDistribution
         this.sgForkLenMult = new PDist(0.75F, 0.25F);
         this.sgLength = new PDist(15.0F, 6.0F);
         this.sgAngle = new PDist(0.5F, 0.5F);
+        this.sgPitch = new PDist(0.0F, 0.1F);
         this.sgRadius = new PDist(0.5F, 0.3F);
         this.orDensity = new PDist(1.0F, 0.0F);
         this.orRadiusMult = new PDist(1.0F, 0.1F);
@@ -234,8 +240,10 @@ public class MapGenVeins extends MapGenOreDistribution
                 this.generateBranch(structureGroup, length * (fkLenMult > 1.0F ? 1.0F : fkLenMult), maxHeight, minHeight, fkMat, (Component)component, fkRandom);
             }
 
-            float var18 = random.nextFloat() * ((float)Math.PI * 2F);
-            mat.rotate(this.sgAngle.getValue(random), MathHelper.cos(var18), MathHelper.sin(var18), 0.0F);
+            Transform rot = new Transform();
+            rot.rotateY(this.sgAngle.getValue(random));
+            rot.rotateX(this.sgPitch.getValue(random));
+            mat.transform(rot);
         }
     }
     
