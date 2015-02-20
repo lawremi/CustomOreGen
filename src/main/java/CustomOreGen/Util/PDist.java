@@ -89,7 +89,7 @@ public class PDist implements Copyable<PDist>
 
                     return value * this.range + this.mean;
                 case inverse:
-                	value = inverseGaussian(1, 0.2F, rand)/1.5f;
+                	value = inverseGaussian(1.5, 0.2F, rand)/2;
                 	if (value > 1.0F)
                     {
                         value = 1.0F;
@@ -97,7 +97,7 @@ public class PDist implements Copyable<PDist>
                 	if(rand.nextBoolean()) value *= -1;
                     return value * this.range + this.mean;
                 case inverseAbs:
-                	value = inverseGaussian(1, 0.2F, rand)/1.5f;
+                	value = inverseGaussian(1.5, 0.2F, rand)/2;
                 	if (value > 1.0F)
                     {
                         value = 1.0F;
