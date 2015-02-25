@@ -40,12 +40,12 @@ public class ValidatorPDist extends ValidatorNode
         		heightScaledPDist = (HeightScaledPDist)setting;
         		this.pdist = heightScaledPDist.pdist;
         	} else {
-        		throw new ParserException("Setting \'" + this.name + "\' is not supported by this distribution.", this.getNode());
+        		throw new ParserException("Setting \'" + this.name + "\' in \'"+this._parentDist.toString()+"\' is not supported by this distribution.", this.getNode());
         	}
             
             if (this.pdist == null)
             {
-                throw new ParserException("Setting \'" + this.name + "\' is not supported by this distribution.", this.getNode());
+                throw new ParserException("Setting \'" + this.name + "\' in \'"+this._parentDist.toString()+"\' is not supported by this distribution.", this.getNode());
             }
         }
 
@@ -70,11 +70,11 @@ public class ValidatorPDist extends ValidatorNode
             }
             catch (IllegalAccessException var2)
             {
-                throw new ParserException("Setting \'" + this.name + "\' is not configurable.", this.getNode(), var2);
+                throw new ParserException("Setting \'" + this.name + "\' in \'"+this._parentDist.toString()+"\' is not configurable.", this.getNode(), var2);
             }
             catch (IllegalArgumentException var3)
             {
-                throw new ParserException("Setting \'" + this.name + "\' is not supported by this distribution.", this.getNode(), var3);
+                throw new ParserException("Setting \'" + this.name + "\' in \'"+this._parentDist.toString()+"\' is not supported by this distribution.", this.getNode(), var3);
             }
         }
 
