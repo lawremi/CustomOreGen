@@ -15,6 +15,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.BoxLayout;
+
+import org.lwjgl.LWJGLUtil;
 import org.lwjgl.opengl.Display;
 
 public class ConfigErrorDialog implements WindowListener, ActionListener
@@ -68,7 +70,8 @@ public class ConfigErrorDialog implements WindowListener, ActionListener
 
             while (this._waiting)
             {
-                if (usingLWJGL && Display.isCreated())
+            	/* On the Mac, LWJGL fails if there is no OpenGL context */
+                if (usingLWJGL && Display.isCreated() && LWJGLUtil.getPlatform() != LWJGLUtil.PLATFORM_MACOSX)
                 {
                     Display.processMessages();
                 }
