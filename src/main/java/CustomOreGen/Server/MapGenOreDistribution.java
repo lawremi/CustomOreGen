@@ -320,7 +320,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                 throw new IllegalStateException("Ore block descriptor for " + this + " is empty or does not match any registered blocks.");
             }
         }
-        else if (oreBlockMatchWeight > 1.0001F)
+        else if (oreBlockMatchWeight > 1.0002F)
         {
             this._valid = false;
             throw new IllegalStateException("Ore block descriptor for " + this + " is overspecified with a total match weight of " + oreBlockMatchWeight * 100.0F + "%.");
