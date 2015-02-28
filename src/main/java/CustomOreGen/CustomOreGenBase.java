@@ -75,7 +75,8 @@ public class CustomOreGenBase
             "Chisel.xml",
             "Mekanism.xml",
             "Steamcraft.xml",
-            "Gregtech.xml"
+            "Gregtech.xml",
+            "Gregtech6.xml"
         };
         for (String module : extraModules) {
         	unpackConfigFile("modules/" + module, new File(defaultModulesDir, module));
