@@ -345,7 +345,7 @@ public class ConsoleCommands
         return count;
     }
     
-    private static int changeBlockDescriptor(String settingName, ICommandSender sender, WorldServer world, String distribution, String descriptor, float weight, boolean clear, boolean replacesOre, boolean isRegexp, String nbt)
+    private static int changeBlockDescriptor(String settingName, ICommandSender sender, WorldServer world, String distribution, String descriptor, float weight, boolean clear, boolean describesOre, boolean matchFirst, boolean isRegexp, String nbt)
     {
         int count = 0;
         
@@ -377,7 +377,7 @@ public class ConsoleCommands
                     if (!(nbtBase instanceof NBTTagCompound)) {
                     	throw new IllegalArgumentException("NBT is not a compound tag");
                     }
-                    desc.add(descriptor, weight, replacesOre, isRegexp, nbt == null ? null : (NBTTagCompound)nbtBase);
+                    desc.add(descriptor, weight, describesOre, isRegexp, matchFirst, nbt == null ? null : (NBTTagCompound)nbtBase);
                     ++count;
                 }
                 
@@ -414,12 +414,18 @@ public class ConsoleCommands
                     defValue = "1"
             ) float weight,
             @ArgName(
+                    name = "matchFirstOre"
+            )
+            @ArgOptional(
+                    defValue = "false"
+            ) boolean matchFirstOre,
+            @ArgName(
             		name = "nbt"
             )
     		@ArgOptional String nbt)
     {
         String setting = IOreDistribution.StandardSettings.OreBlock.name();
-        int count = changeBlockDescriptor(setting, sender, world, distribution, block, weight, false, false, false, nbt);
+        int count = changeBlockDescriptor(setting, sender, world, distribution, block, weight, false, matchFirstOre, matchFirstOre, false, nbt);
         return "Added ore block for " + count + " distributions";
     }
 
@@ -443,12 +449,18 @@ public class ConsoleCommands
                     defValue = "1"
             ) float weight,
             @ArgName(
+                    name = "matchFirstOre"
+            )
+            @ArgOptional(
+                    defValue = "false"
+            ) boolean matchFirstOre,
+            @ArgName(
             		name = "nbt"
             )
     		@ArgOptional String nbt)
     {
         String setting = IOreDistribution.StandardSettings.OreBlock.name();
-        int count = changeBlockDescriptor(setting, sender, world, distribution, block, weight, true, false, false, nbt);
+        int count = changeBlockDescriptor(setting, sender, world, distribution, block, weight, true, matchFirstOre, matchFirstOre, false, nbt);
         return "Set ore block for " + count + " distributions";
     }
 
@@ -479,7 +491,7 @@ public class ConsoleCommands
             ) @ArgOptional boolean isRegexp)
     {
         String setting = IOreDistribution.StandardSettings.ReplaceableBlock.name();
-        int count = changeBlockDescriptor(setting, sender, world, distribution, block, weight, false, replacesOre, isRegexp, null);
+        int count = changeBlockDescriptor(setting, sender, world, distribution, block, weight, false, replacesOre, false, isRegexp, null);
         return "Added replaceable block for " + count + " distributions";
     }
 
@@ -510,7 +522,7 @@ public class ConsoleCommands
             ) @ArgOptional boolean isRegexp)
     {
         String setting = IOreDistribution.StandardSettings.ReplaceableBlock.name();
-        int count = changeBlockDescriptor(setting, sender, world, distribution, block, weight, true, replacesOre, isRegexp, null);
+        int count = changeBlockDescriptor(setting, sender, world, distribution, block, weight, true, replacesOre, false, isRegexp, null);
         return "Set replaceable block for " + count + " distributions";
     }
 

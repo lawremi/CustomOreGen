@@ -173,6 +173,10 @@ public class ValidatorDistribution extends ValidatorNode
                 oreBlockDesc.add(oreBlock.blocks, oreBlock.weight, oreBlock.nbt);	
             }
             
+            for (ValidatorBlockDescriptor oreBlock : validateNamedChildren(2, "FirstOreDictBlock", new ValidatorBlockDescriptor.Factory())) {
+                oreBlockDesc.add(oreBlock.blocks, oreBlock.weight, true, true, false, oreBlock.nbt);	
+            }
+            
             if (!oreBlockDesc.getDescriptors().isEmpty())
             {
                 try
@@ -198,13 +202,13 @@ public class ValidatorDistribution extends ValidatorNode
         {
             BlockDescriptor replacesDesc = new BlockDescriptor();
             for (ValidatorBlockDescriptor replaces : validateNamedChildren(2, "Replaces", new ValidatorBlockDescriptor.Factory())) {
-            	replacesDesc.add(replaces.blocks, replaces.weight, false, false, null);
+            	replacesDesc.add(replaces.blocks, replaces.weight, false, false, false, null);
             }
             for (ValidatorBlockDescriptor replaces : validateNamedChildren(2, "ReplacesOre", new ValidatorBlockDescriptor.Factory())) {
-            	replacesDesc.add(replaces.blocks, replaces.weight, true, false, null);
+            	replacesDesc.add(replaces.blocks, replaces.weight, true, false, false, null);
             }
             for (ValidatorBlockDescriptor replaces : validateNamedChildren(2, "ReplacesRegexp", new ValidatorBlockDescriptor.Factory())) {
-            	replacesDesc.add(replaces.blocks, replaces.weight, false, true, null);
+            	replacesDesc.add(replaces.blocks, replaces.weight, false, false, true, null);
             }
             
             if (!replacesDesc.getDescriptors().isEmpty())

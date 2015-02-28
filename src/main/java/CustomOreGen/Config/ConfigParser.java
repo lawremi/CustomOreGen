@@ -93,6 +93,8 @@ public class ConfigParser
         validator.addGlobalValidator(Node.ELEMENT_NODE, "IfNotChoice", new ValidatorIfChoice.Factory(true));
         validator.addGlobalValidator(Node.ELEMENT_NODE, "IfModInstalled", new ValidatorIfModInstalled.Factory(false));
         validator.addGlobalValidator(Node.ELEMENT_NODE, "IfNotModInstalled", new ValidatorIfModInstalled.Factory(true));
+        validator.addGlobalValidator(Node.ELEMENT_NODE, "IfOreExists", new ValidatorIfOreExists.Factory(false));
+        validator.addGlobalValidator(Node.ELEMENT_NODE, "IfNotOreExists", new ValidatorIfOreExists.Factory(true));
         validator.addGlobalValidator(Node.ELEMENT_NODE, "GetOption", new ValidatorRefOption.Factory());
         validator.addGlobalValidator(Node.ELEMENT_NODE, "Expression", new ValidatorExpression.Factory(this.defaultEvaluator));
         topLevelNodes.add("OptionDisplayGroup");

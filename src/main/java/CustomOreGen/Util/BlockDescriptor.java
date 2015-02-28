@@ -113,7 +113,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
 
         if (descriptor != null)
         {
-            this._descriptors.add(new Descriptor(descriptor, 1.0F, false, false, null));
+            this.add(descriptor);
         }
 
         return this;
@@ -121,19 +121,19 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
 
     public BlockDescriptor add(String descriptor)
     {
-        return this.add(descriptor, 1.0F, false, false, null);
+        return this.add(descriptor, 1.0F, false, false, false, null);
     }
 
     public BlockDescriptor add(String descriptor, float weight, NBTTagCompound nbt) {
-    	return this.add(descriptor, weight, false, false, nbt);
+    	return this.add(descriptor, weight, false, false, false, nbt);
     }
     
-    public BlockDescriptor add(String descriptor, float weight, boolean describesOre, boolean regexp, NBTTagCompound nbt)
+    public BlockDescriptor add(String descriptor, float weight, boolean describesOre, boolean matchFirst, boolean regexp, NBTTagCompound nbt)
     {
         if (descriptor != null && weight != 0.0F)
         {
             this._compiled = false;
-            this._descriptors.add(new Descriptor(descriptor, weight, describesOre, regexp, nbt));
+            this._descriptors.add(new Descriptor(descriptor, weight, describesOre, matchFirst, regexp, nbt));
         }
 
         return this;
@@ -189,7 +189,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
 
 	public void add(BlockDescriptor desc, float weight) {
 		for (Descriptor d : desc._descriptors) {
-			this.add(d.description, d.weight * weight, d.describesOre, d.regexp, d.nbt);
+			this.add(d.description, d.weight * weight, d.describesOre, d.matchFirst, d.regexp, d.nbt);
 		}
 	}
 
@@ -213,16 +213,28 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             				// This is particularly true of vanilla 'stone'.
             				this.add(oreBlock, ore.getItemDamage(), desc.nbt, desc.weight);
             			}
+            			if (desc.matchFirst) {
+            				break;
+            			}
             		}            		
             	} else if (desc.regexp) {
             		for (Block block : (Iterable<Block>)GameData.getBlockRegistry()) {
                     	String name = Block.blockRegistry.getNameForObject(block);
                     	float[] weights = desc.regexMatch(name);
-                    	this.add(block, OreDictionary.WILDCARD_VALUE, desc.nbt, weights[Short.SIZE]);	
-                    	
-                    	for (int m = 0; m < Short.SIZE; ++m)
+                    	this.add(block, OreDictionary.WILDCARD_VALUE, desc.nbt, weights[Short.SIZE]);
+                    	if (weights[Short.SIZE] > 0 && desc.matchFirst) {
+                    		break;
+                    	}
+                    	boolean matched = false;
+                    	for (int m = 0; m < Short.SIZE && !matched; ++m)
                     	{
                     		this.add(block, m, desc.nbt, weights[m]);
+                    		if (weights[m] > 0 && desc.matchFirst) {
+                    			matched = true;
+                    		}
+                    	}
+                    	if (matched) {
+                    		break;
                     	}
                     }
             	} else {
@@ -411,16 +423,18 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         public final String description;
         public final float weight;
         public final boolean describesOre;
+        public final boolean matchFirst;
         public final boolean regexp;
         public final NBTTagCompound nbt;
         public int matches = -1;
         private Pattern pattern = null;
         
-        public Descriptor(String description, float weight, boolean describesOre, boolean regexp, NBTTagCompound nbt)
+        public Descriptor(String description, float weight, boolean describesOre, boolean matchFirst, boolean regexp, NBTTagCompound nbt)
         {
             this.description = description;
             this.weight = weight;
 			this.describesOre = describesOre;
+			this.matchFirst = matchFirst;
 			this.regexp = regexp;
 			this.nbt = nbt;
         }
