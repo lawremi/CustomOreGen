@@ -17,7 +17,7 @@ public class ValidatorIfOreExists extends ValidatorCondition {
     protected boolean evaluateCondition() throws ParserException
     {
         String oreName = (String)this.validateRequiredAttribute(String.class, "name", true);
-        return OreDictionary.getOres(oreName).size() > 0;
+        return ConfigParser.oreExists(oreName);
     }
     
     public static class Factory implements IValidatorFactory<ValidatorIfOreExists>

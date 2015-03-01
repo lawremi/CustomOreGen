@@ -16,6 +16,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import net.minecraftforge.oredict.OreDictionary;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.UserDataHandler;
@@ -46,16 +48,21 @@ public class ConfigParser
     protected final SAXParser saxParser;
     private static final Map<String,IValidatorFactory> distributionValidators = new HashMap();
 
-    public boolean blockExists(String blockDescription)
+    public static boolean blockExists(String blockDescription)
     {
         return (new BlockDescriptor(blockDescription)).getTotalMatchWeight() > 0.0F;
     }
 
-    public boolean biomeExists(String biomeDescription)
+    public static boolean biomeExists(String biomeDescription)
     {
         return (new BiomeDescriptor(biomeDescription)).getTotalMatchWeight() > 0.0F;
     }
 
+    public static boolean oreExists(String oreDescription)
+    {
+    	return OreDictionary.getOres(oreDescription).size() > 0;
+    }
+    
     public float nextRandom()
     {
         return this.rng == null ? 0.0F : this.rng.nextFloat();
@@ -312,6 +319,7 @@ public class ConfigParser
         {
             this.localIdentifiers = new CIStringMap();
             this.localIdentifiers.put("isModInstalled", new EvaluationDelegate(false, Loader.class, "isModLoaded", new Class[] {String.class}));
+            this.localIdentifiers.put("oreExists", new EvaluationDelegate(false, ConfigParser.class, "oreExists", new Class[] {String.class}));
             this.localIdentifiers.put("blockExists", new EvaluationDelegate(false, ConfigParser.this, "blockExists", new Class[] {String.class}));
             this.localIdentifiers.put("biomeExists", new EvaluationDelegate(false, ConfigParser.this, "biomeExists", new Class[] {String.class}));
             this.localIdentifiers.put("world.nextRandom", new EvaluationDelegate(false, ConfigParser.this, "nextRandom", new Class[0]));
