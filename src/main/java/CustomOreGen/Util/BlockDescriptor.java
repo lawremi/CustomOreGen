@@ -208,10 +208,19 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             			Item oreItem = ore.getItem();
             			if (oreItem instanceof ItemBlock) {
             				Block oreBlock = ((ItemBlock)oreItem).field_150939_a;
+            				int meta = ore.getItemDamage();
+            				NBTTagCompound nbt = ore.stackTagCompound;
+            				if (nbt == null) {
+            					nbt = TileEntityHelper.tryToCreateGTPrefixBlockNBT(ore);
+            					if (nbt != null) {
+            						oreBlock = Block.getBlockFromName("gregtech:gt.meta.ore.normal.default");
+            						meta = 2; // mining level stone
+            					}
+            				}
             				// FIXME: Blocks tend to be registered as meta 0, even when the meta is irrelevant,
             				// so we are unable to take advantage of the fast ID hash. 
             				// This is particularly true of vanilla 'stone'.
-            				this.add(oreBlock, ore.getItemDamage(), desc.nbt, desc.weight);
+            				this.add(oreBlock, meta, nbt, desc.weight);
             			}
             			if (desc.matchFirst) {
             				break;

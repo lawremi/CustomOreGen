@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -21,7 +23,10 @@ public class TileEntityHelper {
 		if (source != null) {
 			TileEntity te = world.getTileEntity(x, y, z);
 			if (te == null) {
-				te = tryToCreateGTPrefixBlockTileEntity(world, x, y, z);
+				te = tryToCreateGTPrefixBlockTileEntity(world.getBlock(x, y, z));
+				if (te != null) {
+					world.setTileEntity(x, y, z, te);
+				}
 			}
 			if (te != null) {
 				TileEntityHelper.readFromPartialNBT(te, source);
@@ -40,17 +45,28 @@ public class TileEntityHelper {
 		}
 	}
 	
-	private static TileEntity tryToCreateGTPrefixBlockTileEntity(World world, int x, int y, int z) {
-		if (prefixBlockClass != null) {
-			try {
-				Block block = world.getBlock(x, y, z);
-				boolean isPrefixBlock = prefixBlockClass.isAssignableFrom(block.getClass());
-				if (isPrefixBlock) {
-					return prefixBlockTileEntityClass.newInstance();
-				}
-			} catch (InstantiationException e) {
-			} catch (IllegalAccessException e) {
+	public static NBTTagCompound tryToCreateGTPrefixBlockNBT(ItemStack ore) {
+		Block block = ((ItemBlock)ore.getItem()).field_150939_a;
+		NBTTagCompound nbt = null;
+		if (isGTPrefixBlock(block)) {
+			nbt = new NBTTagCompound();
+			nbt.setShort("m", (short)ore.getItemDamage());
+			nbt.setString("id", "gt.MetaBlockTileEntity");
+		}
+		return nbt;
+	}
+	
+	private static boolean isGTPrefixBlock(Block block) {
+		return prefixBlockClass != null && prefixBlockClass.isAssignableFrom(block.getClass());
+	}
+	
+	private static TileEntity tryToCreateGTPrefixBlockTileEntity(Block block) {
+		try {
+			if (isGTPrefixBlock(block)) {
+				return prefixBlockTileEntityClass.newInstance();
 			}
+		} catch (InstantiationException e) {
+		} catch (IllegalAccessException e) {
 		}
 		return null;
 	}
