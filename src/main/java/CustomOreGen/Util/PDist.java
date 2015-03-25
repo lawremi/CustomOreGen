@@ -172,7 +172,7 @@ public class PDist implements Copyable<PDist>
     
     /*
      * complementary error function, defined as 1-erf(x)
-     * erf(x) is defined as π^0.5 * λ(0.5, x^2)  
+     * erf(x) is defined as pi^(-0.5) * gamma(0.5, x^2)  
      */
     private float erfc(float x) {
     	return 1 - (0.56418f*(float)GammaFunction.incompleteGammaP(0.5,x*x));
