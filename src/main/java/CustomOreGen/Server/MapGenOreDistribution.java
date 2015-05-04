@@ -8,7 +8,6 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
@@ -143,7 +142,6 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
     protected boolean _valid;
     protected final boolean _canGenerate;
     private StructureGroup newestGroup;
-    private StructureGroup oldestGroup;
     protected final DistributionSettingMap _settingMap;
 
     public MapGenOreDistribution(DistributionSettingMap settingMap, int distributionID, boolean canGenerate)
@@ -161,10 +159,9 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         this.completedStructureBlocks = 0L;
         this.populatedChunks = 0;
         this.placedBlocks = 0L;
-        this.debuggingGeometryMap = new HashMap();
+        this.debuggingGeometryMap = new HashMap<Long,GeometryStream>();
         this._valid = false;
         this.newestGroup = null;
-        this.oldestGroup = null;
         this.name = "Distribution_" + distributionID;
         this.seed = (new Random((long)distributionID)).nextLong();
         this._canGenerate = canGenerate;
@@ -187,7 +184,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
 
-    public Map getDistributionSettings()
+    public Map<String,String> getDistributionSettingDescriptions()
     {
         return this._settingMap.getDescriptions();
     }
@@ -253,7 +250,6 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                         group.newerGroup.olderGroup = null;
                     }
 
-                    this.oldestGroup = group.newerGroup;
                     group.newerGroup = null;
 
                     while (group != null)
@@ -272,7 +268,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         if (this._canGenerate)
         {
             super.structureMap.clear();
-            this.newestGroup = this.oldestGroup = null;
+            this.newestGroup = null;
             this.debuggingGeometryMap.clear();
             this.completedStructures = this.populatedChunks = 0;
             this.completedStructureBlocks = this.placedBlocks = 0L;
@@ -361,7 +357,6 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
             if (older == null)
             {
-                this.oldestGroup = newer;
             }
             else
             {
@@ -382,7 +377,6 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
             if (this.newestGroup == null)
             {
-                this.oldestGroup = group;
             }
             else
             {
@@ -418,7 +412,8 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
     
-    protected void recursiveGenerate2(World world, int chunkX, int chunkZ, int rootX, int rootZ, Block[] chunkBlocks)
+    @SuppressWarnings("unchecked")
+	protected void recursiveGenerate2(World world, int chunkX, int chunkZ, int rootX, int rootZ, Block[] chunkBlocks)
     {
         if (this.parent != null)
         {
@@ -472,7 +467,6 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
         if (this.newestGroup == null)
         {
-            this.oldestGroup = group;
         }
         else
         {
@@ -517,7 +511,8 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
 
-    public ChunkPosition getNearestStructure(World world, int x, int y, int z)
+    @SuppressWarnings("unchecked")
+	public ChunkPosition getNearestStructure(World world, int x, int y, int z)
     {
         if (this._canGenerate && this._valid)
         {
@@ -603,7 +598,8 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             return true;
         }
 
-        public void addComponent(Component component, Component parent)
+        @SuppressWarnings("unchecked")
+		public void addComponent(Component component, Component parent)
         {
             super.components.add(component);
             component.setParent(parent);
@@ -680,7 +676,8 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             }
         }
 
-        public void buildWireframes()
+        @SuppressWarnings("unchecked")
+		public void buildWireframes()
         {
             GeometryStream builder;
 

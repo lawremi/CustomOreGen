@@ -19,7 +19,6 @@ import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.MinecraftServer;
 import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
@@ -28,12 +27,11 @@ public class CustomPacketPayload
 {
     public final PayloadType type;
     public final Serializable data;
-    private static Map<String, FMLEventChannel> channels = new HashMap();
-    private static Map<Integer, ByteArrayOutputStream> _xpacketMap = new HashMap();
+    private static Map<String, FMLEventChannel> channels = new HashMap<String, FMLEventChannel>();
+    private static Map<Integer, ByteArrayOutputStream> _xpacketMap = new HashMap<Integer, ByteArrayOutputStream>();
     private static AtomicInteger _xpacketNextID = new AtomicInteger(0);
     private static final String CHANNEL_NAME = "CustomOreGen";
     private static final String XCHANNEL_NAME = "CustomOreGenX";
-    private static final int MAX_SIZE = 32000;
     
     
     public CustomPacketPayload(PayloadType type, Serializable data)
@@ -65,7 +63,6 @@ public class CustomPacketPayload
 
     private FMLProxyPacket[] createPackets()
     {
-        Object payloadData = null;
         boolean compressed = false;
         byte[] var11;
 
@@ -287,7 +284,7 @@ public class CustomPacketPayload
             super(in);
         }
 
-        protected Class resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException
+        protected Class<? extends Object> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException
         {
             try
             {

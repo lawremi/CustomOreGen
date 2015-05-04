@@ -11,11 +11,9 @@ import java.util.Random;
 import java.util.regex.Pattern;
 
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
@@ -76,8 +74,8 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
 		}
     }
 	
-    protected LinkedList<Descriptor> _descriptors = new LinkedList();
-    protected Map<BlockInfo,Match> _matches = new Hashtable();
+    protected LinkedList<Descriptor> _descriptors = new LinkedList<Descriptor>();
+    protected Map<BlockInfo,Match> _matches = new Hashtable<BlockInfo,Match>();
     protected boolean _compiled = false;
     protected float[] _fastMatch = new float[256];
 
@@ -97,8 +95,8 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
 
 	public void copyFrom(BlockDescriptor source)
     {
-        this._descriptors = new LinkedList(source._descriptors);
-        this._matches = new Hashtable(source._matches);
+        this._descriptors = new LinkedList<Descriptor>(source._descriptors);
+        this._matches = new Hashtable<BlockInfo, Match>(source._matches);
         this._compiled = source._compiled;
         this._fastMatch = (float[])source._fastMatch.clone();
     }
@@ -146,7 +144,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         return this;
     }
 
-    public List getDescriptors()
+    public List<Descriptor> getDescriptors()
     {
         return Collections.unmodifiableList(this._descriptors);
     }
@@ -202,7 +200,6 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             Arrays.fill(this._fastMatch, 0.0F);
             
             for (Descriptor desc : this._descriptors) {
-            	desc.matches = 0;
             	if (desc.describesOre) {
             		for (ItemStack ore : OreDictionary.getOres(desc.description)) {
             			Item oreItem = ore.getItem();
@@ -227,7 +224,9 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             			}
             		}            		
             	} else if (desc.regexp) {
-            		for (Block block : (Iterable<Block>)GameData.getBlockRegistry()) {
+            		@SuppressWarnings("unchecked")
+					Iterable<Block> blocks = (Iterable<Block>)GameData.getBlockRegistry();
+            		for (Block block : blocks) {
                     	String name = Block.blockRegistry.getNameForObject(block);
                     	float[] weights = desc.regexMatch(name);
                     	this.add(block, OreDictionary.WILDCARD_VALUE, desc.nbt, weights[Short.SIZE]);
@@ -255,7 +254,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         }
     }
 
-   	public Map getMatches()
+   	public Map<BlockInfo,Match> getMatches()
     {
         this.compileMatches();
         return Collections.unmodifiableMap(this._matches);
@@ -435,7 +434,6 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         public final boolean matchFirst;
         public final boolean regexp;
         public final NBTTagCompound nbt;
-        public int matches = -1;
         private Pattern pattern = null;
         
         public Descriptor(String description, float weight, boolean describesOre, boolean matchFirst, boolean regexp, NBTTagCompound nbt)
@@ -486,14 +484,12 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             	{
             		if (this.getPattern().matcher(name + ":" + m).matches())
             		{
-            			++this.matches;
             			weights[m] += this.weight;
             		}
             	}
             }
             else
             {
-            	++this.matches;
             	weights[Short.SIZE] += this.weight;
             }
             return weights;

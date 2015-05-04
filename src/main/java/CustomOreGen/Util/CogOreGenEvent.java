@@ -2,11 +2,10 @@ package CustomOreGen.Util;
 
 import java.util.Random;
 
-import cpw.mods.fml.common.eventhandler.Event;
-import cpw.mods.fml.common.eventhandler.Event.HasResult;
-
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.OreGenEvent;
+import cpw.mods.fml.common.eventhandler.Cancelable;
 
 public class CogOreGenEvent extends OreGenEvent {
 	/**

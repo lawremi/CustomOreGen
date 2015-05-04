@@ -108,7 +108,7 @@ public class ConsoleCommands
     {
         StringBuilder msg = new StringBuilder();
         WorldConfig config = ServerState.getWorldConfig(world);
-        Collection allDists = config.getOreDistributions();
+        Collection<IOreDistribution> allDists = config.getOreDistributions();
         Collection<IOreDistribution> dists = distribution != null && !distribution.isEmpty() ? config.getOreDistributions(distribution) : null;
         msg.append(CustomOreGenBase.getDisplayString() + " (");
 
@@ -135,18 +135,17 @@ public class ConsoleCommands
 
                 if (pattern != null)
                 {
-                    Map<String,Object> descriptions = dist.getDistributionSettings();
-                    LinkedHashMap<String,Object> values = new LinkedHashMap();
+                    Map<String,String> descriptions = dist.getDistributionSettingDescriptions();
+                    LinkedHashMap<String,Object> values = new LinkedHashMap<String, Object>();
                     
-                    for (Entry<String,Object> entry : descriptions.entrySet()) {
+                    for (Entry<String,String> entry : descriptions.entrySet()) {
                     	if (pattern.matcher(entry.getKey()).matches())
                         {
                             Object value = dist.getDistributionSetting(entry.getKey());
                             values.put(entry.getKey(), value);
                         }
                     }
-                    values.put("Expected ores per chunk", (float)dist.getOresPerChunk());
-
+                    
                     msg.append(" (" + values.size() + "/" + descriptions.size() + " settings)");
 
                     if (values.size() > 0)
@@ -233,7 +232,7 @@ public class ConsoleCommands
             ) @ArgOptional Integer centerZ)
     {
         WorldConfig cfg = ServerState.getWorldConfig(world);
-        Collection list = cfg.getOreDistributions(distribution);
+        Collection<IOreDistribution> list = cfg.getOreDistributions(distribution);
         ChunkCoordinates senderPos = sender.getPlayerCoordinates();
         int cX = centerX == null ? senderPos.posX : centerX.intValue();
         int cZ = centerZ == null ? senderPos.posZ : centerZ.intValue();
@@ -269,7 +268,7 @@ public class ConsoleCommands
 
         if (parent != null)
         {
-            Collection count = cfg.getOreDistributions(parent);
+            Collection<IOreDistribution> count = cfg.getOreDistributions(parent);
 
             if (count.isEmpty())
             {
@@ -606,12 +605,9 @@ public class ConsoleCommands
             ) Type type)
     {
         int count = 0;
-        Iterator i$ = ServerState.getWorldConfig(world).getOreDistributions(distribution).iterator();
-
-        while (i$.hasNext())
+        
+        for (IOreDistribution dist : ServerState.getWorldConfig(world).getOreDistributions(distribution))
         {
-            IOreDistribution dist = (IOreDistribution)i$.next();
-
             try
             {
                 dist.setDistributionSetting(setting, new PDist(average, range, type));
@@ -647,13 +643,10 @@ public class ConsoleCommands
             ) String value)
     {
         int count = 0;
-        Iterator i$ = ServerState.getWorldConfig(world).getOreDistributions(distribution).iterator();
 
-        while (i$.hasNext())
+        for (IOreDistribution dist : ServerState.getWorldConfig(world).getOreDistributions(distribution))
         {
-            IOreDistribution dist = (IOreDistribution)i$.next();
-
-            try
+        	try
             {
                 dist.setDistributionSetting(setting, value);
                 ++count;
@@ -689,7 +682,7 @@ public class ConsoleCommands
     {
         StringBuilder msg = new StringBuilder();
         WorldConfig config = ServerState.getWorldConfig(world);
-        Collection allOptions = config.getConfigOptions();
+        Collection<ConfigOption> allOptions = config.getConfigOptions();
         Collection<ConfigOption> options = option != null && !option.isEmpty() ? config.getConfigOptions(option) : null;
         msg.append(CustomOreGenBase.getDisplayString() + " (");
 

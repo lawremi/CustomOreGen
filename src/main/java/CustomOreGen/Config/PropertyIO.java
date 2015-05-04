@@ -7,7 +7,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -15,7 +14,7 @@ public class PropertyIO
 {
     private static final char[] hexDigit = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
-    public static void save(Map properties, OutputStream out, String headerComments) throws IOException
+    public static void save(Map<String,String> properties, OutputStream out, String headerComments) throws IOException
     {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out, "8859_1"));
         boolean escUnicode = true;
@@ -27,13 +26,11 @@ public class PropertyIO
 
         bw.write("#" + (new Date()).toString());
         bw.newLine();
-        Iterator i$ = properties.entrySet().iterator();
-
-        while (i$.hasNext())
+        
+        for (Entry<String,String> property : properties.entrySet())
         {
-            Entry property = (Entry)i$.next();
-            String key = saveConvert((String)property.getKey(), true, escUnicode);
-            String val = saveConvert((String)property.getValue(), false, escUnicode);
+            String key = saveConvert(property.getKey(), true, escUnicode);
+            String val = saveConvert(property.getValue(), false, escUnicode);
             bw.write(key + "=" + val);
             bw.newLine();
         }
@@ -184,7 +181,7 @@ public class PropertyIO
         return outBuffer.toString();
     }
 
-    public static void load(Map properties, InputStream inStream) throws IOException
+    public static void load(Map<String,String> properties, InputStream inStream) throws IOException
     {
         LineReader lr = new LineReader(inStream);
         char[] convtBuf = new char[1024];
@@ -192,7 +189,6 @@ public class PropertyIO
 
         while ((limit = lr.readLine()) >= 0)
         {
-            boolean c = false;
             int keyLen = 0;
             int valueStart = limit;
             boolean hasSep = false;
@@ -411,7 +407,6 @@ public class PropertyIO
         int readLine() throws IOException
         {
             int len = 0;
-            boolean c = false;
             boolean skipWhiteSpace = true;
             boolean isCommentLine = false;
             boolean isNewLine = true;

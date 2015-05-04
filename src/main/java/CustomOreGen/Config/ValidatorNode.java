@@ -14,13 +14,12 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.UserDataHandler;
 
 import CustomOreGen.Config.ConfigParser.ConfigExpressionEvaluator;
-import CustomOreGen.Util.Localization;
 
 public class ValidatorNode
 {
     private ConfigParser _parser = null;
     private Node _node = null;
-    private Hashtable<List,IValidatorFactory> _validatorMap = null;
+    private Hashtable<List<?>,IValidatorFactory<?>> _validatorMap = null;
     private boolean _validatorMapShared = false;
 
     public ValidatorNode(ConfigParser parser, Node node)
@@ -53,18 +52,18 @@ public class ValidatorNode
         return this._parser;
     }
 
-    public final void addGlobalValidator(short nodeType, String nodeName, IValidatorFactory factory)
+    public final void addGlobalValidator(short nodeType, String nodeName, IValidatorFactory<?> factory)
     {
-        List key = Arrays.asList(new Object[] { nodeType, nodeName.toLowerCase()});
+        List<?> key = Arrays.asList(new Object[] { nodeType, nodeName.toLowerCase()});
 
         if (this._validatorMap == null)
         {
-            this._validatorMap = new Hashtable();
+            this._validatorMap = new Hashtable<List<?>, IValidatorFactory<?>>();
             this._validatorMapShared = false;
         }
         else if (this._validatorMapShared)
         {
-            this._validatorMap = new Hashtable(this._validatorMap);
+            this._validatorMap = new Hashtable<List<?>, IValidatorFactory<?>>(this._validatorMap);
             this._validatorMapShared = false;
         }
 
@@ -83,7 +82,7 @@ public class ValidatorNode
     {
         if (this._validatorMap != null)
         {
-            LinkedList<Node> childList = new LinkedList();
+            LinkedList<Node> childList = new LinkedList<Node>();
             NamedNodeMap attributes = this._node.getAttributes();
 
             for (int children = 0; attributes != null && children < attributes.getLength(); ++children)
@@ -99,8 +98,8 @@ public class ValidatorNode
             }
 
             for (Node child : childList) {
-            	List key = Arrays.asList(new Object[] { child.getNodeType(), child.getNodeName().toLowerCase()});
-                IValidatorFactory factory = this._validatorMap.get(key);
+            	List<Object> key = Arrays.asList(new Object[] { child.getNodeType(), child.getNodeName().toLowerCase()});
+                IValidatorFactory<?> factory = this._validatorMap.get(key);
 
                 if (factory != null)
                 {
@@ -160,7 +159,7 @@ public class ValidatorNode
 
     protected final <T extends ValidatorNode> LinkedList<T> validateNamedChildren(int nodeTypeMask, String nodeName, IValidatorFactory<T> factory) throws ParserException
     {
-        LinkedList<T> childList = new LinkedList();
+        LinkedList<T> childList = new LinkedList<T>();
         NamedNodeMap attributes = this._node.getAttributes();
         NodeList children = this._node.getChildNodes();
         int attrCount = attributes == null ? 0 : attributes.getLength();
@@ -188,7 +187,8 @@ public class ValidatorNode
         return childList;
     }
 
-    protected final <T> T validateNamedAttribute(Class<T> attrType, String attrName, T defaultValue, boolean allowElements) throws ParserException
+    @SuppressWarnings("unchecked")
+	protected final <T> T validateNamedAttribute(Class<? extends T> attrType, String attrName, T defaultValue, boolean allowElements) throws ParserException
     {
         ConfigExpressionEvaluator evaluator = defaultValue == null ? null :
         	this.getParser().new ConfigExpressionEvaluator(defaultValue);
@@ -287,7 +287,7 @@ public class ValidatorNode
         {
             if (containerNodes != null && containerNodes.length > 0)
             {
-                ArrayList content = new ArrayList();
+                ArrayList<Node> content = new ArrayList<Node>();
                 
                 for (Node containerNode : containerNodes) {
                 	if (containerNode != null)
@@ -378,7 +378,7 @@ public class ValidatorNode
                     }
                 }
 
-                this.replaceWithNode((Node[])content.toArray(new Node[content.size()]));
+                this.replaceWithNode(content.toArray(new Node[content.size()]));
             }
             else
             {
@@ -393,7 +393,7 @@ public class ValidatorNode
     }
 
 
-    public static class Factory implements IValidatorFactory
+    public static class Factory implements IValidatorFactory<ValidatorNode>
     {
     	public ValidatorNode createValidator(ValidatorNode parent, Node node)
     	{

@@ -10,7 +10,6 @@ import org.apache.logging.log4j.Logger;
 import CustomOreGen.Server.ServerState;
 import CustomOreGen.Server.WorldConfig;
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.ModContainer;
 
 public class CustomOreGenBase
 {
@@ -119,7 +118,6 @@ public class CustomOreGenBase
         	    InputStream ex = CustomOreGenBase.class.getClassLoader().getResourceAsStream(resourceName);
                 BufferedOutputStream streamOut = new BufferedOutputStream(new FileOutputStream(destination));
                 byte[] buffer = new byte[1024];
-                boolean len = false;
                 int len1;
 
                 while ((len1 = ex.read(buffer)) >= 0)

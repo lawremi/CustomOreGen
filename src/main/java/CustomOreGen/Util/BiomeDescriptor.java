@@ -16,8 +16,8 @@ import CustomOreGen.Server.DistributionSettingMap.Copyable;
 
 public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 {
-    protected LinkedList<Descriptor> _descriptors = new LinkedList();
-    protected Map<Integer,Float> _matches = new Hashtable();
+    protected LinkedList<Descriptor> _descriptors = new LinkedList<Descriptor>();
+    protected Map<Integer,Float> _matches = new Hashtable<Integer, Float>();
     protected boolean _compiled = false;
     
     private String name;
@@ -34,8 +34,8 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
     
     public void copyFrom(BiomeDescriptor source)
     {
-        this._descriptors = new LinkedList(source._descriptors);
-        this._matches = new Hashtable(source._matches);
+        this._descriptors = new LinkedList<Descriptor>(source._descriptors);
+        this._matches = new Hashtable<Integer,Float>(source._matches);
         this._compiled = source._compiled;
     }
     
@@ -99,7 +99,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
         return this;
     }
 
-    public List getDescriptors()
+    public List<Descriptor> getDescriptors()
     {
         return Collections.unmodifiableList(this._descriptors);
     }
@@ -136,7 +136,6 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
             	//BiomeDictionary.Type type = BiomeDictionary.Type.getType(desc.description);
             	if (BiomeDictionary.isBiomeOfType(biome, type))
             	{
-            		++desc.matches;
             		totalWeight += desc.weight;
             	}
             } else {
@@ -146,7 +145,6 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 
             		if (matcher.matches())
             		{
-            			++desc.matches;
             			totalWeight += desc.weight;
             		}
             	}
@@ -161,10 +159,6 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
         {
             this._compiled = true;
             this._matches.clear();
-            
-            for (Descriptor desc : this._descriptors) {
-            	desc.matches = 0;
-            }
             
             for (BiomeGenBase biome : BiomeGenBase.getBiomeGenArray()) {
                 if (biome != null)
@@ -311,7 +305,6 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
         public final float weight;
         public final Climate climate;
         public final boolean describesType;
-        public int matches = 0;
         private Pattern pattern = null;
 
         public Descriptor(String description, float weight, Climate climate, boolean describesType)

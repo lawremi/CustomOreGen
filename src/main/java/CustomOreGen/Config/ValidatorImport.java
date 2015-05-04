@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
@@ -29,7 +28,7 @@ public class ValidatorImport extends ValidatorNode
         super.validateChildren();
         File currentFile = (File)this.getNode().getOwnerDocument().getUserData("value");
         File baseDirectory = currentFile.getParentFile();
-        String fileName = (String)this.validateRequiredAttribute(String.class, "file", true);
+        String fileName = this.validateRequiredAttribute(String.class, "file", true);
         List<File> files = getMatchingFiles(baseDirectory, fileName);
         this.getNode().setUserData("validated", Boolean.valueOf(true), (UserDataHandler)null);
         this.checkChildrenValid();
@@ -45,7 +44,7 @@ public class ValidatorImport extends ValidatorNode
         }
         else
         {
-            ArrayList contents = new ArrayList(files.size());
+            ArrayList<Node> contents = new ArrayList<Node>(files.size());
             for (File file : files) {
             	Element importRoot = this.getNode().getOwnerDocument().createElement("ImportedDoc");
                 this.getNode().appendChild(importRoot);
@@ -65,16 +64,16 @@ public class ValidatorImport extends ValidatorNode
 
             }
 
-            this.replaceWithNodeContents((Node[])contents.toArray(new Node[contents.size()]));
+            this.replaceWithNodeContents(contents.toArray(new Node[contents.size()]));
         }
 
         return false;
     }
 
-    private static List getMatchingFiles(File baseDir, String relPath)
+    private static List<File> getMatchingFiles(File baseDir, String relPath)
     {
         List<File> files = Arrays.asList(new File[] {(baseDir == null ? new File("") : baseDir).getAbsoluteFile()});
-        Stack subPaths = new Stack();
+        Stack<String> subPaths = new Stack<String>();
 
         for (File subPath = new File(relPath); subPath != null; subPath = subPath.getParentFile())
         {
@@ -83,8 +82,8 @@ public class ValidatorImport extends ValidatorNode
 
         while (!subPaths.isEmpty())
         {
-            String var12 = (String)subPaths.pop();
-            LinkedList nextFiles = new LinkedList();
+            String var12 = subPaths.pop();
+            LinkedList<File> nextFiles = new LinkedList<File>();
             for (File dir : files) {
                 if (!var12.contains("*") && !var12.contains("?"))
                 {
@@ -109,7 +108,7 @@ public class ValidatorImport extends ValidatorNode
             files = nextFiles;
         }
 
-        return (List)files;
+        return files;
     }
     
     public static class Factory implements IValidatorFactory<ValidatorImport>

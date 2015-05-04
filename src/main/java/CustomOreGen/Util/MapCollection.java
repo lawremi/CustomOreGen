@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 public abstract class MapCollection<K,V> implements Collection<V>
 {
@@ -38,11 +37,16 @@ public abstract class MapCollection<K,V> implements Collection<V>
 
     public boolean contains(Object o)
     {
-        Object key = this.getKey((V)o);
-        return this.backingMap.containsKey(key);
+        try {
+        	@SuppressWarnings("unchecked")
+			K key = this.getKey((V)o);
+        	return this.backingMap.containsKey(key);
+        } catch(ClassCastException e) {
+        	return false;
+        }
     }
 
-    public Iterator iterator()
+    public Iterator<V> iterator()
     {
         return this.backingMap.values().iterator();
     }
@@ -68,18 +72,23 @@ public abstract class MapCollection<K,V> implements Collection<V>
         else
         {
             boolean hasKey = this.backingMap.containsKey(key);
-            Object prev = this.backingMap.put(key, v);
+            V prev = this.backingMap.put(key, v);
             return !hasKey || v != prev;
         }
     }
 
     public boolean remove(Object o)
     {
-        Object key = this.getKey((V)o);
-        return this.backingMap.keySet().remove(key);
+        try {
+        	@SuppressWarnings("unchecked")
+			K key = this.getKey((V)o);
+        	return this.backingMap.keySet().remove(key);
+        } catch(ClassCastException e) {
+        	return false;
+        }
     }
 
-    public boolean containsAll(Collection c)
+    public boolean containsAll(Collection<?> c)
     {
     	for (Object o : c) {
     		if (!this.contains(o))
@@ -98,7 +107,7 @@ public abstract class MapCollection<K,V> implements Collection<V>
         return changed;
     }
 
-    public boolean removeAll(Collection c)
+    public boolean removeAll(Collection<?> c)
     {
         boolean changed = false;
 
@@ -109,12 +118,18 @@ public abstract class MapCollection<K,V> implements Collection<V>
         return changed;
     }
 
-    public boolean retainAll(Collection c)
+    public boolean retainAll(Collection<?> c)
     {
         ArrayList<K> keys = new ArrayList<K>(this.backingMap.size());
         
         for (Object o : c) {
-        	keys.add(this.getKey((V)o));
+        	try {
+        		@SuppressWarnings("unchecked")
+        		K key = this.getKey((V)o);
+        		keys.add(key);
+        	} catch(ClassCastException e) {
+        		
+        	}
         }
         return this.backingMap.keySet().retainAll(keys);
     }
@@ -131,7 +146,7 @@ public abstract class MapCollection<K,V> implements Collection<V>
 
     public boolean equals(Object obj)
     {
-        return obj instanceof MapCollection ? this.backingMap.equals(((MapCollection)obj).backingMap) : false;
+        return obj instanceof MapCollection ? this.backingMap.equals(((MapCollection<?, ?>)obj).backingMap) : false;
     }
 
     public String toString()

@@ -7,7 +7,8 @@ import org.xml.sax.SAXException;
 
 public class ParserException extends SAXException
 {
-    public final Node node;
+	private static final long serialVersionUID = 1L;
+	public final Node node;
     public int lineNumber;
 
     public ParserException(String message, Node node, int lineNumber, Exception parent)

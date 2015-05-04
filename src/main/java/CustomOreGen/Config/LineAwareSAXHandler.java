@@ -16,7 +16,7 @@ import org.xml.sax.helpers.DefaultHandler;
 public class LineAwareSAXHandler extends DefaultHandler
 {
     private Locator locator = null;
-    private final Stack nodeStack = new Stack();
+    private final Stack<Node> nodeStack = new Stack<Node>();
 
     public LineAwareSAXHandler(Node root)
     {
@@ -30,7 +30,7 @@ public class LineAwareSAXHandler extends DefaultHandler
 
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
     {
-        Node current = (Node)this.nodeStack.peek();
+        Node current = this.nodeStack.peek();
         Document doc = current.getNodeType() == 9 ? (Document)current : current.getOwnerDocument();
         int lineNumber = this.locator.getLineNumber();
         Element newElement = doc.createElementNS(uri, qName);
@@ -50,12 +50,12 @@ public class LineAwareSAXHandler extends DefaultHandler
 
     public void endElement(String uri, String localName, String qName)
     {
-        Node closedNode = (Node)this.nodeStack.pop();
+        this.nodeStack.pop();
     }
 
     public void characters(char[] ch, int start, int length) throws SAXException
     {
-        Node current = (Node)this.nodeStack.peek();
+        Node current = this.nodeStack.peek();
         Document doc = current.getNodeType() == 9 ? (Document)current : current.getOwnerDocument();
         Text textNode = doc.createTextNode(new String(ch, start, length));
         textNode.setUserData("line-number", Integer.valueOf(this.locator.getLineNumber()), (UserDataHandler)null);
@@ -64,6 +64,6 @@ public class LineAwareSAXHandler extends DefaultHandler
 
     public void fatalError(SAXParseException ex) throws ParserException
     {
-        throw new ParserException(ex.getMessage(), (Node)this.nodeStack.peek(), this.locator.getLineNumber(), ex);
+        throw new ParserException(ex.getMessage(), this.nodeStack.peek(), this.locator.getLineNumber(), ex);
     }
 }

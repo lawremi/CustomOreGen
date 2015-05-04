@@ -20,9 +20,8 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import CustomOreGen.Server.ConfigOption.DisplayGroup;
 import CustomOreGen.Util.Localization;
-
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -43,7 +42,8 @@ public class GuiCustomOreGenSettings extends GuiScreen
         this._parentGui = parentGui;
     }
 
-    public void initGui()
+    @SuppressWarnings("unchecked")
+	public void initGui()
     {
         super.initGui();
         super.buttonList.clear();
@@ -75,7 +75,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
                     visibleGroups = WorldConfig.createEmptyConfig();
                 }
 
-                WorldConfig.loadedOptionOverrides[0] = new ArrayList();
+                WorldConfig.loadedOptionOverrides[0] = new ArrayList<ConfigOption>();
                 for (ConfigOption option : visibleGroups.getConfigOptions()) {
                     if (option.getDisplayState() != null && option.getDisplayState() != ConfigOption.DisplayState.hidden)
                     {
@@ -96,8 +96,8 @@ public class GuiCustomOreGenSettings extends GuiScreen
         }
 
         this.refreshGui = 0;
-        Vector visibleGroups1 = new Vector();
-        Vector visibleOptions1 = new Vector();
+        Vector<ConfigOption.DisplayGroup> visibleGroups1 = new Vector<DisplayGroup>();
+        Vector<ConfigOption> visibleOptions1 = new Vector<ConfigOption>();
         
         nextOption: for (ConfigOption option : WorldConfig.loadedOptionOverrides[0]) {
         	
@@ -172,15 +172,16 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
         if (this._toolTip != null)
         {
-            List<String> lines = super.fontRendererObj.listFormattedStringToWidth(this._toolTip, 2 * super.width / 5 - 8);
+            @SuppressWarnings("unchecked")
+			List<String> lines = super.fontRendererObj.listFormattedStringToWidth(this._toolTip, 2 * super.width / 5 - 8);
             int[] lineWidths = new int[lines.size()];
             int tipW = 0;
             int tipH = 8 + super.fontRendererObj.FONT_HEIGHT * lines.size();
             int l = 0;
 
-            for (Iterator tipX = lines.iterator(); tipX.hasNext(); ++l)
+            for (Iterator<String> tipX = lines.iterator(); tipX.hasNext(); ++l)
             {
-                String tipY = (String)tipX.next();
+                String tipY = tipX.next();
                 lineWidths[l] = super.fontRendererObj.getStringWidth(tipY) + 8;
 
                 if (tipW < lineWidths[l])
@@ -236,7 +237,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
         protected IOptionControl _currentGroup;
         protected GuiButton _currentButton;
 
-        public GuiGroupPanel(int x, int y, int width, int height, ConfigOption.DisplayGroup selGroup, Vector groups)
+        public GuiGroupPanel(int x, int y, int width, int height, ConfigOption.DisplayGroup selGroup, Vector<ConfigOption.DisplayGroup> groups)
         {
             this.posX = 0;
             this.posY = 0;
@@ -247,7 +248,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
             this._scrollOffsetMax = 0;
             this.mouseX = 0;
             this.mouseY = 0;
-            this._groupButtons = new Vector();
+            this._groupButtons = new Vector<IOptionControl>();
             this._groupScrollLButton = null;
             this._groupScrollRButton = null;
             this._currentGroup = null;
@@ -261,7 +262,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
             for (int c = -1; !groups.isEmpty() && c < groups.size(); ++c)
             {
-                ConfigOption.DisplayGroup group = c < 0 ? null : (ConfigOption.DisplayGroup)groups.get(c);
+                ConfigOption.DisplayGroup group = c < 0 ? null : groups.get(c);
                 String ALL = Localization.maybeLocalize("ALL.displayName", "ALL");
                 String text = c < 0 ? "[ " + ALL + " ]" : group.getLocalizedDisplayName();
                 int btnWidth = fontRendererObj.getStringWidth(text) + 10;
@@ -458,7 +459,6 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 if (this.isButtonVisible() && super.visible)
                 {
                     super.field_146123_n = mouseX >= super.xPosition && mouseY >= super.yPosition && mouseX < super.xPosition + super.width && mouseY < super.yPosition + super.height;
-                    int hoverState = this.getHoverState(super.field_146123_n);
                     this.mouseDragged(mc, mouseX, mouseY);
 
                     if (_currentGroup == this)
@@ -492,20 +492,19 @@ public class GuiCustomOreGenSettings extends GuiScreen
     
     public class GuiOptionSlot extends GuiSlot
     {
-        protected final Vector _optionControls;
+        protected final Vector<IOptionControl> _optionControls;
         protected IOptionControl _clickTarget;
 
-        public GuiOptionSlot(int top, int bottom, int slotHeight, Vector options)
+        public GuiOptionSlot(int top, int bottom, int slotHeight, Vector<ConfigOption> options)
         {
             super(mc, GuiCustomOreGenSettings.this.width, GuiCustomOreGenSettings.this.height, top, bottom, slotHeight);
-            this._optionControls = new Vector();
+            this._optionControls = new Vector<IOptionControl>();
             this._clickTarget = null;
 
             for (int c = 0; c < options.size(); ++c)
             {
-                ConfigOption option = (ConfigOption)options.get(c);
-                Object control = null;
-
+                ConfigOption option = options.get(c);
+                
                 if (option instanceof ChoiceOption)
                 {
                     this._optionControls.add(new GuiChoiceButton(c, 2 * width / 5 + 15, 0, width / 10 + 100, slotHeight - 6, (ChoiceOption)option));
@@ -683,10 +682,6 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 this.onValueChanged();
             }
             
-            private int mouseXForOptionValue(NumericOption numeric) {
-            	return (int)(numeric.getNormalizedDisplayValue() * (this.width - 8) + this.xPosition + 4);
-			}
-
 			public ConfigOption getOption()
             {
                 return this._numeric;

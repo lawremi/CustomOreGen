@@ -2,7 +2,6 @@ package CustomOreGen.Config;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.w3c.dom.Node;
@@ -42,7 +41,7 @@ public class ValidatorDistribution extends ValidatorNode
 
         if (inherits != null)
         {
-            Collection settings = this.getParser().target.getOreDistributions(inherits);
+            Collection<IOreDistribution> settings = this.getParser().target.getOreDistributions(inherits);
 
             if (settings.isEmpty())
             {
@@ -56,7 +55,7 @@ public class ValidatorDistribution extends ValidatorNode
 
             try
             {
-                this.distribution.inheritFrom((IOreDistribution)settings.iterator().next());
+                this.distribution.inheritFrom(settings.iterator().next());
             }
             catch (IllegalArgumentException var6)
             {
@@ -64,7 +63,7 @@ public class ValidatorDistribution extends ValidatorNode
             }
         }
 
-        HashSet settings1 = new HashSet(this.distribution.getDistributionSettings().keySet());
+        HashSet<String> settings1 = new HashSet<String>(this.distribution.getDistributionSettingDescriptions().keySet());
         String nameKey = IOreDistribution.StandardSettings.Name.name();
 
         if (settings1.contains(nameKey))
@@ -279,7 +278,7 @@ public class ValidatorDistribution extends ValidatorNode
                     continue;
                 }
 
-                setting = this.validateNamedAttribute((Class<Object>)setting.getClass(), settingName, setting, true);
+                setting = this.validateNamedAttribute(setting.getClass(), settingName, setting, true);
             }
             else
             {

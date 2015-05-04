@@ -6,7 +6,6 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
@@ -123,7 +122,7 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
         }
     }
 
-    public Map getDistributionSettings()
+    public Map<String,String> getDistributionSettingDescriptions()
     {
         return settingMap.getDescriptions();
     }

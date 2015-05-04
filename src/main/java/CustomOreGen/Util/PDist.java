@@ -160,8 +160,7 @@ public class PDist implements Copyable<PDist>
                 
             case inverse:
             case inverseAbs:
-            	float f = Math.abs(standardize(x));
-            	float m = (float)Math.sqrt(1/x);
+			float m = (float)Math.sqrt(1/x);
             	//taken from Wolfram Alpha "graph cumulative wald distribution mean 1 scale 0.2"
             	return 0.5f*erfc(0.316228f*(1-x)*m) + 0.745912f*erfc(0.316228f*(1+x)*m);
             	

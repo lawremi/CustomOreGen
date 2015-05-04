@@ -1,11 +1,6 @@
 package CustomOreGen.Config;
 
-import net.minecraftforge.oredict.OreDictionary;
-
 import org.w3c.dom.Node;
-
-import CustomOreGen.Config.ValidatorNode.IValidatorFactory;
-import cpw.mods.fml.common.Loader;
 
 public class ValidatorIfOreExists extends ValidatorCondition {
 

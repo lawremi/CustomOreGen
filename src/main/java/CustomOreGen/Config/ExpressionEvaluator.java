@@ -9,7 +9,7 @@ import java.util.Stack;
 
 public class ExpressionEvaluator
 {
-    protected static Map _symbolMap = new HashMap();
+    protected static Map<String,TokenType> _symbolMap = new HashMap<String, TokenType>();
 
     protected Object getIdentifierValue(String identifier)
     {
@@ -18,7 +18,7 @@ public class ExpressionEvaluator
 
     public Object evaluate(String expression) throws EvaluatorException
     {
-        Stack input = this.parse(expression);
+        Stack<Token> input = this.parse(expression);
 
         if (input.isEmpty())
         {
@@ -39,7 +39,7 @@ public class ExpressionEvaluator
 
             if (!input.isEmpty())
             {
-                throw new EvaluatorException("Expression contains too many values.", (Token)input.peek());
+                throw new EvaluatorException("Expression contains too many values.", input.peek());
             }
             else
             {
@@ -48,9 +48,9 @@ public class ExpressionEvaluator
         }
     }
 
-    protected static Object evaluate(Stack input) throws EmptyStackException, EvaluatorException
+    protected static Object evaluate(Stack<Token> input) throws EmptyStackException, EvaluatorException
     {
-        Token token = (Token)input.pop();
+        Token token = input.pop();
 
         if (!token.type.retain)
         {
@@ -250,9 +250,9 @@ public class ExpressionEvaluator
         }
     }
 
-    protected static String evaluateString(Stack input) throws EmptyStackException, EvaluatorException
+    protected static String evaluateString(Stack<Token> input) throws EmptyStackException, EvaluatorException
     {
-        Token token = (Token)input.peek();
+        Token token = input.peek();
         Object value = evaluate(input);
 
         try
@@ -265,9 +265,9 @@ public class ExpressionEvaluator
         }
     }
 
-    protected static double evaluateNumber(Stack input) throws EmptyStackException, EvaluatorException
+    protected static double evaluateNumber(Stack<Token> input) throws EmptyStackException, EvaluatorException
     {
-        Token token = (Token)input.peek();
+        Token token = input.peek();
         Object value = evaluate(input);
 
         try
@@ -280,9 +280,9 @@ public class ExpressionEvaluator
         }
     }
 
-    protected static boolean evaluateBoolean(Stack input) throws EmptyStackException, EvaluatorException
+    protected static boolean evaluateBoolean(Stack<Token> input) throws EmptyStackException, EvaluatorException
     {
-        Token token = (Token)input.peek();
+        Token token = input.peek();
         Object value = evaluate(input);
 
         try
@@ -295,10 +295,10 @@ public class ExpressionEvaluator
         }
     }
 
-    public Stack parse(String expression) throws EvaluatorException
+    public Stack<Token> parse(String expression) throws EvaluatorException
     {
-        Stack output = new Stack();
-        Stack held = new Stack();
+        Stack<Token> output = new Stack<Token>();
+        Stack<Token> held = new Stack<Token>();
         Token lastToken = null;
         Assoc lastAssoc = Assoc.RIGHT;
         Token heldTop;
@@ -356,7 +356,7 @@ public class ExpressionEvaluator
 
                     while (heldTop1 == null && !held.isEmpty())
                     {
-                        Token heldTop2 = (Token)held.pop();
+                        Token heldTop2 = held.pop();
 
                         if (heldTop2.type.associativity == Assoc.BRACKET_OPEN)
                         {
@@ -391,7 +391,7 @@ public class ExpressionEvaluator
                 case RIGHT:
                     while (!held.isEmpty())
                     {
-                        heldTop1 = (Token)held.peek();
+                        heldTop1 = held.peek();
 
                         if (heldTop1.type.associativity != Assoc.LEFT && heldTop1.type.associativity != Assoc.RIGHT || heldTop.type.associativity == Assoc.RIGHT && heldTop.type.precedence == heldTop1.type.precedence || heldTop.type.precedence < heldTop1.type.precedence)
                         {
@@ -418,7 +418,7 @@ public class ExpressionEvaluator
         {
             while (!held.isEmpty())
             {
-                heldTop = (Token)held.pop();
+                heldTop = held.pop();
 
                 if (heldTop.type.associativity == Assoc.BRACKET_OPEN)
                 {
@@ -555,7 +555,7 @@ public class ExpressionEvaluator
                         }
                     }
 
-                    TokenType var10 = (TokenType)_symbolMap.get(input.substring(start, end).toLowerCase());
+                    TokenType var10 = _symbolMap.get(input.substring(start, end).toLowerCase());
 
                     if (var10 != null)
                     {
@@ -673,17 +673,17 @@ public class ExpressionEvaluator
         private final Method _method;
         private final boolean _passToken;
 
-        public EvaluationDelegate(boolean passToken, Object obj, String methodName, Class ... argTypes)
+        public EvaluationDelegate(boolean passToken, Object obj, String methodName, Class<?> ... argTypes)
         {
             this(passToken, obj, obj.getClass(), methodName, argTypes);
         }
 
-        public EvaluationDelegate(boolean passToken, Class clazz, String methodName, Class ... argTypes)
+        public EvaluationDelegate(boolean passToken, Class<?> clazz, String methodName, Class<?> ... argTypes)
         {
             this(passToken, (Object)null, clazz, methodName, argTypes);
         }
 
-        private EvaluationDelegate(boolean passToken, Object obj, Class clazz, String methodName, Class ... argTypes)
+        private EvaluationDelegate(boolean passToken, Object obj, Class<?> clazz, String methodName, Class<?> ... argTypes)
         {
             Method method = null;
 
@@ -730,7 +730,7 @@ public class ExpressionEvaluator
 
                     if (method.getParameterTypes().length > 0)
                     {
-                        Class var13 = method.getParameterTypes()[0];
+                        Class<?> var13 = method.getParameterTypes()[0];
 
                         if (var13.isAssignableFrom(String.class) || var13.isAssignableFrom(Token.class))
                         {
@@ -750,9 +750,9 @@ public class ExpressionEvaluator
             }
         }
 
-        protected Object evaluate(Token token, Stack argumentStack) throws EmptyStackException, EvaluatorException
+        protected Object evaluate(Token token, Stack<Token> argumentStack) throws EmptyStackException, EvaluatorException
         {
-            Class[] argTypes = this._method.getParameterTypes();
+            Class<?>[] argTypes = this._method.getParameterTypes();
             Object[] argValues = new Object[argTypes.length];
 
             for (int ex = argValues.length - 1; ex >= 0; --ex)
@@ -830,7 +830,8 @@ public class ExpressionEvaluator
 
     public static class EvaluatorException extends Exception
     {
-        public final Token token;
+        private static final long serialVersionUID = 1L;
+		public final Token token;
 
         public EvaluatorException(String message, Token token, Throwable cause)
         {

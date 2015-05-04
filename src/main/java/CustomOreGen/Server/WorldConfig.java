@@ -26,11 +26,8 @@ import net.minecraft.world.storage.WorldInfo;
 
 import org.xml.sax.SAXException;
 
-import com.google.common.collect.Maps;
-
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.ForgeInterface;
-import CustomOreGen.MystcraftSymbolData;
 import CustomOreGen.Config.ConfigParser;
 import CustomOreGen.Config.PropertyIO;
 import CustomOreGen.Util.BiomeDescriptor;
@@ -38,8 +35,11 @@ import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.CIStringMap;
 import CustomOreGen.Util.MapCollection;
 
+import com.google.common.collect.Maps;
+
 public class WorldConfig
 {
+	@SuppressWarnings("unchecked")
 	public static Collection<ConfigOption>[] loadedOptionOverrides = new Collection[3];
     public final World world;
     public final WorldInfo worldInfo;
@@ -53,9 +53,8 @@ public class WorldConfig
     private Map<String,IOreDistribution> oreDistributions;
     private Map<String,ConfigOption> configOptions;
     private Map<String,String> loadedOptions;
-    private Map<String,Integer> worldProperties;
-    private Map cogSymbolData;
-	private Map<String,BiomeDescriptor> biomeSets;
+    private Map<String,Object> worldProperties;
+    private Map<String,BiomeDescriptor> biomeSets;
 	private BlockDescriptor equivalentBlockDescriptor;
 	private int idCounter;
 
@@ -91,11 +90,10 @@ public class WorldConfig
         this.deferredPopulationRange = 0;
         this.debuggingMode = false;
         this.vanillaOreGen = false;
-        this.oreDistributions = new LinkedHashMap();
-        this.configOptions = new CIStringMap(new LinkedHashMap());
-        this.loadedOptions = new CIStringMap(new LinkedHashMap());
-        this.worldProperties = new CIStringMap(new LinkedHashMap());
-        this.cogSymbolData = new CIStringMap(new LinkedHashMap());
+        this.oreDistributions = new LinkedHashMap<String,IOreDistribution>();
+        this.configOptions = new CIStringMap<ConfigOption>(new LinkedHashMap<String, ConfigOption>());
+        this.loadedOptions = new CIStringMap<String>(new LinkedHashMap<String, String>());
+        this.worldProperties = new CIStringMap<Object>(new LinkedHashMap<String, Object>());
         this.biomeSets = new CIStringMap<BiomeDescriptor>();
         String dimensionBasename;
 
@@ -193,18 +191,18 @@ public class WorldConfig
 
             for (int defpopOption = configFileDepth; defpopOption < optionsFileList.length; ++defpopOption)
             {
-                loadOptions(optionsFileList[defpopOption], this.loadedOptionOverrides[defpopOption], this.loadedOptions);
+                loadOptions(optionsFileList[defpopOption], loadedOptionOverrides[defpopOption], this.loadedOptions);
             }
 
             (new ConfigParser(this)).parseFile(configFile);
             ConfigOption var20;
 
-            Map<String,String> saveLevelOptions = new LinkedHashMap();
+            Map<String,String> saveLevelOptions = new LinkedHashMap<String, String>();
             if (optionsFileList[1] != null) {
             	if (!optionsFileList[1].exists()) {
-            		loadOptions(optionsFileList[0], this.loadedOptionOverrides[0], saveLevelOptions);
+            		loadOptions(optionsFileList[0], loadedOptionOverrides[0], saveLevelOptions);
             		saveOptions(optionsFileList[1], saveLevelOptions);
-            		this.loadedOptionOverrides[0] = null;
+            		loadedOptionOverrides[0] = null;
             	} else {
             		loadOptions(optionsFileList[1], null, saveLevelOptions);
             	}
@@ -214,7 +212,7 @@ public class WorldConfig
             {
             	putOptions(this.configOptions.values(), this.loadedOptions);
             	Map<String,String> dimLevelOptions = setdiffOptions(this.loadedOptions, saveLevelOptions);
-            	loadOptions(optionsFile, this.loadedOptionOverrides[2], dimLevelOptions);
+            	loadOptions(optionsFile, loadedOptionOverrides[2], dimLevelOptions);
             	saveOptions(optionsFile, dimLevelOptions);
             }
 
@@ -257,7 +255,7 @@ public class WorldConfig
     }
 
 	private Map<String, String> setdiffOptions(Map<String, String> x, Map<String, String> y) {
-		return new LinkedHashMap(Maps.difference(x, y).entriesOnlyOnLeft());
+		return new LinkedHashMap<String, String>(Maps.difference(x, y).entriesOnlyOnLeft());
 	}
 
 	private void loadOptions(File file, Collection<ConfigOption> overrides, Map<String, String> map) throws FileNotFoundException, IOException {
@@ -319,18 +317,18 @@ public class WorldConfig
         return -1;
     }
 
-    private static void populateWorldProperties(Map properties, World world, WorldInfo worldInfo)
+    private static void populateWorldProperties(Map<String,Object> properties, World world, WorldInfo worldInfo)
     {
         properties.put("world", worldInfo == null ? "" : worldInfo.getWorldName());
-        properties.put("world.seed", Long.valueOf(worldInfo == null ? 0L : worldInfo.getSeed()));
-        properties.put("world.version", Integer.valueOf(worldInfo == null ? 0 : worldInfo.getSaveVersion()));
-        properties.put("world.isHardcore", Boolean.valueOf(worldInfo == null ? false : worldInfo.isHardcoreModeEnabled()));
-        properties.put("world.hasFeatures", Boolean.valueOf(worldInfo == null ? false : worldInfo.isMapFeaturesEnabled()));
-        properties.put("world.hasCheats", Boolean.valueOf(worldInfo == null ? false : worldInfo.areCommandsAllowed()));
+        properties.put("world.seed", worldInfo == null ? 0L : worldInfo.getSeed());
+        properties.put("world.version", worldInfo == null ? 0 : worldInfo.getSaveVersion());
+        properties.put("world.isHardcore", worldInfo == null ? false : worldInfo.isHardcoreModeEnabled());
+        properties.put("world.hasFeatures", worldInfo == null ? false : worldInfo.isMapFeaturesEnabled());
+        properties.put("world.hasCheats", worldInfo == null ? false : worldInfo.areCommandsAllowed());
         properties.put("world.gameMode", worldInfo == null ? "" : worldInfo.getGameType().getName());
-        properties.put("world.gameMode.id", Integer.valueOf(worldInfo == null ? 0 : worldInfo.getGameType().getID()));
+        properties.put("world.gameMode.id", worldInfo == null ? 0 : worldInfo.getGameType().getID());
         properties.put("world.type", worldInfo == null ? "" : worldInfo.getTerrainType().getWorldTypeName());
-        properties.put("world.type.version", Integer.valueOf(worldInfo == null ? 0 : worldInfo.getTerrainType().getGeneratorVersion()));
+        properties.put("world.type.version", worldInfo == null ? 0 : worldInfo.getTerrainType().getGeneratorVersion());
         String genName = "RandomLevelSource";
         String genClass = "ChunkProviderGenerate";
 
@@ -362,11 +360,11 @@ public class WorldConfig
         properties.put("dimension.generator", genName);
         properties.put("dimension.generator.class", genClass);
         properties.put("dimension", world == null ? "" : world.provider.getDimensionName());
-        properties.put("dimension.id", Integer.valueOf(world == null ? 0 : world.provider.dimensionId));
-        properties.put("dimension.isSurface", Boolean.valueOf(world == null ? false : world.provider.isSurfaceWorld()));
-        properties.put("dimension.groundLevel", Integer.valueOf(world == null ? 0 : world.provider.getAverageGroundLevel()));
-        properties.put("dimension.height", Integer.valueOf(world == null ? 0 : world.getHeight()));
-        properties.put("age", Boolean.FALSE);
+        properties.put("dimension.id", world == null ? 0 : world.provider.dimensionId);
+        properties.put("dimension.isSurface", world == null ? false : world.provider.isSurfaceWorld());
+        properties.put("dimension.groundLevel", world == null ? 0 : world.provider.getAverageGroundLevel());
+        properties.put("dimension.height", world == null ? 0 : world.getHeight());
+        properties.put("age", false);
     }
 
     public Collection<IOreDistribution> getOreDistributions()
@@ -376,7 +374,7 @@ public class WorldConfig
 
     public Collection<IOreDistribution> getOreDistributions(String namePattern)
     {
-        LinkedList<IOreDistribution> matches = new LinkedList();
+        LinkedList<IOreDistribution> matches = new LinkedList<IOreDistribution>();
 
         if (namePattern != null)
         {
@@ -412,7 +410,7 @@ public class WorldConfig
 
     public Collection<ConfigOption> getConfigOptions(String namePattern)
     {
-        LinkedList<ConfigOption> matches = new LinkedList();
+        LinkedList<ConfigOption> matches = new LinkedList<ConfigOption>();
 
         if (namePattern != null)
         {
@@ -439,39 +437,6 @@ public class WorldConfig
     public Object getWorldProperty(String propertyName)
     {
         return this.worldProperties.get(propertyName);
-    }
-
-    public MystcraftSymbolData getMystcraftSymbol(String symbolName)
-    {
-        return (MystcraftSymbolData)this.cogSymbolData.get(symbolName);
-    }
-
-    public Collection getMystcraftSymbols()
-    {
-        return new MapCollection<String,MystcraftSymbolData>(this.cogSymbolData) {
-        	protected String getKey(MystcraftSymbolData v)
-        	{
-        		return v.symbolName;
-        	}
-
-        	public boolean add(MystcraftSymbolData v)
-        	{
-        		String key = "age." + v.symbolName;
-        		Integer count = worldProperties.get(key);
-
-        		if (count == null)
-        		{
-        			worldProperties.put("age." + v.symbolName, 0);
-        		}
-        		else
-        		{
-        			v.count = count.intValue();
-        		}
-
-        		return super.add(v);
-        	}
-
-        };
     }
     
 	public BiomeDescriptor getBiomeSet(String namePattern) {

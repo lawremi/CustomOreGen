@@ -1,9 +1,7 @@
 package CustomOreGen.Server;
 
 import java.awt.Frame;
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -12,30 +10,23 @@ import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.block.BlockSand;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiCreateWorld;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.storage.AnvilChunkLoader;
 import net.minecraft.world.chunk.storage.IChunkLoader;
-import net.minecraft.world.chunk.storage.RegionFileCache;
 import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.SaveFormatOld;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.MinecraftForge;
 import CustomOreGen.CustomOreGenBase;
-import CustomOreGen.CustomPacketPayload;
-import CustomOreGen.CustomPacketPayload.PayloadType;
 import CustomOreGen.GeometryData;
 import CustomOreGen.GeometryRequestData;
-import CustomOreGen.MystcraftSymbolData;
 import CustomOreGen.Server.GuiCustomOreGenSettings.GuiOpenMenuButton;
 import CustomOreGen.Util.CogOreGenEvent;
 import CustomOreGen.Util.GeometryStream;
@@ -47,35 +38,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ServerState
 {
     private static MinecraftServer _server = null;
-    private static Map<World,WorldConfig> _worldConfigs = new HashMap();
-    private static Map<Integer,Map<ChunkCoordIntPair,int[]>> _populatedChunks = new HashMap();
+    private static Map<World,WorldConfig> _worldConfigs = new HashMap<World, WorldConfig>();
+    private static Map<Integer,Map<ChunkCoordIntPair,int[]>> _populatedChunks = 
+    		new HashMap<Integer, Map<ChunkCoordIntPair, int[]>>();
     private static Object _optionsGuiButton = null;
     private static boolean forcingChunk;
-
-    private static boolean isChunkSavedPopulated(World world, int chunkX, int chunkZ)
-    {
-        File saveFolder = getWorldConfig(world).dimensionDir;
-        DataInputStream stream = RegionFileCache.getChunkInputStream(saveFolder, chunkX, chunkZ);
-
-        if (stream != null)
-        {
-            try
-            {
-                NBTTagCompound ex = CompressedStreamTools.read(stream);
-
-                if (ex.hasKey("Level") && ex.getCompoundTag("Level").getBoolean("TerrainPopulated"))
-                {
-                    return true;
-                }
-            }
-            catch (IOException var6)
-            {
-                ;
-            }
-        }
-
-        return false;
-    }
 
     public static WorldConfig getWorldConfig(World world)
     {
@@ -131,13 +98,13 @@ public class ServerState
         return false;
     }
 
-    public static void validateDistributions(Collection distributions, boolean cull) throws IllegalStateException
+    public static void validateDistributions(Collection<IOreDistribution> distributions, boolean cull) throws IllegalStateException
     {
-        Iterator it = distributions.iterator();
+        Iterator<IOreDistribution> it = distributions.iterator();
 
         while (it.hasNext())
         {
-            IOreDistribution dist = (IOreDistribution)it.next();
+            IOreDistribution dist = it.next();
 
             if (!dist.validate() && cull)
             {
@@ -146,9 +113,9 @@ public class ServerState
         }
     }
 
-    public static void validateOptions(Collection options, boolean cull)
+    public static void validateOptions(Collection<ConfigOption> options, boolean cull)
     {
-        Iterator it = options.iterator();
+        Iterator<ConfigOption> it = options.iterator();
 
         while (it.hasNext())
         {
@@ -198,8 +165,7 @@ public class ServerState
             }
             else
             {
-                int geomSize = 0;
-                LinkedList streams = new LinkedList();
+                LinkedList<GeometryStream> streams = new LinkedList<GeometryStream>();
 
                 for (IOreDistribution dist : cfg.getOreDistributions())
                 {
@@ -209,7 +175,6 @@ public class ServerState
                     if (stream != null)
                     {
                         streams.add(stream);
-                        geomSize += stream.getStreamDataSize();
                     }
                     dist.cull();
                 }
@@ -318,9 +283,6 @@ public class ServerState
 
         _server = server;
         CustomOreGenBase.log.debug("Server world changed to " + worldInfo.getWorldName());
-        BiomeGenBase[] worldBaseDir = BiomeGenBase.getBiomeGenArray();
-        int saveFormat = worldBaseDir.length;
-
         File var8 = null;
         ISaveFormat var9 = _server.getActiveAnvilConverter();
 
@@ -369,7 +331,8 @@ public class ServerState
             }
 
             GuiOpenMenuButton button1 = (GuiOpenMenuButton)_optionsGuiButton;
-            Collection controlList = (Collection)ReflectionHelper.getPrivateValue(GuiScreen.class, gui, 4);
+            @SuppressWarnings("unchecked")
+			Collection<GuiButton> controlList = (Collection<GuiButton>)ReflectionHelper.getPrivateValue(GuiScreen.class, gui, 4);
 
             if (!controlList.contains(button1))
             {
@@ -381,21 +344,7 @@ public class ServerState
             button1.visible = !((Boolean)ReflectionHelper.getPrivateValue(GuiCreateWorld.class, gui, 11)).booleanValue();
         }
     }
-
-    public static void onClientLogin(EntityPlayerMP player)
-    {
-        if (player.worldObj != null && CustomOreGenBase.hasMystcraft())
-        {
-            Iterator i = getWorldConfig(player.worldObj).getMystcraftSymbols().iterator();
-
-            while (i.hasNext())
-            {
-                MystcraftSymbolData symbolData = (MystcraftSymbolData)i.next();
-                (new CustomPacketPayload(PayloadType.MystcraftSymbolData, symbolData)).sendToClient(player);
-            }
-        }
-    }
-
+    
 	public static void chunkForced(World world, ChunkCoordIntPair location) {
 		if (forcingChunk) { // prevent infinite recursion when there are multiple chunk loaders
 			return;

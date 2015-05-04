@@ -8,6 +8,7 @@ public enum HeightScaleType {
 	public HeightScale getHeightScale() throws ParserException {
 		String className = "CustomOreGen.Util." + name() + "HeightScale";
 		try {
+			@SuppressWarnings("unchecked")
 			Class<HeightScale> klass = (Class<HeightScale>) Class.forName(className);
 			return klass.newInstance();
 		} catch (Exception e) {

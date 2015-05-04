@@ -1,10 +1,6 @@
 package CustomOreGen.Util;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.client.resources.LanguageManager;
-import net.minecraft.util.StatCollector;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

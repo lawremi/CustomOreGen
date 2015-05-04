@@ -9,12 +9,12 @@ import java.util.Collection;
 
 public class GeometryData extends GeometryRequestData
 {
-    public transient Collection geometry;
+    public transient Collection<GeometryStream> geometry;
     private static final long serialVersionUID = 2L;
 
     public GeometryData() {}
 
-    public GeometryData(GeometryRequestData request, Collection geometry)
+    public GeometryData(GeometryRequestData request, Collection<GeometryStream> geometry)
     {
         super(request.world, request.chunkX, request.chunkZ, request.batchID);
         this.geometry = geometry;

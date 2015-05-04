@@ -2,10 +2,8 @@ package CustomOreGen.Util;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
 public class CIStringMap<V> implements Map<String,V>
 {
@@ -15,7 +13,7 @@ public class CIStringMap<V> implements Map<String,V>
     public CIStringMap(Map<String,V> backingMap)
     {
         this.backingMap = backingMap;
-        this.keyMap = new HashMap();
+        this.keyMap = new HashMap<String, String>();
         
         for (Entry<String,V> entry : backingMap.entrySet()) {
         	
@@ -33,8 +31,8 @@ public class CIStringMap<V> implements Map<String,V>
 
     public CIStringMap()
     {
-        this.backingMap = new HashMap();
-        this.keyMap = new HashMap();
+        this.backingMap = new HashMap<String, V>();
+        this.keyMap = new HashMap<String, String>();
     }
 
     public int size()
@@ -160,7 +158,7 @@ public class CIStringMap<V> implements Map<String,V>
 
     public boolean equals(Object obj)
     {
-        return obj instanceof CIStringMap ? this.backingMap.equals(((CIStringMap)obj).backingMap) : false;
+        return obj instanceof CIStringMap ? this.backingMap.equals(((CIStringMap<?>)obj).backingMap) : false;
     }
 
     public String toString()

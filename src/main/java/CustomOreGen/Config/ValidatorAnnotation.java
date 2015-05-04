@@ -3,8 +3,6 @@ package CustomOreGen.Config;
 import org.w3c.dom.Node;
 import org.w3c.dom.UserDataHandler;
 
-import CustomOreGen.Config.ValidatorNode.IValidatorFactory;
-
 public class ValidatorAnnotation extends ValidatorSimpleNode
 {
     protected ValidatorAnnotation(ValidatorNode parent, Node node)

@@ -1,7 +1,6 @@
 package CustomOreGen.Config;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.UserDataHandler;
@@ -28,7 +27,7 @@ public class ValidatorRoot extends ValidatorNode
             if (this._topLevelNodes != null)
             {
             	for (String nodeName : this._topLevelNodes) {
-            		this.validateNamedChildren(2, nodeName, (IValidatorFactory)null);
+            		this.validateNamedChildren(2, nodeName, (IValidatorFactory<?>)null);
             	}
             }
         }

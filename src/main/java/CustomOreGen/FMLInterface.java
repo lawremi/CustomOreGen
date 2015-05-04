@@ -7,7 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiCreateWorld;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiSelectWorld;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -41,8 +40,6 @@ public class FMLInterface implements IWorldGenerator
     @Instance("CustomOreGen")
     public static FMLInterface instance;
     private Object _worldCreationGui = null;
-    private long _serverTickCount = 0L;
-
     @EventHandler
     public void onFMLPreInit(FMLPreInitializationEvent event)
     {
@@ -89,7 +86,6 @@ public class FMLInterface implements IWorldGenerator
     {
     	if (event.phase == TickEvent.Phase.END) {
     		ServerState.checkIfServerChanged(MinecraftServer.getServer(), (WorldInfo)null);
-    		++this._serverTickCount;
     	}
     }
 
@@ -143,11 +139,6 @@ public class FMLInterface implements IWorldGenerator
     {
         World handlerWorld = event.player == null ? null : event.player.worldObj;
         ServerState.checkIfServerChanged(MinecraftServer.getServer(), handlerWorld == null ? null : handlerWorld.getWorldInfo());
-
-        if (event.player != null)
-        {
-            ServerState.onClientLogin((EntityPlayerMP)event.player);
-        }
     }
 
 	private static ModContainer getModContainer() {

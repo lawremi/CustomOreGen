@@ -129,7 +129,7 @@ public class ConsoleCommand extends CommandBase
         return cmdDef != null && cmdDef.names() != null && cmdDef.names().length > 0 ? cmdDef.names()[0] : this._method.getName();
     }
 
-    public List getCommandAliases()
+    public List<String> getCommandAliases()
     {
         CommandDelegate cmdDef = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
         return cmdDef != null && cmdDef.names() != null && cmdDef.names().length > 1 ? Arrays.asList(Arrays.copyOfRange(cmdDef.names(), 1, cmdDef.names().length)) : null;
@@ -143,12 +143,12 @@ public class ConsoleCommand extends CommandBase
     public String getCommandHelp(ICommandSender sender, boolean verbose)
     {
         StringBuilder out = new StringBuilder("/" + this.getCommandName());
-        Class[] ptypes = this._method.getParameterTypes();
+        Class<?>[] ptypes = this._method.getParameterTypes();
         Annotation[][] pantns = this._method.getParameterAnnotations();
 
         for (int cmdDef = 0; cmdDef < ptypes.length; ++cmdDef)
         {
-            Class clazz = ptypes[cmdDef];
+            Class<?> clazz = ptypes[cmdDef];
             String name = "arg" + cmdDef + ":" + clazz.getSimpleName();
             boolean required = true;
 
@@ -223,7 +223,7 @@ public class ConsoleCommand extends CommandBase
 
     public void processCommand(ICommandSender sender, String[] args)
     {
-        Class[] ptypes = this._method.getParameterTypes();
+        Class<?>[] ptypes = this._method.getParameterTypes();
         Annotation[][] pantns = this._method.getParameterAnnotations();
         Object[] pvalues = new Object[ptypes.length];
 
@@ -233,7 +233,7 @@ public class ConsoleCommand extends CommandBase
 
             for (int pidx = 0; pidx < ptypes.length; ++pidx)
             {
-                Class clazz = ptypes[pidx];
+                Class<?> clazz = ptypes[pidx];
                 String name = "arg" + pidx + ":" + clazz.getSimpleName();
                 String defValue = null;
                 boolean required = true;

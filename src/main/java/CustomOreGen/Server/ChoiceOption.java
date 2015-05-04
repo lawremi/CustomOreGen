@@ -2,8 +2,6 @@ package CustomOreGen.Server;
 
 import java.util.LinkedHashMap;
 
-import net.minecraft.client.resources.I18n;
-
 import CustomOreGen.Util.CIStringMap;
 import CustomOreGen.Util.Localization;
 import cpw.mods.fml.relauncher.Side;
@@ -12,7 +10,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ChoiceOption extends ConfigOption
 {
     private String _value = null;
-    private CIStringMap<String[]> _valueMap = new CIStringMap(new LinkedHashMap());
+    private CIStringMap<String[]> _valueMap = new CIStringMap<String[]>(new LinkedHashMap<String,String[]>());
 
     public ChoiceOption(String name)
     {

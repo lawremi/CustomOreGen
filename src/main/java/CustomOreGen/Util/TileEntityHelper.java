@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+@SuppressWarnings("unchecked")
 public class TileEntityHelper {
 
 	public static void readFromPartialNBT(TileEntity te, NBTTagCompound source) {

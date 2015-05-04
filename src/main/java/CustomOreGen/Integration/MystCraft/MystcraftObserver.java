@@ -1,11 +1,5 @@
 package CustomOreGen.Integration.MystCraft;
 
-import net.minecraft.server.MinecraftServer;
-import CustomOreGen.Server.ServerState;
-import CustomOreGen.Server.WorldConfig;
-import CustomOreGen.Server.WorldGenSubstitution;
-import CustomOreGen.Util.BlockDescriptor;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class MystcraftObserver {
 	private static MystcraftObserver _instance = new MystcraftObserver();

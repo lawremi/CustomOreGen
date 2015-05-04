@@ -150,7 +150,7 @@ public class SimpleProfiler
     public void dumpSections(int sortBy)
     {
         double maxOpentime = 0.0D;
-        Vector sections = new Vector(this._sectionCount);
+        Vector<Section> sections = new Vector<Section>(this._sectionCount);
         
         for (Section section : this._sections) {	
             if (section != null)
@@ -175,7 +175,7 @@ public class SimpleProfiler
         }
 
         System.out.format("%40s    %8s          %21s               %21s       \n", new Object[] {"Key", "Hits", "Run Time (us)", "Open Time (us)"});
-        Iterator var7 = sections.iterator();
+        Iterator<Section> var7 = sections.iterator();
 
         while (var7.hasNext())
         {
@@ -192,7 +192,7 @@ public class SimpleProfiler
         Arrays.fill(this._openSections, (Object)null);
     }
     
-    private static class Section implements Comparable
+    private static class Section implements Comparable<Section>
     {
         public final Object key;
         public int slot;
@@ -232,11 +232,6 @@ public class SimpleProfiler
                 default:
                     return 0;
             }
-        }
-
-        public int compareTo(Object x0)
-        {
-            return this.compareTo((Section)x0);
         }
     }
 

@@ -9,9 +9,9 @@ public class ValidatorSimpleNode extends ValidatorNode
 {
     public Object content = null;
     public ExpressionEvaluator evaluator;
-    private final Class _targetClass;
+    private final Class<? extends Object> _targetClass;
 
-    protected ValidatorSimpleNode(ValidatorNode parent, Node node, Class targetClass, ExpressionEvaluator evaluator)
+    protected ValidatorSimpleNode(ValidatorNode parent, Node node, Class<? extends Object> targetClass, ExpressionEvaluator evaluator)
     {
         super(parent, node);
         this._targetClass = targetClass;
@@ -51,7 +51,9 @@ public class ValidatorSimpleNode extends ValidatorNode
                 else if (ex instanceof Number && Number.class.isAssignableFrom(this._targetClass))
                 {
                     this.getParser();
-                    this.content = ConfigParser.convertNumber(this._targetClass, (Number)ex);
+                    @SuppressWarnings("unchecked")
+					Class<? extends Number> numberClass = (Class<? extends Number>) this._targetClass;
+                    this.content = ConfigParser.convertNumber(numberClass, (Number)ex);
                 }
                 else
                 {
@@ -77,16 +79,16 @@ public class ValidatorSimpleNode extends ValidatorNode
     
     public static class Factory implements IValidatorFactory<ValidatorSimpleNode>
     {
-        private final Class _targetClass;
+        private final Class<? extends Object> _targetClass;
         private final ExpressionEvaluator _evaluator;
 
-        public Factory(Class targetClass, ExpressionEvaluator evaluator)
+        public Factory(Class<? extends Object> targetClass, ExpressionEvaluator evaluator)
         {
             this._targetClass = targetClass;
             this._evaluator = evaluator;
         }
 
-        public Factory(Class targetClass)
+        public Factory(Class<? extends Object> targetClass)
         {
             this._targetClass = targetClass;
             this._evaluator = null;

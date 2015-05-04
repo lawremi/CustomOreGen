@@ -1,9 +1,6 @@
 package CustomOreGen.Config;
 
-import java.util.Collection;
-
 import org.w3c.dom.Node;
-import org.w3c.dom.UserDataHandler;
 
 import CustomOreGen.Util.BiomeDescriptor;
 

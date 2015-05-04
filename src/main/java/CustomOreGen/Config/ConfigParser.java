@@ -46,7 +46,8 @@ public class ConfigParser
     protected Random rng = null;
     protected final DocumentBuilder domBuilder;
     protected final SAXParser saxParser;
-    private static final Map<String,IValidatorFactory> distributionValidators = new HashMap();
+    private static final Map<String,IValidatorFactory<ValidatorDistribution>> distributionValidators = 
+    		new HashMap<String,IValidatorFactory<ValidatorDistribution>>();
 
     public static boolean blockExists(String blockDescription)
     {
@@ -88,7 +89,7 @@ public class ConfigParser
         fileDOM.setUserData("value", file, (UserDataHandler)null);
         this.saxParser.parse(file, new LineAwareSAXHandler(fileDOM));
         ValidatorNode validator = new ValidatorNode(this, fileDOM);
-        Vector topLevelNodes = new Vector();
+        Vector<String> topLevelNodes = new Vector<String>();
         validator.addGlobalValidator(Node.ELEMENT_NODE, "Import", new ValidatorImport.Factory(true));
         validator.addGlobalValidator(Node.ELEMENT_NODE, "OptionalImport", new ValidatorImport.Factory(false));
         validator.addGlobalValidator(Node.ELEMENT_NODE, "Description", new ValidatorAnnotation.Factory());
@@ -114,7 +115,7 @@ public class ConfigParser
         validator.addGlobalValidator(Node.ELEMENT_NODE, "MystcraftSymbol", new ValidatorMystcraftSymbol.Factory());
         validator.addGlobalValidator(Node.ELEMENT_NODE, "BiomeSet", new ValidatorBiomeSet.Factory());
         
-        for (Entry<String,IValidatorFactory> entry : distributionValidators.entrySet()) {
+        for (Entry<String,IValidatorFactory<ValidatorDistribution>> entry : distributionValidators.entrySet()) {
         	validator.addGlobalValidator(Node.ELEMENT_NODE, entry.getKey(), entry.getValue());
             topLevelNodes.add(entry.getKey());
         }
@@ -134,7 +135,7 @@ public class ConfigParser
         validator.validate();
     }
 
-    public static Object parseString(Class type, String value) throws IllegalArgumentException
+    public static Object parseString(Class<?> type, String value) throws IllegalArgumentException
     {
         if (type != null && value != null)
         {
@@ -144,7 +145,7 @@ public class ConfigParser
             }
             else if (type.isEnum())
             {
-            	for (Enum val : (Enum[])type.getEnumConstants()) {
+            	for (Enum<?> val : (Enum[])type.getEnumConstants()) {
             		if (val.name().equalsIgnoreCase(value))
                     {
                         return val;
@@ -277,7 +278,7 @@ public class ConfigParser
         }
     }
 
-    public static void addDistributionType(String distributionName, IValidatorFactory validatorFactory)
+    public static void addDistributionType(String distributionName, IValidatorFactory<ValidatorDistribution> validatorFactory)
     {
         if (distributionValidators.containsKey(distributionName))
         {
@@ -291,10 +292,10 @@ public class ConfigParser
 
     public static void addDistributionType(String distributionName, IDistributionFactory distFactory)
     {
-        addDistributionType(distributionName, (IValidatorFactory)(new ValidatorDistribution.Factory(distFactory)));
+        addDistributionType(distributionName, new ValidatorDistribution.Factory(distFactory));
     }
 
-    public static void addDistributionType(String distributionName, Class clazz, boolean canGenerate)
+    public static void addDistributionType(String distributionName, Class<? extends IOreDistribution> clazz, boolean canGenerate)
     {
         addDistributionType(distributionName, (IDistributionFactory)(new StdDistFactory(clazz, canGenerate)));
     }
@@ -313,11 +314,11 @@ public class ConfigParser
     
     public class ConfigExpressionEvaluator extends ExpressionEvaluator
     {
-        private Map localIdentifiers;
+        private CIStringMap<Object> localIdentifiers;
 
         public ConfigExpressionEvaluator()
         {
-            this.localIdentifiers = new CIStringMap();
+            this.localIdentifiers = new CIStringMap<Object>();
             this.localIdentifiers.put("isModInstalled", new EvaluationDelegate(false, Loader.class, "isModLoaded", new Class[] {String.class}));
             this.localIdentifiers.put("oreExists", new EvaluationDelegate(false, ConfigParser.class, "oreExists", new Class[] {String.class}));
             this.localIdentifiers.put("blockExists", new EvaluationDelegate(false, ConfigParser.this, "blockExists", new Class[] {String.class}));
@@ -359,10 +360,10 @@ public class ConfigParser
 
     private static class StdDistFactory implements IDistributionFactory
     {
-        protected Constructor _ctor;
+        protected Constructor<? extends IOreDistribution> _ctor;
         protected boolean _canGen;
 
-        public StdDistFactory(Class clazz, boolean canGenerate)
+        public StdDistFactory(Class<? extends IOreDistribution> clazz, boolean canGenerate)
         {
             try
             {
@@ -380,7 +381,7 @@ public class ConfigParser
         {
             try
             {
-                return (IOreDistribution)this._ctor.newInstance(new Object[] {Integer.valueOf(distributionID), Boolean.valueOf(this._canGen)});
+                return this._ctor.newInstance(new Object[] {Integer.valueOf(distributionID), Boolean.valueOf(this._canGen)});
             }
             catch (InvocationTargetException var3)
             {

@@ -6,7 +6,6 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
@@ -26,8 +25,8 @@ public class GeometryRenderer implements IGeometryBuilder
     private Transform _texTrans = null;
     private PrimitiveType _primitive = null;
     private int[] _implicitRefs = null;
-    private Map _textureMap = null;
-    private ArrayList _vertexBuffers = new ArrayList();
+    private Map<String,Integer> _textureMap = null;
+    private ArrayList<VertexBuffer> _vertexBuffers = new ArrayList<VertexBuffer>();
     private VertexBuffer _dbgNormalLines = null;
     private long[] _vertexIndexMap = new long[256];
     private int _vertexCount = 0;
@@ -39,7 +38,7 @@ public class GeometryRenderer implements IGeometryBuilder
     {
         if (this._textureMap == null)
         {
-            this._textureMap = new HashMap();
+            this._textureMap = new HashMap<String, Integer>();
         }
 
         if (textureName < 0)
@@ -48,7 +47,7 @@ public class GeometryRenderer implements IGeometryBuilder
         }
         else
         {
-            this._textureMap.put(textureURI, Integer.valueOf(textureName));
+            this._textureMap.put(textureURI, textureName);
         }
     }
 
@@ -101,7 +100,7 @@ public class GeometryRenderer implements IGeometryBuilder
 
         if (textureURI != null && this._textureMap != null)
         {
-            Integer value = (Integer)this._textureMap.get(textureURI);
+            Integer value = this._textureMap.get(textureURI);
 
             if (value != null)
             {
@@ -166,7 +165,7 @@ public class GeometryRenderer implements IGeometryBuilder
             this.setVertexBuffer();
         }
 
-        VertexBuffer curBuffer = (VertexBuffer)this._vertexBuffers.get(this._curBufferIdx);
+        VertexBuffer curBuffer = this._vertexBuffers.get(this._curBufferIdx);
         float[][] args = new float[4][];
         byte argIdx = 0;
 
@@ -273,11 +272,8 @@ public class GeometryRenderer implements IGeometryBuilder
 
     public void draw()
     {
-        Iterator i$ = this._vertexBuffers.iterator();
-
-        while (i$.hasNext())
+        for (VertexBuffer buffer : this._vertexBuffers)
         {
-            VertexBuffer buffer = (VertexBuffer)i$.next();
             buffer.drawBuffer();
         }
 
@@ -301,7 +297,7 @@ public class GeometryRenderer implements IGeometryBuilder
 
     private void processVertices()
     {
-        VertexBuffer curBuffer = this._curBufferIdx >= 0 ? (VertexBuffer)this._vertexBuffers.get(this._curBufferIdx) : null;
+        VertexBuffer curBuffer = this._curBufferIdx >= 0 ? this._vertexBuffers.get(this._curBufferIdx) : null;
 
         if (curBuffer != null && this._primitive != null)
         {
@@ -382,7 +378,7 @@ public class GeometryRenderer implements IGeometryBuilder
                         }
                         else
                         {
-                            polyVertBuffers[i] = (VertexBuffer)this._vertexBuffers.get((int)(j >>> 32));
+                            polyVertBuffers[i] = this._vertexBuffers.get((int)(j >>> 32));
 
                             if (!curBuffer.canCopyFrom(polyVertBuffers[i]))
                             {
@@ -456,7 +452,7 @@ public class GeometryRenderer implements IGeometryBuilder
         boolean hasNormal = this._normal != null;
         boolean hasColor = this._color != null;
         int texture = this._texcoords == null ? -1 : this._texture;
-        VertexBuffer curBuffer = this._curBufferIdx >= 0 ? (VertexBuffer)this._vertexBuffers.get(this._curBufferIdx) : null;
+        VertexBuffer curBuffer = this._curBufferIdx >= 0 ? this._vertexBuffers.get(this._curBufferIdx) : null;
 
         if (curBuffer == null || renderMode != curBuffer.renderMode || hasNormal != curBuffer.hasNormal || hasColor != curBuffer.hasColor || texture != curBuffer.texture)
         {
@@ -464,7 +460,7 @@ public class GeometryRenderer implements IGeometryBuilder
 
             for (int i = 0; i < this._vertexBuffers.size(); ++i)
             {
-                VertexBuffer buffer = (VertexBuffer)this._vertexBuffers.get(i);
+                VertexBuffer buffer = this._vertexBuffers.get(i);
 
                 if (buffer != curBuffer && renderMode == buffer.renderMode && hasNormal == buffer.hasNormal && hasColor == buffer.hasColor && texture == buffer.texture)
                 {

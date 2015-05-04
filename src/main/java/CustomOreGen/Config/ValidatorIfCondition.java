@@ -2,8 +2,6 @@ package CustomOreGen.Config;
 
 import org.w3c.dom.Node;
 
-import CustomOreGen.Config.ValidatorNode.IValidatorFactory;
-
 public class ValidatorIfCondition extends ValidatorCondition
 {
     protected ValidatorIfCondition(ValidatorNode parent, Node node)

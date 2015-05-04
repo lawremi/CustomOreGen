@@ -8,13 +8,12 @@ import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.Server.ChoiceOption;
 import CustomOreGen.Server.ConfigOption;
 import CustomOreGen.Server.NumericOption;
-import CustomOreGen.Util.Localization;
 
 public class ValidatorOption extends ValidatorNode
 {
-    private final Class _type;
+    private final Class<? extends ConfigOption> _type;
 
-    protected ValidatorOption(ValidatorNode parent, Node node, Class type)
+    protected ValidatorOption(ValidatorNode parent, Node node, Class<? extends ConfigOption> type)
     {
         super(parent, node);
         this._type = type;
@@ -25,7 +24,7 @@ public class ValidatorOption extends ValidatorNode
         super.validateChildren();
         String optionName = this.validateRequiredAttribute(String.class, "name", true);
         ConfigOption option = null;
-        Class valueType = null;
+        Class<? extends Object> valueType = null;
 
         if (this._type == ChoiceOption.class)
         {
@@ -50,17 +49,17 @@ public class ValidatorOption extends ValidatorNode
             valueType = Double.class;
             NumericOption groupName1 = new NumericOption(optionName);
             option = groupName1;
-            double defValue1 = this.validateNamedAttribute(valueType, "min", groupName1.getMin(), true);
-            double err = this.validateNamedAttribute(valueType, "max", groupName1.getMax(), true);
+            double defValue1 = this.validateNamedAttribute(Double.class, "min", groupName1.getMin(), true);
+            double err = this.validateNamedAttribute(Double.class, "max", groupName1.getMax(), true);
 
             if (!groupName1.setLimits(defValue1, err))
             {
                 throw new ParserException("Numeric option value range [" + defValue1 + "," + err + "] is invalid.", this.getNode());
             }
 
-            double dmin = this.validateNamedAttribute(valueType, "displayMin", groupName1.getMin(), true);
-            double dmax = this.validateNamedAttribute(valueType, "displayMax", groupName1.getMax(), true);
-            double dincr = this.validateNamedAttribute(valueType, "displayIncrement", (dmax - dmin) / 100.0D, true);
+            double dmin = this.validateNamedAttribute(Double.class, "displayMin", groupName1.getMin(), true);
+            double dmax = this.validateNamedAttribute(Double.class, "displayMax", groupName1.getMax(), true);
+            double dincr = this.validateNamedAttribute(Double.class, "displayIncrement", (dmax - dmin) / 100.0D, true);
 
             if (!groupName1.setDisplayLimits(dmin, dmax, dincr))
             {
@@ -139,9 +138,9 @@ public class ValidatorOption extends ValidatorNode
     
     public static class Factory implements IValidatorFactory<ValidatorOption>
     {
-        private final Class _type;
+        private final Class<? extends ConfigOption> _type;
 
-        public Factory(Class type)
+        public Factory(Class<? extends ConfigOption> type)
         {
             this._type = type;
         }

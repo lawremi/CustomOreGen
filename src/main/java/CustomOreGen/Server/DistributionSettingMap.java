@@ -6,7 +6,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -16,9 +15,9 @@ import CustomOreGen.Util.CIStringMap;
 
 public class DistributionSettingMap
 {
-    private final Map<String,Object[]> _settingMap = new CIStringMap(new LinkedHashMap());
+    private final Map<String,Object[]> _settingMap = new CIStringMap<Object[]>(new LinkedHashMap<String,Object[]>());
 
-    public DistributionSettingMap(Class distributionType)
+    public DistributionSettingMap(Class<? extends IOreDistribution> distributionType)
     {
     	for (Field field : distributionType.getFields()) {
     		DistributionSetting s = (DistributionSetting)field.getAnnotation(DistributionSetting.class);
@@ -32,7 +31,7 @@ public class DistributionSettingMap
 
     public Map<String,String> getDescriptions()
     {
-        CIStringMap<String> descriptions = new CIStringMap(new LinkedHashMap());
+        CIStringMap<String> descriptions = new CIStringMap<String>(new LinkedHashMap<String, String>());
         
         for (Entry<String,Object[]> entry : this._settingMap.entrySet()) {
         	DistributionSetting s = (DistributionSetting)(entry.getValue())[1];
@@ -89,7 +88,8 @@ public class DistributionSettingMap
         }
     }
 
-    public void set(IOreDistribution dist, String settingName, Object value) throws IllegalArgumentException, IllegalAccessException
+    @SuppressWarnings("unchecked")
+	public void set(IOreDistribution dist, String settingName, Object value) throws IllegalArgumentException, IllegalAccessException
     {
         if (dist != null)
         {
@@ -125,7 +125,7 @@ public class DistributionSettingMap
                             throw new IllegalStateException("Setting is final and null");
                         }
 
-                        ((Copyable)ex).copyFrom(value);
+                        ((Copyable<Object>)ex).copyFrom(value);
                     }
                     catch (Exception var8)
                     {
@@ -140,7 +140,8 @@ public class DistributionSettingMap
         }
     }
 
-    public void inheritAll(IOreDistribution source, IOreDistribution destination)
+    @SuppressWarnings("unchecked")
+	public void inheritAll(IOreDistribution source, IOreDistribution destination)
     {
     	for (Entry<String,Object[]> entry : _settingMap.entrySet()) {
             Field field = (Field)(entry.getValue())[0];
@@ -166,7 +167,7 @@ public class DistributionSettingMap
                             throw new IllegalStateException("Setting is null");
                         }
 
-                        ((Copyable)dstVal).copyFrom(ex);
+                        ((Copyable<Object>)dstVal).copyFrom(ex);
                     }
                     else
                     {

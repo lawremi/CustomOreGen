@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 
 public class GeometryStream implements IGeometryBuilder
 {
@@ -1085,7 +1084,9 @@ public class GeometryStream implements IGeometryBuilder
     
     public static class GeometryStreamException extends Exception
     {
-        public GeometryStreamException(String message, Throwable cause)
+        private static final long serialVersionUID = 1L;
+
+		public GeometryStreamException(String message, Throwable cause)
         {
             super(message, cause);
         }

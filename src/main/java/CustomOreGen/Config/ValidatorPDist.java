@@ -3,7 +3,6 @@ package CustomOreGen.Config;
 import org.w3c.dom.Node;
 
 import CustomOreGen.Server.IOreDistribution;
-import CustomOreGen.Util.HeightScale;
 import CustomOreGen.Util.HeightScaledPDist;
 import CustomOreGen.Util.PDist;
 import CustomOreGen.Util.PDist.Type;

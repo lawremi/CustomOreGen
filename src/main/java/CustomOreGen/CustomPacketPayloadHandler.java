@@ -11,7 +11,6 @@ import CustomOreGen.CustomPacketPayload.PayloadType;
 import CustomOreGen.Client.ClientState;
 import CustomOreGen.Client.ClientState.WireframeRenderMode;
 import CustomOreGen.Server.ServerState;
-import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;

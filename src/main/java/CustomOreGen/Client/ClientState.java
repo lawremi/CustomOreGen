@@ -35,9 +35,9 @@ public class ClientState
     private static int _dgScanCounter = 0;
     private static int _dgBatchID = 0;
     @SideOnly(Side.CLIENT)
-    private static Map<Long,Integer> _dgListMap = new HashMap();
+    private static Map<Long,Integer> _dgListMap = new HashMap<Long, Integer>();
     @SideOnly(Side.CLIENT)
-    private static Set _chunkDGRequests = new HashSet();
+    private static Set<Long> _chunkDGRequests = new HashSet<Long>();
     @SideOnly(Side.CLIENT)
     private static IntBuffer _chunkDGListBuffer = null;
 
@@ -96,7 +96,7 @@ public class ClientState
 
                         long key = (long)iX << 32 | (long)iZ & 4294967295L;
 
-                        if (!_dgListMap.containsKey(Long.valueOf(key)) && _chunkDGRequests.add(Long.valueOf(key)))
+                        if (!_dgListMap.containsKey(Long.valueOf(key)) && _chunkDGRequests.add(key))
                         {
                             GeometryRequestData request = new GeometryRequestData(_world, iX, iZ, _dgBatchID);
                             (new CustomPacketPayload(PayloadType.DebuggingGeometryRequest, request)).sendToServer();
@@ -177,7 +177,7 @@ public class ClientState
 
                     try
                     {
-                        Iterator displayList = geometryData.geometry.iterator();
+                        Iterator<GeometryStream> displayList = geometryData.geometry.iterator();
 
                         while (displayList.hasNext())
                         {
@@ -245,7 +245,7 @@ public class ClientState
                         }
 
                         _dgListMap.put(Long.valueOf(var10), Integer.valueOf(var9));
-                        _chunkDGRequests.remove(Long.valueOf(var10));
+                        _chunkDGRequests.remove(var10);
                     }
                 }
             }

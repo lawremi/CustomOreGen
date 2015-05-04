@@ -398,7 +398,6 @@ public class MapGenVeins extends MapGenOreDistribution
             float minR2 = minR * minR;
             float[] pos = new float[3];
             float[] bb = new float[6];
-            boolean innerStep = true;
             this.context.init(0.0F, true);
             int var24;
 

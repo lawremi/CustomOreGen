@@ -6,7 +6,7 @@ import net.minecraft.world.World;
 
 public interface IOreDistribution
 {
-    Map<String,Object> getDistributionSettings();
+    Map<String,String> getDistributionSettingDescriptions();
 
     Object getDistributionSetting(String var1);
 

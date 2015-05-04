@@ -8,7 +8,7 @@ import CustomOreGen.Util.IGeometryBuilder.PrimitiveType;
 public class WireframeShapes
 {
     private static float[][] _cubePoints = new float[][] {{1.0F, -1.0F, 1.0F}, { -1.0F, -1.0F, 1.0F}, {1.0F, 1.0F, 1.0F}, { -1.0F, 1.0F, 1.0F}, {1.0F, 1.0F, -1.0F}, { -1.0F, 1.0F, -1.0F}, {1.0F, -1.0F, -1.0F}, { -1.0F, -1.0F, -1.0F}, {0.0F, 0.0F, 0.0F}, {0.0F, 0.0F, 0.0F}, {0.0F, 0.0F, 0.0F}, {0.0F, 0.0F, 0.0F}, {0.0F, 0.0F, 0.0F}, {0.0F, 0.0F, 0.0F}, {0.0F, 0.0F, 0.0F}, {0.0F, 0.0F, 0.0F}};
-    private static Map _circlePointCache;
+    private static Map<Integer, float[][]> _circlePointCache;
 
     public static void addUnitWireCube(IGeometryBuilder builder)
     {
@@ -151,7 +151,7 @@ public class WireframeShapes
     {
         if (output == null)
         {
-            output = (float[][])_circlePointCache.get(Integer.valueOf(segments));
+            output = _circlePointCache.get(segments);
 
             if (output != null)
             {
@@ -159,7 +159,7 @@ public class WireframeShapes
             }
 
             output = new float[segments][3];
-            _circlePointCache.put(Integer.valueOf(segments), output);
+            _circlePointCache.put(segments, output);
         }
 
         float da = ((float)Math.PI * 2F) / (float)segments;
@@ -183,6 +183,6 @@ public class WireframeShapes
             _cubePoints[8 + i % 8][i / 8] = _cubePoints[i % 8][i / 8] * (float)Math.sqrt(3.0D);
         }
 
-        _circlePointCache = new Hashtable();
+        _circlePointCache = new Hashtable<Integer, float[][]>();
     }
 }
