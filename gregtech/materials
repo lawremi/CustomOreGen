@@ -1,0 +1,125 @@
+#!/usr/bin/python
+import sys
+import os
+import re
+
+cog = "../src/main/resources/config/modules/Gregtech.xml"
+materials = "Materials.java"
+cog_new = "Gregtech.xml"
+
+gt_by_blockid = dict()
+cog_by_lineno = dict()
+
+class BlockId:
+    def __init__(self, name, blockid, lineno, meta):
+        self.name = name
+        self.blockid = blockid
+        self.lineno = lineno
+        self.meta = meta
+
+def gt_read():
+    with open(materials, "r") as inp:
+        for lineno, line in enumerate(inp, start=1):
+            line = line.rstrip('\r\n')
+            m = re.search(r"(\w+)\s*\(\s*([0-9]+),\s*TextureSet.\w+\s*,\s*[0-9]+\.[0-9]+[fF]?\s*,\s*[0-9]+\s*,\s*([0-9]+)", line)
+            if m:
+                name = m.group(1)
+                blockid = int(m.group(2))
+                meta = int(m.group(3))
+                gt_by_blockid[blockid] = BlockId(name, blockid, lineno, meta)
+
+def gt_dump():
+    for key in gt_by_blockid:
+        item = gt_by_blockid[key]
+        print "{:16}\tblockid={:5} meta={:1}".format(item.name, item.blockid, item.meta)
+
+def cog_rewrite():
+    preset = None
+    blocklineno = 0
+    blockdef = ""
+    block = None
+    nbt = None
+
+    with open(cog_new, "w") as out:
+        with open(cog, "r") as inp:
+            for lineno, line in enumerate(inp, start=1):
+                m = re.search(r"<\s*(Veins|Cloud|StandardGen)Preset\s+name=[\"']([^']*)[\"']", line)
+                if m:
+                    preset = m.group(2)
+                m = re.search(r"</\s*(Veins|Cloud|StandardGen)Preset\s*>", line)
+                if m:
+                    preset = None
+                m = re.search(r"<\s*OreBlock\s+block=[\"']([^']*)[\"']", line)
+                if m:
+                    block = m.group(1)
+                    blocklineno = lineno
+                if block is not None:
+                    blockdef += line
+                    m = re.search(r"nbt=[\"']([^']*)[\"']", line)
+                    if m:
+                        nbt = m.group(1)
+                    if nbt is not None:
+                        blockdef = cog_fix_block(blocklineno, blockdef, block, nbt, preset)
+                        out.write(blockdef)
+                        blockdef = ""
+                        block = None
+                        nbt = None
+                else:
+                    out.write(line)
+
+def cog_fix_block(lineno, blockdef, block, nbt, preset):
+    blockid = 0
+    meta = 0
+    m = re.search(r"gregtech:gt.blockores:?([0-9]+)?", block)
+    if m:
+        meta = m.group(1)
+        if meta is None:
+            meta = 0
+        else:
+            meta = int(meta)
+        m = re.search(r"m:([0-9]+)\s*,", nbt)
+        if m:
+            blockid = int(m.group(1))
+        return fix_conflict(lineno, blockdef, blockid, meta, preset)
+    return blockdef
+                    
+def fix_conflict(lineno, blockdef, blockid, meta, preset):
+    if blockid >= 16000:
+        key_blockid = blockid - 16000
+        meta_offset = -1
+    else:
+        key_blockid = blockid
+        meta_offset = 0
+    gt_item = gt_by_blockid[key_blockid]
+    meta_good = gt_item.meta + meta_offset
+    if meta_good < 0:
+        meta_good = 0
+    if meta != meta_good:
+        if meta > meta_good:
+            status = "Error"
+            problem = "Harder"
+            blockdef = replace_meta(blockdef, meta, meta_good)
+        elif "Sand" in preset:
+            status = "Warning"
+            problem = "Softer, but in Sand preset"
+        else:
+            status = "Error"
+            problem = "Softer"
+            blockdef = replace_meta(blockdef, meta, meta_good)            
+        print "{}:{}: {}: {} on \"{}\" (block {}): COG {}:{}, correct GT {}:{}".format(
+            cog, lineno,
+            status, problem,
+            gt_item.name, key_blockid,
+            blockid, meta, blockid, meta_good)
+    return blockdef
+
+def replace_meta(blockdef, meta, meta_good):
+    return re.sub(r"gregtech:gt.blockores:?([0-9]+)?",
+                  "gregtech:gt.blockores:{}".format(meta_good),
+                  blockdef)
+    
+# --------------------------------------------------------------------------------
+
+gt_read()
+# gt_dump()
+cog_rewrite()
