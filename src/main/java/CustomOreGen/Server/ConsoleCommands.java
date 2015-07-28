@@ -489,7 +489,7 @@ public class ConsoleCommands
             		name = "isRegexp"
             ) @ArgOptional boolean isRegexp)
     {
-        String setting = IOreDistribution.StandardSettings.ReplaceableBlock.name();
+        String setting = IOreDistribution.StandardSettings.Replaces.name();
         int count = changeBlockDescriptor(setting, sender, world, distribution, block, weight, false, replacesOre, false, isRegexp, null);
         return "Added replaceable block for " + count + " distributions";
     }
@@ -520,7 +520,7 @@ public class ConsoleCommands
             		name = "isRegexp"
             ) @ArgOptional boolean isRegexp)
     {
-        String setting = IOreDistribution.StandardSettings.ReplaceableBlock.name();
+        String setting = IOreDistribution.StandardSettings.Replaces.name();
         int count = changeBlockDescriptor(setting, sender, world, distribution, block, weight, true, replacesOre, false, isRegexp, null);
         return "Set replaceable block for " + count + " distributions";
     }

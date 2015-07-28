@@ -9,6 +9,7 @@ import org.w3c.dom.UserDataHandler;
 
 import CustomOreGen.Server.IOreDistribution;
 import CustomOreGen.Server.IOreDistribution.IDistributionFactory;
+import CustomOreGen.Server.IOreDistribution.StandardSettings;
 import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.PDist;
@@ -195,39 +196,10 @@ public class ValidatorDistribution extends ValidatorNode
             settings.remove(oreBlockKey);
         }
 
-        String replacesKey = IOreDistribution.StandardSettings.ReplaceableBlock.name();
-
-        if (settings.contains(replacesKey))
-        {
-            BlockDescriptor replacesDesc = new BlockDescriptor();
-            for (ValidatorBlockDescriptor replaces : validateNamedChildren(2, "Replaces", new ValidatorBlockDescriptor.Factory())) {
-            	replacesDesc.add(replaces.blocks, replaces.weight, false, false, false, null);
-            }
-            for (ValidatorBlockDescriptor replaces : validateNamedChildren(2, "ReplacesOre", new ValidatorBlockDescriptor.Factory())) {
-            	replacesDesc.add(replaces.blocks, replaces.weight, true, false, false, null);
-            }
-            for (ValidatorBlockDescriptor replaces : validateNamedChildren(2, "ReplacesRegexp", new ValidatorBlockDescriptor.Factory())) {
-            	replacesDesc.add(replaces.blocks, replaces.weight, false, false, true, null);
-            }
-            
-            if (!replacesDesc.getDescriptors().isEmpty())
-            {
-                try
-                {
-                    this.distribution.setDistributionSetting(replacesKey, replacesDesc);
-                }
-                catch (IllegalAccessException var14)
-                {
-                    throw new ParserException("Replaceable blocks are not configurable.", this.getNode(), var14);
-                }
-                catch (IllegalArgumentException var15)
-                {
-                    throw new ParserException("Replaceable blocks are not supported by this distribution.", this.getNode(), var15);
-                }
-            }
-
-            settings.remove(replacesKey);
-        }
+        validatePlacementRestriction(settings, IOreDistribution.StandardSettings.Replaces);
+        validatePlacementRestriction(settings, IOreDistribution.StandardSettings.PlacesAbove);
+        validatePlacementRestriction(settings, IOreDistribution.StandardSettings.PlacesBelow);
+        validatePlacementRestriction(settings, IOreDistribution.StandardSettings.PlacesBeside);
 
         String biomeKey = IOreDistribution.StandardSettings.TargetBiome.name();
 
@@ -302,6 +274,42 @@ public class ValidatorDistribution extends ValidatorNode
             }
         }
     }
+
+	private void validatePlacementRestriction(Set<String> settings, StandardSettings setting) throws ParserException {
+		String settingKey = setting.name();
+		
+		if (settings.contains(settingKey))
+        {
+            BlockDescriptor replacesDesc = new BlockDescriptor();
+            for (ValidatorBlockDescriptor replaces : validateNamedChildren(2, settingKey, new ValidatorBlockDescriptor.Factory())) {
+            	replacesDesc.add(replaces.blocks, replaces.weight, false, false, false, null);
+            }
+            for (ValidatorBlockDescriptor replaces : validateNamedChildren(2, settingKey + "Ore", new ValidatorBlockDescriptor.Factory())) {
+            	replacesDesc.add(replaces.blocks, replaces.weight, true, false, false, null);
+            }
+            for (ValidatorBlockDescriptor replaces : validateNamedChildren(2, settingKey + "Regexp", new ValidatorBlockDescriptor.Factory())) {
+            	replacesDesc.add(replaces.blocks, replaces.weight, false, false, true, null);
+            }
+            
+            if (!replacesDesc.getDescriptors().isEmpty())
+            {
+                try
+                {
+                    this.distribution.setDistributionSetting(settingKey, replacesDesc);
+                }
+                catch (IllegalAccessException var14)
+                {
+                    throw new ParserException("'" + settingKey + "' not configurable.", this.getNode(), var14);
+                }
+                catch (IllegalArgumentException var15)
+                {
+                    throw new ParserException("'" + settingKey + "' not supported by this distribution.", this.getNode(), var15);
+                }
+            }
+
+            settings.remove(settingKey);
+        }
+	}
     
     public static class Factory implements IValidatorFactory<ValidatorDistribution>
     {

@@ -39,7 +39,10 @@ public interface IOreDistribution
         DisplayName,
         Seed,
         OreBlock,
-        ReplaceableBlock,
+        Replaces,
+        PlacesAbove,
+        PlacesBelow,
+        PlacesBeside,
         TargetBiome,
         Parent;
     }

@@ -12,6 +12,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
 import CustomOreGen.Util.BiomeDescriptor;
+import CustomOreGen.Util.BlockArrangement;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.BlockDescriptor.BlockInfo;
 import CustomOreGen.Util.GeometryStream;
@@ -25,68 +26,99 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
             info = "Descriptive distribution name."
     )
     public String name;
+    
     @DistributionSetting(
             name = "DisplayName",
             inherited = false,
             info = "Distribution name for display in user interfaces."
     )
     public String displayName;
+    
     @DistributionSetting(
             name = "Seed",
             inherited = false,
             info = "Distribution random number seed."
     )
     public long seed;
+    
     @DistributionSetting(
             name = "OreBlock",
             info = "Ore block(s) - total weight must not be more than 100%"
     )
     public final BlockDescriptor oreBlock;
+    
     @DistributionSetting(
-            name = "ReplaceableBlock",
+            name = "Replaces",
             info = "List of replaceable blocks"
     )
     public final BlockDescriptor replaceableBlocks;
+    
+    @DistributionSetting(
+            name = "PlacesAbove",
+            info = "List of blocks allowed below generated block"
+    )
+    public final BlockDescriptor belowBlocks;
+    
+    @DistributionSetting(
+            name = "PlacesBelow",
+            info = "List of blocks allowed above generated block"
+    )
+    public final BlockDescriptor aboveBlocks;
+    
+    @DistributionSetting(
+            name = "PlacesBeside",
+            info = "List of blocks allowed beside generated block"
+    )
+    public final BlockDescriptor besideBlocks;
+    
     @DistributionSetting(
             name = "TargetBiome",
             info = "List of valid target biomes"
     )
     public final BiomeDescriptor biomes;
+    
     @DistributionSetting(
             name = "additionalRange",
             info = "Distance outside of current chunk to scan in every pass, in meters"
     )
     public int additionalRange;
+    
     @DistributionSetting(
             name = "minHeight",
             info = "Minimum substitution height"
     )
     public int minHeight;
+    
     @DistributionSetting(
             name = "maxHeight",
             info = "Maximum substitution height"
     )
     public int maxHeight;
+    
     @DistributionSetting(
             name = "minSurfRelHeight",
             info = "Minimum surface-relative substitution height"
     )
     public int minSurfRelHeight;
+    
     @DistributionSetting(
             name = "maxSurfRelHeight",
             info = "Maximum surface-relative substitution height"
     )
     public int maxSurfRelHeight;
+    
     @DistributionSetting(
             name = "populatedChunks",
             info = "Chunks populated during current game session."
     )
     public int populatedChunks;
+    
     @DistributionSetting(
             name = "placedBlocks",
             info = "Blocks placed during current game session."
     )
     public long placedBlocks;
+    
     protected boolean _valid;
     protected final boolean _canGenerate;
     protected static final DistributionSettingMap settingMap = new DistributionSettingMap(WorldGenSubstitution.class);
@@ -95,6 +127,9 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
     {
         this.oreBlock = new BlockDescriptor(Blocks.stone);
         this.replaceableBlocks = new BlockDescriptor();
+        this.aboveBlocks = new BlockDescriptor();
+        this.belowBlocks = new BlockDescriptor();
+        this.besideBlocks = new BlockDescriptor();
         this.biomes = new BiomeDescriptor(".*");
         this.additionalRange = 0;
         this.minHeight = Integer.MIN_VALUE;
@@ -262,14 +297,15 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
                                 	}
                                     for (int y = xzminh; y <= xzmaxh; ++y)
                                     {
-                                        Block currentBlock = chunk.getBlock(x, y, z);
-                                        int fastCheck = this.replaceableBlocks.matchesBlock_fast(currentBlock);
-
-                                        if (fastCheck != 0 && (fastCheck != -1 || this.replaceableBlocks.matchesBlock(currentBlock, chunk.getBlockMetadata(x, y, z), random)))
-                                        {
-                                        	int worldX = chunkX * 16 + x;
-                                        	int worldZ = chunkZ * 16 + z;
+                                    	BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks, besideBlocks);
+                                    	int worldX = chunkX * 16 + x;
+                                    	int worldZ = chunkZ * 16 + z;
+                                    	if (arrangement.matchesAt(world, random, worldX, y, worldZ)) {	
                                             BlockInfo match = this.oreBlock.getMatchingBlock(random);
+                                            if (match == null)
+                                            {
+                                                return false;
+                                            }
                                             int matchMeta = match.getMetadata();
                                             Block matchBlock = match.getBlock();
                                             if (match != null && matchBlock.canBlockStay(world, worldX, y, worldZ) && 

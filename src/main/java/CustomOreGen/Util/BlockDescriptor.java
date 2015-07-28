@@ -500,4 +500,8 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             return this.description + " - " + Float.toString(this.weight);
         }
     }
+
+	public boolean isEmpty() {
+		return this._descriptors.isEmpty();
+	}
 }

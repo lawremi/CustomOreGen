@@ -14,7 +14,6 @@ import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.structure.MapGenStructure;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
@@ -22,6 +21,7 @@ import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraft.world.gen.structure.StructureStart;
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
 import CustomOreGen.Util.BiomeDescriptor;
+import CustomOreGen.Util.BlockArrangement;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.BlockDescriptor.BlockInfo;
 import CustomOreGen.Util.GeometryStream;
@@ -41,103 +41,141 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             info = "Descriptive distribution name."
     )
     public String name;
+    
     @DistributionSetting(
             name = "DisplayName",
             inherited = false,
             info = "Distribution name for display in user interfaces."
     )
     public String displayName;
+    
     @DistributionSetting(
             name = "Seed",
             inherited = false,
             info = "Distribution random number seed."
     )
     public long seed;
+    
     @DistributionSetting(
             name = "OreBlock",
             info = "Ore block(s) - total weight must not be more than 100%"
     )
     public final BlockDescriptor oreBlock = new BlockDescriptor();
+    
     @DistributionSetting(
-            name = "ReplaceableBlock",
+            name = "Replaces",
             info = "List of replaceable blocks"
     )
     public final BlockDescriptor replaceableBlocks;
+    
+    @DistributionSetting(
+            name = "PlacesAbove",
+            info = "List of blocks allowed below generated block"
+    )
+    public final BlockDescriptor belowBlocks;
+    
+    @DistributionSetting(
+            name = "PlacesBelow",
+            info = "List of blocks allowed above generated block"
+    )
+    public final BlockDescriptor aboveBlocks;
+    
+    @DistributionSetting(
+            name = "PlacesBeside",
+            info = "List of blocks allowed beside generated block"
+    )
+    public final BlockDescriptor besideBlocks;
+    
     @DistributionSetting(
             name = "TargetBiome",
             info = "List of valid target biomes"
     )
     public final BiomeDescriptor biomes;
+    
     @DistributionSetting(
             name = "DistributionFrequency",
             info = "Number of distribution structures per 16x16 chunk"
     )
     public final HeightScaledPDist frequency;
+    
     @DistributionSetting(
             name = "Parent",
             info = "The parent distribution, or null if no parent"
     )
     public MapGenOreDistribution parent;
+    
     @DistributionSetting(
             name = "ParentRangeLimit",
             info = "Max horizontal distance to a parent distribution, in meters"
     )
     public final PDist parentRangeLimit;
+    
     @DistributionSetting(
             name = "MinHeight",
             info = "Minimum absolute height allowed"
     )
     public int minHeight;
+    
     @DistributionSetting(
             name = "MaxHeight",
             info = "Maximum absolute height allowed"
     )
     public int maxHeight;
+    
     @DistributionSetting(
             name = "HeightOffset",
             info = "Number, in blocks, to add to the scaled height"
     )
     public PDist heightOffset;
+    
     @DistributionSetting(
             name = "drawBoundBox",
             info = "Whether bounding boxes are drawn for components"
     )
     public boolean wfHasBB;
+    
     @DistributionSetting(
             name = "boundBoxColor",
             info = "Color of bounding boxes for components"
     )
     public long wfBBColor;
+    
     @DistributionSetting(
             name = "drawWireframe",
             info = "Whether wireframes are drawn for components"
     )
     public boolean wfHasWireframe;
+    
     @DistributionSetting(
             name = "wireframeColor",
             info = "Color of wireframes for components"
     )
     public long wfWireframeColor;
+    
     @DistributionSetting(
             name = "completedStructures",
             info = "Structures completed during current game session."
     )
     public int completedStructures;
+    
     @DistributionSetting(
             name = "completedStructureBlocks",
             info = "Blocks placed in structures completed during current game session."
     )
     public long completedStructureBlocks;
+    
     @DistributionSetting(
             name = "populatedChunks",
             info = "Chunks populated during current game session."
     )
     public int populatedChunks;
+    
     @DistributionSetting(
             name = "placedBlocks",
             info = "Blocks placed during current game session."
     )
     public long placedBlocks;
+    
     protected Map<Long,GeometryStream> debuggingGeometryMap;
     protected boolean _valid;
     protected final boolean _canGenerate;
@@ -147,6 +185,9 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
     public MapGenOreDistribution(DistributionSettingMap settingMap, int distributionID, boolean canGenerate)
     {
         this.replaceableBlocks = new BlockDescriptor(Blocks.stone);
+        this.aboveBlocks = new BlockDescriptor();
+        this.belowBlocks = new BlockDescriptor();
+        this.besideBlocks = new BlockDescriptor();
         this.biomes = new BiomeDescriptor(".*");
         this.frequency = new HeightScaledPDist(0.025F, 0.0F);
         this.parent = null;
@@ -750,21 +791,9 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             }
             else
             {
-                Chunk chunk = world.getChunkFromBlockCoords(x, z);
-                int cx = x & 15;
-                int cz = z & 15;
-                Block block = chunk.getBlock(cx, y, cz);
-                int fastCheck = replaceableBlocks.matchesBlock_fast(block);
-
-                if (fastCheck == 0)
-                {
-                    return false;
-                }
-                else if (fastCheck == -1 && !replaceableBlocks.matchesBlock(block, chunk.getBlockMetadata(cx, y, cz), random))
-                {
-                    return false;
-                }
-                else
+                BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks, besideBlocks);
+                boolean matched = arrangement.matchesAt(world, random, x, y, z);
+                if (matched)
                 {
                     BlockInfo match = oreBlock.getMatchingBlock(random);
 
@@ -789,6 +818,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                         return placed;
                     }
                 }
+                return false;
             }
         }
 
