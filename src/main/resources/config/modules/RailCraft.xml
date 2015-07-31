@@ -1,0 +1,1938 @@
+
+<!-- ================================================================ 
+
+Custom Ore Generation:   RailCraft Module
+
+Generates: 
+Quarry Stone, Sulfur, Poor Iron, Poor Gold, Poor Copper, Poor Tin,
+Poor Lead, Saltpeter, Remove Abyssal Stone, Abyssal Ores, Firestone
+
+================================================================ -->
+
+    <!-- Mod detection -->
+    <IfModInstalled name="Railcraft">
+        
+        <!-- Starting Custom Ore Gen Configuration. -->
+        <ConfigSection>
+        
+            
+            <!-- Setup Screen Configuration -->
+            <ConfigSection>
+                <OptionDisplayGroup name='groupRailCraft' displayName='RailCraft' displayState='shown'> 
+                    <Description>
+                        Distribution options for RailCraft Ores.
+                    </Description>
+                </OptionDisplayGroup>
+                
+                <!-- Quarry Stone Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='rlcrQuarryStoneDist'  displayState='shown' displayGroup='groupRailCraft'> 
+                        <Description> Controls how Quarry Stone is generated </Description> 
+                        <DisplayName>RailCraft Quarry Stone</DisplayName>
+                        <Choice value='layeredVeins' displayValue='Layered Veins'>
+                            <Description>
+                                Layered Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Quarry Stone is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='rlcrQuarryStoneFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupRailCraft'>
+                        <Description> Frequency multiplier for RailCraft Quarry Stone distributions </Description>
+                        <DisplayName>RailCraft Quarry Stone Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='rlcrQuarryStoneSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupRailCraft'>
+                        <Description> Size multiplier for RailCraft Quarry Stone distributions </Description>
+                        <DisplayName>RailCraft Quarry Stone Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Quarry Stone Configuration UI Complete -->
+                
+                
+                <!-- Sulfur Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='rlcrSulfurDist'  displayState='shown' displayGroup='groupRailCraft'> 
+                        <Description> Controls how Sulfur is generated </Description> 
+                        <DisplayName>RailCraft Sulfur</DisplayName>
+                        <Choice value='pipeVeins' displayValue='Pipe Veins'>
+                            <Description>
+                                Pipe Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='hugeVeins' displayValue='Huge Veins'>
+                            <Description>
+                                Huge Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='strategicCloud' displayValue='Clouds'>
+                            <Description>
+                                Strategic Clouds.
+                            </Description>
+                        </Choice>
+                        <Choice value='vanillaStdGen' displayValue='Vanilla'>
+                            <Description>
+                                Vanilla-style clusters.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Sulfur is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='rlcrSulfurFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupRailCraft'>
+                        <Description> Frequency multiplier for RailCraft Sulfur distributions </Description>
+                        <DisplayName>RailCraft Sulfur Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='rlcrSulfurSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupRailCraft'>
+                        <Description> Size multiplier for RailCraft Sulfur distributions </Description>
+                        <DisplayName>RailCraft Sulfur Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Sulfur Configuration UI Complete -->
+                
+                
+                <!-- Poor Iron Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='rlcrPoorIronDist'  displayState='shown' displayGroup='groupRailCraft'> 
+                        <Description> Controls how Poor Iron is generated </Description> 
+                        <DisplayName>RailCraft Poor Iron</DisplayName>
+                        <Choice value='layeredVeins' displayValue='Layered Veins'>
+                            <Description>
+                                Layered Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='hugeVeins' displayValue='Huge Veins'>
+                            <Description>
+                                Huge Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='strategicCloud' displayValue='Clouds'>
+                            <Description>
+                                Strategic Clouds.
+                            </Description>
+                        </Choice>
+                        <Choice value='vanillaStdGen' displayValue='Vanilla'>
+                            <Description>
+                                Vanilla-style clusters.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Poor Iron is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='rlcrPoorIronFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupRailCraft'>
+                        <Description> Frequency multiplier for RailCraft Poor Iron distributions </Description>
+                        <DisplayName>RailCraft Poor Iron Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='rlcrPoorIronSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupRailCraft'>
+                        <Description> Size multiplier for RailCraft Poor Iron distributions </Description>
+                        <DisplayName>RailCraft Poor Iron Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Poor Iron Configuration UI Complete -->
+                
+                
+                <!-- Poor Gold Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='rlcrPoorGoldDist'  displayState='shown' displayGroup='groupRailCraft'> 
+                        <Description> Controls how Poor Gold is generated </Description> 
+                        <DisplayName>RailCraft Poor Gold</DisplayName>
+                        <Choice value='layeredVeins' displayValue='Layered Veins'>
+                            <Description>
+                                Layered Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='hugeVeins' displayValue='Huge Veins'>
+                            <Description>
+                                Huge Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='strategicCloud' displayValue='Clouds'>
+                            <Description>
+                                Strategic Clouds.
+                            </Description>
+                        </Choice>
+                        <Choice value='vanillaStdGen' displayValue='Vanilla'>
+                            <Description>
+                                Vanilla-style clusters.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Poor Gold is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='rlcrPoorGoldFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupRailCraft'>
+                        <Description> Frequency multiplier for RailCraft Poor Gold distributions </Description>
+                        <DisplayName>RailCraft Poor Gold Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='rlcrPoorGoldSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupRailCraft'>
+                        <Description> Size multiplier for RailCraft Poor Gold distributions </Description>
+                        <DisplayName>RailCraft Poor Gold Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Poor Gold Configuration UI Complete -->
+                
+                
+                <!-- Poor Copper Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='rlcrPoorCopperDist'  displayState='shown' displayGroup='groupRailCraft'> 
+                        <Description> Controls how Poor Copper is generated </Description> 
+                        <DisplayName>RailCraft Poor Copper</DisplayName>
+                        <Choice value='layeredVeins' displayValue='Layered Veins'>
+                            <Description>
+                                Layered Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='hugeVeins' displayValue='Huge Veins'>
+                            <Description>
+                                Huge Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='strategicCloud' displayValue='Clouds'>
+                            <Description>
+                                Strategic Clouds.
+                            </Description>
+                        </Choice>
+                        <Choice value='vanillaStdGen' displayValue='Vanilla'>
+                            <Description>
+                                Vanilla-style clusters.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Poor Copper is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='rlcrPoorCopperFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupRailCraft'>
+                        <Description> Frequency multiplier for RailCraft Poor Copper distributions </Description>
+                        <DisplayName>RailCraft Poor Copper Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='rlcrPoorCopperSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupRailCraft'>
+                        <Description> Size multiplier for RailCraft Poor Copper distributions </Description>
+                        <DisplayName>RailCraft Poor Copper Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Poor Copper Configuration UI Complete -->
+                
+                
+                <!-- Poor Tin Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='rlcrPoorTinDist'  displayState='shown' displayGroup='groupRailCraft'> 
+                        <Description> Controls how Poor Tin is generated </Description> 
+                        <DisplayName>RailCraft Poor Tin</DisplayName>
+                        <Choice value='layeredVeins' displayValue='Layered Veins'>
+                            <Description>
+                                Layered Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='hugeVeins' displayValue='Huge Veins'>
+                            <Description>
+                                Huge Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='strategicCloud' displayValue='Clouds'>
+                            <Description>
+                                Strategic Clouds.
+                            </Description>
+                        </Choice>
+                        <Choice value='vanillaStdGen' displayValue='Vanilla'>
+                            <Description>
+                                Vanilla-style clusters.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Poor Tin is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='rlcrPoorTinFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupRailCraft'>
+                        <Description> Frequency multiplier for RailCraft Poor Tin distributions </Description>
+                        <DisplayName>RailCraft Poor Tin Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='rlcrPoorTinSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupRailCraft'>
+                        <Description> Size multiplier for RailCraft Poor Tin distributions </Description>
+                        <DisplayName>RailCraft Poor Tin Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Poor Tin Configuration UI Complete -->
+                
+                
+                <!-- Poor Lead Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='rlcrPoorLeadDist'  displayState='shown' displayGroup='groupRailCraft'> 
+                        <Description> Controls how Poor Lead is generated </Description> 
+                        <DisplayName>RailCraft Poor Lead</DisplayName>
+                        <Choice value='layeredVeins' displayValue='Layered Veins'>
+                            <Description>
+                                Layered Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='hugeVeins' displayValue='Huge Veins'>
+                            <Description>
+                                Huge Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='strategicCloud' displayValue='Clouds'>
+                            <Description>
+                                Strategic Clouds.
+                            </Description>
+                        </Choice>
+                        <Choice value='vanillaStdGen' displayValue='Vanilla'>
+                            <Description>
+                                Vanilla-style clusters.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Poor Lead is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='rlcrPoorLeadFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupRailCraft'>
+                        <Description> Frequency multiplier for RailCraft Poor Lead distributions </Description>
+                        <DisplayName>RailCraft Poor Lead Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='rlcrPoorLeadSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupRailCraft'>
+                        <Description> Size multiplier for RailCraft Poor Lead distributions </Description>
+                        <DisplayName>RailCraft Poor Lead Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Poor Lead Configuration UI Complete -->
+                
+                
+                <!-- Saltpeter Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='rlcrSaltpeterDist'  displayState='shown' displayGroup='groupRailCraft'> 
+                        <Description> Controls how Saltpeter is generated </Description> 
+                        <DisplayName>RailCraft Saltpeter</DisplayName>
+                        <Choice value='layeredVeins' displayValue='Layered Veins'>
+                            <Description>
+                                Layered Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='hugeVeins' displayValue='Huge Veins'>
+                            <Description>
+                                Huge Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='vanillaStdGen' displayValue='Vanilla'>
+                            <Description>
+                                Vanilla-style clusters.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Saltpeter is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='rlcrSaltpeterFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupRailCraft'>
+                        <Description> Frequency multiplier for RailCraft Saltpeter distributions </Description>
+                        <DisplayName>RailCraft Saltpeter Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='rlcrSaltpeterSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupRailCraft'>
+                        <Description> Size multiplier for RailCraft Saltpeter distributions </Description>
+                        <DisplayName>RailCraft Saltpeter Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Saltpeter Configuration UI Complete -->
+                
+                
+                <!-- Remove Abyssal Stone Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='rlcrRemoveAbyssalStoneDist'  displayState='shown' displayGroup='groupRailCraft'> 
+                        <Description> Controls how Remove Abyssal Stone is generated </Description> 
+                        <DisplayName>RailCraft Remove Abyssal Stone</DisplayName>
+                        <Choice value='substituteGen' displayValue='Substitute'>
+                            <Description>
+                                Simple substitution.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Remove Abyssal Stone is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='rlcrRemoveAbyssalStoneFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupRailCraft'>
+                        <Description> Frequency multiplier for RailCraft Remove Abyssal Stone distributions </Description>
+                        <DisplayName>RailCraft Remove Abyssal Stone Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='rlcrRemoveAbyssalStoneSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupRailCraft'>
+                        <Description> Size multiplier for RailCraft Remove Abyssal Stone distributions </Description>
+                        <DisplayName>RailCraft Remove Abyssal Stone Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Remove Abyssal Stone Configuration UI Complete -->
+                
+                
+                <!-- Abyssal Ores Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='rlcrAbyssalOresDist'  displayState='shown' displayGroup='groupRailCraft'> 
+                        <Description> Controls how Abyssal Ores is generated </Description> 
+                        <DisplayName>RailCraft Abyssal Ores</DisplayName>
+                        <Choice value='geodes' displayValue='Geodes'>
+                            <Description>
+                                Geodes.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Abyssal Ores is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='rlcrAbyssalOresFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupRailCraft'>
+                        <Description> Frequency multiplier for RailCraft Abyssal Ores distributions </Description>
+                        <DisplayName>RailCraft Abyssal Ores Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='rlcrAbyssalOresSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupRailCraft'>
+                        <Description> Size multiplier for RailCraft Abyssal Ores distributions </Description>
+                        <DisplayName>RailCraft Abyssal Ores Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Abyssal Ores Configuration UI Complete -->
+                
+                
+                <!-- Firestone Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='rlcrFirestoneDist'  displayState='shown' displayGroup='groupRailCraft'> 
+                        <Description> Controls how Firestone is generated </Description> 
+                        <DisplayName>RailCraft Firestone</DisplayName>
+                        <Choice value='layeredVeins' displayValue='Layered Veins'>
+                            <Description>
+                                Layered Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='hugeVeins' displayValue='Huge Veins'>
+                            <Description>
+                                Huge Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='strategicCloud' displayValue='Clouds'>
+                            <Description>
+                                Strategic Clouds.
+                            </Description>
+                        </Choice>
+                        <Choice value='vanillaStdGen' displayValue='Vanilla'>
+                            <Description>
+                                Vanilla-style clusters.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Firestone is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='rlcrFirestoneFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupRailCraft'>
+                        <Description> Frequency multiplier for RailCraft Firestone distributions </Description>
+                        <DisplayName>RailCraft Firestone Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='rlcrFirestoneSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupRailCraft'>
+                        <Description> Size multiplier for RailCraft Firestone distributions </Description>
+                        <DisplayName>RailCraft Firestone Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Firestone Configuration UI Complete -->
+                
+            </ConfigSection>
+            <!-- Setup Screen Complete -->
+
+
+            <!-- Setup Overworld -->
+            <IfCondition condition=':= ?COGActive'>
+                
+                <!-- Starting Original Overworld Ore Removal -->
+                <Substitute name='rlcrOverworldOreSubstitute0' block='Railcraft:cube:6'>
+                    <Description>
+                        Replace vanilla-generated ore clusters.
+                    </Description>
+                    <Comment>
+                        The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
+                    </Comment>
+                    <Replaces block='minecraft:stone:0' />
+                </Substitute>
+                <Substitute name='rlcrOverworldOreSubstitute1' block='minecraft:stone'>
+                    <Description>
+                        Replace vanilla-generated ore clusters.
+                    </Description>
+                    <Comment>
+                        The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
+                    </Comment>
+                    <Replaces block='Railcraft:cube:7' />
+                    <Replaces block='Railcraft:ore:0' />
+                    <Replaces block='Railcraft:ore:7' />
+                    <Replaces block='Railcraft:ore:8' />
+                    <Replaces block='Railcraft:ore:9' />
+                    <Replaces block='Railcraft:ore:10' />
+                    <Replaces block='Railcraft:ore:11' />
+                    <Replaces block='Railcraft:ore:2' />
+                </Substitute>
+                <Substitute name='rlcrOverworldOreSubstitute2' block='minecraft:sandstone'>
+                    <Description>
+                        Replace vanilla-generated ore clusters.
+                    </Description>
+                    <Comment>
+                        The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
+                    </Comment>
+                    <Replaces block='Railcraft:ore:1' />
+                </Substitute>
+                <!-- Original Overworld Ore Removal Complete -->
+                
+                <!-- Adding ores --> 
+                
+                <!-- Begin Quarry Stone Generation --> 
+                
+                <!-- Begin Layered Veins distribution of Quarry Stone -->
+                <IfCondition condition=':= rlcrQuarryStoneDist = "layeredVeins"'>
+                
+                    <Veins name='rlcrQuarryStoneBaseVeins' block='Railcraft:cube:7' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * rlcrQuarryStoneSize * _default_' range=':= 1 * 1 * rlcrQuarryStoneSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 128' range=':= 128' type='uniform' scaleTo='SeaLevel'/> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * rlcrQuarryStoneSize * _default_' range=':= 1 * 1 * rlcrQuarryStoneSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 3 * 1 * rlcrQuarryStoneFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Quarry Stone Layered Veins) Settings -->
+                    <Veins name='rlcrQuarryStonePrefersVeins' block='Railcraft:cube:7' inherits='rlcrQuarryStoneBaseVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='mountain'/>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Quarry Stone Layered Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End Layered Veins distribution of Quarry Stone -->
+                
+                <!-- End Quarry Stone Generation --> 
+
+                
+                <!-- Begin Sulfur Generation --> 
+                
+                <!-- Begin PipeVeins distribution of Sulfur -->
+                <IfCondition condition=':= rlcrSulfurDist = "pipeVeins"'>
+                
+                    
+                    <!-- Begin Sulfur Ore Configuration -->
+                    <Veins name='rlcrSulfurBaseVeins' block='Railcraft:ore' inherits='PresetPipeVeins' seed='0x5DBE'>
+                        <Description>
+                            Short sparsely filled veins sloping up from near the bottom of the map.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * rlcrSulfurSize * _default_' range=':= 1 * 1 * rlcrSulfurSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 3' range=':= 32' type='normal' scaleTo='SeaLevel' />
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * rlcrSulfurSize * _default_' range=':= 1 * 1 * rlcrSulfurSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * rlcrSulfurFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        <BiomeType name='Mountain'/>
+                    </Veins>
+                    <!-- End Sulfur Ore Configuration -->
+                    
+                    
+                    <!-- Begin Sulfur Pipe Configuration -->
+                    <Veins name= 'rlcrSulfurBasePipe' block='Railcraft:cube:6' inherits='rlcrSulfurBaseVeins' seed='0x5DBE'>
+                        <Description>
+                            Fills center of each tube with Pipe material.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 0.5 * 1 * 1 * rlcrSulfurSize * _default_' range=':= 0.5 * 1 * 1 * rlcrSulfurSize * _default_'/>
+                        <Setting name='SegmentRadius' avg=':= 0.5 * 1 * 1 * rlcrSulfurSize * _default_' range=':= 0.5 * 1 * 1 * rlcrSulfurSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        <Replaces block='minecraft:dirt'/>
+                        <Replaces block='minecraft:stone'/>
+                        <Replaces block='minecraft:gravel'/>
+                        <Replaces block='minecraft:netherrack'/>
+                        <Replaces block='minecraft:end_stone'/>
+                        <BiomeType name='Mountain'/>
+                    </Veins>
+                    <!-- End Sulfur Pipe Configuration -->
+                    
+                
+                </IfCondition>
+                <!-- End PipeVeins distribution of Sulfur -->
+                
+                
+                <!-- Begin  Huge Veins distribution of Sulfur -->
+                <IfCondition condition=':= rlcrSulfurDist = "hugeVeins"'>
+                
+                    <Veins name='rlcrSulfurBaseVeins' block='Railcraft:ore' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
+                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
+                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
+                            enough ore to keep a player supplied for a very long time.
+                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
+                            could make finding them much easier and the motherlodes are big enough to supply several people without
+                            shortage.  This might be a good way to add challenge to multiplayer worlds.
+                            Credit: based on feedback by dyrewulf from the MC forums.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * rlcrSulfurSize * _default_' range=':= 1 * 1 * rlcrSulfurSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 3' range=':= 32' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * rlcrSulfurSize * _default_' range=':= 1 * 1 * rlcrSulfurSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * rlcrSulfurFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        <BiomeType name='Mountain'/>
+                        
+                        <!-- Begin Sulfur Huge Vein Hint Veins -->
+                        <Veins name='rlcrSulfurBaseHintVeins' block='Railcraft:ore' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60DC7DFC</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                            <BiomeType name='Mountain'/>
+                        </Veins>
+                        <!-- End Sulfur Huge Vein Hint Veins -->
+
+                    </Veins>
+                
+                </IfCondition>
+                <!-- End  Huge Veins distribution of Sulfur -->
+                
+                
+                <!-- Begin  StrategicCloud distribution of Sulfur -->
+                <IfCondition condition=':= rlcrSulfurDist = "strategicCloud"'>
+                
+                    <Cloud name='rlcrSulfurBaseCloud' block='Railcraft:ore' inherits='PresetStrategicCloud'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
+                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
+                            ore, but it takes some time and effort to mine due to low density.
+                            The intent for strategic clouds is that the player will need to actively search for
+                            one and then set up a semi-permanent mining base and spend some time actually mining
+                            the ore.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='CloudRadius' avg=':= 1 * 1 * rlcrSulfurSize * _default_' range=':= 1 * 1 * rlcrSulfurSize * _default_'/>
+                        <Setting name='CloudThickness' avg=':= 1 * 1 * rlcrSulfurSize * _default_' range=':= 1 * 1 * rlcrSulfurSize * _default_'/>
+                        <Setting name='CloudHeight' avg=':= 32' range=':= 32' type='normal' scaleTo='SeaLevel'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='CloudThickness' avg=':= 1 * 1 * 1 * rlcrSulfurSize * _default_' range=':= 1 * 1 * 1 * rlcrSulfurSize  * _default_'/>
+                        <Setting name='DistributionFrequency' avg=':= 1 * 1 * rlcrSulfurFreq *_default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        <BiomeType name='Mountain'/>
+                        
+                        <!-- Begin Sulfur Strategic Cloud Hint Veins -->
+                        <Veins name='rlcrSulfurBaseHintVeins' block='Railcraft:ore' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60DC7DFC</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                            <BiomeType name='Mountain'/>
+                        </Veins>
+                        <!-- End Sulfur Strategic Cloud Hint Veins -->
+
+                    </Cloud>
+                
+                </IfCondition>
+                <!-- End  StrategicCloud distribution of Sulfur -->
+                
+                
+                <!-- Begin  Vanilla distribution of Sulfur -->
+                <IfCondition condition=':= rlcrSulfurDist = "vanillaStdGen"'>
+                
+                    <StandardGen name='rlcrSulfurBaseStandard' block='Railcraft:ore' inherits='PresetStandardGen'>
+                        <Description>
+                            This mimics vanilla ore generation.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='Size' avg=':= 1 * 1 * rlcrSulfurSize * _default_'/>
+                        <Setting name='Height' avg=':= 8' range=':= 32' type='uniform'/> 
+                        <Setting name='Frequency' avg=':= 1 * 0.025 * rlcrSulfurFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        <BiomeType name='Mountain'/>
+                    </StandardGen>
+                
+                </IfCondition>
+                <!-- End  Vanilla distribution of Sulfur -->
+                
+                <!-- End Sulfur Generation --> 
+
+                
+                <!-- Begin Poor Iron Generation --> 
+                
+                <!-- Begin LayeredVeins distribution of Poor Iron -->
+                <IfCondition condition=':= rlcrPoorIronDist = "layeredVeins"'>
+                
+                    <Veins name='rlcrPoorIronBaseVeins' block='Railcraft:ore:7' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 3 * 1 * rlcrPoorIronSize * _default_' range=':= 3 * 1 * rlcrPoorIronSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 43' range=':= 10.5' type='normal' scaleTo='SeaLevel'/> 
+                        <Setting name='SegmentRadius' avg=':= 3 * 1 * rlcrPoorIronSize * _default_' range=':= 3 * 1 * rlcrPoorIronSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.9 * rlcrPoorIronFreq * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 10.5'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Poor Iron Layered Veins) Settings -->
+                    <Veins name='rlcrPoorIronPrefersVeins' block='Railcraft:ore:7' inherits='rlcrPoorIronBaseVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='Cold'/>
+                        <BiomeType name='Ocean' weight='-1'/>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Poor Iron Layered Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End LayeredVeins distribution of Poor Iron -->
+                
+                
+                <!-- Begin  Huge Veins distribution of Poor Iron -->
+                <IfCondition condition=':= rlcrPoorIronDist = "hugeVeins"'>
+                
+                    <Veins name='rlcrPoorIronBaseVeins' block='Railcraft:ore:7' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
+                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
+                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
+                            enough ore to keep a player supplied for a very long time.
+                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
+                            could make finding them much easier and the motherlodes are big enough to supply several people without
+                            shortage.  This might be a good way to add challenge to multiplayer worlds.
+                            Credit: based on feedback by dyrewulf from the MC forums.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 3 * 1 * rlcrPoorIronSize * _default_' range=':= 3 * 1 * rlcrPoorIronSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 43' range=':= 10.5' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 3 * 1 * rlcrPoorIronSize * _default_' range=':= 3 * 1 * rlcrPoorIronSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.9 * rlcrPoorIronFreq * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 10.5'/>
+                        <Replaces block='minecraft:stone'/>
+                        
+                        <!-- Begin Poor Iron Huge Vein Hint Veins -->
+                        <Veins name='rlcrPoorIronBaseHintVeins' block='Railcraft:ore:7' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60DC7DFC</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                        </Veins>
+                        <!-- End Poor Iron Huge Vein Hint Veins -->
+
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Poor Iron Huge Veins) Settings -->
+                    <Veins name='rlcrPoorIronPrefersVeins' block='Railcraft:ore:7' inherits='rlcrPoorIronBaseVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='Cold'/>
+                        <BiomeType name='Ocean' weight='-1'/>
+                        
+                        <!-- Begin Poor Iron Huge Vein Hint Veins -->
+                        <Veins name='rlcrPoorIronPrefersHintVeins' block='Railcraft:ore:7' inherits='rlcrPoorIronBaseHintVeins'>
+                            <Description>
+                                Spawns 2 more times in preferred biomes.
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60DC7DFC</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                            <BiomeType name='Cold'/>
+                            <BiomeType name='Ocean' weight='-1'/>
+                        </Veins>
+                        <!-- End Poor Iron Huge Vein Hint Veins -->
+
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Poor Iron Huge Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End  Huge Veins distribution of Poor Iron -->
+                
+                
+                <!-- Begin  StrategicCloud distribution of Poor Iron -->
+                <IfCondition condition=':= rlcrPoorIronDist = "strategicCloud"'>
+                
+                    <Cloud name='rlcrPoorIronBaseCloud' block='Railcraft:ore:7' inherits='PresetStrategicCloud'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
+                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
+                            ore, but it takes some time and effort to mine due to low density.
+                            The intent for strategic clouds is that the player will need to actively search for
+                            one and then set up a semi-permanent mining base and spend some time actually mining
+                            the ore.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='CloudRadius' avg=':= 3 * 1 * rlcrPoorIronSize * _default_' range=':= 3 * 1 * rlcrPoorIronSize * _default_'/>
+                        <Setting name='CloudThickness' avg=':= 3 * 1 * rlcrPoorIronSize * _default_' range=':= 3 * 1 * rlcrPoorIronSize * _default_'/>
+                        <Setting name='CloudHeight' avg=':= 32' range=':= 32' type='normal' scaleTo='SeaLevel'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='CloudThickness' avg=':= 3 * 1 * 1 * rlcrPoorIronSize * _default_' range=':= 3 * 1 * 1 * rlcrPoorIronSize  * _default_'/>
+                        <Setting name='DistributionFrequency' avg=':= 1 * 2.5 * rlcrPoorIronFreq *_default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        
+                        <!-- Begin Poor Iron Strategic Cloud Hint Veins -->
+                        <Veins name='rlcrPoorIronBaseHintVeins' block='Railcraft:ore:7' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60DC7DFC</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                        </Veins>
+                        <!-- End Poor Iron Strategic Cloud Hint Veins -->
+
+                    </Cloud>
+                    
+                
+                </IfCondition>
+                <!-- End  StrategicCloud distribution of Poor Iron -->
+                
+                
+                <!-- Begin  Vanilla distribution of Poor Iron -->
+                <IfCondition condition=':= rlcrPoorIronDist = "vanillaStdGen"'>
+                
+                    <StandardGen name='rlcrPoorIronBaseStandard' block='Railcraft:ore:7' inherits='PresetStandardGen'>
+                        <Description>
+                            This mimics vanilla ore generation.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='Size' avg=':= 3 * 1 * rlcrPoorIronSize * _default_'/>
+                        <Setting name='Height' avg=':= 32' range=':= 32' type='uniform'/> 
+                        <Setting name='Frequency' avg=':= 1 * 1 * rlcrPoorIronFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                    </StandardGen>
+                    
+                
+                </IfCondition>
+                <!-- End  Vanilla distribution of Poor Iron -->
+                
+                <!-- End Poor Iron Generation --> 
+
+                
+                <!-- Begin Poor Gold Generation --> 
+                
+                <!-- Begin LayeredVeins distribution of Poor Gold -->
+                <IfCondition condition=':= rlcrPoorGoldDist = "layeredVeins"'>
+                
+                    <Veins name='rlcrPoorGoldBaseVeins' block='Railcraft:ore:8' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 3 * 0.8 * rlcrPoorGoldSize * _default_' range=':= 3 * 0.8 * rlcrPoorGoldSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 20' range=':= 10' type='normal' scaleTo='SeaLevel'/> 
+                        <Setting name='SegmentRadius' avg=':= 3 * 0.8 * rlcrPoorGoldSize * _default_' range=':= 3 * 0.8 * rlcrPoorGoldSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * rlcrPoorGoldFreq * _default_'/>
+                        <Setting name='BranchFrequency' avg=':= 0.85 * _default_'/>
+                        <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.66 * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 10'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Poor Gold Layered Veins) Settings -->
+                    <Veins name='rlcrPoorGoldPrefersVeins' block='Railcraft:ore:8' inherits='rlcrPoorGoldBaseVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='Forest'/>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Poor Gold Layered Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End LayeredVeins distribution of Poor Gold -->
+                
+                
+                <!-- Begin  Huge Veins distribution of Poor Gold -->
+                <IfCondition condition=':= rlcrPoorGoldDist = "hugeVeins"'>
+                
+                    <Veins name='rlcrPoorGoldBaseVeins' block='Railcraft:ore:8' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
+                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
+                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
+                            enough ore to keep a player supplied for a very long time.
+                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
+                            could make finding them much easier and the motherlodes are big enough to supply several people without
+                            shortage.  This might be a good way to add challenge to multiplayer worlds.
+                            Credit: based on feedback by dyrewulf from the MC forums.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 3 * 0.8 * rlcrPoorGoldSize * _default_' range=':= 3 * 0.8 * rlcrPoorGoldSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 20' range=':= 10' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 3 * 0.8 * rlcrPoorGoldSize * _default_' range=':= 3 * 0.8 * rlcrPoorGoldSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * rlcrPoorGoldFreq * _default_'/>
+                        <Setting name='BranchFrequency' avg=':= 0.85 * _default_'/>
+                        <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.66 * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 10'/>
+                        <Replaces block='minecraft:stone'/>
+                        
+                        <!-- Begin Poor Gold Huge Vein Hint Veins -->
+                        <Veins name='rlcrPoorGoldBaseHintVeins' block='Railcraft:ore:8' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60DC7DFC</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                        </Veins>
+                        <!-- End Poor Gold Huge Vein Hint Veins -->
+
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Poor Gold Huge Veins) Settings -->
+                    <Veins name='rlcrPoorGoldPrefersVeins' block='Railcraft:ore:8' inherits='rlcrPoorGoldBaseVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='Forest'/>
+                        
+                        <!-- Begin Poor Gold Huge Vein Hint Veins -->
+                        <Veins name='rlcrPoorGoldPrefersHintVeins' block='Railcraft:ore:8' inherits='rlcrPoorGoldBaseHintVeins'>
+                            <Description>
+                                Spawns 2 more times in preferred biomes.
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60DC7DFC</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                            <BiomeType name='Forest'/>
+                        </Veins>
+                        <!-- End Poor Gold Huge Vein Hint Veins -->
+
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Poor Gold Huge Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End  Huge Veins distribution of Poor Gold -->
+                
+                
+                <!-- Begin  StrategicCloud distribution of Poor Gold -->
+                <IfCondition condition=':= rlcrPoorGoldDist = "strategicCloud"'>
+                
+                    <Cloud name='rlcrPoorGoldBaseCloud' block='Railcraft:ore:8' inherits='PresetStrategicCloud'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
+                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
+                            ore, but it takes some time and effort to mine due to low density.
+                            The intent for strategic clouds is that the player will need to actively search for
+                            one and then set up a semi-permanent mining base and spend some time actually mining
+                            the ore.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='CloudRadius' avg=':= 3 * 0.8 * rlcrPoorGoldSize * _default_' range=':= 3 * 0.8 * rlcrPoorGoldSize * _default_'/>
+                        <Setting name='CloudThickness' avg=':= 3 * 0.8 * rlcrPoorGoldSize * _default_' range=':= 3 * 0.8 * rlcrPoorGoldSize * _default_'/>
+                        <Setting name='CloudHeight' avg=':= 16' range=':= 16' type='normal' scaleTo='SeaLevel'/>
+                        <Setting name='OreDensity' avg=':= 1 * 0.3 * _default_' range=':= _default_'/>
+                        <Setting name='CloudThickness' avg=':= 3 * 0.8 * 0.8 * rlcrPoorGoldSize * _default_' range=':= 3 * 0.8 * 0.8 * rlcrPoorGoldSize  * _default_'/>
+                        <Setting name='DistributionFrequency' avg=':= 1 * 4.5 * rlcrPoorGoldFreq *_default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        
+                        <!-- Begin Poor Gold Strategic Cloud Hint Veins -->
+                        <Veins name='rlcrPoorGoldBaseHintVeins' block='Railcraft:ore:8' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60DC7DFC</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                        </Veins>
+                        <!-- End Poor Gold Strategic Cloud Hint Veins -->
+
+                    </Cloud>
+                    
+                
+                </IfCondition>
+                <!-- End  StrategicCloud distribution of Poor Gold -->
+                
+                
+                <!-- Begin  Vanilla distribution of Poor Gold -->
+                <IfCondition condition=':= rlcrPoorGoldDist = "vanillaStdGen"'>
+                
+                    <StandardGen name='rlcrPoorGoldBaseStandard' block='Railcraft:ore:8' inherits='PresetStandardGen'>
+                        <Description>
+                            This mimics vanilla ore generation.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='Size' avg=':= 3 * 1 * rlcrPoorGoldSize * _default_'/>
+                        <Setting name='Height' avg=':= 16' range=':= 16' type='uniform'/> 
+                        <Setting name='Frequency' avg=':= 1 * 1 * rlcrPoorGoldFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                    </StandardGen>
+                    
+                
+                </IfCondition>
+                <!-- End  Vanilla distribution of Poor Gold -->
+                
+                <!-- End Poor Gold Generation --> 
+
+                
+                <!-- Begin Poor Copper Generation --> 
+                
+                <!-- Begin LayeredVeins distribution of Poor Copper -->
+                <IfCondition condition=':= rlcrPoorCopperDist = "layeredVeins"'>
+                
+                    <Veins name='rlcrPoorCopperBaseVeins' block='Railcraft:ore:9' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 3 * 1 * rlcrPoorCopperSize * _default_' range=':= 3 * 1 * rlcrPoorCopperSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 43' range=':= 10.5' type='normal' scaleTo='SeaLevel'/> 
+                        <Setting name='SegmentRadius' avg=':= 3 * 1 * rlcrPoorCopperSize * _default_' range=':= 3 * 1 * rlcrPoorCopperSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.9 * rlcrPoorCopperFreq * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 10.5'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Poor Copper Layered Veins) Settings -->
+                    <Veins name='rlcrPoorCopperPrefersVeins' block='Railcraft:ore:9' inherits='rlcrPoorCopperBaseVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='Cold'/>
+                        <BiomeType name='Ocean' weight='-1'/>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Poor Copper Layered Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End LayeredVeins distribution of Poor Copper -->
+                
+                
+                <!-- Begin  Huge Veins distribution of Poor Copper -->
+                <IfCondition condition=':= rlcrPoorCopperDist = "hugeVeins"'>
+                
+                    <Veins name='rlcrPoorCopperBaseVeins' block='Railcraft:ore:9' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
+                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
+                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
+                            enough ore to keep a player supplied for a very long time.
+                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
+                            could make finding them much easier and the motherlodes are big enough to supply several people without
+                            shortage.  This might be a good way to add challenge to multiplayer worlds.
+                            Credit: based on feedback by dyrewulf from the MC forums.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 3 * 1 * rlcrPoorCopperSize * _default_' range=':= 3 * 1 * rlcrPoorCopperSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 43' range=':= 10.5' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 3 * 1 * rlcrPoorCopperSize * _default_' range=':= 3 * 1 * rlcrPoorCopperSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.9 * rlcrPoorCopperFreq * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 10.5'/>
+                        <Replaces block='minecraft:stone'/>
+                        
+                        <!-- Begin Poor Copper Huge Vein Hint Veins -->
+                        <Veins name='rlcrPoorCopperBaseHintVeins' block='Railcraft:ore:9' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60DC7DFC</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                        </Veins>
+                        <!-- End Poor Copper Huge Vein Hint Veins -->
+
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Poor Copper Huge Veins) Settings -->
+                    <Veins name='rlcrPoorCopperPrefersVeins' block='Railcraft:ore:9' inherits='rlcrPoorCopperBaseVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='Cold'/>
+                        <BiomeType name='Ocean' weight='-1'/>
+                        
+                        <!-- Begin Poor Copper Huge Vein Hint Veins -->
+                        <Veins name='rlcrPoorCopperPrefersHintVeins' block='Railcraft:ore:9' inherits='rlcrPoorCopperBaseHintVeins'>
+                            <Description>
+                                Spawns 2 more times in preferred biomes.
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60DC7DFC</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                            <BiomeType name='Cold'/>
+                            <BiomeType name='Ocean' weight='-1'/>
+                        </Veins>
+                        <!-- End Poor Copper Huge Vein Hint Veins -->
+
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Poor Copper Huge Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End  Huge Veins distribution of Poor Copper -->
+                
+                
+                <!-- Begin  StrategicCloud distribution of Poor Copper -->
+                <IfCondition condition=':= rlcrPoorCopperDist = "strategicCloud"'>
+                
+                    <Cloud name='rlcrPoorCopperBaseCloud' block='Railcraft:ore:9' inherits='PresetStrategicCloud'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
+                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
+                            ore, but it takes some time and effort to mine due to low density.
+                            The intent for strategic clouds is that the player will need to actively search for
+                            one and then set up a semi-permanent mining base and spend some time actually mining
+                            the ore.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='CloudRadius' avg=':= 3 * 1 * rlcrPoorCopperSize * _default_' range=':= 3 * 1 * rlcrPoorCopperSize * _default_'/>
+                        <Setting name='CloudThickness' avg=':= 3 * 1 * rlcrPoorCopperSize * _default_' range=':= 3 * 1 * rlcrPoorCopperSize * _default_'/>
+                        <Setting name='CloudHeight' avg=':= 32' range=':= 32' type='normal' scaleTo='SeaLevel'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='CloudThickness' avg=':= 3 * 1 * 1 * rlcrPoorCopperSize * _default_' range=':= 3 * 1 * 1 * rlcrPoorCopperSize  * _default_'/>
+                        <Setting name='DistributionFrequency' avg=':= 1 * 2.5 * rlcrPoorCopperFreq *_default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        
+                        <!-- Begin Poor Copper Strategic Cloud Hint Veins -->
+                        <Veins name='rlcrPoorCopperBaseHintVeins' block='Railcraft:ore:9' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60DC7DFC</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                        </Veins>
+                        <!-- End Poor Copper Strategic Cloud Hint Veins -->
+
+                    </Cloud>
+                    
+                
+                </IfCondition>
+                <!-- End  StrategicCloud distribution of Poor Copper -->
+                
+                
+                <!-- Begin  Vanilla distribution of Poor Copper -->
+                <IfCondition condition=':= rlcrPoorCopperDist = "vanillaStdGen"'>
+                
+                    <StandardGen name='rlcrPoorCopperBaseStandard' block='Railcraft:ore:9' inherits='PresetStandardGen'>
+                        <Description>
+                            This mimics vanilla ore generation.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='Size' avg=':= 3 * 1 * rlcrPoorCopperSize * _default_'/>
+                        <Setting name='Height' avg=':= 32' range=':= 32' type='uniform'/> 
+                        <Setting name='Frequency' avg=':= 1 * 1 * rlcrPoorCopperFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                    </StandardGen>
+                    
+                
+                </IfCondition>
+                <!-- End  Vanilla distribution of Poor Copper -->
+                
+                <!-- End Poor Copper Generation --> 
+
+                
+                <!-- Begin Poor Tin Generation --> 
+                
+                <!-- Begin LayeredVeins distribution of Poor Tin -->
+                <IfCondition condition=':= rlcrPoorTinDist = "layeredVeins"'>
+                
+                    <Veins name='rlcrPoorTinBaseVeins' block='Railcraft:ore:10' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 3 * 1 * rlcrPoorTinSize * _default_' range=':= 3 * 1 * rlcrPoorTinSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 43' range=':= 10.5' type='normal' scaleTo='SeaLevel'/> 
+                        <Setting name='SegmentRadius' avg=':= 3 * 1 * rlcrPoorTinSize * _default_' range=':= 3 * 1 * rlcrPoorTinSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.9 * rlcrPoorTinFreq * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 10.5'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Poor Tin Layered Veins) Settings -->
+                    <Veins name='rlcrPoorTinPrefersVeins' block='Railcraft:ore:10' inherits='rlcrPoorTinBaseVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='Cold'/>
+                        <BiomeType name='Ocean' weight='-1'/>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Poor Tin Layered Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End LayeredVeins distribution of Poor Tin -->
+                
+                
+                <!-- Begin  Huge Veins distribution of Poor Tin -->
+                <IfCondition condition=':= rlcrPoorTinDist = "hugeVeins"'>
+                
+                    <Veins name='rlcrPoorTinBaseVeins' block='Railcraft:ore:10' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
+                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
+                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
+                            enough ore to keep a player supplied for a very long time.
+                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
+                            could make finding them much easier and the motherlodes are big enough to supply several people without
+                            shortage.  This might be a good way to add challenge to multiplayer worlds.
+                            Credit: based on feedback by dyrewulf from the MC forums.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 3 * 1 * rlcrPoorTinSize * _default_' range=':= 3 * 1 * rlcrPoorTinSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 43' range=':= 10.5' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 3 * 1 * rlcrPoorTinSize * _default_' range=':= 3 * 1 * rlcrPoorTinSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.9 * rlcrPoorTinFreq * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 10.5'/>
+                        <Replaces block='minecraft:stone'/>
+                        
+                        <!-- Begin Poor Tin Huge Vein Hint Veins -->
+                        <Veins name='rlcrPoorTinBaseHintVeins' block='Railcraft:ore:10' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60DC7DFC</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                        </Veins>
+                        <!-- End Poor Tin Huge Vein Hint Veins -->
+
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Poor Tin Huge Veins) Settings -->
+                    <Veins name='rlcrPoorTinPrefersVeins' block='Railcraft:ore:10' inherits='rlcrPoorTinBaseVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='Cold'/>
+                        <BiomeType name='Ocean' weight='-1'/>
+                        
+                        <!-- Begin Poor Tin Huge Vein Hint Veins -->
+                        <Veins name='rlcrPoorTinPrefersHintVeins' block='Railcraft:ore:10' inherits='rlcrPoorTinBaseHintVeins'>
+                            <Description>
+                                Spawns 2 more times in preferred biomes.
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60DC7DFC</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                            <BiomeType name='Cold'/>
+                            <BiomeType name='Ocean' weight='-1'/>
+                        </Veins>
+                        <!-- End Poor Tin Huge Vein Hint Veins -->
+
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Poor Tin Huge Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End  Huge Veins distribution of Poor Tin -->
+                
+                
+                <!-- Begin  StrategicCloud distribution of Poor Tin -->
+                <IfCondition condition=':= rlcrPoorTinDist = "strategicCloud"'>
+                
+                    <Cloud name='rlcrPoorTinBaseCloud' block='Railcraft:ore:10' inherits='PresetStrategicCloud'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
+                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
+                            ore, but it takes some time and effort to mine due to low density.
+                            The intent for strategic clouds is that the player will need to actively search for
+                            one and then set up a semi-permanent mining base and spend some time actually mining
+                            the ore.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='CloudRadius' avg=':= 3 * 1 * rlcrPoorTinSize * _default_' range=':= 3 * 1 * rlcrPoorTinSize * _default_'/>
+                        <Setting name='CloudThickness' avg=':= 3 * 1 * rlcrPoorTinSize * _default_' range=':= 3 * 1 * rlcrPoorTinSize * _default_'/>
+                        <Setting name='CloudHeight' avg=':= 32' range=':= 32' type='normal' scaleTo='SeaLevel'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='CloudThickness' avg=':= 3 * 1 * 1 * rlcrPoorTinSize * _default_' range=':= 3 * 1 * 1 * rlcrPoorTinSize  * _default_'/>
+                        <Setting name='DistributionFrequency' avg=':= 1 * 2.5 * rlcrPoorTinFreq *_default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        
+                        <!-- Begin Poor Tin Strategic Cloud Hint Veins -->
+                        <Veins name='rlcrPoorTinBaseHintVeins' block='Railcraft:ore:10' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60DC7DFC</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                        </Veins>
+                        <!-- End Poor Tin Strategic Cloud Hint Veins -->
+
+                    </Cloud>
+                    
+                
+                </IfCondition>
+                <!-- End  StrategicCloud distribution of Poor Tin -->
+                
+                
+                <!-- Begin  Vanilla distribution of Poor Tin -->
+                <IfCondition condition=':= rlcrPoorTinDist = "vanillaStdGen"'>
+                
+                    <StandardGen name='rlcrPoorTinBaseStandard' block='Railcraft:ore:10' inherits='PresetStandardGen'>
+                        <Description>
+                            This mimics vanilla ore generation.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='Size' avg=':= 3 * 1 * rlcrPoorTinSize * _default_'/>
+                        <Setting name='Height' avg=':= 32' range=':= 32' type='uniform'/> 
+                        <Setting name='Frequency' avg=':= 1 * 1 * rlcrPoorTinFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                    </StandardGen>
+                    
+                
+                </IfCondition>
+                <!-- End  Vanilla distribution of Poor Tin -->
+                
+                <!-- End Poor Tin Generation --> 
+
+                
+                <!-- Begin Poor Lead Generation --> 
+                
+                <!-- Begin LayeredVeins distribution of Poor Lead -->
+                <IfCondition condition=':= rlcrPoorLeadDist = "layeredVeins"'>
+                
+                    <Veins name='rlcrPoorLeadBaseVeins' block='Railcraft:ore:11' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 3 * 1 * rlcrPoorLeadSize * _default_' range=':= 3 * 1 * rlcrPoorLeadSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 43' range=':= 10.5' type='normal' scaleTo='SeaLevel'/> 
+                        <Setting name='SegmentRadius' avg=':= 3 * 1 * rlcrPoorLeadSize * _default_' range=':= 3 * 1 * rlcrPoorLeadSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.9 * rlcrPoorLeadFreq * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 10.5'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Poor Lead Layered Veins) Settings -->
+                    <Veins name='rlcrPoorLeadPrefersVeins' block='Railcraft:ore:11' inherits='rlcrPoorLeadBaseVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='Cold'/>
+                        <BiomeType name='Ocean' weight='-1'/>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Poor Lead Layered Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End LayeredVeins distribution of Poor Lead -->
+                
+                
+                <!-- Begin  Huge Veins distribution of Poor Lead -->
+                <IfCondition condition=':= rlcrPoorLeadDist = "hugeVeins"'>
+                
+                    <Veins name='rlcrPoorLeadBaseVeins' block='Railcraft:ore:11' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
+                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
+                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
+                            enough ore to keep a player supplied for a very long time.
+                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
+                            could make finding them much easier and the motherlodes are big enough to supply several people without
+                            shortage.  This might be a good way to add challenge to multiplayer worlds.
+                            Credit: based on feedback by dyrewulf from the MC forums.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 3 * 1 * rlcrPoorLeadSize * _default_' range=':= 3 * 1 * rlcrPoorLeadSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 43' range=':= 10.5' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 3 * 1 * rlcrPoorLeadSize * _default_' range=':= 3 * 1 * rlcrPoorLeadSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.9 * rlcrPoorLeadFreq * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 10.5'/>
+                        <Replaces block='minecraft:stone'/>
+                        
+                        <!-- Begin Poor Lead Huge Vein Hint Veins -->
+                        <Veins name='rlcrPoorLeadBaseHintVeins' block='Railcraft:ore:11' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60DC7DFC</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                        </Veins>
+                        <!-- End Poor Lead Huge Vein Hint Veins -->
+
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Poor Lead Huge Veins) Settings -->
+                    <Veins name='rlcrPoorLeadPrefersVeins' block='Railcraft:ore:11' inherits='rlcrPoorLeadBaseVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='Cold'/>
+                        <BiomeType name='Ocean' weight='-1'/>
+                        
+                        <!-- Begin Poor Lead Huge Vein Hint Veins -->
+                        <Veins name='rlcrPoorLeadPrefersHintVeins' block='Railcraft:ore:11' inherits='rlcrPoorLeadBaseHintVeins'>
+                            <Description>
+                                Spawns 2 more times in preferred biomes.
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60DC7DFC</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                            <BiomeType name='Cold'/>
+                            <BiomeType name='Ocean' weight='-1'/>
+                        </Veins>
+                        <!-- End Poor Lead Huge Vein Hint Veins -->
+
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Poor Lead Huge Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End  Huge Veins distribution of Poor Lead -->
+                
+                
+                <!-- Begin  StrategicCloud distribution of Poor Lead -->
+                <IfCondition condition=':= rlcrPoorLeadDist = "strategicCloud"'>
+                
+                    <Cloud name='rlcrPoorLeadBaseCloud' block='Railcraft:ore:11' inherits='PresetStrategicCloud'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
+                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
+                            ore, but it takes some time and effort to mine due to low density.
+                            The intent for strategic clouds is that the player will need to actively search for
+                            one and then set up a semi-permanent mining base and spend some time actually mining
+                            the ore.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='CloudRadius' avg=':= 3 * 1 * rlcrPoorLeadSize * _default_' range=':= 3 * 1 * rlcrPoorLeadSize * _default_'/>
+                        <Setting name='CloudThickness' avg=':= 3 * 1 * rlcrPoorLeadSize * _default_' range=':= 3 * 1 * rlcrPoorLeadSize * _default_'/>
+                        <Setting name='CloudHeight' avg=':= 32' range=':= 32' type='normal' scaleTo='SeaLevel'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='CloudThickness' avg=':= 3 * 1 * 1 * rlcrPoorLeadSize * _default_' range=':= 3 * 1 * 1 * rlcrPoorLeadSize  * _default_'/>
+                        <Setting name='DistributionFrequency' avg=':= 1 * 2.5 * rlcrPoorLeadFreq *_default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        
+                        <!-- Begin Poor Lead Strategic Cloud Hint Veins -->
+                        <Veins name='rlcrPoorLeadBaseHintVeins' block='Railcraft:ore:11' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60DC7DFC</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                        </Veins>
+                        <!-- End Poor Lead Strategic Cloud Hint Veins -->
+
+                    </Cloud>
+                    
+                
+                </IfCondition>
+                <!-- End  StrategicCloud distribution of Poor Lead -->
+                
+                
+                <!-- Begin  Vanilla distribution of Poor Lead -->
+                <IfCondition condition=':= rlcrPoorLeadDist = "vanillaStdGen"'>
+                
+                    <StandardGen name='rlcrPoorLeadBaseStandard' block='Railcraft:ore:11' inherits='PresetStandardGen'>
+                        <Description>
+                            This mimics vanilla ore generation.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='Size' avg=':= 3 * 1 * rlcrPoorLeadSize * _default_'/>
+                        <Setting name='Height' avg=':= 32' range=':= 32' type='uniform'/> 
+                        <Setting name='Frequency' avg=':= 1 * 1 * rlcrPoorLeadFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                    </StandardGen>
+                    
+                
+                </IfCondition>
+                <!-- End  Vanilla distribution of Poor Lead -->
+                
+                <!-- End Poor Lead Generation --> 
+
+                
+                <!-- Begin Saltpeter Generation --> 
+                
+                <!-- Begin LayeredVeins distribution of Saltpeter -->
+                <IfCondition condition=':= rlcrSaltpeterDist = "layeredVeins"'>
+                
+                    <Veins name='rlcrSaltpeterBaseVeins' block='Railcraft:ore:1' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 2.3 * rlcrSaltpeterSize * _default_' range=':= 1 * 2.3 * rlcrSaltpeterSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 64' range=':= 5' type='normal' scaleTo='SeaLevel'/> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 2.3 * rlcrSaltpeterSize * _default_' range=':= 1 * 2.3 * rlcrSaltpeterSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 0.04 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.03 * rlcrSaltpeterFreq * _default_'/>
+                        <Setting name='BranchFrequency' avg=':= 0.03 * _default_'/>
+                        <Setting name='BranchLength' avg=':= 180/_default_ * _default_' range=':= 90/_default_ * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 1000'/>
+                        <Setting name='BranchInclination' avg=':= 0' range=':= 0.75'/>
+                        <Replaces block='minecraft:sandstone'/>
+                        <Replaces block='minecraft:sand'/>
+                        <BiomeType name='Desert'/>
+                    </Veins>
+                
+                </IfCondition>
+                <!-- End LayeredVeins distribution of Saltpeter -->
+                
+                
+                <!-- Begin  Huge Veins distribution of Saltpeter -->
+                <IfCondition condition=':= rlcrSaltpeterDist = "hugeVeins"'>
+                
+                    <Veins name='rlcrSaltpeterBaseVeins' block='Railcraft:ore:1' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
+                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
+                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
+                            enough ore to keep a player supplied for a very long time.
+                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
+                            could make finding them much easier and the motherlodes are big enough to supply several people without
+                            shortage.  This might be a good way to add challenge to multiplayer worlds.
+                            Credit: based on feedback by dyrewulf from the MC forums.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 2.3 * rlcrSaltpeterSize * _default_' range=':= 1 * 2.3 * rlcrSaltpeterSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 64' range=':= 5' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 2.3 * rlcrSaltpeterSize * _default_' range=':= 1 * 2.3 * rlcrSaltpeterSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 0.04 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.03 * rlcrSaltpeterFreq * _default_'/>
+                        <Setting name='BranchFrequency' avg=':= 0.03 * _default_'/>
+                        <Setting name='BranchLength' avg=':= 180/_default_ * _default_' range=':= 90/_default_ * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 1000'/>
+                        <Setting name='BranchInclination' avg=':= 0' range=':= 0.75'/>
+                        <Replaces block='minecraft:sandstone'/>
+                        <Replaces block='minecraft:sand'/>
+                        <BiomeType name='Desert'/>
+                        
+                        <!-- Begin Saltpeter Huge Vein Hint Veins -->
+                        <Veins name='rlcrSaltpeterBaseHintVeins' block='Railcraft:ore:1' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60DC7DFC</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:sand'/>
+                            <BiomeType name='Desert'/>
+                        </Veins>
+                        <!-- End Saltpeter Huge Vein Hint Veins -->
+
+                    </Veins>
+                
+                </IfCondition>
+                <!-- End  Huge Veins distribution of Saltpeter -->
+                
+                
+                <!-- Begin  Vanilla distribution of Saltpeter -->
+                <IfCondition condition=':= rlcrSaltpeterDist = "vanillaStdGen"'>
+                
+                    <StandardGen name='rlcrSaltpeterBaseStandard' block='Railcraft:ore:1' inherits='PresetStandardGen'>
+                        <Description>
+                            This mimics vanilla ore generation.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='Size' avg=':= 1 * 7/8 * rlcrSaltpeterSize * _default_'/>
+                        <Setting name='Height' avg=':= 64' range=':= 5' type='uniform'/> 
+                        <Setting name='Frequency' avg=':= 1 * 0.1 * rlcrSaltpeterFreq * _default_'/>
+                        <Replaces block='minecraft:sandstone'/>
+                        <Replaces block='minecraft:sand'/>
+                        <BiomeType name='Desert'/>
+                    </StandardGen>
+                
+                </IfCondition>
+                <!-- End  Vanilla distribution of Saltpeter -->
+                
+                <!-- End Saltpeter Generation --> 
+
+                
+                <!-- Begin Remove Abyssal Stone Generation --> 
+                
+                <!-- Begin Substitute distribution of Remove Abyssal Stone -->
+                <IfCondition condition=':= rlcrRemoveAbyssalStoneDist = "substituteGen"'>
+                
+                    <Substitute name='rlcrRemoveAbyssalStoneBaseSubstitute' block='minecraft:stone'>
+                        <Description> This is a straight-up replacement of one block with another. </Description>
+                        <Replaces block='Railcraft:cube:6'/>
+                    </Substitute>
+                
+                </IfCondition>
+                <!-- End Substitute distribution of Remove Abyssal Stone -->
+                
+                <!-- End Remove Abyssal Stone Generation --> 
+
+                
+                <!-- Begin Abyssal Ores Generation --> 
+                
+                <!-- Begin Geodes distribution of Abyssal Ores -->
+                <IfCondition condition=':= rlcrAbyssalOresDist = "geodes"'>
+                
+                    
+                    <!-- Begin Abyssal Ores Geode Crust -->
+                    <Veins name='rlcrAbyssalOresBaseShell' block='Railcraft:cube:6' inherits='PresetSmallDeposits' seed='0x710B'>
+                        <Description>
+                            The geode's outer shell, composed of the Pipe material.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 3 * 3 * 1 * rlcrAbyssalOresSize * _default_' range=':= 3 * 1 * rlcrAbyssalOresSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 8' range=':= 8' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='MotherlodeFrequency' avg=':= 0.2 * 1 * rlcrAbyssalOresFreq * _default_'/>
+                        <Replaces block='minecraft:air'/>
+                        <Replaces block='minecraft:water'/>
+                        <Replaces block='minecraft:lava'/>
+                        <Replaces block='minecraft:stone'/>
+                        <BiomeType name='Ocean'/>
+                    </Veins>
+                    <!-- End Abyssal Ores Geode Crust -->
+                    
+                    
+                    <!-- Begin Abyssal Ores Geode Crystals -->
+                    <Veins name='rlcrAbyssalOresBaseCrystal' block='Railcraft:ore:2' inherits='PresetSmallDeposits' seed='0x710B'>
+                        <Description>
+                            The geode's inner material, usually some form of crystal.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1.5 * 3 * 1 * rlcrAbyssalOresSize * _default_' range=':= 3 * 1 * rlcrAbyssalOresSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 8' range=':= 8' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='OreDensity' avg=':= 0.04 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 0.2 * 1 * rlcrAbyssalOresFreq * _default_'/>
+                        <Replaces block='Railcraft:cube:6'/>
+                        <BiomeType name='Ocean'/>
+                    </Veins>
+                    <!-- End Abyssal Ores Geode Crystals -->
+                    
+                    
+                    <!-- Begin Abyssal Ores Geode Crystals (Railcraft:ore:3) -->
+                    <Veins name='rlcrAbyssalOresBase1Crystal' block='Railcraft:ore:3' inherits='PresetSmallDeposits' seed='0x710B'>
+                        <Description>
+                            The geode's inner material, usually some form of crystal.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1.5 * 3 * 1 * rlcrAbyssalOresSize * _default_' range=':= 3 * 1 * rlcrAbyssalOresSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 8' range=':= 8' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='OreDensity' avg=':= 2/3 * 0.04 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 0.2 * 1 * rlcrAbyssalOresFreq * _default_'/>
+                        <Replaces block='Railcraft:ore:2'/>
+                        <BiomeType name='Ocean'/>
+                    </Veins>
+                    <!-- End Abyssal Ores Geode Crystals -->
+                    
+                    
+                    <!-- Begin Abyssal Ores Geode Crystals (Railcraft:ore:4) -->
+                    <Veins name='rlcrAbyssalOresBase2Crystal' block='Railcraft:ore:4' inherits='PresetSmallDeposits' seed='0x710B'>
+                        <Description>
+                            The geode's inner material, usually some form of crystal.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1.5 * 3 * 1 * rlcrAbyssalOresSize * _default_' range=':= 3 * 1 * rlcrAbyssalOresSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 8' range=':= 8' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='OreDensity' avg=':= 1/3 * 0.04 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 0.2 * 1 * rlcrAbyssalOresFreq * _default_'/>
+                        <Replaces block='Railcraft:ore:3'/>
+                        <BiomeType name='Ocean'/>
+                    </Veins>
+                    <!-- End Abyssal Ores Geode Crystals -->
+                    
+                    
+                    <!-- Begin Abyssal Ores Geode Air Pocket -->
+                    <Veins name='rlcrAbyssalOresBaseAirBubble' block='minecraft:air' inherits='PresetSmallDeposits' seed='0x710B'>
+                        <Description>
+                            The air pocket within the center of a geode.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 3 * 1 * rlcrAbyssalOresSize * _default_' range=':= 3 * 1 * rlcrAbyssalOresSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 8' range=':= 8' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 3 * 1 * rlcrAbyssalOresSize * _default_' range=':= 3 * 1 * rlcrAbyssalOresSize * _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 0.2 * 1 * rlcrAbyssalOresFreq * _default_'/>
+                        <Replaces block='Railcraft:ore:2'/>
+                        <Replaces block='Railcraft:cube:6'/>
+                        <BiomeType name='Ocean'/>
+                    </Veins>
+                    <!-- End Abyssal Ores Geode Air Pocket -->
+                    
+                
+                </IfCondition>
+                <!-- End Geodes distribution of Abyssal Ores -->
+                
+                <!-- End Abyssal Ores Generation --> 
+
+                <!-- Done adding ores -->
+            
+            </IfCondition>
+            <!-- Overworld Setup Complete -->
+
+
+            <!-- Setup Nether -->
+            <IfCondition condition=':= dimension.generator = "HellRandomLevelSource"'>
+                
+                <!-- Starting Original Nether Ore Removal -->
+                <Substitute name='rlcrNetherOreSubstitute0' block='minecraft:netherrack'>
+                    <Description>
+                        Replace vanilla-generated ore clusters.
+                    </Description>
+                    <Comment>
+                        The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
+                    </Comment>
+                    <Replaces block='Railcraft:ore:5' />
+                </Substitute>
+                <!-- Original Nether Ore Removal Complete -->
+                
+                <!-- Adding ores --> 
+                
+                <!-- Begin Firestone Generation --> 
+                
+                <!-- Begin LayeredVeins distribution of Firestone -->
+                <IfCondition condition=':= rlcrFirestoneDist = "layeredVeins"'>
+                
+                    <Veins name='rlcrFirestoneBaseVeins' block='Railcraft:ore:5' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 0.5 * 1 * rlcrFirestoneSize * _default_' range=':= 0.5 * 1 * rlcrFirestoneSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 31' range=':= 2' type='uniform' scaleTo='SeaLevel'/> 
+                        <Setting name='SegmentRadius' avg=':= 0.5 * 1 * rlcrFirestoneSize * _default_' range=':= 0.5 * 1 * rlcrFirestoneSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 0.5 * 1 * rlcrFirestoneFreq * _default_'/>
+                        <Replaces block='minecraft:netherrack'/>
+                    </Veins>
+                
+                </IfCondition>
+                <!-- End LayeredVeins distribution of Firestone -->
+                
+                
+                <!-- Begin  Huge Veins distribution of Firestone -->
+                <IfCondition condition=':= rlcrFirestoneDist = "hugeVeins"'>
+                
+                    <Veins name='rlcrFirestoneBaseVeins' block='Railcraft:ore:5' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
+                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
+                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
+                            enough ore to keep a player supplied for a very long time.
+                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
+                            could make finding them much easier and the motherlodes are big enough to supply several people without
+                            shortage.  This might be a good way to add challenge to multiplayer worlds.
+                            Credit: based on feedback by dyrewulf from the MC forums.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 0.5 * 1 * rlcrFirestoneSize * _default_' range=':= 0.5 * 1 * rlcrFirestoneSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 31' range=':= 2' type='uniform' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 0.5 * 1 * rlcrFirestoneSize * _default_' range=':= 0.5 * 1 * rlcrFirestoneSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 0.5 * 1 * rlcrFirestoneFreq * _default_'/>
+                        <Replaces block='minecraft:netherrack'/>
+                        
+                        <!-- Begin Firestone Huge Vein Hint Veins -->
+                        <Veins name='rlcrFirestoneBaseHintVeins' block='Railcraft:ore:5' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60DC7DFC</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:netherrack'/>
+                        </Veins>
+                        <!-- End Firestone Huge Vein Hint Veins -->
+
+                    </Veins>
+                
+                </IfCondition>
+                <!-- End  Huge Veins distribution of Firestone -->
+                
+                
+                <!-- Begin  StrategicCloud distribution of Firestone -->
+                <IfCondition condition=':= rlcrFirestoneDist = "strategicCloud"'>
+                
+                    <Cloud name='rlcrFirestoneBaseCloud' block='Railcraft:ore:5' inherits='PresetStrategicCloud'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
+                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
+                            ore, but it takes some time and effort to mine due to low density.
+                            The intent for strategic clouds is that the player will need to actively search for
+                            one and then set up a semi-permanent mining base and spend some time actually mining
+                            the ore.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='CloudRadius' avg=':= 0.5 * 1 * rlcrFirestoneSize * _default_' range=':= 0.5 * 1 * rlcrFirestoneSize * _default_'/>
+                        <Setting name='CloudThickness' avg=':= 0.5 * 1 * rlcrFirestoneSize * _default_' range=':= 0.5 * 1 * rlcrFirestoneSize * _default_'/>
+                        <Setting name='CloudHeight' avg=':= 31' range=':= 2' type='uniform' scaleTo='SeaLevel'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='CloudThickness' avg=':= 0.5 * 1 * 1 * rlcrFirestoneSize * _default_' range=':= 0.5 * 1 * 1 * rlcrFirestoneSize  * _default_'/>
+                        <Setting name='DistributionFrequency' avg=':= 0.5 * 1 * rlcrFirestoneFreq *_default_'/>
+                        <Replaces block='minecraft:netherrack'/>
+                        
+                        <!-- Begin Firestone Strategic Cloud Hint Veins -->
+                        <Veins name='rlcrFirestoneBaseHintVeins' block='Railcraft:ore:5' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60DC7DFC</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:netherrack'/>
+                        </Veins>
+                        <!-- End Firestone Strategic Cloud Hint Veins -->
+
+                    </Cloud>
+                
+                </IfCondition>
+                <!-- End  StrategicCloud distribution of Firestone -->
+                
+                
+                <!-- Begin  Vanilla distribution of Firestone -->
+                <IfCondition condition=':= rlcrFirestoneDist = "vanillaStdGen"'>
+                
+                    <StandardGen name='rlcrFirestoneBaseStandard' block='Railcraft:ore:5' inherits='PresetStandardGen'>
+                        <Description>
+                            This mimics vanilla ore generation.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60DC7DFC</WireframeColor>
+                        <Setting name='Size' avg=':= 0.5 * 1 * rlcrFirestoneSize * _default_'/>
+                        <Setting name='Height' avg=':= 31' range=':= 2' type='uniform'/> 
+                        <Setting name='Frequency' avg=':= 0.5 * 1 * rlcrFirestoneFreq * _default_'/>
+                        <Replaces block='minecraft:netherrack'/>
+                    </StandardGen>
+                
+                </IfCondition>
+                <!-- End  Vanilla distribution of Firestone -->
+                
+                <!-- End Firestone Generation --> 
+
+                <!-- Done adding ores -->
+            
+            </IfCondition>
+            <!-- Nether Setup Complete -->
+
+
+ 
+        
+        </ConfigSection>
+        <!-- Custom Ore Gen Configuration Complete! -->
+    
+    </IfModInstalled> 
+ 
+
+
+<!-- This file was made using the Sprocket Configuration Generator. -->

@@ -1,0 +1,370 @@
+
+<!-- ================================================================ 
+
+Custom Ore Generation:   Chisel 2 Module
+
+Generates: 
+Andesite, Diorite, Granite, Limestone, Marble
+
+================================================================ -->
+
+    <!-- Mod detection -->
+    <IfModInstalled name="chisel">
+        
+        <!-- Starting Custom Ore Gen Configuration. -->
+        <ConfigSection>
+        
+            
+            <!-- Setup Screen Configuration -->
+            <ConfigSection>
+                <OptionDisplayGroup name='groupChisel2' displayName='Chisel 2' displayState='shown'> 
+                    <Description>
+                        Distribution options for Chisel 2 Ores.
+                    </Description>
+                </OptionDisplayGroup>
+                
+                <!-- Andesite Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='chslAndesiteDist'  displayState='shown' displayGroup='groupChisel2'> 
+                        <Description> Controls how Andesite is generated </Description> 
+                        <DisplayName>Chisel 2 Andesite</DisplayName>
+                        <Choice value='layeredVeins' displayValue='Layered Veins'>
+                            <Description>
+                                Layered Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Andesite is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='chslAndesiteFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
+                        <Description> Frequency multiplier for Chisel 2 Andesite distributions </Description>
+                        <DisplayName>Chisel 2 Andesite Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='chslAndesiteSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
+                        <Description> Size multiplier for Chisel 2 Andesite distributions </Description>
+                        <DisplayName>Chisel 2 Andesite Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Andesite Configuration UI Complete -->
+                
+                
+                <!-- Diorite Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='chslDioriteDist'  displayState='shown' displayGroup='groupChisel2'> 
+                        <Description> Controls how Diorite is generated </Description> 
+                        <DisplayName>Chisel 2 Diorite</DisplayName>
+                        <Choice value='layeredVeins' displayValue='Layered Veins'>
+                            <Description>
+                                Layered Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Diorite is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='chslDioriteFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
+                        <Description> Frequency multiplier for Chisel 2 Diorite distributions </Description>
+                        <DisplayName>Chisel 2 Diorite Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='chslDioriteSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
+                        <Description> Size multiplier for Chisel 2 Diorite distributions </Description>
+                        <DisplayName>Chisel 2 Diorite Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Diorite Configuration UI Complete -->
+                
+                
+                <!-- Granite Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='chslGraniteDist'  displayState='shown' displayGroup='groupChisel2'> 
+                        <Description> Controls how Granite is generated </Description> 
+                        <DisplayName>Chisel 2 Granite</DisplayName>
+                        <Choice value='layeredVeins' displayValue='Layered Veins'>
+                            <Description>
+                                Layered Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Granite is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='chslGraniteFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
+                        <Description> Frequency multiplier for Chisel 2 Granite distributions </Description>
+                        <DisplayName>Chisel 2 Granite Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='chslGraniteSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
+                        <Description> Size multiplier for Chisel 2 Granite distributions </Description>
+                        <DisplayName>Chisel 2 Granite Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Granite Configuration UI Complete -->
+                
+                
+                <!-- Limestone Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='chslLimestoneDist'  displayState='shown' displayGroup='groupChisel2'> 
+                        <Description> Controls how Limestone is generated </Description> 
+                        <DisplayName>Chisel 2 Limestone</DisplayName>
+                        <Choice value='layeredVeins' displayValue='Layered Veins'>
+                            <Description>
+                                Layered Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Limestone is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='chslLimestoneFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
+                        <Description> Frequency multiplier for Chisel 2 Limestone distributions </Description>
+                        <DisplayName>Chisel 2 Limestone Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='chslLimestoneSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
+                        <Description> Size multiplier for Chisel 2 Limestone distributions </Description>
+                        <DisplayName>Chisel 2 Limestone Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Limestone Configuration UI Complete -->
+                
+                
+                <!-- Marble Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='chslMarbleDist'  displayState='shown' displayGroup='groupChisel2'> 
+                        <Description> Controls how Marble is generated </Description> 
+                        <DisplayName>Chisel 2 Marble</DisplayName>
+                        <Choice value='layeredVeins' displayValue='Layered Veins'>
+                            <Description>
+                                Layered Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Marble is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='chslMarbleFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
+                        <Description> Frequency multiplier for Chisel 2 Marble distributions </Description>
+                        <DisplayName>Chisel 2 Marble Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='chslMarbleSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
+                        <Description> Size multiplier for Chisel 2 Marble distributions </Description>
+                        <DisplayName>Chisel 2 Marble Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Marble Configuration UI Complete -->
+                
+            </ConfigSection>
+            <!-- Setup Screen Complete -->
+
+
+            <!-- Setup Overworld -->
+            <IfCondition condition=':= ?COGActive'>
+                
+                <!-- Starting Original Overworld Ore Removal -->
+                <Substitute name='chslOverworldOreSubstitute0' block='minecraft:stone'>
+                    <Description>
+                        Replace vanilla-generated ore clusters.
+                    </Description>
+                    <Comment>
+                        The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
+                    </Comment>
+                    <Replaces block='chisel:andesite:0' />
+                    <Replaces block='chisel:diorite:0' />
+                    <Replaces block='chisel:granite:0' />
+                    <Replaces block='chisel:limestone:0' />
+                    <Replaces block='chisel:marble:0' />
+                </Substitute>
+                <!-- Original Overworld Ore Removal Complete -->
+                
+                <!-- Adding ores --> 
+                
+                <!-- Begin Andesite Generation --> 
+                
+                <!-- Begin Layered Veins distribution of Andesite -->
+                <IfCondition condition=':= chslAndesiteDist = "layeredVeins"'>
+                
+                    <Veins name='chslAndesiteBaseVeins' block='chisel:andesite' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60E39AB9</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * chslAndesiteSize * _default_' range=':= 1 * 1 * chslAndesiteSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 128' range=':= 128' type='uniform' scaleTo='SeaLevel'/> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * chslAndesiteSize * _default_' range=':= 1 * 1 * chslAndesiteSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 3 * 1 * chslAndesiteFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Andesite Layered Veins) Settings -->
+                    <Veins name='chslAndesitePrefersVeins' block='chisel:andesite' inherits='chslAndesiteBaseVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60E39AB9</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='mountain'/>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Andesite Layered Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End Layered Veins distribution of Andesite -->
+                
+                <!-- End Andesite Generation --> 
+
+                
+                <!-- Begin Diorite Generation --> 
+                
+                <!-- Begin Layered Veins distribution of Diorite -->
+                <IfCondition condition=':= chslDioriteDist = "layeredVeins"'>
+                
+                    <Veins name='chslDioriteBaseVeins' block='chisel:diorite' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60E39AB9</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * chslDioriteSize * _default_' range=':= 1 * 1 * chslDioriteSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 128' range=':= 128' type='uniform' scaleTo='SeaLevel'/> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * chslDioriteSize * _default_' range=':= 1 * 1 * chslDioriteSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 3 * 1 * chslDioriteFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Diorite Layered Veins) Settings -->
+                    <Veins name='chslDioritePrefersVeins' block='chisel:diorite' inherits='chslDioriteBaseVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60E39AB9</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='mountain'/>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Diorite Layered Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End Layered Veins distribution of Diorite -->
+                
+                <!-- End Diorite Generation --> 
+
+                
+                <!-- Begin Granite Generation --> 
+                
+                <!-- Begin Layered Veins distribution of Granite -->
+                <IfCondition condition=':= chslGraniteDist = "layeredVeins"'>
+                
+                    <Veins name='chslGraniteBaseVeins' block='chisel:granite' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60E39AB9</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * chslGraniteSize * _default_' range=':= 1 * 1 * chslGraniteSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 128' range=':= 128' type='uniform' scaleTo='SeaLevel'/> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * chslGraniteSize * _default_' range=':= 1 * 1 * chslGraniteSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 3 * 1 * chslGraniteFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Granite Layered Veins) Settings -->
+                    <Veins name='chslGranitePrefersVeins' block='chisel:granite' inherits='chslGraniteBaseVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60E39AB9</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='mountain'/>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Granite Layered Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End Layered Veins distribution of Granite -->
+                
+                <!-- End Granite Generation --> 
+
+                
+                <!-- Begin Limestone Generation --> 
+                
+                <!-- Begin Layered Veins distribution of Limestone -->
+                <IfCondition condition=':= chslLimestoneDist = "layeredVeins"'>
+                
+                    <Veins name='chslLimestoneBaseVeins' block='chisel:limestone' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60E39AB9</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * chslLimestoneSize * _default_' range=':= 1 * 1 * chslLimestoneSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 128' range=':= 128' type='uniform' scaleTo='SeaLevel'/> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * chslLimestoneSize * _default_' range=':= 1 * 1 * chslLimestoneSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 3 * 1 * chslLimestoneFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Limestone Layered Veins) Settings -->
+                    <Veins name='chslLimestonePrefersVeins' block='chisel:limestone' inherits='chslLimestoneBaseVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60E39AB9</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='swamp'/>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Limestone Layered Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End Layered Veins distribution of Limestone -->
+                
+                <!-- End Limestone Generation --> 
+
+                
+                <!-- Begin Marble Generation --> 
+                
+                <!-- Begin Layered Veins distribution of Marble -->
+                <IfCondition condition=':= chslMarbleDist = "layeredVeins"'>
+                
+                    <Veins name='chslMarbleBaseVeins' block='chisel:marble' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60E39AB9</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * chslMarbleSize * _default_' range=':= 1 * 1 * chslMarbleSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 128' range=':= 128' type='uniform' scaleTo='SeaLevel'/> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * chslMarbleSize * _default_' range=':= 1 * 1 * chslMarbleSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 3 * 1 * chslMarbleFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Marble Layered Veins) Settings -->
+                    <Veins name='chslMarblePrefersVeins' block='chisel:marble' inherits='chslMarbleBaseVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60E39AB9</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='mountain'/>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Marble Layered Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End Layered Veins distribution of Marble -->
+                
+                <!-- End Marble Generation --> 
+
+                <!-- Done adding ores -->
+            
+            </IfCondition>
+            <!-- Overworld Setup Complete -->
+
+
+ 
+ 
+        
+        </ConfigSection>
+        <!-- Custom Ore Gen Configuration Complete! -->
+    
+    </IfModInstalled> 
+ 
+
+
+<!-- This file was made using the Sprocket Configuration Generator. -->

@@ -1,0 +1,1503 @@
+
+<!-- ================================================================ 
+
+Custom Ore Generation:   Dense Ores Module
+
+Generates: 
+Iron, Gold, Lapis, Diamond, Emerald, Redstone, Coal, Nether Quartz
+
+================================================================ -->
+
+    <!-- Mod detection -->
+    <IfModInstalled name="denseores">
+        
+        <!-- Starting Custom Ore Gen Configuration. -->
+        <ConfigSection>
+        
+            
+            <!-- Setup Screen Configuration -->
+            <ConfigSection>
+                <OptionDisplayGroup name='groupDenseOres' displayName='Dense Ores' displayState='shown'> 
+                    <Description>
+                        Distribution options for Dense Ores Ores.
+                    </Description>
+                </OptionDisplayGroup>
+                
+                <!-- Iron Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='dnsoIronDist'  displayState='shown' displayGroup='groupDenseOres'> 
+                        <Description> Controls how Iron is generated </Description> 
+                        <DisplayName>Dense Ores Iron</DisplayName>
+                        <Choice value='layeredVeins' displayValue='Layered Veins'>
+                            <Description>
+                                Layered Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='hugeVeins' displayValue='Huge Veins'>
+                            <Description>
+                                Huge Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='strategicCloud' displayValue='Clouds'>
+                            <Description>
+                                Strategic Clouds.
+                            </Description>
+                        </Choice>
+                        <Choice value='vanillaStdGen' displayValue='Vanilla'>
+                            <Description>
+                                Vanilla-style clusters.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Iron is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='dnsoIronFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupDenseOres'>
+                        <Description> Frequency multiplier for Dense Ores Iron distributions </Description>
+                        <DisplayName>Dense Ores Iron Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='dnsoIronSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupDenseOres'>
+                        <Description> Size multiplier for Dense Ores Iron distributions </Description>
+                        <DisplayName>Dense Ores Iron Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Iron Configuration UI Complete -->
+                
+                
+                <!-- Gold Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='dnsoGoldDist'  displayState='shown' displayGroup='groupDenseOres'> 
+                        <Description> Controls how Gold is generated </Description> 
+                        <DisplayName>Dense Ores Gold</DisplayName>
+                        <Choice value='layeredVeins' displayValue='Layered Veins'>
+                            <Description>
+                                Layered Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='hugeVeins' displayValue='Huge Veins'>
+                            <Description>
+                                Huge Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='strategicCloud' displayValue='Clouds'>
+                            <Description>
+                                Strategic Clouds.
+                            </Description>
+                        </Choice>
+                        <Choice value='vanillaStdGen' displayValue='Vanilla'>
+                            <Description>
+                                Vanilla-style clusters.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Gold is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='dnsoGoldFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupDenseOres'>
+                        <Description> Frequency multiplier for Dense Ores Gold distributions </Description>
+                        <DisplayName>Dense Ores Gold Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='dnsoGoldSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupDenseOres'>
+                        <Description> Size multiplier for Dense Ores Gold distributions </Description>
+                        <DisplayName>Dense Ores Gold Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Gold Configuration UI Complete -->
+                
+                
+                <!-- Lapis Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='dnsoLapisDist'  displayState='shown' displayGroup='groupDenseOres'> 
+                        <Description> Controls how Lapis is generated </Description> 
+                        <DisplayName>Dense Ores Lapis</DisplayName>
+                        <Choice value='verticalVeins' displayValue='Vertical Veins'>
+                            <Description>
+                                Vertical Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='strategicCloud' displayValue='Clouds'>
+                            <Description>
+                                Strategic Clouds.
+                            </Description>
+                        </Choice>
+                        <Choice value='vanillaStdGen' displayValue='Vanilla'>
+                            <Description>
+                                Vanilla-style clusters.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Lapis is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='dnsoLapisFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupDenseOres'>
+                        <Description> Frequency multiplier for Dense Ores Lapis distributions </Description>
+                        <DisplayName>Dense Ores Lapis Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='dnsoLapisSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupDenseOres'>
+                        <Description> Size multiplier for Dense Ores Lapis distributions </Description>
+                        <DisplayName>Dense Ores Lapis Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Lapis Configuration UI Complete -->
+                
+                
+                <!-- Diamond Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='dnsoDiamondDist'  displayState='shown' displayGroup='groupDenseOres'> 
+                        <Description> Controls how Diamond is generated </Description> 
+                        <DisplayName>Dense Ores Diamond</DisplayName>
+                        <Choice value='pipeVeins' displayValue='Pipe Veins'>
+                            <Description>
+                                Pipe Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='strategicCloud' displayValue='Clouds'>
+                            <Description>
+                                Strategic Clouds.
+                            </Description>
+                        </Choice>
+                        <Choice value='vanillaStdGen' displayValue='Vanilla'>
+                            <Description>
+                                Vanilla-style clusters.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Diamond is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='dnsoDiamondFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupDenseOres'>
+                        <Description> Frequency multiplier for Dense Ores Diamond distributions </Description>
+                        <DisplayName>Dense Ores Diamond Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='dnsoDiamondSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupDenseOres'>
+                        <Description> Size multiplier for Dense Ores Diamond distributions </Description>
+                        <DisplayName>Dense Ores Diamond Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Diamond Configuration UI Complete -->
+                
+                
+                <!-- Emerald Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='dnsoEmeraldDist'  displayState='shown' displayGroup='groupDenseOres'> 
+                        <Description> Controls how Emerald is generated </Description> 
+                        <DisplayName>Dense Ores Emerald</DisplayName>
+                        <Choice value='pipeVeins' displayValue='Pipe Veins'>
+                            <Description>
+                                Pipe Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='strategicCloud' displayValue='Clouds'>
+                            <Description>
+                                Strategic Clouds.
+                            </Description>
+                        </Choice>
+                        <Choice value='vanillaStdGen' displayValue='Vanilla'>
+                            <Description>
+                                Vanilla-style clusters.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Emerald is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='dnsoEmeraldFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupDenseOres'>
+                        <Description> Frequency multiplier for Dense Ores Emerald distributions </Description>
+                        <DisplayName>Dense Ores Emerald Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='dnsoEmeraldSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupDenseOres'>
+                        <Description> Size multiplier for Dense Ores Emerald distributions </Description>
+                        <DisplayName>Dense Ores Emerald Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Emerald Configuration UI Complete -->
+                
+                
+                <!-- Redstone Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='dnsoRedstoneDist'  displayState='shown' displayGroup='groupDenseOres'> 
+                        <Description> Controls how Redstone is generated </Description> 
+                        <DisplayName>Dense Ores Redstone</DisplayName>
+                        <Choice value='verticalVeins' displayValue='Vertical Veins'>
+                            <Description>
+                                Vertical Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='strategicCloud' displayValue='Clouds'>
+                            <Description>
+                                Strategic Clouds.
+                            </Description>
+                        </Choice>
+                        <Choice value='vanillaStdGen' displayValue='Vanilla'>
+                            <Description>
+                                Vanilla-style clusters.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Redstone is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='dnsoRedstoneFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupDenseOres'>
+                        <Description> Frequency multiplier for Dense Ores Redstone distributions </Description>
+                        <DisplayName>Dense Ores Redstone Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='dnsoRedstoneSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupDenseOres'>
+                        <Description> Size multiplier for Dense Ores Redstone distributions </Description>
+                        <DisplayName>Dense Ores Redstone Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Redstone Configuration UI Complete -->
+                
+                
+                <!-- Coal Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='dnsoCoalDist'  displayState='shown' displayGroup='groupDenseOres'> 
+                        <Description> Controls how Coal is generated </Description> 
+                        <DisplayName>Dense Ores Coal</DisplayName>
+                        <Choice value='sparseVeins' displayValue='Sparse Veins'>
+                            <Description>
+                                Sparse Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='smallDeposits' displayValue='Small Deposits'>
+                            <Description>
+                                Small Deposits.
+                            </Description>
+                        </Choice>
+                        <Choice value='strategicCloud' displayValue='Clouds'>
+                            <Description>
+                                Strategic Clouds.
+                            </Description>
+                        </Choice>
+                        <Choice value='vanillaStdGen' displayValue='Vanilla'>
+                            <Description>
+                                Vanilla-style clusters.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Coal is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='dnsoCoalFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupDenseOres'>
+                        <Description> Frequency multiplier for Dense Ores Coal distributions </Description>
+                        <DisplayName>Dense Ores Coal Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='dnsoCoalSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupDenseOres'>
+                        <Description> Size multiplier for Dense Ores Coal distributions </Description>
+                        <DisplayName>Dense Ores Coal Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Coal Configuration UI Complete -->
+                
+                
+                <!-- Nether Quartz Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='dnsoNetherQuartzDist'  displayState='shown' displayGroup='groupDenseOres'> 
+                        <Description> Controls how Nether Quartz is generated </Description> 
+                        <DisplayName>Dense Ores Nether Quartz</DisplayName>
+                        <Choice value='layeredVeins' displayValue='Layered Veins'>
+                            <Description>
+                                Layered Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='hugeVeins' displayValue='Huge Veins'>
+                            <Description>
+                                Huge Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='strategicCloud' displayValue='Clouds'>
+                            <Description>
+                                Strategic Clouds.
+                            </Description>
+                        </Choice>
+                        <Choice value='vanillaStdGen' displayValue='Vanilla'>
+                            <Description>
+                                Vanilla-style clusters.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Nether Quartz is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='dnsoNetherQuartzFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupDenseOres'>
+                        <Description> Frequency multiplier for Dense Ores Nether Quartz distributions </Description>
+                        <DisplayName>Dense Ores Nether Quartz Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='dnsoNetherQuartzSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupDenseOres'>
+                        <Description> Size multiplier for Dense Ores Nether Quartz distributions </Description>
+                        <DisplayName>Dense Ores Nether Quartz Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Nether Quartz Configuration UI Complete -->
+                
+            </ConfigSection>
+            <!-- Setup Screen Complete -->
+
+
+            <!-- Setup Overworld -->
+            <IfCondition condition=':= ?COGActive'>
+                
+                <!-- Starting Original Overworld Ore Removal -->
+                <Substitute name='dnsoOverworldOreSubstitute0' block='minecraft:stone'>
+                    <Description>
+                        Replace vanilla-generated ore clusters.
+                    </Description>
+                    <Comment>
+                        The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
+                    </Comment>
+                    <Replaces block='denseores:block0:0' />
+                    <Replaces block='denseores:block0:1' />
+                    <Replaces block='denseores:block0:2' />
+                    <Replaces block='denseores:block0:3' />
+                    <Replaces block='denseores:block0:4' />
+                    <Replaces block='denseores:block0:5' />
+                    <Replaces block='denseores:block0:6' />
+                    <Replaces block='denseores:block0:7' />
+                </Substitute>
+                <!-- Original Overworld Ore Removal Complete -->
+                
+                <!-- Adding ores --> 
+                
+                <!-- Begin Iron Generation --> 
+                
+                <!-- Begin Layered Veins distribution of Iron -->
+                <IfCondition condition=':= dnsoIronDist = "layeredVeins"'>
+                
+                    <Veins name='dnsoIronBaseVeins' block='denseores:block0' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * dnsoIronSize * _default_' range=':= 1 * 1 * dnsoIronSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 43' range=':= 10.5' type='normal' scaleTo='SeaLevel'/> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * dnsoIronSize * _default_' range=':= 1 * 1 * dnsoIronSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.45 * dnsoIronFreq * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 10.5'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Iron Layered Veins) Settings -->
+                    <Veins name='dnsoIronPrefersVeins' block='denseores:block0' inherits='dnsoIronBaseVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='Cold'/>
+                        <BiomeType name='Ocean' weight='-1'/>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Iron Layered Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End Layered Veins distribution of Iron -->
+                
+                
+                <!-- Begin  Huge Veins distribution of Iron -->
+                <IfCondition condition=':= dnsoIronDist = "hugeVeins"'>
+                
+                    <Veins name='dnsoIronBaseVeins' block='denseores:block0' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
+                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
+                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
+                            enough ore to keep a player supplied for a very long time.
+                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
+                            could make finding them much easier and the motherlodes are big enough to supply several people without
+                            shortage.  This might be a good way to add challenge to multiplayer worlds.
+                            Credit: based on feedback by dyrewulf from the MC forums.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * dnsoIronSize * _default_' range=':= 1 * 1 * dnsoIronSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 43' range=':= 10.5' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * dnsoIronSize * _default_' range=':= 1 * 1 * dnsoIronSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.45 * dnsoIronFreq * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 10.5'/>
+                        <Replaces block='minecraft:stone'/>
+                        
+                        <!-- Begin Iron Huge Vein Hint Veins -->
+                        <Veins name='dnsoIronBaseHintVeins' block='denseores:block0' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60D3EB10</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                        </Veins>
+                        <!-- End Iron Huge Vein Hint Veins -->
+
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Iron Huge Veins) Settings -->
+                    <Veins name='dnsoIronPrefersVeins' block='denseores:block0' inherits='dnsoIronBaseVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='Cold'/>
+                        <BiomeType name='Ocean' weight='-1'/>
+                        
+                        <!-- Begin Iron Huge Vein Hint Veins -->
+                        <Veins name='dnsoIronPrefersHintVeins' block='denseores:block0' inherits='dnsoIronBaseHintVeins'>
+                            <Description>
+                                Spawns 2 more times in preferred biomes.
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60D3EB10</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                            <BiomeType name='Cold'/>
+                            <BiomeType name='Ocean' weight='-1'/>
+                        </Veins>
+                        <!-- End Iron Huge Vein Hint Veins -->
+
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Iron Huge Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End  Huge Veins distribution of Iron -->
+                
+                
+                <!-- Begin  Strategic Cloud distribution of Iron -->
+                <IfCondition condition=':= dnsoIronDist = "strategicCloud"'>
+                
+                    <Cloud name='dnsoIronBaseCloud' block='denseores:block0' inherits='PresetStrategicCloud'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
+                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
+                            ore, but it takes some time and effort to mine due to low density.
+                            The intent for strategic clouds is that the player will need to actively search for
+                            one and then set up a semi-permanent mining base and spend some time actually mining
+                            the ore.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='CloudRadius' avg=':= 1 * 1 * dnsoIronSize * _default_' range=':= 1 * 1 * dnsoIronSize * _default_'/>
+                        <Setting name='CloudThickness' avg=':= 1 * 1 * dnsoIronSize * _default_' range=':= 1 * 1 * dnsoIronSize * _default_'/>
+                        <Setting name='CloudHeight' avg=':= 32' range=':= 32' type='normal' scaleTo='SeaLevel'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='CloudThickness' avg=':= 1 * 1 * 1 * dnsoIronSize * _default_' range=':= 1 * 1 * 1 * dnsoIronSize  * _default_'/>
+                        <Setting name='DistributionFrequency' avg=':= 1 * 1.25 * dnsoIronFreq *_default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        
+                        <!-- Begin Iron Strategic Cloud Hint Veins -->
+                        <Veins name='dnsoIronBaseHintVeins' block='denseores:block0' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60D3EB10</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                        </Veins>
+                        <!-- End Iron Strategic Cloud Hint Veins -->
+
+                    </Cloud>
+                    
+                
+                </IfCondition>
+                <!-- End  Strategic Cloud distribution of Iron -->
+                
+                
+                <!-- Begin  Vanilla distribution of Iron -->
+                <IfCondition condition=':= dnsoIronDist = "vanillaStdGen"'>
+                
+                    <StandardGen name='dnsoIronBaseStandard' block='denseores:block0' inherits='PresetStandardGen'>
+                        <Description>
+                            This mimics vanilla ore generation.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='Size' avg=':= 1 * 1 * dnsoIronSize * _default_'/>
+                        <Setting name='Height' avg=':= 32' range=':= 32' type='uniform'/> 
+                        <Setting name='Frequency' avg=':= 1 * 0.45 * dnsoIronFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                    </StandardGen>
+                    
+                
+                </IfCondition>
+                <!-- End  Vanilla distribution of Iron -->
+                
+                <!-- End Iron Generation --> 
+
+                
+                <!-- Begin Gold Generation --> 
+                
+                <!-- Begin Layered Veins distribution of Gold -->
+                <IfCondition condition=':= dnsoGoldDist = "layeredVeins"'>
+                
+                    <Veins name='dnsoGoldBaseVeins' block='denseores:block0:1' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 0.8 * dnsoGoldSize * _default_' range=':= 1 * 0.8 * dnsoGoldSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 20' range=':= 10' type='normal' scaleTo='SeaLevel'/> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 0.8 * dnsoGoldSize * _default_' range=':= 1 * 0.8 * dnsoGoldSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.43 * dnsoGoldFreq * _default_'/>
+                        <Setting name='BranchFrequency' avg=':= 0.43 * _default_'/>
+                        <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.66 * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 10'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Gold Layered Veins) Settings -->
+                    <Veins name='dnsoGoldPrefersVeins' block='denseores:block0:1' inherits='dnsoGoldBaseVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='Forest'/>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Gold Layered Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End Layered Veins distribution of Gold -->
+                
+                
+                <!-- Begin  Huge Veins distribution of Gold -->
+                <IfCondition condition=':= dnsoGoldDist = "hugeVeins"'>
+                
+                    <Veins name='dnsoGoldBaseVeins' block='denseores:block0:1' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
+                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
+                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
+                            enough ore to keep a player supplied for a very long time.
+                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
+                            could make finding them much easier and the motherlodes are big enough to supply several people without
+                            shortage.  This might be a good way to add challenge to multiplayer worlds.
+                            Credit: based on feedback by dyrewulf from the MC forums.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 0.8 * dnsoGoldSize * _default_' range=':= 1 * 0.8 * dnsoGoldSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 20' range=':= 10' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 0.8 * dnsoGoldSize * _default_' range=':= 1 * 0.8 * dnsoGoldSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.43 * dnsoGoldFreq * _default_'/>
+                        <Setting name='BranchFrequency' avg=':= 0.43 * _default_'/>
+                        <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.66 * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 10'/>
+                        <Replaces block='minecraft:stone'/>
+                        
+                        <!-- Begin Gold Huge Vein Hint Veins -->
+                        <Veins name='dnsoGoldBaseHintVeins' block='denseores:block0:1' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60D3EB10</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                        </Veins>
+                        <!-- End Gold Huge Vein Hint Veins -->
+
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Gold Huge Veins) Settings -->
+                    <Veins name='dnsoGoldPrefersVeins' block='denseores:block0:1' inherits='dnsoGoldBaseVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='Forest'/>
+                        
+                        <!-- Begin Gold Huge Vein Hint Veins -->
+                        <Veins name='dnsoGoldPrefersHintVeins' block='denseores:block0:1' inherits='dnsoGoldBaseHintVeins'>
+                            <Description>
+                                Spawns 2 more times in preferred biomes.
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60D3EB10</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                            <BiomeType name='Forest'/>
+                        </Veins>
+                        <!-- End Gold Huge Vein Hint Veins -->
+
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Gold Huge Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End  Huge Veins distribution of Gold -->
+                
+                
+                <!-- Begin  Strategic Cloud distribution of Gold -->
+                <IfCondition condition=':= dnsoGoldDist = "strategicCloud"'>
+                
+                    <Cloud name='dnsoGoldBaseCloud' block='denseores:block0:1' inherits='PresetStrategicCloud'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
+                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
+                            ore, but it takes some time and effort to mine due to low density.
+                            The intent for strategic clouds is that the player will need to actively search for
+                            one and then set up a semi-permanent mining base and spend some time actually mining
+                            the ore.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='CloudRadius' avg=':= 1 * 0.8 * dnsoGoldSize * _default_' range=':= 1 * 0.8 * dnsoGoldSize * _default_'/>
+                        <Setting name='CloudThickness' avg=':= 1 * 0.8 * dnsoGoldSize * _default_' range=':= 1 * 0.8 * dnsoGoldSize * _default_'/>
+                        <Setting name='CloudHeight' avg=':= 16' range=':= 16' type='normal' scaleTo='SeaLevel'/>
+                        <Setting name='OreDensity' avg=':= 1 * 0.3 * _default_' range=':= _default_'/>
+                        <Setting name='CloudThickness' avg=':= 1 * 0.8 * 0.8 * dnsoGoldSize * _default_' range=':= 1 * 0.8 * 0.8 * dnsoGoldSize  * _default_'/>
+                        <Setting name='DistributionFrequency' avg=':= 1 * 2.25 * dnsoGoldFreq *_default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        
+                        <!-- Begin Gold Strategic Cloud Hint Veins -->
+                        <Veins name='dnsoGoldBaseHintVeins' block='denseores:block0:1' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60D3EB10</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                        </Veins>
+                        <!-- End Gold Strategic Cloud Hint Veins -->
+
+                    </Cloud>
+                    
+                
+                </IfCondition>
+                <!-- End  Strategic Cloud distribution of Gold -->
+                
+                
+                <!-- Begin  Vanilla distribution of Gold -->
+                <IfCondition condition=':= dnsoGoldDist = "vanillaStdGen"'>
+                
+                    <StandardGen name='dnsoGoldBaseStandard' block='denseores:block0:1' inherits='PresetStandardGen'>
+                        <Description>
+                            This mimics vanilla ore generation.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='Size' avg=':= 1 * 1 * dnsoGoldSize * _default_'/>
+                        <Setting name='Height' avg=':= 16' range=':= 16' type='uniform'/> 
+                        <Setting name='Frequency' avg=':= 1 * 0.5 * dnsoGoldFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                    </StandardGen>
+                    
+                
+                </IfCondition>
+                <!-- End  Vanilla distribution of Gold -->
+                
+                <!-- End Gold Generation --> 
+
+                
+                <!-- Begin Lapis Generation --> 
+                
+                <!-- Begin VerticalVeins distribution of Lapis -->
+                <IfCondition condition=':= dnsoLapisDist = "verticalVeins"'>
+                
+                    <Veins name='dnsoLapisBaseParentVeins' block='denseores:block0:2' inherits='PresetVerticalVeins'>
+                        <Description>
+                            Single vertical veins that occur with no motherlodes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='MotherlodeHeight' avg=':= 8' range=':= 4' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * dnsoLapisSize * _default_' range=':= 1 * 1 * dnsoLapisSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':=  1 * 0.2 * dnsoLapisFreq * 1/5 * _default_'/>
+                        <Setting name='BranchLength' avg=':= 36/64 * _default_' range=':= 12 * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        <Veins name='dnsoLapisBaseChildVeins' block='denseores:block0:2' inherits='PresetVerticalVeins'>
+                            <Description>
+                                Single vertical veins that occur with no motherlodes.
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60D3EB10</WireframeColor>
+                            <Setting name='MotherlodeHeight' avg=':= 8' range=':= 4' type='normal' scaleTo='SeaLevel' /> 
+                            <Setting name='SegmentRadius' avg=':= 1 * 1 * dnsoLapisSize * _default_' range=':= 1 * 1 * dnsoLapisSize * _default_'/>
+                            <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                            <Setting name='MotherlodeFrequency' avg=':= 1 * 0.2 * dnsoLapisFreq * 1.5 * _default_'/>
+                            <Setting name='BranchLength' avg=':= 36/64 * _default_' range=':= 12 * _default_'/>
+                            <Replaces block='minecraft:stone'/>
+                        </Veins>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Lapis Vertical Veins) Settings -->
+                    <Veins name='dnsoLapisPrefersParentVeins' block='denseores:block0:2' inherits='dnsoLapisBaseParentVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='ocean'/>
+                        <Veins name='dnsoLapisPrefersChildVeins' block='denseores:block0:2' inherits='dnsoLapisBaseChildVeins'>
+                            <Description>
+                                Spawns 2 more times in preferred biomes.
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60D3EB10</WireframeColor>
+                            <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                            <BiomeType name='ocean'/>
+                        </Veins>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Lapis Vertical Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End VerticalVeins distribution of Lapis -->
+                
+                
+                <!-- Begin  StrategicCloud distribution of Lapis -->
+                <IfCondition condition=':= dnsoLapisDist = "strategicCloud"'>
+                
+                    <Cloud name='dnsoLapisBaseCloud' block='denseores:block0:2' inherits='PresetStrategicCloud'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
+                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
+                            ore, but it takes some time and effort to mine due to low density.
+                            The intent for strategic clouds is that the player will need to actively search for
+                            one and then set up a semi-permanent mining base and spend some time actually mining
+                            the ore.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='CloudRadius' avg=':= 1 * 0.65 * dnsoLapisSize * _default_' range=':= 1 * 0.65 * dnsoLapisSize * _default_'/>
+                        <Setting name='CloudThickness' avg=':= 1 * 0.65 * dnsoLapisSize * _default_' range=':= 1 * 0.65 * dnsoLapisSize * _default_'/>
+                        <Setting name='CloudHeight' avg=':= 16' range=':= 16' type='normal' scaleTo='SeaLevel'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='CloudThickness' avg=':= 1 * 0.7 * 0.65 * dnsoLapisSize * _default_' range=':= 1 * 0.7 * 0.65 * dnsoLapisSize  * _default_'/>
+                        <Setting name='DistributionFrequency' avg=':= 1 * 1.25 * dnsoLapisFreq *_default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        
+                        <!-- Begin Lapis Strategic Cloud Hint Veins -->
+                        <Veins name='dnsoLapisBaseHintVeins' block='denseores:block0:2' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60D3EB10</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                        </Veins>
+                        <!-- End Lapis Strategic Cloud Hint Veins -->
+
+                    </Cloud>
+                    
+                
+                </IfCondition>
+                <!-- End  StrategicCloud distribution of Lapis -->
+                
+                
+                <!-- Begin  Vanilla distribution of Lapis -->
+                <IfCondition condition=':= dnsoLapisDist = "vanillaStdGen"'>
+                
+                    <StandardGen name='dnsoLapisBaseStandard' block='denseores:block0:2' inherits='PresetStandardGen'>
+                        <Description>
+                            This mimics vanilla ore generation.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='Size' avg=':= 1 * 6/8 * dnsoLapisSize * _default_'/>
+                        <Setting name='Height' avg=':= 16' range=':= 16' type='uniform'/> 
+                        <Setting name='Frequency' avg=':= 1 * 0.02 * dnsoLapisFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                    </StandardGen>
+                    
+                
+                </IfCondition>
+                <!-- End  Vanilla distribution of Lapis -->
+                
+                <!-- End Lapis Generation --> 
+
+                
+                <!-- Begin Diamond Generation --> 
+                
+                <!-- Begin PipeVeins distribution of Diamond -->
+                <IfCondition condition=':= dnsoDiamondDist = "pipeVeins"'>
+                
+                    
+                    <!-- Begin Diamond Ore Configuration -->
+                    <Veins name='dnsoDiamondBaseVeins' block='denseores:block0:3' inherits='PresetPipeVeins' seed='0xB8D3'>
+                        <Description>
+                            Short sparsely filled veins sloping up from near the bottom of the map.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 0.1 * 1 * dnsoDiamondSize * _default_' range=':= 0.1 * 1 * dnsoDiamondSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 3' range=':= 8' type='normal' scaleTo='SeaLevel' />
+                        <Setting name='SegmentRadius' avg=':= 0.1 * 1 * dnsoDiamondSize * _default_' range=':= 0.1 * 1 * dnsoDiamondSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.4 * dnsoDiamondFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    <!-- End Diamond Ore Configuration -->
+                    
+                    
+                    <!-- Begin Diamond Pipe Configuration -->
+                    <Veins name= 'dnsoDiamondBasePipe' block='minecraft:lava' inherits='dnsoDiamondBaseVeins' seed='0xB8D3'>
+                        <Description>
+                            Fills center of each tube with Pipe material.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 0.5 * 0.1 * 1 * dnsoDiamondSize * _default_' range=':= 0.5 * 0.1 * 1 * dnsoDiamondSize * _default_'/>
+                        <Setting name='SegmentRadius' avg=':= 0.5 * 0.1 * 1 * dnsoDiamondSize * _default_' range=':= 0.5 * 0.1 * 1 * dnsoDiamondSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        <Replaces block='minecraft:dirt'/>
+                        <Replaces block='minecraft:stone'/>
+                        <Replaces block='minecraft:gravel'/>
+                        <Replaces block='minecraft:netherrack'/>
+                        <Replaces block='minecraft:end_stone'/>
+                    </Veins>
+                    <!-- End Diamond Pipe Configuration -->
+                    
+                
+                </IfCondition>
+                <!-- End PipeVeins distribution of Diamond -->
+                
+                
+                <!-- Begin  StrategicCloud distribution of Diamond -->
+                <IfCondition condition=':= dnsoDiamondDist = "strategicCloud"'>
+                
+                    <Cloud name='dnsoDiamondBaseCloud' block='denseores:block0:3' inherits='PresetStrategicCloud'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
+                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
+                            ore, but it takes some time and effort to mine due to low density.
+                            The intent for strategic clouds is that the player will need to actively search for
+                            one and then set up a semi-permanent mining base and spend some time actually mining
+                            the ore.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='CloudRadius' avg=':= 0.1 * 0.5 * dnsoDiamondSize * _default_' range=':= 0.1 * 0.5 * dnsoDiamondSize * _default_'/>
+                        <Setting name='CloudThickness' avg=':= 0.1 * 0.5 * dnsoDiamondSize * _default_' range=':= 0.1 * 0.5 * dnsoDiamondSize * _default_'/>
+                        <Setting name='CloudHeight' avg=':= 14' range=':= 5' type='normal' scaleTo='SeaLevel'/>
+                        <Setting name='OreDensity' avg=':= 1 * 0.4 * _default_' range=':= _default_'/>
+                        <Setting name='CloudThickness' avg=':= 0.1 * 0.2 * 0.5 * dnsoDiamondSize * _default_' range=':= 0.1 * 0.2 * 0.5 * dnsoDiamondSize  * _default_'/>
+                        <Setting name='DistributionFrequency' avg=':= 1 * 5 * dnsoDiamondFreq *_default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        
+                        <!-- Begin Diamond Strategic Cloud Hint Veins -->
+                        <Veins name='dnsoDiamondBaseHintVeins' block='denseores:block0:3' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60D3EB10</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                        </Veins>
+                        <!-- End Diamond Strategic Cloud Hint Veins -->
+
+                    </Cloud>
+                
+                </IfCondition>
+                <!-- End  StrategicCloud distribution of Diamond -->
+                
+                
+                <!-- Begin  Vanilla distribution of Diamond -->
+                <IfCondition condition=':= dnsoDiamondDist = "vanillaStdGen"'>
+                
+                    <StandardGen name='dnsoDiamondBaseStandard' block='denseores:block0:3' inherits='PresetStandardGen'>
+                        <Description>
+                            This mimics vanilla ore generation.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='Size' avg=':= 0.1 * 7/8 * dnsoDiamondSize * _default_'/>
+                        <Setting name='Height' avg=':= 8' range=':= 8' type='uniform'/> 
+                        <Setting name='Frequency' avg=':= 1 * 1/40 * dnsoDiamondFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                    </StandardGen>
+                
+                </IfCondition>
+                <!-- End  Vanilla distribution of Diamond -->
+                
+                <!-- End Diamond Generation --> 
+
+                
+                <!-- Begin Emerald Generation --> 
+                
+                <!-- Begin PipeVeins distribution of Emerald -->
+                <IfCondition condition=':= dnsoEmeraldDist = "pipeVeins"'>
+                
+                    
+                    <!-- Begin Emerald Ore Configuration -->
+                    <Veins name='dnsoEmeraldBaseVeins' block='denseores:block0:4' inherits='PresetPipeVeins' seed='0x0CE6'>
+                        <Description>
+                            Short sparsely filled veins sloping up from near the bottom of the map.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 0.85 * dnsoEmeraldSize * _default_' range=':= 1 * 0.85 * dnsoEmeraldSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 4' range=':= 14' type='normal' scaleTo='SeaLevel' />
+                        <Setting name='SegmentRadius' avg=':= 1 * 0.85 * dnsoEmeraldSize * _default_' range=':= 1 * 0.85 * dnsoEmeraldSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1.2 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.45 * dnsoEmeraldFreq * _default_'/>
+                        <Setting name='BranchInclination' avg=':= 0.55' range=':= 0.7'/>
+                        <Setting name='SegmentRadius' avg=':= 1 * 0.85 * dnsoEmeraldSize * 0.85 * _default_' range=':= 1 * 0.85 * dnsoEmeraldSize * 0.7 * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        <BiomeType name='Mountain'/>
+                    </Veins>
+                    <!-- End Emerald Ore Configuration -->
+                    
+                    
+                    <!-- Begin Emerald Pipe Configuration -->
+                    <Veins name= 'dnsoEmeraldBasePipe' block='minecraft:monster_egg' inherits='dnsoEmeraldBaseVeins' seed='0x0CE6'>
+                        <Description>
+                            Fills center of each tube with Pipe material.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 0.5 * 1 * 0.85 * dnsoEmeraldSize * _default_' range=':= 0.5 * 1 * 0.85 * dnsoEmeraldSize * _default_'/>
+                        <Setting name='SegmentRadius' avg=':= 0.5 * 1 * 0.85 * dnsoEmeraldSize * _default_' range=':= 0.5 * 1 * 0.85 * dnsoEmeraldSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1.2 * _default_' range=':= _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        <Replaces block='minecraft:dirt'/>
+                        <Replaces block='minecraft:stone'/>
+                        <Replaces block='minecraft:gravel'/>
+                        <Replaces block='minecraft:netherrack'/>
+                        <Replaces block='minecraft:end_stone'/>
+                        <BiomeType name='Mountain'/>
+                    </Veins>
+                    <!-- End Emerald Pipe Configuration -->
+                    
+                
+                </IfCondition>
+                <!-- End PipeVeins distribution of Emerald -->
+                
+                
+                <!-- Begin  StrategicCloud distribution of Emerald -->
+                <IfCondition condition=':= dnsoEmeraldDist = "strategicCloud"'>
+                
+                    <Cloud name='dnsoEmeraldBaseCloud' block='denseores:block0:4' inherits='PresetStrategicCloud'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
+                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
+                            ore, but it takes some time and effort to mine due to low density.
+                            The intent for strategic clouds is that the player will need to actively search for
+                            one and then set up a semi-permanent mining base and spend some time actually mining
+                            the ore.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='CloudRadius' avg=':= 1 * 0.4 * dnsoEmeraldSize * _default_' range=':= 1 * 0.4 * dnsoEmeraldSize * _default_'/>
+                        <Setting name='CloudThickness' avg=':= 1 * 0.4 * dnsoEmeraldSize * _default_' range=':= 1 * 0.4 * dnsoEmeraldSize * _default_'/>
+                        <Setting name='CloudHeight' avg=':= 10' range=':= 5' type='normal' scaleTo='SeaLevel'/>
+                        <Setting name='OreDensity' avg=':= 1 * 0.4 * _default_' range=':= _default_'/>
+                        <Setting name='CloudThickness' avg=':= 1 * 0.2 * 0.4 * dnsoEmeraldSize * _default_' range=':= 1 * 0.2 * 0.4 * dnsoEmeraldSize  * _default_'/>
+                        <Setting name='DistributionFrequency' avg=':= 1 * 22.5 * dnsoEmeraldFreq *_default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        <BiomeType name='Mountain'/>
+                        
+                        <!-- Begin Emerald Strategic Cloud Hint Veins -->
+                        <Veins name='dnsoEmeraldBaseHintVeins' block='denseores:block0:4' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60D3EB10</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                            <BiomeType name='Mountain'/>
+                        </Veins>
+                        <!-- End Emerald Strategic Cloud Hint Veins -->
+
+                    </Cloud>
+                
+                </IfCondition>
+                <!-- End  StrategicCloud distribution of Emerald -->
+                
+                
+                <!-- Begin  Vanilla distribution of Emerald -->
+                <IfCondition condition=':= dnsoEmeraldDist = "vanillaStdGen"'>
+                
+                    <StandardGen name='dnsoEmeraldBaseStandard' block='denseores:block0:4' inherits='PresetStandardGen'>
+                        <Description>
+                            This mimics vanilla ore generation.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='Size' avg=':= 1 * 2/8 * dnsoEmeraldSize * _default_'/>
+                        <Setting name='Height' avg=':= 18' range=':= 14' type='uniform'/> 
+                        <Setting name='Frequency' avg=':= 1 * 3/20 * dnsoEmeraldFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        <BiomeType name='Mountain'/>
+                    </StandardGen>
+                
+                </IfCondition>
+                <!-- End  Vanilla distribution of Emerald -->
+                
+                <!-- End Emerald Generation --> 
+
+                
+                <!-- Begin Redstone Generation --> 
+                
+                <!-- Begin VerticalVeins distribution of Redstone -->
+                <IfCondition condition=':= dnsoRedstoneDist = "verticalVeins"'>
+                
+                    <Veins name='dnsoRedstoneBaseParentVeins' block='denseores:block0:5' inherits='PresetVerticalVeins'>
+                        <Description>
+                            Single vertical veins that occur with no motherlodes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='MotherlodeHeight' avg=':= 8' range=':= 8' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * dnsoRedstoneSize * _default_' range=':= 1 * 1 * dnsoRedstoneSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':=  1 * 1.17 * dnsoRedstoneFreq * 1/5 * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        <Replaces block='minecraft:sandstone'/>
+                        <Veins name='dnsoRedstoneBaseChildVeins' block='denseores:block0:5' inherits='PresetVerticalVeins'>
+                            <Description>
+                                Single vertical veins that occur with no motherlodes.
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60D3EB10</WireframeColor>
+                            <Setting name='MotherlodeHeight' avg=':= 8' range=':= 8' type='normal' scaleTo='SeaLevel' /> 
+                            <Setting name='SegmentRadius' avg=':= 1 * 1 * dnsoRedstoneSize * _default_' range=':= 1 * 1 * dnsoRedstoneSize * _default_'/>
+                            <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                            <Setting name='MotherlodeFrequency' avg=':= 1 * 1.17 * dnsoRedstoneFreq * 1.5 * _default_'/>
+                            <Replaces block='minecraft:stone'/>
+                            <Replaces block='minecraft:sandstone'/>
+                        </Veins>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Redstone Vertical Veins) Settings -->
+                    <Veins name='dnsoRedstonePrefersParentVeins' block='denseores:block0:5' inherits='dnsoRedstoneBaseParentVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='Desert'/>
+                        <Veins name='dnsoRedstonePrefersChildVeins' block='denseores:block0:5' inherits='dnsoRedstoneBaseChildVeins'>
+                            <Description>
+                                Spawns 2 more times in preferred biomes.
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60D3EB10</WireframeColor>
+                            <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                            <BiomeType name='Desert'/>
+                        </Veins>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Redstone Vertical Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End VerticalVeins distribution of Redstone -->
+                
+                
+                <!-- Begin  StrategicCloud distribution of Redstone -->
+                <IfCondition condition=':= dnsoRedstoneDist = "strategicCloud"'>
+                
+                    <Cloud name='dnsoRedstoneBaseCloud' block='denseores:block0:5' inherits='PresetStrategicCloud'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
+                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
+                            ore, but it takes some time and effort to mine due to low density.
+                            The intent for strategic clouds is that the player will need to actively search for
+                            one and then set up a semi-permanent mining base and spend some time actually mining
+                            the ore.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='CloudRadius' avg=':= 1 * 0.65 * dnsoRedstoneSize * _default_' range=':= 1 * 0.65 * dnsoRedstoneSize * _default_'/>
+                        <Setting name='CloudThickness' avg=':= 1 * 0.65 * dnsoRedstoneSize * _default_' range=':= 1 * 0.65 * dnsoRedstoneSize * _default_'/>
+                        <Setting name='CloudHeight' avg=':= 8' range=':= 8' type='normal' scaleTo='SeaLevel'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='CloudThickness' avg=':= 1 * 0.7 * 0.65 * dnsoRedstoneSize * _default_' range=':= 1 * 0.7 * 0.65 * dnsoRedstoneSize  * _default_'/>
+                        <Setting name='DistributionFrequency' avg=':= 1 * 2.25 * dnsoRedstoneFreq *_default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        <Replaces block='minecraft:sandstone'/>
+                        
+                        <!-- Begin Redstone Strategic Cloud Hint Veins -->
+                        <Veins name='dnsoRedstoneBaseHintVeins' block='denseores:block0:5' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60D3EB10</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                            <Replaces block='minecraft:sandstone'/>
+                        </Veins>
+                        <!-- End Redstone Strategic Cloud Hint Veins -->
+
+                    </Cloud>
+                    
+                
+                </IfCondition>
+                <!-- End  StrategicCloud distribution of Redstone -->
+                
+                
+                <!-- Begin  Vanilla distribution of Redstone -->
+                <IfCondition condition=':= dnsoRedstoneDist = "vanillaStdGen"'>
+                
+                    <StandardGen name='dnsoRedstoneBaseStandard' block='denseores:block0:5' inherits='PresetStandardGen'>
+                        <Description>
+                            This mimics vanilla ore generation.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='Size' avg=':= 1 * 7/8 * dnsoRedstoneSize * _default_'/>
+                        <Setting name='Height' avg=':= 8' range=':= 8' type='uniform'/> 
+                        <Setting name='Frequency' avg=':= 1 * 0.2 * dnsoRedstoneFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        <Replaces block='minecraft:sandstone'/>
+                    </StandardGen>
+                    
+                
+                </IfCondition>
+                <!-- End  Vanilla distribution of Redstone -->
+                
+                <!-- End Redstone Generation --> 
+
+                
+                <!-- Begin Coal Generation --> 
+                
+                <!-- Begin SparseVeins distribution of Coal -->
+                <IfCondition condition=':= dnsoCoalDist = "sparseVeins"'>
+                
+                    <Veins name='dnsoCoalBaseVeins' block='denseores:block0:6' inherits='PresetSparseVeins'>
+                        <Description>
+                            Large veins filled very lightly with ore.  Because they contain less ore per volume, 
+                            these veins are relatively wide and long.  Mining the ore from them is time consuming 
+                            compared to solid ore veins.  They are also more difficult to follow, since it is 
+                            harder to get an idea of their direction while mining.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * dnsoCoalSize * _default_' range=':= 1 * 1 * dnsoCoalSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 60' range=':= 10' type='normal' scaleTo='SeaLevel' />
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * dnsoCoalSize * _default_' range=':= 1 * 1 * dnsoCoalSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1.75 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 5.35 * dnsoCoalFreq * _default_'/>
+                        <Setting name='BranchLength' avg=':= 0.45 * _default_' range=':= 0.45 * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 10'/>
+                        <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Coal Sparse Veins) Settings -->
+                    <Veins name='dnsoCoalPrefersVeins' block='denseores:block0:6' inherits='dnsoCoalBaseVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='Swamp'/>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Coal Sparse Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End SparseVeins distribution of Coal -->
+                
+                
+                <!-- Begin  Small Deposits distribution of Coal -->
+                <IfCondition condition=':= dnsoCoalDist = "smallDeposits"'>
+                
+                    <Veins name='dnsoCoalBaseVeins' block='denseores:block0:6' inherits='PresetSmallDeposits'>
+                        <Description>
+                            Small motherlodes without any branches.
+                            Similar to the deposits produced by StandardGen distributions.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='MotherlodeHeight' avg=':= 60' range=':= 10' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * dnsoCoalSize * _default_' range=':= 1 * 1 * dnsoCoalSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1.75 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 5.35 * dnsoCoalFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Coal Small Deposits) Settings -->
+                    <Veins name='dnsoCoalPrefersVeins' block='denseores:block0:6' inherits='dnsoCoalBaseVeins'>
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='Swamp'/>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Coal Small Deposits) Settings -->
+                
+                </IfCondition>
+                <!-- End  Small Deposits distribution of Coal -->
+                
+                
+                <!-- Begin  StrategicCloud distribution of Coal -->
+                <IfCondition condition=':= dnsoCoalDist = "strategicCloud"'>
+                
+                    <Cloud name='dnsoCoalBaseCloud' block='denseores:block0:6' inherits='PresetStrategicCloud'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
+                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
+                            ore, but it takes some time and effort to mine due to low density.
+                            The intent for strategic clouds is that the player will need to actively search for
+                            one and then set up a semi-permanent mining base and spend some time actually mining
+                            the ore.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='CloudRadius' avg=':= 1 * 1.2 * dnsoCoalSize * _default_' range=':= 1 * 1.2 * dnsoCoalSize * _default_'/>
+                        <Setting name='CloudThickness' avg=':= 1 * 1.2 * dnsoCoalSize * _default_' range=':= 1 * 1.2 * dnsoCoalSize * _default_'/>
+                        <Setting name='CloudHeight' avg=':= 32' range=':= 32' type='normal' scaleTo='SeaLevel'/>
+                        <Setting name='OreDensity' avg=':= 1 * 0.75 * _default_' range=':= _default_'/>
+                        <Setting name='CloudThickness' avg=':= 1 * 1 * 1.2 * dnsoCoalSize * _default_' range=':= 1 * 1 * 1.2 * dnsoCoalSize  * _default_'/>
+                        <Setting name='DistributionFrequency' avg=':= 1 * 2.5 * dnsoCoalFreq *_default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        
+                        <!-- Begin Coal Strategic Cloud Hint Veins -->
+                        <Veins name='dnsoCoalBaseHintVeins' block='denseores:block0:6' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60D3EB10</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                        </Veins>
+                        <!-- End Coal Strategic Cloud Hint Veins -->
+
+                    </Cloud>
+                    
+                
+                </IfCondition>
+                <!-- End  StrategicCloud distribution of Coal -->
+                
+                
+                <!-- Begin  Vanilla distribution of Coal -->
+                <IfCondition condition=':= dnsoCoalDist = "vanillaStdGen"'>
+                
+                    <StandardGen name='dnsoCoalBaseStandard' block='denseores:block0:6' inherits='PresetStandardGen'>
+                        <Description>
+                            This mimics vanilla ore generation.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='Size' avg=':= 1 * 2 * dnsoCoalSize * _default_'/>
+                        <Setting name='Height' avg=':= 32' range=':= 32' type='uniform'/> 
+                        <Setting name='Frequency' avg=':= 1 * 0.5 * dnsoCoalFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                    </StandardGen>
+                    
+                
+                </IfCondition>
+                <!-- End  Vanilla distribution of Coal -->
+                
+                <!-- End Coal Generation --> 
+
+                <!-- Done adding ores -->
+            
+            </IfCondition>
+            <!-- Overworld Setup Complete -->
+
+
+            <!-- Setup Nether -->
+            <IfCondition condition=':= dimension.generator = "HellRandomLevelSource"'>
+                
+                <!-- Starting Original Nether Ore Removal -->
+                <Substitute name='dnsoNetherOreSubstitute0' block='minecraft:stone'>
+                    <Description>
+                        Replace vanilla-generated ore clusters.
+                    </Description>
+                    <Comment>
+                        The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
+                    </Comment>
+                    <Replaces block='denseores:block0:0' />
+                    <Replaces block='denseores:block0:1' />
+                    <Replaces block='denseores:block0:2' />
+                    <Replaces block='denseores:block0:3' />
+                    <Replaces block='denseores:block0:4' />
+                    <Replaces block='denseores:block0:5' />
+                    <Replaces block='denseores:block0:6' />
+                    <Replaces block='denseores:block0:7' />
+                </Substitute>
+                <!-- Original Nether Ore Removal Complete -->
+                
+                <!-- Adding ores --> 
+                
+                <!-- Begin Nether Quartz Generation --> 
+                
+                <!-- Begin Layered Veins distribution of Nether Quartz -->
+                <IfCondition condition=':= dnsoNetherQuartzDist = "layeredVeins"'>
+                
+                    <Veins name='dnsoNetherQuartzBaseVeins' block='denseores:block0:7' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * dnsoNetherQuartzSize * _default_' range=':= 1 * 1 * dnsoNetherQuartzSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 120' range=':= 120' type='uniform' scaleTo='SeaLevel'/> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * dnsoNetherQuartzSize * _default_' range=':= 1 * 1 * dnsoNetherQuartzSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * 1 * dnsoNetherQuartzFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                
+                </IfCondition>
+                <!-- End Layered Veins distribution of Nether Quartz -->
+                
+                
+                <!-- Begin  Huge Veins distribution of Nether Quartz -->
+                <IfCondition condition=':= dnsoNetherQuartzDist = "hugeVeins"'>
+                
+                    <Veins name='dnsoNetherQuartzBaseVeins' block='denseores:block0:7' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
+                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
+                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
+                            enough ore to keep a player supplied for a very long time.
+                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
+                            could make finding them much easier and the motherlodes are big enough to supply several people without
+                            shortage.  This might be a good way to add challenge to multiplayer worlds.
+                            Credit: based on feedback by dyrewulf from the MC forums.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * dnsoNetherQuartzSize * _default_' range=':= 1 * 1 * dnsoNetherQuartzSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 120' range=':= 120' type='uniform' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * dnsoNetherQuartzSize * _default_' range=':= 1 * 1 * dnsoNetherQuartzSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * 1 * dnsoNetherQuartzFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        
+                        <!-- Begin Nether Quartz Huge Vein Hint Veins -->
+                        <Veins name='dnsoNetherQuartzBaseHintVeins' block='denseores:block0:7' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60D3EB10</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                        </Veins>
+                        <!-- End Nether Quartz Huge Vein Hint Veins -->
+
+                    </Veins>
+                
+                </IfCondition>
+                <!-- End  Huge Veins distribution of Nether Quartz -->
+                
+                
+                <!-- Begin  Strategic Cloud distribution of Nether Quartz -->
+                <IfCondition condition=':= dnsoNetherQuartzDist = "strategicCloud"'>
+                
+                    <Cloud name='dnsoNetherQuartzBaseCloud' block='denseores:block0:7' inherits='PresetStrategicCloud'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
+                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
+                            ore, but it takes some time and effort to mine due to low density.
+                            The intent for strategic clouds is that the player will need to actively search for
+                            one and then set up a semi-permanent mining base and spend some time actually mining
+                            the ore.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='CloudRadius' avg=':= 1 * 1 * dnsoNetherQuartzSize * _default_' range=':= 1 * 1 * dnsoNetherQuartzSize * _default_'/>
+                        <Setting name='CloudThickness' avg=':= 1 * 1 * dnsoNetherQuartzSize * _default_' range=':= 1 * 1 * dnsoNetherQuartzSize * _default_'/>
+                        <Setting name='CloudHeight' avg=':= 120' range=':= 120' type='uniform' scaleTo='SeaLevel'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='CloudThickness' avg=':= 1 * 1 * 1 * dnsoNetherQuartzSize * _default_' range=':= 1 * 1 * 1 * dnsoNetherQuartzSize  * _default_'/>
+                        <Setting name='DistributionFrequency' avg=':= 2 * 1 * dnsoNetherQuartzFreq *_default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        
+                        <!-- Begin Nether Quartz Strategic Cloud Hint Veins -->
+                        <Veins name='dnsoNetherQuartzBaseHintVeins' block='denseores:block0:7' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x60D3EB10</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                        </Veins>
+                        <!-- End Nether Quartz Strategic Cloud Hint Veins -->
+
+                    </Cloud>
+                
+                </IfCondition>
+                <!-- End  Strategic Cloud distribution of Nether Quartz -->
+                
+                
+                <!-- Begin  Vanilla distribution of Nether Quartz -->
+                <IfCondition condition=':= dnsoNetherQuartzDist = "vanillaStdGen"'>
+                
+                    <StandardGen name='dnsoNetherQuartzBaseStandard' block='denseores:block0:7' inherits='PresetStandardGen'>
+                        <Description>
+                            This mimics vanilla ore generation.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60D3EB10</WireframeColor>
+                        <Setting name='Size' avg=':= 1 * 1 * dnsoNetherQuartzSize * _default_'/>
+                        <Setting name='Height' avg=':= 120' range=':= 120' type='uniform'/> 
+                        <Setting name='Frequency' avg=':= 2 * 1 * dnsoNetherQuartzFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                    </StandardGen>
+                
+                </IfCondition>
+                <!-- End  Vanilla distribution of Nether Quartz -->
+                
+                <!-- End Nether Quartz Generation --> 
+
+                <!-- Done adding ores -->
+            
+            </IfCondition>
+            <!-- Nether Setup Complete -->
+
+
+ 
+        
+        </ConfigSection>
+        <!-- Custom Ore Gen Configuration Complete! -->
+    
+    </IfModInstalled> 
+ 
+
+
+<!-- This file was made using the Sprocket Configuration Generator. -->
