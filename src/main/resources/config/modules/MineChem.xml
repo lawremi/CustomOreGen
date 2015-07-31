@@ -1,0 +1,257 @@
+
+<!-- ================================================================ 
+
+Custom Ore Generation:   MineChem Module
+
+Generates: 
+Uranium
+
+================================================================ -->
+
+    <!-- Mod detection -->
+    <IfModInstalled name="minechem">
+        
+        <!-- Starting Custom Ore Gen Configuration. -->
+        <ConfigSection>
+        
+            
+            <!-- Setup Screen Configuration -->
+            <ConfigSection>
+                <OptionDisplayGroup name='groupMineChem' displayName='MineChem' displayState='shown'> 
+                    <Description>
+                        Distribution options for MineChem Ores.
+                    </Description>
+                </OptionDisplayGroup>
+                
+                <!-- Uranium Configuration UI Starting -->
+                <ConfigSection>
+                    <OptionChoice name='mchmUraniumDist'  displayState='shown' displayGroup='groupMineChem'> 
+                        <Description> Controls how Uranium is generated </Description> 
+                        <DisplayName>MineChem Uranium</DisplayName>
+                        <Choice value='pipeVeins' displayValue='Pipe Veins'>
+                            <Description>
+                                Pipe Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='hugeVeins' displayValue='Huge Veins'>
+                            <Description>
+                                Huge Veins.
+                            </Description>
+                        </Choice>
+                        <Choice value='strategicCloud' displayValue='Clouds'>
+                            <Description>
+                                Strategic Clouds.
+                            </Description>
+                        </Choice>
+                        <Choice value='vanillaStdGen' displayValue='Vanilla'>
+                            <Description>
+                                Vanilla-style clusters.
+                            </Description>
+                        </Choice>
+                        <Choice value='none' displayValue='None' description='Uranium is not generated in the world.'/>
+                    </OptionChoice>
+                    <OptionNumeric name='mchmUraniumFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupMineChem'>
+                        <Description> Frequency multiplier for MineChem Uranium distributions </Description>
+                        <DisplayName>MineChem Uranium Freq.</DisplayName>
+                    </OptionNumeric>
+                    <OptionNumeric name='mchmUraniumSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupMineChem'>
+                        <Description> Size multiplier for MineChem Uranium distributions </Description>
+                        <DisplayName>MineChem Uranium Size</DisplayName>
+                    </OptionNumeric>
+                </ConfigSection> 
+                <!-- Uranium Configuration UI Complete -->
+                
+            </ConfigSection>
+            <!-- Setup Screen Complete -->
+
+
+            <!-- Setup Overworld -->
+            <IfCondition condition=':= ?COGActive'>
+                
+                <!-- Starting Original Overworld Ore Removal -->
+                <Substitute name='mchmOverworldOreSubstitute0' block='minecraft:stone'>
+                    <Description>
+                        Replace vanilla-generated ore clusters.
+                    </Description>
+                    <Comment>
+                        The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
+                    </Comment>
+                    <Replaces block='minechem:tile.oreUranium:0' />
+                </Substitute>
+                <!-- Original Overworld Ore Removal Complete -->
+                
+                <!-- Adding ores --> 
+                
+                <!-- Begin Uranium Generation --> 
+                
+                <!-- Begin PipeVeins distribution of Uranium -->
+                <IfCondition condition=':= mchmUraniumDist = "pipeVeins"'>
+                
+                    
+                    <!-- Begin Uranium Ore Configuration -->
+                    <Veins name='mchmUraniumBaseVeins' block='minechem:tile.oreUranium' inherits='PresetPipeVeins' seed='0x8184'>
+                        <Description>
+                            Short sparsely filled veins sloping up from near the bottom of the map.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x604CCE92</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * mchmUraniumSize * _default_' range=':= 1 * 1 * mchmUraniumSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 3' range=':= 32' type='normal' scaleTo='SeaLevel' />
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * mchmUraniumSize * _default_' range=':= 1 * 1 * mchmUraniumSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * mchmUraniumFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    <!-- End Uranium Ore Configuration -->
+                    
+                    
+                    <!-- Begin Uranium Pipe Configuration -->
+                    <Veins name= 'mchmUraniumBasePipe' block='minecraft:lava' inherits='mchmUraniumBaseVeins' seed='0x8184'>
+                        <Description>
+                            Fills center of each tube with Pipe material.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x604CCE92</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 0.5 * 1 * 1 * mchmUraniumSize * _default_' range=':= 0.5 * 1 * 1 * mchmUraniumSize * _default_'/>
+                        <Setting name='SegmentRadius' avg=':= 0.5 * 1 * 1 * mchmUraniumSize * _default_' range=':= 0.5 * 1 * 1 * mchmUraniumSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        <Replaces block='minecraft:dirt'/>
+                        <Replaces block='minecraft:stone'/>
+                        <Replaces block='minecraft:gravel'/>
+                        <Replaces block='minecraft:netherrack'/>
+                        <Replaces block='minecraft:end_stone'/>
+                    </Veins>
+                    <!-- End Uranium Pipe Configuration -->
+                    
+                
+                </IfCondition>
+                <!-- End PipeVeins distribution of Uranium -->
+                
+                
+                <!-- Begin  Huge Veins distribution of Uranium -->
+                <IfCondition condition=':= mchmUraniumDist = "hugeVeins"'>
+                
+                    <Veins name='mchmUraniumBaseVeins' block='minechem:tile.oreUranium' inherits='PresetLayeredVeins'>
+                        <Description>
+                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
+                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
+                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
+                            enough ore to keep a player supplied for a very long time.
+                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
+                            could make finding them much easier and the motherlodes are big enough to supply several people without
+                            shortage.  This might be a good way to add challenge to multiplayer worlds.
+                            Credit: based on feedback by dyrewulf from the MC forums.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x604CCE92</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * mchmUraniumSize * _default_' range=':= 1 * 1 * mchmUraniumSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 3' range=':= 32' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * mchmUraniumSize * _default_' range=':= 1 * 1 * mchmUraniumSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * mchmUraniumFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        
+                        <!-- Begin Uranium Huge Vein Hint Veins -->
+                        <Veins name='mchmUraniumBaseHintVeins' block='minechem:tile.oreUranium' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x604CCE92</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                        </Veins>
+                        <!-- End Uranium Huge Vein Hint Veins -->
+
+                    </Veins>
+                
+                </IfCondition>
+                <!-- End  Huge Veins distribution of Uranium -->
+                
+                
+                <!-- Begin  StrategicCloud distribution of Uranium -->
+                <IfCondition condition=':= mchmUraniumDist = "strategicCloud"'>
+                
+                    <Cloud name='mchmUraniumBaseCloud' block='minechem:tile.oreUranium' inherits='PresetStrategicCloud'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
+                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
+                            ore, but it takes some time and effort to mine due to low density.
+                            The intent for strategic clouds is that the player will need to actively search for
+                            one and then set up a semi-permanent mining base and spend some time actually mining
+                            the ore.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x604CCE92</WireframeColor>
+                        <Setting name='CloudRadius' avg=':= 1 * 1 * mchmUraniumSize * _default_' range=':= 1 * 1 * mchmUraniumSize * _default_'/>
+                        <Setting name='CloudThickness' avg=':= 1 * 1 * mchmUraniumSize * _default_' range=':= 1 * 1 * mchmUraniumSize * _default_'/>
+                        <Setting name='CloudHeight' avg=':= 32' range=':= 32' type='normal' scaleTo='SeaLevel'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='CloudThickness' avg=':= 1 * 1 * 1 * mchmUraniumSize * _default_' range=':= 1 * 1 * 1 * mchmUraniumSize  * _default_'/>
+                        <Setting name='DistributionFrequency' avg=':= 1 * 1 * mchmUraniumFreq *_default_'/>
+                        <Replaces block='minecraft:stone'/>
+                        
+                        <!-- Begin Uranium Strategic Cloud Hint Veins -->
+                        <Veins name='mchmUraniumBaseHintVeins' block='minechem:tile.oreUranium' inherits='PresetHintVeins'>
+                            <Description>
+                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
+                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
+                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
+                                deposits that would otherwise be very difficult to find. 
+                            </Description>
+                            <DrawWireframe>:=drawWireframes</DrawWireframe>
+                            <WireframeColor>0x604CCE92</WireframeColor>
+                            <Replaces block='minecraft:dirt'/>
+                            <Replaces block='minecraft:sandstone'/>
+                            <Replaces block='minecraft:stone'/>
+                        </Veins>
+                        <!-- End Uranium Strategic Cloud Hint Veins -->
+
+                    </Cloud>
+                
+                </IfCondition>
+                <!-- End  StrategicCloud distribution of Uranium -->
+                
+                
+                <!-- Begin  Vanilla distribution of Uranium -->
+                <IfCondition condition=':= mchmUraniumDist = "vanillaStdGen"'>
+                
+                    <StandardGen name='mchmUraniumBaseStandard' block='minechem:tile.oreUranium' inherits='PresetStandardGen'>
+                        <Description>
+                            This mimics vanilla ore generation.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x604CCE92</WireframeColor>
+                        <Setting name='Size' avg=':= 1 * 1 * mchmUraniumSize * _default_'/>
+                        <Setting name='Height' avg=':= 8' range=':= 32' type='uniform'/> 
+                        <Setting name='Frequency' avg=':= 1 * 0.025 * mchmUraniumFreq * _default_'/>
+                        <Replaces block='minecraft:stone'/>
+                    </StandardGen>
+                
+                </IfCondition>
+                <!-- End  Vanilla distribution of Uranium -->
+                
+                <!-- End Uranium Generation --> 
+
+                <!-- Done adding ores -->
+            
+            </IfCondition>
+            <!-- Overworld Setup Complete -->
+
+
+ 
+ 
+        
+        </ConfigSection>
+        <!-- Custom Ore Gen Configuration Complete! -->
+    
+    </IfModInstalled> 
+ 
+
+
+<!-- This file was made using the Sprocket Configuration Generator. -->
