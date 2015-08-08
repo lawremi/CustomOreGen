@@ -9,10 +9,10 @@ Nether Quartz
 
 ================================================================ -->
 
-    
-    <!-- Starting Custom Ore Gen Configuration. -->
+    <!-- Starting Configuration for Custom Ore Generation. -->
     <ConfigSection>
-         
+    
+        
         <!-- Setup Screen Configuration -->
         <ConfigSection>
             <OptionDisplayGroup name='groupVanillaMinecraft' displayName='Vanilla Minecraft' displayState='shown'> 
@@ -104,6 +104,11 @@ Nether Quartz
                             Small Deposits.
                         </Description>
                     </Choice>
+                    <Choice value='hugeVeins' displayValue='Huge Veins'>
+                        <Description>
+                            Huge Veins.
+                        </Description>
+                    </Choice>
                     <Choice value='strategicCloud' displayValue='Clouds'>
                         <Description>
                             Strategic Clouds.
@@ -141,6 +146,11 @@ Nether Quartz
                     <Choice value='smallDeposits' displayValue='Small Deposits'>
                         <Description>
                             Small Deposits.
+                        </Description>
+                    </Choice>
+                    <Choice value='hugeVeins' displayValue='Huge Veins'>
+                        <Description>
+                            Huge Veins.
                         </Description>
                     </Choice>
                     <Choice value='strategicCloud' displayValue='Clouds'>
@@ -336,6 +346,11 @@ Nether Quartz
                     <Choice value='smallDeposits' displayValue='Small Deposits'>
                         <Description>
                             Small Deposits.
+                        </Description>
+                    </Choice>
+                    <Choice value='hugeVeins' displayValue='Huge Veins'>
+                        <Description>
+                            Huge Veins.
                         </Description>
                     </Choice>
                     <Choice value='strategicCloud' displayValue='Clouds'>
@@ -695,6 +710,48 @@ Nether Quartz
             <!-- End  Small Deposits distribution of Iron -->
             
             
+            <!-- Begin  Huge Veins distribution of Iron -->
+            <IfCondition condition=':= vnlaIronDist = "hugeVeins"'>
+            
+                <Veins name='vnlaIronBaseVeins' block='minecraft:iron_ore' inherits='PresetHugeVeins'>
+                    <Description>
+                        Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
+                        parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
+                        branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
+                        enough ore to keep a player supplied for a very long time.
+                        The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
+                        could make finding them much easier and the motherlodes are big enough to supply several people without
+                        shortage.  This might be a good way to add challenge to multiplayer worlds.
+                        Credit: based on feedback by dyrewulf from the MC forums.
+                    </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x60DDC2AF</WireframeColor>
+                    <Setting name='MotherlodeSize' avg=':= 1 * 1 * vnlaIronSize * _default_' range=':= 1 * 1 * vnlaIronSize * _default_'/>
+                    <Setting name='MotherlodeHeight' avg=':= 43' range=':= 10.5' type='normal' scaleTo='SeaLevel' /> 
+                    <Setting name='SegmentRadius' avg=':= 1 * 1 * vnlaIronSize * _default_' range=':= 1 * 1 * vnlaIronSize * _default_'/>
+                    <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                    <Setting name='MotherlodeFrequency' avg=':= 1 * 0.9 * vnlaIronFreq * _default_'/>
+                    <Setting name='BranchHeightLimit' avg=':= 10.5'/>
+                    <Replaces block='minecraft:stone'/>
+                </Veins>
+                
+                <!-- Begin Preferred Biome Distribution (Iron Huge Veins) Settings -->
+                <Veins name='vnlaIronPrefersVeins' block='minecraft:iron_ore' inherits='vnlaIronBaseVeins'>
+                    <Description>
+                        Spawns 2 more times in preferred biomes.
+                    </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x60DDC2AF</WireframeColor>
+                    <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                    <BiomeType name='Cold'/>
+                    <BiomeType name='Ocean' weight='-1'/>
+                </Veins>
+                <!-- End Preferred Biome Distribution (Iron Huge Veins) Settings -->
+            
+            </IfCondition>
+            <!-- End  Huge Veins distribution of Iron -->
+            
+            
             <!-- Begin  StrategicCloud distribution of Iron -->
             <IfCondition condition=':= vnlaIronDist = "strategicCloud"'>
             
@@ -831,6 +888,49 @@ Nether Quartz
             
             </IfCondition>
             <!-- End  Small Deposits distribution of Gold -->
+            
+            
+            <!-- Begin  Huge Veins distribution of Gold -->
+            <IfCondition condition=':= vnlaGoldDist = "hugeVeins"'>
+            
+                <Veins name='vnlaGoldBaseVeins' block='minecraft:gold_ore' inherits='PresetHugeVeins'>
+                    <Description>
+                        Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
+                        parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
+                        branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
+                        enough ore to keep a player supplied for a very long time.
+                        The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
+                        could make finding them much easier and the motherlodes are big enough to supply several people without
+                        shortage.  This might be a good way to add challenge to multiplayer worlds.
+                        Credit: based on feedback by dyrewulf from the MC forums.
+                    </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x60EAEF57</WireframeColor>
+                    <Setting name='MotherlodeSize' avg=':= 1 * 0.8 * vnlaGoldSize * _default_' range=':= 1 * 0.8 * vnlaGoldSize * _default_'/>
+                    <Setting name='MotherlodeHeight' avg=':= 20' range=':= 10' type='normal' scaleTo='SeaLevel' /> 
+                    <Setting name='SegmentRadius' avg=':= 1 * 0.8 * vnlaGoldSize * _default_' range=':= 1 * 0.8 * vnlaGoldSize * _default_'/>
+                    <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                    <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * vnlaGoldFreq * _default_'/>
+                    <Setting name='BranchFrequency' avg=':= 0.85 * _default_'/>
+                    <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.66 * _default_'/>
+                    <Setting name='BranchHeightLimit' avg=':= 10'/>
+                    <Replaces block='minecraft:stone'/>
+                </Veins>
+                
+                <!-- Begin Preferred Biome Distribution (Gold Huge Veins) Settings -->
+                <Veins name='vnlaGoldPrefersVeins' block='minecraft:gold_ore' inherits='vnlaGoldBaseVeins'>
+                    <Description>
+                        Spawns 2 more times in preferred biomes.
+                    </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x60EAEF57</WireframeColor>
+                    <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                    <BiomeType name='Forest'/>
+                </Veins>
+                <!-- End Preferred Biome Distribution (Gold Huge Veins) Settings -->
+            
+            </IfCondition>
+            <!-- End  Huge Veins distribution of Gold -->
             
             
             <!-- Begin  StrategicCloud distribution of Gold -->
@@ -1498,7 +1598,6 @@ Nether Quartz
         </IfCondition>
         <!-- Overworld Setup Complete -->
 
-
         <!-- Setup Nether -->
         <IfCondition condition=':= dimension.generator = "HellRandomLevelSource"'>
             
@@ -1558,6 +1657,34 @@ Nether Quartz
             
             </IfCondition>
             <!-- End  Small Deposits distribution of Nether Quartz -->
+            
+            
+            <!-- Begin  Huge Veins distribution of Nether Quartz -->
+            <IfCondition condition=':= vnlaNetherQuartzDist = "hugeVeins"'>
+            
+                <Veins name='vnlaNetherQuartzBaseVeins' block='minecraft:quartz_ore' inherits='PresetHugeVeins'>
+                    <Description>
+                        Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
+                        parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
+                        branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
+                        enough ore to keep a player supplied for a very long time.
+                        The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
+                        could make finding them much easier and the motherlodes are big enough to supply several people without
+                        shortage.  This might be a good way to add challenge to multiplayer worlds.
+                        Credit: based on feedback by dyrewulf from the MC forums.
+                    </Description>
+                    <DrawWireframe>:=drawWireframes</DrawWireframe>
+                    <WireframeColor>0x60DBCCBF</WireframeColor>
+                    <Setting name='MotherlodeSize' avg=':= 1 * 1 * vnlaNetherQuartzSize * _default_' range=':= 1 * 1 * vnlaNetherQuartzSize * _default_'/>
+                    <Setting name='MotherlodeHeight' avg=':= 120' range=':= 120' type='uniform' scaleTo='SeaLevel' /> 
+                    <Setting name='SegmentRadius' avg=':= 1 * 1 * vnlaNetherQuartzSize * _default_' range=':= 1 * 1 * vnlaNetherQuartzSize * _default_'/>
+                    <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                    <Setting name='MotherlodeFrequency' avg=':= 4 * 1 * vnlaNetherQuartzFreq * _default_'/>
+                    <Replaces block='minecraft:netherrack'/>
+                </Veins>
+            
+            </IfCondition>
+            <!-- End  Huge Veins distribution of Nether Quartz -->
             
             
             <!-- Begin  StrategicCloud distribution of Nether Quartz -->
@@ -1629,11 +1756,9 @@ Nether Quartz
         </IfCondition>
         <!-- Nether Setup Complete -->
 
-
- 
-
+    
     </ConfigSection>
-    <!-- Custom Ore Gen Configuration Complete! -->
+    <!-- Configuration for Custom Ore Generation Complete! -->
 
 
 
