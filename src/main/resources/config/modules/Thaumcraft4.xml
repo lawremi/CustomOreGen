@@ -1,13 +1,10 @@
-
-<!-- ================================================================ 
-
-Custom Ore Generation:   Thaumcraft 4 Module
-
-Generates: 
-Amber, Cinnabar, Air Infused Stone, Fire Infused Stone, Water Infused
-Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
-
-================================================================ -->
+ <!-- ================================================================
+      Custom Ore Generation "Thaumcraft 4" Module: This configuration
+      covers amber, cinnabar, air infused stone, fire infused stone,
+      water infused  stone, earth infused stone, order infused stone,
+      and entropy infused  stone.
+      ================================================================
+      -->
 
     <!-- Mod detection -->
     <IfModInstalled name="Thaumcraft">
@@ -391,7 +388,7 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
                     </Comment>
                     <Replaces block='Thaumcraft:blockCustomOre:7' />
-                    <Replaces block='Thaumcraft:blockCustomOre:0' />
+                    <Replaces block='Thaumcraft:blockCustomOre' />
                     <Replaces block='Thaumcraft:blockCustomOre:1' />
                     <Replaces block='Thaumcraft:blockCustomOre:2' />
                     <Replaces block='Thaumcraft:blockCustomOre:3' />
@@ -408,17 +405,21 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 <!-- Begin SparseVeins distribution of Amber -->
                 <IfCondition condition=':= thm4AmberDist = "sparseVeins"'>
                 
-                    <Veins name='thm4AmberBaseVeins' block='Thaumcraft:blockCustomOre:7' inherits='PresetSparseVeins'>
+                    <Veins name='thm4AmberBaseVeins' block='Thaumcraft:blockCustomOre:7'  inherits='PresetSparseVeins' >
                         <Description>
-                            Large veins filled very lightly with ore.  Because they contain less ore per volume, 
-                            these veins are relatively wide and long.  Mining the ore from them is time consuming 
-                            compared to solid ore veins.  They are also more difficult to follow, since it is 
-                            harder to get an idea of their direction while mining.
+                            Large veins filled very lightly with ore.
+                            Because they contain less ore per volume,
+                            these veins are relatively wide and long.
+                            Mining the ore from them is time consuming
+                            compared to solid ore veins.  They are
+                            also more difficult to follow, since it is
+                            harder to get an idea of their direction
+                            while mining.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60FE9D1B</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 1 * thm4AmberSize * _default_' range=':= 1 * 1 * thm4AmberSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 80' range=':= 20' type='normal' scaleTo='SeaLevel' />
+                        <Setting name='MotherlodeHeight' avg=':= 80' range=':= 20' type='normal' scaleTo='SeaLevel' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 1 * thm4AmberSize * _default_' range=':= 1 * 1 * thm4AmberSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 3 * thm4AmberFreq * _default_'/>
@@ -426,7 +427,7 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Amber Sparse Veins) Settings -->
-                    <Veins name='thm4AmberPrefersVeins' block='Thaumcraft:blockCustomOre:7' inherits='thm4AmberBaseVeins'>
+                    <Veins name='thm4AmberPrefersVeins' block='Thaumcraft:blockCustomOre:7'  inherits='thm4AmberBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -444,22 +445,23 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 <!-- Begin  Small Deposits distribution of Amber -->
                 <IfCondition condition=':= thm4AmberDist = "smallDeposits"'>
                 
-                    <Veins name='thm4AmberBaseVeins' block='Thaumcraft:blockCustomOre:7' inherits='PresetSmallDeposits'>
+                    <Veins name='thm4AmberBaseVeins' block='Thaumcraft:blockCustomOre:7'  inherits='PresetSmallDeposits' >
                         <Description>
-                            Small motherlodes without any branches.
-                            Similar to the deposits produced by StandardGen distributions.
+                            Small motherlodes with no veins; similar
+                            to vanilla clusters.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60FE9D1B</WireframeColor>
-                        <Setting name='MotherlodeHeight' avg=':= 80' range=':= 20' type='normal' scaleTo='SeaLevel' /> 
                         <Setting name='MotherlodeSize' avg=':= 1 * 1 * thm4AmberSize * _default_' range=':= 1 * 1 * thm4AmberSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 80' range=':= 20' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * thm4AmberSize * _default_' range=':= 1 * 1 * thm4AmberSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 3 * thm4AmberFreq * _default_'/>
                         <Replaces block='minecraft:stone'/>
                     </Veins>
                     
-                    <!-- Begin Preferred Biome Distribution (Amber Small Deposits) Settings -->
-                    <Veins name='thm4AmberPrefersVeins' block='Thaumcraft:blockCustomOre:7' inherits='thm4AmberBaseVeins'>
+                    <!-- Begin Preferred Biome Distribution (Amber Deposit Veins) Settings -->
+                    <Veins name='thm4AmberPrefersVeins' block='Thaumcraft:blockCustomOre:7'  inherits='thm4AmberBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -468,7 +470,7 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
                         <BiomeType name='Mountain'/>
                     </Veins>
-                    <!-- End Preferred Biome Distribution (Amber Small Deposits) Settings -->
+                    <!-- End Preferred Biome Distribution (Amber Deposit Veins) Settings -->
                 
                 </IfCondition>
                 <!-- End  Small Deposits distribution of Amber -->
@@ -477,16 +479,26 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 <!-- Begin  Huge Veins distribution of Amber -->
                 <IfCondition condition=':= thm4AmberDist = "hugeVeins"'>
                 
-                    <Veins name='thm4AmberBaseVeins' block='Thaumcraft:blockCustomOre:7' inherits='PresetHugeVeins'>
+                    <Veins name='thm4AmberBaseVeins' block='Thaumcraft:blockCustomOre:7'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60FE9D1B</WireframeColor>
@@ -499,7 +511,7 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Amber Huge Veins) Settings -->
-                    <Veins name='thm4AmberPrefersVeins' block='Thaumcraft:blockCustomOre:7' inherits='thm4AmberBaseVeins'>
+                    <Veins name='thm4AmberPrefersVeins' block='Thaumcraft:blockCustomOre:7'  inherits='thm4AmberBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -519,12 +531,16 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 
                     <Cloud name='thm4AmberBaseCloud' block='Thaumcraft:blockCustomOre:7' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60FE9D1B</WireframeColor>
@@ -539,10 +555,16 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         <!-- Begin Amber Strategic Cloud Hint Veins -->
                         <Veins name='thm4AmberBaseHintVeins' block='Thaumcraft:blockCustomOre:7' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60FE9D1B</WireframeColor>
@@ -586,17 +608,21 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 <!-- Begin SparseVeins distribution of Cinnabar -->
                 <IfCondition condition=':= thm4CinnabarDist = "sparseVeins"'>
                 
-                    <Veins name='thm4CinnabarBaseVeins' block='Thaumcraft:blockCustomOre' inherits='PresetSparseVeins'>
+                    <Veins name='thm4CinnabarBaseVeins' block='Thaumcraft:blockCustomOre'  inherits='PresetSparseVeins' >
                         <Description>
-                            Large veins filled very lightly with ore.  Because they contain less ore per volume, 
-                            these veins are relatively wide and long.  Mining the ore from them is time consuming 
-                            compared to solid ore veins.  They are also more difficult to follow, since it is 
-                            harder to get an idea of their direction while mining.
+                            Large veins filled very lightly with ore.
+                            Because they contain less ore per volume,
+                            these veins are relatively wide and long.
+                            Mining the ore from them is time consuming
+                            compared to solid ore veins.  They are
+                            also more difficult to follow, since it is
+                            harder to get an idea of their direction
+                            while mining.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60831C20</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.8 * thm4CinnabarSize * _default_' range=':= 1 * 0.8 * thm4CinnabarSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 50' range=':= 10' type='normal' scaleTo='SeaLevel' />
+                        <Setting name='MotherlodeHeight' avg=':= 50' range=':= 10' type='normal' scaleTo='SeaLevel' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.8 * thm4CinnabarSize * _default_' range=':= 1 * 0.8 * thm4CinnabarSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 3 * thm4CinnabarFreq * _default_'/>
@@ -607,7 +633,7 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Cinnabar Sparse Veins) Settings -->
-                    <Veins name='thm4CinnabarPrefersVeins' block='Thaumcraft:blockCustomOre' inherits='thm4CinnabarBaseVeins'>
+                    <Veins name='thm4CinnabarPrefersVeins' block='Thaumcraft:blockCustomOre'  inherits='thm4CinnabarBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -625,22 +651,26 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 <!-- Begin  Small Deposits distribution of Cinnabar -->
                 <IfCondition condition=':= thm4CinnabarDist = "smallDeposits"'>
                 
-                    <Veins name='thm4CinnabarBaseVeins' block='Thaumcraft:blockCustomOre' inherits='PresetSmallDeposits'>
+                    <Veins name='thm4CinnabarBaseVeins' block='Thaumcraft:blockCustomOre'  inherits='PresetSmallDeposits' >
                         <Description>
-                            Small motherlodes without any branches.
-                            Similar to the deposits produced by StandardGen distributions.
+                            Small motherlodes with no veins; similar
+                            to vanilla clusters.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60831C20</WireframeColor>
-                        <Setting name='MotherlodeHeight' avg=':= 50' range=':= 10' type='normal' scaleTo='SeaLevel' /> 
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.8 * thm4CinnabarSize * _default_' range=':= 1 * 0.8 * thm4CinnabarSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 50' range=':= 10' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 0.8 * thm4CinnabarSize * _default_' range=':= 1 * 0.8 * thm4CinnabarSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 3 * thm4CinnabarFreq * _default_'/>
+                        <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 12'/>
+                        <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
                         <Replaces block='minecraft:stone'/>
                     </Veins>
                     
-                    <!-- Begin Preferred Biome Distribution (Cinnabar Small Deposits) Settings -->
-                    <Veins name='thm4CinnabarPrefersVeins' block='Thaumcraft:blockCustomOre' inherits='thm4CinnabarBaseVeins'>
+                    <!-- Begin Preferred Biome Distribution (Cinnabar Deposit Veins) Settings -->
+                    <Veins name='thm4CinnabarPrefersVeins' block='Thaumcraft:blockCustomOre'  inherits='thm4CinnabarBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -649,7 +679,7 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
                         <BiomeType name='Ocean'/>
                     </Veins>
-                    <!-- End Preferred Biome Distribution (Cinnabar Small Deposits) Settings -->
+                    <!-- End Preferred Biome Distribution (Cinnabar Deposit Veins) Settings -->
                 
                 </IfCondition>
                 <!-- End  Small Deposits distribution of Cinnabar -->
@@ -658,16 +688,26 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 <!-- Begin  Huge Veins distribution of Cinnabar -->
                 <IfCondition condition=':= thm4CinnabarDist = "hugeVeins"'>
                 
-                    <Veins name='thm4CinnabarBaseVeins' block='Thaumcraft:blockCustomOre' inherits='PresetHugeVeins'>
+                    <Veins name='thm4CinnabarBaseVeins' block='Thaumcraft:blockCustomOre'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60831C20</WireframeColor>
@@ -683,7 +723,7 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Cinnabar Huge Veins) Settings -->
-                    <Veins name='thm4CinnabarPrefersVeins' block='Thaumcraft:blockCustomOre' inherits='thm4CinnabarBaseVeins'>
+                    <Veins name='thm4CinnabarPrefersVeins' block='Thaumcraft:blockCustomOre'  inherits='thm4CinnabarBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -703,12 +743,16 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 
                     <Cloud name='thm4CinnabarBaseCloud' block='Thaumcraft:blockCustomOre' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60831C20</WireframeColor>
@@ -723,10 +767,16 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         <!-- Begin Cinnabar Strategic Cloud Hint Veins -->
                         <Veins name='thm4CinnabarBaseHintVeins' block='Thaumcraft:blockCustomOre' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60831C20</WireframeColor>
@@ -770,24 +820,27 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 <!-- Begin SparseVeins distribution of Air Infused Stone -->
                 <IfCondition condition=':= thm4AirInfusedStoneDist = "sparseVeins"'>
                 
-                    <Veins name='thm4AirInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:1' inherits='PresetSparseVeins'>
+                    <Veins name='thm4AirInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:1'  inherits='PresetSparseVeins' >
                         <Description>
-                            Large veins filled very lightly with ore.  Because they contain less ore per volume, 
-                            these veins are relatively wide and long.  Mining the ore from them is time consuming 
-                            compared to solid ore veins.  They are also more difficult to follow, since it is 
-                            harder to get an idea of their direction while mining.
+                            Large veins filled very lightly with ore.
+                            Because they contain less ore per volume,
+                            these veins are relatively wide and long.
+                            Mining the ore from them is time consuming
+                            compared to solid ore veins.  They are
+                            also more difficult to follow, since it is
+                            harder to get an idea of their direction
+                            while mining.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60FEFEAB</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.75 * thm4AirInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4AirInfusedStoneSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' />
+                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.75 * thm4AirInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4AirInfusedStoneSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * thm4AirInfusedStoneFreq * _default_'/>
                         <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
                         <Setting name='BranchHeightLimit' avg=':= 12'/>
                         <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
-                        <Replaces block='minecraft:stone'/>
                         <BiomeType name='Forest'/>
                         <BiomeType name='Plains'/>
                         <BiomeType name='Hills'/>
@@ -795,10 +848,11 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         <BiomeType name='Beach'/>
                         <BiomeType name='Mushroom'/>
                         <BiomeType name='Magical'/>
+                        <Replaces block='minecraft:stone'/>
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Air Infused Stone Sparse Veins) Settings -->
-                    <Veins name='thm4AirInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:1' inherits='thm4AirInfusedStoneBaseVeins'>
+                    <Veins name='thm4AirInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:1'  inherits='thm4AirInfusedStoneBaseVeins' >
                         <Description>
                             Spawns 4 more times in preferred biomes.
                         </Description>
@@ -817,57 +871,10 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 <!-- Begin  Small Deposits distribution of Air Infused Stone -->
                 <IfCondition condition=':= thm4AirInfusedStoneDist = "smallDeposits"'>
                 
-                    <Veins name='thm4AirInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:1' inherits='PresetSmallDeposits'>
+                    <Veins name='thm4AirInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:1'  inherits='PresetSmallDeposits' >
                         <Description>
-                            Small motherlodes without any branches.
-                            Similar to the deposits produced by StandardGen distributions.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60FEFEAB</WireframeColor>
-                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' /> 
-                        <Setting name='MotherlodeSize' avg=':= 1 * 0.75 * thm4AirInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4AirInfusedStoneSize * _default_'/>
-                        <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
-                        <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * thm4AirInfusedStoneFreq * _default_'/>
-                        <Replaces block='minecraft:stone'/>
-                        <BiomeType name='Forest'/>
-                        <BiomeType name='Plains'/>
-                        <BiomeType name='Hills'/>
-                        <BiomeType name='Jungle'/>
-                        <BiomeType name='Beach'/>
-                        <BiomeType name='Mushroom'/>
-                        <BiomeType name='Magical'/>
-                    </Veins>
-                    
-                    <!-- Begin Preferred Biome Distribution (Air Infused Stone Small Deposits) Settings -->
-                    <Veins name='thm4AirInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:1' inherits='thm4AirInfusedStoneBaseVeins'>
-                        <Description>
-                            Spawns 4 more times in preferred biomes.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60FEFEAB</WireframeColor>
-                        <Setting name='MotherlodeFrequency' avg=':= 4 * _default_'/>
-                        <BiomeType name='Plains'/>
-                        <BiomeType name='Magical'/>
-                    </Veins>
-                    <!-- End Preferred Biome Distribution (Air Infused Stone Small Deposits) Settings -->
-                
-                </IfCondition>
-                <!-- End  Small Deposits distribution of Air Infused Stone -->
-                
-                
-                <!-- Begin  Huge Veins distribution of Air Infused Stone -->
-                <IfCondition condition=':= thm4AirInfusedStoneDist = "hugeVeins"'>
-                
-                    <Veins name='thm4AirInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:1' inherits='PresetHugeVeins'>
-                        <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Small motherlodes with no veins; similar
+                            to vanilla clusters.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60FEFEAB</WireframeColor>
@@ -879,7 +886,6 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
                         <Setting name='BranchHeightLimit' avg=':= 12'/>
                         <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
-                        <Replaces block='minecraft:stone'/>
                         <BiomeType name='Forest'/>
                         <BiomeType name='Plains'/>
                         <BiomeType name='Hills'/>
@@ -887,10 +893,72 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         <BiomeType name='Beach'/>
                         <BiomeType name='Mushroom'/>
                         <BiomeType name='Magical'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Air Infused Stone Deposit Veins) Settings -->
+                    <Veins name='thm4AirInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:1'  inherits='thm4AirInfusedStoneBaseVeins' >
+                        <Description>
+                            Spawns 4 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60FEFEAB</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 4 * _default_'/>
+                        <BiomeType name='Plains'/>
+                        <BiomeType name='Magical'/>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Air Infused Stone Deposit Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End  Small Deposits distribution of Air Infused Stone -->
+                
+                
+                <!-- Begin  Huge Veins distribution of Air Infused Stone -->
+                <IfCondition condition=':= thm4AirInfusedStoneDist = "hugeVeins"'>
+                
+                    <Veins name='thm4AirInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:1'  inherits='PresetHugeVeins' >
+                        <Description>
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60FEFEAB</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 0.75 * thm4AirInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4AirInfusedStoneSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 0.75 * thm4AirInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4AirInfusedStoneSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * thm4AirInfusedStoneFreq * _default_'/>
+                        <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 12'/>
+                        <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
+                        <BiomeType name='Forest'/>
+                        <BiomeType name='Plains'/>
+                        <BiomeType name='Hills'/>
+                        <BiomeType name='Jungle'/>
+                        <BiomeType name='Beach'/>
+                        <BiomeType name='Mushroom'/>
+                        <BiomeType name='Magical'/>
+                        <Replaces block='minecraft:stone'/>
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Air Infused Stone Huge Veins) Settings -->
-                    <Veins name='thm4AirInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:1' inherits='thm4AirInfusedStoneBaseVeins'>
+                    <Veins name='thm4AirInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:1'  inherits='thm4AirInfusedStoneBaseVeins' >
                         <Description>
                             Spawns 4 more times in preferred biomes.
                         </Description>
@@ -911,12 +979,16 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 
                     <Cloud name='thm4AirInfusedStoneBaseCloud' block='Thaumcraft:blockCustomOre:1' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60FEFEAB</WireframeColor>
@@ -938,10 +1010,16 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         <!-- Begin Air Infused Stone Strategic Cloud Hint Veins -->
                         <Veins name='thm4AirInfusedStoneBaseHintVeins' block='Thaumcraft:blockCustomOre:1' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60FEFEAB</WireframeColor>
@@ -999,33 +1077,37 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 <!-- Begin SparseVeins distribution of Fire Infused Stone -->
                 <IfCondition condition=':= thm4FireInfusedStoneDist = "sparseVeins"'>
                 
-                    <Veins name='thm4FireInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:2' inherits='PresetSparseVeins'>
+                    <Veins name='thm4FireInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:2'  inherits='PresetSparseVeins' >
                         <Description>
-                            Large veins filled very lightly with ore.  Because they contain less ore per volume, 
-                            these veins are relatively wide and long.  Mining the ore from them is time consuming 
-                            compared to solid ore veins.  They are also more difficult to follow, since it is 
-                            harder to get an idea of their direction while mining.
+                            Large veins filled very lightly with ore.
+                            Because they contain less ore per volume,
+                            these veins are relatively wide and long.
+                            Mining the ore from them is time consuming
+                            compared to solid ore veins.  They are
+                            also more difficult to follow, since it is
+                            harder to get an idea of their direction
+                            while mining.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60FC5100</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.75 * thm4FireInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4FireInfusedStoneSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' />
+                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.75 * thm4FireInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4FireInfusedStoneSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * thm4FireInfusedStoneFreq * _default_'/>
                         <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
                         <Setting name='BranchHeightLimit' avg=':= 12'/>
                         <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
-                        <Replaces block='minecraft:stone'/>
                         <BiomeType name='Mountain'/>
                         <BiomeType name='Desert'/>
                         <BiomeType name='Wasteland'/>
                         <BiomeType name='Beach'/>
                         <BiomeType name='Magical'/>
+                        <Replaces block='minecraft:stone'/>
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Fire Infused Stone Sparse Veins) Settings -->
-                    <Veins name='thm4FireInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:2' inherits='thm4FireInfusedStoneBaseVeins'>
+                    <Veins name='thm4FireInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:2'  inherits='thm4FireInfusedStoneBaseVeins' >
                         <Description>
                             Spawns 4 more times in preferred biomes.
                         </Description>
@@ -1044,55 +1126,10 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 <!-- Begin  Small Deposits distribution of Fire Infused Stone -->
                 <IfCondition condition=':= thm4FireInfusedStoneDist = "smallDeposits"'>
                 
-                    <Veins name='thm4FireInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:2' inherits='PresetSmallDeposits'>
+                    <Veins name='thm4FireInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:2'  inherits='PresetSmallDeposits' >
                         <Description>
-                            Small motherlodes without any branches.
-                            Similar to the deposits produced by StandardGen distributions.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60FC5100</WireframeColor>
-                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' /> 
-                        <Setting name='MotherlodeSize' avg=':= 1 * 0.75 * thm4FireInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4FireInfusedStoneSize * _default_'/>
-                        <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
-                        <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * thm4FireInfusedStoneFreq * _default_'/>
-                        <Replaces block='minecraft:stone'/>
-                        <BiomeType name='Mountain'/>
-                        <BiomeType name='Desert'/>
-                        <BiomeType name='Wasteland'/>
-                        <BiomeType name='Beach'/>
-                        <BiomeType name='Magical'/>
-                    </Veins>
-                    
-                    <!-- Begin Preferred Biome Distribution (Fire Infused Stone Small Deposits) Settings -->
-                    <Veins name='thm4FireInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:2' inherits='thm4FireInfusedStoneBaseVeins'>
-                        <Description>
-                            Spawns 4 more times in preferred biomes.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60FC5100</WireframeColor>
-                        <Setting name='MotherlodeFrequency' avg=':= 4 * _default_'/>
-                        <BiomeType name='Desert'/>
-                        <BiomeType name='Magical'/>
-                    </Veins>
-                    <!-- End Preferred Biome Distribution (Fire Infused Stone Small Deposits) Settings -->
-                
-                </IfCondition>
-                <!-- End  Small Deposits distribution of Fire Infused Stone -->
-                
-                
-                <!-- Begin  Huge Veins distribution of Fire Infused Stone -->
-                <IfCondition condition=':= thm4FireInfusedStoneDist = "hugeVeins"'>
-                
-                    <Veins name='thm4FireInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:2' inherits='PresetHugeVeins'>
-                        <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Small motherlodes with no veins; similar
+                            to vanilla clusters.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60FC5100</WireframeColor>
@@ -1104,16 +1141,75 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
                         <Setting name='BranchHeightLimit' avg=':= 12'/>
                         <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
-                        <Replaces block='minecraft:stone'/>
                         <BiomeType name='Mountain'/>
                         <BiomeType name='Desert'/>
                         <BiomeType name='Wasteland'/>
                         <BiomeType name='Beach'/>
                         <BiomeType name='Magical'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Fire Infused Stone Deposit Veins) Settings -->
+                    <Veins name='thm4FireInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:2'  inherits='thm4FireInfusedStoneBaseVeins' >
+                        <Description>
+                            Spawns 4 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60FC5100</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 4 * _default_'/>
+                        <BiomeType name='Desert'/>
+                        <BiomeType name='Magical'/>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Fire Infused Stone Deposit Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End  Small Deposits distribution of Fire Infused Stone -->
+                
+                
+                <!-- Begin  Huge Veins distribution of Fire Infused Stone -->
+                <IfCondition condition=':= thm4FireInfusedStoneDist = "hugeVeins"'>
+                
+                    <Veins name='thm4FireInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:2'  inherits='PresetHugeVeins' >
+                        <Description>
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60FC5100</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 0.75 * thm4FireInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4FireInfusedStoneSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 0.75 * thm4FireInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4FireInfusedStoneSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * thm4FireInfusedStoneFreq * _default_'/>
+                        <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 12'/>
+                        <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
+                        <BiomeType name='Mountain'/>
+                        <BiomeType name='Desert'/>
+                        <BiomeType name='Wasteland'/>
+                        <BiomeType name='Beach'/>
+                        <BiomeType name='Magical'/>
+                        <Replaces block='minecraft:stone'/>
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Fire Infused Stone Huge Veins) Settings -->
-                    <Veins name='thm4FireInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:2' inherits='thm4FireInfusedStoneBaseVeins'>
+                    <Veins name='thm4FireInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:2'  inherits='thm4FireInfusedStoneBaseVeins' >
                         <Description>
                             Spawns 4 more times in preferred biomes.
                         </Description>
@@ -1134,12 +1230,16 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 
                     <Cloud name='thm4FireInfusedStoneBaseCloud' block='Thaumcraft:blockCustomOre:2' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60FC5100</WireframeColor>
@@ -1159,10 +1259,16 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         <!-- Begin Fire Infused Stone Strategic Cloud Hint Veins -->
                         <Veins name='thm4FireInfusedStoneBaseHintVeins' block='Thaumcraft:blockCustomOre:2' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60FC5100</WireframeColor>
@@ -1216,24 +1322,27 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 <!-- Begin SparseVeins distribution of Water Infused Stone -->
                 <IfCondition condition=':= thm4WaterInfusedStoneDist = "sparseVeins"'>
                 
-                    <Veins name='thm4WaterInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:3' inherits='PresetSparseVeins'>
+                    <Veins name='thm4WaterInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:3'  inherits='PresetSparseVeins' >
                         <Description>
-                            Large veins filled very lightly with ore.  Because they contain less ore per volume, 
-                            these veins are relatively wide and long.  Mining the ore from them is time consuming 
-                            compared to solid ore veins.  They are also more difficult to follow, since it is 
-                            harder to get an idea of their direction while mining.
+                            Large veins filled very lightly with ore.
+                            Because they contain less ore per volume,
+                            these veins are relatively wide and long.
+                            Mining the ore from them is time consuming
+                            compared to solid ore veins.  They are
+                            also more difficult to follow, since it is
+                            harder to get an idea of their direction
+                            while mining.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x6000C0FA</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.75 * thm4WaterInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4WaterInfusedStoneSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' />
+                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.75 * thm4WaterInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4WaterInfusedStoneSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * thm4WaterInfusedStoneFreq * _default_'/>
                         <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
                         <Setting name='BranchHeightLimit' avg=':= 12'/>
                         <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
-                        <Replaces block='minecraft:stone'/>
                         <BiomeType name='Forest'/>
                         <BiomeType name='Swamp'/>
                         <BiomeType name='Water'/>
@@ -1242,10 +1351,11 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         <BiomeType name='Beach'/>
                         <BiomeType name='Mushroom'/>
                         <BiomeType name='Magical'/>
+                        <Replaces block='minecraft:stone'/>
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Water Infused Stone Sparse Veins) Settings -->
-                    <Veins name='thm4WaterInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:3' inherits='thm4WaterInfusedStoneBaseVeins'>
+                    <Veins name='thm4WaterInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:3'  inherits='thm4WaterInfusedStoneBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -1265,59 +1375,10 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 <!-- Begin  Small Deposits distribution of Water Infused Stone -->
                 <IfCondition condition=':= thm4WaterInfusedStoneDist = "smallDeposits"'>
                 
-                    <Veins name='thm4WaterInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:3' inherits='PresetSmallDeposits'>
+                    <Veins name='thm4WaterInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:3'  inherits='PresetSmallDeposits' >
                         <Description>
-                            Small motherlodes without any branches.
-                            Similar to the deposits produced by StandardGen distributions.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x6000C0FA</WireframeColor>
-                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' /> 
-                        <Setting name='MotherlodeSize' avg=':= 1 * 0.75 * thm4WaterInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4WaterInfusedStoneSize * _default_'/>
-                        <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
-                        <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * thm4WaterInfusedStoneFreq * _default_'/>
-                        <Replaces block='minecraft:stone'/>
-                        <BiomeType name='Forest'/>
-                        <BiomeType name='Swamp'/>
-                        <BiomeType name='Water'/>
-                        <BiomeType name='Frozen'/>
-                        <BiomeType name='Jungle'/>
-                        <BiomeType name='Beach'/>
-                        <BiomeType name='Mushroom'/>
-                        <BiomeType name='Magical'/>
-                    </Veins>
-                    
-                    <!-- Begin Preferred Biome Distribution (Water Infused Stone Small Deposits) Settings -->
-                    <Veins name='thm4WaterInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:3' inherits='thm4WaterInfusedStoneBaseVeins'>
-                        <Description>
-                            Spawns 2 more times in preferred biomes.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x6000C0FA</WireframeColor>
-                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
-                        <BiomeType name='Swamp'/>
-                        <BiomeType name='Water'/>
-                        <BiomeType name='Magical'/>
-                    </Veins>
-                    <!-- End Preferred Biome Distribution (Water Infused Stone Small Deposits) Settings -->
-                
-                </IfCondition>
-                <!-- End  Small Deposits distribution of Water Infused Stone -->
-                
-                
-                <!-- Begin  Huge Veins distribution of Water Infused Stone -->
-                <IfCondition condition=':= thm4WaterInfusedStoneDist = "hugeVeins"'>
-                
-                    <Veins name='thm4WaterInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:3' inherits='PresetHugeVeins'>
-                        <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Small motherlodes with no veins; similar
+                            to vanilla clusters.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x6000C0FA</WireframeColor>
@@ -1329,7 +1390,6 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
                         <Setting name='BranchHeightLimit' avg=':= 12'/>
                         <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
-                        <Replaces block='minecraft:stone'/>
                         <BiomeType name='Forest'/>
                         <BiomeType name='Swamp'/>
                         <BiomeType name='Water'/>
@@ -1338,10 +1398,74 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         <BiomeType name='Beach'/>
                         <BiomeType name='Mushroom'/>
                         <BiomeType name='Magical'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Water Infused Stone Deposit Veins) Settings -->
+                    <Veins name='thm4WaterInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:3'  inherits='thm4WaterInfusedStoneBaseVeins' >
+                        <Description>
+                            Spawns 2 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x6000C0FA</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
+                        <BiomeType name='Swamp'/>
+                        <BiomeType name='Water'/>
+                        <BiomeType name='Magical'/>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Water Infused Stone Deposit Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End  Small Deposits distribution of Water Infused Stone -->
+                
+                
+                <!-- Begin  Huge Veins distribution of Water Infused Stone -->
+                <IfCondition condition=':= thm4WaterInfusedStoneDist = "hugeVeins"'>
+                
+                    <Veins name='thm4WaterInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:3'  inherits='PresetHugeVeins' >
+                        <Description>
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x6000C0FA</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 0.75 * thm4WaterInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4WaterInfusedStoneSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 0.75 * thm4WaterInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4WaterInfusedStoneSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * thm4WaterInfusedStoneFreq * _default_'/>
+                        <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 12'/>
+                        <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
+                        <BiomeType name='Forest'/>
+                        <BiomeType name='Swamp'/>
+                        <BiomeType name='Water'/>
+                        <BiomeType name='Frozen'/>
+                        <BiomeType name='Jungle'/>
+                        <BiomeType name='Beach'/>
+                        <BiomeType name='Mushroom'/>
+                        <BiomeType name='Magical'/>
+                        <Replaces block='minecraft:stone'/>
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Water Infused Stone Huge Veins) Settings -->
-                    <Veins name='thm4WaterInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:3' inherits='thm4WaterInfusedStoneBaseVeins'>
+                    <Veins name='thm4WaterInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:3'  inherits='thm4WaterInfusedStoneBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -1363,12 +1487,16 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 
                     <Cloud name='thm4WaterInfusedStoneBaseCloud' block='Thaumcraft:blockCustomOre:3' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x6000C0FA</WireframeColor>
@@ -1391,10 +1519,16 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         <!-- Begin Water Infused Stone Strategic Cloud Hint Veins -->
                         <Veins name='thm4WaterInfusedStoneBaseHintVeins' block='Thaumcraft:blockCustomOre:3' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x6000C0FA</WireframeColor>
@@ -1454,24 +1588,27 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 <!-- Begin SparseVeins distribution of Earth Infused Stone -->
                 <IfCondition condition=':= thm4EarthInfusedStoneDist = "sparseVeins"'>
                 
-                    <Veins name='thm4EarthInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:4' inherits='PresetSparseVeins'>
+                    <Veins name='thm4EarthInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:4'  inherits='PresetSparseVeins' >
                         <Description>
-                            Large veins filled very lightly with ore.  Because they contain less ore per volume, 
-                            these veins are relatively wide and long.  Mining the ore from them is time consuming 
-                            compared to solid ore veins.  They are also more difficult to follow, since it is 
-                            harder to get an idea of their direction while mining.
+                            Large veins filled very lightly with ore.
+                            Because they contain less ore per volume,
+                            these veins are relatively wide and long.
+                            Mining the ore from them is time consuming
+                            compared to solid ore veins.  They are
+                            also more difficult to follow, since it is
+                            harder to get an idea of their direction
+                            while mining.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x6000D900</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.75 * thm4EarthInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4EarthInfusedStoneSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' />
+                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.75 * thm4EarthInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4EarthInfusedStoneSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * thm4EarthInfusedStoneFreq * _default_'/>
                         <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
                         <Setting name='BranchHeightLimit' avg=':= 12'/>
                         <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
-                        <Replaces block='minecraft:stone'/>
                         <BiomeType name='Mountain'/>
                         <BiomeType name='Hills'/>
                         <BiomeType name='Desert'/>
@@ -1480,10 +1617,11 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         <BiomeType name='Beach'/>
                         <BiomeType name='Mushroom'/>
                         <BiomeType name='Magical'/>
+                        <Replaces block='minecraft:stone'/>
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Earth Infused Stone Sparse Veins) Settings -->
-                    <Veins name='thm4EarthInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:4' inherits='thm4EarthInfusedStoneBaseVeins'>
+                    <Veins name='thm4EarthInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:4'  inherits='thm4EarthInfusedStoneBaseVeins' >
                         <Description>
                             Spawns 4 more times in preferred biomes.
                         </Description>
@@ -1503,59 +1641,10 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 <!-- Begin  Small Deposits distribution of Earth Infused Stone -->
                 <IfCondition condition=':= thm4EarthInfusedStoneDist = "smallDeposits"'>
                 
-                    <Veins name='thm4EarthInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:4' inherits='PresetSmallDeposits'>
+                    <Veins name='thm4EarthInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:4'  inherits='PresetSmallDeposits' >
                         <Description>
-                            Small motherlodes without any branches.
-                            Similar to the deposits produced by StandardGen distributions.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x6000D900</WireframeColor>
-                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' /> 
-                        <Setting name='MotherlodeSize' avg=':= 1 * 0.75 * thm4EarthInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4EarthInfusedStoneSize * _default_'/>
-                        <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
-                        <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * thm4EarthInfusedStoneFreq * _default_'/>
-                        <Replaces block='minecraft:stone'/>
-                        <BiomeType name='Mountain'/>
-                        <BiomeType name='Hills'/>
-                        <BiomeType name='Desert'/>
-                        <BiomeType name='Jungle'/>
-                        <BiomeType name='Wasteland'/>
-                        <BiomeType name='Beach'/>
-                        <BiomeType name='Mushroom'/>
-                        <BiomeType name='Magical'/>
-                    </Veins>
-                    
-                    <!-- Begin Preferred Biome Distribution (Earth Infused Stone Small Deposits) Settings -->
-                    <Veins name='thm4EarthInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:4' inherits='thm4EarthInfusedStoneBaseVeins'>
-                        <Description>
-                            Spawns 4 more times in preferred biomes.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x6000D900</WireframeColor>
-                        <Setting name='MotherlodeFrequency' avg=':= 4 * _default_'/>
-                        <BiomeType name='Mountain'/>
-                        <BiomeType name='Hills'/>
-                        <BiomeType name='Magical'/>
-                    </Veins>
-                    <!-- End Preferred Biome Distribution (Earth Infused Stone Small Deposits) Settings -->
-                
-                </IfCondition>
-                <!-- End  Small Deposits distribution of Earth Infused Stone -->
-                
-                
-                <!-- Begin  Huge Veins distribution of Earth Infused Stone -->
-                <IfCondition condition=':= thm4EarthInfusedStoneDist = "hugeVeins"'>
-                
-                    <Veins name='thm4EarthInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:4' inherits='PresetHugeVeins'>
-                        <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Small motherlodes with no veins; similar
+                            to vanilla clusters.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x6000D900</WireframeColor>
@@ -1567,7 +1656,6 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
                         <Setting name='BranchHeightLimit' avg=':= 12'/>
                         <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
-                        <Replaces block='minecraft:stone'/>
                         <BiomeType name='Mountain'/>
                         <BiomeType name='Hills'/>
                         <BiomeType name='Desert'/>
@@ -1576,10 +1664,74 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         <BiomeType name='Beach'/>
                         <BiomeType name='Mushroom'/>
                         <BiomeType name='Magical'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Earth Infused Stone Deposit Veins) Settings -->
+                    <Veins name='thm4EarthInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:4'  inherits='thm4EarthInfusedStoneBaseVeins' >
+                        <Description>
+                            Spawns 4 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x6000D900</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 4 * _default_'/>
+                        <BiomeType name='Mountain'/>
+                        <BiomeType name='Hills'/>
+                        <BiomeType name='Magical'/>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Earth Infused Stone Deposit Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End  Small Deposits distribution of Earth Infused Stone -->
+                
+                
+                <!-- Begin  Huge Veins distribution of Earth Infused Stone -->
+                <IfCondition condition=':= thm4EarthInfusedStoneDist = "hugeVeins"'>
+                
+                    <Veins name='thm4EarthInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:4'  inherits='PresetHugeVeins' >
+                        <Description>
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x6000D900</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 0.75 * thm4EarthInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4EarthInfusedStoneSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 0.75 * thm4EarthInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4EarthInfusedStoneSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * thm4EarthInfusedStoneFreq * _default_'/>
+                        <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 12'/>
+                        <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
+                        <BiomeType name='Mountain'/>
+                        <BiomeType name='Hills'/>
+                        <BiomeType name='Desert'/>
+                        <BiomeType name='Jungle'/>
+                        <BiomeType name='Wasteland'/>
+                        <BiomeType name='Beach'/>
+                        <BiomeType name='Mushroom'/>
+                        <BiomeType name='Magical'/>
+                        <Replaces block='minecraft:stone'/>
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Earth Infused Stone Huge Veins) Settings -->
-                    <Veins name='thm4EarthInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:4' inherits='thm4EarthInfusedStoneBaseVeins'>
+                    <Veins name='thm4EarthInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:4'  inherits='thm4EarthInfusedStoneBaseVeins' >
                         <Description>
                             Spawns 4 more times in preferred biomes.
                         </Description>
@@ -1601,12 +1753,16 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 
                     <Cloud name='thm4EarthInfusedStoneBaseCloud' block='Thaumcraft:blockCustomOre:4' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x6000D900</WireframeColor>
@@ -1629,10 +1785,16 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         <!-- Begin Earth Infused Stone Strategic Cloud Hint Veins -->
                         <Veins name='thm4EarthInfusedStoneBaseHintVeins' block='Thaumcraft:blockCustomOre:4' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x6000D900</WireframeColor>
@@ -1692,34 +1854,38 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 <!-- Begin SparseVeins distribution of Order Infused Stone -->
                 <IfCondition condition=':= thm4OrderInfusedStoneDist = "sparseVeins"'>
                 
-                    <Veins name='thm4OrderInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:5' inherits='PresetSparseVeins'>
+                    <Veins name='thm4OrderInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:5'  inherits='PresetSparseVeins' >
                         <Description>
-                            Large veins filled very lightly with ore.  Because they contain less ore per volume, 
-                            these veins are relatively wide and long.  Mining the ore from them is time consuming 
-                            compared to solid ore veins.  They are also more difficult to follow, since it is 
-                            harder to get an idea of their direction while mining.
+                            Large veins filled very lightly with ore.
+                            Because they contain less ore per volume,
+                            these veins are relatively wide and long.
+                            Mining the ore from them is time consuming
+                            compared to solid ore veins.  They are
+                            also more difficult to follow, since it is
+                            harder to get an idea of their direction
+                            while mining.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60EBEBF9</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.75 * thm4OrderInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4OrderInfusedStoneSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' />
+                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.75 * thm4OrderInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4OrderInfusedStoneSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * thm4OrderInfusedStoneFreq * _default_'/>
                         <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
                         <Setting name='BranchHeightLimit' avg=':= 12'/>
                         <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
-                        <Replaces block='minecraft:stone'/>
                         <BiomeType name='Forest'/>
                         <BiomeType name='Plains'/>
                         <BiomeType name='Mountain'/>
                         <BiomeType name='Hills'/>
                         <BiomeType name='Jungle'/>
                         <BiomeType name='Magical'/>
+                        <Replaces block='minecraft:stone'/>
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Order Infused Stone Sparse Veins) Settings -->
-                    <Veins name='thm4OrderInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:5' inherits='thm4OrderInfusedStoneBaseVeins'>
+                    <Veins name='thm4OrderInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:5'  inherits='thm4OrderInfusedStoneBaseVeins' >
                         <Description>
                             Spawns 4 more times in preferred biomes.
                         </Description>
@@ -1739,57 +1905,10 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 <!-- Begin  Small Deposits distribution of Order Infused Stone -->
                 <IfCondition condition=':= thm4OrderInfusedStoneDist = "smallDeposits"'>
                 
-                    <Veins name='thm4OrderInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:5' inherits='PresetSmallDeposits'>
+                    <Veins name='thm4OrderInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:5'  inherits='PresetSmallDeposits' >
                         <Description>
-                            Small motherlodes without any branches.
-                            Similar to the deposits produced by StandardGen distributions.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60EBEBF9</WireframeColor>
-                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' /> 
-                        <Setting name='MotherlodeSize' avg=':= 1 * 0.75 * thm4OrderInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4OrderInfusedStoneSize * _default_'/>
-                        <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
-                        <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * thm4OrderInfusedStoneFreq * _default_'/>
-                        <Replaces block='minecraft:stone'/>
-                        <BiomeType name='Forest'/>
-                        <BiomeType name='Plains'/>
-                        <BiomeType name='Mountain'/>
-                        <BiomeType name='Hills'/>
-                        <BiomeType name='Jungle'/>
-                        <BiomeType name='Magical'/>
-                    </Veins>
-                    
-                    <!-- Begin Preferred Biome Distribution (Order Infused Stone Small Deposits) Settings -->
-                    <Veins name='thm4OrderInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:5' inherits='thm4OrderInfusedStoneBaseVeins'>
-                        <Description>
-                            Spawns 4 more times in preferred biomes.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60EBEBF9</WireframeColor>
-                        <Setting name='MotherlodeFrequency' avg=':= 4 * _default_'/>
-                        <BiomeType name='Forest'/>
-                        <BiomeType name='Jungle'/>
-                        <BiomeType name='Magical'/>
-                    </Veins>
-                    <!-- End Preferred Biome Distribution (Order Infused Stone Small Deposits) Settings -->
-                
-                </IfCondition>
-                <!-- End  Small Deposits distribution of Order Infused Stone -->
-                
-                
-                <!-- Begin  Huge Veins distribution of Order Infused Stone -->
-                <IfCondition condition=':= thm4OrderInfusedStoneDist = "hugeVeins"'>
-                
-                    <Veins name='thm4OrderInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:5' inherits='PresetHugeVeins'>
-                        <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Small motherlodes with no veins; similar
+                            to vanilla clusters.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60EBEBF9</WireframeColor>
@@ -1801,17 +1920,78 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
                         <Setting name='BranchHeightLimit' avg=':= 12'/>
                         <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
-                        <Replaces block='minecraft:stone'/>
                         <BiomeType name='Forest'/>
                         <BiomeType name='Plains'/>
                         <BiomeType name='Mountain'/>
                         <BiomeType name='Hills'/>
                         <BiomeType name='Jungle'/>
                         <BiomeType name='Magical'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Order Infused Stone Deposit Veins) Settings -->
+                    <Veins name='thm4OrderInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:5'  inherits='thm4OrderInfusedStoneBaseVeins' >
+                        <Description>
+                            Spawns 4 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60EBEBF9</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 4 * _default_'/>
+                        <BiomeType name='Forest'/>
+                        <BiomeType name='Jungle'/>
+                        <BiomeType name='Magical'/>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Order Infused Stone Deposit Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End  Small Deposits distribution of Order Infused Stone -->
+                
+                
+                <!-- Begin  Huge Veins distribution of Order Infused Stone -->
+                <IfCondition condition=':= thm4OrderInfusedStoneDist = "hugeVeins"'>
+                
+                    <Veins name='thm4OrderInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:5'  inherits='PresetHugeVeins' >
+                        <Description>
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60EBEBF9</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 0.75 * thm4OrderInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4OrderInfusedStoneSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 0.75 * thm4OrderInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4OrderInfusedStoneSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * thm4OrderInfusedStoneFreq * _default_'/>
+                        <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 12'/>
+                        <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
+                        <BiomeType name='Forest'/>
+                        <BiomeType name='Plains'/>
+                        <BiomeType name='Mountain'/>
+                        <BiomeType name='Hills'/>
+                        <BiomeType name='Jungle'/>
+                        <BiomeType name='Magical'/>
+                        <Replaces block='minecraft:stone'/>
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Order Infused Stone Huge Veins) Settings -->
-                    <Veins name='thm4OrderInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:5' inherits='thm4OrderInfusedStoneBaseVeins'>
+                    <Veins name='thm4OrderInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:5'  inherits='thm4OrderInfusedStoneBaseVeins' >
                         <Description>
                             Spawns 4 more times in preferred biomes.
                         </Description>
@@ -1833,12 +2013,16 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 
                     <Cloud name='thm4OrderInfusedStoneBaseCloud' block='Thaumcraft:blockCustomOre:5' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60EBEBF9</WireframeColor>
@@ -1859,10 +2043,16 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         <!-- Begin Order Infused Stone Strategic Cloud Hint Veins -->
                         <Veins name='thm4OrderInfusedStoneBaseHintVeins' block='Thaumcraft:blockCustomOre:5' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60EBEBF9</WireframeColor>
@@ -1918,34 +2108,38 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 <!-- Begin SparseVeins distribution of Entropy Infused Stone -->
                 <IfCondition condition=':= thm4EntropyInfusedStoneDist = "sparseVeins"'>
                 
-                    <Veins name='thm4EntropyInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:6' inherits='PresetSparseVeins'>
+                    <Veins name='thm4EntropyInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:6'  inherits='PresetSparseVeins' >
                         <Description>
-                            Large veins filled very lightly with ore.  Because they contain less ore per volume, 
-                            these veins are relatively wide and long.  Mining the ore from them is time consuming 
-                            compared to solid ore veins.  They are also more difficult to follow, since it is 
-                            harder to get an idea of their direction while mining.
+                            Large veins filled very lightly with ore.
+                            Because they contain less ore per volume,
+                            these veins are relatively wide and long.
+                            Mining the ore from them is time consuming
+                            compared to solid ore veins.  They are
+                            also more difficult to follow, since it is
+                            harder to get an idea of their direction
+                            while mining.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60260920</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.75 * thm4EntropyInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4EntropyInfusedStoneSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' />
+                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.75 * thm4EntropyInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4EntropyInfusedStoneSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * thm4EntropyInfusedStoneFreq * _default_'/>
                         <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
                         <Setting name='BranchHeightLimit' avg=':= 12'/>
                         <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
-                        <Replaces block='minecraft:stone'/>
                         <BiomeType name='Swamp'/>
                         <BiomeType name='Desert'/>
                         <BiomeType name='Wasteland'/>
                         <BiomeType name='Beach'/>
                         <BiomeType name='Mushroom'/>
                         <BiomeType name='Magical'/>
+                        <Replaces block='minecraft:stone'/>
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Entropy Infused Stone Sparse Veins) Settings -->
-                    <Veins name='thm4EntropyInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:6' inherits='thm4EntropyInfusedStoneBaseVeins'>
+                    <Veins name='thm4EntropyInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:6'  inherits='thm4EntropyInfusedStoneBaseVeins' >
                         <Description>
                             Spawns 4 more times in preferred biomes.
                         </Description>
@@ -1965,57 +2159,10 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 <!-- Begin  Small Deposits distribution of Entropy Infused Stone -->
                 <IfCondition condition=':= thm4EntropyInfusedStoneDist = "smallDeposits"'>
                 
-                    <Veins name='thm4EntropyInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:6' inherits='PresetSmallDeposits'>
+                    <Veins name='thm4EntropyInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:6'  inherits='PresetSmallDeposits' >
                         <Description>
-                            Small motherlodes without any branches.
-                            Similar to the deposits produced by StandardGen distributions.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60260920</WireframeColor>
-                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' /> 
-                        <Setting name='MotherlodeSize' avg=':= 1 * 0.75 * thm4EntropyInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4EntropyInfusedStoneSize * _default_'/>
-                        <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
-                        <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * thm4EntropyInfusedStoneFreq * _default_'/>
-                        <Replaces block='minecraft:stone'/>
-                        <BiomeType name='Swamp'/>
-                        <BiomeType name='Desert'/>
-                        <BiomeType name='Wasteland'/>
-                        <BiomeType name='Beach'/>
-                        <BiomeType name='Mushroom'/>
-                        <BiomeType name='Magical'/>
-                    </Veins>
-                    
-                    <!-- Begin Preferred Biome Distribution (Entropy Infused Stone Small Deposits) Settings -->
-                    <Veins name='thm4EntropyInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:6' inherits='thm4EntropyInfusedStoneBaseVeins'>
-                        <Description>
-                            Spawns 4 more times in preferred biomes.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60260920</WireframeColor>
-                        <Setting name='MotherlodeFrequency' avg=':= 4 * _default_'/>
-                        <BiomeType name='Wasteland'/>
-                        <BiomeType name='Mushroom'/>
-                        <BiomeType name='Magical'/>
-                    </Veins>
-                    <!-- End Preferred Biome Distribution (Entropy Infused Stone Small Deposits) Settings -->
-                
-                </IfCondition>
-                <!-- End  Small Deposits distribution of Entropy Infused Stone -->
-                
-                
-                <!-- Begin  Huge Veins distribution of Entropy Infused Stone -->
-                <IfCondition condition=':= thm4EntropyInfusedStoneDist = "hugeVeins"'>
-                
-                    <Veins name='thm4EntropyInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:6' inherits='PresetHugeVeins'>
-                        <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Small motherlodes with no veins; similar
+                            to vanilla clusters.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60260920</WireframeColor>
@@ -2027,17 +2174,78 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
                         <Setting name='BranchHeightLimit' avg=':= 12'/>
                         <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
-                        <Replaces block='minecraft:stone'/>
                         <BiomeType name='Swamp'/>
                         <BiomeType name='Desert'/>
                         <BiomeType name='Wasteland'/>
                         <BiomeType name='Beach'/>
                         <BiomeType name='Mushroom'/>
                         <BiomeType name='Magical'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                    
+                    <!-- Begin Preferred Biome Distribution (Entropy Infused Stone Deposit Veins) Settings -->
+                    <Veins name='thm4EntropyInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:6'  inherits='thm4EntropyInfusedStoneBaseVeins' >
+                        <Description>
+                            Spawns 4 more times in preferred biomes.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60260920</WireframeColor>
+                        <Setting name='MotherlodeFrequency' avg=':= 4 * _default_'/>
+                        <BiomeType name='Wasteland'/>
+                        <BiomeType name='Mushroom'/>
+                        <BiomeType name='Magical'/>
+                    </Veins>
+                    <!-- End Preferred Biome Distribution (Entropy Infused Stone Deposit Veins) Settings -->
+                
+                </IfCondition>
+                <!-- End  Small Deposits distribution of Entropy Infused Stone -->
+                
+                
+                <!-- Begin  Huge Veins distribution of Entropy Infused Stone -->
+                <IfCondition condition=':= thm4EntropyInfusedStoneDist = "hugeVeins"'>
+                
+                    <Veins name='thm4EntropyInfusedStoneBaseVeins' block='Thaumcraft:blockCustomOre:6'  inherits='PresetHugeVeins' >
+                        <Description>
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x60260920</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 0.75 * thm4EntropyInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4EntropyInfusedStoneSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 0.75 * thm4EntropyInfusedStoneSize * _default_' range=':= 1 * 0.75 * thm4EntropyInfusedStoneSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * thm4EntropyInfusedStoneFreq * _default_'/>
+                        <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 12'/>
+                        <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
+                        <BiomeType name='Swamp'/>
+                        <BiomeType name='Desert'/>
+                        <BiomeType name='Wasteland'/>
+                        <BiomeType name='Beach'/>
+                        <BiomeType name='Mushroom'/>
+                        <BiomeType name='Magical'/>
+                        <Replaces block='minecraft:stone'/>
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Entropy Infused Stone Huge Veins) Settings -->
-                    <Veins name='thm4EntropyInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:6' inherits='thm4EntropyInfusedStoneBaseVeins'>
+                    <Veins name='thm4EntropyInfusedStonePrefersVeins' block='Thaumcraft:blockCustomOre:6'  inherits='thm4EntropyInfusedStoneBaseVeins' >
                         <Description>
                             Spawns 4 more times in preferred biomes.
                         </Description>
@@ -2059,12 +2267,16 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                 
                     <Cloud name='thm4EntropyInfusedStoneBaseCloud' block='Thaumcraft:blockCustomOre:6' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60260920</WireframeColor>
@@ -2085,10 +2297,16 @@ Stone, Earth Infused Stone, Order Infused Stone, Entropy Infused Stone
                         <!-- Begin Entropy Infused Stone Strategic Cloud Hint Veins -->
                         <Veins name='thm4EntropyInfusedStoneBaseHintVeins' block='Thaumcraft:blockCustomOre:6' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60260920</WireframeColor>

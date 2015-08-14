@@ -1,12 +1,8 @@
-
-<!-- ================================================================ 
-
-Custom Ore Generation:   Pams HarvestCraft Module
-
-Generates: 
-Salt
-
-================================================================ -->
+ <!-- ================================================================
+      Custom Ore Generation "Pams HarvestCraft" Module: This
+      configuration covers salt.
+      ================================================================
+      -->
 
     <!-- Mod detection -->
     <IfModInstalled name="harvestcraft">
@@ -76,7 +72,7 @@ Salt
                     <Comment>
                         The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
                     </Comment>
-                    <Replaces block='harvestcraft:salt:0' />
+                    <Replaces block='harvestcraft:salt' />
                 </Substitute>
                 <!-- Original Overworld Ore Removal Complete -->
                 
@@ -87,17 +83,21 @@ Salt
                 <!-- Begin SparseVeins distribution of Salt -->
                 <IfCondition condition=':= hvstSaltDist = "sparseVeins"'>
                 
-                    <Veins name='hvstSaltBaseVeins' block='harvestcraft:salt' inherits='PresetSparseVeins'>
+                    <Veins name='hvstSaltBaseVeins' block='harvestcraft:salt'  inherits='PresetSparseVeins' >
                         <Description>
-                            Large veins filled very lightly with ore.  Because they contain less ore per volume, 
-                            these veins are relatively wide and long.  Mining the ore from them is time consuming 
-                            compared to solid ore veins.  They are also more difficult to follow, since it is 
-                            harder to get an idea of their direction while mining.
+                            Large veins filled very lightly with ore.
+                            Because they contain less ore per volume,
+                            these veins are relatively wide and long.
+                            Mining the ore from them is time consuming
+                            compared to solid ore veins.  They are
+                            also more difficult to follow, since it is
+                            harder to get an idea of their direction
+                            while mining.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x6090927C</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 1 * hvstSaltSize * _default_' range=':= 1 * 1 * hvstSaltSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 60' range=':= 4' type='normal' scaleTo='SeaLevel' />
+                        <Setting name='MotherlodeHeight' avg=':= 60' range=':= 4' type='normal' scaleTo='SeaLevel' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 1 * hvstSaltSize * _default_' range=':= 1 * 1 * hvstSaltSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.8 * hvstSaltFreq * _default_'/>
@@ -107,7 +107,7 @@ Salt
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Salt Sparse Veins) Settings -->
-                    <Veins name='hvstSaltPrefersVeins' block='harvestcraft:salt' inherits='hvstSaltBaseVeins'>
+                    <Veins name='hvstSaltPrefersVeins' block='harvestcraft:salt'  inherits='hvstSaltBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -127,22 +127,25 @@ Salt
                 <!-- Begin  Small Deposits distribution of Salt -->
                 <IfCondition condition=':= hvstSaltDist = "smallDeposits"'>
                 
-                    <Veins name='hvstSaltBaseVeins' block='harvestcraft:salt' inherits='PresetSmallDeposits'>
+                    <Veins name='hvstSaltBaseVeins' block='harvestcraft:salt'  inherits='PresetSmallDeposits' >
                         <Description>
-                            Small motherlodes without any branches.
-                            Similar to the deposits produced by StandardGen distributions.
+                            Small motherlodes with no veins; similar
+                            to vanilla clusters.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x6090927C</WireframeColor>
-                        <Setting name='MotherlodeHeight' avg=':= 60' range=':= 4' type='normal' scaleTo='SeaLevel' /> 
                         <Setting name='MotherlodeSize' avg=':= 1 * 1 * hvstSaltSize * _default_' range=':= 1 * 1 * hvstSaltSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 60' range=':= 4' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * hvstSaltSize * _default_' range=':= 1 * 1 * hvstSaltSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.8 * hvstSaltFreq * _default_'/>
+                        <Setting name='BranchLength' avg=':= 1.2 * _default_' range=':= 1 * _default_'/>
+                        <Setting name='BranchInclination' avg=':= -_default_' range=':= 0'/>
                         <Replaces block='minecraft:stone'/>
                     </Veins>
                     
-                    <!-- Begin Preferred Biome Distribution (Salt Small Deposits) Settings -->
-                    <Veins name='hvstSaltPrefersVeins' block='harvestcraft:salt' inherits='hvstSaltBaseVeins'>
+                    <!-- Begin Preferred Biome Distribution (Salt Deposit Veins) Settings -->
+                    <Veins name='hvstSaltPrefersVeins' block='harvestcraft:salt'  inherits='hvstSaltBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -153,7 +156,7 @@ Salt
                         <BiomeType name='Beach'/>
                         <BiomeType name='Mountain'/>
                     </Veins>
-                    <!-- End Preferred Biome Distribution (Salt Small Deposits) Settings -->
+                    <!-- End Preferred Biome Distribution (Salt Deposit Veins) Settings -->
                 
                 </IfCondition>
                 <!-- End  Small Deposits distribution of Salt -->
@@ -164,12 +167,16 @@ Salt
                 
                     <Cloud name='hvstSaltBaseCloud' block='harvestcraft:salt' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x6090927C</WireframeColor>
@@ -184,10 +191,16 @@ Salt
                         <!-- Begin Salt Strategic Cloud Hint Veins -->
                         <Veins name='hvstSaltBaseHintVeins' block='harvestcraft:salt' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x6090927C</WireframeColor>

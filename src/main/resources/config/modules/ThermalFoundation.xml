@@ -1,12 +1,9 @@
-
-<!-- ================================================================ 
-
-Custom Ore Generation:   Thermal Foundation Module
-
-Generates: 
-Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
-
-================================================================ -->
+ <!-- ================================================================
+      Custom Ore Generation "Thermal Foundation" Module: This
+      configuration covers copper, tin, silver, lead, ferrous, shiny,
+      and mana infused.
+      ================================================================
+      -->
 
     <!-- Mod detection -->
     <IfModInstalled name="ThermalFoundation">
@@ -315,7 +312,7 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                     <Comment>
                         The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
                     </Comment>
-                    <Replaces block='ThermalFoundation:Ore:0' />
+                    <Replaces block='ThermalFoundation:Ore' />
                     <Replaces block='ThermalFoundation:Ore:1' />
                     <Replaces block='ThermalFoundation:Ore:2' />
                     <Replaces block='ThermalFoundation:Ore:3' />
@@ -332,14 +329,15 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                 <!-- Begin LayeredVeins distribution of Copper -->
                 <IfCondition condition=':= thfoCopperDist = "layeredVeins"'>
                 
-                    <Veins name='thfoCopperBaseVeins' block='ThermalFoundation:Ore' inherits='PresetLayeredVeins'>
+                    <Veins name='thfoCopperBaseVeins' block='ThermalFoundation:Ore'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60FF8E2B</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.9 * thfoCopperSize * _default_' range=':= 1 * 0.9 * thfoCopperSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 45' range=':= 10' type='normal' scaleTo='Biome'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 45' range=':= 10' type='normal' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.9 * thfoCopperSize * _default_' range=':= 1 * 0.9 * thfoCopperSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.9 * thfoCopperFreq * _default_'/>
@@ -350,7 +348,7 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Copper Layered Veins) Settings -->
-                    <Veins name='thfoCopperPrefersVeins' block='ThermalFoundation:Ore' inherits='thfoCopperBaseVeins'>
+                    <Veins name='thfoCopperPrefersVeins' block='ThermalFoundation:Ore'  inherits='thfoCopperBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -368,16 +366,26 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                 <!-- Begin  Huge Veins distribution of Copper -->
                 <IfCondition condition=':= thfoCopperDist = "hugeVeins"'>
                 
-                    <Veins name='thfoCopperBaseVeins' block='ThermalFoundation:Ore' inherits='PresetHugeVeins'>
+                    <Veins name='thfoCopperBaseVeins' block='ThermalFoundation:Ore'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60FF8E2B</WireframeColor>
@@ -393,7 +401,7 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Copper Huge Veins) Settings -->
-                    <Veins name='thfoCopperPrefersVeins' block='ThermalFoundation:Ore' inherits='thfoCopperBaseVeins'>
+                    <Veins name='thfoCopperPrefersVeins' block='ThermalFoundation:Ore'  inherits='thfoCopperBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -413,12 +421,16 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                 
                     <Cloud name='thfoCopperBaseCloud' block='ThermalFoundation:Ore' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60FF8E2B</WireframeColor>
@@ -433,10 +445,16 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                         <!-- Begin Copper Strategic Cloud Hint Veins -->
                         <Veins name='thfoCopperBaseHintVeins' block='ThermalFoundation:Ore' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60FF8E2B</WireframeColor>
@@ -480,14 +498,15 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                 <!-- Begin LayeredVeins distribution of Tin -->
                 <IfCondition condition=':= thfoTinDist = "layeredVeins"'>
                 
-                    <Veins name='thfoTinBaseVeins' block='ThermalFoundation:Ore:1' inherits='PresetLayeredVeins'>
+                    <Veins name='thfoTinBaseVeins' block='ThermalFoundation:Ore:1'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60E8E8E8</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.85 * thfoTinSize * _default_' range=':= 1 * 0.85 * thfoTinSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 30' range=':= 11' type='normal' scaleTo='Biome'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 30' range=':= 11' type='normal' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.85 * thfoTinSize * _default_' range=':= 1 * 0.85 * thfoTinSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * thfoTinFreq * _default_'/>
@@ -498,7 +517,7 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Tin Layered Veins) Settings -->
-                    <Veins name='thfoTinPrefersVeins' block='ThermalFoundation:Ore:1' inherits='thfoTinBaseVeins'>
+                    <Veins name='thfoTinPrefersVeins' block='ThermalFoundation:Ore:1'  inherits='thfoTinBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -516,16 +535,26 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                 <!-- Begin  Huge Veins distribution of Tin -->
                 <IfCondition condition=':= thfoTinDist = "hugeVeins"'>
                 
-                    <Veins name='thfoTinBaseVeins' block='ThermalFoundation:Ore:1' inherits='PresetHugeVeins'>
+                    <Veins name='thfoTinBaseVeins' block='ThermalFoundation:Ore:1'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60E8E8E8</WireframeColor>
@@ -541,7 +570,7 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Tin Huge Veins) Settings -->
-                    <Veins name='thfoTinPrefersVeins' block='ThermalFoundation:Ore:1' inherits='thfoTinBaseVeins'>
+                    <Veins name='thfoTinPrefersVeins' block='ThermalFoundation:Ore:1'  inherits='thfoTinBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -561,12 +590,16 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                 
                     <Cloud name='thfoTinBaseCloud' block='ThermalFoundation:Ore:1' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60E8E8E8</WireframeColor>
@@ -581,10 +614,16 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                         <!-- Begin Tin Strategic Cloud Hint Veins -->
                         <Veins name='thfoTinBaseHintVeins' block='ThermalFoundation:Ore:1' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60E8E8E8</WireframeColor>
@@ -628,14 +667,15 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                 <!-- Begin LayeredVeins distribution of Silver -->
                 <IfCondition condition=':= thfoSilverDist = "layeredVeins"'>
                 
-                    <Veins name='thfoSilverBaseVeins' block='ThermalFoundation:Ore:2' inherits='PresetLayeredVeins'>
+                    <Veins name='thfoSilverBaseVeins' block='ThermalFoundation:Ore:2'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60E3F2F7</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.85 * thfoSilverSize * _default_' range=':= 1 * 0.85 * thfoSilverSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 20' range=':= 10' type='normal' scaleTo='Biome'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 20' range=':= 10' type='normal' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.85 * thfoSilverSize * _default_' range=':= 1 * 0.85 * thfoSilverSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * thfoSilverFreq * _default_'/>
@@ -646,7 +686,7 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Silver Layered Veins) Settings -->
-                    <Veins name='thfoSilverPrefersVeins' block='ThermalFoundation:Ore:2' inherits='thfoSilverBaseVeins'>
+                    <Veins name='thfoSilverPrefersVeins' block='ThermalFoundation:Ore:2'  inherits='thfoSilverBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -664,16 +704,26 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                 <!-- Begin  Huge Veins distribution of Silver -->
                 <IfCondition condition=':= thfoSilverDist = "hugeVeins"'>
                 
-                    <Veins name='thfoSilverBaseVeins' block='ThermalFoundation:Ore:2' inherits='PresetHugeVeins'>
+                    <Veins name='thfoSilverBaseVeins' block='ThermalFoundation:Ore:2'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60E3F2F7</WireframeColor>
@@ -689,7 +739,7 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Silver Huge Veins) Settings -->
-                    <Veins name='thfoSilverPrefersVeins' block='ThermalFoundation:Ore:2' inherits='thfoSilverBaseVeins'>
+                    <Veins name='thfoSilverPrefersVeins' block='ThermalFoundation:Ore:2'  inherits='thfoSilverBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -709,12 +759,16 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                 
                     <Cloud name='thfoSilverBaseCloud' block='ThermalFoundation:Ore:2' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60E3F2F7</WireframeColor>
@@ -729,10 +783,16 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                         <!-- Begin Silver Strategic Cloud Hint Veins -->
                         <Veins name='thfoSilverBaseHintVeins' block='ThermalFoundation:Ore:2' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60E3F2F7</WireframeColor>
@@ -776,14 +836,15 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                 <!-- Begin LayeredVeins distribution of Lead -->
                 <IfCondition condition=':= thfoLeadDist = "layeredVeins"'>
                 
-                    <Veins name='thfoLeadBaseVeins' block='ThermalFoundation:Ore:3' inherits='PresetLayeredVeins'>
+                    <Veins name='thfoLeadBaseVeins' block='ThermalFoundation:Ore:3'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60818EBE</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 1 * thfoLeadSize * _default_' range=':= 1 * 1 * thfoLeadSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 20' range=':= 10' type='normal' scaleTo='Biome'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 20' range=':= 10' type='normal' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 1 * thfoLeadSize * _default_' range=':= 1 * 1 * thfoLeadSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * thfoLeadFreq * _default_'/>
@@ -793,7 +854,7 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Lead Layered Veins) Settings -->
-                    <Veins name='thfoLeadPrefersVeins' block='ThermalFoundation:Ore:3' inherits='thfoLeadBaseVeins'>
+                    <Veins name='thfoLeadPrefersVeins' block='ThermalFoundation:Ore:3'  inherits='thfoLeadBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -811,16 +872,26 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                 <!-- Begin  Huge Veins distribution of Lead -->
                 <IfCondition condition=':= thfoLeadDist = "hugeVeins"'>
                 
-                    <Veins name='thfoLeadBaseVeins' block='ThermalFoundation:Ore:3' inherits='PresetHugeVeins'>
+                    <Veins name='thfoLeadBaseVeins' block='ThermalFoundation:Ore:3'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60818EBE</WireframeColor>
@@ -835,7 +906,7 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Lead Huge Veins) Settings -->
-                    <Veins name='thfoLeadPrefersVeins' block='ThermalFoundation:Ore:3' inherits='thfoLeadBaseVeins'>
+                    <Veins name='thfoLeadPrefersVeins' block='ThermalFoundation:Ore:3'  inherits='thfoLeadBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -855,12 +926,16 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                 
                     <Cloud name='thfoLeadBaseCloud' block='ThermalFoundation:Ore:3' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60818EBE</WireframeColor>
@@ -875,10 +950,16 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                         <!-- Begin Lead Strategic Cloud Hint Veins -->
                         <Veins name='thfoLeadBaseHintVeins' block='ThermalFoundation:Ore:3' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60818EBE</WireframeColor>
@@ -922,14 +1003,15 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                 <!-- Begin LayeredVeins distribution of Ferrous -->
                 <IfCondition condition=':= thfoFerrousDist = "layeredVeins"'>
                 
-                    <Veins name='thfoFerrousBaseVeins' block='ThermalFoundation:Ore:4' inherits='PresetLayeredVeins'>
+                    <Veins name='thfoFerrousBaseVeins' block='ThermalFoundation:Ore:4'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60BCBDAB</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.85 * thfoFerrousSize * _default_' range=':= 1 * 0.85 * thfoFerrousSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 20' range=':= 10' type='normal' scaleTo='Biome'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 20' range=':= 10' type='normal' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.85 * thfoFerrousSize * _default_' range=':= 1 * 0.85 * thfoFerrousSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * thfoFerrousFreq * _default_'/>
@@ -940,7 +1022,7 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Ferrous Layered Veins) Settings -->
-                    <Veins name='thfoFerrousPrefersVeins' block='ThermalFoundation:Ore:4' inherits='thfoFerrousBaseVeins'>
+                    <Veins name='thfoFerrousPrefersVeins' block='ThermalFoundation:Ore:4'  inherits='thfoFerrousBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -958,16 +1040,26 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                 <!-- Begin  Huge Veins distribution of Ferrous -->
                 <IfCondition condition=':= thfoFerrousDist = "hugeVeins"'>
                 
-                    <Veins name='thfoFerrousBaseVeins' block='ThermalFoundation:Ore:4' inherits='PresetHugeVeins'>
+                    <Veins name='thfoFerrousBaseVeins' block='ThermalFoundation:Ore:4'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60BCBDAB</WireframeColor>
@@ -983,7 +1075,7 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Ferrous Huge Veins) Settings -->
-                    <Veins name='thfoFerrousPrefersVeins' block='ThermalFoundation:Ore:4' inherits='thfoFerrousBaseVeins'>
+                    <Veins name='thfoFerrousPrefersVeins' block='ThermalFoundation:Ore:4'  inherits='thfoFerrousBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -1003,12 +1095,16 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                 
                     <Cloud name='thfoFerrousBaseCloud' block='ThermalFoundation:Ore:4' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60BCBDAB</WireframeColor>
@@ -1023,10 +1119,16 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                         <!-- Begin Ferrous Strategic Cloud Hint Veins -->
                         <Veins name='thfoFerrousBaseHintVeins' block='ThermalFoundation:Ore:4' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60BCBDAB</WireframeColor>
@@ -1070,14 +1172,15 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                 <!-- Begin LayeredVeins distribution of Shiny -->
                 <IfCondition condition=':= thfoShinyDist = "layeredVeins"'>
                 
-                    <Veins name='thfoShinyBaseVeins' block='ThermalFoundation:Ore:5' inherits='PresetLayeredVeins'>
+                    <Veins name='thfoShinyBaseVeins' block='ThermalFoundation:Ore:5'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x606FE5F3</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.80 * thfoShinySize * _default_' range=':= 1 * 0.80 * thfoShinySize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 16' range=':= 8' type='normal' scaleTo='Biome'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 16' range=':= 8' type='normal' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.80 * thfoShinySize * _default_' range=':= 1 * 0.80 * thfoShinySize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.8 * thfoShinyFreq * _default_'/>
@@ -1088,7 +1191,7 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Shiny Layered Veins) Settings -->
-                    <Veins name='thfoShinyPrefersVeins' block='ThermalFoundation:Ore:5' inherits='thfoShinyBaseVeins'>
+                    <Veins name='thfoShinyPrefersVeins' block='ThermalFoundation:Ore:5'  inherits='thfoShinyBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -1106,16 +1209,26 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                 <!-- Begin  Huge Veins distribution of Shiny -->
                 <IfCondition condition=':= thfoShinyDist = "hugeVeins"'>
                 
-                    <Veins name='thfoShinyBaseVeins' block='ThermalFoundation:Ore:5' inherits='PresetHugeVeins'>
+                    <Veins name='thfoShinyBaseVeins' block='ThermalFoundation:Ore:5'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x606FE5F3</WireframeColor>
@@ -1131,7 +1244,7 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Shiny Huge Veins) Settings -->
-                    <Veins name='thfoShinyPrefersVeins' block='ThermalFoundation:Ore:5' inherits='thfoShinyBaseVeins'>
+                    <Veins name='thfoShinyPrefersVeins' block='ThermalFoundation:Ore:5'  inherits='thfoShinyBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -1151,12 +1264,16 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                 
                     <Cloud name='thfoShinyBaseCloud' block='ThermalFoundation:Ore:5' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x606FE5F3</WireframeColor>
@@ -1171,10 +1288,16 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                         <!-- Begin Shiny Strategic Cloud Hint Veins -->
                         <Veins name='thfoShinyBaseHintVeins' block='ThermalFoundation:Ore:5' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x606FE5F3</WireframeColor>
@@ -1218,17 +1341,21 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                 <!-- Begin SparseVeins distribution of Mana Infused -->
                 <IfCondition condition=':= thfoManaInfusedDist = "sparseVeins"'>
                 
-                    <Veins name='thfoManaInfusedBaseVeins' block='ThermalFoundation:Ore:5' inherits='PresetSparseVeins'>
+                    <Veins name='thfoManaInfusedBaseVeins' block='ThermalFoundation:Ore:5'  inherits='PresetSparseVeins' >
                         <Description>
-                            Large veins filled very lightly with ore.  Because they contain less ore per volume, 
-                            these veins are relatively wide and long.  Mining the ore from them is time consuming 
-                            compared to solid ore veins.  They are also more difficult to follow, since it is 
-                            harder to get an idea of their direction while mining.
+                            Large veins filled very lightly with ore.
+                            Because they contain less ore per volume,
+                            these veins are relatively wide and long.
+                            Mining the ore from them is time consuming
+                            compared to solid ore veins.  They are
+                            also more difficult to follow, since it is
+                            harder to get an idea of their direction
+                            while mining.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60E2E273</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.75 * thfoManaInfusedSize * _default_' range=':= 1 * 0.75 * thfoManaInfusedSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='Biome' />
+                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.75 * thfoManaInfusedSize * _default_' range=':= 1 * 0.75 * thfoManaInfusedSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * thfoManaInfusedFreq * _default_'/>
@@ -1239,7 +1366,7 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Mana Infused Sparse Veins) Settings -->
-                    <Veins name='thfoManaInfusedPrefersVeins' block='ThermalFoundation:Ore:5' inherits='thfoManaInfusedBaseVeins'>
+                    <Veins name='thfoManaInfusedPrefersVeins' block='ThermalFoundation:Ore:5'  inherits='thfoManaInfusedBaseVeins' >
                         <Description>
                             Spawns 4 more times in preferred biomes.
                         </Description>
@@ -1257,22 +1384,26 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                 <!-- Begin  Small Deposits distribution of Mana Infused -->
                 <IfCondition condition=':= thfoManaInfusedDist = "smallDeposits"'>
                 
-                    <Veins name='thfoManaInfusedBaseVeins' block='ThermalFoundation:Ore:5' inherits='PresetSmallDeposits'>
+                    <Veins name='thfoManaInfusedBaseVeins' block='ThermalFoundation:Ore:5'  inherits='PresetSmallDeposits' >
                         <Description>
-                            Small motherlodes without any branches.
-                            Similar to the deposits produced by StandardGen distributions.
+                            Small motherlodes with no veins; similar
+                            to vanilla clusters.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60E2E273</WireframeColor>
-                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='Biome' /> 
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.75 * thfoManaInfusedSize * _default_' range=':= 1 * 0.75 * thfoManaInfusedSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='Biome' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 0.75 * thfoManaInfusedSize * _default_' range=':= 1 * 0.75 * thfoManaInfusedSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * thfoManaInfusedFreq * _default_'/>
+                        <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 12'/>
+                        <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
                         <Replaces block='minecraft:stone'/>
                     </Veins>
                     
-                    <!-- Begin Preferred Biome Distribution (Mana Infused Small Deposits) Settings -->
-                    <Veins name='thfoManaInfusedPrefersVeins' block='ThermalFoundation:Ore:5' inherits='thfoManaInfusedBaseVeins'>
+                    <!-- Begin Preferred Biome Distribution (Mana Infused Deposit Veins) Settings -->
+                    <Veins name='thfoManaInfusedPrefersVeins' block='ThermalFoundation:Ore:5'  inherits='thfoManaInfusedBaseVeins' >
                         <Description>
                             Spawns 4 more times in preferred biomes.
                         </Description>
@@ -1281,7 +1412,7 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                         <Setting name='MotherlodeFrequency' avg=':= 4 * _default_'/>
                         <BiomeType name='Magical'/>
                     </Veins>
-                    <!-- End Preferred Biome Distribution (Mana Infused Small Deposits) Settings -->
+                    <!-- End Preferred Biome Distribution (Mana Infused Deposit Veins) Settings -->
                 
                 </IfCondition>
                 <!-- End  Small Deposits distribution of Mana Infused -->
@@ -1290,16 +1421,26 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                 <!-- Begin  Huge Veins distribution of Mana Infused -->
                 <IfCondition condition=':= thfoManaInfusedDist = "hugeVeins"'>
                 
-                    <Veins name='thfoManaInfusedBaseVeins' block='ThermalFoundation:Ore:5' inherits='PresetHugeVeins'>
+                    <Veins name='thfoManaInfusedBaseVeins' block='ThermalFoundation:Ore:5'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60E2E273</WireframeColor>
@@ -1315,7 +1456,7 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Mana Infused Huge Veins) Settings -->
-                    <Veins name='thfoManaInfusedPrefersVeins' block='ThermalFoundation:Ore:5' inherits='thfoManaInfusedBaseVeins'>
+                    <Veins name='thfoManaInfusedPrefersVeins' block='ThermalFoundation:Ore:5'  inherits='thfoManaInfusedBaseVeins' >
                         <Description>
                             Spawns 4 more times in preferred biomes.
                         </Description>
@@ -1335,12 +1476,16 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                 
                     <Cloud name='thfoManaInfusedBaseCloud' block='ThermalFoundation:Ore:5' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60E2E273</WireframeColor>
@@ -1355,10 +1500,16 @@ Copper, Tin, Silver, Lead, Ferrous, Shiny, Mana Infused
                         <!-- Begin Mana Infused Strategic Cloud Hint Veins -->
                         <Veins name='thfoManaInfusedBaseHintVeins' block='ThermalFoundation:Ore:5' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60E2E273</WireframeColor>

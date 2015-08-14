@@ -1,12 +1,8 @@
-
-<!-- ================================================================ 
-
-Custom Ore Generation:   Ars Magica 2 Module
-
-Generates: 
-Vinteum, Chimerite, Blue Topaz
-
-================================================================ -->
+ <!-- ================================================================
+      Custom Ore Generation "Ars Magica 2" Module: This configuration
+      covers vinteum, chimerite, and blue topaz.
+      ================================================================
+      -->
 
     <!-- Mod detection -->
     <IfModInstalled name="arsmagica2">
@@ -154,7 +150,7 @@ Vinteum, Chimerite, Blue Topaz
                     <Comment>
                         The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
                     </Comment>
-                    <Replaces block='arsmagica2:vinteumOre:0' />
+                    <Replaces block='arsmagica2:vinteumOre' />
                     <Replaces block='arsmagica2:vinteumOre:1' />
                     <Replaces block='arsmagica2:vinteumOre:2' />
                 </Substitute>
@@ -167,14 +163,15 @@ Vinteum, Chimerite, Blue Topaz
                 <!-- Begin Layered Veins distribution of Vinteum -->
                 <IfCondition condition=':= arsmVinteumDist = "layeredVeins"'>
                 
-                    <Veins name='arsmVinteumBaseVeins' block='arsmagica2:vinteumOre' inherits='PresetLayeredVeins'>
+                    <Veins name='arsmVinteumBaseVeins' block='arsmagica2:vinteumOre'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x605364EE</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.8 * arsmVinteumSize * _default_' range=':= 1 * 0.8 * arsmVinteumSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 30' range=':= 8' type='normal' scaleTo='Biome'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 30' range=':= 8' type='normal' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.8 * arsmVinteumSize * _default_' range=':= 1 * 0.8 * arsmVinteumSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * arsmVinteumFreq * _default_'/>
@@ -185,7 +182,7 @@ Vinteum, Chimerite, Blue Topaz
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Vinteum Layered Veins) Settings -->
-                    <Veins name='arsmVinteumPrefersVeins' block='arsmagica2:vinteumOre' inherits='arsmVinteumBaseVeins'>
+                    <Veins name='arsmVinteumPrefersVeins' block='arsmagica2:vinteumOre'  inherits='arsmVinteumBaseVeins' >
                         <Description>
                             Spawns 4 more times in preferred biomes.
                         </Description>
@@ -203,16 +200,26 @@ Vinteum, Chimerite, Blue Topaz
                 <!-- Begin  Huge Veins distribution of Vinteum -->
                 <IfCondition condition=':= arsmVinteumDist = "hugeVeins"'>
                 
-                    <Veins name='arsmVinteumBaseVeins' block='arsmagica2:vinteumOre' inherits='PresetHugeVeins'>
+                    <Veins name='arsmVinteumBaseVeins' block='arsmagica2:vinteumOre'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x605364EE</WireframeColor>
@@ -228,7 +235,7 @@ Vinteum, Chimerite, Blue Topaz
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Vinteum Huge Veins) Settings -->
-                    <Veins name='arsmVinteumPrefersVeins' block='arsmagica2:vinteumOre' inherits='arsmVinteumBaseVeins'>
+                    <Veins name='arsmVinteumPrefersVeins' block='arsmagica2:vinteumOre'  inherits='arsmVinteumBaseVeins' >
                         <Description>
                             Spawns 4 more times in preferred biomes.
                         </Description>
@@ -248,12 +255,16 @@ Vinteum, Chimerite, Blue Topaz
                 
                     <Cloud name='arsmVinteumBaseCloud' block='arsmagica2:vinteumOre' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x605364EE</WireframeColor>
@@ -268,10 +279,16 @@ Vinteum, Chimerite, Blue Topaz
                         <!-- Begin Vinteum Strategic Cloud Hint Veins -->
                         <Veins name='arsmVinteumBaseHintVeins' block='arsmagica2:vinteumOre' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x605364EE</WireframeColor>
@@ -315,14 +332,15 @@ Vinteum, Chimerite, Blue Topaz
                 <!-- Begin Layered Veins distribution of Chimerite -->
                 <IfCondition condition=':= arsmChimeriteDist = "layeredVeins"'>
                 
-                    <Veins name='arsmChimeriteBaseVeins' block='arsmagica2:vinteumOre:1' inherits='PresetLayeredVeins'>
+                    <Veins name='arsmChimeriteBaseVeins' block='arsmagica2:vinteumOre:1'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60B8E6C6</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.8 * arsmChimeriteSize * _default_' range=':= 1 * 0.8 * arsmChimeriteSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 64' range=':= 64' type='normal' scaleTo='Biome'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 64' range=':= 64' type='normal' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.8 * arsmChimeriteSize * _default_' range=':= 1 * 0.8 * arsmChimeriteSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * arsmChimeriteFreq * _default_'/>
@@ -331,7 +349,7 @@ Vinteum, Chimerite, Blue Topaz
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Chimerite Layered Veins) Settings -->
-                    <Veins name='arsmChimeritePrefersVeins' block='arsmagica2:vinteumOre:1' inherits='arsmChimeriteBaseVeins'>
+                    <Veins name='arsmChimeritePrefersVeins' block='arsmagica2:vinteumOre:1'  inherits='arsmChimeriteBaseVeins' >
                         <Description>
                             Spawns 4 more times in preferred biomes.
                         </Description>
@@ -349,16 +367,26 @@ Vinteum, Chimerite, Blue Topaz
                 <!-- Begin  Huge Veins distribution of Chimerite -->
                 <IfCondition condition=':= arsmChimeriteDist = "hugeVeins"'>
                 
-                    <Veins name='arsmChimeriteBaseVeins' block='arsmagica2:vinteumOre:1' inherits='PresetHugeVeins'>
+                    <Veins name='arsmChimeriteBaseVeins' block='arsmagica2:vinteumOre:1'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60B8E6C6</WireframeColor>
@@ -372,7 +400,7 @@ Vinteum, Chimerite, Blue Topaz
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Chimerite Huge Veins) Settings -->
-                    <Veins name='arsmChimeritePrefersVeins' block='arsmagica2:vinteumOre:1' inherits='arsmChimeriteBaseVeins'>
+                    <Veins name='arsmChimeritePrefersVeins' block='arsmagica2:vinteumOre:1'  inherits='arsmChimeriteBaseVeins' >
                         <Description>
                             Spawns 4 more times in preferred biomes.
                         </Description>
@@ -392,12 +420,16 @@ Vinteum, Chimerite, Blue Topaz
                 
                     <Cloud name='arsmChimeriteBaseCloud' block='arsmagica2:vinteumOre:1' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60B8E6C6</WireframeColor>
@@ -412,10 +444,16 @@ Vinteum, Chimerite, Blue Topaz
                         <!-- Begin Chimerite Strategic Cloud Hint Veins -->
                         <Veins name='arsmChimeriteBaseHintVeins' block='arsmagica2:vinteumOre:1' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60B8E6C6</WireframeColor>
@@ -459,14 +497,15 @@ Vinteum, Chimerite, Blue Topaz
                 <!-- Begin Layered Veins distribution of Blue Topaz -->
                 <IfCondition condition=':= arsmBlueTopazDist = "layeredVeins"'>
                 
-                    <Veins name='arsmBlueTopazBaseVeins' block='arsmagica2:vinteumOre:2' inherits='PresetLayeredVeins'>
+                    <Veins name='arsmBlueTopazBaseVeins' block='arsmagica2:vinteumOre:2'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x607EE5F4</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.8 * arsmBlueTopazSize * _default_' range=':= 1 * 0.8 * arsmBlueTopazSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 64' range=':= 64' type='normal' scaleTo='Biome'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 64' range=':= 64' type='normal' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.8 * arsmBlueTopazSize * _default_' range=':= 1 * 0.8 * arsmBlueTopazSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * arsmBlueTopazFreq * _default_'/>
@@ -475,7 +514,7 @@ Vinteum, Chimerite, Blue Topaz
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Blue Topaz Layered Veins) Settings -->
-                    <Veins name='arsmBlueTopazPrefersVeins' block='arsmagica2:vinteumOre:2' inherits='arsmBlueTopazBaseVeins'>
+                    <Veins name='arsmBlueTopazPrefersVeins' block='arsmagica2:vinteumOre:2'  inherits='arsmBlueTopazBaseVeins' >
                         <Description>
                             Spawns 4 more times in preferred biomes.
                         </Description>
@@ -493,16 +532,26 @@ Vinteum, Chimerite, Blue Topaz
                 <!-- Begin  Huge Veins distribution of Blue Topaz -->
                 <IfCondition condition=':= arsmBlueTopazDist = "hugeVeins"'>
                 
-                    <Veins name='arsmBlueTopazBaseVeins' block='arsmagica2:vinteumOre:2' inherits='PresetHugeVeins'>
+                    <Veins name='arsmBlueTopazBaseVeins' block='arsmagica2:vinteumOre:2'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x607EE5F4</WireframeColor>
@@ -516,7 +565,7 @@ Vinteum, Chimerite, Blue Topaz
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Blue Topaz Huge Veins) Settings -->
-                    <Veins name='arsmBlueTopazPrefersVeins' block='arsmagica2:vinteumOre:2' inherits='arsmBlueTopazBaseVeins'>
+                    <Veins name='arsmBlueTopazPrefersVeins' block='arsmagica2:vinteumOre:2'  inherits='arsmBlueTopazBaseVeins' >
                         <Description>
                             Spawns 4 more times in preferred biomes.
                         </Description>
@@ -536,12 +585,16 @@ Vinteum, Chimerite, Blue Topaz
                 
                     <Cloud name='arsmBlueTopazBaseCloud' block='arsmagica2:vinteumOre:2' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x607EE5F4</WireframeColor>
@@ -556,10 +609,16 @@ Vinteum, Chimerite, Blue Topaz
                         <!-- Begin Blue Topaz Strategic Cloud Hint Veins -->
                         <Veins name='arsmBlueTopazBaseHintVeins' block='arsmagica2:vinteumOre:2' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x607EE5F4</WireframeColor>
