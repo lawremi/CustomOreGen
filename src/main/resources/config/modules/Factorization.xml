@@ -1,12 +1,8 @@
-
-<!-- ================================================================ 
-
-Custom Ore Generation:   Factorization Module
-
-Generates: 
-Silver, Dark Iron
-
-================================================================ -->
+ <!-- ================================================================
+      Custom Ore Generation "Factorization" Module: This configuration
+      covers silver and dark iron.
+      ================================================================
+      -->
 
     <!-- Mod detection -->
     <IfModInstalled name="factorization">
@@ -110,8 +106,8 @@ Silver, Dark Iron
                     <Comment>
                         The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
                     </Comment>
-                    <Replaces block='factorization:ResourceBlock:0' />
-                    <Replaces block='factorization:DarkIronOre:0' />
+                    <Replaces block='factorization:ResourceBlock' />
+                    <Replaces block='factorization:DarkIronOre' />
                 </Substitute>
                 <!-- Original Overworld Ore Removal Complete -->
                 
@@ -122,14 +118,15 @@ Silver, Dark Iron
                 <!-- Begin Layered Veins distribution of Silver -->
                 <IfCondition condition=':= fctrSilverDist = "layeredVeins"'>
                 
-                    <Veins name='fctrSilverBaseVeins' block='factorization:ResourceBlock' inherits='PresetLayeredVeins'>
+                    <Veins name='fctrSilverBaseVeins' block='factorization:ResourceBlock'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x608C9EBE</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.8 * fctrSilverSize * _default_' range=':= 1 * 0.8 * fctrSilverSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 20' range=':= 10' type='normal' scaleTo='SeaLevel'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 20' range=':= 10' type='normal' scaleTo='SeaLevel' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.8 * fctrSilverSize * _default_' range=':= 1 * 0.8 * fctrSilverSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * fctrSilverFreq * _default_'/>
@@ -140,7 +137,7 @@ Silver, Dark Iron
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Silver Layered Veins) Settings -->
-                    <Veins name='fctrSilverPrefersVeins' block='factorization:ResourceBlock' inherits='fctrSilverBaseVeins'>
+                    <Veins name='fctrSilverPrefersVeins' block='factorization:ResourceBlock'  inherits='fctrSilverBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -158,22 +155,26 @@ Silver, Dark Iron
                 <!-- Begin  Small Deposits distribution of Silver -->
                 <IfCondition condition=':= fctrSilverDist = "smallDeposits"'>
                 
-                    <Veins name='fctrSilverBaseVeins' block='factorization:ResourceBlock' inherits='PresetSmallDeposits'>
+                    <Veins name='fctrSilverBaseVeins' block='factorization:ResourceBlock'  inherits='PresetSmallDeposits' >
                         <Description>
-                            Small motherlodes without any branches.
-                            Similar to the deposits produced by StandardGen distributions.
+                            Small motherlodes with no veins; similar
+                            to vanilla clusters.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x608C9EBE</WireframeColor>
-                        <Setting name='MotherlodeHeight' avg=':= 20' range=':= 10' type='normal' scaleTo='SeaLevel' /> 
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.8 * fctrSilverSize * _default_' range=':= 1 * 0.8 * fctrSilverSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 20' range=':= 10' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 0.8 * fctrSilverSize * _default_' range=':= 1 * 0.8 * fctrSilverSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * fctrSilverFreq * _default_'/>
+                        <Setting name='BranchFrequency' avg=':= 0.85 * _default_'/>
+                        <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.66 * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 10'/>
                         <Replaces block='minecraft:stone'/>
                     </Veins>
                     
-                    <!-- Begin Preferred Biome Distribution (Silver Small Deposits) Settings -->
-                    <Veins name='fctrSilverPrefersVeins' block='factorization:ResourceBlock' inherits='fctrSilverBaseVeins'>
+                    <!-- Begin Preferred Biome Distribution (Silver Deposit Veins) Settings -->
+                    <Veins name='fctrSilverPrefersVeins' block='factorization:ResourceBlock'  inherits='fctrSilverBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -182,7 +183,7 @@ Silver, Dark Iron
                         <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
                         <BiomeType name='mountain'/>
                     </Veins>
-                    <!-- End Preferred Biome Distribution (Silver Small Deposits) Settings -->
+                    <!-- End Preferred Biome Distribution (Silver Deposit Veins) Settings -->
                 
                 </IfCondition>
                 <!-- End  Small Deposits distribution of Silver -->
@@ -193,12 +194,16 @@ Silver, Dark Iron
                 
                     <Cloud name='fctrSilverBaseCloud' block='factorization:ResourceBlock' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x608C9EBE</WireframeColor>
@@ -213,10 +218,16 @@ Silver, Dark Iron
                         <!-- Begin Silver Strategic Cloud Hint Veins -->
                         <Veins name='fctrSilverBaseHintVeins' block='factorization:ResourceBlock' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x608C9EBE</WireframeColor>
@@ -260,24 +271,28 @@ Silver, Dark Iron
                 <!-- Begin Sparse Veins distribution of Dark Iron -->
                 <IfCondition condition=':= fctrDarkIronDist = "sparseVeins"'>
                 
-                    <Veins name='fctrDarkIronBaseVeins' block='factorization:DarkIronOre' inherits='PresetSparseVeins'>
+                    <Veins name='fctrDarkIronBaseVeins' block='factorization:DarkIronOre'  inherits='PresetSparseVeins' >
                         <Description>
-                            Large veins filled very lightly with ore.  Because they contain less ore per volume, 
-                            these veins are relatively wide and long.  Mining the ore from them is time consuming 
-                            compared to solid ore veins.  They are also more difficult to follow, since it is 
-                            harder to get an idea of their direction while mining.
+                            Large veins filled very lightly with ore.
+                            Because they contain less ore per volume,
+                            these veins are relatively wide and long.
+                            Mining the ore from them is time consuming
+                            compared to solid ore veins.  They are
+                            also more difficult to follow, since it is
+                            harder to get an idea of their direction
+                            while mining.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60781CCB</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 1 * fctrDarkIronSize * _default_' range=':= 1 * 1 * fctrDarkIronSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 3' range=':= 3' type='normal' scaleTo='SeaLevel' />
+                        <Setting name='MotherlodeHeight' avg=':= 3' range=':= 3' type='normal' scaleTo='SeaLevel' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 1 * fctrDarkIronSize * _default_' range=':= 1 * 1 * fctrDarkIronSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * fctrDarkIronFreq * _default_'/>
+                        <PlacesBeside block='minecraft:bedrock'/>
                         <Replaces block='minecraft:stone'/>
                         <Replaces block='minecraft:dirt'/>
                         <Replaces block='minecraft:gravel'/>
-                        <PlacesBeside block='minecraft:bedrock'/>
                     </Veins>
                 
                 </IfCondition>
@@ -287,21 +302,22 @@ Silver, Dark Iron
                 <!-- Begin  Small Deposits distribution of Dark Iron -->
                 <IfCondition condition=':= fctrDarkIronDist = "smallDeposits"'>
                 
-                    <Veins name='fctrDarkIronBaseVeins' block='factorization:DarkIronOre' inherits='PresetSmallDeposits'>
+                    <Veins name='fctrDarkIronBaseVeins' block='factorization:DarkIronOre'  inherits='PresetSmallDeposits' >
                         <Description>
-                            Small motherlodes without any branches.
-                            Similar to the deposits produced by StandardGen distributions.
+                            Small motherlodes with no veins; similar
+                            to vanilla clusters.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60781CCB</WireframeColor>
-                        <Setting name='MotherlodeHeight' avg=':= 3' range=':= 3' type='normal' scaleTo='SeaLevel' /> 
                         <Setting name='MotherlodeSize' avg=':= 1 * 1 * fctrDarkIronSize * _default_' range=':= 1 * 1 * fctrDarkIronSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 3' range=':= 3' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * fctrDarkIronSize * _default_' range=':= 1 * 1 * fctrDarkIronSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 1 * fctrDarkIronFreq * _default_'/>
+                        <PlacesBeside block='minecraft:bedrock'/>
                         <Replaces block='minecraft:stone'/>
                         <Replaces block='minecraft:dirt'/>
                         <Replaces block='minecraft:gravel'/>
-                        <PlacesBeside block='minecraft:bedrock'/>
                     </Veins>
                 
                 </IfCondition>

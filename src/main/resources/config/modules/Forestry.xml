@@ -1,12 +1,8 @@
-
-<!-- ================================================================ 
-
-Custom Ore Generation:   Forestry Module
-
-Generates: 
-Apatite, Copper, Tin
-
-================================================================ -->
+ <!-- ================================================================
+      Custom Ore Generation "Forestry" Module: This configuration
+      covers apatite, copper, and tin.
+      ================================================================
+      -->
 
     <!-- Mod detection -->
     <IfModInstalled name="Forestry">
@@ -144,7 +140,7 @@ Apatite, Copper, Tin
                     <Comment>
                         The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
                     </Comment>
-                    <Replaces block='Forestry:resources:0' />
+                    <Replaces block='Forestry:resources' />
                     <Replaces block='Forestry:resources:1' />
                     <Replaces block='Forestry:resources:2' />
                 </Substitute>
@@ -157,43 +153,16 @@ Apatite, Copper, Tin
                 <!-- Begin SparseVeins distribution of Apatite -->
                 <IfCondition condition=':= frstApatiteDist = "sparseVeins"'>
                 
-                    <Veins name='frstApatiteBaseVeins' block='Forestry:resources' inherits='PresetSparseVeins'>
+                    <Veins name='frstApatiteBaseVeins' block='Forestry:resources'  inherits='PresetSparseVeins' >
                         <Description>
-                            Large veins filled very lightly with ore.  Because they contain less ore per volume, 
-                            these veins are relatively wide and long.  Mining the ore from them is time consuming 
-                            compared to solid ore veins.  They are also more difficult to follow, since it is 
-                            harder to get an idea of their direction while mining.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x6052BBEF</WireframeColor>
-                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * frstApatiteSize * _default_' range=':= 1 * 1 * frstApatiteSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 60' range=':= 4' type='normal' scaleTo='Biome' />
-                        <Setting name='SegmentRadius' avg=':= 1 * 1 * frstApatiteSize * _default_' range=':= 1 * 1 * frstApatiteSize * _default_'/>
-                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
-                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.8 * frstApatiteFreq * _default_'/>
-                        <Setting name='BranchLength' avg=':= 1.2 * _default_' range=':= 1 * _default_'/>
-                        <Setting name='BranchInclination' avg=':= -_default_' range=':= 0'/>
-                        <Replaces block='minecraft:stone'/>
-                        <BiomeType name='Forest'/>
-                    </Veins>
-                
-                </IfCondition>
-                <!-- End SparseVeins distribution of Apatite -->
-                
-                
-                <!-- Begin  Huge Veins distribution of Apatite -->
-                <IfCondition condition=':= frstApatiteDist = "hugeVeins"'>
-                
-                    <Veins name='frstApatiteBaseVeins' block='Forestry:resources' inherits='PresetHugeVeins'>
-                        <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Large veins filled very lightly with ore.
+                            Because they contain less ore per volume,
+                            these veins are relatively wide and long.
+                            Mining the ore from them is time consuming
+                            compared to solid ore veins.  They are
+                            also more difficult to follow, since it is
+                            harder to get an idea of their direction
+                            while mining.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x6052BBEF</WireframeColor>
@@ -204,8 +173,49 @@ Apatite, Copper, Tin
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.8 * frstApatiteFreq * _default_'/>
                         <Setting name='BranchLength' avg=':= 1.2 * _default_' range=':= 1 * _default_'/>
                         <Setting name='BranchInclination' avg=':= -_default_' range=':= 0'/>
-                        <Replaces block='minecraft:stone'/>
                         <BiomeType name='Forest'/>
+                        <Replaces block='minecraft:stone'/>
+                    </Veins>
+                
+                </IfCondition>
+                <!-- End SparseVeins distribution of Apatite -->
+                
+                
+                <!-- Begin  Huge Veins distribution of Apatite -->
+                <IfCondition condition=':= frstApatiteDist = "hugeVeins"'>
+                
+                    <Veins name='frstApatiteBaseVeins' block='Forestry:resources'  inherits='PresetHugeVeins' >
+                        <Description>
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
+                        </Description>
+                        <DrawWireframe>:=drawWireframes</DrawWireframe>
+                        <WireframeColor>0x6052BBEF</WireframeColor>
+                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * frstApatiteSize * _default_' range=':= 1 * 1 * frstApatiteSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 60' range=':= 4' type='normal' scaleTo='Biome' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * frstApatiteSize * _default_' range=':= 1 * 1 * frstApatiteSize * _default_'/>
+                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
+                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.8 * frstApatiteFreq * _default_'/>
+                        <Setting name='BranchLength' avg=':= 1.2 * _default_' range=':= 1 * _default_'/>
+                        <Setting name='BranchInclination' avg=':= -_default_' range=':= 0'/>
+                        <BiomeType name='Forest'/>
+                        <Replaces block='minecraft:stone'/>
                     </Veins>
                 
                 </IfCondition>
@@ -217,12 +227,16 @@ Apatite, Copper, Tin
                 
                     <Cloud name='frstApatiteBaseCloud' block='Forestry:resources' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x6052BBEF</WireframeColor>
@@ -238,10 +252,16 @@ Apatite, Copper, Tin
                         <!-- Begin Apatite Strategic Cloud Hint Veins -->
                         <Veins name='frstApatiteBaseHintVeins' block='Forestry:resources' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x6052BBEF</WireframeColor>
@@ -285,14 +305,15 @@ Apatite, Copper, Tin
                 <!-- Begin LayeredVeins distribution of Copper -->
                 <IfCondition condition=':= frstCopperDist = "layeredVeins"'>
                 
-                    <Veins name='frstCopperBaseVeins' block='Forestry:resources:1' inherits='PresetLayeredVeins'>
+                    <Veins name='frstCopperBaseVeins' block='Forestry:resources:1'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60E3B78E</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 1 * frstCopperSize * _default_' range=':= 1 * 1 * frstCopperSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 40' range=':= 12' type='normal' scaleTo='Biome'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 40' range=':= 12' type='normal' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 1 * frstCopperSize * _default_' range=':= 1 * 1 * frstCopperSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.75 * frstCopperFreq * _default_'/>
@@ -302,7 +323,7 @@ Apatite, Copper, Tin
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Copper Layered Veins) Settings -->
-                    <Veins name='frstCopperPrefersVeins' block='Forestry:resources:1' inherits='frstCopperBaseVeins'>
+                    <Veins name='frstCopperPrefersVeins' block='Forestry:resources:1'  inherits='frstCopperBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -323,12 +344,16 @@ Apatite, Copper, Tin
                 
                     <Cloud name='frstCopperBaseCloud' block='Forestry:resources:1' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60E3B78E</WireframeColor>
@@ -343,10 +368,16 @@ Apatite, Copper, Tin
                         <!-- Begin Copper Strategic Cloud Hint Veins -->
                         <Veins name='frstCopperBaseHintVeins' block='Forestry:resources:1' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60E3B78E</WireframeColor>
@@ -390,14 +421,15 @@ Apatite, Copper, Tin
                 <!-- Begin LayeredVeins distribution of Tin -->
                 <IfCondition condition=':= frstTinDist = "layeredVeins"'>
                 
-                    <Veins name='frstTinBaseVeins' block='Forestry:resources:2' inherits='PresetLayeredVeins'>
+                    <Veins name='frstTinBaseVeins' block='Forestry:resources:2'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60D1EDF1</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 1 * frstTinSize * _default_' range=':= 1 * 1 * frstTinSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 30' range=':= 11' type='normal' scaleTo='Biome'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 30' range=':= 11' type='normal' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 1 * frstTinSize * _default_' range=':= 1 * 1 * frstTinSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.70 * frstTinFreq * _default_'/>
@@ -408,7 +440,7 @@ Apatite, Copper, Tin
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Tin Layered Veins) Settings -->
-                    <Veins name='frstTinPrefersVeins' block='Forestry:resources:2' inherits='frstTinBaseVeins'>
+                    <Veins name='frstTinPrefersVeins' block='Forestry:resources:2'  inherits='frstTinBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -428,12 +460,16 @@ Apatite, Copper, Tin
                 
                     <Cloud name='frstTinBaseCloud' block='Forestry:resources:2' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60D1EDF1</WireframeColor>
@@ -448,10 +484,16 @@ Apatite, Copper, Tin
                         <!-- Begin Tin Strategic Cloud Hint Veins -->
                         <Veins name='frstTinBaseHintVeins' block='Forestry:resources:2' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60D1EDF1</WireframeColor>

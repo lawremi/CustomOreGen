@@ -1,12 +1,8 @@
-
-<!-- ================================================================ 
-
-Custom Ore Generation:   Simple Ores Module
-
-Generates: 
-Copper, Tin, Mythril, Adamantium, Onyx
-
-================================================================ -->
+ <!-- ================================================================
+      Custom Ore Generation "Simple Ores" Module: This configuration
+      covers copper, tin, mythril, adamantium, and onyx.
+      ================================================================
+      -->
 
     <!-- Mod detection -->
     <IfModInstalled name="simpleores">
@@ -232,11 +228,10 @@ Copper, Tin, Mythril, Adamantium, Onyx
                     <Comment>
                         The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
                     </Comment>
-                    <Replaces block='simpleores:copper_ore:0' />
-                    <Replaces block='simpleores:tin_ore:0' />
-                    <Replaces block='simpleores:mythril_ore:0' />
-                    <Replaces block='simpleores:adamantium_ore:0' />
-                    <Replaces block='simpleores:onyx_ore:0' />
+                    <Replaces block='simpleores:copper_ore' />
+                    <Replaces block='simpleores:tin_ore' />
+                    <Replaces block='simpleores:mythril_ore' />
+                    <Replaces block='simpleores:adamantium_ore' />
                 </Substitute>
                 <!-- Original Overworld Ore Removal Complete -->
                 
@@ -247,14 +242,15 @@ Copper, Tin, Mythril, Adamantium, Onyx
                 <!-- Begin Layered Veins distribution of Copper -->
                 <IfCondition condition=':= smpoCopperDist = "layeredVeins"'>
                 
-                    <Veins name='smpoCopperBaseVeins' block='simpleores:copper_ore' inherits='PresetLayeredVeins'>
+                    <Veins name='smpoCopperBaseVeins' block='simpleores:copper_ore'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60FF8E2B</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 1 * smpoCopperSize * _default_' range=':= 1 * 1 * smpoCopperSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 50' range=':= 40' type='uniform' scaleTo='Biome'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 50' range=':= 40' type='uniform' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 1 * smpoCopperSize * _default_' range=':= 1 * 1 * smpoCopperSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 1.15 * smpoCopperFreq * _default_'/>
@@ -265,7 +261,7 @@ Copper, Tin, Mythril, Adamantium, Onyx
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Copper Layered Veins) Settings -->
-                    <Veins name='smpoCopperPrefersVeins' block='simpleores:copper_ore' inherits='smpoCopperBaseVeins'>
+                    <Veins name='smpoCopperPrefersVeins' block='simpleores:copper_ore'  inherits='smpoCopperBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -283,16 +279,26 @@ Copper, Tin, Mythril, Adamantium, Onyx
                 <!-- Begin  Huge Veins distribution of Copper -->
                 <IfCondition condition=':= smpoCopperDist = "hugeVeins"'>
                 
-                    <Veins name='smpoCopperBaseVeins' block='simpleores:copper_ore' inherits='PresetHugeVeins'>
+                    <Veins name='smpoCopperBaseVeins' block='simpleores:copper_ore'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60FF8E2B</WireframeColor>
@@ -308,7 +314,7 @@ Copper, Tin, Mythril, Adamantium, Onyx
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Copper Huge Veins) Settings -->
-                    <Veins name='smpoCopperPrefersVeins' block='simpleores:copper_ore' inherits='smpoCopperBaseVeins'>
+                    <Veins name='smpoCopperPrefersVeins' block='simpleores:copper_ore'  inherits='smpoCopperBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -328,12 +334,16 @@ Copper, Tin, Mythril, Adamantium, Onyx
                 
                     <Cloud name='smpoCopperBaseCloud' block='simpleores:copper_ore' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60FF8E2B</WireframeColor>
@@ -348,10 +358,16 @@ Copper, Tin, Mythril, Adamantium, Onyx
                         <!-- Begin Copper Strategic Cloud Hint Veins -->
                         <Veins name='smpoCopperBaseHintVeins' block='simpleores:copper_ore' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60FF8E2B</WireframeColor>
@@ -395,14 +411,15 @@ Copper, Tin, Mythril, Adamantium, Onyx
                 <!-- Begin Layered Veins distribution of Tin -->
                 <IfCondition condition=':= smpoTinDist = "layeredVeins"'>
                 
-                    <Veins name='smpoTinBaseVeins' block='simpleores:tin_ore' inherits='PresetLayeredVeins'>
+                    <Veins name='smpoTinBaseVeins' block='simpleores:tin_ore'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60E8E8E8</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 1 * smpoTinSize * _default_' range=':= 1 * 1 * smpoTinSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 50' range=':= 40' type='uniform' scaleTo='Biome'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 50' range=':= 40' type='uniform' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 1 * smpoTinSize * _default_' range=':= 1 * 1 * smpoTinSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.9 * smpoTinFreq * _default_'/>
@@ -412,7 +429,7 @@ Copper, Tin, Mythril, Adamantium, Onyx
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Tin Layered Veins) Settings -->
-                    <Veins name='smpoTinPrefersVeins' block='simpleores:tin_ore' inherits='smpoTinBaseVeins'>
+                    <Veins name='smpoTinPrefersVeins' block='simpleores:tin_ore'  inherits='smpoTinBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -430,16 +447,26 @@ Copper, Tin, Mythril, Adamantium, Onyx
                 <!-- Begin  Huge Veins distribution of Tin -->
                 <IfCondition condition=':= smpoTinDist = "hugeVeins"'>
                 
-                    <Veins name='smpoTinBaseVeins' block='simpleores:tin_ore' inherits='PresetHugeVeins'>
+                    <Veins name='smpoTinBaseVeins' block='simpleores:tin_ore'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60E8E8E8</WireframeColor>
@@ -454,7 +481,7 @@ Copper, Tin, Mythril, Adamantium, Onyx
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Tin Huge Veins) Settings -->
-                    <Veins name='smpoTinPrefersVeins' block='simpleores:tin_ore' inherits='smpoTinBaseVeins'>
+                    <Veins name='smpoTinPrefersVeins' block='simpleores:tin_ore'  inherits='smpoTinBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -474,12 +501,16 @@ Copper, Tin, Mythril, Adamantium, Onyx
                 
                     <Cloud name='smpoTinBaseCloud' block='simpleores:tin_ore' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60E8E8E8</WireframeColor>
@@ -494,10 +525,16 @@ Copper, Tin, Mythril, Adamantium, Onyx
                         <!-- Begin Tin Strategic Cloud Hint Veins -->
                         <Veins name='smpoTinBaseHintVeins' block='simpleores:tin_ore' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60E8E8E8</WireframeColor>
@@ -541,14 +578,15 @@ Copper, Tin, Mythril, Adamantium, Onyx
                 <!-- Begin Layered Veins distribution of Mythril -->
                 <IfCondition condition=':= smpoMythrilDist = "layeredVeins"'>
                 
-                    <Veins name='smpoMythrilBaseVeins' block='simpleores:mythril_ore' inherits='PresetLayeredVeins'>
+                    <Veins name='smpoMythrilBaseVeins' block='simpleores:mythril_ore'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x6079AFD2</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.5 * smpoMythrilSize * _default_' range=':= 1 * 0.5 * smpoMythrilSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 19' range=':= 15' type='uniform' scaleTo='Biome'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 19' range=':= 15' type='uniform' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.5 * smpoMythrilSize * _default_' range=':= 1 * 0.5 * smpoMythrilSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 6 * smpoMythrilFreq * _default_'/>
@@ -558,7 +596,7 @@ Copper, Tin, Mythril, Adamantium, Onyx
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Mythril Layered Veins) Settings -->
-                    <Veins name='smpoMythrilPrefersVeins' block='simpleores:mythril_ore' inherits='smpoMythrilBaseVeins'>
+                    <Veins name='smpoMythrilPrefersVeins' block='simpleores:mythril_ore'  inherits='smpoMythrilBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -576,16 +614,26 @@ Copper, Tin, Mythril, Adamantium, Onyx
                 <!-- Begin  Huge Veins distribution of Mythril -->
                 <IfCondition condition=':= smpoMythrilDist = "hugeVeins"'>
                 
-                    <Veins name='smpoMythrilBaseVeins' block='simpleores:mythril_ore' inherits='PresetHugeVeins'>
+                    <Veins name='smpoMythrilBaseVeins' block='simpleores:mythril_ore'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x6079AFD2</WireframeColor>
@@ -600,7 +648,7 @@ Copper, Tin, Mythril, Adamantium, Onyx
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Mythril Huge Veins) Settings -->
-                    <Veins name='smpoMythrilPrefersVeins' block='simpleores:mythril_ore' inherits='smpoMythrilBaseVeins'>
+                    <Veins name='smpoMythrilPrefersVeins' block='simpleores:mythril_ore'  inherits='smpoMythrilBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -620,12 +668,16 @@ Copper, Tin, Mythril, Adamantium, Onyx
                 
                     <Cloud name='smpoMythrilBaseCloud' block='simpleores:mythril_ore' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x6079AFD2</WireframeColor>
@@ -640,10 +692,16 @@ Copper, Tin, Mythril, Adamantium, Onyx
                         <!-- Begin Mythril Strategic Cloud Hint Veins -->
                         <Veins name='smpoMythrilBaseHintVeins' block='simpleores:mythril_ore' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x6079AFD2</WireframeColor>
@@ -687,14 +745,15 @@ Copper, Tin, Mythril, Adamantium, Onyx
                 <!-- Begin Layered Veins distribution of Adamantium -->
                 <IfCondition condition=':= smpoAdamantiumDist = "layeredVeins"'>
                 
-                    <Veins name='smpoAdamantiumBaseVeins' block='simpleores:adamantium_ore' inherits='PresetLayeredVeins'>
+                    <Veins name='smpoAdamantiumBaseVeins' block='simpleores:adamantium_ore'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60159800</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.2 * smpoAdamantiumSize * _default_' range=':= 1 * 0.2 * smpoAdamantiumSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 11' range=':= 9' type='uniform' scaleTo='Biome'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 11' range=':= 9' type='uniform' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.2 * smpoAdamantiumSize * _default_' range=':= 1 * 0.2 * smpoAdamantiumSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 1.5 * smpoAdamantiumFreq * _default_'/>
@@ -704,7 +763,7 @@ Copper, Tin, Mythril, Adamantium, Onyx
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Adamantium Layered Veins) Settings -->
-                    <Veins name='smpoAdamantiumPrefersVeins' block='simpleores:adamantium_ore' inherits='smpoAdamantiumBaseVeins'>
+                    <Veins name='smpoAdamantiumPrefersVeins' block='simpleores:adamantium_ore'  inherits='smpoAdamantiumBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -722,16 +781,26 @@ Copper, Tin, Mythril, Adamantium, Onyx
                 <!-- Begin  Huge Veins distribution of Adamantium -->
                 <IfCondition condition=':= smpoAdamantiumDist = "hugeVeins"'>
                 
-                    <Veins name='smpoAdamantiumBaseVeins' block='simpleores:adamantium_ore' inherits='PresetHugeVeins'>
+                    <Veins name='smpoAdamantiumBaseVeins' block='simpleores:adamantium_ore'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60159800</WireframeColor>
@@ -746,7 +815,7 @@ Copper, Tin, Mythril, Adamantium, Onyx
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Adamantium Huge Veins) Settings -->
-                    <Veins name='smpoAdamantiumPrefersVeins' block='simpleores:adamantium_ore' inherits='smpoAdamantiumBaseVeins'>
+                    <Veins name='smpoAdamantiumPrefersVeins' block='simpleores:adamantium_ore'  inherits='smpoAdamantiumBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -766,12 +835,16 @@ Copper, Tin, Mythril, Adamantium, Onyx
                 
                     <Cloud name='smpoAdamantiumBaseCloud' block='simpleores:adamantium_ore' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60159800</WireframeColor>
@@ -786,10 +859,16 @@ Copper, Tin, Mythril, Adamantium, Onyx
                         <!-- Begin Adamantium Strategic Cloud Hint Veins -->
                         <Veins name='smpoAdamantiumBaseHintVeins' block='simpleores:adamantium_ore' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60159800</WireframeColor>
@@ -843,11 +922,7 @@ Copper, Tin, Mythril, Adamantium, Onyx
                     <Comment>
                         The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
                     </Comment>
-                    <Replaces block='simpleores:copper_ore:0' />
-                    <Replaces block='simpleores:tin_ore:0' />
-                    <Replaces block='simpleores:mythril_ore:0' />
-                    <Replaces block='simpleores:adamantium_ore:0' />
-                    <Replaces block='simpleores:onyx_ore:0' />
+                    <Replaces block='simpleores:onyx_ore' />
                 </Substitute>
                 <!-- Original Nether Ore Removal Complete -->
                 
@@ -858,14 +933,15 @@ Copper, Tin, Mythril, Adamantium, Onyx
                 <!-- Begin Layered Veins distribution of Onyx -->
                 <IfCondition condition=':= smpoOnyxDist = "layeredVeins"'>
                 
-                    <Veins name='smpoOnyxBaseVeins' block='simpleores:onyx_ore' inherits='PresetLayeredVeins'>
+                    <Veins name='smpoOnyxBaseVeins' block='simpleores:onyx_ore'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60232323</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 1 * smpoOnyxSize * _default_' range=':= 1 * 1 * smpoOnyxSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 120' range=':= 120' type='uniform' scaleTo='Biome'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 120' range=':= 120' type='uniform' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 1 * smpoOnyxSize * _default_' range=':= 1 * 1 * smpoOnyxSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 3 * 1 * smpoOnyxFreq * _default_'/>
@@ -879,16 +955,26 @@ Copper, Tin, Mythril, Adamantium, Onyx
                 <!-- Begin  Huge Veins distribution of Onyx -->
                 <IfCondition condition=':= smpoOnyxDist = "hugeVeins"'>
                 
-                    <Veins name='smpoOnyxBaseVeins' block='simpleores:onyx_ore' inherits='PresetHugeVeins'>
+                    <Veins name='smpoOnyxBaseVeins' block='simpleores:onyx_ore'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60232323</WireframeColor>
@@ -909,12 +995,16 @@ Copper, Tin, Mythril, Adamantium, Onyx
                 
                     <Cloud name='smpoOnyxBaseCloud' block='simpleores:onyx_ore' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60232323</WireframeColor>
@@ -929,10 +1019,16 @@ Copper, Tin, Mythril, Adamantium, Onyx
                         <!-- Begin Onyx Strategic Cloud Hint Veins -->
                         <Veins name='smpoOnyxBaseHintVeins' block='simpleores:onyx_ore' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60232323</WireframeColor>

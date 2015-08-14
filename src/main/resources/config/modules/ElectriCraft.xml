@@ -1,12 +1,8 @@
-
-<!-- ================================================================ 
-
-Custom Ore Generation:   ElectriCraft Module
-
-Generates: 
-Copper, Tin, Silver, Nickel, Aluminum, Platinum
-
-================================================================ -->
+ <!-- ================================================================
+      Custom Ore Generation "ElectriCraft" Module: This configuration
+      covers copper, tin, silver, nickel, aluminum, and platinum.
+      ================================================================
+      -->
 
     <!-- Mod detection -->
     <IfModInstalled name="ElectriCraft">
@@ -271,7 +267,7 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                     <Comment>
                         The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
                     </Comment>
-                    <Replaces block='ElectriCraft:electricraft_block_ore:0' />
+                    <Replaces block='ElectriCraft:electricraft_block_ore' />
                     <Replaces block='ElectriCraft:electricraft_block_ore:1' />
                     <Replaces block='ElectriCraft:electricraft_block_ore:2' />
                     <Replaces block='ElectriCraft:electricraft_block_ore:3' />
@@ -287,14 +283,15 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                 <!-- Begin LayeredVeins distribution of Copper -->
                 <IfCondition condition=':= elcrCopperDist = "layeredVeins"'>
                 
-                    <Veins name='elcrCopperBaseVeins' block='ElectriCraft:electricraft_block_ore' inherits='PresetLayeredVeins'>
+                    <Veins name='elcrCopperBaseVeins' block='ElectriCraft:electricraft_block_ore'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60BB6E30</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.9 * elcrCopperSize * _default_' range=':= 1 * 0.9 * elcrCopperSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 45' range=':= 10' type='normal' scaleTo='Biome'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 45' range=':= 10' type='normal' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.9 * elcrCopperSize * _default_' range=':= 1 * 0.9 * elcrCopperSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.9 * elcrCopperFreq * _default_'/>
@@ -305,7 +302,7 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Copper Layered Veins) Settings -->
-                    <Veins name='elcrCopperPrefersVeins' block='ElectriCraft:electricraft_block_ore' inherits='elcrCopperBaseVeins'>
+                    <Veins name='elcrCopperPrefersVeins' block='ElectriCraft:electricraft_block_ore'  inherits='elcrCopperBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -323,16 +320,26 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                 <!-- Begin  Huge Veins distribution of Copper -->
                 <IfCondition condition=':= elcrCopperDist = "hugeVeins"'>
                 
-                    <Veins name='elcrCopperBaseVeins' block='ElectriCraft:electricraft_block_ore' inherits='PresetHugeVeins'>
+                    <Veins name='elcrCopperBaseVeins' block='ElectriCraft:electricraft_block_ore'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60BB6E30</WireframeColor>
@@ -348,7 +355,7 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Copper Huge Veins) Settings -->
-                    <Veins name='elcrCopperPrefersVeins' block='ElectriCraft:electricraft_block_ore' inherits='elcrCopperBaseVeins'>
+                    <Veins name='elcrCopperPrefersVeins' block='ElectriCraft:electricraft_block_ore'  inherits='elcrCopperBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -368,12 +375,16 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                 
                     <Cloud name='elcrCopperBaseCloud' block='ElectriCraft:electricraft_block_ore' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60BB6E30</WireframeColor>
@@ -388,10 +399,16 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                         <!-- Begin Copper Strategic Cloud Hint Veins -->
                         <Veins name='elcrCopperBaseHintVeins' block='ElectriCraft:electricraft_block_ore' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60BB6E30</WireframeColor>
@@ -435,14 +452,15 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                 <!-- Begin LayeredVeins distribution of Tin -->
                 <IfCondition condition=':= elcrTinDist = "layeredVeins"'>
                 
-                    <Veins name='elcrTinBaseVeins' block='ElectriCraft:electricraft_block_ore:1' inherits='PresetLayeredVeins'>
+                    <Veins name='elcrTinBaseVeins' block='ElectriCraft:electricraft_block_ore:1'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60A9C7CF</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.85 * elcrTinSize * _default_' range=':= 1 * 0.85 * elcrTinSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 30' range=':= 11' type='normal' scaleTo='Biome'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 30' range=':= 11' type='normal' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.85 * elcrTinSize * _default_' range=':= 1 * 0.85 * elcrTinSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * elcrTinFreq * _default_'/>
@@ -453,7 +471,7 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Tin Layered Veins) Settings -->
-                    <Veins name='elcrTinPrefersVeins' block='ElectriCraft:electricraft_block_ore:1' inherits='elcrTinBaseVeins'>
+                    <Veins name='elcrTinPrefersVeins' block='ElectriCraft:electricraft_block_ore:1'  inherits='elcrTinBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -471,16 +489,26 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                 <!-- Begin  Huge Veins distribution of Tin -->
                 <IfCondition condition=':= elcrTinDist = "hugeVeins"'>
                 
-                    <Veins name='elcrTinBaseVeins' block='ElectriCraft:electricraft_block_ore:1' inherits='PresetHugeVeins'>
+                    <Veins name='elcrTinBaseVeins' block='ElectriCraft:electricraft_block_ore:1'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60A9C7CF</WireframeColor>
@@ -496,7 +524,7 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Tin Huge Veins) Settings -->
-                    <Veins name='elcrTinPrefersVeins' block='ElectriCraft:electricraft_block_ore:1' inherits='elcrTinBaseVeins'>
+                    <Veins name='elcrTinPrefersVeins' block='ElectriCraft:electricraft_block_ore:1'  inherits='elcrTinBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -516,12 +544,16 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                 
                     <Cloud name='elcrTinBaseCloud' block='ElectriCraft:electricraft_block_ore:1' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60A9C7CF</WireframeColor>
@@ -536,10 +568,16 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                         <!-- Begin Tin Strategic Cloud Hint Veins -->
                         <Veins name='elcrTinBaseHintVeins' block='ElectriCraft:electricraft_block_ore:1' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60A9C7CF</WireframeColor>
@@ -583,14 +621,15 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                 <!-- Begin LayeredVeins distribution of Silver -->
                 <IfCondition condition=':= elcrSilverDist = "layeredVeins"'>
                 
-                    <Veins name='elcrSilverBaseVeins' block='ElectriCraft:electricraft_block_ore:2' inherits='PresetLayeredVeins'>
+                    <Veins name='elcrSilverBaseVeins' block='ElectriCraft:electricraft_block_ore:2'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60B6D2EA</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.85 * elcrSilverSize * _default_' range=':= 1 * 0.85 * elcrSilverSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 20' range=':= 10' type='normal' scaleTo='Biome'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 20' range=':= 10' type='normal' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.85 * elcrSilverSize * _default_' range=':= 1 * 0.85 * elcrSilverSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * elcrSilverFreq * _default_'/>
@@ -601,7 +640,7 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Silver Layered Veins) Settings -->
-                    <Veins name='elcrSilverPrefersVeins' block='ElectriCraft:electricraft_block_ore:2' inherits='elcrSilverBaseVeins'>
+                    <Veins name='elcrSilverPrefersVeins' block='ElectriCraft:electricraft_block_ore:2'  inherits='elcrSilverBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -619,16 +658,26 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                 <!-- Begin  Huge Veins distribution of Silver -->
                 <IfCondition condition=':= elcrSilverDist = "hugeVeins"'>
                 
-                    <Veins name='elcrSilverBaseVeins' block='ElectriCraft:electricraft_block_ore:2' inherits='PresetHugeVeins'>
+                    <Veins name='elcrSilverBaseVeins' block='ElectriCraft:electricraft_block_ore:2'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60B6D2EA</WireframeColor>
@@ -644,7 +693,7 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Silver Huge Veins) Settings -->
-                    <Veins name='elcrSilverPrefersVeins' block='ElectriCraft:electricraft_block_ore:2' inherits='elcrSilverBaseVeins'>
+                    <Veins name='elcrSilverPrefersVeins' block='ElectriCraft:electricraft_block_ore:2'  inherits='elcrSilverBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -664,12 +713,16 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                 
                     <Cloud name='elcrSilverBaseCloud' block='ElectriCraft:electricraft_block_ore:2' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60B6D2EA</WireframeColor>
@@ -684,10 +737,16 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                         <!-- Begin Silver Strategic Cloud Hint Veins -->
                         <Veins name='elcrSilverBaseHintVeins' block='ElectriCraft:electricraft_block_ore:2' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60B6D2EA</WireframeColor>
@@ -731,14 +790,15 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                 <!-- Begin LayeredVeins distribution of Nickel -->
                 <IfCondition condition=':= elcrNickelDist = "layeredVeins"'>
                 
-                    <Veins name='elcrNickelBaseVeins' block='ElectriCraft:electricraft_block_ore:3' inherits='PresetLayeredVeins'>
+                    <Veins name='elcrNickelBaseVeins' block='ElectriCraft:electricraft_block_ore:3'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60D2D1B6</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.85 * elcrNickelSize * _default_' range=':= 1 * 0.85 * elcrNickelSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 20' range=':= 10' type='normal' scaleTo='Biome'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 20' range=':= 10' type='normal' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.85 * elcrNickelSize * _default_' range=':= 1 * 0.85 * elcrNickelSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * elcrNickelFreq * _default_'/>
@@ -749,7 +809,7 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Nickel Layered Veins) Settings -->
-                    <Veins name='elcrNickelPrefersVeins' block='ElectriCraft:electricraft_block_ore:3' inherits='elcrNickelBaseVeins'>
+                    <Veins name='elcrNickelPrefersVeins' block='ElectriCraft:electricraft_block_ore:3'  inherits='elcrNickelBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -767,16 +827,26 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                 <!-- Begin  Huge Veins distribution of Nickel -->
                 <IfCondition condition=':= elcrNickelDist = "hugeVeins"'>
                 
-                    <Veins name='elcrNickelBaseVeins' block='ElectriCraft:electricraft_block_ore:3' inherits='PresetHugeVeins'>
+                    <Veins name='elcrNickelBaseVeins' block='ElectriCraft:electricraft_block_ore:3'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60D2D1B6</WireframeColor>
@@ -792,7 +862,7 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Nickel Huge Veins) Settings -->
-                    <Veins name='elcrNickelPrefersVeins' block='ElectriCraft:electricraft_block_ore:3' inherits='elcrNickelBaseVeins'>
+                    <Veins name='elcrNickelPrefersVeins' block='ElectriCraft:electricraft_block_ore:3'  inherits='elcrNickelBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -812,12 +882,16 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                 
                     <Cloud name='elcrNickelBaseCloud' block='ElectriCraft:electricraft_block_ore:3' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60D2D1B6</WireframeColor>
@@ -832,10 +906,16 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                         <!-- Begin Nickel Strategic Cloud Hint Veins -->
                         <Veins name='elcrNickelBaseHintVeins' block='ElectriCraft:electricraft_block_ore:3' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60D2D1B6</WireframeColor>
@@ -879,14 +959,15 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                 <!-- Begin LayeredVeins distribution of Aluminum -->
                 <IfCondition condition=':= elcrAluminumDist = "layeredVeins"'>
                 
-                    <Veins name='elcrAluminumBaseVeins' block='ElectriCraft:electricraft_block_ore:4' inherits='PresetLayeredVeins'>
+                    <Veins name='elcrAluminumBaseVeins' block='ElectriCraft:electricraft_block_ore:4'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60DAD9DB</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.6 * elcrAluminumSize * _default_' range=':= 1 * 0.6 * elcrAluminumSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='Biome'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 35' range=':= 20' type='normal' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.6 * elcrAluminumSize * _default_' range=':= 1 * 0.6 * elcrAluminumSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * elcrAluminumFreq * _default_'/>
@@ -897,7 +978,7 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Aluminum Layered Veins) Settings -->
-                    <Veins name='elcrAluminumPrefersVeins' block='ElectriCraft:electricraft_block_ore:4' inherits='elcrAluminumBaseVeins'>
+                    <Veins name='elcrAluminumPrefersVeins' block='ElectriCraft:electricraft_block_ore:4'  inherits='elcrAluminumBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -915,16 +996,26 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                 <!-- Begin  Huge Veins distribution of Aluminum -->
                 <IfCondition condition=':= elcrAluminumDist = "hugeVeins"'>
                 
-                    <Veins name='elcrAluminumBaseVeins' block='ElectriCraft:electricraft_block_ore:4' inherits='PresetHugeVeins'>
+                    <Veins name='elcrAluminumBaseVeins' block='ElectriCraft:electricraft_block_ore:4'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60DAD9DB</WireframeColor>
@@ -940,7 +1031,7 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Aluminum Huge Veins) Settings -->
-                    <Veins name='elcrAluminumPrefersVeins' block='ElectriCraft:electricraft_block_ore:4' inherits='elcrAluminumBaseVeins'>
+                    <Veins name='elcrAluminumPrefersVeins' block='ElectriCraft:electricraft_block_ore:4'  inherits='elcrAluminumBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -960,12 +1051,16 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                 
                     <Cloud name='elcrAluminumBaseCloud' block='ElectriCraft:electricraft_block_ore:4' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60DAD9DB</WireframeColor>
@@ -980,10 +1075,16 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                         <!-- Begin Aluminum Strategic Cloud Hint Veins -->
                         <Veins name='elcrAluminumBaseHintVeins' block='ElectriCraft:electricraft_block_ore:4' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60DAD9DB</WireframeColor>
@@ -1027,14 +1128,15 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                 <!-- Begin LayeredVeins distribution of Platinum -->
                 <IfCondition condition=':= elcrPlatinumDist = "layeredVeins"'>
                 
-                    <Veins name='elcrPlatinumBaseVeins' block='ElectriCraft:electricraft_block_ore:5' inherits='PresetLayeredVeins'>
+                    <Veins name='elcrPlatinumBaseVeins' block='ElectriCraft:electricraft_block_ore:5'  inherits='PresetLayeredVeins' >
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4
+                            horizontal veins each.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x602D84E7</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 0.80 * elcrPlatinumSize * _default_' range=':= 1 * 0.80 * elcrPlatinumSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 16' range=':= 8' type='normal' scaleTo='Biome'/> 
+                        <Setting name='MotherlodeHeight' avg=':= 16' range=':= 8' type='normal' scaleTo='Biome' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 0.80 * elcrPlatinumSize * _default_' range=':= 1 * 0.80 * elcrPlatinumSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 0.8 * elcrPlatinumFreq * _default_'/>
@@ -1045,7 +1147,7 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Platinum Layered Veins) Settings -->
-                    <Veins name='elcrPlatinumPrefersVeins' block='ElectriCraft:electricraft_block_ore:5' inherits='elcrPlatinumBaseVeins'>
+                    <Veins name='elcrPlatinumPrefersVeins' block='ElectriCraft:electricraft_block_ore:5'  inherits='elcrPlatinumBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -1063,16 +1165,26 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                 <!-- Begin  Huge Veins distribution of Platinum -->
                 <IfCondition condition=':= elcrPlatinumDist = "hugeVeins"'>
                 
-                    <Veins name='elcrPlatinumBaseVeins' block='ElectriCraft:electricraft_block_ore:5' inherits='PresetHugeVeins'>
+                    <Veins name='elcrPlatinumBaseVeins' block='ElectriCraft:electricraft_block_ore:5'  inherits='PresetHugeVeins' >
                         <Description>
-                            Very large, extremely rare motherlodes.  Each motherlode has many long slender branches - so thin that
-                            parts of the branch won't contain any ore at all.  This, combined with the incredible length of the
-                            branches, makes them more challenging to follow underground.  Once found, however, a motherlode contains
-                            enough ore to keep a player supplied for a very long time.
-                            The rarity of these veins might be too frustrating in a single-player setting.  In SMP, though, teamwork 
-                            could make finding them much easier and the motherlodes are big enough to supply several people without
-                            shortage.  This might be a good way to add challenge to multiplayer worlds.
-                            Credit: based on feedback by dyrewulf from the MC forums.
+                            Very large, extremely rare motherlodes.
+                            Each motherlode has many long slender
+                            branches - so thin that parts of the
+                            branch won't contain any ore at all.
+                            This, combined with the incredible length
+                            of the branches, makes them more
+                            challenging to follow underground.  Once
+                            found, however, a motherlode contains
+                            enough ore to keep a player supplied for a
+                            very long time.  The rarity of these veins
+                            might be too frustrating in a single-
+                            player setting.  In SMP, though, teamwork
+                            could make finding them much easier and
+                            the motherlodes are big enough to supply
+                            several people without shortage.  This
+                            might be a good way to add challenge to
+                            multiplayer worlds.  Credit: based on
+                            feedback by dyrewulf from the MC forums.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x602D84E7</WireframeColor>
@@ -1088,7 +1200,7 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Platinum Huge Veins) Settings -->
-                    <Veins name='elcrPlatinumPrefersVeins' block='ElectriCraft:electricraft_block_ore:5' inherits='elcrPlatinumBaseVeins'>
+                    <Veins name='elcrPlatinumPrefersVeins' block='ElectriCraft:electricraft_block_ore:5'  inherits='elcrPlatinumBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -1108,12 +1220,16 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                 
                     <Cloud name='elcrPlatinumBaseCloud' block='ElectriCraft:electricraft_block_ore:5' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x602D84E7</WireframeColor>
@@ -1128,10 +1244,16 @@ Copper, Tin, Silver, Nickel, Aluminum, Platinum
                         <!-- Begin Platinum Strategic Cloud Hint Veins -->
                         <Veins name='elcrPlatinumBaseHintVeins' block='ElectriCraft:electricraft_block_ore:5' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x602D84E7</WireframeColor>

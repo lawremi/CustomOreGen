@@ -1,12 +1,8 @@
-
-<!-- ================================================================ 
-
-Custom Ore Generation:   Fossils and Archaeology Module
-
-Generates: 
-Fossils, Permafrost
-
-================================================================ -->
+ <!-- ================================================================
+      Custom Ore Generation "Fossils and Archaeology" Module: This
+      configuration covers fossils and permafrost.
+      ================================================================
+      -->
 
     <!-- Mod detection -->
     <IfModInstalled name="fossil">
@@ -115,8 +111,8 @@ Fossils, Permafrost
                     <Comment>
                         The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
                     </Comment>
-                    <Replaces block='fossil:fossil:0' />
-                    <Replaces block='fossil:permafrost:0' />
+                    <Replaces block='fossil:fossil' />
+                    <Replaces block='fossil:permafrost' />
                 </Substitute>
                 <!-- Original Overworld Ore Removal Complete -->
                 
@@ -127,17 +123,21 @@ Fossils, Permafrost
                 <!-- Begin SparseVeins distribution of Fossils -->
                 <IfCondition condition=':= fsarFossilsDist = "sparseVeins"'>
                 
-                    <Veins name='fsarFossilsBaseVeins' block='fossil:fossil' inherits='PresetSparseVeins'>
+                    <Veins name='fsarFossilsBaseVeins' block='fossil:fossil'  inherits='PresetSparseVeins' >
                         <Description>
-                            Large veins filled very lightly with ore.  Because they contain less ore per volume, 
-                            these veins are relatively wide and long.  Mining the ore from them is time consuming 
-                            compared to solid ore veins.  They are also more difficult to follow, since it is 
-                            harder to get an idea of their direction while mining.
+                            Large veins filled very lightly with ore.
+                            Because they contain less ore per volume,
+                            these veins are relatively wide and long.
+                            Mining the ore from them is time consuming
+                            compared to solid ore veins.  They are
+                            also more difficult to follow, since it is
+                            harder to get an idea of their direction
+                            while mining.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60FEFDDF</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 1 * fsarFossilsSize * _default_' range=':= 1 * 1 * fsarFossilsSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 32' range=':= 32' type='normal' scaleTo='SeaLevel' />
+                        <Setting name='MotherlodeHeight' avg=':= 32' range=':= 32' type='normal' scaleTo='SeaLevel' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 1 * fsarFossilsSize * _default_' range=':= 1 * 1 * fsarFossilsSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1.75 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 5.3 * fsarFossilsFreq * _default_'/>
@@ -148,7 +148,7 @@ Fossils, Permafrost
                     </Veins>
                     
                     <!-- Begin Preferred Biome Distribution (Fossils Sparse Veins) Settings -->
-                    <Veins name='fsarFossilsPrefersVeins' block='fossil:fossil' inherits='fsarFossilsBaseVeins'>
+                    <Veins name='fsarFossilsPrefersVeins' block='fossil:fossil'  inherits='fsarFossilsBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -167,22 +167,26 @@ Fossils, Permafrost
                 <!-- Begin  Small Deposits distribution of Fossils -->
                 <IfCondition condition=':= fsarFossilsDist = "smallDeposits"'>
                 
-                    <Veins name='fsarFossilsBaseVeins' block='fossil:fossil' inherits='PresetSmallDeposits'>
+                    <Veins name='fsarFossilsBaseVeins' block='fossil:fossil'  inherits='PresetSmallDeposits' >
                         <Description>
-                            Small motherlodes without any branches.
-                            Similar to the deposits produced by StandardGen distributions.
+                            Small motherlodes with no veins; similar
+                            to vanilla clusters.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60FEFDDF</WireframeColor>
-                        <Setting name='MotherlodeHeight' avg=':= 32' range=':= 32' type='normal' scaleTo='SeaLevel' /> 
                         <Setting name='MotherlodeSize' avg=':= 1 * 1 * fsarFossilsSize * _default_' range=':= 1 * 1 * fsarFossilsSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 32' range=':= 32' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * fsarFossilsSize * _default_' range=':= 1 * 1 * fsarFossilsSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1.75 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 5.3 * fsarFossilsFreq * _default_'/>
+                        <Setting name='BranchLength' avg=':= 0.45 * _default_' range=':= 0.45 * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 10'/>
+                        <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
                         <Replaces block='minecraft:stone'/>
                     </Veins>
                     
-                    <!-- Begin Preferred Biome Distribution (Fossils Small Deposits) Settings -->
-                    <Veins name='fsarFossilsPrefersVeins' block='fossil:fossil' inherits='fsarFossilsBaseVeins'>
+                    <!-- Begin Preferred Biome Distribution (Fossils Deposit Veins) Settings -->
+                    <Veins name='fsarFossilsPrefersVeins' block='fossil:fossil'  inherits='fsarFossilsBaseVeins' >
                         <Description>
                             Spawns 2 more times in preferred biomes.
                         </Description>
@@ -192,7 +196,7 @@ Fossils, Permafrost
                         <BiomeType name='Swamp'/>
                         <BiomeType name='desert'/>
                     </Veins>
-                    <!-- End Preferred Biome Distribution (Fossils Small Deposits) Settings -->
+                    <!-- End Preferred Biome Distribution (Fossils Deposit Veins) Settings -->
                 
                 </IfCondition>
                 <!-- End  Small Deposits distribution of Fossils -->
@@ -203,12 +207,16 @@ Fossils, Permafrost
                 
                     <Cloud name='fsarFossilsBaseCloud' block='fossil:fossil' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60FEFDDF</WireframeColor>
@@ -223,10 +231,16 @@ Fossils, Permafrost
                         <!-- Begin Fossils Strategic Cloud Hint Veins -->
                         <Veins name='fsarFossilsBaseHintVeins' block='fossil:fossil' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60FEFDDF</WireframeColor>
@@ -270,25 +284,29 @@ Fossils, Permafrost
                 <!-- Begin SparseVeins distribution of Permafrost -->
                 <IfCondition condition=':= fsarPermafrostDist = "sparseVeins"'>
                 
-                    <Veins name='fsarPermafrostBaseVeins' block='fossil:permafrost' inherits='PresetSparseVeins'>
+                    <Veins name='fsarPermafrostBaseVeins' block='fossil:permafrost'  inherits='PresetSparseVeins' >
                         <Description>
-                            Large veins filled very lightly with ore.  Because they contain less ore per volume, 
-                            these veins are relatively wide and long.  Mining the ore from them is time consuming 
-                            compared to solid ore veins.  They are also more difficult to follow, since it is 
-                            harder to get an idea of their direction while mining.
+                            Large veins filled very lightly with ore.
+                            Because they contain less ore per volume,
+                            these veins are relatively wide and long.
+                            Mining the ore from them is time consuming
+                            compared to solid ore veins.  They are
+                            also more difficult to follow, since it is
+                            harder to get an idea of their direction
+                            while mining.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60A5C3F5</WireframeColor>
                         <Setting name='MotherlodeSize' avg=':= 1 * 1 * fsarPermafrostSize * _default_' range=':= 1 * 1 * fsarPermafrostSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 32' range=':= 32' type='normal' scaleTo='SeaLevel' />
+                        <Setting name='MotherlodeHeight' avg=':= 32' range=':= 32' type='normal' scaleTo='SeaLevel' /> 
                         <Setting name='SegmentRadius' avg=':= 1 * 1 * fsarPermafrostSize * _default_' range=':= 1 * 1 * fsarPermafrostSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1.75 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 5.3 * fsarPermafrostFreq * _default_'/>
                         <Setting name='BranchLength' avg=':= 0.45 * _default_' range=':= 0.45 * _default_'/>
                         <Setting name='BranchHeightLimit' avg=':= 10'/>
                         <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
-                        <Replaces block='minecraft:stone'/>
                         <BiomeType name='Frozen'/>
+                        <Replaces block='minecraft:stone'/>
                     </Veins>
                 
                 </IfCondition>
@@ -298,19 +316,23 @@ Fossils, Permafrost
                 <!-- Begin  Small Deposits distribution of Permafrost -->
                 <IfCondition condition=':= fsarPermafrostDist = "smallDeposits"'>
                 
-                    <Veins name='fsarPermafrostBaseVeins' block='fossil:permafrost' inherits='PresetSmallDeposits'>
+                    <Veins name='fsarPermafrostBaseVeins' block='fossil:permafrost'  inherits='PresetSmallDeposits' >
                         <Description>
-                            Small motherlodes without any branches.
-                            Similar to the deposits produced by StandardGen distributions.
+                            Small motherlodes with no veins; similar
+                            to vanilla clusters.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60A5C3F5</WireframeColor>
-                        <Setting name='MotherlodeHeight' avg=':= 32' range=':= 32' type='normal' scaleTo='SeaLevel' /> 
                         <Setting name='MotherlodeSize' avg=':= 1 * 1 * fsarPermafrostSize * _default_' range=':= 1 * 1 * fsarPermafrostSize * _default_'/>
+                        <Setting name='MotherlodeHeight' avg=':= 32' range=':= 32' type='normal' scaleTo='SeaLevel' /> 
+                        <Setting name='SegmentRadius' avg=':= 1 * 1 * fsarPermafrostSize * _default_' range=':= 1 * 1 * fsarPermafrostSize * _default_'/>
                         <Setting name='OreDensity' avg=':= 1 * 1.75 * _default_' range=':= _default_'/>
                         <Setting name='MotherlodeFrequency' avg=':= 1 * 5.3 * fsarPermafrostFreq * _default_'/>
-                        <Replaces block='minecraft:stone'/>
+                        <Setting name='BranchLength' avg=':= 0.45 * _default_' range=':= 0.45 * _default_'/>
+                        <Setting name='BranchHeightLimit' avg=':= 10'/>
+                        <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
                         <BiomeType name='Frozen'/>
+                        <Replaces block='minecraft:stone'/>
                     </Veins>
                 
                 </IfCondition>
@@ -322,12 +344,16 @@ Fossils, Permafrost
                 
                     <Cloud name='fsarPermafrostBaseCloud' block='fossil:permafrost' inherits='PresetStrategicCloud'>
                         <Description>
-                            Large irregular clouds filled lightly with ore.  These are huge, spanning several 
-                            adjacent chunks, and consequently rather rare.  They contain a sizeable amount of 
-                            ore, but it takes some time and effort to mine due to low density.
-                            The intent for strategic clouds is that the player will need to actively search for
-                            one and then set up a semi-permanent mining base and spend some time actually mining
-                            the ore.
+                            Large irregular clouds filled lightly with
+                            ore.  These are huge, spanning several
+                            adjacent chunks, and consequently rather
+                            rare.  They contain a sizeable amount of
+                            ore, but it takes some time and effort to
+                            mine due to low density.  The intent for
+                            strategic clouds is that the player will
+                            need to actively search for one and then
+                            set up a semi-permanent mining base and
+                            spend some time actually mining the ore.
                         </Description>
                         <DrawWireframe>:=drawWireframes</DrawWireframe>
                         <WireframeColor>0x60A5C3F5</WireframeColor>
@@ -343,10 +369,16 @@ Fossils, Permafrost
                         <!-- Begin Permafrost Strategic Cloud Hint Veins -->
                         <Veins name='fsarPermafrostBaseHintVeins' block='fossil:permafrost' inherits='PresetHintVeins'>
                             <Description>
-                                Single blocks, generously scattered through all heights (density is about that of vanilla iron ore). 
-                                They will replace dirt and sandstone (but not grass or sand), so they can be found nearer  
-                                to the surface than most ores.  Intened to be used as a child distribution for large, rare strategic  
-                                deposits that would otherwise be very difficult to find. 
+                                Single blocks, generously scattered
+                                through all heights (density is about
+                                that of vanilla iron ore).  They will
+                                replace dirt and sandstone (but not
+                                grass or sand), so they can be found
+                                nearer to the surface than most ores.
+                                Intened to be used as a child
+                                distribution for large, rare strategic
+                                deposits that would otherwise be very
+                                difficult to find.
                             </Description>
                             <DrawWireframe>:=drawWireframes</DrawWireframe>
                             <WireframeColor>0x60A5C3F5</WireframeColor>
