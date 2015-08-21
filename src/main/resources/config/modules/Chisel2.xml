@@ -1,368 +1,796 @@
- <!-- ================================================================
-      Custom Ore Generation "Chisel 2" Module: This configuration
-      covers andesite, diorite, granite, limestone, and marble.
-      ================================================================
-      -->
+<!-- =================================================================
+     Custom Ore Generation "Chisel 2" Module: This configuration
+     covers andesite, diorite, granite, limestone, and marble.
+     ================================================================= -->
 
-    <!-- Mod detection -->
-    <IfModInstalled name="chisel">
-    
-        <!-- Starting Configuration for Custom Ore Generation. -->
+
+<!-- This mod adds 5 types of stone, and makes them, and many other
+     types of material, shapable into a large number of patterns. -->
+
+
+
+
+<!-- Is the "Chisel 2" mod on the system?  Let's find out! -->
+<IfModInstalled name="chisel">
+
+    <!-- Starting Configuration for Custom Ore Generation. -->
+    <ConfigSection>
+
+
+
+
+
+        <!-- Setup Screen Configuration -->
         <ConfigSection>
-        
-            
-            <!-- Setup Screen Configuration -->
+            <OptionDisplayGroup name='groupChisel2' displayName='Chisel 2' displayState='shown'>
+                <Description>
+                    Distribution options for Chisel 2 Ores.
+                </Description>
+            </OptionDisplayGroup>
+
+            <!-- Andesite Configuration UI Starting -->
             <ConfigSection>
-                <OptionDisplayGroup name='groupChisel2' displayName='Chisel 2' displayState='shown'> 
-                    <Description>
-                        Distribution options for Chisel 2 Ores.
-                    </Description>
-                </OptionDisplayGroup>
-                
-                <!-- Andesite Configuration UI Starting -->
-                <ConfigSection>
-                    <OptionChoice name='chslAndesiteDist'  displayState='shown' displayGroup='groupChisel2'> 
-                        <Description> Controls how Andesite is generated </Description> 
-                        <DisplayName>Chisel 2 Andesite</DisplayName>
-                        <Choice value='layeredVeins' displayValue='Layered Veins'>
-                            <Description>
-                                Layered Veins.
-                            </Description>
-                        </Choice>
-                        <Choice value='none' displayValue='None' description='Andesite is not generated in the world.'/>
-                    </OptionChoice>
-                    <OptionNumeric name='chslAndesiteFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
-                        <Description> Frequency multiplier for Chisel 2 Andesite distributions </Description>
-                        <DisplayName>Chisel 2 Andesite Freq.</DisplayName>
-                    </OptionNumeric>
-                    <OptionNumeric name='chslAndesiteSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
-                        <Description> Size multiplier for Chisel 2 Andesite distributions </Description>
-                        <DisplayName>Chisel 2 Andesite Size</DisplayName>
-                    </OptionNumeric>
-                </ConfigSection> 
-                <!-- Andesite Configuration UI Complete -->
-                
-                
-                <!-- Diorite Configuration UI Starting -->
-                <ConfigSection>
-                    <OptionChoice name='chslDioriteDist'  displayState='shown' displayGroup='groupChisel2'> 
-                        <Description> Controls how Diorite is generated </Description> 
-                        <DisplayName>Chisel 2 Diorite</DisplayName>
-                        <Choice value='layeredVeins' displayValue='Layered Veins'>
-                            <Description>
-                                Layered Veins.
-                            </Description>
-                        </Choice>
-                        <Choice value='none' displayValue='None' description='Diorite is not generated in the world.'/>
-                    </OptionChoice>
-                    <OptionNumeric name='chslDioriteFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
-                        <Description> Frequency multiplier for Chisel 2 Diorite distributions </Description>
-                        <DisplayName>Chisel 2 Diorite Freq.</DisplayName>
-                    </OptionNumeric>
-                    <OptionNumeric name='chslDioriteSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
-                        <Description> Size multiplier for Chisel 2 Diorite distributions </Description>
-                        <DisplayName>Chisel 2 Diorite Size</DisplayName>
-                    </OptionNumeric>
-                </ConfigSection> 
-                <!-- Diorite Configuration UI Complete -->
-                
-                
-                <!-- Granite Configuration UI Starting -->
-                <ConfigSection>
-                    <OptionChoice name='chslGraniteDist'  displayState='shown' displayGroup='groupChisel2'> 
-                        <Description> Controls how Granite is generated </Description> 
-                        <DisplayName>Chisel 2 Granite</DisplayName>
-                        <Choice value='layeredVeins' displayValue='Layered Veins'>
-                            <Description>
-                                Layered Veins.
-                            </Description>
-                        </Choice>
-                        <Choice value='none' displayValue='None' description='Granite is not generated in the world.'/>
-                    </OptionChoice>
-                    <OptionNumeric name='chslGraniteFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
-                        <Description> Frequency multiplier for Chisel 2 Granite distributions </Description>
-                        <DisplayName>Chisel 2 Granite Freq.</DisplayName>
-                    </OptionNumeric>
-                    <OptionNumeric name='chslGraniteSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
-                        <Description> Size multiplier for Chisel 2 Granite distributions </Description>
-                        <DisplayName>Chisel 2 Granite Size</DisplayName>
-                    </OptionNumeric>
-                </ConfigSection> 
-                <!-- Granite Configuration UI Complete -->
-                
-                
-                <!-- Limestone Configuration UI Starting -->
-                <ConfigSection>
-                    <OptionChoice name='chslLimestoneDist'  displayState='shown' displayGroup='groupChisel2'> 
-                        <Description> Controls how Limestone is generated </Description> 
-                        <DisplayName>Chisel 2 Limestone</DisplayName>
-                        <Choice value='layeredVeins' displayValue='Layered Veins'>
-                            <Description>
-                                Layered Veins.
-                            </Description>
-                        </Choice>
-                        <Choice value='none' displayValue='None' description='Limestone is not generated in the world.'/>
-                    </OptionChoice>
-                    <OptionNumeric name='chslLimestoneFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
-                        <Description> Frequency multiplier for Chisel 2 Limestone distributions </Description>
-                        <DisplayName>Chisel 2 Limestone Freq.</DisplayName>
-                    </OptionNumeric>
-                    <OptionNumeric name='chslLimestoneSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
-                        <Description> Size multiplier for Chisel 2 Limestone distributions </Description>
-                        <DisplayName>Chisel 2 Limestone Size</DisplayName>
-                    </OptionNumeric>
-                </ConfigSection> 
-                <!-- Limestone Configuration UI Complete -->
-                
-                
-                <!-- Marble Configuration UI Starting -->
-                <ConfigSection>
-                    <OptionChoice name='chslMarbleDist'  displayState='shown' displayGroup='groupChisel2'> 
-                        <Description> Controls how Marble is generated </Description> 
-                        <DisplayName>Chisel 2 Marble</DisplayName>
-                        <Choice value='layeredVeins' displayValue='Layered Veins'>
-                            <Description>
-                                Layered Veins.
-                            </Description>
-                        </Choice>
-                        <Choice value='none' displayValue='None' description='Marble is not generated in the world.'/>
-                    </OptionChoice>
-                    <OptionNumeric name='chslMarbleFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
-                        <Description> Frequency multiplier for Chisel 2 Marble distributions </Description>
-                        <DisplayName>Chisel 2 Marble Freq.</DisplayName>
-                    </OptionNumeric>
-                    <OptionNumeric name='chslMarbleSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
-                        <Description> Size multiplier for Chisel 2 Marble distributions </Description>
-                        <DisplayName>Chisel 2 Marble Size</DisplayName>
-                    </OptionNumeric>
-                </ConfigSection> 
-                <!-- Marble Configuration UI Complete -->
-                
+                <OptionChoice name='chslAndesiteDist'  displayState='shown' displayGroup='groupChisel2'>
+                    <Description> Controls how Andesite is generated </Description>
+                    <DisplayName>Chisel 2 Andesite</DisplayName>
+                    <Choice value='LayeredVeins' displayValue='Layered Veins'>
+                        <Description>
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                        </Description>
+                    </Choice>
+                    <Choice value='Vanilla' displayValue='Vanilla'>
+                        <Description>
+                            Simulates Vanilla Minecraft.
+                        </Description>
+                    </Choice>
+                    <Choice value='Cloud' displayValue='Strategic Cloud'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.
+                        </Description>
+                    </Choice>
+                    <Choice value='none' displayValue='None' description='Andesite is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='chslAndesiteFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
+                    <Description> Frequency multiplier for Chisel 2 Andesite distributions </Description>
+                    <DisplayName>Chisel 2 Andesite Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='chslAndesiteSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
+                    <Description> Size multiplier for Chisel 2 Andesite distributions </Description>
+                    <DisplayName>Chisel 2 Andesite Size</DisplayName>
+                </OptionNumeric>
             </ConfigSection>
-            <!-- Setup Screen Complete -->
+            <!-- Andesite Configuration UI Complete -->
 
 
-            <!-- Setup Overworld -->
-            <IfCondition condition=':= ?COGActive'>
-                
-                <!-- Starting Original Overworld Ore Removal -->
-                <Substitute name='chslOverworldOreSubstitute0' block='minecraft:stone'>
-                    <Description>
-                        Replace vanilla-generated ore clusters.
-                    </Description>
-                    <Comment>
-                        The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
-                    </Comment>
-                    <Replaces block='chisel:andesite' />
-                    <Replaces block='chisel:diorite' />
-                    <Replaces block='chisel:granite' />
-                    <Replaces block='chisel:limestone' />
-                    <Replaces block='chisel:marble' />
-                </Substitute>
-                <!-- Original Overworld Ore Removal Complete -->
-                
-                <!-- Adding ores --> 
-                
-                <!-- Begin Andesite Generation --> 
-                
-                <!-- Begin Layered Veins distribution of Andesite -->
-                <IfCondition condition=':= chslAndesiteDist = "layeredVeins"'>
-                
-                    <Veins name='chslAndesiteBaseVeins' block='chisel:andesite'  inherits='PresetLayeredVeins' >
+            <!-- Diorite Configuration UI Starting -->
+            <ConfigSection>
+                <OptionChoice name='chslDioriteDist'  displayState='shown' displayGroup='groupChisel2'>
+                    <Description> Controls how Diorite is generated </Description>
+                    <DisplayName>Chisel 2 Diorite</DisplayName>
+                    <Choice value='LayeredVeins' displayValue='Layered Veins'>
                         <Description>
-                            Small, fairly rare motherlodes with 2-4
-                            horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
                         </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60CECABE</WireframeColor>
-                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * chslAndesiteSize * _default_' range=':= 1 * 1 * chslAndesiteSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 128' range=':= 128' type='uniform' scaleTo='SeaLevel' /> 
-                        <Setting name='SegmentRadius' avg=':= 1 * 1 * chslAndesiteSize * _default_' range=':= 1 * 1 * chslAndesiteSize * _default_'/>
-                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
-                        <Setting name='MotherlodeFrequency' avg=':= 3 * 1 * chslAndesiteFreq * _default_'/>
-                        <Replaces block='minecraft:stone'/>
-                    </Veins>
-                    
-                    <!-- Begin Preferred Biome Distribution (Andesite Layered Veins) Settings -->
-                    <Veins name='chslAndesitePrefersVeins' block='chisel:andesite'  inherits='chslAndesiteBaseVeins' >
+                    </Choice>
+                    <Choice value='Cloud' displayValue='Strategic Cloud'>
                         <Description>
-                            Spawns 2 more times in preferred biomes.
+                            Large irregular clouds filled lightly with ore.
                         </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60CECABE</WireframeColor>
-                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
-                        <BiomeType name='mountain'/>
-                    </Veins>
-                    <!-- End Preferred Biome Distribution (Andesite Layered Veins) Settings -->
-                
-                </IfCondition>
-                <!-- End Layered Veins distribution of Andesite -->
-                
-                <!-- End Andesite Generation --> 
+                    </Choice>
+                    <Choice value='none' displayValue='None' description='Diorite is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='chslDioriteFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
+                    <Description> Frequency multiplier for Chisel 2 Diorite distributions </Description>
+                    <DisplayName>Chisel 2 Diorite Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='chslDioriteSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
+                    <Description> Size multiplier for Chisel 2 Diorite distributions </Description>
+                    <DisplayName>Chisel 2 Diorite Size</DisplayName>
+                </OptionNumeric>
+            </ConfigSection>
+            <!-- Diorite Configuration UI Complete -->
 
-                
-                <!-- Begin Diorite Generation --> 
-                
-                <!-- Begin Layered Veins distribution of Diorite -->
-                <IfCondition condition=':= chslDioriteDist = "layeredVeins"'>
-                
-                    <Veins name='chslDioriteBaseVeins' block='chisel:diorite'  inherits='PresetLayeredVeins' >
-                        <Description>
-                            Small, fairly rare motherlodes with 2-4
-                            horizontal veins each.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60E6E5D3</WireframeColor>
-                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * chslDioriteSize * _default_' range=':= 1 * 1 * chslDioriteSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 128' range=':= 128' type='uniform' scaleTo='SeaLevel' /> 
-                        <Setting name='SegmentRadius' avg=':= 1 * 1 * chslDioriteSize * _default_' range=':= 1 * 1 * chslDioriteSize * _default_'/>
-                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
-                        <Setting name='MotherlodeFrequency' avg=':= 3 * 1 * chslDioriteFreq * _default_'/>
-                        <Replaces block='minecraft:stone'/>
-                    </Veins>
-                    
-                    <!-- Begin Preferred Biome Distribution (Diorite Layered Veins) Settings -->
-                    <Veins name='chslDioritePrefersVeins' block='chisel:diorite'  inherits='chslDioriteBaseVeins' >
-                        <Description>
-                            Spawns 2 more times in preferred biomes.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60E6E5D3</WireframeColor>
-                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
-                        <BiomeType name='mountain'/>
-                    </Veins>
-                    <!-- End Preferred Biome Distribution (Diorite Layered Veins) Settings -->
-                
-                </IfCondition>
-                <!-- End Layered Veins distribution of Diorite -->
-                
-                <!-- End Diorite Generation --> 
 
-                
-                <!-- Begin Granite Generation --> 
-                
-                <!-- Begin Layered Veins distribution of Granite -->
-                <IfCondition condition=':= chslGraniteDist = "layeredVeins"'>
-                
-                    <Veins name='chslGraniteBaseVeins' block='chisel:granite'  inherits='PresetLayeredVeins' >
+            <!-- Granite Configuration UI Starting -->
+            <ConfigSection>
+                <OptionChoice name='chslGraniteDist'  displayState='shown' displayGroup='groupChisel2'>
+                    <Description> Controls how Granite is generated </Description>
+                    <DisplayName>Chisel 2 Granite</DisplayName>
+                    <Choice value='LayeredVeins' displayValue='Layered Veins'>
                         <Description>
-                            Small, fairly rare motherlodes with 2-4
-                            horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
                         </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60F2D9C3</WireframeColor>
-                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * chslGraniteSize * _default_' range=':= 1 * 1 * chslGraniteSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 128' range=':= 128' type='uniform' scaleTo='SeaLevel' /> 
-                        <Setting name='SegmentRadius' avg=':= 1 * 1 * chslGraniteSize * _default_' range=':= 1 * 1 * chslGraniteSize * _default_'/>
-                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
-                        <Setting name='MotherlodeFrequency' avg=':= 3 * 1 * chslGraniteFreq * _default_'/>
-                        <Replaces block='minecraft:stone'/>
-                    </Veins>
-                    
-                    <!-- Begin Preferred Biome Distribution (Granite Layered Veins) Settings -->
-                    <Veins name='chslGranitePrefersVeins' block='chisel:granite'  inherits='chslGraniteBaseVeins' >
+                    </Choice>
+                    <Choice value='Cloud' displayValue='Strategic Cloud'>
                         <Description>
-                            Spawns 2 more times in preferred biomes.
+                            Large irregular clouds filled lightly with ore.
                         </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60F2D9C3</WireframeColor>
-                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
-                        <BiomeType name='mountain'/>
-                    </Veins>
-                    <!-- End Preferred Biome Distribution (Granite Layered Veins) Settings -->
-                
-                </IfCondition>
-                <!-- End Layered Veins distribution of Granite -->
-                
-                <!-- End Granite Generation --> 
+                    </Choice>
+                    <Choice value='none' displayValue='None' description='Granite is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='chslGraniteFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
+                    <Description> Frequency multiplier for Chisel 2 Granite distributions </Description>
+                    <DisplayName>Chisel 2 Granite Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='chslGraniteSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
+                    <Description> Size multiplier for Chisel 2 Granite distributions </Description>
+                    <DisplayName>Chisel 2 Granite Size</DisplayName>
+                </OptionNumeric>
+            </ConfigSection>
+            <!-- Granite Configuration UI Complete -->
 
-                
-                <!-- Begin Limestone Generation --> 
-                
-                <!-- Begin Layered Veins distribution of Limestone -->
-                <IfCondition condition=':= chslLimestoneDist = "layeredVeins"'>
-                
-                    <Veins name='chslLimestoneBaseVeins' block='chisel:limestone'  inherits='PresetLayeredVeins' >
-                        <Description>
-                            Small, fairly rare motherlodes with 2-4
-                            horizontal veins each.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60A5A28F</WireframeColor>
-                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * chslLimestoneSize * _default_' range=':= 1 * 1 * chslLimestoneSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 128' range=':= 128' type='uniform' scaleTo='SeaLevel' /> 
-                        <Setting name='SegmentRadius' avg=':= 1 * 1 * chslLimestoneSize * _default_' range=':= 1 * 1 * chslLimestoneSize * _default_'/>
-                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
-                        <Setting name='MotherlodeFrequency' avg=':= 3 * 1 * chslLimestoneFreq * _default_'/>
-                        <Replaces block='minecraft:stone'/>
-                    </Veins>
-                    
-                    <!-- Begin Preferred Biome Distribution (Limestone Layered Veins) Settings -->
-                    <Veins name='chslLimestonePrefersVeins' block='chisel:limestone'  inherits='chslLimestoneBaseVeins' >
-                        <Description>
-                            Spawns 2 more times in preferred biomes.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60A5A28F</WireframeColor>
-                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
-                        <BiomeType name='swamp'/>
-                    </Veins>
-                    <!-- End Preferred Biome Distribution (Limestone Layered Veins) Settings -->
-                
-                </IfCondition>
-                <!-- End Layered Veins distribution of Limestone -->
-                
-                <!-- End Limestone Generation --> 
 
-                
-                <!-- Begin Marble Generation --> 
-                
-                <!-- Begin Layered Veins distribution of Marble -->
-                <IfCondition condition=':= chslMarbleDist = "layeredVeins"'>
-                
-                    <Veins name='chslMarbleBaseVeins' block='chisel:marble'  inherits='PresetLayeredVeins' >
+            <!-- Limestone Configuration UI Starting -->
+            <ConfigSection>
+                <OptionChoice name='chslLimestoneDist'  displayState='shown' displayGroup='groupChisel2'>
+                    <Description> Controls how Limestone is generated </Description>
+                    <DisplayName>Chisel 2 Limestone</DisplayName>
+                    <Choice value='LayeredVeins' displayValue='Layered Veins'>
                         <Description>
-                            Small, fairly rare motherlodes with 2-4
-                            horizontal veins each.
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
                         </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60CECECE</WireframeColor>
-                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * chslMarbleSize * _default_' range=':= 1 * 1 * chslMarbleSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 128' range=':= 128' type='uniform' scaleTo='SeaLevel' /> 
-                        <Setting name='SegmentRadius' avg=':= 1 * 1 * chslMarbleSize * _default_' range=':= 1 * 1 * chslMarbleSize * _default_'/>
-                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
-                        <Setting name='MotherlodeFrequency' avg=':= 3 * 1 * chslMarbleFreq * _default_'/>
-                        <Replaces block='minecraft:stone'/>
-                    </Veins>
-                    
-                    <!-- Begin Preferred Biome Distribution (Marble Layered Veins) Settings -->
-                    <Veins name='chslMarblePrefersVeins' block='chisel:marble'  inherits='chslMarbleBaseVeins' >
+                    </Choice>
+                    <Choice value='Cloud' displayValue='Strategic Cloud'>
                         <Description>
-                            Spawns 2 more times in preferred biomes.
+                            Large irregular clouds filled lightly with ore.
                         </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60CECECE</WireframeColor>
-                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
-                        <BiomeType name='mountain'/>
-                    </Veins>
-                    <!-- End Preferred Biome Distribution (Marble Layered Veins) Settings -->
-                
-                </IfCondition>
-                <!-- End Layered Veins distribution of Marble -->
-                
-                <!-- End Marble Generation --> 
+                    </Choice>
+                    <Choice value='none' displayValue='None' description='Limestone is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='chslLimestoneFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
+                    <Description> Frequency multiplier for Chisel 2 Limestone distributions </Description>
+                    <DisplayName>Chisel 2 Limestone Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='chslLimestoneSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
+                    <Description> Size multiplier for Chisel 2 Limestone distributions </Description>
+                    <DisplayName>Chisel 2 Limestone Size</DisplayName>
+                </OptionNumeric>
+            </ConfigSection>
+            <!-- Limestone Configuration UI Complete -->
 
-                <!-- Done adding ores -->
-            
-            </IfCondition>
-            <!-- Overworld Setup Complete -->
 
-        
+            <!-- Marble Configuration UI Starting -->
+            <ConfigSection>
+                <OptionChoice name='chslMarbleDist'  displayState='shown' displayGroup='groupChisel2'>
+                    <Description> Controls how Marble is generated </Description>
+                    <DisplayName>Chisel 2 Marble</DisplayName>
+                    <Choice value='LayeredVeins' displayValue='Layered Veins'>
+                        <Description>
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                        </Description>
+                    </Choice>
+                    <Choice value='Cloud' displayValue='Strategic Cloud'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.
+                        </Description>
+                    </Choice>
+                    <Choice value='none' displayValue='None' description='Marble is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='chslMarbleFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
+                    <Description> Frequency multiplier for Chisel 2 Marble distributions </Description>
+                    <DisplayName>Chisel 2 Marble Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='chslMarbleSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupChisel2'>
+                    <Description> Size multiplier for Chisel 2 Marble distributions </Description>
+                    <DisplayName>Chisel 2 Marble Size</DisplayName>
+                </OptionNumeric>
+            </ConfigSection>
+            <!-- Marble Configuration UI Complete -->
+
         </ConfigSection>
-        <!-- Configuration for Custom Ore Generation Complete! -->
-    
-    </IfModInstalled> 
- 
+        <!-- Setup Screen Complete -->
 
 
-<!-- This file was made using the Sprocket Configuration Generator. -->
+
+
+
+        <!-- Overworld Setup Beginning -->
+
+        <IfCondition condition=':= ?COGActive'>
+
+            <!-- Starting Original "Overworld" Block Removal -->
+
+            <Substitute name='chslOverworldBlockSubstitute0' block='minecraft:stone'>
+                <Description>
+                    Replace vanilla-generated ore clusters.
+                </Description>
+                <Comment>
+                    The global option deferredPopulationRange  must be
+                    large enough to catch all ore  clusters (>= 32).
+                </Comment>
+                <Replaces block='chisel:andesite' weight='1.0' />
+                <Replaces block='chisel:diorite' weight='1.0' />
+                <Replaces block='chisel:granite' weight='1.0' />
+                <Replaces block='chisel:limestone' weight='1.0' />
+                <Replaces block='chisel:marble' weight='1.0' />
+            </Substitute>
+
+            <!-- Original "Overworld" Block Removal Complete -->
+
+            <!-- Adding blocks -->
+
+            <!-- Begin Andesite Generation -->
+
+            <!-- Starting LayeredVeins Preset for Andesite. -->
+            <ConfigSection>
+                <IfCondition condition=':= chslAndesiteDist = "LayeredVeins"'>
+                    <Veins name='chslAndesiteVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60CECABE' drawBoundBox='false' boundBoxColor='0x60CECABE'>
+                        <Description>
+                            Small, fairly rare motherlodes with  2-4
+                            horizontal veins each.
+                        </Description>
+                        <OreBlock block='chisel:andesite' weight='1.0' />
+                        <Replaces block='minecraft:stone' weight='1.0' />
+                        <Biome name='.*'  />
+                        <Setting name='MotherlodeFrequency' avg=':= 1.344 * _default_ * chslAndesiteFreq ' range=':=  1 * _default_ * chslAndesiteFreq ' type='normal' scaleTo='base' />
+                        <Setting name='MotherlodeSize' avg=':= 1.103 * _default_ * chslAndesiteSize ' range=':=  1 * _default_ * chslAndesiteSize ' type='normal' />
+                        <Setting name='MotherlodeHeight' avg=':= 43 ' range=':=  26 ' type='normal' scaleTo='base' />
+                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='BranchLength' avg=':= 1.103 * _default_ ' range=':=  1 * _default_ ' type='normal' />
+                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='SegmentLength' avg=':= _default_ * chslAndesiteSize ' range=':=  _default_ * chslAndesiteSize ' type='normal' />
+                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='SegmentRadius' avg=':= 1.103 * _default_ * chslAndesiteSize ' range=':=  1 * _default_ * chslAndesiteSize ' type='normal' />
+                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                    </Veins>
+                </IfCondition>
+            </ConfigSection>
+            <!-- LayeredVeins Preset for Andesite is complete. -->
+
+
+            <!-- Starting Vanilla Preset for Andesite. -->
+            <ConfigSection>
+                <IfCondition condition=':= chslAndesiteDist = "Vanilla"'>
+                    <StandardGen name='chslAndesiteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60CECABE' drawBoundBox='false' boundBoxColor='0x60CECABE'>
+                        <Description>
+                            A master preset for standardgen ore
+                            distributions.
+                        </Description>
+                        <OreBlock block='chisel:andesite' weight='1.0' />
+                        <Replaces block='minecraft:stone' weight='1.0' />
+                        <Biome name='.*'  />
+                        <Setting name='Size' avg=':= 20 * chslAndesiteSize ' range=':=  6 * chslAndesiteSize ' type='normal' />
+                        <Setting name='Frequency' avg=':= 6.5 * chslAndesiteFreq ' range=':=  2 * chslAndesiteFreq ' type='normal' scaleTo='base' />
+                        <Setting name='Height' avg=':= 43 ' range=':=  26 ' type='normal' scaleTo='base' />
+                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                    </StandardGen>
+                </IfCondition>
+            </ConfigSection>
+            <!-- Vanilla Preset for Andesite is complete. -->
+
+
+            <!-- Starting Cloud Preset for Andesite. -->
+            <ConfigSection>
+                <IfCondition condition=':= chslAndesiteDist = "Cloud"'>
+                    <Cloud name='chslAndesiteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60CECABE' drawBoundBox='false' boundBoxColor='0x60CECABE'>
+                        <Description>
+                            Large irregular clouds filled lightly
+                            with ore.  These are huge, spanning
+                            several adjacent chunks, and  consequently
+                            rather rare.  They  contain a sizeable
+                            amount of ore, but  it takes some time and
+                            effort to mine  due to low density. The
+                            intent for  strategic clouds is that the
+                            player  will need to actively search for
+                            one  and then set up a semi-permanent
+                            mining base and spend some time  actually
+                            mining the ore.
+                        </Description>
+                        <OreBlock block='chisel:andesite' weight='1.0' />
+                        <Replaces block='minecraft:stone' weight='1.0' />
+                        <Biome name='.*'  />
+                        <Setting name='CloudRadius' avg=':= 0.564 * _default_ * chslAndesiteSize ' range=':=  _default_ * chslAndesiteSize ' type='normal' />
+                        <Setting name='CloudThickness' avg=':= 0.564 * _default_ * chslAndesiteSize ' range=':=  _default_ * chslAndesiteSize ' type='normal' scaleTo='base' />
+                        <Setting name='DistributionFrequency' avg=':= 0.318  * _default_ * chslAndesiteFreq ' range=':=  _default_ * chslAndesiteFreq ' type='normal' scaleTo='base' />
+                        <Setting name='CloudHeight' avg=':= 43 ' range=':=  26 ' type='normal' scaleTo='base' />
+                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Veins name='chslAndesiteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60CECABE' drawBoundBox='false' boundBoxColor='0x60CECABE'>
+                            <Description>
+                                Single blocks, generously  scattered
+                                through all heights  (density is about
+                                that of vanilla  iron ore). They will
+                                replace dirt  and sandstone (but not
+                                grass or  sand), so they can be found
+                                nearer to the surface than most  ores.
+                                Intened to be used as a  child
+                                distribution for large,  rare
+                                strategic deposits that  would
+                                otherwise be very difficult  to find.
+                                Note that the frequency  is multiplied
+                                by ground level to  maintain a
+                                constant density, but  not by ore
+                                frequency because it  is assumed that
+                                the frequency of  the parent
+                                distribution will  already be scaled
+                                by that.
+                            </Description>
+                            <OreBlock block='chisel:andesite' weight='1.0' />
+                            <Replaces block='minecraft:dirt' weight='1.0' />
+                            <Replaces block='minecraft:sandstone' weight='1.0' />
+                        </Veins>
+                    </Cloud>
+                </IfCondition>
+            </ConfigSection>
+            <!-- Cloud Preset for Andesite is complete. -->
+
+            <!-- End Andesite Generation -->
+
+
+            <!-- Begin Diorite Generation -->
+
+            <!-- Starting LayeredVeins Preset for Diorite. -->
+            <ConfigSection>
+                <IfCondition condition=':= chslDioriteDist = "LayeredVeins"'>
+                    <Veins name='chslDioriteVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60E6E5D3' drawBoundBox='false' boundBoxColor='0x60E6E5D3'>
+                        <Description>
+                            Small, fairly rare motherlodes with  2-4
+                            horizontal veins each.
+                        </Description>
+                        <OreBlock block='chisel:diorite' weight='1.0' />
+                        <Replaces block='minecraft:stone' weight='1.0' />
+                        <Biome name='.*'  />
+                        <Setting name='MotherlodeFrequency' avg=':= 1.344 * _default_ * chslDioriteFreq ' range=':=  1 * _default_ * chslDioriteFreq ' type='normal' scaleTo='base' />
+                        <Setting name='MotherlodeSize' avg=':= 1.103 * _default_ * chslDioriteSize ' range=':=  1 * _default_ * chslDioriteSize ' type='normal' />
+                        <Setting name='MotherlodeHeight' avg=':= 61 ' range=':=  67 ' type='normal' scaleTo='base' />
+                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='BranchLength' avg=':= 1.103 * _default_ ' range=':=  1 * _default_ ' type='normal' />
+                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='SegmentLength' avg=':= _default_ * chslDioriteSize ' range=':=  _default_ * chslDioriteSize ' type='normal' />
+                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='SegmentRadius' avg=':= 1.103 * _default_ * chslDioriteSize ' range=':=  1 * _default_ * chslDioriteSize ' type='normal' />
+                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                    </Veins>
+                </IfCondition>
+            </ConfigSection>
+            <!-- LayeredVeins Preset for Diorite is complete. -->
+
+
+            <!-- Starting Cloud Preset for Diorite. -->
+            <ConfigSection>
+                <IfCondition condition=':= chslDioriteDist = "Cloud"'>
+                    <Cloud name='chslDioriteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E6E5D3' drawBoundBox='false' boundBoxColor='0x60E6E5D3'>
+                        <Description>
+                            Large irregular clouds filled lightly
+                            with ore.  These are huge, spanning
+                            several adjacent chunks, and  consequently
+                            rather rare.  They  contain a sizeable
+                            amount of ore, but  it takes some time and
+                            effort to mine  due to low density. The
+                            intent for  strategic clouds is that the
+                            player  will need to actively search for
+                            one  and then set up a semi-permanent
+                            mining base and spend some time  actually
+                            mining the ore.
+                        </Description>
+                        <OreBlock block='chisel:diorite' weight='1.0' />
+                        <Replaces block='minecraft:stone' weight='1.0' />
+                        <Biome name='.*'  />
+                        <Setting name='CloudRadius' avg=':= 0.564 * _default_ * chslDioriteSize ' range=':=  _default_ * chslDioriteSize ' type='normal' />
+                        <Setting name='CloudThickness' avg=':= 0.564 * _default_ * chslDioriteSize ' range=':=  _default_ * chslDioriteSize ' type='normal' scaleTo='base' />
+                        <Setting name='DistributionFrequency' avg=':= 0.318  * _default_ * chslDioriteFreq ' range=':=  _default_ * chslDioriteFreq ' type='normal' scaleTo='base' />
+                        <Setting name='CloudHeight' avg=':= 61 ' range=':=  67 ' type='normal' scaleTo='base' />
+                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Veins name='chslDioriteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E6E5D3' drawBoundBox='false' boundBoxColor='0x60E6E5D3'>
+                            <Description>
+                                Single blocks, generously  scattered
+                                through all heights  (density is about
+                                that of vanilla  iron ore). They will
+                                replace dirt  and sandstone (but not
+                                grass or  sand), so they can be found
+                                nearer to the surface than most  ores.
+                                Intened to be used as a  child
+                                distribution for large,  rare
+                                strategic deposits that  would
+                                otherwise be very difficult  to find.
+                                Note that the frequency  is multiplied
+                                by ground level to  maintain a
+                                constant density, but  not by ore
+                                frequency because it  is assumed that
+                                the frequency of  the parent
+                                distribution will  already be scaled
+                                by that.
+                            </Description>
+                            <OreBlock block='chisel:diorite' weight='1.0' />
+                            <Replaces block='minecraft:dirt' weight='1.0' />
+                            <Replaces block='minecraft:sandstone' weight='1.0' />
+                        </Veins>
+                    </Cloud>
+                </IfCondition>
+            </ConfigSection>
+            <!-- Cloud Preset for Diorite is complete. -->
+
+            <!-- End Diorite Generation -->
+
+
+            <!-- Begin Granite Generation -->
+
+            <!-- Starting LayeredVeins Preset for Granite. -->
+            <ConfigSection>
+                <IfCondition condition=':= chslGraniteDist = "LayeredVeins"'>
+                    <Veins name='chslGraniteVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60F2D9C3' drawBoundBox='false' boundBoxColor='0x60F2D9C3'>
+                        <Description>
+                            Small, fairly rare motherlodes with  2-4
+                            horizontal veins each.
+                        </Description>
+                        <OreBlock block='chisel:granite' weight='1.0' />
+                        <Replaces block='minecraft:stone' weight='1.0' />
+                        <Biome name='.*'  />
+                        <Setting name='MotherlodeFrequency' avg=':= 1.344 * _default_ * chslGraniteFreq ' range=':=  1 * _default_ * chslGraniteFreq ' type='normal' scaleTo='base' />
+                        <Setting name='MotherlodeSize' avg=':= 1.103 * _default_ * chslGraniteSize ' range=':=  1 * _default_ * chslGraniteSize ' type='normal' />
+                        <Setting name='MotherlodeHeight' avg=':= 61 ' range=':=  67 ' type='normal' scaleTo='base' />
+                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='BranchLength' avg=':= 1.103 * _default_ ' range=':=  1 * _default_ ' type='normal' />
+                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='SegmentLength' avg=':= _default_ * chslGraniteSize ' range=':=  _default_ * chslGraniteSize ' type='normal' />
+                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='SegmentRadius' avg=':= 1.103 * _default_ * chslGraniteSize ' range=':=  1 * _default_ * chslGraniteSize ' type='normal' />
+                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                    </Veins>
+                </IfCondition>
+            </ConfigSection>
+            <!-- LayeredVeins Preset for Granite is complete. -->
+
+
+            <!-- Starting Cloud Preset for Granite. -->
+            <ConfigSection>
+                <IfCondition condition=':= chslGraniteDist = "Cloud"'>
+                    <Cloud name='chslGraniteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60F2D9C3' drawBoundBox='false' boundBoxColor='0x60F2D9C3'>
+                        <Description>
+                            Large irregular clouds filled lightly
+                            with ore.  These are huge, spanning
+                            several adjacent chunks, and  consequently
+                            rather rare.  They  contain a sizeable
+                            amount of ore, but  it takes some time and
+                            effort to mine  due to low density. The
+                            intent for  strategic clouds is that the
+                            player  will need to actively search for
+                            one  and then set up a semi-permanent
+                            mining base and spend some time  actually
+                            mining the ore.
+                        </Description>
+                        <OreBlock block='chisel:granite' weight='1.0' />
+                        <Replaces block='minecraft:stone' weight='1.0' />
+                        <Biome name='.*'  />
+                        <Setting name='CloudRadius' avg=':= 0.564 * _default_ * chslGraniteSize ' range=':=  _default_ * chslGraniteSize ' type='normal' />
+                        <Setting name='CloudThickness' avg=':= 0.564 * _default_ * chslGraniteSize ' range=':=  _default_ * chslGraniteSize ' type='normal' scaleTo='base' />
+                        <Setting name='DistributionFrequency' avg=':= 0.318  * _default_ * chslGraniteFreq ' range=':=  _default_ * chslGraniteFreq ' type='normal' scaleTo='base' />
+                        <Setting name='CloudHeight' avg=':= 61 ' range=':=  67 ' type='normal' scaleTo='base' />
+                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Veins name='chslGraniteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60F2D9C3' drawBoundBox='false' boundBoxColor='0x60F2D9C3'>
+                            <Description>
+                                Single blocks, generously  scattered
+                                through all heights  (density is about
+                                that of vanilla  iron ore). They will
+                                replace dirt  and sandstone (but not
+                                grass or  sand), so they can be found
+                                nearer to the surface than most  ores.
+                                Intened to be used as a  child
+                                distribution for large,  rare
+                                strategic deposits that  would
+                                otherwise be very difficult  to find.
+                                Note that the frequency  is multiplied
+                                by ground level to  maintain a
+                                constant density, but  not by ore
+                                frequency because it  is assumed that
+                                the frequency of  the parent
+                                distribution will  already be scaled
+                                by that.
+                            </Description>
+                            <OreBlock block='chisel:granite' weight='1.0' />
+                            <Replaces block='minecraft:dirt' weight='1.0' />
+                            <Replaces block='minecraft:sandstone' weight='1.0' />
+                        </Veins>
+                    </Cloud>
+                </IfCondition>
+            </ConfigSection>
+            <!-- Cloud Preset for Granite is complete. -->
+
+            <!-- End Granite Generation -->
+
+
+            <!-- Begin Limestone Generation -->
+
+            <!-- Starting LayeredVeins Preset for Limestone. -->
+            <ConfigSection>
+                <IfCondition condition=':= chslLimestoneDist = "LayeredVeins"'>
+                    <Veins name='chslLimestoneVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60A5A28F' drawBoundBox='false' boundBoxColor='0x60A5A28F'>
+                        <Description>
+                            Small, fairly rare motherlodes with  2-4
+                            horizontal veins each.
+                        </Description>
+                        <OreBlock block='chisel:limestone' weight='1.0' />
+                        <Replaces block='minecraft:stone' weight='1.0' />
+                        <Biome name='.*'  />
+                        <Setting name='MotherlodeFrequency' avg=':= 1.592 * _default_ * chslLimestoneFreq ' range=':=  1 * _default_ * chslLimestoneFreq ' type='normal' scaleTo='base' />
+                        <Setting name='MotherlodeSize' avg=':= 1.168 * _default_ * chslLimestoneSize ' range=':=  1 * _default_ * chslLimestoneSize ' type='normal' />
+                        <Setting name='MotherlodeHeight' avg=':= 61 ' range=':=  67 ' type='normal' scaleTo='base' />
+                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='BranchLength' avg=':= 1.168 * _default_ ' range=':=  1 * _default_ ' type='normal' />
+                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='SegmentLength' avg=':= _default_ * chslLimestoneSize ' range=':=  _default_ * chslLimestoneSize ' type='normal' />
+                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='SegmentRadius' avg=':= 1.168 * _default_ * chslLimestoneSize ' range=':=  1 * _default_ * chslLimestoneSize ' type='normal' />
+                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                    </Veins>
+
+                    <!-- Beginning "Preferred" configuration. -->
+                    <Veins name='chslLimestonePreferredVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60A5A28F' drawBoundBox='false' boundBoxColor='0x60A5A28F'>
+                        <Description>
+                            Ore generation is doubled in  preferred
+                            biomes.
+                        </Description>
+                        <OreBlock block='chisel:limestone' weight='1.0' />
+                        <Replaces block='minecraft:stone' weight='1.0' />
+                        <BiomeType name='swamp'  />
+                        <Setting name='MotherlodeFrequency' avg=':= 1.592 * _default_ * chslLimestoneFreq ' range=':=  1 * _default_ * chslLimestoneFreq ' type='normal' scaleTo='base' />
+                        <Setting name='MotherlodeSize' avg=':= 1.168 * _default_ * chslLimestoneSize ' range=':=  1 * _default_ * chslLimestoneSize ' type='normal' />
+                        <Setting name='MotherlodeHeight' avg=':= 61 ' range=':=  67 ' type='normal' scaleTo='base' />
+                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='BranchLength' avg=':= 1.168 * _default_ ' range=':=  1 * _default_ ' type='normal' />
+                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='SegmentLength' avg=':= _default_ * chslLimestoneSize ' range=':=  _default_ * chslLimestoneSize ' type='normal' />
+                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='SegmentRadius' avg=':= 1.168 * _default_ * chslLimestoneSize ' range=':=  1 * _default_ * chslLimestoneSize ' type='normal' />
+                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                    </Veins>
+                    <!-- "Preferred" configuration complete. -->
+
+                </IfCondition>
+            </ConfigSection>
+            <!-- LayeredVeins Preset for Limestone is complete. -->
+
+
+            <!-- Starting Cloud Preset for Limestone. -->
+            <ConfigSection>
+                <IfCondition condition=':= chslLimestoneDist = "Cloud"'>
+                    <Cloud name='chslLimestoneCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60A5A28F' drawBoundBox='false' boundBoxColor='0x60A5A28F'>
+                        <Description>
+                            Large irregular clouds filled lightly
+                            with ore.  These are huge, spanning
+                            several adjacent chunks, and  consequently
+                            rather rare.  They  contain a sizeable
+                            amount of ore, but  it takes some time and
+                            effort to mine  due to low density. The
+                            intent for  strategic clouds is that the
+                            player  will need to actively search for
+                            one  and then set up a semi-permanent
+                            mining base and spend some time  actually
+                            mining the ore.
+                        </Description>
+                        <OreBlock block='chisel:limestone' weight='1.0' />
+                        <Replaces block='minecraft:stone' weight='1.0' />
+                        <Biome name='.*'  />
+                        <Setting name='CloudRadius' avg=':= 0.614 * _default_ * chslLimestoneSize ' range=':=  _default_ * chslLimestoneSize ' type='normal' />
+                        <Setting name='CloudThickness' avg=':= 0.614 * _default_ * chslLimestoneSize ' range=':=  _default_ * chslLimestoneSize ' type='normal' scaleTo='base' />
+                        <Setting name='DistributionFrequency' avg=':= 0.377  * _default_ * chslLimestoneFreq ' range=':=  _default_ * chslLimestoneFreq ' type='normal' scaleTo='base' />
+                        <Setting name='CloudHeight' avg=':= 61 ' range=':=  67 ' type='normal' scaleTo='base' />
+                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Veins name='chslLimestoneHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60A5A28F' drawBoundBox='false' boundBoxColor='0x60A5A28F'>
+                            <Description>
+                                Single blocks, generously  scattered
+                                through all heights  (density is about
+                                that of vanilla  iron ore). They will
+                                replace dirt  and sandstone (but not
+                                grass or  sand), so they can be found
+                                nearer to the surface than most  ores.
+                                Intened to be used as a  child
+                                distribution for large,  rare
+                                strategic deposits that  would
+                                otherwise be very difficult  to find.
+                                Note that the frequency  is multiplied
+                                by ground level to  maintain a
+                                constant density, but  not by ore
+                                frequency because it  is assumed that
+                                the frequency of  the parent
+                                distribution will  already be scaled
+                                by that.
+                            </Description>
+                            <OreBlock block='chisel:limestone' weight='1.0' />
+                            <Replaces block='minecraft:dirt' weight='1.0' />
+                            <Replaces block='minecraft:sandstone' weight='1.0' />
+                        </Veins>
+                    </Cloud>
+
+                    <!-- Beginning "Preferred" configuration. -->
+                    <Cloud name='chslLimestonePreferredCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60A5A28F' drawBoundBox='false' boundBoxColor='0x60A5A28F'>
+                        <Description>
+                            Ore generation is doubled in  preferred
+                            biomes.
+                        </Description>
+                        <OreBlock block='chisel:limestone' weight='1.0' />
+                        <Replaces block='minecraft:stone' weight='1.0' />
+                        <BiomeType name='swamp'  />
+                        <Setting name='CloudRadius' avg=':= 0.614 * _default_ * chslLimestoneSize ' range=':=  _default_ * chslLimestoneSize ' type='normal' />
+                        <Setting name='CloudThickness' avg=':= 0.614 * _default_ * chslLimestoneSize ' range=':=  _default_ * chslLimestoneSize ' type='normal' scaleTo='base' />
+                        <Setting name='DistributionFrequency' avg=':= 0.377  * _default_ * chslLimestoneFreq ' range=':=  _default_ * chslLimestoneFreq ' type='normal' scaleTo='base' />
+                        <Setting name='CloudHeight' avg=':= 61 ' range=':=  67 ' type='normal' scaleTo='base' />
+                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Veins name='chslLimestonePreferredHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60A5A28F' drawBoundBox='false' boundBoxColor='0x60A5A28F'>
+                            <Description>
+                                Ore generation is doubled in
+                                preferred biomes.
+                            </Description>
+                            <OreBlock block='chisel:limestone' weight='1.0' />
+                            <Replaces block='minecraft:dirt' weight='1.0' />
+                            <Replaces block='minecraft:sandstone' weight='1.0' />
+                        </Veins>
+                    </Cloud>
+                    <!-- "Preferred" configuration complete. -->
+
+                </IfCondition>
+            </ConfigSection>
+            <!-- Cloud Preset for Limestone is complete. -->
+
+            <!-- End Limestone Generation -->
+
+
+            <!-- Begin Marble Generation -->
+
+            <!-- Starting LayeredVeins Preset for Marble. -->
+            <ConfigSection>
+                <IfCondition condition=':= chslMarbleDist = "LayeredVeins"'>
+                    <Veins name='chslMarbleVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60CECECE' drawBoundBox='false' boundBoxColor='0x60CECECE'>
+                        <Description>
+                            Small, fairly rare motherlodes with  2-4
+                            horizontal veins each.
+                        </Description>
+                        <OreBlock block='chisel:marble' weight='1.0' />
+                        <Replaces block='minecraft:stone' weight='1.0' />
+                        <Biome name='.*'  />
+                        <Setting name='MotherlodeFrequency' avg=':= 1.490 * _default_ * chslMarbleFreq ' range=':=  1 * _default_ * chslMarbleFreq ' type='normal' scaleTo='base' />
+                        <Setting name='MotherlodeSize' avg=':= 1.142 * _default_ * chslMarbleSize ' range=':=  1 * _default_ * chslMarbleSize ' type='normal' />
+                        <Setting name='MotherlodeHeight' avg=':= 61 ' range=':=  67 ' type='normal' scaleTo='base' />
+                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='BranchLength' avg=':= 1.142 * _default_ ' range=':=  1 * _default_ ' type='normal' />
+                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='SegmentLength' avg=':= _default_ * chslMarbleSize ' range=':=  _default_ * chslMarbleSize ' type='normal' />
+                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='SegmentRadius' avg=':= 1.142 * _default_ * chslMarbleSize ' range=':=  1 * _default_ * chslMarbleSize ' type='normal' />
+                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                    </Veins>
+                </IfCondition>
+            </ConfigSection>
+            <!-- LayeredVeins Preset for Marble is complete. -->
+
+
+            <!-- Starting Cloud Preset for Marble. -->
+            <ConfigSection>
+                <IfCondition condition=':= chslMarbleDist = "Cloud"'>
+                    <Cloud name='chslMarbleCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60CECECE' drawBoundBox='false' boundBoxColor='0x60CECECE'>
+                        <Description>
+                            Large irregular clouds filled lightly
+                            with ore.  These are huge, spanning
+                            several adjacent chunks, and  consequently
+                            rather rare.  They  contain a sizeable
+                            amount of ore, but  it takes some time and
+                            effort to mine  due to low density. The
+                            intent for  strategic clouds is that the
+                            player  will need to actively search for
+                            one  and then set up a semi-permanent
+                            mining base and spend some time  actually
+                            mining the ore.
+                        </Description>
+                        <OreBlock block='chisel:marble' weight='1.0' />
+                        <Replaces block='minecraft:stone' weight='1.0' />
+                        <Biome name='.*'  />
+                        <Setting name='CloudRadius' avg=':= 0.594 * _default_ * chslMarbleSize ' range=':=  _default_ * chslMarbleSize ' type='normal' />
+                        <Setting name='CloudThickness' avg=':= 0.594 * _default_ * chslMarbleSize ' range=':=  _default_ * chslMarbleSize ' type='normal' scaleTo='base' />
+                        <Setting name='DistributionFrequency' avg=':= 0.353  * _default_ * chslMarbleFreq ' range=':=  _default_ * chslMarbleFreq ' type='normal' scaleTo='base' />
+                        <Setting name='CloudHeight' avg=':= 61 ' range=':=  67 ' type='normal' scaleTo='base' />
+                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Veins name='chslMarbleHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60CECECE' drawBoundBox='false' boundBoxColor='0x60CECECE'>
+                            <Description>
+                                Single blocks, generously  scattered
+                                through all heights  (density is about
+                                that of vanilla  iron ore). They will
+                                replace dirt  and sandstone (but not
+                                grass or  sand), so they can be found
+                                nearer to the surface than most  ores.
+                                Intened to be used as a  child
+                                distribution for large,  rare
+                                strategic deposits that  would
+                                otherwise be very difficult  to find.
+                                Note that the frequency  is multiplied
+                                by ground level to  maintain a
+                                constant density, but  not by ore
+                                frequency because it  is assumed that
+                                the frequency of  the parent
+                                distribution will  already be scaled
+                                by that.
+                            </Description>
+                            <OreBlock block='chisel:marble' weight='1.0' />
+                            <Replaces block='minecraft:dirt' weight='1.0' />
+                            <Replaces block='minecraft:sandstone' weight='1.0' />
+                        </Veins>
+                    </Cloud>
+                </IfCondition>
+            </ConfigSection>
+            <!-- Cloud Preset for Marble is complete. -->
+
+            <!-- End Marble Generation -->
+
+            <!-- Finished adding blocks -->
+
+        </IfCondition>
+        <!-- Overworld Setup Complete -->
+
+
+
+
+    </ConfigSection>
+    <!-- Configuration for Custom Ore Generation Complete! -->
+
+</IfModInstalled>
+<!-- The "Chisel 2" mod is now configured. -->
+
+
+
+
+
+<!-- =================================================================
+     This file was made using the Sprocket Configuration Generator.
+     If you wish to make your own configurations for a mod not
+     currently supported by Custom Ore Generation, and you don't want
+     the hassle of writing XML, you can find the generator script at
+     its GitHub page: http://https://github.com/reteo/Sprocket
+     ================================================================= -->
