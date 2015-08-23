@@ -1,246 +1,234 @@
- <!-- ================================================================
-      Custom Ore Generation "Minecraft Comes Alive" Module: This
-      configuration covers rose gold.
-      ================================================================
-      -->
+<!-- =================================================================
+     Custom Ore Generation "Minecraft Comes Alive" Module: This
+     configuration covers rose gold.
+     ================================================================= -->
 
-    <!-- Mod detection -->
-    <IfModInstalled name="MCA">
-    
-        <!-- Starting Configuration for Custom Ore Generation. -->
+
+<!-- Minecraft Comes Alive is a mod focusing around villager
+     interactions.  However, it does introduce a new ore for "Rose
+     Gold." -->
+
+
+
+
+<!-- Is the "Minecraft Comes Alive" mod on the system?  Let's find
+     out! -->
+<IfModInstalled name="MCA">
+
+    <!-- Starting Configuration for Custom Ore Generation. -->
+    <ConfigSection>
+
+
+
+
+
+        <!-- Setup Screen Configuration -->
         <ConfigSection>
-        
-            
-            <!-- Setup Screen Configuration -->
+            <OptionDisplayGroup name='groupMinecraftComesAlive' displayName='Minecraft Comes Alive' displayState='shown'>
+                <Description>
+                    Distribution options for Minecraft Comes Alive Ores.
+                </Description>
+            </OptionDisplayGroup>
+
+            <!-- Rose Gold Configuration UI Starting -->
             <ConfigSection>
-                <OptionDisplayGroup name='groupMinecraftComesAlive' displayName='Minecraft Comes Alive' displayState='shown'> 
-                    <Description>
-                        Distribution options for Minecraft Comes Alive Ores.
-                    </Description>
-                </OptionDisplayGroup>
-                
-                <!-- Rose Gold Configuration UI Starting -->
-                <ConfigSection>
-                    <OptionChoice name='mccaRoseGoldDist'  displayState='shown' displayGroup='groupMinecraftComesAlive'> 
-                        <Description> Controls how Rose Gold is generated </Description> 
-                        <DisplayName>Minecraft Comes Alive Rose Gold</DisplayName>
-                        <Choice value='layeredVeins' displayValue='Layered Veins'>
-                            <Description>
-                                Layered Veins.
-                            </Description>
-                        </Choice>
-                        <Choice value='smallDeposits' displayValue='Small Deposits'>
-                            <Description>
-                                Small Deposits.
-                            </Description>
-                        </Choice>
-                        <Choice value='strategicCloud' displayValue='Clouds'>
-                            <Description>
-                                Strategic Clouds.
-                            </Description>
-                        </Choice>
-                        <Choice value='vanillaStdGen' displayValue='Vanilla'>
-                            <Description>
-                                Vanilla-style clusters.
-                            </Description>
-                        </Choice>
-                        <Choice value='none' displayValue='None' description='Rose Gold is not generated in the world.'/>
-                    </OptionChoice>
-                    <OptionNumeric name='mccaRoseGoldFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupMinecraftComesAlive'>
-                        <Description> Frequency multiplier for Minecraft Comes Alive Rose Gold distributions </Description>
-                        <DisplayName>Minecraft Comes Alive Rose Gold Freq.</DisplayName>
-                    </OptionNumeric>
-                    <OptionNumeric name='mccaRoseGoldSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupMinecraftComesAlive'>
-                        <Description> Size multiplier for Minecraft Comes Alive Rose Gold distributions </Description>
-                        <DisplayName>Minecraft Comes Alive Rose Gold Size</DisplayName>
-                    </OptionNumeric>
-                </ConfigSection> 
-                <!-- Rose Gold Configuration UI Complete -->
-                
-            </ConfigSection>
-            <!-- Setup Screen Complete -->
-
-
-            <!-- Setup Overworld -->
-            <IfCondition condition=':= ?COGActive'>
-                
-                <!-- Starting Original Overworld Ore Removal -->
-                <Substitute name='mccaOverworldOreSubstitute0' block='minecraft:stone'>
-                    <Description>
-                        Replace vanilla-generated ore clusters.
-                    </Description>
-                    <Comment>
-                        The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
-                    </Comment>
-                    <Replaces block='MCA:tile.roseGoldOre' />
-                </Substitute>
-                <!-- Original Overworld Ore Removal Complete -->
-                
-                <!-- Adding ores --> 
-                
-                <!-- Begin Rose Gold Generation --> 
-                
-                <!-- Begin LayeredVeins distribution of Rose Gold -->
-                <IfCondition condition=':= mccaRoseGoldDist = "layeredVeins"'>
-                
-                    <Veins name='mccaRoseGoldBaseVeins' block='MCA:tile.roseGoldOre'  inherits='PresetLayeredVeins' >
+                <OptionChoice name='mccaRoseGoldDist'  displayState='shown' displayGroup='groupMinecraftComesAlive'>
+                    <Description> Controls how Rose Gold is generated </Description>
+                    <DisplayName>Minecraft Comes Alive Rose Gold</DisplayName>
+                    <Choice value='LayeredVeins' displayValue='Layered Veins'>
                         <Description>
-                            Small, fairly rare motherlodes with 2-4
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                        </Description>
+                    </Choice>
+                    <Choice value='Cloud' displayValue='Strategic Cloud'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.
+                        </Description>
+                    </Choice>
+                    <Choice value='Vanilla' displayValue='Vanilla'>
+                        <Description>
+                            Simulates Vanilla Minecraft.
+                        </Description>
+                    </Choice>
+                    <Choice value='none' displayValue='None' description='Rose Gold is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='mccaRoseGoldFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupMinecraftComesAlive'>
+                    <Description> Frequency multiplier for Minecraft Comes Alive Rose Gold distributions </Description>
+                    <DisplayName>Minecraft Comes Alive Rose Gold Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='mccaRoseGoldSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupMinecraftComesAlive'>
+                    <Description> Size multiplier for Minecraft Comes Alive Rose Gold distributions </Description>
+                    <DisplayName>Minecraft Comes Alive Rose Gold Size</DisplayName>
+                </OptionNumeric>
+            </ConfigSection>
+            <!-- Rose Gold Configuration UI Complete -->
+
+        </ConfigSection>
+        <!-- Setup Screen Complete -->
+
+
+
+
+
+        <!-- Overworld Setup Beginning -->
+
+        <IfCondition condition=':= ?COGActive'>
+
+            <!-- Starting Original "Overworld" Block Removal -->
+
+            <Substitute name='mccaOverworldBlockSubstitute0' block='minecraft:stone'>
+                <Description>
+                    Replace vanilla-generated ore clusters.
+                </Description>
+                <Comment>
+                    The global option deferredPopulationRange  must be
+                    large enough to catch all ore  clusters (>= 32).
+                </Comment>
+                <Replaces block='MCA:tile.roseGoldOre' weight='1.0' />
+            </Substitute>
+
+            <!-- Original "Overworld" Block Removal Complete -->
+
+            <!-- Adding blocks -->
+
+            <!-- Begin Rose Gold Generation -->
+
+            <!-- Starting LayeredVeins Preset for Rose Gold. -->
+            <ConfigSection>
+                <IfCondition condition=':= mccaRoseGoldDist = "LayeredVeins"'>
+                    <Veins name='mccaRoseGoldVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60FFDDA2' drawBoundBox='false' boundBoxColor='0x60FFDDA2'>
+                        <Description>
+                            Small, fairly rare motherlodes with  2-4
                             horizontal veins each.
                         </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60FFDDA2</WireframeColor>
-                        <Setting name='MotherlodeSize' avg=':= 1 * 0.8 * mccaRoseGoldSize * _default_' range=':= 1 * 0.8 * mccaRoseGoldSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 20' range=':= 10' type='normal' scaleTo='SeaLevel' /> 
-                        <Setting name='SegmentRadius' avg=':= 1 * 0.8 * mccaRoseGoldSize * _default_' range=':= 1 * 0.8 * mccaRoseGoldSize * _default_'/>
-                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
-                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * mccaRoseGoldFreq * _default_'/>
-                        <Setting name='BranchFrequency' avg=':= 0.85 * _default_'/>
-                        <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.66 * _default_'/>
-                        <Setting name='BranchHeightLimit' avg=':= 10'/>
-                        <Replaces block='minecraft:stone'/>
+                        <OreBlock block='MCA:tile.roseGoldOre' weight='1.0' />
+                        <Replaces block='minecraft:stone' weight='1.0' />
+                        <Biome name='.*'  />
+                        <Setting name='MotherlodeFrequency' avg=':= 0.649 * _default_ * mccaRoseGoldFreq ' range=':=  _default_ * mccaRoseGoldFreq ' type='normal' scaleTo='base' />
+                        <Setting name='MotherlodeSize' avg=':= 0.866 * _default_ * mccaRoseGoldSize ' range=':=  _default_ * mccaRoseGoldSize ' type='normal' />
+                        <Setting name='MotherlodeHeight' avg=':= 26 ' range=':=  14 ' type='normal' scaleTo='base' />
+                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='BranchLength' avg=':= 0.866 * _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='SegmentLength' avg=':= _default_ * mccaRoseGoldSize ' range=':=  _default_ * mccaRoseGoldSize ' type='normal' />
+                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='SegmentRadius' avg=':= 0.866 * _default_ * mccaRoseGoldSize ' range=':=  _default_ * mccaRoseGoldSize ' type='normal' />
+                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
                     </Veins>
-                    
-                    <!-- Begin Preferred Biome Distribution (Rose Gold Layered Veins) Settings -->
-                    <Veins name='mccaRoseGoldPrefersVeins' block='MCA:tile.roseGoldOre'  inherits='mccaRoseGoldBaseVeins' >
-                        <Description>
-                            Spawns 2 more times in preferred biomes.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60FFDDA2</WireframeColor>
-                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
-                        <BiomeType name='Forest'/>
-                    </Veins>
-                    <!-- End Preferred Biome Distribution (Rose Gold Layered Veins) Settings -->
-                
                 </IfCondition>
-                <!-- End LayeredVeins distribution of Rose Gold -->
-                
-                
-                <!-- Begin  Small Deposits distribution of Rose Gold -->
-                <IfCondition condition=':= mccaRoseGoldDist = "smallDeposits"'>
-                
-                    <Veins name='mccaRoseGoldBaseVeins' block='MCA:tile.roseGoldOre'  inherits='PresetSmallDeposits' >
+            </ConfigSection>
+            <!-- LayeredVeins Preset for Rose Gold is complete. -->
+
+
+            <!-- Starting Cloud Preset for Rose Gold. -->
+            <ConfigSection>
+                <IfCondition condition=':= mccaRoseGoldDist = "Cloud"'>
+                    <Cloud name='mccaRoseGoldCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FFDDA2' drawBoundBox='false' boundBoxColor='0x60FFDDA2'>
                         <Description>
-                            Small motherlodes with no veins; similar
-                            to vanilla clusters.
+                            Large irregular clouds filled lightly
+                            with ore.  These are huge, spanning
+                            several adjacent chunks, and  consequently
+                            rather rare.  They  contain a sizeable
+                            amount of ore, but  it takes some time and
+                            effort to mine  due to low density. The
+                            intent for  strategic clouds is that the
+                            player  will need to actively search for
+                            one  and then set up a semi-permanent
+                            mining base and spend some time  actually
+                            mining the ore.
                         </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60FFDDA2</WireframeColor>
-                        <Setting name='MotherlodeSize' avg=':= 1 * 0.8 * mccaRoseGoldSize * _default_' range=':= 1 * 0.8 * mccaRoseGoldSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 20' range=':= 10' type='normal' scaleTo='SeaLevel' /> 
-                        <Setting name='SegmentRadius' avg=':= 1 * 0.8 * mccaRoseGoldSize * _default_' range=':= 1 * 0.8 * mccaRoseGoldSize * _default_'/>
-                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
-                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * mccaRoseGoldFreq * _default_'/>
-                        <Setting name='BranchFrequency' avg=':= 0.85 * _default_'/>
-                        <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.66 * _default_'/>
-                        <Setting name='BranchHeightLimit' avg=':= 10'/>
-                        <Replaces block='minecraft:stone'/>
-                    </Veins>
-                    
-                    <!-- Begin Preferred Biome Distribution (Rose Gold Deposit Veins) Settings -->
-                    <Veins name='mccaRoseGoldPrefersVeins' block='MCA:tile.roseGoldOre'  inherits='mccaRoseGoldBaseVeins' >
-                        <Description>
-                            Spawns 2 more times in preferred biomes.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60FFDDA2</WireframeColor>
-                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
-                        <BiomeType name='Forest'/>
-                    </Veins>
-                    <!-- End Preferred Biome Distribution (Rose Gold Deposit Veins) Settings -->
-                
-                </IfCondition>
-                <!-- End  Small Deposits distribution of Rose Gold -->
-                
-                
-                <!-- Begin  StrategicCloud distribution of Rose Gold -->
-                <IfCondition condition=':= mccaRoseGoldDist = "strategicCloud"'>
-                
-                    <Cloud name='mccaRoseGoldBaseCloud' block='MCA:tile.roseGoldOre' inherits='PresetStrategicCloud'>
-                        <Description>
-                            Large irregular clouds filled lightly with
-                            ore.  These are huge, spanning several
-                            adjacent chunks, and consequently rather
-                            rare.  They contain a sizeable amount of
-                            ore, but it takes some time and effort to
-                            mine due to low density.  The intent for
-                            strategic clouds is that the player will
-                            need to actively search for one and then
-                            set up a semi-permanent mining base and
-                            spend some time actually mining the ore.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60FFDDA2</WireframeColor>
-                        <Setting name='CloudRadius' avg=':= 1 * 0.8 * mccaRoseGoldSize * _default_' range=':= 1 * 0.8 * mccaRoseGoldSize * _default_'/>
-                        <Setting name='CloudThickness' avg=':= 1 * 0.8 * mccaRoseGoldSize * _default_' range=':= 1 * 0.8 * mccaRoseGoldSize * _default_'/>
-                        <Setting name='CloudHeight' avg=':= 16' range=':= 16' type='normal' scaleTo='SeaLevel'/>
-                        <Setting name='OreDensity' avg=':= 1 * 0.3 * _default_' range=':= _default_'/>
-                        <Setting name='CloudThickness' avg=':= 1 * 0.8 * 0.8 * mccaRoseGoldSize * _default_' range=':= 1 * 0.8 * 0.8 * mccaRoseGoldSize  * _default_'/>
-                        <Setting name='DistributionFrequency' avg=':= 1 * 4.5 * mccaRoseGoldFreq *_default_'/>
-                        <Replaces block='minecraft:stone'/>
-                        
-                        <!-- Begin Rose Gold Strategic Cloud Hint Veins -->
-                        <Veins name='mccaRoseGoldBaseHintVeins' block='MCA:tile.roseGoldOre' inherits='PresetHintVeins'>
+                        <OreBlock block='MCA:tile.roseGoldOre' weight='1.0' />
+                        <Replaces block='minecraft:stone' weight='1.0' />
+                        <Biome name='.*'  />
+                        <Setting name='CloudRadius' avg=':= 1.138 * _default_ * mccaRoseGoldSize ' range=':=  _default_ * mccaRoseGoldSize ' type='normal' />
+                        <Setting name='CloudThickness' avg=':= 1.138 * _default_ * mccaRoseGoldSize ' range=':=  _default_ * mccaRoseGoldSize ' type='normal' scaleTo='base' />
+                        <Setting name='DistributionFrequency' avg=':= 1.295  * _default_ * mccaRoseGoldFreq ' range=':=  _default_ * mccaRoseGoldFreq ' type='normal' scaleTo='base' />
+                        <Setting name='CloudHeight' avg=':= 26 ' range=':=  14 ' type='normal' scaleTo='base' />
+                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        <Veins name='mccaRoseGoldHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FFDDA2' drawBoundBox='false' boundBoxColor='0x60FFDDA2'>
                             <Description>
-                                Single blocks, generously scattered
-                                through all heights (density is about
-                                that of vanilla iron ore).  They will
-                                replace dirt and sandstone (but not
-                                grass or sand), so they can be found
-                                nearer to the surface than most ores.
-                                Intened to be used as a child
-                                distribution for large, rare strategic
-                                deposits that would otherwise be very
-                                difficult to find.
+                                Single blocks, generously  scattered
+                                through all heights  (density is about
+                                that of vanilla  iron ore). They will
+                                replace dirt  and sandstone (but not
+                                grass or  sand), so they can be found
+                                nearer to the surface than most  ores.
+                                Intened to be used as a  child
+                                distribution for large,  rare
+                                strategic deposits that  would
+                                otherwise be very difficult  to find.
+                                Note that the frequency  is multiplied
+                                by ground level to  maintain a
+                                constant density, but  not by ore
+                                frequency because it  is assumed that
+                                the frequency of  the parent
+                                distribution will  already be scaled
+                                by that.
                             </Description>
-                            <DrawWireframe>:=drawWireframes</DrawWireframe>
-                            <WireframeColor>0x60FFDDA2</WireframeColor>
-                            <Replaces block='minecraft:dirt'/>
-                            <Replaces block='minecraft:sandstone'/>
-                            <Replaces block='minecraft:stone'/>
+                            <OreBlock block='MCA:tile.roseGoldOre' weight='1.0' />
+                            <Replaces block='minecraft:dirt' weight='1.0' />
+                            <Replaces block='minecraft:sandstone' weight='1.0' />
                         </Veins>
-                        <!-- End Rose Gold Strategic Cloud Hint Veins -->
-
                     </Cloud>
-                    
-                
                 </IfCondition>
-                <!-- End  StrategicCloud distribution of Rose Gold -->
-                
-                
-                <!-- Begin  Vanilla distribution of Rose Gold -->
-                <IfCondition condition=':= mccaRoseGoldDist = "vanillaStdGen"'>
-                
-                    <StandardGen name='mccaRoseGoldBaseStandard' block='MCA:tile.roseGoldOre' inherits='PresetStandardGen'>
+            </ConfigSection>
+            <!-- Cloud Preset for Rose Gold is complete. -->
+
+
+            <!-- Starting Vanilla Preset for Rose Gold. -->
+            <ConfigSection>
+                <IfCondition condition=':= mccaRoseGoldDist = "Vanilla"'>
+                    <StandardGen name='mccaRoseGoldStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FFDDA2' drawBoundBox='false' boundBoxColor='0x60FFDDA2'>
                         <Description>
-                            This mimics vanilla ore generation.
+                            A master preset for standardgen ore
+                            distributions.
                         </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60FFDDA2</WireframeColor>
-                        <Setting name='Size' avg=':= 1 * 1 * mccaRoseGoldSize * _default_'/>
-                        <Setting name='Height' avg=':= 16' range=':= 16' type='uniform'/> 
-                        <Setting name='Frequency' avg=':= 1 * 1 * mccaRoseGoldFreq * _default_'/>
-                        <Replaces block='minecraft:stone'/>
+                        <OreBlock block='MCA:tile.roseGoldOre' weight='1.0' />
+                        <Replaces block='minecraft:stone' weight='1.0' />
+                        <Biome name='.*'  />
+                        <Setting name='Size' avg=':= 6 * mccaRoseGoldSize ' range=':=  _default_ * mccaRoseGoldSize ' type='normal' />
+                        <Setting name='Frequency' avg=':= 5 * mccaRoseGoldFreq ' range=':=  _default_ * mccaRoseGoldFreq ' type='normal' scaleTo='base' />
+                        <Setting name='Height' avg=':= 26 ' range=':=  14 ' type='normal' scaleTo='base' />
+                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
                     </StandardGen>
-                    
-                
                 </IfCondition>
-                <!-- End  Vanilla distribution of Rose Gold -->
-                
-                <!-- End Rose Gold Generation --> 
+            </ConfigSection>
+            <!-- Vanilla Preset for Rose Gold is complete. -->
 
-                <!-- Done adding ores -->
-            
-            </IfCondition>
-            <!-- Overworld Setup Complete -->
+            <!-- End Rose Gold Generation -->
 
-        
-        </ConfigSection>
-        <!-- Configuration for Custom Ore Generation Complete! -->
-    
-    </IfModInstalled> 
- 
+            <!-- Finished adding blocks -->
+
+        </IfCondition>
+        <!-- Overworld Setup Complete -->
 
 
-<!-- This file was made using the Sprocket Configuration Generator. -->
+
+
+    </ConfigSection>
+    <!-- Configuration for Custom Ore Generation Complete! -->
+
+</IfModInstalled>
+<!-- The "Minecraft Comes Alive" mod is now configured. -->
+
+
+
+
+
+<!-- =================================================================
+     This file was made using the Sprocket Configuration Generator.
+     If you wish to make your own configurations for a mod not
+     currently supported by Custom Ore Generation, and you don't want
+     the hassle of writing XML, you can find the generator script at
+     its GitHub page: http://https://github.com/reteo/Sprocket
+     ================================================================= -->
