@@ -1,672 +1,571 @@
- <!-- ================================================================
-      Custom Ore Generation "Ars Magica 2" Module: This configuration
-      covers vinteum, chimerite, and blue topaz.
-      ================================================================
-      -->
+<!-- =================================================================
+     Custom Ore Generation "Ars Magica 2" Module: This configuration
+     covers vinteum, chimerite, and blue topaz.
+     ================================================================= -->
 
-    <!-- Mod detection -->
-    <IfModInstalled name="arsmagica2">
-    
-        <!-- Starting Configuration for Custom Ore Generation. -->
+
+
+
+
+
+<!-- Is the "Ars Magica 2" mod on the system?  Let's find out! -->
+<IfModInstalled name="arsmagica2">
+
+    <!-- Starting Configuration for Custom Ore Generation. -->
+    <ConfigSection>
+
+
+
+
+
+        <!-- Setup Screen Configuration -->
         <ConfigSection>
-        
-            
-            <!-- Setup Screen Configuration -->
+            <OptionDisplayGroup name='groupArsMagica2' displayName='Ars Magica 2' displayState='shown'>
+                <Description>
+                    Distribution options for Ars Magica 2 Ores.
+                </Description>
+            </OptionDisplayGroup>
+            <OptionChoice name='enableArsMagica2' displayName='Handle Ars Magica 2 Setup?' default='true' displayState='shown_dynamic' displayGroup='groupArsMagica2'>
+                <Description> Should Custom Ore Generation handle Ars Magica 2 ore generation? </Description>
+                <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Ars Magica 2 ores.'/>
+                <Choice value=':= ?false' displayValue='No' description='Ars Magica 2 ores will be handled by the mod itself.'/>
+            </OptionChoice>
+
+            <!-- Vinteum Configuration UI Starting -->
             <ConfigSection>
-                <OptionDisplayGroup name='groupArsMagica2' displayName='Ars Magica 2' displayState='shown'> 
-                    <Description>
-                        Distribution options for Ars Magica 2 Ores.
-                    </Description>
-                </OptionDisplayGroup>
-                
-                <!-- Vinteum Configuration UI Starting -->
-                <ConfigSection>
-                    <OptionChoice name='arsmVinteumDist'  displayState='shown' displayGroup='groupArsMagica2'> 
-                        <Description> Controls how Vinteum is generated </Description> 
-                        <DisplayName>Ars Magica 2 Vinteum</DisplayName>
-                        <Choice value='layeredVeins' displayValue='Layered Veins'>
-                            <Description>
-                                Layered Veins.
-                            </Description>
-                        </Choice>
-                        <Choice value='hugeVeins' displayValue='Huge Veins'>
-                            <Description>
-                                Huge Veins.
-                            </Description>
-                        </Choice>
-                        <Choice value='strategicCloud' displayValue='Clouds'>
-                            <Description>
-                                Strategic Clouds.
-                            </Description>
-                        </Choice>
-                        <Choice value='vanillaStdGen' displayValue='Vanilla'>
-                            <Description>
-                                Vanilla-style clusters.
-                            </Description>
-                        </Choice>
-                        <Choice value='none' displayValue='None' description='Vinteum is not generated in the world.'/>
-                    </OptionChoice>
-                    <OptionNumeric name='arsmVinteumFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupArsMagica2'>
-                        <Description> Frequency multiplier for Ars Magica 2 Vinteum distributions </Description>
-                        <DisplayName>Ars Magica 2 Vinteum Freq.</DisplayName>
-                    </OptionNumeric>
-                    <OptionNumeric name='arsmVinteumSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupArsMagica2'>
-                        <Description> Size multiplier for Ars Magica 2 Vinteum distributions </Description>
-                        <DisplayName>Ars Magica 2 Vinteum Size</DisplayName>
-                    </OptionNumeric>
-                </ConfigSection> 
-                <!-- Vinteum Configuration UI Complete -->
-                
-                
-                <!-- Chimerite Configuration UI Starting -->
-                <ConfigSection>
-                    <OptionChoice name='arsmChimeriteDist'  displayState='shown' displayGroup='groupArsMagica2'> 
-                        <Description> Controls how Chimerite is generated </Description> 
-                        <DisplayName>Ars Magica 2 Chimerite</DisplayName>
-                        <Choice value='layeredVeins' displayValue='Layered Veins'>
-                            <Description>
-                                Layered Veins.
-                            </Description>
-                        </Choice>
-                        <Choice value='hugeVeins' displayValue='Huge Veins'>
-                            <Description>
-                                Huge Veins.
-                            </Description>
-                        </Choice>
-                        <Choice value='strategicCloud' displayValue='Clouds'>
-                            <Description>
-                                Strategic Clouds.
-                            </Description>
-                        </Choice>
-                        <Choice value='vanillaStdGen' displayValue='Vanilla'>
-                            <Description>
-                                Vanilla-style clusters.
-                            </Description>
-                        </Choice>
-                        <Choice value='none' displayValue='None' description='Chimerite is not generated in the world.'/>
-                    </OptionChoice>
-                    <OptionNumeric name='arsmChimeriteFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupArsMagica2'>
-                        <Description> Frequency multiplier for Ars Magica 2 Chimerite distributions </Description>
-                        <DisplayName>Ars Magica 2 Chimerite Freq.</DisplayName>
-                    </OptionNumeric>
-                    <OptionNumeric name='arsmChimeriteSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupArsMagica2'>
-                        <Description> Size multiplier for Ars Magica 2 Chimerite distributions </Description>
-                        <DisplayName>Ars Magica 2 Chimerite Size</DisplayName>
-                    </OptionNumeric>
-                </ConfigSection> 
-                <!-- Chimerite Configuration UI Complete -->
-                
-                
-                <!-- Blue Topaz Configuration UI Starting -->
-                <ConfigSection>
-                    <OptionChoice name='arsmBlueTopazDist'  displayState='shown' displayGroup='groupArsMagica2'> 
-                        <Description> Controls how Blue Topaz is generated </Description> 
-                        <DisplayName>Ars Magica 2 Blue Topaz</DisplayName>
-                        <Choice value='layeredVeins' displayValue='Layered Veins'>
-                            <Description>
-                                Layered Veins.
-                            </Description>
-                        </Choice>
-                        <Choice value='hugeVeins' displayValue='Huge Veins'>
-                            <Description>
-                                Huge Veins.
-                            </Description>
-                        </Choice>
-                        <Choice value='strategicCloud' displayValue='Clouds'>
-                            <Description>
-                                Strategic Clouds.
-                            </Description>
-                        </Choice>
-                        <Choice value='vanillaStdGen' displayValue='Vanilla'>
-                            <Description>
-                                Vanilla-style clusters.
-                            </Description>
-                        </Choice>
-                        <Choice value='none' displayValue='None' description='Blue Topaz is not generated in the world.'/>
-                    </OptionChoice>
-                    <OptionNumeric name='arsmBlueTopazFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupArsMagica2'>
-                        <Description> Frequency multiplier for Ars Magica 2 Blue Topaz distributions </Description>
-                        <DisplayName>Ars Magica 2 Blue Topaz Freq.</DisplayName>
-                    </OptionNumeric>
-                    <OptionNumeric name='arsmBlueTopazSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupArsMagica2'>
-                        <Description> Size multiplier for Ars Magica 2 Blue Topaz distributions </Description>
-                        <DisplayName>Ars Magica 2 Blue Topaz Size</DisplayName>
-                    </OptionNumeric>
-                </ConfigSection> 
-                <!-- Blue Topaz Configuration UI Complete -->
-                
+                <OptionChoice name='arsmVinteumDist'  displayState=':= if(?enableArsMagica2, "shown", "hidden")' displayGroup='groupArsMagica2'>
+                    <Description> Controls how Vinteum is generated </Description>
+                    <DisplayName>Ars Magica 2 Vinteum</DisplayName>
+                    <Choice value='SparseVeins' displayValue='Sparse Veins'>
+                        <Description>
+                            Large veins filled very lightly with ore.
+                        </Description>
+                    </Choice>
+                    <Choice value='Cloud' displayValue='Strategic Cloud'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.
+                        </Description>
+                    </Choice>
+                    <Choice value='Vanilla' displayValue='Vanilla'>
+                        <Description>
+                            Simulates Vanilla Minecraft.
+                        </Description>
+                    </Choice>
+                    <Choice value='none' displayValue='None' description='Vinteum is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='arsmVinteumFreq' default='1'  min='0' max='5' displayState=':= if(?enableArsMagica2, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupArsMagica2'>
+                    <Description> Frequency multiplier for Ars Magica 2 Vinteum distributions </Description>
+                    <DisplayName>Ars Magica 2 Vinteum Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='arsmVinteumSize' default='1'  min='0' max='5' displayState=':= if(?enableArsMagica2, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupArsMagica2'>
+                    <Description> Size multiplier for Ars Magica 2 Vinteum distributions </Description>
+                    <DisplayName>Ars Magica 2 Vinteum Size</DisplayName>
+                </OptionNumeric>
             </ConfigSection>
-            <!-- Setup Screen Complete -->
+            <!-- Vinteum Configuration UI Complete -->
 
 
-            <!-- Setup Overworld -->
+            <!-- Chimerite Configuration UI Starting -->
+            <ConfigSection>
+                <OptionChoice name='arsmChimeriteDist'  displayState=':= if(?enableArsMagica2, "shown", "hidden")' displayGroup='groupArsMagica2'>
+                    <Description> Controls how Chimerite is generated </Description>
+                    <DisplayName>Ars Magica 2 Chimerite</DisplayName>
+                    <Choice value='SparseVeins' displayValue='Sparse Veins'>
+                        <Description>
+                            Large veins filled very lightly with ore.
+                        </Description>
+                    </Choice>
+                    <Choice value='Cloud' displayValue='Strategic Cloud'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.
+                        </Description>
+                    </Choice>
+                    <Choice value='Vanilla' displayValue='Vanilla'>
+                        <Description>
+                            Simulates Vanilla Minecraft.
+                        </Description>
+                    </Choice>
+                    <Choice value='none' displayValue='None' description='Chimerite is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='arsmChimeriteFreq' default='1'  min='0' max='5' displayState=':= if(?enableArsMagica2, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupArsMagica2'>
+                    <Description> Frequency multiplier for Ars Magica 2 Chimerite distributions </Description>
+                    <DisplayName>Ars Magica 2 Chimerite Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='arsmChimeriteSize' default='1'  min='0' max='5' displayState=':= if(?enableArsMagica2, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupArsMagica2'>
+                    <Description> Size multiplier for Ars Magica 2 Chimerite distributions </Description>
+                    <DisplayName>Ars Magica 2 Chimerite Size</DisplayName>
+                </OptionNumeric>
+            </ConfigSection>
+            <!-- Chimerite Configuration UI Complete -->
+
+
+            <!-- Blue Topaz Configuration UI Starting -->
+            <ConfigSection>
+                <OptionChoice name='arsmBlueTopazDist'  displayState=':= if(?enableArsMagica2, "shown", "hidden")' displayGroup='groupArsMagica2'>
+                    <Description> Controls how Blue Topaz is generated </Description>
+                    <DisplayName>Ars Magica 2 Blue Topaz</DisplayName>
+                    <Choice value='SparseVeins' displayValue='Sparse Veins'>
+                        <Description>
+                            Large veins filled very lightly with ore.
+                        </Description>
+                    </Choice>
+                    <Choice value='Cloud' displayValue='Strategic Cloud'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.
+                        </Description>
+                    </Choice>
+                    <Choice value='Vanilla' displayValue='Vanilla'>
+                        <Description>
+                            Simulates Vanilla Minecraft.
+                        </Description>
+                    </Choice>
+                    <Choice value='none' displayValue='None' description='Blue Topaz is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='arsmBlueTopazFreq' default='1'  min='0' max='5' displayState=':= if(?enableArsMagica2, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupArsMagica2'>
+                    <Description> Frequency multiplier for Ars Magica 2 Blue Topaz distributions </Description>
+                    <DisplayName>Ars Magica 2 Blue Topaz Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='arsmBlueTopazSize' default='1'  min='0' max='5' displayState=':= if(?enableArsMagica2, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupArsMagica2'>
+                    <Description> Size multiplier for Ars Magica 2 Blue Topaz distributions </Description>
+                    <DisplayName>Ars Magica 2 Blue Topaz Size</DisplayName>
+                </OptionNumeric>
+            </ConfigSection>
+            <!-- Blue Topaz Configuration UI Complete -->
+
+        </ConfigSection>
+        <!-- Setup Screen Complete -->
+
+        <IfCondition condition=':= ?enableArsMagica2'>
+
+
+
+
+            <!-- Overworld Setup Beginning -->
+
             <IfCondition condition=':= ?COGActive'>
-                
-                <!-- Starting Original Overworld Ore Removal -->
-                <Substitute name='arsmOverworldOreSubstitute0' block='minecraft:stone'>
-                    <Description>
-                        Replace vanilla-generated ore clusters.
-                    </Description>
-                    <Comment>
-                        The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).
-                    </Comment>
-                    <Replaces block='arsmagica2:vinteumOre' />
-                    <Replaces block='arsmagica2:vinteumOre:1' />
-                    <Replaces block='arsmagica2:vinteumOre:2' />
-                </Substitute>
-                <!-- Original Overworld Ore Removal Complete -->
-                
-                <!-- Adding ores --> 
-                
-                <!-- Begin Vinteum Generation --> 
-                
-                <!-- Begin Layered Veins distribution of Vinteum -->
-                <IfCondition condition=':= arsmVinteumDist = "layeredVeins"'>
-                
-                    <Veins name='arsmVinteumBaseVeins' block='arsmagica2:vinteumOre'  inherits='PresetLayeredVeins' >
+
+                <!-- Starting Original "Overworld" Block Removal -->
+
+                <IfCondition condition=':= ?blockExists("minecraft:stone")'>
+                    <Substitute name='arsmOverworldBlockSubstitute0' block='minecraft:stone'>
                         <Description>
-                            Small, fairly rare motherlodes with 2-4
-                            horizontal veins each.
+                            Replace vanilla-generated ore clusters.
                         </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x605364EE</WireframeColor>
-                        <Setting name='MotherlodeSize' avg=':= 1 * 0.8 * arsmVinteumSize * _default_' range=':= 1 * 0.8 * arsmVinteumSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 30' range=':= 8' type='normal' scaleTo='Biome' /> 
-                        <Setting name='SegmentRadius' avg=':= 1 * 0.8 * arsmVinteumSize * _default_' range=':= 1 * 0.8 * arsmVinteumSize * _default_'/>
-                        <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
-                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * arsmVinteumFreq * _default_'/>
-                        <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
-                        <Setting name='BranchHeightLimit' avg=':= 12'/>
-                        <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
-                        <Replaces block='minecraft:stone'/>
-                    </Veins>
-                    
-                    <!-- Begin Preferred Biome Distribution (Vinteum Layered Veins) Settings -->
-                    <Veins name='arsmVinteumPrefersVeins' block='arsmagica2:vinteumOre'  inherits='arsmVinteumBaseVeins' >
-                        <Description>
-                            Spawns 4 more times in preferred biomes.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x605364EE</WireframeColor>
-                        <Setting name='MotherlodeFrequency' avg=':= 4 * _default_'/>
-                        <BiomeType name='Magical'/>
-                    </Veins>
-                    <!-- End Preferred Biome Distribution (Vinteum Layered Veins) Settings -->
-                
+                        <Comment>
+                            The global option  deferredPopulationRange
+                            must be large  enough to catch all ore
+                            clusters (>=  32).
+                        </Comment>
+                        <IfCondition condition=':= ?blockExists("arsmagica2:vinteumOre")'> <Replaces block='arsmagica2:vinteumOre' weight='1.0' /> </IfCondition>
+                        <IfCondition condition=':= ?blockExists("arsmagica2:vinteumOre:1")'> <Replaces block='arsmagica2:vinteumOre:1' weight='1.0' /> </IfCondition>
+                        <IfCondition condition=':= ?blockExists("arsmagica2:vinteumOre:2")'> <Replaces block='arsmagica2:vinteumOre:2' weight='1.0' /> </IfCondition>
+                    </Substitute>
                 </IfCondition>
-                <!-- End Layered Veins distribution of Vinteum -->
-                
-                
-                <!-- Begin  Huge Veins distribution of Vinteum -->
-                <IfCondition condition=':= arsmVinteumDist = "hugeVeins"'>
-                
-                    <Veins name='arsmVinteumBaseVeins' block='arsmagica2:vinteumOre'  inherits='PresetHugeVeins' >
-                        <Description>
-                            Very large, extremely rare motherlodes.
-                            Each motherlode has many long slender
-                            branches - so thin that parts of the
-                            branch won't contain any ore at all.
-                            This, combined with the incredible length
-                            of the branches, makes them more
-                            challenging to follow underground.  Once
-                            found, however, a motherlode contains
-                            enough ore to keep a player supplied for a
-                            very long time.  The rarity of these veins
-                            might be too frustrating in a single-
-                            player setting.  In SMP, though, teamwork
-                            could make finding them much easier and
-                            the motherlodes are big enough to supply
-                            several people without shortage.  This
-                            might be a good way to add challenge to
-                            multiplayer worlds.  Credit: based on
-                            feedback by dyrewulf from the MC forums.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x605364EE</WireframeColor>
-                        <Setting name='MotherlodeSize' avg=':= 1 * 0.8 * arsmVinteumSize * _default_' range=':= 1 * 0.8 * arsmVinteumSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 30' range=':= 8' type='normal' scaleTo='Biome' /> 
-                        <Setting name='SegmentRadius' avg=':= 1 * 0.8 * arsmVinteumSize * _default_' range=':= 1 * 0.8 * arsmVinteumSize * _default_'/>
-                        <Setting name='OreDensity' avg=':= 1 * 1.85 * _default_' range=':= _default_'/>
-                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * arsmVinteumFreq * _default_'/>
-                        <Setting name='BranchLength' avg=':= 0.75 * _default_' range=':= 0.75 * _default_'/>
-                        <Setting name='BranchHeightLimit' avg=':= 12'/>
-                        <Setting name='BranchInclination' avg=':= 0' range=':= 0.35'/>
-                        <Replaces block='minecraft:stone'/>
-                    </Veins>
-                    
-                    <!-- Begin Preferred Biome Distribution (Vinteum Huge Veins) Settings -->
-                    <Veins name='arsmVinteumPrefersVeins' block='arsmagica2:vinteumOre'  inherits='arsmVinteumBaseVeins' >
-                        <Description>
-                            Spawns 4 more times in preferred biomes.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x605364EE</WireframeColor>
-                        <Setting name='MotherlodeFrequency' avg=':= 4 * _default_'/>
-                        <BiomeType name='Magical'/>
-                    </Veins>
-                    <!-- End Preferred Biome Distribution (Vinteum Huge Veins) Settings -->
-                
-                </IfCondition>
-                <!-- End  Huge Veins distribution of Vinteum -->
-                
-                
-                <!-- Begin  Strategic Cloud distribution of Vinteum -->
-                <IfCondition condition=':= arsmVinteumDist = "strategicCloud"'>
-                
-                    <Cloud name='arsmVinteumBaseCloud' block='arsmagica2:vinteumOre' inherits='PresetStrategicCloud'>
-                        <Description>
-                            Large irregular clouds filled lightly with
-                            ore.  These are huge, spanning several
-                            adjacent chunks, and consequently rather
-                            rare.  They contain a sizeable amount of
-                            ore, but it takes some time and effort to
-                            mine due to low density.  The intent for
-                            strategic clouds is that the player will
-                            need to actively search for one and then
-                            set up a semi-permanent mining base and
-                            spend some time actually mining the ore.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x605364EE</WireframeColor>
-                        <Setting name='CloudRadius' avg=':= 1 * 0.8 * arsmVinteumSize * _default_' range=':= 1 * 0.8 * arsmVinteumSize * _default_'/>
-                        <Setting name='CloudThickness' avg=':= 1 * 0.8 * arsmVinteumSize * _default_' range=':= 1 * 0.8 * arsmVinteumSize * _default_'/>
-                        <Setting name='CloudHeight' avg=':= 30' range=':= 8' type='normal' scaleTo='Biome'/>
-                        <Setting name='OreDensity' avg=':= 1 * 0.3 * _default_' range=':= _default_'/>
-                        <Setting name='CloudThickness' avg=':= 1 * 1 * 0.8 * arsmVinteumSize * _default_' range=':= 1 * 1 * 0.8 * arsmVinteumSize  * _default_'/>
-                        <Setting name='DistributionFrequency' avg=':= 1 * 4.5 * arsmVinteumFreq *_default_'/>
-                        <Replaces block='minecraft:stone'/>
-                        
-                        <!-- Begin Vinteum Strategic Cloud Hint Veins -->
-                        <Veins name='arsmVinteumBaseHintVeins' block='arsmagica2:vinteumOre' inherits='PresetHintVeins'>
+
+                <!-- Original "Overworld" Block Removal Complete -->
+
+                <!-- Adding blocks -->
+
+                <!-- Begin Vinteum Generation -->
+
+                <!-- Starting SparseVeins Preset for Vinteum. -->
+                <ConfigSection>
+                    <IfCondition condition=':= arsmVinteumDist = "SparseVeins"'>
+                        <Veins name='arsmVinteumVeins'  inherits='PresetSparseVeins' drawWireframe='true' wireframeColor='0x605364EE' drawBoundBox='false' boundBoxColor='0x605364EE'>
                             <Description>
-                                Single blocks, generously scattered
-                                through all heights (density is about
-                                that of vanilla iron ore).  They will
-                                replace dirt and sandstone (but not
-                                grass or sand), so they can be found
-                                nearer to the surface than most ores.
-                                Intened to be used as a child
-                                distribution for large, rare strategic
-                                deposits that would otherwise be very
-                                difficult to find.
+                                Large veins filled very lightly  with
+                                ore.  Because they contain  less ore
+                                per volume, these veins  are
+                                relatively wide and long.  Mining the
+                                ore from them is time  consuming
+                                compared to solid ore  veins.  They
+                                are also more  difficult to follow,
+                                since it is  harder to get an idea of
+                                their  direction while mining.
                             </Description>
-                            <DrawWireframe>:=drawWireframes</DrawWireframe>
-                            <WireframeColor>0x605364EE</WireframeColor>
-                            <Replaces block='minecraft:dirt'/>
-                            <Replaces block='minecraft:sandstone'/>
-                            <Replaces block='minecraft:stone'/>
+                            <IfCondition condition=':= ?blockExists("arsmagica2:vinteumOre")'> <OreBlock block='arsmagica2:vinteumOre' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 1.213 * _default_ * arsmVinteumFreq ' range=':=  _default_ * arsmVinteumFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.066 * _default_ * arsmVinteumSize ' range=':=  _default_ * arsmVinteumSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 22 ' range=':=  17 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.066 * _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * arsmVinteumSize ' range=':=  _default_ * arsmVinteumSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.066 * _default_ * arsmVinteumSize ' range=':=  _default_ * arsmVinteumSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
                         </Veins>
-                        <!-- End Vinteum Strategic Cloud Hint Veins -->
+                    </IfCondition>
+                </ConfigSection>
+                <!-- SparseVeins Preset for Vinteum is complete. -->
 
-                    </Cloud>
-                    
-                
-                </IfCondition>
-                <!-- End  Strategic Cloud distribution of Vinteum -->
-                
-                
-                <!-- Begin  Vanilla distribution of Vinteum -->
-                <IfCondition condition=':= arsmVinteumDist = "vanillaStdGen"'>
-                
-                    <StandardGen name='arsmVinteumBaseStandard' block='arsmagica2:vinteumOre' inherits='PresetStandardGen'>
-                        <Description>
-                            This mimics vanilla ore generation.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x605364EE</WireframeColor>
-                        <Setting name='Size' avg=':= 1 * 1 * arsmVinteumSize * _default_'/>
-                        <Setting name='Height' avg=':= 30' range=':= 8' type='uniform'/> 
-                        <Setting name='Frequency' avg=':= 1 * .8 * arsmVinteumFreq * _default_'/>
-                        <Replaces block='minecraft:stone'/>
-                    </StandardGen>
-                    
-                
-                </IfCondition>
-                <!-- End  Vanilla distribution of Vinteum -->
-                
-                <!-- End Vinteum Generation --> 
 
-                
-                <!-- Begin Chimerite Generation --> 
-                
-                <!-- Begin Layered Veins distribution of Chimerite -->
-                <IfCondition condition=':= arsmChimeriteDist = "layeredVeins"'>
-                
-                    <Veins name='arsmChimeriteBaseVeins' block='arsmagica2:vinteumOre:1'  inherits='PresetLayeredVeins' >
-                        <Description>
-                            Small, fairly rare motherlodes with 2-4
-                            horizontal veins each.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60B8E6C6</WireframeColor>
-                        <Setting name='MotherlodeSize' avg=':= 1 * 0.8 * arsmChimeriteSize * _default_' range=':= 1 * 0.8 * arsmChimeriteSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 64' range=':= 64' type='normal' scaleTo='Biome' /> 
-                        <Setting name='SegmentRadius' avg=':= 1 * 0.8 * arsmChimeriteSize * _default_' range=':= 1 * 0.8 * arsmChimeriteSize * _default_'/>
-                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
-                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * arsmChimeriteFreq * _default_'/>
-                        <Setting name='BranchHeightLimit' avg=':= 10.5'/>
-                        <Replaces block='minecraft:stone'/>
-                    </Veins>
-                    
-                    <!-- Begin Preferred Biome Distribution (Chimerite Layered Veins) Settings -->
-                    <Veins name='arsmChimeritePrefersVeins' block='arsmagica2:vinteumOre:1'  inherits='arsmChimeriteBaseVeins' >
-                        <Description>
-                            Spawns 4 more times in preferred biomes.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60B8E6C6</WireframeColor>
-                        <Setting name='MotherlodeFrequency' avg=':= 4 * _default_'/>
-                        <BiomeType name='Magical'/>
-                    </Veins>
-                    <!-- End Preferred Biome Distribution (Chimerite Layered Veins) Settings -->
-                
-                </IfCondition>
-                <!-- End Layered Veins distribution of Chimerite -->
-                
-                
-                <!-- Begin  Huge Veins distribution of Chimerite -->
-                <IfCondition condition=':= arsmChimeriteDist = "hugeVeins"'>
-                
-                    <Veins name='arsmChimeriteBaseVeins' block='arsmagica2:vinteumOre:1'  inherits='PresetHugeVeins' >
-                        <Description>
-                            Very large, extremely rare motherlodes.
-                            Each motherlode has many long slender
-                            branches - so thin that parts of the
-                            branch won't contain any ore at all.
-                            This, combined with the incredible length
-                            of the branches, makes them more
-                            challenging to follow underground.  Once
-                            found, however, a motherlode contains
-                            enough ore to keep a player supplied for a
-                            very long time.  The rarity of these veins
-                            might be too frustrating in a single-
-                            player setting.  In SMP, though, teamwork
-                            could make finding them much easier and
-                            the motherlodes are big enough to supply
-                            several people without shortage.  This
-                            might be a good way to add challenge to
-                            multiplayer worlds.  Credit: based on
-                            feedback by dyrewulf from the MC forums.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60B8E6C6</WireframeColor>
-                        <Setting name='MotherlodeSize' avg=':= 1 * 0.8 * arsmChimeriteSize * _default_' range=':= 1 * 0.8 * arsmChimeriteSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 64' range=':= 64' type='normal' scaleTo='Biome' /> 
-                        <Setting name='SegmentRadius' avg=':= 1 * 0.8 * arsmChimeriteSize * _default_' range=':= 1 * 0.8 * arsmChimeriteSize * _default_'/>
-                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
-                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * arsmChimeriteFreq * _default_'/>
-                        <Setting name='BranchHeightLimit' avg=':= 10.5'/>
-                        <Replaces block='minecraft:stone'/>
-                    </Veins>
-                    
-                    <!-- Begin Preferred Biome Distribution (Chimerite Huge Veins) Settings -->
-                    <Veins name='arsmChimeritePrefersVeins' block='arsmagica2:vinteumOre:1'  inherits='arsmChimeriteBaseVeins' >
-                        <Description>
-                            Spawns 4 more times in preferred biomes.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60B8E6C6</WireframeColor>
-                        <Setting name='MotherlodeFrequency' avg=':= 4 * _default_'/>
-                        <BiomeType name='Magical'/>
-                    </Veins>
-                    <!-- End Preferred Biome Distribution (Chimerite Huge Veins) Settings -->
-                
-                </IfCondition>
-                <!-- End  Huge Veins distribution of Chimerite -->
-                
-                
-                <!-- Begin  Strategic Cloud distribution of Chimerite -->
-                <IfCondition condition=':= arsmChimeriteDist = "strategicCloud"'>
-                
-                    <Cloud name='arsmChimeriteBaseCloud' block='arsmagica2:vinteumOre:1' inherits='PresetStrategicCloud'>
-                        <Description>
-                            Large irregular clouds filled lightly with
-                            ore.  These are huge, spanning several
-                            adjacent chunks, and consequently rather
-                            rare.  They contain a sizeable amount of
-                            ore, but it takes some time and effort to
-                            mine due to low density.  The intent for
-                            strategic clouds is that the player will
-                            need to actively search for one and then
-                            set up a semi-permanent mining base and
-                            spend some time actually mining the ore.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60B8E6C6</WireframeColor>
-                        <Setting name='CloudRadius' avg=':= 1 * 0.8 * arsmChimeriteSize * _default_' range=':= 1 * 0.8 * arsmChimeriteSize * _default_'/>
-                        <Setting name='CloudThickness' avg=':= 1 * 0.8 * arsmChimeriteSize * _default_' range=':= 1 * 0.8 * arsmChimeriteSize * _default_'/>
-                        <Setting name='CloudHeight' avg=':= 64' range=':= 64' type='normal' scaleTo='Biome'/>
-                        <Setting name='OreDensity' avg=':= 1 * 0.3 * _default_' range=':= _default_'/>
-                        <Setting name='CloudThickness' avg=':= 1 * 1 * 0.8 * arsmChimeriteSize * _default_' range=':= 1 * 1 * 0.8 * arsmChimeriteSize  * _default_'/>
-                        <Setting name='DistributionFrequency' avg=':= 1 * 4 * arsmChimeriteFreq *_default_'/>
-                        <Replaces block='minecraft:stone'/>
-                        
-                        <!-- Begin Chimerite Strategic Cloud Hint Veins -->
-                        <Veins name='arsmChimeriteBaseHintVeins' block='arsmagica2:vinteumOre:1' inherits='PresetHintVeins'>
+                <!-- Starting Cloud Preset for Vinteum. -->
+                <ConfigSection>
+                    <IfCondition condition=':= arsmVinteumDist = "Cloud"'>
+                        <Cloud name='arsmVinteumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x605364EE' drawBoundBox='false' boundBoxColor='0x605364EE'>
                             <Description>
-                                Single blocks, generously scattered
-                                through all heights (density is about
-                                that of vanilla iron ore).  They will
-                                replace dirt and sandstone (but not
-                                grass or sand), so they can be found
-                                nearer to the surface than most ores.
-                                Intened to be used as a child
-                                distribution for large, rare strategic
-                                deposits that would otherwise be very
-                                difficult to find.
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
                             </Description>
-                            <DrawWireframe>:=drawWireframes</DrawWireframe>
-                            <WireframeColor>0x60B8E6C6</WireframeColor>
-                            <Replaces block='minecraft:dirt'/>
-                            <Replaces block='minecraft:sandstone'/>
-                            <Replaces block='minecraft:stone'/>
-                        </Veins>
-                        <!-- End Chimerite Strategic Cloud Hint Veins -->
+                            <IfCondition condition=':= ?blockExists("arsmagica2:vinteumOre")'> <OreBlock block='arsmagica2:vinteumOre' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 0.905 * _default_ * arsmVinteumSize ' range=':=  _default_ * arsmVinteumSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 0.905 * _default_ * arsmVinteumSize ' range=':=  _default_ * arsmVinteumSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 0.819  * _default_ * arsmVinteumFreq ' range=':=  _default_ * arsmVinteumFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 22 ' range=':=  17 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Veins name='arsmVinteumHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x605364EE' drawBoundBox='false' boundBoxColor='0x605364EE'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("arsmagica2:vinteumOre")'> <OreBlock block='arsmagica2:vinteumOre' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Cloud Preset for Vinteum is complete. -->
 
-                    </Cloud>
-                    
-                
-                </IfCondition>
-                <!-- End  Strategic Cloud distribution of Chimerite -->
-                
-                
-                <!-- Begin  Vanilla distribution of Chimerite -->
-                <IfCondition condition=':= arsmChimeriteDist = "vanillaStdGen"'>
-                
-                    <StandardGen name='arsmChimeriteBaseStandard' block='arsmagica2:vinteumOre:1' inherits='PresetStandardGen'>
-                        <Description>
-                            This mimics vanilla ore generation.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60B8E6C6</WireframeColor>
-                        <Setting name='Size' avg=':= 1 * 1 * arsmChimeriteSize * _default_'/>
-                        <Setting name='Height' avg=':= 64' range=':= 64' type='uniform'/> 
-                        <Setting name='Frequency' avg=':= 1 * 0.1 * arsmChimeriteFreq * _default_'/>
-                        <Replaces block='minecraft:stone'/>
-                    </StandardGen>
-                    
-                
-                </IfCondition>
-                <!-- End  Vanilla distribution of Chimerite -->
-                
-                <!-- End Chimerite Generation --> 
 
-                
-                <!-- Begin Blue Topaz Generation --> 
-                
-                <!-- Begin Layered Veins distribution of Blue Topaz -->
-                <IfCondition condition=':= arsmBlueTopazDist = "layeredVeins"'>
-                
-                    <Veins name='arsmBlueTopazBaseVeins' block='arsmagica2:vinteumOre:2'  inherits='PresetLayeredVeins' >
-                        <Description>
-                            Small, fairly rare motherlodes with 2-4
-                            horizontal veins each.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x607EE5F4</WireframeColor>
-                        <Setting name='MotherlodeSize' avg=':= 1 * 0.8 * arsmBlueTopazSize * _default_' range=':= 1 * 0.8 * arsmBlueTopazSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 64' range=':= 64' type='normal' scaleTo='Biome' /> 
-                        <Setting name='SegmentRadius' avg=':= 1 * 0.8 * arsmBlueTopazSize * _default_' range=':= 1 * 0.8 * arsmBlueTopazSize * _default_'/>
-                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
-                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * arsmBlueTopazFreq * _default_'/>
-                        <Setting name='BranchHeightLimit' avg=':= 10.5'/>
-                        <Replaces block='minecraft:stone'/>
-                    </Veins>
-                    
-                    <!-- Begin Preferred Biome Distribution (Blue Topaz Layered Veins) Settings -->
-                    <Veins name='arsmBlueTopazPrefersVeins' block='arsmagica2:vinteumOre:2'  inherits='arsmBlueTopazBaseVeins' >
-                        <Description>
-                            Spawns 4 more times in preferred biomes.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x607EE5F4</WireframeColor>
-                        <Setting name='MotherlodeFrequency' avg=':= 4 * _default_'/>
-                        <BiomeType name='Magical'/>
-                    </Veins>
-                    <!-- End Preferred Biome Distribution (Blue Topaz Layered Veins) Settings -->
-                
-                </IfCondition>
-                <!-- End Layered Veins distribution of Blue Topaz -->
-                
-                
-                <!-- Begin  Huge Veins distribution of Blue Topaz -->
-                <IfCondition condition=':= arsmBlueTopazDist = "hugeVeins"'>
-                
-                    <Veins name='arsmBlueTopazBaseVeins' block='arsmagica2:vinteumOre:2'  inherits='PresetHugeVeins' >
-                        <Description>
-                            Very large, extremely rare motherlodes.
-                            Each motherlode has many long slender
-                            branches - so thin that parts of the
-                            branch won't contain any ore at all.
-                            This, combined with the incredible length
-                            of the branches, makes them more
-                            challenging to follow underground.  Once
-                            found, however, a motherlode contains
-                            enough ore to keep a player supplied for a
-                            very long time.  The rarity of these veins
-                            might be too frustrating in a single-
-                            player setting.  In SMP, though, teamwork
-                            could make finding them much easier and
-                            the motherlodes are big enough to supply
-                            several people without shortage.  This
-                            might be a good way to add challenge to
-                            multiplayer worlds.  Credit: based on
-                            feedback by dyrewulf from the MC forums.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x607EE5F4</WireframeColor>
-                        <Setting name='MotherlodeSize' avg=':= 1 * 0.8 * arsmBlueTopazSize * _default_' range=':= 1 * 0.8 * arsmBlueTopazSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 64' range=':= 64' type='normal' scaleTo='Biome' /> 
-                        <Setting name='SegmentRadius' avg=':= 1 * 0.8 * arsmBlueTopazSize * _default_' range=':= 1 * 0.8 * arsmBlueTopazSize * _default_'/>
-                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
-                        <Setting name='MotherlodeFrequency' avg=':= 1 * 0.85 * arsmBlueTopazFreq * _default_'/>
-                        <Setting name='BranchHeightLimit' avg=':= 10.5'/>
-                        <Replaces block='minecraft:stone'/>
-                    </Veins>
-                    
-                    <!-- Begin Preferred Biome Distribution (Blue Topaz Huge Veins) Settings -->
-                    <Veins name='arsmBlueTopazPrefersVeins' block='arsmagica2:vinteumOre:2'  inherits='arsmBlueTopazBaseVeins' >
-                        <Description>
-                            Spawns 4 more times in preferred biomes.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x607EE5F4</WireframeColor>
-                        <Setting name='MotherlodeFrequency' avg=':= 4 * _default_'/>
-                        <BiomeType name='Magical'/>
-                    </Veins>
-                    <!-- End Preferred Biome Distribution (Blue Topaz Huge Veins) Settings -->
-                
-                </IfCondition>
-                <!-- End  Huge Veins distribution of Blue Topaz -->
-                
-                
-                <!-- Begin  Strategic Cloud distribution of Blue Topaz -->
-                <IfCondition condition=':= arsmBlueTopazDist = "strategicCloud"'>
-                
-                    <Cloud name='arsmBlueTopazBaseCloud' block='arsmagica2:vinteumOre:2' inherits='PresetStrategicCloud'>
-                        <Description>
-                            Large irregular clouds filled lightly with
-                            ore.  These are huge, spanning several
-                            adjacent chunks, and consequently rather
-                            rare.  They contain a sizeable amount of
-                            ore, but it takes some time and effort to
-                            mine due to low density.  The intent for
-                            strategic clouds is that the player will
-                            need to actively search for one and then
-                            set up a semi-permanent mining base and
-                            spend some time actually mining the ore.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x607EE5F4</WireframeColor>
-                        <Setting name='CloudRadius' avg=':= 1 * 0.8 * arsmBlueTopazSize * _default_' range=':= 1 * 0.8 * arsmBlueTopazSize * _default_'/>
-                        <Setting name='CloudThickness' avg=':= 1 * 0.8 * arsmBlueTopazSize * _default_' range=':= 1 * 0.8 * arsmBlueTopazSize * _default_'/>
-                        <Setting name='CloudHeight' avg=':= 64' range=':= 64' type='normal' scaleTo='Biome'/>
-                        <Setting name='OreDensity' avg=':= 1 * 0.3 * _default_' range=':= _default_'/>
-                        <Setting name='CloudThickness' avg=':= 1 * 1 * 0.8 * arsmBlueTopazSize * _default_' range=':= 1 * 1 * 0.8 * arsmBlueTopazSize  * _default_'/>
-                        <Setting name='DistributionFrequency' avg=':= 1 * 4 * arsmBlueTopazFreq *_default_'/>
-                        <Replaces block='minecraft:stone'/>
-                        
-                        <!-- Begin Blue Topaz Strategic Cloud Hint Veins -->
-                        <Veins name='arsmBlueTopazBaseHintVeins' block='arsmagica2:vinteumOre:2' inherits='PresetHintVeins'>
+                <!-- Starting Vanilla Preset for Vinteum. -->
+                <ConfigSection>
+                    <IfCondition condition=':= arsmVinteumDist = "Vanilla"'>
+                        <StandardGen name='arsmVinteumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x605364EE' drawBoundBox='false' boundBoxColor='0x605364EE'>
                             <Description>
-                                Single blocks, generously scattered
-                                through all heights (density is about
-                                that of vanilla iron ore).  They will
-                                replace dirt and sandstone (but not
-                                grass or sand), so they can be found
-                                nearer to the surface than most ores.
-                                Intened to be used as a child
-                                distribution for large, rare strategic
-                                deposits that would otherwise be very
-                                difficult to find.
+                                A master preset for standardgen  ore
+                                distributions.
                             </Description>
-                            <DrawWireframe>:=drawWireframes</DrawWireframe>
-                            <WireframeColor>0x607EE5F4</WireframeColor>
-                            <Replaces block='minecraft:dirt'/>
-                            <Replaces block='minecraft:sandstone'/>
-                            <Replaces block='minecraft:stone'/>
+                            <IfCondition condition=':= ?blockExists("arsmagica2:vinteumOre")'> <OreBlock block='arsmagica2:vinteumOre' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 6 * arsmVinteumSize ' range=':=  _default_ * arsmVinteumSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 2 * arsmVinteumFreq ' range=':=  _default_ * arsmVinteumFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 22 ' range=':=  17 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Vinteum is complete. -->
+
+                <!-- End Vinteum Generation -->
+
+
+                <!-- Begin Chimerite Generation -->
+
+                <!-- Starting SparseVeins Preset for Chimerite. -->
+                <ConfigSection>
+                    <IfCondition condition=':= arsmChimeriteDist = "SparseVeins"'>
+                        <Veins name='arsmChimeriteVeins'  inherits='PresetSparseVeins' drawWireframe='true' wireframeColor='0x60B8E6C6' drawBoundBox='false' boundBoxColor='0x60B8E6C6'>
+                            <Description>
+                                Large veins filled very lightly  with
+                                ore.  Because they contain  less ore
+                                per volume, these veins  are
+                                relatively wide and long.  Mining the
+                                ore from them is time  consuming
+                                compared to solid ore  veins.  They
+                                are also more  difficult to follow,
+                                since it is  harder to get an idea of
+                                their  direction while mining.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("arsmagica2:vinteumOre:1")'> <OreBlock block='arsmagica2:vinteumOre:1' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 1.485 * _default_ * arsmChimeriteFreq ' range=':=  _default_ * arsmChimeriteFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.141 * _default_ * arsmChimeriteSize ' range=':=  _default_ * arsmChimeriteSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.141 * _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * arsmChimeriteSize ' range=':=  _default_ * arsmChimeriteSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.141 * _default_ * arsmChimeriteSize ' range=':=  _default_ * arsmChimeriteSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
                         </Veins>
-                        <!-- End Blue Topaz Strategic Cloud Hint Veins -->
+                    </IfCondition>
+                </ConfigSection>
+                <!-- SparseVeins Preset for Chimerite is complete. -->
 
-                    </Cloud>
-                    
-                
-                </IfCondition>
-                <!-- End  Strategic Cloud distribution of Blue Topaz -->
-                
-                
-                <!-- Begin  Vanilla distribution of Blue Topaz -->
-                <IfCondition condition=':= arsmBlueTopazDist = "vanillaStdGen"'>
-                
-                    <StandardGen name='arsmBlueTopazBaseStandard' block='arsmagica2:vinteumOre:2' inherits='PresetStandardGen'>
-                        <Description>
-                            This mimics vanilla ore generation.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x607EE5F4</WireframeColor>
-                        <Setting name='Size' avg=':= 1 * 1 * arsmBlueTopazSize * _default_'/>
-                        <Setting name='Height' avg=':= 64' range=':= 64' type='uniform'/> 
-                        <Setting name='Frequency' avg=':= 1 * 0.1 * arsmBlueTopazFreq * _default_'/>
-                        <Replaces block='minecraft:stone'/>
-                    </StandardGen>
-                    
-                
-                </IfCondition>
-                <!-- End  Vanilla distribution of Blue Topaz -->
-                
-                <!-- End Blue Topaz Generation --> 
 
-                <!-- Done adding ores -->
-            
+                <!-- Starting Cloud Preset for Chimerite. -->
+                <ConfigSection>
+                    <IfCondition condition=':= arsmChimeriteDist = "Cloud"'>
+                        <Cloud name='arsmChimeriteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60B8E6C6' drawBoundBox='false' boundBoxColor='0x60B8E6C6'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("arsmagica2:vinteumOre:1")'> <OreBlock block='arsmagica2:vinteumOre:1' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 1.002 * _default_ * arsmChimeriteSize ' range=':=  _default_ * arsmChimeriteSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.002 * _default_ * arsmChimeriteSize ' range=':=  _default_ * arsmChimeriteSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.003  * _default_ * arsmChimeriteFreq ' range=':=  _default_ * arsmChimeriteFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Veins name='arsmChimeriteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60B8E6C6' drawBoundBox='false' boundBoxColor='0x60B8E6C6'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("arsmagica2:vinteumOre:1")'> <OreBlock block='arsmagica2:vinteumOre:1' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Cloud Preset for Chimerite is complete. -->
+
+
+                <!-- Starting Vanilla Preset for Chimerite. -->
+                <ConfigSection>
+                    <IfCondition condition=':= arsmChimeriteDist = "Vanilla"'>
+                        <StandardGen name='arsmChimeriteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60B8E6C6' drawBoundBox='false' boundBoxColor='0x60B8E6C6'>
+                            <Description>
+                                A master preset for standardgen  ore
+                                distributions.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("arsmagica2:vinteumOre:1")'> <OreBlock block='arsmagica2:vinteumOre:1' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 6 * arsmChimeriteSize ' range=':=  _default_ * arsmChimeriteSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 3 * arsmChimeriteFreq ' range=':=  _default_ * arsmChimeriteFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Chimerite is complete. -->
+
+                <!-- End Chimerite Generation -->
+
+
+                <!-- Begin Blue Topaz Generation -->
+
+                <!-- Starting SparseVeins Preset for Blue Topaz. -->
+                <ConfigSection>
+                    <IfCondition condition=':= arsmBlueTopazDist = "SparseVeins"'>
+                        <Veins name='arsmBlueTopazVeins'  inherits='PresetSparseVeins' drawWireframe='true' wireframeColor='0x607EE5F4' drawBoundBox='false' boundBoxColor='0x607EE5F4'>
+                            <Description>
+                                Large veins filled very lightly  with
+                                ore.  Because they contain  less ore
+                                per volume, these veins  are
+                                relatively wide and long.  Mining the
+                                ore from them is time  consuming
+                                compared to solid ore  veins.  They
+                                are also more  difficult to follow,
+                                since it is  harder to get an idea of
+                                their  direction while mining.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("arsmagica2:vinteumOre:2")'> <OreBlock block='arsmagica2:vinteumOre:2' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 1.485 * _default_ * arsmBlueTopazFreq ' range=':=  _default_ * arsmBlueTopazFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.141 * _default_ * arsmBlueTopazSize ' range=':=  _default_ * arsmBlueTopazSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 20 ' range=':=  108 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.141 * _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * arsmBlueTopazSize ' range=':=  _default_ * arsmBlueTopazSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.141 * _default_ * arsmBlueTopazSize ' range=':=  _default_ * arsmBlueTopazSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </Veins>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- SparseVeins Preset for Blue Topaz is complete. -->
+
+
+                <!-- Starting Cloud Preset for Blue Topaz. -->
+                <ConfigSection>
+                    <IfCondition condition=':= arsmBlueTopazDist = "Cloud"'>
+                        <Cloud name='arsmBlueTopazCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x607EE5F4' drawBoundBox='false' boundBoxColor='0x607EE5F4'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("arsmagica2:vinteumOre:2")'> <OreBlock block='arsmagica2:vinteumOre:2' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 1.002 * _default_ * arsmBlueTopazSize ' range=':=  _default_ * arsmBlueTopazSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.002 * _default_ * arsmBlueTopazSize ' range=':=  _default_ * arsmBlueTopazSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.003  * _default_ * arsmBlueTopazFreq ' range=':=  _default_ * arsmBlueTopazFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 20 ' range=':=  108 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Veins name='arsmBlueTopazHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x607EE5F4' drawBoundBox='false' boundBoxColor='0x607EE5F4'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("arsmagica2:vinteumOre:2")'> <OreBlock block='arsmagica2:vinteumOre:2' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Cloud Preset for Blue Topaz is complete. -->
+
+
+                <!-- Starting Vanilla Preset for Blue Topaz. -->
+                <ConfigSection>
+                    <IfCondition condition=':= arsmBlueTopazDist = "Vanilla"'>
+                        <StandardGen name='arsmBlueTopazStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x607EE5F4' drawBoundBox='false' boundBoxColor='0x607EE5F4'>
+                            <Description>
+                                A master preset for standardgen  ore
+                                distributions.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("arsmagica2:vinteumOre:2")'> <OreBlock block='arsmagica2:vinteumOre:2' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 6 * arsmBlueTopazSize ' range=':=  _default_ * arsmBlueTopazSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 3 * arsmBlueTopazFreq ' range=':=  _default_ * arsmBlueTopazFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 20 ' range=':=  108 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Blue Topaz is complete. -->
+
+                <!-- End Blue Topaz Generation -->
+
+                <!-- Finished adding blocks -->
+
             </IfCondition>
             <!-- Overworld Setup Complete -->
 
-        
-        </ConfigSection>
-        <!-- Configuration for Custom Ore Generation Complete! -->
-    
-    </IfModInstalled> 
- 
 
 
-<!-- This file was made using the Sprocket Configuration Generator. -->
+        </IfCondition>
+
+    </ConfigSection>
+    <!-- Configuration for Custom Ore Generation Complete! -->
+
+</IfModInstalled>
+<!-- The "Ars Magica 2" mod is now configured. -->
+
+
+
+
+
+<!-- =================================================================
+     This file was made using the Sprocket Configuration Generator.
+     If you wish to make your own configurations for a mod not
+     currently supported by Custom Ore Generation, and you don't want
+     the hassle of writing XML, you can find the generator script at
+     its GitHub page: http://https://github.com/reteo/Sprocket
+     ================================================================= -->
