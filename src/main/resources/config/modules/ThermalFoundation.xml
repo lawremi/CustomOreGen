@@ -29,10 +29,15 @@
                     Distribution options for Thermal Foundation Ores.
                 </Description>
             </OptionDisplayGroup>
+            <OptionChoice name='enableThermalFoundation' displayName='Handle Thermal Foundation Setup?' default='true' displayState='shown_dynamic' displayGroup='groupThermalFoundation'>
+                <Description> Should Custom Ore Generation handle Thermal Foundation ore generation? </Description>
+                <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Thermal Foundation ores.'/>
+                <Choice value=':= ?false' displayValue='No' description='Thermal Foundation ores will be handled by the mod itself.'/>
+            </OptionChoice>
 
             <!-- Copper Configuration UI Starting -->
             <ConfigSection>
-                <OptionChoice name='thfoCopperDist'  displayState='shown' displayGroup='groupThermalFoundation'>
+                <OptionChoice name='thfoCopperDist'  displayState=':= if(?enableThermalFoundation, "shown", "hidden")' displayGroup='groupThermalFoundation'>
                     <Description> Controls how Copper is generated </Description>
                     <DisplayName>Thermal Foundation Copper</DisplayName>
                     <Choice value='LayeredVeins' displayValue='Layered Veins'>
@@ -52,11 +57,11 @@
                     </Choice>
                     <Choice value='none' displayValue='None' description='Copper is not generated in the world.'/>
                 </OptionChoice>
-                <OptionNumeric name='thfoCopperFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupThermalFoundation'>
+                <OptionNumeric name='thfoCopperFreq' default='1'  min='0' max='5' displayState=':= if(?enableThermalFoundation, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThermalFoundation'>
                     <Description> Frequency multiplier for Thermal Foundation Copper distributions </Description>
                     <DisplayName>Thermal Foundation Copper Freq.</DisplayName>
                 </OptionNumeric>
-                <OptionNumeric name='thfoCopperSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupThermalFoundation'>
+                <OptionNumeric name='thfoCopperSize' default='1'  min='0' max='5' displayState=':= if(?enableThermalFoundation, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThermalFoundation'>
                     <Description> Size multiplier for Thermal Foundation Copper distributions </Description>
                     <DisplayName>Thermal Foundation Copper Size</DisplayName>
                 </OptionNumeric>
@@ -66,7 +71,7 @@
 
             <!-- Tin Configuration UI Starting -->
             <ConfigSection>
-                <OptionChoice name='thfoTinDist'  displayState='shown' displayGroup='groupThermalFoundation'>
+                <OptionChoice name='thfoTinDist'  displayState=':= if(?enableThermalFoundation, "shown", "hidden")' displayGroup='groupThermalFoundation'>
                     <Description> Controls how Tin is generated </Description>
                     <DisplayName>Thermal Foundation Tin</DisplayName>
                     <Choice value='LayeredVeins' displayValue='Layered Veins'>
@@ -86,11 +91,11 @@
                     </Choice>
                     <Choice value='none' displayValue='None' description='Tin is not generated in the world.'/>
                 </OptionChoice>
-                <OptionNumeric name='thfoTinFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupThermalFoundation'>
+                <OptionNumeric name='thfoTinFreq' default='1'  min='0' max='5' displayState=':= if(?enableThermalFoundation, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThermalFoundation'>
                     <Description> Frequency multiplier for Thermal Foundation Tin distributions </Description>
                     <DisplayName>Thermal Foundation Tin Freq.</DisplayName>
                 </OptionNumeric>
-                <OptionNumeric name='thfoTinSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupThermalFoundation'>
+                <OptionNumeric name='thfoTinSize' default='1'  min='0' max='5' displayState=':= if(?enableThermalFoundation, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThermalFoundation'>
                     <Description> Size multiplier for Thermal Foundation Tin distributions </Description>
                     <DisplayName>Thermal Foundation Tin Size</DisplayName>
                 </OptionNumeric>
@@ -100,7 +105,7 @@
 
             <!-- Silver Configuration UI Starting -->
             <ConfigSection>
-                <OptionChoice name='thfoSilverDist'  displayState='shown' displayGroup='groupThermalFoundation'>
+                <OptionChoice name='thfoSilverDist'  displayState=':= if(?enableThermalFoundation, "shown", "hidden")' displayGroup='groupThermalFoundation'>
                     <Description> Controls how Silver is generated </Description>
                     <DisplayName>Thermal Foundation Silver</DisplayName>
                     <Choice value='LayeredVeins' displayValue='Layered Veins'>
@@ -120,11 +125,11 @@
                     </Choice>
                     <Choice value='none' displayValue='None' description='Silver is not generated in the world.'/>
                 </OptionChoice>
-                <OptionNumeric name='thfoSilverFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupThermalFoundation'>
+                <OptionNumeric name='thfoSilverFreq' default='1'  min='0' max='5' displayState=':= if(?enableThermalFoundation, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThermalFoundation'>
                     <Description> Frequency multiplier for Thermal Foundation Silver distributions </Description>
                     <DisplayName>Thermal Foundation Silver Freq.</DisplayName>
                 </OptionNumeric>
-                <OptionNumeric name='thfoSilverSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupThermalFoundation'>
+                <OptionNumeric name='thfoSilverSize' default='1'  min='0' max='5' displayState=':= if(?enableThermalFoundation, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThermalFoundation'>
                     <Description> Size multiplier for Thermal Foundation Silver distributions </Description>
                     <DisplayName>Thermal Foundation Silver Size</DisplayName>
                 </OptionNumeric>
@@ -134,7 +139,7 @@
 
             <!-- Lead Configuration UI Starting -->
             <ConfigSection>
-                <OptionChoice name='thfoLeadDist'  displayState='shown' displayGroup='groupThermalFoundation'>
+                <OptionChoice name='thfoLeadDist'  displayState=':= if(?enableThermalFoundation, "shown", "hidden")' displayGroup='groupThermalFoundation'>
                     <Description> Controls how Lead is generated </Description>
                     <DisplayName>Thermal Foundation Lead</DisplayName>
                     <Choice value='LayeredVeins' displayValue='Layered Veins'>
@@ -154,11 +159,11 @@
                     </Choice>
                     <Choice value='none' displayValue='None' description='Lead is not generated in the world.'/>
                 </OptionChoice>
-                <OptionNumeric name='thfoLeadFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupThermalFoundation'>
+                <OptionNumeric name='thfoLeadFreq' default='1'  min='0' max='5' displayState=':= if(?enableThermalFoundation, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThermalFoundation'>
                     <Description> Frequency multiplier for Thermal Foundation Lead distributions </Description>
                     <DisplayName>Thermal Foundation Lead Freq.</DisplayName>
                 </OptionNumeric>
-                <OptionNumeric name='thfoLeadSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupThermalFoundation'>
+                <OptionNumeric name='thfoLeadSize' default='1'  min='0' max='5' displayState=':= if(?enableThermalFoundation, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThermalFoundation'>
                     <Description> Size multiplier for Thermal Foundation Lead distributions </Description>
                     <DisplayName>Thermal Foundation Lead Size</DisplayName>
                 </OptionNumeric>
@@ -168,7 +173,7 @@
 
             <!-- Ferrous Configuration UI Starting -->
             <ConfigSection>
-                <OptionChoice name='thfoFerrousDist'  displayState='shown' displayGroup='groupThermalFoundation'>
+                <OptionChoice name='thfoFerrousDist'  displayState=':= if(?enableThermalFoundation, "shown", "hidden")' displayGroup='groupThermalFoundation'>
                     <Description> Controls how Ferrous is generated </Description>
                     <DisplayName>Thermal Foundation Ferrous</DisplayName>
                     <Choice value='LayeredVeins' displayValue='Layered Veins'>
@@ -188,11 +193,11 @@
                     </Choice>
                     <Choice value='none' displayValue='None' description='Ferrous is not generated in the world.'/>
                 </OptionChoice>
-                <OptionNumeric name='thfoFerrousFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupThermalFoundation'>
+                <OptionNumeric name='thfoFerrousFreq' default='1'  min='0' max='5' displayState=':= if(?enableThermalFoundation, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThermalFoundation'>
                     <Description> Frequency multiplier for Thermal Foundation Ferrous distributions </Description>
                     <DisplayName>Thermal Foundation Ferrous Freq.</DisplayName>
                 </OptionNumeric>
-                <OptionNumeric name='thfoFerrousSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupThermalFoundation'>
+                <OptionNumeric name='thfoFerrousSize' default='1'  min='0' max='5' displayState=':= if(?enableThermalFoundation, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThermalFoundation'>
                     <Description> Size multiplier for Thermal Foundation Ferrous distributions </Description>
                     <DisplayName>Thermal Foundation Ferrous Size</DisplayName>
                 </OptionNumeric>
@@ -202,7 +207,7 @@
 
             <!-- Shiny Configuration UI Starting -->
             <ConfigSection>
-                <OptionChoice name='thfoShinyDist'  displayState='shown' displayGroup='groupThermalFoundation'>
+                <OptionChoice name='thfoShinyDist'  displayState=':= if(?enableThermalFoundation, "shown", "hidden")' displayGroup='groupThermalFoundation'>
                     <Description> Controls how Shiny is generated </Description>
                     <DisplayName>Thermal Foundation Shiny</DisplayName>
                     <Choice value='LayeredVeins' displayValue='Layered Veins'>
@@ -222,11 +227,11 @@
                     </Choice>
                     <Choice value='none' displayValue='None' description='Shiny is not generated in the world.'/>
                 </OptionChoice>
-                <OptionNumeric name='thfoShinyFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupThermalFoundation'>
+                <OptionNumeric name='thfoShinyFreq' default='1'  min='0' max='5' displayState=':= if(?enableThermalFoundation, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThermalFoundation'>
                     <Description> Frequency multiplier for Thermal Foundation Shiny distributions </Description>
                     <DisplayName>Thermal Foundation Shiny Freq.</DisplayName>
                 </OptionNumeric>
-                <OptionNumeric name='thfoShinySize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupThermalFoundation'>
+                <OptionNumeric name='thfoShinySize' default='1'  min='0' max='5' displayState=':= if(?enableThermalFoundation, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThermalFoundation'>
                     <Description> Size multiplier for Thermal Foundation Shiny distributions </Description>
                     <DisplayName>Thermal Foundation Shiny Size</DisplayName>
                 </OptionNumeric>
@@ -236,744 +241,761 @@
         </ConfigSection>
         <!-- Setup Screen Complete -->
 
+        <IfCondition condition=':= ?enableThermalFoundation'>
 
 
 
 
-        <!-- Overworld Setup Beginning -->
+            <!-- Overworld Setup Beginning -->
 
-        <IfCondition condition=':= ?COGActive'>
+            <IfCondition condition=':= ?COGActive'>
 
-            <!-- Starting Original "Overworld" Block Removal -->
+                <!-- Starting Original "Overworld" Block Removal -->
 
-            <Substitute name='thfoOverworldBlockSubstitute0' block='minecraft:stone'>
-                <Description>
-                    Replace vanilla-generated ore clusters.
-                </Description>
-                <Comment>
-                    The global option deferredPopulationRange  must be
-                    large enough to catch all ore  clusters (>= 32).
-                </Comment>
-                <Replaces block='ThermalFoundation:Ore' weight='1.0' />
-                <Replaces block='ThermalFoundation:Ore:1' weight='1.0' />
-                <Replaces block='ThermalFoundation:Ore:2' weight='1.0' />
-                <Replaces block='ThermalFoundation:Ore:3' weight='1.0' />
-                <Replaces block='ThermalFoundation:Ore:4' weight='1.0' />
-                <Replaces block='ThermalFoundation:Ore:5' weight='1.0' />
-            </Substitute>
-
-            <!-- Original "Overworld" Block Removal Complete -->
-
-            <!-- Adding blocks -->
-
-            <!-- Begin Copper Generation -->
-
-            <!-- Starting LayeredVeins Preset for Copper. -->
-            <ConfigSection>
-                <IfCondition condition=':= thfoCopperDist = "LayeredVeins"'>
-                    <Veins name='thfoCopperVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+                <IfCondition condition=':= ?blockExists("minecraft:stone")'>
+                    <Substitute name='thfoOverworldBlockSubstitute0' block='minecraft:stone'>
                         <Description>
-                            Small, fairly rare motherlodes with  2-4
-                            horizontal veins each.
+                            Replace vanilla-generated ore clusters.
                         </Description>
-                        <OreBlock block='ThermalFoundation:Ore' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='MotherlodeFrequency' avg=':= 1.059 * _default_ * thfoCopperFreq ' range=':=  _default_ * thfoCopperFreq ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeSize' avg=':= 1.019 * _default_ * thfoCopperSize ' range=':=  _default_ * thfoCopperSize ' type='normal' />
-                        <Setting name='MotherlodeHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchLength' avg=':= 1.019 * _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentLength' avg=':= _default_ * thfoCopperSize ' range=':=  _default_ * thfoCopperSize ' type='normal' />
-                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentRadius' avg=':= 1.019 * _default_ * thfoCopperSize ' range=':=  _default_ * thfoCopperSize ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </Veins>
+                        <Comment>
+                            The global option  deferredPopulationRange
+                            must be large  enough to catch all ore
+                            clusters (>=  32).
+                        </Comment>
+                        <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore")'> <Replaces block='ThermalFoundation:Ore' weight='1.0' /> </IfCondition>
+                        <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:1")'> <Replaces block='ThermalFoundation:Ore:1' weight='1.0' /> </IfCondition>
+                        <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:2")'> <Replaces block='ThermalFoundation:Ore:2' weight='1.0' /> </IfCondition>
+                        <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:3")'> <Replaces block='ThermalFoundation:Ore:3' weight='1.0' /> </IfCondition>
+                        <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:4")'> <Replaces block='ThermalFoundation:Ore:4' weight='1.0' /> </IfCondition>
+                        <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:5")'> <Replaces block='ThermalFoundation:Ore:5' weight='1.0' /> </IfCondition>
+                    </Substitute>
                 </IfCondition>
-            </ConfigSection>
-            <!-- LayeredVeins Preset for Copper is complete. -->
 
+                <!-- Original "Overworld" Block Removal Complete -->
 
-            <!-- Starting Cloud Preset for Copper. -->
-            <ConfigSection>
-                <IfCondition condition=':= thfoCopperDist = "Cloud"'>
-                    <Cloud name='thfoCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
-                        <Description>
-                            Large irregular clouds filled lightly
-                            with ore.  These are huge, spanning
-                            several adjacent chunks, and  consequently
-                            rather rare.  They  contain a sizeable
-                            amount of ore, but  it takes some time and
-                            effort to mine  due to low density. The
-                            intent for  strategic clouds is that the
-                            player  will need to actively search for
-                            one  and then set up a semi-permanent
-                            mining base and spend some time  actually
-                            mining the ore.
-                        </Description>
-                        <OreBlock block='ThermalFoundation:Ore' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='CloudRadius' avg=':= 1.454 * _default_ * thfoCopperSize ' range=':=  _default_ * thfoCopperSize ' type='normal' />
-                        <Setting name='CloudThickness' avg=':= 1.454 * _default_ * thfoCopperSize ' range=':=  _default_ * thfoCopperSize ' type='normal' scaleTo='base' />
-                        <Setting name='DistributionFrequency' avg=':= 2.115  * _default_ * thfoCopperFreq ' range=':=  _default_ * thfoCopperFreq ' type='normal' scaleTo='base' />
-                        <Setting name='CloudHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Veins name='thfoCopperHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+                <!-- Adding blocks -->
+
+                <!-- Begin Copper Generation -->
+
+                <!-- Starting LayeredVeins Preset for Copper. -->
+                <ConfigSection>
+                    <IfCondition condition=':= thfoCopperDist = "LayeredVeins"'>
+                        <Veins name='thfoCopperVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
                             <Description>
-                                Single blocks, generously  scattered
-                                through all heights  (density is about
-                                that of vanilla  iron ore). They will
-                                replace dirt  and sandstone (but not
-                                grass or  sand), so they can be found
-                                nearer to the surface than most  ores.
-                                Intened to be used as a  child
-                                distribution for large,  rare
-                                strategic deposits that  would
-                                otherwise be very difficult  to find.
-                                Note that the frequency  is multiplied
-                                by ground level to  maintain a
-                                constant density, but  not by ore
-                                frequency because it  is assumed that
-                                the frequency of  the parent
-                                distribution will  already be scaled
-                                by that.
+                                Small, fairly rare motherlodes  with
+                                2-4 horizontal veins each.
                             </Description>
-                            <OreBlock block='ThermalFoundation:Ore' weight='1.0' />
-                            <Replaces block='minecraft:dirt' weight='1.0' />
-                            <Replaces block='minecraft:sandstone' weight='1.0' />
+                            <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore")'> <OreBlock block='ThermalFoundation:Ore' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 1.059 * _default_ * thfoCopperFreq ' range=':=  _default_ * thfoCopperFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.019 * _default_ * thfoCopperSize ' range=':=  _default_ * thfoCopperSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.019 * _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * thfoCopperSize ' range=':=  _default_ * thfoCopperSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.019 * _default_ * thfoCopperSize ' range=':=  _default_ * thfoCopperSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
                         </Veins>
-                    </Cloud>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Cloud Preset for Copper is complete. -->
+                    </IfCondition>
+                </ConfigSection>
+                <!-- LayeredVeins Preset for Copper is complete. -->
 
 
-            <!-- Starting Vanilla Preset for Copper. -->
-            <ConfigSection>
-                <IfCondition condition=':= thfoCopperDist = "Vanilla"'>
-                    <StandardGen name='thfoCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
-                        <Description>
-                            A master preset for standardgen ore
-                            distributions.
-                        </Description>
-                        <OreBlock block='ThermalFoundation:Ore' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='Size' avg=':= 8 * thfoCopperSize ' range=':=  _default_ * thfoCopperSize ' type='normal' />
-                        <Setting name='Frequency' avg=':= 10 * thfoCopperFreq ' range=':=  _default_ * thfoCopperFreq ' type='normal' scaleTo='base' />
-                        <Setting name='Height' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </StandardGen>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Vanilla Preset for Copper is complete. -->
-
-            <!-- End Copper Generation -->
-
-
-            <!-- Begin Tin Generation -->
-
-            <!-- Starting LayeredVeins Preset for Tin. -->
-            <ConfigSection>
-                <IfCondition condition=':= thfoTinDist = "LayeredVeins"'>
-                    <Veins name='thfoTinVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
-                        <Description>
-                            Small, fairly rare motherlodes with  2-4
-                            horizontal veins each.
-                        </Description>
-                        <OreBlock block='ThermalFoundation:Ore:1' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='MotherlodeFrequency' avg=':= 0.948 * _default_ * thfoTinFreq ' range=':=  _default_ * thfoTinFreq ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeSize' avg=':= 0.982 * _default_ * thfoTinSize ' range=':=  _default_ * thfoTinSize ' type='normal' />
-                        <Setting name='MotherlodeHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchLength' avg=':= 0.982 * _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentLength' avg=':= _default_ * thfoTinSize ' range=':=  _default_ * thfoTinSize ' type='normal' />
-                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentRadius' avg=':= 0.982 * _default_ * thfoTinSize ' range=':=  _default_ * thfoTinSize ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </Veins>
-                </IfCondition>
-            </ConfigSection>
-            <!-- LayeredVeins Preset for Tin is complete. -->
-
-
-            <!-- Starting Cloud Preset for Tin. -->
-            <ConfigSection>
-                <IfCondition condition=':= thfoTinDist = "Cloud"'>
-                    <Cloud name='thfoTinCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
-                        <Description>
-                            Large irregular clouds filled lightly
-                            with ore.  These are huge, spanning
-                            several adjacent chunks, and  consequently
-                            rather rare.  They  contain a sizeable
-                            amount of ore, but  it takes some time and
-                            effort to mine  due to low density. The
-                            intent for  strategic clouds is that the
-                            player  will need to actively search for
-                            one  and then set up a semi-permanent
-                            mining base and spend some time  actually
-                            mining the ore.
-                        </Description>
-                        <OreBlock block='ThermalFoundation:Ore:1' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='CloudRadius' avg=':= 1.375 * _default_ * thfoTinSize ' range=':=  _default_ * thfoTinSize ' type='normal' />
-                        <Setting name='CloudThickness' avg=':= 1.375 * _default_ * thfoTinSize ' range=':=  _default_ * thfoTinSize ' type='normal' scaleTo='base' />
-                        <Setting name='DistributionFrequency' avg=':= 1.892  * _default_ * thfoTinFreq ' range=':=  _default_ * thfoTinFreq ' type='normal' scaleTo='base' />
-                        <Setting name='CloudHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Veins name='thfoTinHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+                <!-- Starting Cloud Preset for Copper. -->
+                <ConfigSection>
+                    <IfCondition condition=':= thfoCopperDist = "Cloud"'>
+                        <Cloud name='thfoCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
                             <Description>
-                                Single blocks, generously  scattered
-                                through all heights  (density is about
-                                that of vanilla  iron ore). They will
-                                replace dirt  and sandstone (but not
-                                grass or  sand), so they can be found
-                                nearer to the surface than most  ores.
-                                Intened to be used as a  child
-                                distribution for large,  rare
-                                strategic deposits that  would
-                                otherwise be very difficult  to find.
-                                Note that the frequency  is multiplied
-                                by ground level to  maintain a
-                                constant density, but  not by ore
-                                frequency because it  is assumed that
-                                the frequency of  the parent
-                                distribution will  already be scaled
-                                by that.
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
                             </Description>
-                            <OreBlock block='ThermalFoundation:Ore:1' weight='1.0' />
-                            <Replaces block='minecraft:dirt' weight='1.0' />
-                            <Replaces block='minecraft:sandstone' weight='1.0' />
-                        </Veins>
-                    </Cloud>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Cloud Preset for Tin is complete. -->
+                            <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore")'> <OreBlock block='ThermalFoundation:Ore' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 1.454 * _default_ * thfoCopperSize ' range=':=  _default_ * thfoCopperSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.454 * _default_ * thfoCopperSize ' range=':=  _default_ * thfoCopperSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 2.115  * _default_ * thfoCopperFreq ' range=':=  _default_ * thfoCopperFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Veins name='thfoCopperHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore")'> <OreBlock block='ThermalFoundation:Ore' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Cloud Preset for Copper is complete. -->
 
 
-            <!-- Starting Vanilla Preset for Tin. -->
-            <ConfigSection>
-                <IfCondition condition=':= thfoTinDist = "Vanilla"'>
-                    <StandardGen name='thfoTinStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
-                        <Description>
-                            A master preset for standardgen ore
-                            distributions.
-                        </Description>
-                        <OreBlock block='ThermalFoundation:Ore:1' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='Size' avg=':= 8 * thfoTinSize ' range=':=  _default_ * thfoTinSize ' type='normal' />
-                        <Setting name='Frequency' avg=':= 8 * thfoTinFreq ' range=':=  _default_ * thfoTinFreq ' type='normal' scaleTo='base' />
-                        <Setting name='Height' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </StandardGen>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Vanilla Preset for Tin is complete. -->
-
-            <!-- End Tin Generation -->
-
-
-            <!-- Begin Silver Generation -->
-
-            <!-- Starting LayeredVeins Preset for Silver. -->
-            <ConfigSection>
-                <IfCondition condition=':= thfoSilverDist = "LayeredVeins"'>
-                    <Veins name='thfoSilverVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
-                        <Description>
-                            Small, fairly rare motherlodes with  2-4
-                            horizontal veins each.
-                        </Description>
-                        <OreBlock block='ThermalFoundation:Ore:2' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='MotherlodeFrequency' avg=':= 0.821 * _default_ * thfoSilverFreq ' range=':=  _default_ * thfoSilverFreq ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeSize' avg=':= 0.936 * _default_ * thfoSilverSize ' range=':=  _default_ * thfoSilverSize ' type='normal' />
-                        <Setting name='MotherlodeHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchLength' avg=':= 0.936 * _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentLength' avg=':= _default_ * thfoSilverSize ' range=':=  _default_ * thfoSilverSize ' type='normal' />
-                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentRadius' avg=':= 0.936 * _default_ * thfoSilverSize ' range=':=  _default_ * thfoSilverSize ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </Veins>
-                </IfCondition>
-            </ConfigSection>
-            <!-- LayeredVeins Preset for Silver is complete. -->
-
-
-            <!-- Starting Cloud Preset for Silver. -->
-            <ConfigSection>
-                <IfCondition condition=':= thfoSilverDist = "Cloud"'>
-                    <Cloud name='thfoSilverCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
-                        <Description>
-                            Large irregular clouds filled lightly
-                            with ore.  These are huge, spanning
-                            several adjacent chunks, and  consequently
-                            rather rare.  They  contain a sizeable
-                            amount of ore, but  it takes some time and
-                            effort to mine  due to low density. The
-                            intent for  strategic clouds is that the
-                            player  will need to actively search for
-                            one  and then set up a semi-permanent
-                            mining base and spend some time  actually
-                            mining the ore.
-                        </Description>
-                        <OreBlock block='ThermalFoundation:Ore:2' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='CloudRadius' avg=':= 1.280 * _default_ * thfoSilverSize ' range=':=  _default_ * thfoSilverSize ' type='normal' />
-                        <Setting name='CloudThickness' avg=':= 1.280 * _default_ * thfoSilverSize ' range=':=  _default_ * thfoSilverSize ' type='normal' scaleTo='base' />
-                        <Setting name='DistributionFrequency' avg=':= 1.638  * _default_ * thfoSilverFreq ' range=':=  _default_ * thfoSilverFreq ' type='normal' scaleTo='base' />
-                        <Setting name='CloudHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Veins name='thfoSilverHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+                <!-- Starting Vanilla Preset for Copper. -->
+                <ConfigSection>
+                    <IfCondition condition=':= thfoCopperDist = "Vanilla"'>
+                        <StandardGen name='thfoCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
                             <Description>
-                                Single blocks, generously  scattered
-                                through all heights  (density is about
-                                that of vanilla  iron ore). They will
-                                replace dirt  and sandstone (but not
-                                grass or  sand), so they can be found
-                                nearer to the surface than most  ores.
-                                Intened to be used as a  child
-                                distribution for large,  rare
-                                strategic deposits that  would
-                                otherwise be very difficult  to find.
-                                Note that the frequency  is multiplied
-                                by ground level to  maintain a
-                                constant density, but  not by ore
-                                frequency because it  is assumed that
-                                the frequency of  the parent
-                                distribution will  already be scaled
-                                by that.
+                                A master preset for standardgen  ore
+                                distributions.
                             </Description>
-                            <OreBlock block='ThermalFoundation:Ore:2' weight='1.0' />
-                            <Replaces block='minecraft:dirt' weight='1.0' />
-                            <Replaces block='minecraft:sandstone' weight='1.0' />
-                        </Veins>
-                    </Cloud>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Cloud Preset for Silver is complete. -->
+                            <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore")'> <OreBlock block='ThermalFoundation:Ore' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 8 * thfoCopperSize ' range=':=  _default_ * thfoCopperSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 10 * thfoCopperFreq ' range=':=  _default_ * thfoCopperFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Copper is complete. -->
+
+                <!-- End Copper Generation -->
 
 
-            <!-- Starting Vanilla Preset for Silver. -->
-            <ConfigSection>
-                <IfCondition condition=':= thfoSilverDist = "Vanilla"'>
-                    <StandardGen name='thfoSilverStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
-                        <Description>
-                            A master preset for standardgen ore
-                            distributions.
-                        </Description>
-                        <OreBlock block='ThermalFoundation:Ore:2' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='Size' avg=':= 8 * thfoSilverSize ' range=':=  _default_ * thfoSilverSize ' type='normal' />
-                        <Setting name='Frequency' avg=':= 6 * thfoSilverFreq ' range=':=  _default_ * thfoSilverFreq ' type='normal' scaleTo='base' />
-                        <Setting name='Height' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </StandardGen>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Vanilla Preset for Silver is complete. -->
+                <!-- Begin Tin Generation -->
 
-            <!-- End Silver Generation -->
-
-
-            <!-- Begin Lead Generation -->
-
-            <!-- Starting LayeredVeins Preset for Lead. -->
-            <ConfigSection>
-                <IfCondition condition=':= thfoLeadDist = "LayeredVeins"'>
-                    <Veins name='thfoLeadVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
-                        <Description>
-                            Small, fairly rare motherlodes with  2-4
-                            horizontal veins each.
-                        </Description>
-                        <OreBlock block='ThermalFoundation:Ore:3' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='MotherlodeFrequency' avg=':= 0.948 * _default_ * thfoLeadFreq ' range=':=  _default_ * thfoLeadFreq ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeSize' avg=':= 0.982 * _default_ * thfoLeadSize ' range=':=  _default_ * thfoLeadSize ' type='normal' />
-                        <Setting name='MotherlodeHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchLength' avg=':= 0.982 * _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentLength' avg=':= _default_ * thfoLeadSize ' range=':=  _default_ * thfoLeadSize ' type='normal' />
-                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentRadius' avg=':= 0.982 * _default_ * thfoLeadSize ' range=':=  _default_ * thfoLeadSize ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </Veins>
-                </IfCondition>
-            </ConfigSection>
-            <!-- LayeredVeins Preset for Lead is complete. -->
-
-
-            <!-- Starting Cloud Preset for Lead. -->
-            <ConfigSection>
-                <IfCondition condition=':= thfoLeadDist = "Cloud"'>
-                    <Cloud name='thfoLeadCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
-                        <Description>
-                            Large irregular clouds filled lightly
-                            with ore.  These are huge, spanning
-                            several adjacent chunks, and  consequently
-                            rather rare.  They  contain a sizeable
-                            amount of ore, but  it takes some time and
-                            effort to mine  due to low density. The
-                            intent for  strategic clouds is that the
-                            player  will need to actively search for
-                            one  and then set up a semi-permanent
-                            mining base and spend some time  actually
-                            mining the ore.
-                        </Description>
-                        <OreBlock block='ThermalFoundation:Ore:3' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='CloudRadius' avg=':= 1.375 * _default_ * thfoLeadSize ' range=':=  _default_ * thfoLeadSize ' type='normal' />
-                        <Setting name='CloudThickness' avg=':= 1.375 * _default_ * thfoLeadSize ' range=':=  _default_ * thfoLeadSize ' type='normal' scaleTo='base' />
-                        <Setting name='DistributionFrequency' avg=':= 1.892  * _default_ * thfoLeadFreq ' range=':=  _default_ * thfoLeadFreq ' type='normal' scaleTo='base' />
-                        <Setting name='CloudHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Veins name='thfoLeadHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+                <!-- Starting LayeredVeins Preset for Tin. -->
+                <ConfigSection>
+                    <IfCondition condition=':= thfoTinDist = "LayeredVeins"'>
+                        <Veins name='thfoTinVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
                             <Description>
-                                Single blocks, generously  scattered
-                                through all heights  (density is about
-                                that of vanilla  iron ore). They will
-                                replace dirt  and sandstone (but not
-                                grass or  sand), so they can be found
-                                nearer to the surface than most  ores.
-                                Intened to be used as a  child
-                                distribution for large,  rare
-                                strategic deposits that  would
-                                otherwise be very difficult  to find.
-                                Note that the frequency  is multiplied
-                                by ground level to  maintain a
-                                constant density, but  not by ore
-                                frequency because it  is assumed that
-                                the frequency of  the parent
-                                distribution will  already be scaled
-                                by that.
+                                Small, fairly rare motherlodes  with
+                                2-4 horizontal veins each.
                             </Description>
-                            <OreBlock block='ThermalFoundation:Ore:3' weight='1.0' />
-                            <Replaces block='minecraft:dirt' weight='1.0' />
-                            <Replaces block='minecraft:sandstone' weight='1.0' />
+                            <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:1")'> <OreBlock block='ThermalFoundation:Ore:1' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 0.948 * _default_ * thfoTinFreq ' range=':=  _default_ * thfoTinFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 0.982 * _default_ * thfoTinSize ' range=':=  _default_ * thfoTinSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 0.982 * _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * thfoTinSize ' range=':=  _default_ * thfoTinSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.982 * _default_ * thfoTinSize ' range=':=  _default_ * thfoTinSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
                         </Veins>
-                    </Cloud>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Cloud Preset for Lead is complete. -->
+                    </IfCondition>
+                </ConfigSection>
+                <!-- LayeredVeins Preset for Tin is complete. -->
 
 
-            <!-- Starting Vanilla Preset for Lead. -->
-            <ConfigSection>
-                <IfCondition condition=':= thfoLeadDist = "Vanilla"'>
-                    <StandardGen name='thfoLeadStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
-                        <Description>
-                            A master preset for standardgen ore
-                            distributions.
-                        </Description>
-                        <OreBlock block='ThermalFoundation:Ore:3' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='Size' avg=':= 8 * thfoLeadSize ' range=':=  _default_ * thfoLeadSize ' type='normal' />
-                        <Setting name='Frequency' avg=':= 8 * thfoLeadFreq ' range=':=  _default_ * thfoLeadFreq ' type='normal' scaleTo='base' />
-                        <Setting name='Height' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </StandardGen>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Vanilla Preset for Lead is complete. -->
-
-            <!-- End Lead Generation -->
-
-
-            <!-- Begin Ferrous Generation -->
-
-            <!-- Starting LayeredVeins Preset for Ferrous. -->
-            <ConfigSection>
-                <IfCondition condition=':= thfoFerrousDist = "LayeredVeins"'>
-                    <Veins name='thfoFerrousVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
-                        <Description>
-                            Small, fairly rare motherlodes with  2-4
-                            horizontal veins each.
-                        </Description>
-                        <OreBlock block='ThermalFoundation:Ore:4' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='MotherlodeFrequency' avg=':= 0.410 * _default_ * thfoFerrousFreq ' range=':=  _default_ * thfoFerrousFreq ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeSize' avg=':= 0.743 * _default_ * thfoFerrousSize ' range=':=  _default_ * thfoFerrousSize ' type='normal' />
-                        <Setting name='MotherlodeHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchLength' avg=':= 0.743 * _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentLength' avg=':= _default_ * thfoFerrousSize ' range=':=  _default_ * thfoFerrousSize ' type='normal' />
-                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentRadius' avg=':= 0.743 * _default_ * thfoFerrousSize ' range=':=  _default_ * thfoFerrousSize ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </Veins>
-                </IfCondition>
-            </ConfigSection>
-            <!-- LayeredVeins Preset for Ferrous is complete. -->
-
-
-            <!-- Starting Cloud Preset for Ferrous. -->
-            <ConfigSection>
-                <IfCondition condition=':= thfoFerrousDist = "Cloud"'>
-                    <Cloud name='thfoFerrousCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
-                        <Description>
-                            Large irregular clouds filled lightly
-                            with ore.  These are huge, spanning
-                            several adjacent chunks, and  consequently
-                            rather rare.  They  contain a sizeable
-                            amount of ore, but  it takes some time and
-                            effort to mine  due to low density. The
-                            intent for  strategic clouds is that the
-                            player  will need to actively search for
-                            one  and then set up a semi-permanent
-                            mining base and spend some time  actually
-                            mining the ore.
-                        </Description>
-                        <OreBlock block='ThermalFoundation:Ore:4' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='CloudRadius' avg=':= 0.905 * _default_ * thfoFerrousSize ' range=':=  _default_ * thfoFerrousSize ' type='normal' />
-                        <Setting name='CloudThickness' avg=':= 0.905 * _default_ * thfoFerrousSize ' range=':=  _default_ * thfoFerrousSize ' type='normal' scaleTo='base' />
-                        <Setting name='DistributionFrequency' avg=':= 0.819  * _default_ * thfoFerrousFreq ' range=':=  _default_ * thfoFerrousFreq ' type='normal' scaleTo='base' />
-                        <Setting name='CloudHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Veins name='thfoFerrousHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
+                <!-- Starting Cloud Preset for Tin. -->
+                <ConfigSection>
+                    <IfCondition condition=':= thfoTinDist = "Cloud"'>
+                        <Cloud name='thfoTinCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
                             <Description>
-                                Single blocks, generously  scattered
-                                through all heights  (density is about
-                                that of vanilla  iron ore). They will
-                                replace dirt  and sandstone (but not
-                                grass or  sand), so they can be found
-                                nearer to the surface than most  ores.
-                                Intened to be used as a  child
-                                distribution for large,  rare
-                                strategic deposits that  would
-                                otherwise be very difficult  to find.
-                                Note that the frequency  is multiplied
-                                by ground level to  maintain a
-                                constant density, but  not by ore
-                                frequency because it  is assumed that
-                                the frequency of  the parent
-                                distribution will  already be scaled
-                                by that.
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
                             </Description>
-                            <OreBlock block='ThermalFoundation:Ore:4' weight='1.0' />
-                            <Replaces block='minecraft:dirt' weight='1.0' />
-                            <Replaces block='minecraft:sandstone' weight='1.0' />
-                        </Veins>
-                    </Cloud>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Cloud Preset for Ferrous is complete. -->
+                            <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:1")'> <OreBlock block='ThermalFoundation:Ore:1' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 1.375 * _default_ * thfoTinSize ' range=':=  _default_ * thfoTinSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.375 * _default_ * thfoTinSize ' range=':=  _default_ * thfoTinSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.892  * _default_ * thfoTinFreq ' range=':=  _default_ * thfoTinFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Veins name='thfoTinHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:1")'> <OreBlock block='ThermalFoundation:Ore:1' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Cloud Preset for Tin is complete. -->
 
 
-            <!-- Starting Vanilla Preset for Ferrous. -->
-            <ConfigSection>
-                <IfCondition condition=':= thfoFerrousDist = "Vanilla"'>
-                    <StandardGen name='thfoFerrousStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
-                        <Description>
-                            A master preset for standardgen ore
-                            distributions.
-                        </Description>
-                        <OreBlock block='ThermalFoundation:Ore:4' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='Size' avg=':= 4 * thfoFerrousSize ' range=':=  _default_ * thfoFerrousSize ' type='normal' />
-                        <Setting name='Frequency' avg=':= 3 * thfoFerrousFreq ' range=':=  _default_ * thfoFerrousFreq ' type='normal' scaleTo='base' />
-                        <Setting name='Height' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </StandardGen>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Vanilla Preset for Ferrous is complete. -->
-
-            <!-- End Ferrous Generation -->
-
-
-            <!-- Begin Shiny Generation -->
-
-            <!-- Starting LayeredVeins Preset for Shiny. -->
-            <ConfigSection>
-                <IfCondition condition=':= thfoShinyDist = "LayeredVeins"'>
-                    <Veins name='thfoShinyVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
-                        <Description>
-                            Small, fairly rare motherlodes with  2-4
-                            horizontal veins each.
-                        </Description>
-                        <OreBlock block='ThermalFoundation:Ore:5' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='MotherlodeFrequency' avg=':= 0.205 * _default_ * thfoShinyFreq ' range=':=  _default_ * thfoShinyFreq ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeSize' avg=':= 0.590 * _default_ * thfoShinySize ' range=':=  _default_ * thfoShinySize ' type='normal' />
-                        <Setting name='MotherlodeHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchLength' avg=':= 0.590 * _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentLength' avg=':= _default_ * thfoShinySize ' range=':=  _default_ * thfoShinySize ' type='normal' />
-                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentRadius' avg=':= 0.590 * _default_ * thfoShinySize ' range=':=  _default_ * thfoShinySize ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </Veins>
-                </IfCondition>
-            </ConfigSection>
-            <!-- LayeredVeins Preset for Shiny is complete. -->
-
-
-            <!-- Starting Cloud Preset for Shiny. -->
-            <ConfigSection>
-                <IfCondition condition=':= thfoShinyDist = "Cloud"'>
-                    <Cloud name='thfoShinyCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
-                        <Description>
-                            Large irregular clouds filled lightly
-                            with ore.  These are huge, spanning
-                            several adjacent chunks, and  consequently
-                            rather rare.  They  contain a sizeable
-                            amount of ore, but  it takes some time and
-                            effort to mine  due to low density. The
-                            intent for  strategic clouds is that the
-                            player  will need to actively search for
-                            one  and then set up a semi-permanent
-                            mining base and spend some time  actually
-                            mining the ore.
-                        </Description>
-                        <OreBlock block='ThermalFoundation:Ore:5' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='CloudRadius' avg=':= 0.640 * _default_ * thfoShinySize ' range=':=  _default_ * thfoShinySize ' type='normal' />
-                        <Setting name='CloudThickness' avg=':= 0.640 * _default_ * thfoShinySize ' range=':=  _default_ * thfoShinySize ' type='normal' scaleTo='base' />
-                        <Setting name='DistributionFrequency' avg=':= 0.410  * _default_ * thfoShinyFreq ' range=':=  _default_ * thfoShinyFreq ' type='normal' scaleTo='base' />
-                        <Setting name='CloudHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Veins name='thfoShinyHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
+                <!-- Starting Vanilla Preset for Tin. -->
+                <ConfigSection>
+                    <IfCondition condition=':= thfoTinDist = "Vanilla"'>
+                        <StandardGen name='thfoTinStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
                             <Description>
-                                Single blocks, generously  scattered
-                                through all heights  (density is about
-                                that of vanilla  iron ore). They will
-                                replace dirt  and sandstone (but not
-                                grass or  sand), so they can be found
-                                nearer to the surface than most  ores.
-                                Intened to be used as a  child
-                                distribution for large,  rare
-                                strategic deposits that  would
-                                otherwise be very difficult  to find.
-                                Note that the frequency  is multiplied
-                                by ground level to  maintain a
-                                constant density, but  not by ore
-                                frequency because it  is assumed that
-                                the frequency of  the parent
-                                distribution will  already be scaled
-                                by that.
+                                A master preset for standardgen  ore
+                                distributions.
                             </Description>
-                            <OreBlock block='ThermalFoundation:Ore:5' weight='1.0' />
-                            <Replaces block='minecraft:dirt' weight='1.0' />
-                            <Replaces block='minecraft:sandstone' weight='1.0' />
+                            <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:1")'> <OreBlock block='ThermalFoundation:Ore:1' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 8 * thfoTinSize ' range=':=  _default_ * thfoTinSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 8 * thfoTinFreq ' range=':=  _default_ * thfoTinFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Tin is complete. -->
+
+                <!-- End Tin Generation -->
+
+
+                <!-- Begin Silver Generation -->
+
+                <!-- Starting LayeredVeins Preset for Silver. -->
+                <ConfigSection>
+                    <IfCondition condition=':= thfoSilverDist = "LayeredVeins"'>
+                        <Veins name='thfoSilverVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+                            <Description>
+                                Small, fairly rare motherlodes  with
+                                2-4 horizontal veins each.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:2")'> <OreBlock block='ThermalFoundation:Ore:2' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 0.821 * _default_ * thfoSilverFreq ' range=':=  _default_ * thfoSilverFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 0.936 * _default_ * thfoSilverSize ' range=':=  _default_ * thfoSilverSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 0.936 * _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * thfoSilverSize ' range=':=  _default_ * thfoSilverSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.936 * _default_ * thfoSilverSize ' range=':=  _default_ * thfoSilverSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
                         </Veins>
-                    </Cloud>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Cloud Preset for Shiny is complete. -->
+                    </IfCondition>
+                </ConfigSection>
+                <!-- LayeredVeins Preset for Silver is complete. -->
 
 
-            <!-- Starting Vanilla Preset for Shiny. -->
-            <ConfigSection>
-                <IfCondition condition=':= thfoShinyDist = "Vanilla"'>
-                    <StandardGen name='thfoShinyStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
-                        <Description>
-                            A master preset for standardgen ore
-                            distributions.
-                        </Description>
-                        <OreBlock block='ThermalFoundation:Ore:5' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='Size' avg=':= 3 * thfoShinySize ' range=':=  _default_ * thfoShinySize ' type='normal' />
-                        <Setting name='Frequency' avg=':= 1 * thfoShinyFreq ' range=':=  _default_ * thfoShinyFreq ' type='normal' scaleTo='base' />
-                        <Setting name='Height' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </StandardGen>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Vanilla Preset for Shiny is complete. -->
+                <!-- Starting Cloud Preset for Silver. -->
+                <ConfigSection>
+                    <IfCondition condition=':= thfoSilverDist = "Cloud"'>
+                        <Cloud name='thfoSilverCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:2")'> <OreBlock block='ThermalFoundation:Ore:2' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 1.280 * _default_ * thfoSilverSize ' range=':=  _default_ * thfoSilverSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.280 * _default_ * thfoSilverSize ' range=':=  _default_ * thfoSilverSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.638  * _default_ * thfoSilverFreq ' range=':=  _default_ * thfoSilverFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Veins name='thfoSilverHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:2")'> <OreBlock block='ThermalFoundation:Ore:2' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Cloud Preset for Silver is complete. -->
 
-            <!-- End Shiny Generation -->
 
-            <!-- Finished adding blocks -->
+                <!-- Starting Vanilla Preset for Silver. -->
+                <ConfigSection>
+                    <IfCondition condition=':= thfoSilverDist = "Vanilla"'>
+                        <StandardGen name='thfoSilverStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+                            <Description>
+                                A master preset for standardgen  ore
+                                distributions.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:2")'> <OreBlock block='ThermalFoundation:Ore:2' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 8 * thfoSilverSize ' range=':=  _default_ * thfoSilverSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 6 * thfoSilverFreq ' range=':=  _default_ * thfoSilverFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Silver is complete. -->
+
+                <!-- End Silver Generation -->
+
+
+                <!-- Begin Lead Generation -->
+
+                <!-- Starting LayeredVeins Preset for Lead. -->
+                <ConfigSection>
+                    <IfCondition condition=':= thfoLeadDist = "LayeredVeins"'>
+                        <Veins name='thfoLeadVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+                            <Description>
+                                Small, fairly rare motherlodes  with
+                                2-4 horizontal veins each.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:3")'> <OreBlock block='ThermalFoundation:Ore:3' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 0.948 * _default_ * thfoLeadFreq ' range=':=  _default_ * thfoLeadFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 0.982 * _default_ * thfoLeadSize ' range=':=  _default_ * thfoLeadSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 0.982 * _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * thfoLeadSize ' range=':=  _default_ * thfoLeadSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.982 * _default_ * thfoLeadSize ' range=':=  _default_ * thfoLeadSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </Veins>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- LayeredVeins Preset for Lead is complete. -->
+
+
+                <!-- Starting Cloud Preset for Lead. -->
+                <ConfigSection>
+                    <IfCondition condition=':= thfoLeadDist = "Cloud"'>
+                        <Cloud name='thfoLeadCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:3")'> <OreBlock block='ThermalFoundation:Ore:3' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 1.375 * _default_ * thfoLeadSize ' range=':=  _default_ * thfoLeadSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.375 * _default_ * thfoLeadSize ' range=':=  _default_ * thfoLeadSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.892  * _default_ * thfoLeadFreq ' range=':=  _default_ * thfoLeadFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Veins name='thfoLeadHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:3")'> <OreBlock block='ThermalFoundation:Ore:3' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Cloud Preset for Lead is complete. -->
+
+
+                <!-- Starting Vanilla Preset for Lead. -->
+                <ConfigSection>
+                    <IfCondition condition=':= thfoLeadDist = "Vanilla"'>
+                        <StandardGen name='thfoLeadStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+                            <Description>
+                                A master preset for standardgen  ore
+                                distributions.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:3")'> <OreBlock block='ThermalFoundation:Ore:3' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 8 * thfoLeadSize ' range=':=  _default_ * thfoLeadSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 8 * thfoLeadFreq ' range=':=  _default_ * thfoLeadFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Lead is complete. -->
+
+                <!-- End Lead Generation -->
+
+
+                <!-- Begin Ferrous Generation -->
+
+                <!-- Starting LayeredVeins Preset for Ferrous. -->
+                <ConfigSection>
+                    <IfCondition condition=':= thfoFerrousDist = "LayeredVeins"'>
+                        <Veins name='thfoFerrousVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
+                            <Description>
+                                Small, fairly rare motherlodes  with
+                                2-4 horizontal veins each.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:4")'> <OreBlock block='ThermalFoundation:Ore:4' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 0.410 * _default_ * thfoFerrousFreq ' range=':=  _default_ * thfoFerrousFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 0.743 * _default_ * thfoFerrousSize ' range=':=  _default_ * thfoFerrousSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 0.743 * _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * thfoFerrousSize ' range=':=  _default_ * thfoFerrousSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.743 * _default_ * thfoFerrousSize ' range=':=  _default_ * thfoFerrousSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </Veins>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- LayeredVeins Preset for Ferrous is complete. -->
+
+
+                <!-- Starting Cloud Preset for Ferrous. -->
+                <ConfigSection>
+                    <IfCondition condition=':= thfoFerrousDist = "Cloud"'>
+                        <Cloud name='thfoFerrousCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:4")'> <OreBlock block='ThermalFoundation:Ore:4' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 0.905 * _default_ * thfoFerrousSize ' range=':=  _default_ * thfoFerrousSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 0.905 * _default_ * thfoFerrousSize ' range=':=  _default_ * thfoFerrousSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 0.819  * _default_ * thfoFerrousFreq ' range=':=  _default_ * thfoFerrousFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Veins name='thfoFerrousHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:4")'> <OreBlock block='ThermalFoundation:Ore:4' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Cloud Preset for Ferrous is complete. -->
+
+
+                <!-- Starting Vanilla Preset for Ferrous. -->
+                <ConfigSection>
+                    <IfCondition condition=':= thfoFerrousDist = "Vanilla"'>
+                        <StandardGen name='thfoFerrousStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
+                            <Description>
+                                A master preset for standardgen  ore
+                                distributions.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:4")'> <OreBlock block='ThermalFoundation:Ore:4' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 4 * thfoFerrousSize ' range=':=  _default_ * thfoFerrousSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 3 * thfoFerrousFreq ' range=':=  _default_ * thfoFerrousFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Ferrous is complete. -->
+
+                <!-- End Ferrous Generation -->
+
+
+                <!-- Begin Shiny Generation -->
+
+                <!-- Starting LayeredVeins Preset for Shiny. -->
+                <ConfigSection>
+                    <IfCondition condition=':= thfoShinyDist = "LayeredVeins"'>
+                        <Veins name='thfoShinyVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
+                            <Description>
+                                Small, fairly rare motherlodes  with
+                                2-4 horizontal veins each.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:5")'> <OreBlock block='ThermalFoundation:Ore:5' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 0.205 * _default_ * thfoShinyFreq ' range=':=  _default_ * thfoShinyFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 0.590 * _default_ * thfoShinySize ' range=':=  _default_ * thfoShinySize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 0.590 * _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * thfoShinySize ' range=':=  _default_ * thfoShinySize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.590 * _default_ * thfoShinySize ' range=':=  _default_ * thfoShinySize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </Veins>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- LayeredVeins Preset for Shiny is complete. -->
+
+
+                <!-- Starting Cloud Preset for Shiny. -->
+                <ConfigSection>
+                    <IfCondition condition=':= thfoShinyDist = "Cloud"'>
+                        <Cloud name='thfoShinyCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:5")'> <OreBlock block='ThermalFoundation:Ore:5' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 0.640 * _default_ * thfoShinySize ' range=':=  _default_ * thfoShinySize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 0.640 * _default_ * thfoShinySize ' range=':=  _default_ * thfoShinySize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 0.410  * _default_ * thfoShinyFreq ' range=':=  _default_ * thfoShinyFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Veins name='thfoShinyHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:5")'> <OreBlock block='ThermalFoundation:Ore:5' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Cloud Preset for Shiny is complete. -->
+
+
+                <!-- Starting Vanilla Preset for Shiny. -->
+                <ConfigSection>
+                    <IfCondition condition=':= thfoShinyDist = "Vanilla"'>
+                        <StandardGen name='thfoShinyStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
+                            <Description>
+                                A master preset for standardgen  ore
+                                distributions.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:5")'> <OreBlock block='ThermalFoundation:Ore:5' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 3 * thfoShinySize ' range=':=  _default_ * thfoShinySize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 1 * thfoShinyFreq ' range=':=  _default_ * thfoShinyFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 40 ' range=':=  20 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Shiny is complete. -->
+
+                <!-- End Shiny Generation -->
+
+                <!-- Finished adding blocks -->
+
+            </IfCondition>
+            <!-- Overworld Setup Complete -->
+
+
 
         </IfCondition>
-        <!-- Overworld Setup Complete -->
-
-
-
 
     </ConfigSection>
     <!-- Configuration for Custom Ore Generation Complete! -->

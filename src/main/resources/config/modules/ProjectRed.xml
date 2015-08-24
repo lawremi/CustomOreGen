@@ -26,10 +26,15 @@
                     Distribution options for Project Red Ores.
                 </Description>
             </OptionDisplayGroup>
+            <OptionChoice name='enableProjectRed' displayName='Handle Project Red Setup?' default='true' displayState='shown_dynamic' displayGroup='groupProjectRed'>
+                <Description> Should Custom Ore Generation handle Project Red ore generation? </Description>
+                <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Project Red ores.'/>
+                <Choice value=':= ?false' displayValue='No' description='Project Red ores will be handled by the mod itself.'/>
+            </OptionChoice>
 
             <!-- Ruby Configuration UI Starting -->
             <ConfigSection>
-                <OptionChoice name='predRubyDist'  displayState='shown' displayGroup='groupProjectRed'>
+                <OptionChoice name='predRubyDist'  displayState=':= if(?enableProjectRed, "shown", "hidden")' displayGroup='groupProjectRed'>
                     <Description> Controls how Ruby is generated </Description>
                     <DisplayName>Project Red Ruby</DisplayName>
                     <Choice value='PipeVeins' displayValue='Pipe Veins'>
@@ -49,11 +54,11 @@
                     </Choice>
                     <Choice value='none' displayValue='None' description='Ruby is not generated in the world.'/>
                 </OptionChoice>
-                <OptionNumeric name='predRubyFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupProjectRed'>
+                <OptionNumeric name='predRubyFreq' default='1'  min='0' max='5' displayState=':= if(?enableProjectRed, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupProjectRed'>
                     <Description> Frequency multiplier for Project Red Ruby distributions </Description>
                     <DisplayName>Project Red Ruby Freq.</DisplayName>
                 </OptionNumeric>
-                <OptionNumeric name='predRubySize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupProjectRed'>
+                <OptionNumeric name='predRubySize' default='1'  min='0' max='5' displayState=':= if(?enableProjectRed, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupProjectRed'>
                     <Description> Size multiplier for Project Red Ruby distributions </Description>
                     <DisplayName>Project Red Ruby Size</DisplayName>
                 </OptionNumeric>
@@ -63,7 +68,7 @@
 
             <!-- Sapphire Configuration UI Starting -->
             <ConfigSection>
-                <OptionChoice name='predSapphireDist'  displayState='shown' displayGroup='groupProjectRed'>
+                <OptionChoice name='predSapphireDist'  displayState=':= if(?enableProjectRed, "shown", "hidden")' displayGroup='groupProjectRed'>
                     <Description> Controls how Sapphire is generated </Description>
                     <DisplayName>Project Red Sapphire</DisplayName>
                     <Choice value='PipeVeins' displayValue='Pipe Veins'>
@@ -83,11 +88,11 @@
                     </Choice>
                     <Choice value='none' displayValue='None' description='Sapphire is not generated in the world.'/>
                 </OptionChoice>
-                <OptionNumeric name='predSapphireFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupProjectRed'>
+                <OptionNumeric name='predSapphireFreq' default='1'  min='0' max='5' displayState=':= if(?enableProjectRed, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupProjectRed'>
                     <Description> Frequency multiplier for Project Red Sapphire distributions </Description>
                     <DisplayName>Project Red Sapphire Freq.</DisplayName>
                 </OptionNumeric>
-                <OptionNumeric name='predSapphireSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupProjectRed'>
+                <OptionNumeric name='predSapphireSize' default='1'  min='0' max='5' displayState=':= if(?enableProjectRed, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupProjectRed'>
                     <Description> Size multiplier for Project Red Sapphire distributions </Description>
                     <DisplayName>Project Red Sapphire Size</DisplayName>
                 </OptionNumeric>
@@ -97,7 +102,7 @@
 
             <!-- Peridot Configuration UI Starting -->
             <ConfigSection>
-                <OptionChoice name='predPeridotDist'  displayState='shown' displayGroup='groupProjectRed'>
+                <OptionChoice name='predPeridotDist'  displayState=':= if(?enableProjectRed, "shown", "hidden")' displayGroup='groupProjectRed'>
                     <Description> Controls how Peridot is generated </Description>
                     <DisplayName>Project Red Peridot</DisplayName>
                     <Choice value='PipeVeins' displayValue='Pipe Veins'>
@@ -117,11 +122,11 @@
                     </Choice>
                     <Choice value='none' displayValue='None' description='Peridot is not generated in the world.'/>
                 </OptionChoice>
-                <OptionNumeric name='predPeridotFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupProjectRed'>
+                <OptionNumeric name='predPeridotFreq' default='1'  min='0' max='5' displayState=':= if(?enableProjectRed, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupProjectRed'>
                     <Description> Frequency multiplier for Project Red Peridot distributions </Description>
                     <DisplayName>Project Red Peridot Freq.</DisplayName>
                 </OptionNumeric>
-                <OptionNumeric name='predPeridotSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupProjectRed'>
+                <OptionNumeric name='predPeridotSize' default='1'  min='0' max='5' displayState=':= if(?enableProjectRed, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupProjectRed'>
                     <Description> Size multiplier for Project Red Peridot distributions </Description>
                     <DisplayName>Project Red Peridot Size</DisplayName>
                 </OptionNumeric>
@@ -131,7 +136,7 @@
 
             <!-- Copper Configuration UI Starting -->
             <ConfigSection>
-                <OptionChoice name='predCopperDist'  displayState='shown' displayGroup='groupProjectRed'>
+                <OptionChoice name='predCopperDist'  displayState=':= if(?enableProjectRed, "shown", "hidden")' displayGroup='groupProjectRed'>
                     <Description> Controls how Copper is generated </Description>
                     <DisplayName>Project Red Copper</DisplayName>
                     <Choice value='LayeredVeins' displayValue='Layered Veins'>
@@ -151,11 +156,11 @@
                     </Choice>
                     <Choice value='none' displayValue='None' description='Copper is not generated in the world.'/>
                 </OptionChoice>
-                <OptionNumeric name='predCopperFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupProjectRed'>
+                <OptionNumeric name='predCopperFreq' default='1'  min='0' max='5' displayState=':= if(?enableProjectRed, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupProjectRed'>
                     <Description> Frequency multiplier for Project Red Copper distributions </Description>
                     <DisplayName>Project Red Copper Freq.</DisplayName>
                 </OptionNumeric>
-                <OptionNumeric name='predCopperSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupProjectRed'>
+                <OptionNumeric name='predCopperSize' default='1'  min='0' max='5' displayState=':= if(?enableProjectRed, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupProjectRed'>
                     <Description> Size multiplier for Project Red Copper distributions </Description>
                     <DisplayName>Project Red Copper Size</DisplayName>
                 </OptionNumeric>
@@ -165,7 +170,7 @@
 
             <!-- Tin Configuration UI Starting -->
             <ConfigSection>
-                <OptionChoice name='predTinDist'  displayState='shown' displayGroup='groupProjectRed'>
+                <OptionChoice name='predTinDist'  displayState=':= if(?enableProjectRed, "shown", "hidden")' displayGroup='groupProjectRed'>
                     <Description> Controls how Tin is generated </Description>
                     <DisplayName>Project Red Tin</DisplayName>
                     <Choice value='LayeredVeins' displayValue='Layered Veins'>
@@ -185,11 +190,11 @@
                     </Choice>
                     <Choice value='none' displayValue='None' description='Tin is not generated in the world.'/>
                 </OptionChoice>
-                <OptionNumeric name='predTinFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupProjectRed'>
+                <OptionNumeric name='predTinFreq' default='1'  min='0' max='5' displayState=':= if(?enableProjectRed, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupProjectRed'>
                     <Description> Frequency multiplier for Project Red Tin distributions </Description>
                     <DisplayName>Project Red Tin Freq.</DisplayName>
                 </OptionNumeric>
-                <OptionNumeric name='predTinSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupProjectRed'>
+                <OptionNumeric name='predTinSize' default='1'  min='0' max='5' displayState=':= if(?enableProjectRed, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupProjectRed'>
                     <Description> Size multiplier for Project Red Tin distributions </Description>
                     <DisplayName>Project Red Tin Size</DisplayName>
                 </OptionNumeric>
@@ -199,7 +204,7 @@
 
             <!-- Silver Configuration UI Starting -->
             <ConfigSection>
-                <OptionChoice name='predSilverDist'  displayState='shown' displayGroup='groupProjectRed'>
+                <OptionChoice name='predSilverDist'  displayState=':= if(?enableProjectRed, "shown", "hidden")' displayGroup='groupProjectRed'>
                     <Description> Controls how Silver is generated </Description>
                     <DisplayName>Project Red Silver</DisplayName>
                     <Choice value='LayeredVeins' displayValue='Layered Veins'>
@@ -219,11 +224,11 @@
                     </Choice>
                     <Choice value='none' displayValue='None' description='Silver is not generated in the world.'/>
                 </OptionChoice>
-                <OptionNumeric name='predSilverFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupProjectRed'>
+                <OptionNumeric name='predSilverFreq' default='1'  min='0' max='5' displayState=':= if(?enableProjectRed, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupProjectRed'>
                     <Description> Frequency multiplier for Project Red Silver distributions </Description>
                     <DisplayName>Project Red Silver Freq.</DisplayName>
                 </OptionNumeric>
-                <OptionNumeric name='predSilverSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupProjectRed'>
+                <OptionNumeric name='predSilverSize' default='1'  min='0' max='5' displayState=':= if(?enableProjectRed, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupProjectRed'>
                     <Description> Size multiplier for Project Red Silver distributions </Description>
                     <DisplayName>Project Red Silver Size</DisplayName>
                 </OptionNumeric>
@@ -233,7 +238,7 @@
 
             <!-- Electrotine Configuration UI Starting -->
             <ConfigSection>
-                <OptionChoice name='predElectrotineDist'  displayState='shown' displayGroup='groupProjectRed'>
+                <OptionChoice name='predElectrotineDist'  displayState=':= if(?enableProjectRed, "shown", "hidden")' displayGroup='groupProjectRed'>
                     <Description> Controls how Electrotine is generated </Description>
                     <DisplayName>Project Red Electrotine</DisplayName>
                     <Choice value='VerticalVeins' displayValue='Vertical Veins'>
@@ -253,11 +258,11 @@
                     </Choice>
                     <Choice value='none' displayValue='None' description='Electrotine is not generated in the world.'/>
                 </OptionChoice>
-                <OptionNumeric name='predElectrotineFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupProjectRed'>
+                <OptionNumeric name='predElectrotineFreq' default='1'  min='0' max='5' displayState=':= if(?enableProjectRed, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupProjectRed'>
                     <Description> Frequency multiplier for Project Red Electrotine distributions </Description>
                     <DisplayName>Project Red Electrotine Freq.</DisplayName>
                 </OptionNumeric>
-                <OptionNumeric name='predElectrotineSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupProjectRed'>
+                <OptionNumeric name='predElectrotineSize' default='1'  min='0' max='5' displayState=':= if(?enableProjectRed, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupProjectRed'>
                     <Description> Size multiplier for Project Red Electrotine distributions </Description>
                     <DisplayName>Project Red Electrotine Size</DisplayName>
                 </OptionNumeric>
@@ -267,7 +272,7 @@
 
             <!-- Marble Configuration UI Starting -->
             <ConfigSection>
-                <OptionChoice name='predMarbleDist'  displayState='shown' displayGroup='groupProjectRed'>
+                <OptionChoice name='predMarbleDist'  displayState=':= if(?enableProjectRed, "shown", "hidden")' displayGroup='groupProjectRed'>
                     <Description> Controls how Marble is generated </Description>
                     <DisplayName>Project Red Marble</DisplayName>
                     <Choice value='LayeredVeins' displayValue='Layered Veins'>
@@ -287,11 +292,11 @@
                     </Choice>
                     <Choice value='none' displayValue='None' description='Marble is not generated in the world.'/>
                 </OptionChoice>
-                <OptionNumeric name='predMarbleFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupProjectRed'>
+                <OptionNumeric name='predMarbleFreq' default='1'  min='0' max='5' displayState=':= if(?enableProjectRed, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupProjectRed'>
                     <Description> Frequency multiplier for Project Red Marble distributions </Description>
                     <DisplayName>Project Red Marble Freq.</DisplayName>
                 </OptionNumeric>
-                <OptionNumeric name='predMarbleSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupProjectRed'>
+                <OptionNumeric name='predMarbleSize' default='1'  min='0' max='5' displayState=':= if(?enableProjectRed, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupProjectRed'>
                     <Description> Size multiplier for Project Red Marble distributions </Description>
                     <DisplayName>Project Red Marble Size</DisplayName>
                 </OptionNumeric>
@@ -301,1010 +306,1031 @@
         </ConfigSection>
         <!-- Setup Screen Complete -->
 
+        <IfCondition condition=':= ?enableProjectRed'>
 
 
 
 
-        <!-- Overworld Setup Beginning -->
+            <!-- Overworld Setup Beginning -->
 
-        <IfCondition condition=':= ?COGActive'>
+            <IfCondition condition=':= ?COGActive'>
 
-            <!-- Starting Original "Overworld" Block Removal -->
+                <!-- Starting Original "Overworld" Block Removal -->
 
-            <Substitute name='predOverworldBlockSubstitute0' block='minecraft:stone'>
-                <Description>
-                    Replace vanilla-generated ore clusters.
-                </Description>
-                <Comment>
-                    The global option deferredPopulationRange  must be
-                    large enough to catch all ore  clusters (>= 32).
-                </Comment>
-                <Replaces block='ProjRed|Exploration:projectred.exploration.ore' weight='1.0' />
-                <Replaces block='ProjRed|Exploration:projectred.exploration.ore:1' weight='1.0' />
-                <Replaces block='ProjRed|Exploration:projectred.exploration.ore:2' weight='1.0' />
-                <Replaces block='ProjRed|Exploration:projectred.exploration.ore:3' weight='1.0' />
-                <Replaces block='ProjRed|Exploration:projectred.exploration.ore:4' weight='1.0' />
-                <Replaces block='ProjRed|Exploration:projectred.exploration.ore:5' weight='1.0' />
-                <Replaces block='ProjRed|Exploration:projectred.exploration.ore:6' weight='1.0' />
-                <Replaces block='ProjRed|Exploration:projectred.exploration.stone' weight='1.0' />
-            </Substitute>
-
-            <!-- Original "Overworld" Block Removal Complete -->
-
-            <!-- Adding blocks -->
-
-            <!-- Begin Ruby Generation -->
-
-            <!-- Starting PipeVeins Preset for Ruby. -->
-            <ConfigSection>
-                <IfCondition condition=':= predRubyDist = "PipeVeins"'>
-                    <Veins name='predRubyVeins'  inherits='PresetPipeVeins' seed='0xE23A' drawWireframe='true' wireframeColor='0x60900113' drawBoundBox='false' boundBoxColor='0x60900113'>
+                <IfCondition condition=':= ?blockExists("minecraft:stone")'>
+                    <Substitute name='predOverworldBlockSubstitute0' block='minecraft:stone'>
                         <Description>
-                            Short sparsely filled veins sloping  up
-                            from near the bottom of the map.
+                            Replace vanilla-generated ore clusters.
                         </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.ore' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='MotherlodeFrequency' avg=':= 0.138 * _default_ * predRubyFreq ' range=':=  _default_ * predRubyFreq ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeSize' avg=':= 0.517 * _default_ * predRubySize ' range=':=  _default_ * predRubySize ' type='normal' />
-                        <Setting name='MotherlodeHeight' avg=':= 16 ' range=':=  4 ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchLength' avg=':= 0.517 * _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentLength' avg=':= _default_ * predRubySize ' range=':=  _default_ * predRubySize ' type='normal' />
-                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentRadius' avg=':= 0.517 * _default_ * predRubySize ' range=':=  _default_ * predRubySize ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </Veins>
-
-                    <!-- Configuring contained material. -->
-                    <Veins name='predRubyVeinsPipe'  inherits='predRubyVeins' seed='0xE23A' drawWireframe='true' wireframeColor='0x60900113' drawBoundBox='false' boundBoxColor='0x60900113'>
-                        <OreBlock block='minecraft:lava' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Replaces block='ProjRed|Exploration:projectred.exploration.ore' weight='1.0' />
-                        <Setting name='MotherlodeSize' avg=':= 0.517 * _default_ * predRubySize  * 0.5 ' range=':=  _default_ * predRubySize  * 0.5 ' type='normal' />
-                        <Setting name='SegmentRadius' avg=':= 0.517 * _default_ * predRubySize  * 0.5 ' range=':=  _default_ * predRubySize  * 0.5 ' type='normal' />
-                        <Setting name='OreDensity' avg=':= 1.0 ' range=':= 0 ' type='normal' />
-                    </Veins>
+                        <Comment>
+                            The global option  deferredPopulationRange
+                            must be large  enough to catch all ore
+                            clusters (>=  32).
+                        </Comment>
+                        <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore")'> <Replaces block='ProjRed|Exploration:projectred.exploration.ore' weight='1.0' /> </IfCondition>
+                        <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:1")'> <Replaces block='ProjRed|Exploration:projectred.exploration.ore:1' weight='1.0' /> </IfCondition>
+                        <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:2")'> <Replaces block='ProjRed|Exploration:projectred.exploration.ore:2' weight='1.0' /> </IfCondition>
+                        <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:3")'> <Replaces block='ProjRed|Exploration:projectred.exploration.ore:3' weight='1.0' /> </IfCondition>
+                        <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:4")'> <Replaces block='ProjRed|Exploration:projectred.exploration.ore:4' weight='1.0' /> </IfCondition>
+                        <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:5")'> <Replaces block='ProjRed|Exploration:projectred.exploration.ore:5' weight='1.0' /> </IfCondition>
+                        <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:6")'> <Replaces block='ProjRed|Exploration:projectred.exploration.ore:6' weight='1.0' /> </IfCondition>
+                        <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.stone")'> <Replaces block='ProjRed|Exploration:projectred.exploration.stone' weight='1.0' /> </IfCondition>
+                    </Substitute>
                 </IfCondition>
-            </ConfigSection>
-            <!-- PipeVeins Preset for Ruby is complete. -->
 
+                <!-- Original "Overworld" Block Removal Complete -->
 
-            <!-- Starting Cloud Preset for Ruby. -->
-            <ConfigSection>
-                <IfCondition condition=':= predRubyDist = "Cloud"'>
-                    <Cloud name='predRubyCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60900113' drawBoundBox='false' boundBoxColor='0x60900113'>
-                        <Description>
-                            Large irregular clouds filled lightly
-                            with ore.  These are huge, spanning
-                            several adjacent chunks, and  consequently
-                            rather rare.  They  contain a sizeable
-                            amount of ore, but  it takes some time and
-                            effort to mine  due to low density. The
-                            intent for  strategic clouds is that the
-                            player  will need to actively search for
-                            one  and then set up a semi-permanent
-                            mining base and spend some time  actually
-                            mining the ore.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.ore' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='CloudRadius' avg=':= 0.486 * _default_ * predRubySize ' range=':=  _default_ * predRubySize ' type='normal' />
-                        <Setting name='CloudThickness' avg=':= 0.486 * _default_ * predRubySize ' range=':=  _default_ * predRubySize ' type='normal' scaleTo='base' />
-                        <Setting name='DistributionFrequency' avg=':= 0.236  * _default_ * predRubyFreq ' range=':=  _default_ * predRubyFreq ' type='normal' scaleTo='base' />
-                        <Setting name='CloudHeight' avg=':= 16 ' range=':=  4 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Veins name='predRubyHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60900113' drawBoundBox='false' boundBoxColor='0x60900113'>
+                <!-- Adding blocks -->
+
+                <!-- Begin Ruby Generation -->
+
+                <!-- Starting PipeVeins Preset for Ruby. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predRubyDist = "PipeVeins"'>
+                        <Veins name='predRubyVeins'  inherits='PresetPipeVeins' seed='0xE23A' drawWireframe='true' wireframeColor='0x60900113' drawBoundBox='false' boundBoxColor='0x60900113'>
                             <Description>
-                                Single blocks, generously  scattered
-                                through all heights  (density is about
-                                that of vanilla  iron ore). They will
-                                replace dirt  and sandstone (but not
-                                grass or  sand), so they can be found
-                                nearer to the surface than most  ores.
-                                Intened to be used as a  child
-                                distribution for large,  rare
-                                strategic deposits that  would
-                                otherwise be very difficult  to find.
-                                Note that the frequency  is multiplied
-                                by ground level to  maintain a
-                                constant density, but  not by ore
-                                frequency because it  is assumed that
-                                the frequency of  the parent
-                                distribution will  already be scaled
-                                by that.
+                                Short sparsely filled veins  sloping
+                                up from near the bottom  of the map.
                             </Description>
-                            <OreBlock block='ProjRed|Exploration:projectred.exploration.ore' weight='1.0' />
-                            <Replaces block='minecraft:dirt' weight='1.0' />
-                            <Replaces block='minecraft:sandstone' weight='1.0' />
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 0.138 * _default_ * predRubyFreq ' range=':=  _default_ * predRubyFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 0.517 * _default_ * predRubySize ' range=':=  _default_ * predRubySize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 16 ' range=':=  4 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 0.517 * _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * predRubySize ' range=':=  _default_ * predRubySize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.517 * _default_ * predRubySize ' range=':=  _default_ * predRubySize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
                         </Veins>
-                    </Cloud>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Cloud Preset for Ruby is complete. -->
+
+                        <!-- Configuring contained material. -->
+                        <Veins name='predRubyVeinsPipe'  inherits='predRubyVeins' seed='0xE23A' drawWireframe='true' wireframeColor='0x60900113' drawBoundBox='false' boundBoxColor='0x60900113'>
+                            <IfCondition condition=':= ?blockExists("minecraft:lava")'> <OreBlock block='minecraft:lava' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore")'> <Replaces block='ProjRed|Exploration:projectred.exploration.ore' weight='1.0' /> </IfCondition>
+                            <Setting name='MotherlodeSize' avg=':= 0.517 * _default_ * predRubySize  * 0.5 ' range=':=  _default_ * predRubySize  * 0.5 ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.517 * _default_ * predRubySize  * 0.5 ' range=':=  _default_ * predRubySize  * 0.5 ' type='normal' />
+                            <Setting name='OreDensity' avg=':= 1.0 ' range=':= 0 ' type='normal' />
+                        </Veins>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- PipeVeins Preset for Ruby is complete. -->
 
 
-            <!-- Starting Vanilla Preset for Ruby. -->
-            <ConfigSection>
-                <IfCondition condition=':= predRubyDist = "Vanilla"'>
-                    <StandardGen name='predRubyStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60900113' drawBoundBox='false' boundBoxColor='0x60900113'>
-                        <Description>
-                            A master preset for standardgen ore
-                            distributions.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.ore' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='Size' avg=':= 1 * predRubySize ' range=':=  _default_ * predRubySize ' type='normal' />
-                        <Setting name='Frequency' avg=':= 1 * predRubyFreq ' range=':=  _default_ * predRubyFreq ' type='normal' scaleTo='base' />
-                        <Setting name='Height' avg=':= 16 ' range=':=  4 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </StandardGen>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Vanilla Preset for Ruby is complete. -->
-
-            <!-- End Ruby Generation -->
-
-
-            <!-- Begin Sapphire Generation -->
-
-            <!-- Starting PipeVeins Preset for Sapphire. -->
-            <ConfigSection>
-                <IfCondition condition=':= predSapphireDist = "PipeVeins"'>
-                    <Veins name='predSapphireVeins'  inherits='PresetPipeVeins' seed='0x5196' drawWireframe='true' wireframeColor='0x600011C8' drawBoundBox='false' boundBoxColor='0x600011C8'>
-                        <Description>
-                            Short sparsely filled veins sloping  up
-                            from near the bottom of the map.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:1' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='MotherlodeFrequency' avg=':= 0.138 * _default_ * predSapphireFreq ' range=':=  _default_ * predSapphireFreq ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeSize' avg=':= 0.517 * _default_ * predSapphireSize ' range=':=  _default_ * predSapphireSize ' type='normal' />
-                        <Setting name='MotherlodeHeight' avg=':= 16 ' range=':=  4 ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchLength' avg=':= 0.517 * _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentLength' avg=':= _default_ * predSapphireSize ' range=':=  _default_ * predSapphireSize ' type='normal' />
-                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentRadius' avg=':= 0.517 * _default_ * predSapphireSize ' range=':=  _default_ * predSapphireSize ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </Veins>
-
-                    <!-- Configuring contained material. -->
-                    <Veins name='predSapphireVeinsPipe'  inherits='predSapphireVeins' seed='0x5196' drawWireframe='true' wireframeColor='0x600011C8' drawBoundBox='false' boundBoxColor='0x600011C8'>
-                        <OreBlock block='minecraft:lava' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Replaces block='ProjRed|Exploration:projectred.exploration.ore:1' weight='1.0' />
-                        <Setting name='MotherlodeSize' avg=':= 0.517 * _default_ * predSapphireSize  * 0.5 ' range=':=  _default_ * predSapphireSize  * 0.5 ' type='normal' />
-                        <Setting name='SegmentRadius' avg=':= 0.517 * _default_ * predSapphireSize  * 0.5 ' range=':=  _default_ * predSapphireSize  * 0.5 ' type='normal' />
-                        <Setting name='OreDensity' avg=':= 1.0 ' range=':= 0 ' type='normal' />
-                    </Veins>
-                </IfCondition>
-            </ConfigSection>
-            <!-- PipeVeins Preset for Sapphire is complete. -->
-
-
-            <!-- Starting Cloud Preset for Sapphire. -->
-            <ConfigSection>
-                <IfCondition condition=':= predSapphireDist = "Cloud"'>
-                    <Cloud name='predSapphireCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x600011C8' drawBoundBox='false' boundBoxColor='0x600011C8'>
-                        <Description>
-                            Large irregular clouds filled lightly
-                            with ore.  These are huge, spanning
-                            several adjacent chunks, and  consequently
-                            rather rare.  They  contain a sizeable
-                            amount of ore, but  it takes some time and
-                            effort to mine  due to low density. The
-                            intent for  strategic clouds is that the
-                            player  will need to actively search for
-                            one  and then set up a semi-permanent
-                            mining base and spend some time  actually
-                            mining the ore.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:1' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='CloudRadius' avg=':= 0.486 * _default_ * predSapphireSize ' range=':=  _default_ * predSapphireSize ' type='normal' />
-                        <Setting name='CloudThickness' avg=':= 0.486 * _default_ * predSapphireSize ' range=':=  _default_ * predSapphireSize ' type='normal' scaleTo='base' />
-                        <Setting name='DistributionFrequency' avg=':= 0.236  * _default_ * predSapphireFreq ' range=':=  _default_ * predSapphireFreq ' type='normal' scaleTo='base' />
-                        <Setting name='CloudHeight' avg=':= 16 ' range=':=  4 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Veins name='predSapphireHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x600011C8' drawBoundBox='false' boundBoxColor='0x600011C8'>
+                <!-- Starting Cloud Preset for Ruby. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predRubyDist = "Cloud"'>
+                        <Cloud name='predRubyCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60900113' drawBoundBox='false' boundBoxColor='0x60900113'>
                             <Description>
-                                Single blocks, generously  scattered
-                                through all heights  (density is about
-                                that of vanilla  iron ore). They will
-                                replace dirt  and sandstone (but not
-                                grass or  sand), so they can be found
-                                nearer to the surface than most  ores.
-                                Intened to be used as a  child
-                                distribution for large,  rare
-                                strategic deposits that  would
-                                otherwise be very difficult  to find.
-                                Note that the frequency  is multiplied
-                                by ground level to  maintain a
-                                constant density, but  not by ore
-                                frequency because it  is assumed that
-                                the frequency of  the parent
-                                distribution will  already be scaled
-                                by that.
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
                             </Description>
-                            <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:1' weight='1.0' />
-                            <Replaces block='minecraft:dirt' weight='1.0' />
-                            <Replaces block='minecraft:sandstone' weight='1.0' />
-                        </Veins>
-                    </Cloud>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Cloud Preset for Sapphire is complete. -->
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 0.486 * _default_ * predRubySize ' range=':=  _default_ * predRubySize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 0.486 * _default_ * predRubySize ' range=':=  _default_ * predRubySize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 0.236  * _default_ * predRubyFreq ' range=':=  _default_ * predRubyFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 16 ' range=':=  4 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Veins name='predRubyHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60900113' drawBoundBox='false' boundBoxColor='0x60900113'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Cloud Preset for Ruby is complete. -->
 
 
-            <!-- Starting Vanilla Preset for Sapphire. -->
-            <ConfigSection>
-                <IfCondition condition=':= predSapphireDist = "Vanilla"'>
-                    <StandardGen name='predSapphireStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x600011C8' drawBoundBox='false' boundBoxColor='0x600011C8'>
-                        <Description>
-                            A master preset for standardgen ore
-                            distributions.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:1' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='Size' avg=':= 1 * predSapphireSize ' range=':=  _default_ * predSapphireSize ' type='normal' />
-                        <Setting name='Frequency' avg=':= 1 * predSapphireFreq ' range=':=  _default_ * predSapphireFreq ' type='normal' scaleTo='base' />
-                        <Setting name='Height' avg=':= 16 ' range=':=  4 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </StandardGen>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Vanilla Preset for Sapphire is complete. -->
-
-            <!-- End Sapphire Generation -->
-
-
-            <!-- Begin Peridot Generation -->
-
-            <!-- Starting PipeVeins Preset for Peridot. -->
-            <ConfigSection>
-                <IfCondition condition=':= predPeridotDist = "PipeVeins"'>
-                    <Veins name='predPeridotVeins'  inherits='PresetPipeVeins' seed='0x8759' drawWireframe='true' wireframeColor='0x60057529' drawBoundBox='false' boundBoxColor='0x60057529'>
-                        <Description>
-                            Short sparsely filled veins sloping  up
-                            from near the bottom of the map.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:2' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='MotherlodeFrequency' avg=':= 0.138 * _default_ * predPeridotFreq ' range=':=  _default_ * predPeridotFreq ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeSize' avg=':= 0.517 * _default_ * predPeridotSize ' range=':=  _default_ * predPeridotSize ' type='normal' />
-                        <Setting name='MotherlodeHeight' avg=':= 22 ' range=':=  6 ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchLength' avg=':= 0.517 * _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentLength' avg=':= _default_ * predPeridotSize ' range=':=  _default_ * predPeridotSize ' type='normal' />
-                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentRadius' avg=':= 0.517 * _default_ * predPeridotSize ' range=':=  _default_ * predPeridotSize ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </Veins>
-
-                    <!-- Configuring contained material. -->
-                    <Veins name='predPeridotVeinsPipe'  inherits='predPeridotVeins' seed='0x8759' drawWireframe='true' wireframeColor='0x60057529' drawBoundBox='false' boundBoxColor='0x60057529'>
-                        <OreBlock block='minecraft:lava' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Replaces block='ProjRed|Exploration:projectred.exploration.ore:2' weight='1.0' />
-                        <Setting name='MotherlodeSize' avg=':= 0.517 * _default_ * predPeridotSize  * 0.5 ' range=':=  _default_ * predPeridotSize  * 0.5 ' type='normal' />
-                        <Setting name='SegmentRadius' avg=':= 0.517 * _default_ * predPeridotSize  * 0.5 ' range=':=  _default_ * predPeridotSize  * 0.5 ' type='normal' />
-                        <Setting name='OreDensity' avg=':= 1.0 ' range=':= 0 ' type='normal' />
-                    </Veins>
-                </IfCondition>
-            </ConfigSection>
-            <!-- PipeVeins Preset for Peridot is complete. -->
-
-
-            <!-- Starting Cloud Preset for Peridot. -->
-            <ConfigSection>
-                <IfCondition condition=':= predPeridotDist = "Cloud"'>
-                    <Cloud name='predPeridotCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60057529' drawBoundBox='false' boundBoxColor='0x60057529'>
-                        <Description>
-                            Large irregular clouds filled lightly
-                            with ore.  These are huge, spanning
-                            several adjacent chunks, and  consequently
-                            rather rare.  They  contain a sizeable
-                            amount of ore, but  it takes some time and
-                            effort to mine  due to low density. The
-                            intent for  strategic clouds is that the
-                            player  will need to actively search for
-                            one  and then set up a semi-permanent
-                            mining base and spend some time  actually
-                            mining the ore.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:2' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='CloudRadius' avg=':= 0.486 * _default_ * predPeridotSize ' range=':=  _default_ * predPeridotSize ' type='normal' />
-                        <Setting name='CloudThickness' avg=':= 0.486 * _default_ * predPeridotSize ' range=':=  _default_ * predPeridotSize ' type='normal' scaleTo='base' />
-                        <Setting name='DistributionFrequency' avg=':= 0.236  * _default_ * predPeridotFreq ' range=':=  _default_ * predPeridotFreq ' type='normal' scaleTo='base' />
-                        <Setting name='CloudHeight' avg=':= 22 ' range=':=  6 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Veins name='predPeridotHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60057529' drawBoundBox='false' boundBoxColor='0x60057529'>
+                <!-- Starting Vanilla Preset for Ruby. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predRubyDist = "Vanilla"'>
+                        <StandardGen name='predRubyStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60900113' drawBoundBox='false' boundBoxColor='0x60900113'>
                             <Description>
-                                Single blocks, generously  scattered
-                                through all heights  (density is about
-                                that of vanilla  iron ore). They will
-                                replace dirt  and sandstone (but not
-                                grass or  sand), so they can be found
-                                nearer to the surface than most  ores.
-                                Intened to be used as a  child
-                                distribution for large,  rare
-                                strategic deposits that  would
-                                otherwise be very difficult  to find.
-                                Note that the frequency  is multiplied
-                                by ground level to  maintain a
-                                constant density, but  not by ore
-                                frequency because it  is assumed that
-                                the frequency of  the parent
-                                distribution will  already be scaled
-                                by that.
+                                A master preset for standardgen  ore
+                                distributions.
                             </Description>
-                            <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:2' weight='1.0' />
-                            <Replaces block='minecraft:dirt' weight='1.0' />
-                            <Replaces block='minecraft:sandstone' weight='1.0' />
-                        </Veins>
-                    </Cloud>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Cloud Preset for Peridot is complete. -->
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 1 * predRubySize ' range=':=  _default_ * predRubySize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 1 * predRubyFreq ' range=':=  _default_ * predRubyFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 16 ' range=':=  4 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Ruby is complete. -->
+
+                <!-- End Ruby Generation -->
 
 
-            <!-- Starting Vanilla Preset for Peridot. -->
-            <ConfigSection>
-                <IfCondition condition=':= predPeridotDist = "Vanilla"'>
-                    <StandardGen name='predPeridotStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60057529' drawBoundBox='false' boundBoxColor='0x60057529'>
-                        <Description>
-                            A master preset for standardgen ore
-                            distributions.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:2' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='Size' avg=':= 1 * predPeridotSize ' range=':=  _default_ * predPeridotSize ' type='normal' />
-                        <Setting name='Frequency' avg=':= 1 * predPeridotFreq ' range=':=  _default_ * predPeridotFreq ' type='normal' scaleTo='base' />
-                        <Setting name='Height' avg=':= 22 ' range=':=  6 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </StandardGen>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Vanilla Preset for Peridot is complete. -->
+                <!-- Begin Sapphire Generation -->
 
-            <!-- End Peridot Generation -->
-
-
-            <!-- Begin Copper Generation -->
-
-            <!-- Starting LayeredVeins Preset for Copper. -->
-            <ConfigSection>
-                <IfCondition condition=':= predCopperDist = "LayeredVeins"'>
-                    <Veins name='predCopperVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
-                        <Description>
-                            Small, fairly rare motherlodes with  2-4
-                            horizontal veins each.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:3' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='MotherlodeFrequency' avg=':= 0.948 * _default_ * predCopperFreq ' range=':=  _default_ * predCopperFreq ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeSize' avg=':= 0.982 * _default_ * predCopperSize ' range=':=  _default_ * predCopperSize ' type='normal' />
-                        <Setting name='MotherlodeHeight' avg=':= 35 ' range=':=  29 ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchLength' avg=':= 0.982 * _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentLength' avg=':= _default_ * predCopperSize ' range=':=  _default_ * predCopperSize ' type='normal' />
-                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentRadius' avg=':= 0.982 * _default_ * predCopperSize ' range=':=  _default_ * predCopperSize ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </Veins>
-                </IfCondition>
-            </ConfigSection>
-            <!-- LayeredVeins Preset for Copper is complete. -->
-
-
-            <!-- Starting Cloud Preset for Copper. -->
-            <ConfigSection>
-                <IfCondition condition=':= predCopperDist = "Cloud"'>
-                    <Cloud name='predCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
-                        <Description>
-                            Large irregular clouds filled lightly
-                            with ore.  These are huge, spanning
-                            several adjacent chunks, and  consequently
-                            rather rare.  They  contain a sizeable
-                            amount of ore, but  it takes some time and
-                            effort to mine  due to low density. The
-                            intent for  strategic clouds is that the
-                            player  will need to actively search for
-                            one  and then set up a semi-permanent
-                            mining base and spend some time  actually
-                            mining the ore.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:3' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='CloudRadius' avg=':= 1.375 * _default_ * predCopperSize ' range=':=  _default_ * predCopperSize ' type='normal' />
-                        <Setting name='CloudThickness' avg=':= 1.375 * _default_ * predCopperSize ' range=':=  _default_ * predCopperSize ' type='normal' scaleTo='base' />
-                        <Setting name='DistributionFrequency' avg=':= 1.892  * _default_ * predCopperFreq ' range=':=  _default_ * predCopperFreq ' type='normal' scaleTo='base' />
-                        <Setting name='CloudHeight' avg=':= 35 ' range=':=  29 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Veins name='predCopperHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+                <!-- Starting PipeVeins Preset for Sapphire. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predSapphireDist = "PipeVeins"'>
+                        <Veins name='predSapphireVeins'  inherits='PresetPipeVeins' seed='0x5196' drawWireframe='true' wireframeColor='0x600011C8' drawBoundBox='false' boundBoxColor='0x600011C8'>
                             <Description>
-                                Single blocks, generously  scattered
-                                through all heights  (density is about
-                                that of vanilla  iron ore). They will
-                                replace dirt  and sandstone (but not
-                                grass or  sand), so they can be found
-                                nearer to the surface than most  ores.
-                                Intened to be used as a  child
-                                distribution for large,  rare
-                                strategic deposits that  would
-                                otherwise be very difficult  to find.
-                                Note that the frequency  is multiplied
-                                by ground level to  maintain a
-                                constant density, but  not by ore
-                                frequency because it  is assumed that
-                                the frequency of  the parent
-                                distribution will  already be scaled
-                                by that.
+                                Short sparsely filled veins  sloping
+                                up from near the bottom  of the map.
                             </Description>
-                            <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:3' weight='1.0' />
-                            <Replaces block='minecraft:dirt' weight='1.0' />
-                            <Replaces block='minecraft:sandstone' weight='1.0' />
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:1")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:1' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 0.138 * _default_ * predSapphireFreq ' range=':=  _default_ * predSapphireFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 0.517 * _default_ * predSapphireSize ' range=':=  _default_ * predSapphireSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 16 ' range=':=  4 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 0.517 * _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * predSapphireSize ' range=':=  _default_ * predSapphireSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.517 * _default_ * predSapphireSize ' range=':=  _default_ * predSapphireSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
                         </Veins>
-                    </Cloud>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Cloud Preset for Copper is complete. -->
+
+                        <!-- Configuring contained material. -->
+                        <Veins name='predSapphireVeinsPipe'  inherits='predSapphireVeins' seed='0x5196' drawWireframe='true' wireframeColor='0x600011C8' drawBoundBox='false' boundBoxColor='0x600011C8'>
+                            <IfCondition condition=':= ?blockExists("minecraft:lava")'> <OreBlock block='minecraft:lava' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:1")'> <Replaces block='ProjRed|Exploration:projectred.exploration.ore:1' weight='1.0' /> </IfCondition>
+                            <Setting name='MotherlodeSize' avg=':= 0.517 * _default_ * predSapphireSize  * 0.5 ' range=':=  _default_ * predSapphireSize  * 0.5 ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.517 * _default_ * predSapphireSize  * 0.5 ' range=':=  _default_ * predSapphireSize  * 0.5 ' type='normal' />
+                            <Setting name='OreDensity' avg=':= 1.0 ' range=':= 0 ' type='normal' />
+                        </Veins>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- PipeVeins Preset for Sapphire is complete. -->
 
 
-            <!-- Starting Vanilla Preset for Copper. -->
-            <ConfigSection>
-                <IfCondition condition=':= predCopperDist = "Vanilla"'>
-                    <StandardGen name='predCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
-                        <Description>
-                            A master preset for standardgen ore
-                            distributions.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:3' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='Size' avg=':= 8 * predCopperSize ' range=':=  _default_ * predCopperSize ' type='normal' />
-                        <Setting name='Frequency' avg=':= 8 * predCopperFreq ' range=':=  _default_ * predCopperFreq ' type='normal' scaleTo='base' />
-                        <Setting name='Height' avg=':= 35 ' range=':=  29 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </StandardGen>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Vanilla Preset for Copper is complete. -->
-
-            <!-- End Copper Generation -->
-
-
-            <!-- Begin Tin Generation -->
-
-            <!-- Starting LayeredVeins Preset for Tin. -->
-            <ConfigSection>
-                <IfCondition condition=':= predTinDist = "LayeredVeins"'>
-                    <Veins name='predTinVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
-                        <Description>
-                            Small, fairly rare motherlodes with  2-4
-                            horizontal veins each.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:4' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='MotherlodeFrequency' avg=':= 0.749 * _default_ * predTinFreq ' range=':=  _default_ * predTinFreq ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeSize' avg=':= 0.908 * _default_ * predTinSize ' range=':=  _default_ * predTinSize ' type='normal' />
-                        <Setting name='MotherlodeHeight' avg=':= 27 ' range=':=  21 ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchLength' avg=':= 0.908 * _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentLength' avg=':= _default_ * predTinSize ' range=':=  _default_ * predTinSize ' type='normal' />
-                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentRadius' avg=':= 0.908 * _default_ * predTinSize ' range=':=  _default_ * predTinSize ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </Veins>
-                </IfCondition>
-            </ConfigSection>
-            <!-- LayeredVeins Preset for Tin is complete. -->
-
-
-            <!-- Starting Cloud Preset for Tin. -->
-            <ConfigSection>
-                <IfCondition condition=':= predTinDist = "Cloud"'>
-                    <Cloud name='predTinCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
-                        <Description>
-                            Large irregular clouds filled lightly
-                            with ore.  These are huge, spanning
-                            several adjacent chunks, and  consequently
-                            rather rare.  They  contain a sizeable
-                            amount of ore, but  it takes some time and
-                            effort to mine  due to low density. The
-                            intent for  strategic clouds is that the
-                            player  will need to actively search for
-                            one  and then set up a semi-permanent
-                            mining base and spend some time  actually
-                            mining the ore.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:4' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='CloudRadius' avg=':= 1.223 * _default_ * predTinSize ' range=':=  _default_ * predTinSize ' type='normal' />
-                        <Setting name='CloudThickness' avg=':= 1.223 * _default_ * predTinSize ' range=':=  _default_ * predTinSize ' type='normal' scaleTo='base' />
-                        <Setting name='DistributionFrequency' avg=':= 1.496  * _default_ * predTinFreq ' range=':=  _default_ * predTinFreq ' type='normal' scaleTo='base' />
-                        <Setting name='CloudHeight' avg=':= 27 ' range=':=  21 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Veins name='predTinHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+                <!-- Starting Cloud Preset for Sapphire. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predSapphireDist = "Cloud"'>
+                        <Cloud name='predSapphireCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x600011C8' drawBoundBox='false' boundBoxColor='0x600011C8'>
                             <Description>
-                                Single blocks, generously  scattered
-                                through all heights  (density is about
-                                that of vanilla  iron ore). They will
-                                replace dirt  and sandstone (but not
-                                grass or  sand), so they can be found
-                                nearer to the surface than most  ores.
-                                Intened to be used as a  child
-                                distribution for large,  rare
-                                strategic deposits that  would
-                                otherwise be very difficult  to find.
-                                Note that the frequency  is multiplied
-                                by ground level to  maintain a
-                                constant density, but  not by ore
-                                frequency because it  is assumed that
-                                the frequency of  the parent
-                                distribution will  already be scaled
-                                by that.
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
                             </Description>
-                            <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:4' weight='1.0' />
-                            <Replaces block='minecraft:dirt' weight='1.0' />
-                            <Replaces block='minecraft:sandstone' weight='1.0' />
-                        </Veins>
-                    </Cloud>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Cloud Preset for Tin is complete. -->
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:1")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:1' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 0.486 * _default_ * predSapphireSize ' range=':=  _default_ * predSapphireSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 0.486 * _default_ * predSapphireSize ' range=':=  _default_ * predSapphireSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 0.236  * _default_ * predSapphireFreq ' range=':=  _default_ * predSapphireFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 16 ' range=':=  4 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Veins name='predSapphireHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x600011C8' drawBoundBox='false' boundBoxColor='0x600011C8'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:1")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:1' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Cloud Preset for Sapphire is complete. -->
 
 
-            <!-- Starting Vanilla Preset for Tin. -->
-            <ConfigSection>
-                <IfCondition condition=':= predTinDist = "Vanilla"'>
-                    <StandardGen name='predTinStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
-                        <Description>
-                            A master preset for standardgen ore
-                            distributions.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:4' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='Size' avg=':= 8 * predTinSize ' range=':=  _default_ * predTinSize ' type='normal' />
-                        <Setting name='Frequency' avg=':= 5 * predTinFreq ' range=':=  _default_ * predTinFreq ' type='normal' scaleTo='base' />
-                        <Setting name='Height' avg=':= 27 ' range=':=  21 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </StandardGen>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Vanilla Preset for Tin is complete. -->
-
-            <!-- End Tin Generation -->
-
-
-            <!-- Begin Silver Generation -->
-
-            <!-- Starting LayeredVeins Preset for Silver. -->
-            <ConfigSection>
-                <IfCondition condition=':= predSilverDist = "LayeredVeins"'>
-                    <Veins name='predSilverVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
-                        <Description>
-                            Small, fairly rare motherlodes with  2-4
-                            horizontal veins each.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:5' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='MotherlodeFrequency' avg=':= 0.237 * _default_ * predSilverFreq ' range=':=  _default_ * predSilverFreq ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeSize' avg=':= 0.619 * _default_ * predSilverSize ' range=':=  _default_ * predSilverSize ' type='normal' />
-                        <Setting name='MotherlodeHeight' avg=':= 19 ' range=':=  13 ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchLength' avg=':= 0.619 * _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentLength' avg=':= _default_ * predSilverSize ' range=':=  _default_ * predSilverSize ' type='normal' />
-                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentRadius' avg=':= 0.619 * _default_ * predSilverSize ' range=':=  _default_ * predSilverSize ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </Veins>
-                </IfCondition>
-            </ConfigSection>
-            <!-- LayeredVeins Preset for Silver is complete. -->
-
-
-            <!-- Starting Cloud Preset for Silver. -->
-            <ConfigSection>
-                <IfCondition condition=':= predSilverDist = "Cloud"'>
-                    <Cloud name='predSilverCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
-                        <Description>
-                            Large irregular clouds filled lightly
-                            with ore.  These are huge, spanning
-                            several adjacent chunks, and  consequently
-                            rather rare.  They  contain a sizeable
-                            amount of ore, but  it takes some time and
-                            effort to mine  due to low density. The
-                            intent for  strategic clouds is that the
-                            player  will need to actively search for
-                            one  and then set up a semi-permanent
-                            mining base and spend some time  actually
-                            mining the ore.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:5' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='CloudRadius' avg=':= 0.688 * _default_ * predSilverSize ' range=':=  _default_ * predSilverSize ' type='normal' />
-                        <Setting name='CloudThickness' avg=':= 0.688 * _default_ * predSilverSize ' range=':=  _default_ * predSilverSize ' type='normal' scaleTo='base' />
-                        <Setting name='DistributionFrequency' avg=':= 0.473  * _default_ * predSilverFreq ' range=':=  _default_ * predSilverFreq ' type='normal' scaleTo='base' />
-                        <Setting name='CloudHeight' avg=':= 19 ' range=':=  13 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Veins name='predSilverHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+                <!-- Starting Vanilla Preset for Sapphire. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predSapphireDist = "Vanilla"'>
+                        <StandardGen name='predSapphireStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x600011C8' drawBoundBox='false' boundBoxColor='0x600011C8'>
                             <Description>
-                                Single blocks, generously  scattered
-                                through all heights  (density is about
-                                that of vanilla  iron ore). They will
-                                replace dirt  and sandstone (but not
-                                grass or  sand), so they can be found
-                                nearer to the surface than most  ores.
-                                Intened to be used as a  child
-                                distribution for large,  rare
-                                strategic deposits that  would
-                                otherwise be very difficult  to find.
-                                Note that the frequency  is multiplied
-                                by ground level to  maintain a
-                                constant density, but  not by ore
-                                frequency because it  is assumed that
-                                the frequency of  the parent
-                                distribution will  already be scaled
-                                by that.
+                                A master preset for standardgen  ore
+                                distributions.
                             </Description>
-                            <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:5' weight='1.0' />
-                            <Replaces block='minecraft:dirt' weight='1.0' />
-                            <Replaces block='minecraft:sandstone' weight='1.0' />
-                        </Veins>
-                    </Cloud>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Cloud Preset for Silver is complete. -->
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:1")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:1' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 1 * predSapphireSize ' range=':=  _default_ * predSapphireSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 1 * predSapphireFreq ' range=':=  _default_ * predSapphireFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 16 ' range=':=  4 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Sapphire is complete. -->
+
+                <!-- End Sapphire Generation -->
 
 
-            <!-- Starting Vanilla Preset for Silver. -->
-            <ConfigSection>
-                <IfCondition condition=':= predSilverDist = "Vanilla"'>
-                    <StandardGen name='predSilverStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
-                        <Description>
-                            A master preset for standardgen ore
-                            distributions.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:5' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='Size' avg=':= 4 * predSilverSize ' range=':=  _default_ * predSilverSize ' type='normal' />
-                        <Setting name='Frequency' avg=':= 1 * predSilverFreq ' range=':=  _default_ * predSilverFreq ' type='normal' scaleTo='base' />
-                        <Setting name='Height' avg=':= 19 ' range=':=  13 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </StandardGen>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Vanilla Preset for Silver is complete. -->
+                <!-- Begin Peridot Generation -->
 
-            <!-- End Silver Generation -->
-
-
-            <!-- Begin Electrotine Generation -->
-
-            <!-- Starting VerticalVeins Preset for Electrotine. -->
-            <ConfigSection>
-                <IfCondition condition=':= predElectrotineDist = "VerticalVeins"'>
-                    <Veins name='predElectrotineVeins'  inherits='PresetVerticalVeins' drawWireframe='true' wireframeColor='0x6001FFFC' drawBoundBox='false' boundBoxColor='0x6001FFFC'>
-                        <Description>
-                            Single vertical veins that occur with  no
-                            motherlodes.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:6' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='MotherlodeFrequency' avg=':= 0.878 * _default_ * predElectrotineFreq ' range=':=  _default_ * predElectrotineFreq ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeSize' avg=':= 0.958 * _default_ * predElectrotineSize ' range=':=  _default_ * predElectrotineSize ' type='normal' />
-                        <Setting name='MotherlodeHeight' avg=':= 11 ' range=':=  5 ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchInclination' avg=':= -_default_ ' range=':=  -_default_ ' type='normal' />
-                        <Setting name='BranchLength' avg=':= 0.958 * _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentLength' avg=':= _default_ * predElectrotineSize ' range=':=  _default_ * predElectrotineSize ' type='normal' />
-                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentRadius' avg=':= 0.958 * _default_ * predElectrotineSize ' range=':=  _default_ * predElectrotineSize ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </Veins>
-                </IfCondition>
-            </ConfigSection>
-            <!-- VerticalVeins Preset for Electrotine is complete. -->
-
-
-            <!-- Starting Cloud Preset for Electrotine. -->
-            <ConfigSection>
-                <IfCondition condition=':= predElectrotineDist = "Cloud"'>
-                    <Cloud name='predElectrotineCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x6001FFFC' drawBoundBox='false' boundBoxColor='0x6001FFFC'>
-                        <Description>
-                            Large irregular clouds filled lightly
-                            with ore.  These are huge, spanning
-                            several adjacent chunks, and  consequently
-                            rather rare.  They  contain a sizeable
-                            amount of ore, but  it takes some time and
-                            effort to mine  due to low density. The
-                            intent for  strategic clouds is that the
-                            player  will need to actively search for
-                            one  and then set up a semi-permanent
-                            mining base and spend some time  actually
-                            mining the ore.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:6' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='CloudRadius' avg=':= 0.973 * _default_ * predElectrotineSize ' range=':=  _default_ * predElectrotineSize ' type='normal' />
-                        <Setting name='CloudThickness' avg=':= 0.973 * _default_ * predElectrotineSize ' range=':=  _default_ * predElectrotineSize ' type='normal' scaleTo='base' />
-                        <Setting name='DistributionFrequency' avg=':= 0.946  * _default_ * predElectrotineFreq ' range=':=  _default_ * predElectrotineFreq ' type='normal' scaleTo='base' />
-                        <Setting name='CloudHeight' avg=':= 11 ' range=':=  5 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Veins name='predElectrotineHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x6001FFFC' drawBoundBox='false' boundBoxColor='0x6001FFFC'>
+                <!-- Starting PipeVeins Preset for Peridot. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predPeridotDist = "PipeVeins"'>
+                        <Veins name='predPeridotVeins'  inherits='PresetPipeVeins' seed='0x8759' drawWireframe='true' wireframeColor='0x60057529' drawBoundBox='false' boundBoxColor='0x60057529'>
                             <Description>
-                                Single blocks, generously  scattered
-                                through all heights  (density is about
-                                that of vanilla  iron ore). They will
-                                replace dirt  and sandstone (but not
-                                grass or  sand), so they can be found
-                                nearer to the surface than most  ores.
-                                Intened to be used as a  child
-                                distribution for large,  rare
-                                strategic deposits that  would
-                                otherwise be very difficult  to find.
-                                Note that the frequency  is multiplied
-                                by ground level to  maintain a
-                                constant density, but  not by ore
-                                frequency because it  is assumed that
-                                the frequency of  the parent
-                                distribution will  already be scaled
-                                by that.
+                                Short sparsely filled veins  sloping
+                                up from near the bottom  of the map.
                             </Description>
-                            <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:6' weight='1.0' />
-                            <Replaces block='minecraft:dirt' weight='1.0' />
-                            <Replaces block='minecraft:sandstone' weight='1.0' />
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:2")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:2' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 0.138 * _default_ * predPeridotFreq ' range=':=  _default_ * predPeridotFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 0.517 * _default_ * predPeridotSize ' range=':=  _default_ * predPeridotSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 22 ' range=':=  6 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 0.517 * _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * predPeridotSize ' range=':=  _default_ * predPeridotSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.517 * _default_ * predPeridotSize ' range=':=  _default_ * predPeridotSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
                         </Veins>
-                    </Cloud>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Cloud Preset for Electrotine is complete. -->
+
+                        <!-- Configuring contained material. -->
+                        <Veins name='predPeridotVeinsPipe'  inherits='predPeridotVeins' seed='0x8759' drawWireframe='true' wireframeColor='0x60057529' drawBoundBox='false' boundBoxColor='0x60057529'>
+                            <IfCondition condition=':= ?blockExists("minecraft:lava")'> <OreBlock block='minecraft:lava' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:2")'> <Replaces block='ProjRed|Exploration:projectred.exploration.ore:2' weight='1.0' /> </IfCondition>
+                            <Setting name='MotherlodeSize' avg=':= 0.517 * _default_ * predPeridotSize  * 0.5 ' range=':=  _default_ * predPeridotSize  * 0.5 ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.517 * _default_ * predPeridotSize  * 0.5 ' range=':=  _default_ * predPeridotSize  * 0.5 ' type='normal' />
+                            <Setting name='OreDensity' avg=':= 1.0 ' range=':= 0 ' type='normal' />
+                        </Veins>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- PipeVeins Preset for Peridot is complete. -->
 
 
-            <!-- Starting Vanilla Preset for Electrotine. -->
-            <ConfigSection>
-                <IfCondition condition=':= predElectrotineDist = "Vanilla"'>
-                    <StandardGen name='predElectrotineStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x6001FFFC' drawBoundBox='false' boundBoxColor='0x6001FFFC'>
-                        <Description>
-                            A master preset for standardgen ore
-                            distributions.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:6' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='Size' avg=':= 8 * predElectrotineSize ' range=':=  _default_ * predElectrotineSize ' type='normal' />
-                        <Setting name='Frequency' avg=':= 2 * predElectrotineFreq ' range=':=  _default_ * predElectrotineFreq ' type='normal' scaleTo='base' />
-                        <Setting name='Height' avg=':= 11 ' range=':=  5 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </StandardGen>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Vanilla Preset for Electrotine is complete. -->
-
-            <!-- End Electrotine Generation -->
-
-
-            <!-- Begin Marble Generation -->
-
-            <!-- Starting LayeredVeins Preset for Marble. -->
-            <ConfigSection>
-                <IfCondition condition=':= predMarbleDist = "LayeredVeins"'>
-                    <Veins name='predMarbleVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60FFFFFF' drawBoundBox='false' boundBoxColor='0x60FFFFFF'>
-                        <Description>
-                            Small, fairly rare motherlodes with  2-4
-                            horizontal veins each.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.stone' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='MotherlodeFrequency' avg=':= 0.474 * _default_ * predMarbleFreq ' range=':=  _default_ * predMarbleFreq ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeSize' avg=':= 0.780 * _default_ * predMarbleSize ' range=':=  _default_ * predMarbleSize ' type='normal' />
-                        <Setting name='MotherlodeHeight' avg=':= 48 ' range=':=  16 ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchLength' avg=':= 0.780 * _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentLength' avg=':= _default_ * predMarbleSize ' range=':=  _default_ * predMarbleSize ' type='normal' />
-                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentRadius' avg=':= 0.780 * _default_ * predMarbleSize ' range=':=  _default_ * predMarbleSize ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </Veins>
-                </IfCondition>
-            </ConfigSection>
-            <!-- LayeredVeins Preset for Marble is complete. -->
-
-
-            <!-- Starting Cloud Preset for Marble. -->
-            <ConfigSection>
-                <IfCondition condition=':= predMarbleDist = "Cloud"'>
-                    <Cloud name='predMarbleCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FFFFFF' drawBoundBox='false' boundBoxColor='0x60FFFFFF'>
-                        <Description>
-                            Large irregular clouds filled lightly
-                            with ore.  These are huge, spanning
-                            several adjacent chunks, and  consequently
-                            rather rare.  They  contain a sizeable
-                            amount of ore, but  it takes some time and
-                            effort to mine  due to low density. The
-                            intent for  strategic clouds is that the
-                            player  will need to actively search for
-                            one  and then set up a semi-permanent
-                            mining base and spend some time  actually
-                            mining the ore.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.stone' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='CloudRadius' avg=':= 0.973 * _default_ * predMarbleSize ' range=':=  _default_ * predMarbleSize ' type='normal' />
-                        <Setting name='CloudThickness' avg=':= 0.973 * _default_ * predMarbleSize ' range=':=  _default_ * predMarbleSize ' type='normal' scaleTo='base' />
-                        <Setting name='DistributionFrequency' avg=':= 0.946  * _default_ * predMarbleFreq ' range=':=  _default_ * predMarbleFreq ' type='normal' scaleTo='base' />
-                        <Setting name='CloudHeight' avg=':= 48 ' range=':=  16 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Veins name='predMarbleHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FFFFFF' drawBoundBox='false' boundBoxColor='0x60FFFFFF'>
+                <!-- Starting Cloud Preset for Peridot. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predPeridotDist = "Cloud"'>
+                        <Cloud name='predPeridotCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60057529' drawBoundBox='false' boundBoxColor='0x60057529'>
                             <Description>
-                                Single blocks, generously  scattered
-                                through all heights  (density is about
-                                that of vanilla  iron ore). They will
-                                replace dirt  and sandstone (but not
-                                grass or  sand), so they can be found
-                                nearer to the surface than most  ores.
-                                Intened to be used as a  child
-                                distribution for large,  rare
-                                strategic deposits that  would
-                                otherwise be very difficult  to find.
-                                Note that the frequency  is multiplied
-                                by ground level to  maintain a
-                                constant density, but  not by ore
-                                frequency because it  is assumed that
-                                the frequency of  the parent
-                                distribution will  already be scaled
-                                by that.
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
                             </Description>
-                            <OreBlock block='ProjRed|Exploration:projectred.exploration.stone' weight='1.0' />
-                            <Replaces block='minecraft:dirt' weight='1.0' />
-                            <Replaces block='minecraft:sandstone' weight='1.0' />
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:2")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:2' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 0.486 * _default_ * predPeridotSize ' range=':=  _default_ * predPeridotSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 0.486 * _default_ * predPeridotSize ' range=':=  _default_ * predPeridotSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 0.236  * _default_ * predPeridotFreq ' range=':=  _default_ * predPeridotFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 22 ' range=':=  6 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Veins name='predPeridotHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60057529' drawBoundBox='false' boundBoxColor='0x60057529'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:2")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:2' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Cloud Preset for Peridot is complete. -->
+
+
+                <!-- Starting Vanilla Preset for Peridot. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predPeridotDist = "Vanilla"'>
+                        <StandardGen name='predPeridotStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60057529' drawBoundBox='false' boundBoxColor='0x60057529'>
+                            <Description>
+                                A master preset for standardgen  ore
+                                distributions.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:2")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:2' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 1 * predPeridotSize ' range=':=  _default_ * predPeridotSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 1 * predPeridotFreq ' range=':=  _default_ * predPeridotFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 22 ' range=':=  6 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Peridot is complete. -->
+
+                <!-- End Peridot Generation -->
+
+
+                <!-- Begin Copper Generation -->
+
+                <!-- Starting LayeredVeins Preset for Copper. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predCopperDist = "LayeredVeins"'>
+                        <Veins name='predCopperVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+                            <Description>
+                                Small, fairly rare motherlodes  with
+                                2-4 horizontal veins each.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:3")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:3' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 0.948 * _default_ * predCopperFreq ' range=':=  _default_ * predCopperFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 0.982 * _default_ * predCopperSize ' range=':=  _default_ * predCopperSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 35 ' range=':=  29 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 0.982 * _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * predCopperSize ' range=':=  _default_ * predCopperSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.982 * _default_ * predCopperSize ' range=':=  _default_ * predCopperSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
                         </Veins>
-                    </Cloud>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Cloud Preset for Marble is complete. -->
+                    </IfCondition>
+                </ConfigSection>
+                <!-- LayeredVeins Preset for Copper is complete. -->
 
 
-            <!-- Starting Vanilla Preset for Marble. -->
-            <ConfigSection>
-                <IfCondition condition=':= predMarbleDist = "Vanilla"'>
-                    <StandardGen name='predMarbleStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FFFFFF' drawBoundBox='false' boundBoxColor='0x60FFFFFF'>
-                        <Description>
-                            A master preset for standardgen ore
-                            distributions.
-                        </Description>
-                        <OreBlock block='ProjRed|Exploration:projectred.exploration.stone' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='Size' avg=':= 16 * predMarbleSize ' range=':=  _default_ * predMarbleSize ' type='normal' />
-                        <Setting name='Frequency' avg=':= 1 * predMarbleFreq ' range=':=  _default_ * predMarbleFreq ' type='normal' scaleTo='base' />
-                        <Setting name='Height' avg=':= 48 ' range=':=  16 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </StandardGen>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Vanilla Preset for Marble is complete. -->
+                <!-- Starting Cloud Preset for Copper. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predCopperDist = "Cloud"'>
+                        <Cloud name='predCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:3")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:3' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 1.375 * _default_ * predCopperSize ' range=':=  _default_ * predCopperSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.375 * _default_ * predCopperSize ' range=':=  _default_ * predCopperSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.892  * _default_ * predCopperFreq ' range=':=  _default_ * predCopperFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 35 ' range=':=  29 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Veins name='predCopperHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:3")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:3' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Cloud Preset for Copper is complete. -->
 
-            <!-- End Marble Generation -->
 
-            <!-- Finished adding blocks -->
+                <!-- Starting Vanilla Preset for Copper. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predCopperDist = "Vanilla"'>
+                        <StandardGen name='predCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+                            <Description>
+                                A master preset for standardgen  ore
+                                distributions.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:3")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:3' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 8 * predCopperSize ' range=':=  _default_ * predCopperSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 8 * predCopperFreq ' range=':=  _default_ * predCopperFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 35 ' range=':=  29 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Copper is complete. -->
+
+                <!-- End Copper Generation -->
+
+
+                <!-- Begin Tin Generation -->
+
+                <!-- Starting LayeredVeins Preset for Tin. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predTinDist = "LayeredVeins"'>
+                        <Veins name='predTinVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+                            <Description>
+                                Small, fairly rare motherlodes  with
+                                2-4 horizontal veins each.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:4")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:4' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 0.749 * _default_ * predTinFreq ' range=':=  _default_ * predTinFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 0.908 * _default_ * predTinSize ' range=':=  _default_ * predTinSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 27 ' range=':=  21 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 0.908 * _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * predTinSize ' range=':=  _default_ * predTinSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.908 * _default_ * predTinSize ' range=':=  _default_ * predTinSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </Veins>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- LayeredVeins Preset for Tin is complete. -->
+
+
+                <!-- Starting Cloud Preset for Tin. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predTinDist = "Cloud"'>
+                        <Cloud name='predTinCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:4")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:4' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 1.223 * _default_ * predTinSize ' range=':=  _default_ * predTinSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.223 * _default_ * predTinSize ' range=':=  _default_ * predTinSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.496  * _default_ * predTinFreq ' range=':=  _default_ * predTinFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 27 ' range=':=  21 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Veins name='predTinHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:4")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:4' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Cloud Preset for Tin is complete. -->
+
+
+                <!-- Starting Vanilla Preset for Tin. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predTinDist = "Vanilla"'>
+                        <StandardGen name='predTinStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+                            <Description>
+                                A master preset for standardgen  ore
+                                distributions.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:4")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:4' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 8 * predTinSize ' range=':=  _default_ * predTinSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 5 * predTinFreq ' range=':=  _default_ * predTinFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 27 ' range=':=  21 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Tin is complete. -->
+
+                <!-- End Tin Generation -->
+
+
+                <!-- Begin Silver Generation -->
+
+                <!-- Starting LayeredVeins Preset for Silver. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predSilverDist = "LayeredVeins"'>
+                        <Veins name='predSilverVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+                            <Description>
+                                Small, fairly rare motherlodes  with
+                                2-4 horizontal veins each.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:5")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:5' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 0.237 * _default_ * predSilverFreq ' range=':=  _default_ * predSilverFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 0.619 * _default_ * predSilverSize ' range=':=  _default_ * predSilverSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 19 ' range=':=  13 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 0.619 * _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * predSilverSize ' range=':=  _default_ * predSilverSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.619 * _default_ * predSilverSize ' range=':=  _default_ * predSilverSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </Veins>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- LayeredVeins Preset for Silver is complete. -->
+
+
+                <!-- Starting Cloud Preset for Silver. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predSilverDist = "Cloud"'>
+                        <Cloud name='predSilverCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:5")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:5' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 0.688 * _default_ * predSilverSize ' range=':=  _default_ * predSilverSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 0.688 * _default_ * predSilverSize ' range=':=  _default_ * predSilverSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 0.473  * _default_ * predSilverFreq ' range=':=  _default_ * predSilverFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 19 ' range=':=  13 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Veins name='predSilverHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:5")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:5' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Cloud Preset for Silver is complete. -->
+
+
+                <!-- Starting Vanilla Preset for Silver. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predSilverDist = "Vanilla"'>
+                        <StandardGen name='predSilverStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+                            <Description>
+                                A master preset for standardgen  ore
+                                distributions.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:5")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:5' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 4 * predSilverSize ' range=':=  _default_ * predSilverSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 1 * predSilverFreq ' range=':=  _default_ * predSilverFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 19 ' range=':=  13 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Silver is complete. -->
+
+                <!-- End Silver Generation -->
+
+
+                <!-- Begin Electrotine Generation -->
+
+                <!-- Starting VerticalVeins Preset for Electrotine. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predElectrotineDist = "VerticalVeins"'>
+                        <Veins name='predElectrotineVeins'  inherits='PresetVerticalVeins' drawWireframe='true' wireframeColor='0x6001FFFC' drawBoundBox='false' boundBoxColor='0x6001FFFC'>
+                            <Description>
+                                Single vertical veins that occur  with
+                                no motherlodes.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:6")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:6' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 0.878 * _default_ * predElectrotineFreq ' range=':=  _default_ * predElectrotineFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 0.958 * _default_ * predElectrotineSize ' range=':=  _default_ * predElectrotineSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 11 ' range=':=  5 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= -_default_ ' range=':=  -_default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 0.958 * _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * predElectrotineSize ' range=':=  _default_ * predElectrotineSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.958 * _default_ * predElectrotineSize ' range=':=  _default_ * predElectrotineSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </Veins>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- VerticalVeins Preset for Electrotine is complete. -->
+
+
+                <!-- Starting Cloud Preset for Electrotine. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predElectrotineDist = "Cloud"'>
+                        <Cloud name='predElectrotineCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x6001FFFC' drawBoundBox='false' boundBoxColor='0x6001FFFC'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:6")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:6' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 0.973 * _default_ * predElectrotineSize ' range=':=  _default_ * predElectrotineSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 0.973 * _default_ * predElectrotineSize ' range=':=  _default_ * predElectrotineSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 0.946  * _default_ * predElectrotineFreq ' range=':=  _default_ * predElectrotineFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 11 ' range=':=  5 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Veins name='predElectrotineHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x6001FFFC' drawBoundBox='false' boundBoxColor='0x6001FFFC'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:6")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:6' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Cloud Preset for Electrotine is complete. -->
+
+
+                <!-- Starting Vanilla Preset for Electrotine. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predElectrotineDist = "Vanilla"'>
+                        <StandardGen name='predElectrotineStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x6001FFFC' drawBoundBox='false' boundBoxColor='0x6001FFFC'>
+                            <Description>
+                                A master preset for standardgen  ore
+                                distributions.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.ore:6")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:6' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 8 * predElectrotineSize ' range=':=  _default_ * predElectrotineSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 2 * predElectrotineFreq ' range=':=  _default_ * predElectrotineFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 11 ' range=':=  5 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Electrotine is complete. -->
+
+                <!-- End Electrotine Generation -->
+
+
+                <!-- Begin Marble Generation -->
+
+                <!-- Starting LayeredVeins Preset for Marble. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predMarbleDist = "LayeredVeins"'>
+                        <Veins name='predMarbleVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60FFFFFF' drawBoundBox='false' boundBoxColor='0x60FFFFFF'>
+                            <Description>
+                                Small, fairly rare motherlodes  with
+                                2-4 horizontal veins each.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.stone")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.stone' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 0.474 * _default_ * predMarbleFreq ' range=':=  _default_ * predMarbleFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 0.780 * _default_ * predMarbleSize ' range=':=  _default_ * predMarbleSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 48 ' range=':=  16 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 0.780 * _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * predMarbleSize ' range=':=  _default_ * predMarbleSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.780 * _default_ * predMarbleSize ' range=':=  _default_ * predMarbleSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </Veins>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- LayeredVeins Preset for Marble is complete. -->
+
+
+                <!-- Starting Cloud Preset for Marble. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predMarbleDist = "Cloud"'>
+                        <Cloud name='predMarbleCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FFFFFF' drawBoundBox='false' boundBoxColor='0x60FFFFFF'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.stone")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.stone' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 0.973 * _default_ * predMarbleSize ' range=':=  _default_ * predMarbleSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 0.973 * _default_ * predMarbleSize ' range=':=  _default_ * predMarbleSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 0.946  * _default_ * predMarbleFreq ' range=':=  _default_ * predMarbleFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 48 ' range=':=  16 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Veins name='predMarbleHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FFFFFF' drawBoundBox='false' boundBoxColor='0x60FFFFFF'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.stone")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.stone' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Cloud Preset for Marble is complete. -->
+
+
+                <!-- Starting Vanilla Preset for Marble. -->
+                <ConfigSection>
+                    <IfCondition condition=':= predMarbleDist = "Vanilla"'>
+                        <StandardGen name='predMarbleStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FFFFFF' drawBoundBox='false' boundBoxColor='0x60FFFFFF'>
+                            <Description>
+                                A master preset for standardgen  ore
+                                distributions.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ProjRed|Exploration:projectred.exploration.stone")'> <OreBlock block='ProjRed|Exploration:projectred.exploration.stone' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 16 * predMarbleSize ' range=':=  _default_ * predMarbleSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 1 * predMarbleFreq ' range=':=  _default_ * predMarbleFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 48 ' range=':=  16 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Marble is complete. -->
+
+                <!-- End Marble Generation -->
+
+                <!-- Finished adding blocks -->
+
+            </IfCondition>
+            <!-- Overworld Setup Complete -->
+
+
 
         </IfCondition>
-        <!-- Overworld Setup Complete -->
-
-
-
 
     </ConfigSection>
     <!-- Configuration for Custom Ore Generation Complete! -->

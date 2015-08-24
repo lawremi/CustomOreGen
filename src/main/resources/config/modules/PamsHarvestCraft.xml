@@ -25,10 +25,15 @@
                     Distribution options for Pams HarvestCraft Ores.
                 </Description>
             </OptionDisplayGroup>
+            <OptionChoice name='enablePamsHarvestCraft' displayName='Handle Pams HarvestCraft Setup?' default='true' displayState='shown_dynamic' displayGroup='groupPamsHarvestCraft'>
+                <Description> Should Custom Ore Generation handle Pams HarvestCraft ore generation? </Description>
+                <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Pams HarvestCraft ores.'/>
+                <Choice value=':= ?false' displayValue='No' description='Pams HarvestCraft ores will be handled by the mod itself.'/>
+            </OptionChoice>
 
             <!-- Salt Configuration UI Starting -->
             <ConfigSection>
-                <OptionChoice name='hvstSaltDist'  displayState='shown' displayGroup='groupPamsHarvestCraft'>
+                <OptionChoice name='hvstSaltDist'  displayState=':= if(?enablePamsHarvestCraft, "shown", "hidden")' displayGroup='groupPamsHarvestCraft'>
                     <Description> Controls how Salt is generated </Description>
                     <DisplayName>Pams HarvestCraft Salt</DisplayName>
                     <Choice value='SparseVeins' displayValue='Sparse Veins'>
@@ -48,11 +53,11 @@
                     </Choice>
                     <Choice value='none' displayValue='None' description='Salt is not generated in the world.'/>
                 </OptionChoice>
-                <OptionNumeric name='hvstSaltFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupPamsHarvestCraft'>
+                <OptionNumeric name='hvstSaltFreq' default='1'  min='0' max='5' displayState=':= if(?enablePamsHarvestCraft, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupPamsHarvestCraft'>
                     <Description> Frequency multiplier for Pams HarvestCraft Salt distributions </Description>
                     <DisplayName>Pams HarvestCraft Salt Freq.</DisplayName>
                 </OptionNumeric>
-                <OptionNumeric name='hvstSaltSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupPamsHarvestCraft'>
+                <OptionNumeric name='hvstSaltSize' default='1'  min='0' max='5' displayState=':= if(?enablePamsHarvestCraft, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupPamsHarvestCraft'>
                     <Description> Size multiplier for Pams HarvestCraft Salt distributions </Description>
                     <DisplayName>Pams HarvestCraft Salt Size</DisplayName>
                 </OptionNumeric>
@@ -62,160 +67,168 @@
         </ConfigSection>
         <!-- Setup Screen Complete -->
 
+        <IfCondition condition=':= ?enablePamsHarvestCraft'>
 
 
 
 
-        <!-- Overworld Setup Beginning -->
+            <!-- Overworld Setup Beginning -->
 
-        <IfCondition condition=':= ?COGActive'>
+            <IfCondition condition=':= ?COGActive'>
 
-            <!-- Starting Original "Overworld" Block Removal -->
+                <!-- Starting Original "Overworld" Block Removal -->
 
-            <Substitute name='hvstOverworldBlockSubstitute0' block='minecraft:stone'>
-                <Description>
-                    Replace vanilla-generated ore clusters.
-                </Description>
-                <Comment>
-                    The global option deferredPopulationRange  must be
-                    large enough to catch all ore  clusters (>= 32).
-                </Comment>
-                <Replaces block='harvestcraft:salt' weight='1.0' />
-            </Substitute>
-
-            <!-- Original "Overworld" Block Removal Complete -->
-
-            <!-- Adding blocks -->
-
-            <!-- Begin Salt Generation -->
-
-            <!-- Starting SparseVeins Preset for Salt. -->
-            <ConfigSection>
-                <IfCondition condition=':= hvstSaltDist = "SparseVeins"'>
-                    <Veins name='hvstSaltVeins'  inherits='PresetSparseVeins' drawWireframe='true' wireframeColor='0x6090927C' drawBoundBox='false' boundBoxColor='0x6090927C'>
+                <IfCondition condition=':= ?blockExists("minecraft:stone")'>
+                    <Substitute name='hvstOverworldBlockSubstitute0' block='minecraft:stone'>
                         <Description>
-                            Large veins filled very lightly with  ore.
-                            Because they contain less ore  per volume,
-                            these veins are  relatively wide and long.
-                            Mining the  ore from them is time
-                            consuming  compared to solid ore veins.
-                            They  are also more difficult to follow,
-                            since it is harder to get an idea of
-                            their direction while mining.
+                            Replace vanilla-generated ore clusters.
                         </Description>
-                        <OreBlock block='harvestcraft:salt' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='MotherlodeFrequency' avg=':= 4.287 * _default_ * hvstSaltFreq ' range=':=  _default_ * hvstSaltFreq ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeSize' avg=':= 1.625 * _default_ * hvstSaltSize ' range=':=  _default_ * hvstSaltSize ' type='normal' />
-                        <Setting name='MotherlodeHeight' avg=':= 67 ' range=':=  61 ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchLength' avg=':= 1.625 * _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentLength' avg=':= _default_ * hvstSaltSize ' range=':=  _default_ * hvstSaltSize ' type='normal' />
-                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentRadius' avg=':= 1.625 * _default_ * hvstSaltSize ' range=':=  _default_ * hvstSaltSize ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </Veins>
+                        <Comment>
+                            The global option  deferredPopulationRange
+                            must be large  enough to catch all ore
+                            clusters (>=  32).
+                        </Comment>
+                        <IfCondition condition=':= ?blockExists("harvestcraft:salt")'> <Replaces block='harvestcraft:salt' weight='1.0' /> </IfCondition>
+                    </Substitute>
                 </IfCondition>
-            </ConfigSection>
-            <!-- SparseVeins Preset for Salt is complete. -->
 
+                <!-- Original "Overworld" Block Removal Complete -->
 
-            <!-- Starting Cloud Preset for Salt. -->
-            <ConfigSection>
-                <IfCondition condition=':= hvstSaltDist = "Cloud"'>
-                    <Cloud name='hvstSaltCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x6090927C' drawBoundBox='false' boundBoxColor='0x6090927C'>
-                        <Description>
-                            Large irregular clouds filled lightly
-                            with ore.  These are huge, spanning
-                            several adjacent chunks, and  consequently
-                            rather rare.  They  contain a sizeable
-                            amount of ore, but  it takes some time and
-                            effort to mine  due to low density. The
-                            intent for  strategic clouds is that the
-                            player  will need to actively search for
-                            one  and then set up a semi-permanent
-                            mining base and spend some time  actually
-                            mining the ore.
-                        </Description>
-                        <OreBlock block='harvestcraft:salt' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='CloudRadius' avg=':= 1.702 * _default_ * hvstSaltSize ' range=':=  _default_ * hvstSaltSize ' type='normal' />
-                        <Setting name='CloudThickness' avg=':= 1.702 * _default_ * hvstSaltSize ' range=':=  _default_ * hvstSaltSize ' type='normal' scaleTo='base' />
-                        <Setting name='DistributionFrequency' avg=':= 2.896  * _default_ * hvstSaltFreq ' range=':=  _default_ * hvstSaltFreq ' type='normal' scaleTo='base' />
-                        <Setting name='CloudHeight' avg=':= 67 ' range=':=  61 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Veins name='hvstSaltHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x6090927C' drawBoundBox='false' boundBoxColor='0x6090927C'>
+                <!-- Adding blocks -->
+
+                <!-- Begin Salt Generation -->
+
+                <!-- Starting SparseVeins Preset for Salt. -->
+                <ConfigSection>
+                    <IfCondition condition=':= hvstSaltDist = "SparseVeins"'>
+                        <Veins name='hvstSaltVeins'  inherits='PresetSparseVeins' drawWireframe='true' wireframeColor='0x6090927C' drawBoundBox='false' boundBoxColor='0x6090927C'>
                             <Description>
-                                Single blocks, generously  scattered
-                                through all heights  (density is about
-                                that of vanilla  iron ore). They will
-                                replace dirt  and sandstone (but not
-                                grass or  sand), so they can be found
-                                nearer to the surface than most  ores.
-                                Intened to be used as a  child
-                                distribution for large,  rare
-                                strategic deposits that  would
-                                otherwise be very difficult  to find.
-                                Note that the frequency  is multiplied
-                                by ground level to  maintain a
-                                constant density, but  not by ore
-                                frequency because it  is assumed that
-                                the frequency of  the parent
-                                distribution will  already be scaled
-                                by that.
+                                Large veins filled very lightly  with
+                                ore.  Because they contain  less ore
+                                per volume, these veins  are
+                                relatively wide and long.  Mining the
+                                ore from them is time  consuming
+                                compared to solid ore  veins.  They
+                                are also more  difficult to follow,
+                                since it is  harder to get an idea of
+                                their  direction while mining.
                             </Description>
-                            <OreBlock block='harvestcraft:salt' weight='1.0' />
-                            <Replaces block='minecraft:dirt' weight='1.0' />
-                            <Replaces block='minecraft:sandstone' weight='1.0' />
+                            <IfCondition condition=':= ?blockExists("harvestcraft:salt")'> <OreBlock block='harvestcraft:salt' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 4.287 * _default_ * hvstSaltFreq ' range=':=  _default_ * hvstSaltFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.625 * _default_ * hvstSaltSize ' range=':=  _default_ * hvstSaltSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 67 ' range=':=  61 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.625 * _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * hvstSaltSize ' range=':=  _default_ * hvstSaltSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.625 * _default_ * hvstSaltSize ' range=':=  _default_ * hvstSaltSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
                         </Veins>
-                    </Cloud>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Cloud Preset for Salt is complete. -->
+                    </IfCondition>
+                </ConfigSection>
+                <!-- SparseVeins Preset for Salt is complete. -->
 
 
-            <!-- Starting Vanilla Preset for Salt. -->
-            <ConfigSection>
-                <IfCondition condition=':= hvstSaltDist = "Vanilla"'>
-                    <StandardGen name='hvstSaltStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x6090927C' drawBoundBox='false' boundBoxColor='0x6090927C'>
-                        <Description>
-                            A master preset for standardgen ore
-                            distributions.
-                        </Description>
-                        <OreBlock block='harvestcraft:salt' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='Size' avg=':= 5 * hvstSaltSize ' range=':=  _default_ * hvstSaltSize ' type='normal' />
-                        <Setting name='Frequency' avg=':= 30 * hvstSaltFreq ' range=':=  _default_ * hvstSaltFreq ' type='normal' scaleTo='base' />
-                        <Setting name='Height' avg=':= 67 ' range=':=  61 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </StandardGen>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Vanilla Preset for Salt is complete. -->
+                <!-- Starting Cloud Preset for Salt. -->
+                <ConfigSection>
+                    <IfCondition condition=':= hvstSaltDist = "Cloud"'>
+                        <Cloud name='hvstSaltCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x6090927C' drawBoundBox='false' boundBoxColor='0x6090927C'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("harvestcraft:salt")'> <OreBlock block='harvestcraft:salt' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 1.702 * _default_ * hvstSaltSize ' range=':=  _default_ * hvstSaltSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.702 * _default_ * hvstSaltSize ' range=':=  _default_ * hvstSaltSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 2.896  * _default_ * hvstSaltFreq ' range=':=  _default_ * hvstSaltFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 67 ' range=':=  61 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Veins name='hvstSaltHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x6090927C' drawBoundBox='false' boundBoxColor='0x6090927C'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("harvestcraft:salt")'> <OreBlock block='harvestcraft:salt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Cloud Preset for Salt is complete. -->
 
-            <!-- End Salt Generation -->
 
-            <!-- Finished adding blocks -->
+                <!-- Starting Vanilla Preset for Salt. -->
+                <ConfigSection>
+                    <IfCondition condition=':= hvstSaltDist = "Vanilla"'>
+                        <StandardGen name='hvstSaltStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x6090927C' drawBoundBox='false' boundBoxColor='0x6090927C'>
+                            <Description>
+                                A master preset for standardgen  ore
+                                distributions.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("harvestcraft:salt")'> <OreBlock block='harvestcraft:salt' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 5 * hvstSaltSize ' range=':=  _default_ * hvstSaltSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 30 * hvstSaltFreq ' range=':=  _default_ * hvstSaltFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 67 ' range=':=  61 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Salt is complete. -->
+
+                <!-- End Salt Generation -->
+
+                <!-- Finished adding blocks -->
+
+            </IfCondition>
+            <!-- Overworld Setup Complete -->
+
+
 
         </IfCondition>
-        <!-- Overworld Setup Complete -->
-
-
-
 
     </ConfigSection>
     <!-- Configuration for Custom Ore Generation Complete! -->

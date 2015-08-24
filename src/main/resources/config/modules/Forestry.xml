@@ -25,10 +25,15 @@
                     Distribution options for Forestry Ores.
                 </Description>
             </OptionDisplayGroup>
+            <OptionChoice name='enableForestry' displayName='Handle Forestry Setup?' default='true' displayState='shown_dynamic' displayGroup='groupForestry'>
+                <Description> Should Custom Ore Generation handle Forestry ore generation? </Description>
+                <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Forestry ores.'/>
+                <Choice value=':= ?false' displayValue='No' description='Forestry ores will be handled by the mod itself.'/>
+            </OptionChoice>
 
             <!-- Apatite Configuration UI Starting -->
             <ConfigSection>
-                <OptionChoice name='frstApatiteDist'  displayState='shown' displayGroup='groupForestry'>
+                <OptionChoice name='frstApatiteDist'  displayState=':= if(?enableForestry, "shown", "hidden")' displayGroup='groupForestry'>
                     <Description> Controls how Apatite is generated </Description>
                     <DisplayName>Forestry Apatite</DisplayName>
                     <Choice value='SparseVeins' displayValue='Sparse Veins'>
@@ -48,11 +53,11 @@
                     </Choice>
                     <Choice value='none' displayValue='None' description='Apatite is not generated in the world.'/>
                 </OptionChoice>
-                <OptionNumeric name='frstApatiteFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupForestry'>
+                <OptionNumeric name='frstApatiteFreq' default='1'  min='0' max='5' displayState=':= if(?enableForestry, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupForestry'>
                     <Description> Frequency multiplier for Forestry Apatite distributions </Description>
                     <DisplayName>Forestry Apatite Freq.</DisplayName>
                 </OptionNumeric>
-                <OptionNumeric name='frstApatiteSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupForestry'>
+                <OptionNumeric name='frstApatiteSize' default='1'  min='0' max='5' displayState=':= if(?enableForestry, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupForestry'>
                     <Description> Size multiplier for Forestry Apatite distributions </Description>
                     <DisplayName>Forestry Apatite Size</DisplayName>
                 </OptionNumeric>
@@ -62,7 +67,7 @@
 
             <!-- Copper Configuration UI Starting -->
             <ConfigSection>
-                <OptionChoice name='frstCopperDist'  displayState='shown' displayGroup='groupForestry'>
+                <OptionChoice name='frstCopperDist'  displayState=':= if(?enableForestry, "shown", "hidden")' displayGroup='groupForestry'>
                     <Description> Controls how Copper is generated </Description>
                     <DisplayName>Forestry Copper</DisplayName>
                     <Choice value='LayeredVeins' displayValue='Layered Veins'>
@@ -82,11 +87,11 @@
                     </Choice>
                     <Choice value='none' displayValue='None' description='Copper is not generated in the world.'/>
                 </OptionChoice>
-                <OptionNumeric name='frstCopperFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupForestry'>
+                <OptionNumeric name='frstCopperFreq' default='1'  min='0' max='5' displayState=':= if(?enableForestry, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupForestry'>
                     <Description> Frequency multiplier for Forestry Copper distributions </Description>
                     <DisplayName>Forestry Copper Freq.</DisplayName>
                 </OptionNumeric>
-                <OptionNumeric name='frstCopperSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupForestry'>
+                <OptionNumeric name='frstCopperSize' default='1'  min='0' max='5' displayState=':= if(?enableForestry, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupForestry'>
                     <Description> Size multiplier for Forestry Copper distributions </Description>
                     <DisplayName>Forestry Copper Size</DisplayName>
                 </OptionNumeric>
@@ -96,7 +101,7 @@
 
             <!-- Tin Configuration UI Starting -->
             <ConfigSection>
-                <OptionChoice name='frstTinDist'  displayState='shown' displayGroup='groupForestry'>
+                <OptionChoice name='frstTinDist'  displayState=':= if(?enableForestry, "shown", "hidden")' displayGroup='groupForestry'>
                     <Description> Controls how Tin is generated </Description>
                     <DisplayName>Forestry Tin</DisplayName>
                     <Choice value='LayeredVeins' displayValue='Layered Veins'>
@@ -116,11 +121,11 @@
                     </Choice>
                     <Choice value='none' displayValue='None' description='Tin is not generated in the world.'/>
                 </OptionChoice>
-                <OptionNumeric name='frstTinFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupForestry'>
+                <OptionNumeric name='frstTinFreq' default='1'  min='0' max='5' displayState=':= if(?enableForestry, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupForestry'>
                     <Description> Frequency multiplier for Forestry Tin distributions </Description>
                     <DisplayName>Forestry Tin Freq.</DisplayName>
                 </OptionNumeric>
-                <OptionNumeric name='frstTinSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupForestry'>
+                <OptionNumeric name='frstTinSize' default='1'  min='0' max='5' displayState=':= if(?enableForestry, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupForestry'>
                     <Description> Size multiplier for Forestry Tin distributions </Description>
                     <DisplayName>Forestry Tin Size</DisplayName>
                 </OptionNumeric>
@@ -130,396 +135,408 @@
         </ConfigSection>
         <!-- Setup Screen Complete -->
 
+        <IfCondition condition=':= ?enableForestry'>
 
 
 
 
-        <!-- Overworld Setup Beginning -->
+            <!-- Overworld Setup Beginning -->
 
-        <IfCondition condition=':= ?COGActive'>
+            <IfCondition condition=':= ?COGActive'>
 
-            <!-- Starting Original "Overworld" Block Removal -->
+                <!-- Starting Original "Overworld" Block Removal -->
 
-            <Substitute name='frstOverworldBlockSubstitute0' block='minecraft:stone'>
-                <Description>
-                    Replace vanilla-generated ore clusters.
-                </Description>
-                <Comment>
-                    The global option deferredPopulationRange  must be
-                    large enough to catch all ore  clusters (>= 32).
-                </Comment>
-                <Replaces block='Forestry:resources' weight='1.0' />
-                <Replaces block='Forestry:resources:1' weight='1.0' />
-                <Replaces block='Forestry:resources:2' weight='1.0' />
-            </Substitute>
-
-            <!-- Original "Overworld" Block Removal Complete -->
-
-            <!-- Adding blocks -->
-
-            <!-- Begin Apatite Generation -->
-
-            <!-- Starting SparseVeins Preset for Apatite. -->
-            <ConfigSection>
-                <IfCondition condition=':= frstApatiteDist = "SparseVeins"'>
-                    <Veins name='frstApatiteVeins'  inherits='PresetSparseVeins' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x6052BBEF'>
+                <IfCondition condition=':= ?blockExists("minecraft:stone")'>
+                    <Substitute name='frstOverworldBlockSubstitute0' block='minecraft:stone'>
                         <Description>
-                            Large veins filled very lightly with  ore.
-                            Because they contain less ore  per volume,
-                            these veins are  relatively wide and long.
-                            Mining the  ore from them is time
-                            consuming  compared to solid ore veins.
-                            They  are also more difficult to follow,
-                            since it is harder to get an idea of
-                            their direction while mining.
+                            Replace vanilla-generated ore clusters.
                         </Description>
-                        <OreBlock block='Forestry:resources' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='MotherlodeFrequency' avg=':= 2.100 * _default_ * frstApatiteFreq ' range=':=  _default_ * frstApatiteFreq ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeSize' avg=':= 1.281 * _default_ * frstApatiteSize ' range=':=  _default_ * frstApatiteSize ' type='normal' />
-                        <Setting name='MotherlodeHeight' avg=':= 120 ' range=':=  64 ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchLength' avg=':= 1.281 * _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentLength' avg=':= _default_ * frstApatiteSize ' range=':=  _default_ * frstApatiteSize ' type='normal' />
-                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentRadius' avg=':= 1.281 * _default_ * frstApatiteSize ' range=':=  _default_ * frstApatiteSize ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </Veins>
+                        <Comment>
+                            The global option  deferredPopulationRange
+                            must be large  enough to catch all ore
+                            clusters (>=  32).
+                        </Comment>
+                        <IfCondition condition=':= ?blockExists("Forestry:resources")'> <Replaces block='Forestry:resources' weight='1.0' /> </IfCondition>
+                        <IfCondition condition=':= ?blockExists("Forestry:resources:1")'> <Replaces block='Forestry:resources:1' weight='1.0' /> </IfCondition>
+                        <IfCondition condition=':= ?blockExists("Forestry:resources:2")'> <Replaces block='Forestry:resources:2' weight='1.0' /> </IfCondition>
+                    </Substitute>
                 </IfCondition>
-            </ConfigSection>
-            <!-- SparseVeins Preset for Apatite is complete. -->
 
+                <!-- Original "Overworld" Block Removal Complete -->
 
-            <!-- Starting Cloud Preset for Apatite. -->
-            <ConfigSection>
-                <IfCondition condition=':= frstApatiteDist = "Cloud"'>
-                    <Cloud name='frstApatiteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x6052BBEF'>
-                        <Description>
-                            Large irregular clouds filled lightly
-                            with ore.  These are huge, spanning
-                            several adjacent chunks, and  consequently
-                            rather rare.  They  contain a sizeable
-                            amount of ore, but  it takes some time and
-                            effort to mine  due to low density. The
-                            intent for  strategic clouds is that the
-                            player  will need to actively search for
-                            one  and then set up a semi-permanent
-                            mining base and spend some time  actually
-                            mining the ore.
-                        </Description>
-                        <OreBlock block='Forestry:resources' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='CloudRadius' avg=':= 1.191 * _default_ * frstApatiteSize ' range=':=  _default_ * frstApatiteSize ' type='normal' />
-                        <Setting name='CloudThickness' avg=':= 1.191 * _default_ * frstApatiteSize ' range=':=  _default_ * frstApatiteSize ' type='normal' scaleTo='base' />
-                        <Setting name='DistributionFrequency' avg=':= 1.419  * _default_ * frstApatiteFreq ' range=':=  _default_ * frstApatiteFreq ' type='normal' scaleTo='base' />
-                        <Setting name='CloudHeight' avg=':= 120 ' range=':=  64 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Veins name='frstApatiteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x6052BBEF'>
+                <!-- Adding blocks -->
+
+                <!-- Begin Apatite Generation -->
+
+                <!-- Starting SparseVeins Preset for Apatite. -->
+                <ConfigSection>
+                    <IfCondition condition=':= frstApatiteDist = "SparseVeins"'>
+                        <Veins name='frstApatiteVeins'  inherits='PresetSparseVeins' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x6052BBEF'>
                             <Description>
-                                Single blocks, generously  scattered
-                                through all heights  (density is about
-                                that of vanilla  iron ore). They will
-                                replace dirt  and sandstone (but not
-                                grass or  sand), so they can be found
-                                nearer to the surface than most  ores.
-                                Intened to be used as a  child
-                                distribution for large,  rare
-                                strategic deposits that  would
-                                otherwise be very difficult  to find.
-                                Note that the frequency  is multiplied
-                                by ground level to  maintain a
-                                constant density, but  not by ore
-                                frequency because it  is assumed that
-                                the frequency of  the parent
-                                distribution will  already be scaled
-                                by that.
+                                Large veins filled very lightly  with
+                                ore.  Because they contain  less ore
+                                per volume, these veins  are
+                                relatively wide and long.  Mining the
+                                ore from them is time  consuming
+                                compared to solid ore  veins.  They
+                                are also more  difficult to follow,
+                                since it is  harder to get an idea of
+                                their  direction while mining.
                             </Description>
-                            <OreBlock block='Forestry:resources' weight='1.0' />
-                            <Replaces block='minecraft:dirt' weight='1.0' />
-                            <Replaces block='minecraft:sandstone' weight='1.0' />
+                            <IfCondition condition=':= ?blockExists("Forestry:resources")'> <OreBlock block='Forestry:resources' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 2.100 * _default_ * frstApatiteFreq ' range=':=  _default_ * frstApatiteFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.281 * _default_ * frstApatiteSize ' range=':=  _default_ * frstApatiteSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 120 ' range=':=  64 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.281 * _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * frstApatiteSize ' range=':=  _default_ * frstApatiteSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.281 * _default_ * frstApatiteSize ' range=':=  _default_ * frstApatiteSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
                         </Veins>
-                    </Cloud>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Cloud Preset for Apatite is complete. -->
+                    </IfCondition>
+                </ConfigSection>
+                <!-- SparseVeins Preset for Apatite is complete. -->
 
 
-            <!-- Starting Vanilla Preset for Apatite. -->
-            <ConfigSection>
-                <IfCondition condition=':= frstApatiteDist = "Vanilla"'>
-                    <StandardGen name='frstApatiteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x6052BBEF'>
-                        <Description>
-                            A master preset for standardgen ore
-                            distributions.
-                        </Description>
-                        <OreBlock block='Forestry:resources' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='Size' avg=':= 36 * frstApatiteSize ' range=':=  _default_ * frstApatiteSize ' type='normal' />
-                        <Setting name='Frequency' avg=':= 1 * frstApatiteFreq ' range=':=  _default_ * frstApatiteFreq ' type='normal' scaleTo='base' />
-                        <Setting name='Height' avg=':= 120 ' range=':=  64 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </StandardGen>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Vanilla Preset for Apatite is complete. -->
-
-            <!-- End Apatite Generation -->
-
-
-            <!-- Begin Copper Generation -->
-
-            <!-- Starting LayeredVeins Preset for Copper. -->
-            <ConfigSection>
-                <IfCondition condition=':= frstCopperDist = "LayeredVeins"'>
-                    <Veins name='frstCopperVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x60E3B78E'>
-                        <Description>
-                            Small, fairly rare motherlodes with  2-4
-                            horizontal veins each.
-                        </Description>
-                        <OreBlock block='Forestry:resources:1' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='MotherlodeFrequency' avg=':= 1.297 * _default_ * frstCopperFreq ' range=':=  _default_ * frstCopperFreq ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeSize' avg=':= 1.091 * _default_ * frstCopperSize ' range=':=  _default_ * frstCopperSize ' type='normal' />
-                        <Setting name='MotherlodeHeight' avg=':= 106 ' range=':=  74 ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchLength' avg=':= 1.091 * _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentLength' avg=':= _default_ * frstCopperSize ' range=':=  _default_ * frstCopperSize ' type='normal' />
-                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentRadius' avg=':= 1.091 * _default_ * frstCopperSize ' range=':=  _default_ * frstCopperSize ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </Veins>
-                </IfCondition>
-            </ConfigSection>
-            <!-- LayeredVeins Preset for Copper is complete. -->
-
-
-            <!-- Starting Cloud Preset for Copper. -->
-            <ConfigSection>
-                <IfCondition condition=':= frstCopperDist = "Cloud"'>
-                    <Cloud name='frstCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x60E3B78E'>
-                        <Description>
-                            Large irregular clouds filled lightly
-                            with ore.  These are huge, spanning
-                            several adjacent chunks, and  consequently
-                            rather rare.  They  contain a sizeable
-                            amount of ore, but  it takes some time and
-                            effort to mine  due to low density. The
-                            intent for  strategic clouds is that the
-                            player  will need to actively search for
-                            one  and then set up a semi-permanent
-                            mining base and spend some time  actually
-                            mining the ore.
-                        </Description>
-                        <OreBlock block='Forestry:resources:1' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='CloudRadius' avg=':= 1.610 * _default_ * frstCopperSize ' range=':=  _default_ * frstCopperSize ' type='normal' />
-                        <Setting name='CloudThickness' avg=':= 1.610 * _default_ * frstCopperSize ' range=':=  _default_ * frstCopperSize ' type='normal' scaleTo='base' />
-                        <Setting name='DistributionFrequency' avg=':= 2.591  * _default_ * frstCopperFreq ' range=':=  _default_ * frstCopperFreq ' type='normal' scaleTo='base' />
-                        <Setting name='CloudHeight' avg=':= 106 ' range=':=  74 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Veins name='frstCopperHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x60E3B78E'>
+                <!-- Starting Cloud Preset for Apatite. -->
+                <ConfigSection>
+                    <IfCondition condition=':= frstApatiteDist = "Cloud"'>
+                        <Cloud name='frstApatiteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x6052BBEF'>
                             <Description>
-                                Single blocks, generously  scattered
-                                through all heights  (density is about
-                                that of vanilla  iron ore). They will
-                                replace dirt  and sandstone (but not
-                                grass or  sand), so they can be found
-                                nearer to the surface than most  ores.
-                                Intened to be used as a  child
-                                distribution for large,  rare
-                                strategic deposits that  would
-                                otherwise be very difficult  to find.
-                                Note that the frequency  is multiplied
-                                by ground level to  maintain a
-                                constant density, but  not by ore
-                                frequency because it  is assumed that
-                                the frequency of  the parent
-                                distribution will  already be scaled
-                                by that.
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
                             </Description>
-                            <OreBlock block='Forestry:resources:1' weight='1.0' />
-                            <Replaces block='minecraft:dirt' weight='1.0' />
-                            <Replaces block='minecraft:sandstone' weight='1.0' />
-                        </Veins>
-                    </Cloud>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Cloud Preset for Copper is complete. -->
+                            <IfCondition condition=':= ?blockExists("Forestry:resources")'> <OreBlock block='Forestry:resources' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 1.191 * _default_ * frstApatiteSize ' range=':=  _default_ * frstApatiteSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.191 * _default_ * frstApatiteSize ' range=':=  _default_ * frstApatiteSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.419  * _default_ * frstApatiteFreq ' range=':=  _default_ * frstApatiteFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 120 ' range=':=  64 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Veins name='frstApatiteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x6052BBEF'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("Forestry:resources")'> <OreBlock block='Forestry:resources' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Cloud Preset for Apatite is complete. -->
 
 
-            <!-- Starting Vanilla Preset for Copper. -->
-            <ConfigSection>
-                <IfCondition condition=':= frstCopperDist = "Vanilla"'>
-                    <StandardGen name='frstCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x60E3B78E'>
-                        <Description>
-                            A master preset for standardgen ore
-                            distributions.
-                        </Description>
-                        <OreBlock block='Forestry:resources:1' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='Size' avg=':= 6 * frstCopperSize ' range=':=  _default_ * frstCopperSize ' type='normal' />
-                        <Setting name='Frequency' avg=':= 20 * frstCopperFreq ' range=':=  _default_ * frstCopperFreq ' type='normal' scaleTo='base' />
-                        <Setting name='Height' avg=':= 106 ' range=':=  74 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </StandardGen>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Vanilla Preset for Copper is complete. -->
-
-            <!-- End Copper Generation -->
-
-
-            <!-- Begin Tin Generation -->
-
-            <!-- Starting LayeredVeins Preset for Tin. -->
-            <ConfigSection>
-                <IfCondition condition=':= frstTinDist = "LayeredVeins"'>
-                    <Veins name='frstTinVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x60D1EDF1'>
-                        <Description>
-                            Small, fairly rare motherlodes with  2-4
-                            horizontal veins each.
-                        </Description>
-                        <OreBlock block='Forestry:resources:2' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='MotherlodeFrequency' avg=':= 1.231 * _default_ * frstTinFreq ' range=':=  _default_ * frstTinFreq ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeSize' avg=':= 1.072 * _default_ * frstTinSize ' range=':=  _default_ * frstTinSize ' type='normal' />
-                        <Setting name='MotherlodeHeight' avg=':= 98 ' range=':=  82 ' type='normal' scaleTo='base' />
-                        <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchLength' avg=':= 1.072 * _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentLength' avg=':= _default_ * frstTinSize ' range=':=  _default_ * frstTinSize ' type='normal' />
-                        <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='SegmentRadius' avg=':= 1.072 * _default_ * frstTinSize ' range=':=  _default_ * frstTinSize ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </Veins>
-                </IfCondition>
-            </ConfigSection>
-            <!-- LayeredVeins Preset for Tin is complete. -->
-
-
-            <!-- Starting Cloud Preset for Tin. -->
-            <ConfigSection>
-                <IfCondition condition=':= frstTinDist = "Cloud"'>
-                    <Cloud name='frstTinCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x60D1EDF1'>
-                        <Description>
-                            Large irregular clouds filled lightly
-                            with ore.  These are huge, spanning
-                            several adjacent chunks, and  consequently
-                            rather rare.  They  contain a sizeable
-                            amount of ore, but  it takes some time and
-                            effort to mine  due to low density. The
-                            intent for  strategic clouds is that the
-                            player  will need to actively search for
-                            one  and then set up a semi-permanent
-                            mining base and spend some time  actually
-                            mining the ore.
-                        </Description>
-                        <OreBlock block='Forestry:resources:2' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='CloudRadius' avg=':= 1.568 * _default_ * frstTinSize ' range=':=  _default_ * frstTinSize ' type='normal' />
-                        <Setting name='CloudThickness' avg=':= 1.568 * _default_ * frstTinSize ' range=':=  _default_ * frstTinSize ' type='normal' scaleTo='base' />
-                        <Setting name='DistributionFrequency' avg=':= 2.458  * _default_ * frstTinFreq ' range=':=  _default_ * frstTinFreq ' type='normal' scaleTo='base' />
-                        <Setting name='CloudHeight' avg=':= 98 ' range=':=  82 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                        <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        <Veins name='frstTinHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x60D1EDF1'>
+                <!-- Starting Vanilla Preset for Apatite. -->
+                <ConfigSection>
+                    <IfCondition condition=':= frstApatiteDist = "Vanilla"'>
+                        <StandardGen name='frstApatiteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x6052BBEF'>
                             <Description>
-                                Single blocks, generously  scattered
-                                through all heights  (density is about
-                                that of vanilla  iron ore). They will
-                                replace dirt  and sandstone (but not
-                                grass or  sand), so they can be found
-                                nearer to the surface than most  ores.
-                                Intened to be used as a  child
-                                distribution for large,  rare
-                                strategic deposits that  would
-                                otherwise be very difficult  to find.
-                                Note that the frequency  is multiplied
-                                by ground level to  maintain a
-                                constant density, but  not by ore
-                                frequency because it  is assumed that
-                                the frequency of  the parent
-                                distribution will  already be scaled
-                                by that.
+                                A master preset for standardgen  ore
+                                distributions.
                             </Description>
-                            <OreBlock block='Forestry:resources:2' weight='1.0' />
-                            <Replaces block='minecraft:dirt' weight='1.0' />
-                            <Replaces block='minecraft:sandstone' weight='1.0' />
+                            <IfCondition condition=':= ?blockExists("Forestry:resources")'> <OreBlock block='Forestry:resources' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 36 * frstApatiteSize ' range=':=  _default_ * frstApatiteSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 1 * frstApatiteFreq ' range=':=  _default_ * frstApatiteFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 120 ' range=':=  64 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Apatite is complete. -->
+
+                <!-- End Apatite Generation -->
+
+
+                <!-- Begin Copper Generation -->
+
+                <!-- Starting LayeredVeins Preset for Copper. -->
+                <ConfigSection>
+                    <IfCondition condition=':= frstCopperDist = "LayeredVeins"'>
+                        <Veins name='frstCopperVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x60E3B78E'>
+                            <Description>
+                                Small, fairly rare motherlodes  with
+                                2-4 horizontal veins each.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("Forestry:resources:1")'> <OreBlock block='Forestry:resources:1' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 1.297 * _default_ * frstCopperFreq ' range=':=  _default_ * frstCopperFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.091 * _default_ * frstCopperSize ' range=':=  _default_ * frstCopperSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 106 ' range=':=  74 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.091 * _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * frstCopperSize ' range=':=  _default_ * frstCopperSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.091 * _default_ * frstCopperSize ' range=':=  _default_ * frstCopperSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
                         </Veins>
-                    </Cloud>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Cloud Preset for Tin is complete. -->
+                    </IfCondition>
+                </ConfigSection>
+                <!-- LayeredVeins Preset for Copper is complete. -->
 
 
-            <!-- Starting Vanilla Preset for Tin. -->
-            <ConfigSection>
-                <IfCondition condition=':= frstTinDist = "Vanilla"'>
-                    <StandardGen name='frstTinStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x60D1EDF1'>
-                        <Description>
-                            A master preset for standardgen ore
-                            distributions.
-                        </Description>
-                        <OreBlock block='Forestry:resources:2' weight='1.0' />
-                        <Replaces block='minecraft:stone' weight='1.0' />
-                        <Biome name='.*'  />
-                        <Setting name='Size' avg=':= 6 * frstTinSize ' range=':=  _default_ * frstTinSize ' type='normal' />
-                        <Setting name='Frequency' avg=':= 18 * frstTinFreq ' range=':=  _default_ * frstTinFreq ' type='normal' scaleTo='base' />
-                        <Setting name='Height' avg=':= 98 ' range=':=  82 ' type='normal' scaleTo='base' />
-                        <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                    </StandardGen>
-                </IfCondition>
-            </ConfigSection>
-            <!-- Vanilla Preset for Tin is complete. -->
+                <!-- Starting Cloud Preset for Copper. -->
+                <ConfigSection>
+                    <IfCondition condition=':= frstCopperDist = "Cloud"'>
+                        <Cloud name='frstCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x60E3B78E'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("Forestry:resources:1")'> <OreBlock block='Forestry:resources:1' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 1.610 * _default_ * frstCopperSize ' range=':=  _default_ * frstCopperSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.610 * _default_ * frstCopperSize ' range=':=  _default_ * frstCopperSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 2.591  * _default_ * frstCopperFreq ' range=':=  _default_ * frstCopperFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 106 ' range=':=  74 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Veins name='frstCopperHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x60E3B78E'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("Forestry:resources:1")'> <OreBlock block='Forestry:resources:1' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Cloud Preset for Copper is complete. -->
 
-            <!-- End Tin Generation -->
 
-            <!-- Finished adding blocks -->
+                <!-- Starting Vanilla Preset for Copper. -->
+                <ConfigSection>
+                    <IfCondition condition=':= frstCopperDist = "Vanilla"'>
+                        <StandardGen name='frstCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x60E3B78E'>
+                            <Description>
+                                A master preset for standardgen  ore
+                                distributions.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("Forestry:resources:1")'> <OreBlock block='Forestry:resources:1' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 6 * frstCopperSize ' range=':=  _default_ * frstCopperSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 20 * frstCopperFreq ' range=':=  _default_ * frstCopperFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 106 ' range=':=  74 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Copper is complete. -->
+
+                <!-- End Copper Generation -->
+
+
+                <!-- Begin Tin Generation -->
+
+                <!-- Starting LayeredVeins Preset for Tin. -->
+                <ConfigSection>
+                    <IfCondition condition=':= frstTinDist = "LayeredVeins"'>
+                        <Veins name='frstTinVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x60D1EDF1'>
+                            <Description>
+                                Small, fairly rare motherlodes  with
+                                2-4 horizontal veins each.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("Forestry:resources:2")'> <OreBlock block='Forestry:resources:2' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 1.231 * _default_ * frstTinFreq ' range=':=  _default_ * frstTinFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.072 * _default_ * frstTinSize ' range=':=  _default_ * frstTinSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 98 ' range=':=  82 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.072 * _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * frstTinSize ' range=':=  _default_ * frstTinSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.072 * _default_ * frstTinSize ' range=':=  _default_ * frstTinSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </Veins>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- LayeredVeins Preset for Tin is complete. -->
+
+
+                <!-- Starting Cloud Preset for Tin. -->
+                <ConfigSection>
+                    <IfCondition condition=':= frstTinDist = "Cloud"'>
+                        <Cloud name='frstTinCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x60D1EDF1'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("Forestry:resources:2")'> <OreBlock block='Forestry:resources:2' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 1.568 * _default_ * frstTinSize ' range=':=  _default_ * frstTinSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.568 * _default_ * frstTinSize ' range=':=  _default_ * frstTinSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 2.458  * _default_ * frstTinFreq ' range=':=  _default_ * frstTinFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 98 ' range=':=  82 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Veins name='frstTinHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x60D1EDF1'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("Forestry:resources:2")'> <OreBlock block='Forestry:resources:2' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Cloud Preset for Tin is complete. -->
+
+
+                <!-- Starting Vanilla Preset for Tin. -->
+                <ConfigSection>
+                    <IfCondition condition=':= frstTinDist = "Vanilla"'>
+                        <StandardGen name='frstTinStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x60D1EDF1'>
+                            <Description>
+                                A master preset for standardgen  ore
+                                distributions.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("Forestry:resources:2")'> <OreBlock block='Forestry:resources:2' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 6 * frstTinSize ' range=':=  _default_ * frstTinSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 18 * frstTinFreq ' range=':=  _default_ * frstTinFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 98 ' range=':=  82 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Tin is complete. -->
+
+                <!-- End Tin Generation -->
+
+                <!-- Finished adding blocks -->
+
+            </IfCondition>
+            <!-- Overworld Setup Complete -->
+
+
 
         </IfCondition>
-        <!-- Overworld Setup Complete -->
-
-
-
 
     </ConfigSection>
     <!-- Configuration for Custom Ore Generation Complete! -->
