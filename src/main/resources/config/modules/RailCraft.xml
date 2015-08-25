@@ -1,7 +1,7 @@
 <!-- =================================================================
      Custom Ore Generation "RailCraft" Module: This configuration
-     covers poor iron, poor gold, poor copper, poor tin, poor lead,
-     saltpeter, firestone, sulfur, and abyssal ores.
+     covers abyssal ores, poor iron, poor gold, poor copper, poor tin,
+     poor lead, saltpeter, firestone, and sulfur.
      ================================================================= -->
 
 
@@ -31,6 +31,30 @@
                 <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle RailCraft ores.'/>
                 <Choice value=':= ?false' displayValue='No' description='RailCraft ores will be handled by the mod itself.'/>
             </OptionChoice>
+
+            <!-- Abyssal Ores Configuration UI Starting -->
+            <ConfigSection>
+                <OptionChoice name='rlcrAbyssalOresDist'  displayState=':= if(?enableRailCraft, "shown", "hidden")' displayGroup='groupRailCraft'>
+                    <Description> Controls how Abyssal Ores is generated </Description>
+                    <DisplayName>RailCraft Abyssal Ores</DisplayName>
+                    <Choice value='Geode' displayValue='Geode'>
+                        <Description>
+                            Multi-layered deposit in a spherical shape.
+                        </Description>
+                    </Choice>
+                    <Choice value='none' displayValue='None' description='Abyssal Ores is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='rlcrAbyssalOresFreq' default='1'  min='0' max='5' displayState=':= if(?enableRailCraft, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupRailCraft'>
+                    <Description> Frequency multiplier for RailCraft Abyssal Ores distributions </Description>
+                    <DisplayName>RailCraft Abyssal Ores Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='rlcrAbyssalOresSize' default='1'  min='0' max='5' displayState=':= if(?enableRailCraft, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupRailCraft'>
+                    <Description> Size multiplier for RailCraft Abyssal Ores distributions </Description>
+                    <DisplayName>RailCraft Abyssal Ores Size</DisplayName>
+                </OptionNumeric>
+            </ConfigSection>
+            <!-- Abyssal Ores Configuration UI Complete -->
+
 
             <!-- Poor Iron Configuration UI Starting -->
             <ConfigSection>
@@ -303,30 +327,6 @@
             </ConfigSection>
             <!-- Sulfur Configuration UI Complete -->
 
-
-            <!-- Abyssal Ores Configuration UI Starting -->
-            <ConfigSection>
-                <OptionChoice name='rlcrAbyssalOresDist'  displayState=':= if(?enableRailCraft, "shown", "hidden")' displayGroup='groupRailCraft'>
-                    <Description> Controls how Abyssal Ores is generated </Description>
-                    <DisplayName>RailCraft Abyssal Ores</DisplayName>
-                    <Choice value='Geode' displayValue='Geode'>
-                        <Description>
-                            Multi-layered deposit in a spherical shape.
-                        </Description>
-                    </Choice>
-                    <Choice value='none' displayValue='None' description='Abyssal Ores is not generated in the world.'/>
-                </OptionChoice>
-                <OptionNumeric name='rlcrAbyssalOresFreq' default='1'  min='0' max='5' displayState=':= if(?enableRailCraft, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupRailCraft'>
-                    <Description> Frequency multiplier for RailCraft Abyssal Ores distributions </Description>
-                    <DisplayName>RailCraft Abyssal Ores Freq.</DisplayName>
-                </OptionNumeric>
-                <OptionNumeric name='rlcrAbyssalOresSize' default='1'  min='0' max='5' displayState=':= if(?enableRailCraft, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupRailCraft'>
-                    <Description> Size multiplier for RailCraft Abyssal Ores distributions </Description>
-                    <DisplayName>RailCraft Abyssal Ores Size</DisplayName>
-                </OptionNumeric>
-            </ConfigSection>
-            <!-- Abyssal Ores Configuration UI Complete -->
-
         </ConfigSection>
         <!-- Setup Screen Complete -->
 
@@ -342,7 +342,7 @@
                 <!-- Starting Original "Overworld" Block Removal -->
 
                 <IfCondition condition=':= ?blockExists("minecraft:sand")'>
-                    <Substitute name='rlcrOverworldBlockSubstitute0' block='minecraft:sand'>
+                    <Substitute name='rlcrOverworldBlockSubstitute4' block='minecraft:sand'>
                         <Description>
                             Replace vanilla-generated ore clusters.
                         </Description>
@@ -357,7 +357,7 @@
 
 
                 <IfCondition condition=':= ?blockExists("minecraft:stone")'>
-                    <Substitute name='rlcrOverworldBlockSubstitute2' block='minecraft:stone'>
+                    <Substitute name='rlcrOverworldBlockSubstitute6' block='minecraft:stone'>
                         <Description>
                             Replace vanilla-generated ore clusters.
                         </Description>
@@ -373,7 +373,6 @@
                         <IfCondition condition=':= ?blockExists("Railcraft:ore:2")'> <Replaces block='Railcraft:ore:2' weight='1.0' /> </IfCondition>
                         <IfCondition condition=':= ?blockExists("Railcraft:ore:3")'> <Replaces block='Railcraft:ore:3' weight='1.0' /> </IfCondition>
                         <IfCondition condition=':= ?blockExists("Railcraft:ore:4")'> <Replaces block='Railcraft:ore:4' weight='1.0' /> </IfCondition>
-                        <IfCondition condition=':= ?blockExists("Railcraft:ore:5")'> <Replaces block='Railcraft:ore:5' weight='1.0' /> </IfCondition>
                         <IfCondition condition=':= ?blockExists("Railcraft:ore:7")'> <Replaces block='Railcraft:ore:7' weight='1.0' /> </IfCondition>
                         <IfCondition condition=':= ?blockExists("Railcraft:ore:8")'> <Replaces block='Railcraft:ore:8' weight='1.0' /> </IfCondition>
                         <IfCondition condition=':= ?blockExists("Railcraft:ore:9")'> <Replaces block='Railcraft:ore:9' weight='1.0' /> </IfCondition>
@@ -383,6 +382,94 @@
                 <!-- Original "Overworld" Block Removal Complete -->
 
                 <!-- Adding blocks -->
+
+                <!-- Begin Abyssal Ores Generation -->
+
+                <!-- Starting Geode Preset for Abyssal Ores. -->
+                <ConfigSection>
+                    <IfCondition condition=':= rlcrAbyssalOresDist = "Geode"'>
+                        <Veins name='rlcrAbyssalOresGeodeShell'  inherits='PresetSmallDeposits' seed='0x9668' drawWireframe='true' wireframeColor='0x60000000' drawBoundBox='false' boundBoxColor='0x60000000'>
+                            <Description>
+                                Multi-layered deposit.  On the
+                                outside is a shell, usually made  of
+                                some form of stone.  Within  this
+                                shell is sprinkled ores.  Inside both
+                                is an air pocket from  which the
+                                enterprising miner can  look for the
+                                contained ores.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("Railcraft:cube:6")'> <OreBlock block='Railcraft:cube:6' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:gravel")'> <Replaces block='minecraft:gravel' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:sand")'> <Replaces block='minecraft:sand' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:lava")'> <Replaces block='minecraft:lava' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:water")'> <Replaces block='minecraft:water' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:air")'> <Replaces block='minecraft:air' weight='1.0' /> </IfCondition>
+                            <Biome name='Ocean'  />
+                            <Biome name='Deep Ocean'  />
+                            <Setting name='MotherlodeFrequency' avg=':= _default_ * 0.5 * rlcrAbyssalOresFreq ' range=':= _default_ * rlcrAbyssalOresFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= _default_ * 6  * rlcrAbyssalOresSize ' range=':= _default_ * 6 * rlcrAbyssalOresSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 30 ' range=':= 10 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                        </Veins>
+                        <Veins name='rlcrAbyssalOresGeodeOre'  inherits='rlcrAbyssalOresGeodeShell' seed='0x9668' drawWireframe='true' wireframeColor='0x60000000' drawBoundBox='false' boundBoxColor='0x60000000'>
+                            <Description>
+                                Multi-layered deposit.  On the
+                                outside is a shell, usually made  of
+                                some form of stone.  Within  this
+                                shell is sprinkled ores.  Inside both
+                                is an air pocket from  which the
+                                enterprising miner can  look for the
+                                contained ores.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("Railcraft:ore:2")'> <OreBlock block='Railcraft:ore:2' weight='0.0167' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("Railcraft:ore:3")'> <OreBlock block='Railcraft:ore:3' weight='0.0167' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("Railcraft:ore:4")'> <OreBlock block='Railcraft:ore:4' weight='0.05' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:gravel")'> <Replaces block='minecraft:gravel' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:sand")'> <Replaces block='minecraft:sand' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:lava")'> <Replaces block='minecraft:lava' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:water")'> <Replaces block='minecraft:water' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:air")'> <Replaces block='minecraft:air' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("Railcraft:cube:6")'> <Replaces block='Railcraft:cube:6' weight='1.0' /> </IfCondition>
+                            <Setting name='MotherlodeSize' avg=':= _default_ * 0.5' range=':= _default_ * 0.5' type='uniform' />
+                        </Veins>
+                        <Veins name='rlcrAbyssalOresGeodeBubble'  inherits='rlcrAbyssalOresGeodeOre' seed='0x9668' drawWireframe='true' wireframeColor='0x60000000' drawBoundBox='false' boundBoxColor='0x60000000'>
+                            <Description>
+                                Multi-layered deposit.  On the
+                                outside is a shell, usually made  of
+                                some form of stone.  Within  this
+                                shell is sprinkled ores.  Inside both
+                                is an air pocket from  which the
+                                enterprising miner can  look for the
+                                contained ores.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("minecraft:air")'> <OreBlock block='minecraft:air' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("Railcraft:cube:6")'> <Replaces block='Railcraft:cube:6' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("Railcraft:ore:2")'> <Replaces block='Railcraft:ore:2' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("Railcraft:ore:3")'> <Replaces block='Railcraft:ore:3' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("Railcraft:ore:4")'> <Replaces block='Railcraft:ore:4' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:gravel")'> <Replaces block='minecraft:gravel' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:sand")'> <Replaces block='minecraft:sand' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:lava")'> <Replaces block='minecraft:lava' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:water")'> <Replaces block='minecraft:water' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:air")'> <Replaces block='minecraft:air' weight='1.0' /> </IfCondition>
+                            <Setting name='MotherlodeSize' avg=':= _default_ * 0.5' range=':= _default_ * 0.5' type='uniform' />
+                        </Veins>
+
+                        <!-- Beginning "Preferred" configuration. -->
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Geode Preset for Abyssal Ores is complete. -->
+
+                <!-- End Abyssal Ores Generation -->
+
 
                 <!-- Begin Poor Iron Generation -->
 
@@ -404,21 +491,21 @@
                             <IfCondition condition=':= ?blockExists("Railcraft:ore:7")'> <OreBlock block='Railcraft:ore:7' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 7.921 * _default_ * rlcrPoorIronFreq ' range=':=  _default_ * rlcrPoorIronFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 1.993 * _default_ * rlcrPoorIronSize ' range=':=  _default_ * rlcrPoorIronSize ' type='normal' />
-                            <Setting name='MotherlodeHeight' avg=':= 40 ' range=':=  4 ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 1.993 * _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentLength' avg=':= _default_ * rlcrPoorIronSize ' range=':=  _default_ * rlcrPoorIronSize ' type='normal' />
-                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 1.993 * _default_ * rlcrPoorIronSize ' range=':=  _default_ * rlcrPoorIronSize ' type='normal' />
-                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='MotherlodeFrequency' avg=':= 7.921 * _default_ * rlcrPoorIronFreq ' range=':= _default_ * rlcrPoorIronFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.993 * _default_ * rlcrPoorIronSize ' range=':= _default_ * rlcrPoorIronSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 40 ' range=':= 4 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.993 * _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * rlcrPoorIronSize ' range=':= _default_ * rlcrPoorIronSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.993 * _default_ * rlcrPoorIronSize ' range=':= _default_ * rlcrPoorIronSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
                     </IfCondition>
                 </ConfigSection>
@@ -446,16 +533,16 @@
                             <IfCondition condition=':= ?blockExists("Railcraft:ore:7")'> <OreBlock block='Railcraft:ore:7' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 2.313 * _default_ * rlcrPoorIronSize ' range=':=  _default_ * rlcrPoorIronSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 2.313 * _default_ * rlcrPoorIronSize ' range=':=  _default_ * rlcrPoorIronSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 5.351  * _default_ * rlcrPoorIronFreq ' range=':=  _default_ * rlcrPoorIronFreq ' type='normal' scaleTo='base' />
-                            <Setting name='CloudHeight' avg=':= 40 ' range=':=  4 ' type='normal' scaleTo='base' />
-                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudRadius' avg=':= 2.313 * _default_ * rlcrPoorIronSize ' range=':= _default_ * rlcrPoorIronSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 2.313 * _default_ * rlcrPoorIronSize ' range=':= _default_ * rlcrPoorIronSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 5.351  * _default_ * rlcrPoorIronFreq ' range=':= _default_ * rlcrPoorIronFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 40 ' range=':= 4 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Veins name='rlcrPoorIronHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
                                 <Description>
                                     Single blocks, generously
@@ -498,10 +585,10 @@
                             <IfCondition condition=':= ?blockExists("Railcraft:ore:7")'> <OreBlock block='Railcraft:ore:7' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='Size' avg=':= 16 * rlcrPoorIronSize ' range=':=  _default_ * rlcrPoorIronSize ' type='normal' />
-                            <Setting name='Frequency' avg=':= 32 * rlcrPoorIronFreq ' range=':=  _default_ * rlcrPoorIronFreq ' type='normal' scaleTo='base' />
-                            <Setting name='Height' avg=':= 40 ' range=':=  4 ' type='normal' scaleTo='base' />
-                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='Size' avg=':= 16 * rlcrPoorIronSize ' range=':= _default_ * rlcrPoorIronSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 32 * rlcrPoorIronFreq ' range=':= _default_ * rlcrPoorIronFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 40 ' range=':= 4 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </StandardGen>
                     </IfCondition>
                 </ConfigSection>
@@ -530,21 +617,21 @@
                             <IfCondition condition=':= ?blockExists("Railcraft:ore:8")'> <OreBlock block='Railcraft:ore:8' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 1.980 * _default_ * rlcrPoorGoldFreq ' range=':=  _default_ * rlcrPoorGoldFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 1.256 * _default_ * rlcrPoorGoldSize ' range=':=  _default_ * rlcrPoorGoldSize ' type='normal' />
-                            <Setting name='MotherlodeHeight' avg=':= 15 ' range=':=  1 ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 1.256 * _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentLength' avg=':= _default_ * rlcrPoorGoldSize ' range=':=  _default_ * rlcrPoorGoldSize ' type='normal' />
-                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 1.256 * _default_ * rlcrPoorGoldSize ' range=':=  _default_ * rlcrPoorGoldSize ' type='normal' />
-                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='MotherlodeFrequency' avg=':= 1.980 * _default_ * rlcrPoorGoldFreq ' range=':= _default_ * rlcrPoorGoldFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.256 * _default_ * rlcrPoorGoldSize ' range=':= _default_ * rlcrPoorGoldSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 15 ' range=':= 1 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.256 * _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * rlcrPoorGoldSize ' range=':= _default_ * rlcrPoorGoldSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.256 * _default_ * rlcrPoorGoldSize ' range=':= _default_ * rlcrPoorGoldSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
                     </IfCondition>
                 </ConfigSection>
@@ -572,16 +659,16 @@
                             <IfCondition condition=':= ?blockExists("Railcraft:ore:8")'> <OreBlock block='Railcraft:ore:8' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 1.157 * _default_ * rlcrPoorGoldSize ' range=':=  _default_ * rlcrPoorGoldSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.157 * _default_ * rlcrPoorGoldSize ' range=':=  _default_ * rlcrPoorGoldSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 1.338  * _default_ * rlcrPoorGoldFreq ' range=':=  _default_ * rlcrPoorGoldFreq ' type='normal' scaleTo='base' />
-                            <Setting name='CloudHeight' avg=':= 15 ' range=':=  1 ' type='normal' scaleTo='base' />
-                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudRadius' avg=':= 1.157 * _default_ * rlcrPoorGoldSize ' range=':= _default_ * rlcrPoorGoldSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.157 * _default_ * rlcrPoorGoldSize ' range=':= _default_ * rlcrPoorGoldSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.338  * _default_ * rlcrPoorGoldFreq ' range=':= _default_ * rlcrPoorGoldFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 15 ' range=':= 1 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Veins name='rlcrPoorGoldHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
                                 <Description>
                                     Single blocks, generously
@@ -624,10 +711,10 @@
                             <IfCondition condition=':= ?blockExists("Railcraft:ore:8")'> <OreBlock block='Railcraft:ore:8' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='Size' avg=':= 1 * rlcrPoorGoldSize ' range=':=  _default_ * rlcrPoorGoldSize ' type='normal' />
-                            <Setting name='Frequency' avg=':= 32 * rlcrPoorGoldFreq ' range=':=  _default_ * rlcrPoorGoldFreq ' type='normal' scaleTo='base' />
-                            <Setting name='Height' avg=':= 15 ' range=':=  1 ' type='normal' scaleTo='base' />
-                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='Size' avg=':= 1 * rlcrPoorGoldSize ' range=':= _default_ * rlcrPoorGoldSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 32 * rlcrPoorGoldFreq ' range=':= _default_ * rlcrPoorGoldFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 15 ' range=':= 1 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </StandardGen>
                     </IfCondition>
                 </ConfigSection>
@@ -656,21 +743,21 @@
                             <IfCondition condition=':= ?blockExists("Railcraft:ore:9")'> <OreBlock block='Railcraft:ore:9' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 5.601 * _default_ * rlcrPoorCopperFreq ' range=':=  _default_ * rlcrPoorCopperFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 1.776 * _default_ * rlcrPoorCopperSize ' range=':=  _default_ * rlcrPoorCopperSize ' type='normal' />
-                            <Setting name='MotherlodeHeight' avg=':= 60 ' range=':=  3 ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 1.776 * _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentLength' avg=':= _default_ * rlcrPoorCopperSize ' range=':=  _default_ * rlcrPoorCopperSize ' type='normal' />
-                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 1.776 * _default_ * rlcrPoorCopperSize ' range=':=  _default_ * rlcrPoorCopperSize ' type='normal' />
-                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='MotherlodeFrequency' avg=':= 5.601 * _default_ * rlcrPoorCopperFreq ' range=':= _default_ * rlcrPoorCopperFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.776 * _default_ * rlcrPoorCopperSize ' range=':= _default_ * rlcrPoorCopperSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 60 ' range=':= 3 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.776 * _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * rlcrPoorCopperSize ' range=':= _default_ * rlcrPoorCopperSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.776 * _default_ * rlcrPoorCopperSize ' range=':= _default_ * rlcrPoorCopperSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
                     </IfCondition>
                 </ConfigSection>
@@ -698,16 +785,16 @@
                             <IfCondition condition=':= ?blockExists("Railcraft:ore:9")'> <OreBlock block='Railcraft:ore:9' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 1.945 * _default_ * rlcrPoorCopperSize ' range=':=  _default_ * rlcrPoorCopperSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.945 * _default_ * rlcrPoorCopperSize ' range=':=  _default_ * rlcrPoorCopperSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 3.784  * _default_ * rlcrPoorCopperFreq ' range=':=  _default_ * rlcrPoorCopperFreq ' type='normal' scaleTo='base' />
-                            <Setting name='CloudHeight' avg=':= 60 ' range=':=  3 ' type='normal' scaleTo='base' />
-                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudRadius' avg=':= 1.945 * _default_ * rlcrPoorCopperSize ' range=':= _default_ * rlcrPoorCopperSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.945 * _default_ * rlcrPoorCopperSize ' range=':= _default_ * rlcrPoorCopperSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 3.784  * _default_ * rlcrPoorCopperFreq ' range=':= _default_ * rlcrPoorCopperFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 60 ' range=':= 3 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Veins name='rlcrPoorCopperHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
                                 <Description>
                                     Single blocks, generously
@@ -750,10 +837,10 @@
                             <IfCondition condition=':= ?blockExists("Railcraft:ore:9")'> <OreBlock block='Railcraft:ore:9' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='Size' avg=':= 8 * rlcrPoorCopperSize ' range=':=  _default_ * rlcrPoorCopperSize ' type='normal' />
-                            <Setting name='Frequency' avg=':= 32 * rlcrPoorCopperFreq ' range=':=  _default_ * rlcrPoorCopperFreq ' type='normal' scaleTo='base' />
-                            <Setting name='Height' avg=':= 60 ' range=':=  3 ' type='normal' scaleTo='base' />
-                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='Size' avg=':= 8 * rlcrPoorCopperSize ' range=':= _default_ * rlcrPoorCopperSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 32 * rlcrPoorCopperFreq ' range=':= _default_ * rlcrPoorCopperFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 60 ' range=':= 3 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </StandardGen>
                     </IfCondition>
                 </ConfigSection>
@@ -782,21 +869,21 @@
                             <IfCondition condition=':= ?blockExists("Railcraft:ore:10")'> <OreBlock block='Railcraft:ore:10' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 2.801 * _default_ * rlcrPoorTinFreq ' range=':=  _default_ * rlcrPoorTinFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 1.410 * _default_ * rlcrPoorTinSize ' range=':=  _default_ * rlcrPoorTinSize ' type='normal' />
-                            <Setting name='MotherlodeHeight' avg=':= 50 ' range=':=  2 ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 1.410 * _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentLength' avg=':= _default_ * rlcrPoorTinSize ' range=':=  _default_ * rlcrPoorTinSize ' type='normal' />
-                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 1.410 * _default_ * rlcrPoorTinSize ' range=':=  _default_ * rlcrPoorTinSize ' type='normal' />
-                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='MotherlodeFrequency' avg=':= 2.801 * _default_ * rlcrPoorTinFreq ' range=':= _default_ * rlcrPoorTinFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.410 * _default_ * rlcrPoorTinSize ' range=':= _default_ * rlcrPoorTinSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 50 ' range=':= 2 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.410 * _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * rlcrPoorTinSize ' range=':= _default_ * rlcrPoorTinSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.410 * _default_ * rlcrPoorTinSize ' range=':= _default_ * rlcrPoorTinSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
                     </IfCondition>
                 </ConfigSection>
@@ -824,16 +911,16 @@
                             <IfCondition condition=':= ?blockExists("Railcraft:ore:10")'> <OreBlock block='Railcraft:ore:10' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 1.375 * _default_ * rlcrPoorTinSize ' range=':=  _default_ * rlcrPoorTinSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.375 * _default_ * rlcrPoorTinSize ' range=':=  _default_ * rlcrPoorTinSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 1.892  * _default_ * rlcrPoorTinFreq ' range=':=  _default_ * rlcrPoorTinFreq ' type='normal' scaleTo='base' />
-                            <Setting name='CloudHeight' avg=':= 50 ' range=':=  2 ' type='normal' scaleTo='base' />
-                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudRadius' avg=':= 1.375 * _default_ * rlcrPoorTinSize ' range=':= _default_ * rlcrPoorTinSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.375 * _default_ * rlcrPoorTinSize ' range=':= _default_ * rlcrPoorTinSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.892  * _default_ * rlcrPoorTinFreq ' range=':= _default_ * rlcrPoorTinFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 50 ' range=':= 2 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Veins name='rlcrPoorTinHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
                                 <Description>
                                     Single blocks, generously
@@ -876,10 +963,10 @@
                             <IfCondition condition=':= ?blockExists("Railcraft:ore:10")'> <OreBlock block='Railcraft:ore:10' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='Size' avg=':= 2 * rlcrPoorTinSize ' range=':=  _default_ * rlcrPoorTinSize ' type='normal' />
-                            <Setting name='Frequency' avg=':= 32 * rlcrPoorTinFreq ' range=':=  _default_ * rlcrPoorTinFreq ' type='normal' scaleTo='base' />
-                            <Setting name='Height' avg=':= 50 ' range=':=  2 ' type='normal' scaleTo='base' />
-                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='Size' avg=':= 2 * rlcrPoorTinSize ' range=':= _default_ * rlcrPoorTinSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 32 * rlcrPoorTinFreq ' range=':= _default_ * rlcrPoorTinFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 50 ' range=':= 2 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </StandardGen>
                     </IfCondition>
                 </ConfigSection>
@@ -908,21 +995,21 @@
                             <IfCondition condition=':= ?blockExists("Railcraft:ore:11")'> <OreBlock block='Railcraft:ore:11' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 4.851 * _default_ * rlcrPoorLeadFreq ' range=':=  _default_ * rlcrPoorLeadFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 1.693 * _default_ * rlcrPoorLeadSize ' range=':=  _default_ * rlcrPoorLeadSize ' type='normal' />
-                            <Setting name='MotherlodeHeight' avg=':= 30 ' range=':=  3 ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 1.693 * _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentLength' avg=':= _default_ * rlcrPoorLeadSize ' range=':=  _default_ * rlcrPoorLeadSize ' type='normal' />
-                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 1.693 * _default_ * rlcrPoorLeadSize ' range=':=  _default_ * rlcrPoorLeadSize ' type='normal' />
-                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='MotherlodeFrequency' avg=':= 4.851 * _default_ * rlcrPoorLeadFreq ' range=':= _default_ * rlcrPoorLeadFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.693 * _default_ * rlcrPoorLeadSize ' range=':= _default_ * rlcrPoorLeadSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 30 ' range=':= 3 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.693 * _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * rlcrPoorLeadSize ' range=':= _default_ * rlcrPoorLeadSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.693 * _default_ * rlcrPoorLeadSize ' range=':= _default_ * rlcrPoorLeadSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
                     </IfCondition>
                 </ConfigSection>
@@ -950,16 +1037,16 @@
                             <IfCondition condition=':= ?blockExists("Railcraft:ore:11")'> <OreBlock block='Railcraft:ore:11' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 1.810 * _default_ * rlcrPoorLeadSize ' range=':=  _default_ * rlcrPoorLeadSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.810 * _default_ * rlcrPoorLeadSize ' range=':=  _default_ * rlcrPoorLeadSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 3.277  * _default_ * rlcrPoorLeadFreq ' range=':=  _default_ * rlcrPoorLeadFreq ' type='normal' scaleTo='base' />
-                            <Setting name='CloudHeight' avg=':= 30 ' range=':=  3 ' type='normal' scaleTo='base' />
-                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudRadius' avg=':= 1.810 * _default_ * rlcrPoorLeadSize ' range=':= _default_ * rlcrPoorLeadSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.810 * _default_ * rlcrPoorLeadSize ' range=':= _default_ * rlcrPoorLeadSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 3.277  * _default_ * rlcrPoorLeadFreq ' range=':= _default_ * rlcrPoorLeadFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 30 ' range=':= 3 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Veins name='rlcrPoorLeadHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
                                 <Description>
                                     Single blocks, generously
@@ -1002,10 +1089,10 @@
                             <IfCondition condition=':= ?blockExists("Railcraft:ore:11")'> <OreBlock block='Railcraft:ore:11' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='Size' avg=':= 6 * rlcrPoorLeadSize ' range=':=  _default_ * rlcrPoorLeadSize ' type='normal' />
-                            <Setting name='Frequency' avg=':= 32 * rlcrPoorLeadFreq ' range=':=  _default_ * rlcrPoorLeadFreq ' type='normal' scaleTo='base' />
-                            <Setting name='Height' avg=':= 30 ' range=':=  3 ' type='normal' scaleTo='base' />
-                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='Size' avg=':= 6 * rlcrPoorLeadSize ' range=':= _default_ * rlcrPoorLeadSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 32 * rlcrPoorLeadFreq ' range=':= _default_ * rlcrPoorLeadFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 30 ' range=':= 3 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </StandardGen>
                     </IfCondition>
                 </ConfigSection>
@@ -1035,21 +1122,21 @@
                             <IfCondition condition=':= ?blockExists("minecraft:sand")'> <Replaces block='minecraft:sand' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
                             <BiomeType name='Desert'  minRainfall='0' maxRainfall='0.1' minTemperature='1.5' maxTemperature='2.0' />
-                            <Setting name='MotherlodeFrequency' avg=':= 2.801 * _default_ * rlcrSaltpeterFreq ' range=':=  _default_ * rlcrSaltpeterFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 1.410 * _default_ * rlcrSaltpeterSize ' range=':=  _default_ * rlcrSaltpeterSize ' type='normal' />
-                            <Setting name='MotherlodeHeight' avg=':= 75 ' range=':=  25 ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 1.410 * _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentLength' avg=':= _default_ * rlcrSaltpeterSize ' range=':=  _default_ * rlcrSaltpeterSize ' type='normal' />
-                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 1.410 * _default_ * rlcrSaltpeterSize ' range=':=  _default_ * rlcrSaltpeterSize ' type='normal' />
-                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='MotherlodeFrequency' avg=':= 2.801 * _default_ * rlcrSaltpeterFreq ' range=':= _default_ * rlcrSaltpeterFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.410 * _default_ * rlcrSaltpeterSize ' range=':= _default_ * rlcrSaltpeterSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 75 ' range=':= 25 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.410 * _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * rlcrSaltpeterSize ' range=':= _default_ * rlcrSaltpeterSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.410 * _default_ * rlcrSaltpeterSize ' range=':= _default_ * rlcrSaltpeterSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
                     </IfCondition>
                 </ConfigSection>
@@ -1078,16 +1165,16 @@
                             <IfCondition condition=':= ?blockExists("minecraft:sand")'> <Replaces block='minecraft:sand' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
                             <BiomeType name='Desert'  minRainfall='0' maxRainfall='0.1' minTemperature='1.5' maxTemperature='2.0' />
-                            <Setting name='CloudRadius' avg=':= 1.375 * _default_ * rlcrSaltpeterSize ' range=':=  _default_ * rlcrSaltpeterSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.375 * _default_ * rlcrSaltpeterSize ' range=':=  _default_ * rlcrSaltpeterSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 1.892  * _default_ * rlcrSaltpeterFreq ' range=':=  _default_ * rlcrSaltpeterFreq ' type='normal' scaleTo='base' />
-                            <Setting name='CloudHeight' avg=':= 75 ' range=':=  25 ' type='normal' scaleTo='base' />
-                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudRadius' avg=':= 1.375 * _default_ * rlcrSaltpeterSize ' range=':= _default_ * rlcrSaltpeterSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.375 * _default_ * rlcrSaltpeterSize ' range=':= _default_ * rlcrSaltpeterSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.892  * _default_ * rlcrSaltpeterFreq ' range=':= _default_ * rlcrSaltpeterFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 75 ' range=':= 25 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Veins name='rlcrSaltpeterHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60CED0BA' drawBoundBox='false' boundBoxColor='0x60CED0BA'>
                                 <Description>
                                     Single blocks, generously
@@ -1131,10 +1218,10 @@
                             <IfCondition condition=':= ?blockExists("minecraft:sand")'> <Replaces block='minecraft:sand' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
                             <BiomeType name='Desert'  minRainfall='0' maxRainfall='0.1' minTemperature='1.5' maxTemperature='2.0' />
-                            <Setting name='Size' avg=':= 1 * rlcrSaltpeterSize ' range=':=  _default_ * rlcrSaltpeterSize ' type='normal' />
-                            <Setting name='Frequency' avg=':= 64 * rlcrSaltpeterFreq ' range=':=  _default_ * rlcrSaltpeterFreq ' type='normal' scaleTo='base' />
-                            <Setting name='Height' avg=':= 75 ' range=':=  25 ' type='normal' scaleTo='base' />
-                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='Size' avg=':= 1 * rlcrSaltpeterSize ' range=':= _default_ * rlcrSaltpeterSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 64 * rlcrSaltpeterFreq ' range=':= _default_ * rlcrSaltpeterFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 75 ' range=':= 25 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </StandardGen>
                     </IfCondition>
                 </ConfigSection>
@@ -1143,133 +1230,12 @@
                 <!-- End Saltpeter Generation -->
 
 
-                <!-- Begin Firestone Generation -->
-
-                <!-- Starting SmallDeposits Preset for Firestone. -->
-                <ConfigSection>
-                    <IfCondition condition=':= rlcrFirestoneDist = "SmallDeposits"'>
-                        <Veins name='rlcrFirestoneVeins'  inherits='PresetSmallDeposits' drawWireframe='true' wireframeColor='0x60C64E0D' drawBoundBox='false' boundBoxColor='0x60C64E0D'>
-                            <Description>
-                                Small motherlodes without any
-                                branches.  Similar to the  deposits
-                                produced by StandardGen
-                                distributions.
-                            </Description>
-                            <IfCondition condition=':= ?blockExists("Railcraft:ore:5")'> <OreBlock block='Railcraft:ore:5' weight='1.0' /> </IfCondition>
-                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
-                            <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 0.191 * _default_ * rlcrFirestoneFreq ' range=':=  _default_ * rlcrFirestoneFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 0.576 * _default_ * rlcrFirestoneSize ' range=':=  _default_ * rlcrFirestoneSize ' type='normal' />
-                            <Setting name='MotherlodeHeight' avg=':= 16 ' range=':=  15 ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 0.576 * _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentLength' avg=':= _default_ * rlcrFirestoneSize ' range=':=  _default_ * rlcrFirestoneSize ' type='normal' />
-                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 0.576 * _default_ * rlcrFirestoneSize ' range=':=  _default_ * rlcrFirestoneSize ' type='normal' />
-                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        </Veins>
-                    </IfCondition>
-                </ConfigSection>
-                <!-- SmallDeposits Preset for Firestone is complete. -->
-
-
-                <!-- Starting Cloud Preset for Firestone. -->
-                <ConfigSection>
-                    <IfCondition condition=':= rlcrFirestoneDist = "Cloud"'>
-                        <Cloud name='rlcrFirestoneCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60C64E0D' drawBoundBox='false' boundBoxColor='0x60C64E0D'>
-                            <Description>
-                                Large irregular clouds filled  lightly
-                                with ore.  These are  huge, spanning
-                                several adjacent  chunks, and
-                                consequently rather  rare.  They
-                                contain a sizeable  amount of ore, but
-                                it takes some  time and effort to mine
-                                due to  low density. The intent for
-                                strategic clouds is that the  player
-                                will need to actively  search for one
-                                and then set up a  semi-permanent
-                                mining base and  spend some time
-                                actually mining  the ore.
-                            </Description>
-                            <IfCondition condition=':= ?blockExists("Railcraft:ore:5")'> <OreBlock block='Railcraft:ore:5' weight='1.0' /> </IfCondition>
-                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
-                            <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 0.486 * _default_ * rlcrFirestoneSize ' range=':=  _default_ * rlcrFirestoneSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 0.486 * _default_ * rlcrFirestoneSize ' range=':=  _default_ * rlcrFirestoneSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 0.236  * _default_ * rlcrFirestoneFreq ' range=':=  _default_ * rlcrFirestoneFreq ' type='normal' scaleTo='base' />
-                            <Setting name='CloudHeight' avg=':= 16 ' range=':=  15 ' type='normal' scaleTo='base' />
-                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Veins name='rlcrFirestoneHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60C64E0D' drawBoundBox='false' boundBoxColor='0x60C64E0D'>
-                                <Description>
-                                    Single blocks, generously
-                                    scattered through all heights
-                                    (density is about that of  vanilla
-                                    iron ore). They will  replace dirt
-                                    and sandstone  (but not grass or
-                                    sand), so  they can be found
-                                    nearer to  the surface than most
-                                    ores.  Intened to be used as a
-                                    child  distribution for large,
-                                    rare  strategic deposits that
-                                    would  otherwise be very difficult
-                                    to find.  Note that the  frequency
-                                    is multiplied by  ground level to
-                                    maintain a  constant density, but
-                                    not by  ore frequency because it
-                                    is  assumed that the frequency of
-                                    the parent distribution will
-                                    already be scaled by that.
-                                </Description>
-                                <IfCondition condition=':= ?blockExists("Railcraft:ore:5")'> <OreBlock block='Railcraft:ore:5' weight='1.0' /> </IfCondition>
-                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
-                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
-                            </Veins>
-                        </Cloud>
-                    </IfCondition>
-                </ConfigSection>
-                <!-- Cloud Preset for Firestone is complete. -->
-
-
-                <!-- Starting Vanilla Preset for Firestone. -->
-                <ConfigSection>
-                    <IfCondition condition=':= rlcrFirestoneDist = "Vanilla"'>
-                        <StandardGen name='rlcrFirestoneStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60C64E0D' drawBoundBox='false' boundBoxColor='0x60C64E0D'>
-                            <Description>
-                                A master preset for standardgen  ore
-                                distributions.
-                            </Description>
-                            <IfCondition condition=':= ?blockExists("Railcraft:ore:5")'> <OreBlock block='Railcraft:ore:5' weight='1.0' /> </IfCondition>
-                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
-                            <Biome name='.*'  />
-                            <Setting name='Size' avg=':= 1 * rlcrFirestoneSize ' range=':=  _default_ * rlcrFirestoneSize ' type='normal' />
-                            <Setting name='Frequency' avg=':= 1 * rlcrFirestoneFreq ' range=':=  _default_ * rlcrFirestoneFreq ' type='normal' scaleTo='base' />
-                            <Setting name='Height' avg=':= 16 ' range=':=  15 ' type='normal' scaleTo='base' />
-                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        </StandardGen>
-                    </IfCondition>
-                </ConfigSection>
-                <!-- Vanilla Preset for Firestone is complete. -->
-
-                <!-- End Firestone Generation -->
-
-
                 <!-- Begin Sulfur Generation -->
 
                 <!-- Starting PipeVeins Preset for Sulfur. -->
                 <ConfigSection>
                     <IfCondition condition=':= rlcrSulfurDist = "PipeVeins"'>
-                        <Veins name='rlcrSulfurVeins'  inherits='PresetPipeVeins' seed='0x504F' drawWireframe='true' wireframeColor='0x60FFE25C' drawBoundBox='false' boundBoxColor='0x60FFE25C'>
+                        <Veins name='rlcrSulfurVeins'  inherits='PresetPipeVeins' seed='0xEE54' drawWireframe='true' wireframeColor='0x60FFE25C' drawBoundBox='false' boundBoxColor='0x60FFE25C'>
                             <Description>
                                 Short sparsely filled veins  sloping
                                 up from near the bottom  of the map.
@@ -1277,30 +1243,30 @@
                             <IfCondition condition=':= ?blockExists("Railcraft:ore")'> <OreBlock block='Railcraft:ore' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 0.872 * _default_ * rlcrSulfurFreq ' range=':=  _default_ * rlcrSulfurFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 0.956 * _default_ * rlcrSulfurSize ' range=':=  _default_ * rlcrSulfurSize ' type='normal' />
-                            <Setting name='MotherlodeHeight' avg=':= 11 ' range=':=  5 ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 0.956 * _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentLength' avg=':= _default_ * rlcrSulfurSize ' range=':=  _default_ * rlcrSulfurSize ' type='normal' />
-                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 0.956 * _default_ * rlcrSulfurSize ' range=':=  _default_ * rlcrSulfurSize ' type='normal' />
-                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='MotherlodeFrequency' avg=':= 0.872 * _default_ * rlcrSulfurFreq ' range=':= _default_ * rlcrSulfurFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 0.956 * _default_ * rlcrSulfurSize ' range=':= _default_ * rlcrSulfurSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 11 ' range=':= 5 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 0.956 * _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * rlcrSulfurSize ' range=':= _default_ * rlcrSulfurSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.956 * _default_ * rlcrSulfurSize ' range=':= _default_ * rlcrSulfurSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
 
                         <!-- Configuring contained material. -->
-                        <Veins name='rlcrSulfurVeinsPipe'  inherits='rlcrSulfurVeins' seed='0x504F' drawWireframe='true' wireframeColor='0x60FFE25C' drawBoundBox='false' boundBoxColor='0x60FFE25C'>
+                        <Veins name='rlcrSulfurVeinsPipe'  inherits='rlcrSulfurVeins' seed='0xEE54' drawWireframe='true' wireframeColor='0x60FFE25C' drawBoundBox='false' boundBoxColor='0x60FFE25C'>
                             <IfCondition condition=':= ?blockExists("minecraft:lava")'> <OreBlock block='minecraft:lava' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("Railcraft:ore")'> <Replaces block='Railcraft:ore' weight='1.0' /> </IfCondition>
-                            <Setting name='MotherlodeSize' avg=':= 0.956 * _default_ * rlcrSulfurSize  * 0.5 ' range=':=  _default_ * rlcrSulfurSize  * 0.5 ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 0.956 * _default_ * rlcrSulfurSize  * 0.5 ' range=':=  _default_ * rlcrSulfurSize  * 0.5 ' type='normal' />
+                            <Setting name='MotherlodeSize' avg=':= 0.956 * _default_ * rlcrSulfurSize  * 0.5 ' range=':= _default_ * rlcrSulfurSize  * 0.5 ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.956 * _default_ * rlcrSulfurSize  * 0.5 ' range=':= _default_ * rlcrSulfurSize  * 0.5 ' type='normal' />
                             <Setting name='OreDensity' avg=':= 1.0 ' range=':= 0 ' type='normal' />
                         </Veins>
                     </IfCondition>
@@ -1329,16 +1295,16 @@
                             <IfCondition condition=':= ?blockExists("Railcraft:ore")'> <OreBlock block='Railcraft:ore' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 1.223 * _default_ * rlcrSulfurSize ' range=':=  _default_ * rlcrSulfurSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.223 * _default_ * rlcrSulfurSize ' range=':=  _default_ * rlcrSulfurSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 1.496  * _default_ * rlcrSulfurFreq ' range=':=  _default_ * rlcrSulfurFreq ' type='normal' scaleTo='base' />
-                            <Setting name='CloudHeight' avg=':= 11 ' range=':=  5 ' type='normal' scaleTo='base' />
-                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='CloudInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='CloudRadius' avg=':= 1.223 * _default_ * rlcrSulfurSize ' range=':= _default_ * rlcrSulfurSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.223 * _default_ * rlcrSulfurSize ' range=':= _default_ * rlcrSulfurSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.496  * _default_ * rlcrSulfurFreq ' range=':= _default_ * rlcrSulfurFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 11 ' range=':= 5 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Veins name='rlcrSulfurHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FFE25C' drawBoundBox='false' boundBoxColor='0x60FFE25C'>
                                 <Description>
                                     Single blocks, generously
@@ -1381,10 +1347,10 @@
                             <IfCondition condition=':= ?blockExists("Railcraft:ore")'> <OreBlock block='Railcraft:ore' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='Size' avg=':= 10 * rlcrSulfurSize ' range=':=  _default_ * rlcrSulfurSize ' type='normal' />
-                            <Setting name='Frequency' avg=':= 4 * rlcrSulfurFreq ' range=':=  _default_ * rlcrSulfurFreq ' type='normal' scaleTo='base' />
-                            <Setting name='Height' avg=':= 11 ' range=':=  5 ' type='normal' scaleTo='base' />
-                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
+                            <Setting name='Size' avg=':= 10 * rlcrSulfurSize ' range=':= _default_ * rlcrSulfurSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 4 * rlcrSulfurFreq ' range=':= _default_ * rlcrSulfurFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 11 ' range=':= 5 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </StandardGen>
                     </IfCondition>
                 </ConfigSection>
@@ -1392,117 +1358,163 @@
 
                 <!-- End Sulfur Generation -->
 
-
-                <!-- Begin Abyssal Ores Generation -->
-
-                <!-- Starting Geode Preset for Abyssal Ores. -->
-                <ConfigSection>
-                    <IfCondition condition=':= rlcrAbyssalOresDist = "Geode"'>
-                        <Veins name='rlcrAbyssalOresGeodeShell'  inherits='PresetSmallDeposits' seed='0x9668' drawWireframe='true' wireframeColor='0x60000000' drawBoundBox='false' boundBoxColor='0x60000000'>
-                            <Description>
-                                Multi-layered deposit.  On the
-                                outside is a shell, usually made  of
-                                some form of stone.  Within  this
-                                shell is sprinkled ores.  Inside both
-                                is an air pocket from  which the
-                                enterprising miner can  look for the
-                                contained ores.
-                            </Description>
-                            <IfCondition condition=':= ?blockExists("Railcraft:cube:6")'> <OreBlock block='Railcraft:cube:6' weight='1.0' /> </IfCondition>
-                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
-                            <Biome name='Ocean'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 0.5 * rlcrAbyssalOresFreq ' range=':=  _default_ * rlcrAbyssalOresFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= _default_ * rlcrAbyssalOresSize  * 3 ' range=':=  _default_ * rlcrAbyssalOresSize  * 3 ' type='normal' />
-                            <Setting name='MotherlodeHeight' avg=':= 20 ' range=':=  4 ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentLength' avg=':= _default_ * rlcrAbyssalOresSize ' range=':=  _default_ * rlcrAbyssalOresSize ' type='normal' />
-                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= _default_ * rlcrAbyssalOresSize ' range=':=  _default_ * rlcrAbyssalOresSize ' type='normal' />
-                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        </Veins>
-                        <Veins name='rlcrAbyssalOresGeodeOre'  inherits='rlcrAbyssalOresGeodeShell' seed='0x9668' drawWireframe='true' wireframeColor='0x60000000' drawBoundBox='false' boundBoxColor='0x60000000'>
-                            <Description>
-                                Multi-layered deposit.  On the
-                                outside is a shell, usually made  of
-                                some form of stone.  Within  this
-                                shell is sprinkled ores.  Inside both
-                                is an air pocket from  which the
-                                enterprising miner can  look for the
-                                contained ores.
-                            </Description>
-                            <IfCondition condition=':= ?blockExists("Railcraft:ore:2")'> <OreBlock block='Railcraft:ore:2' weight='0.05' /> </IfCondition>
-                            <IfCondition condition=':= ?blockExists("Railcraft:ore:3")'> <OreBlock block='Railcraft:ore:3' weight='0.05' /> </IfCondition>
-                            <IfCondition condition=':= ?blockExists("Railcraft:ore:4")'> <OreBlock block='Railcraft:ore:4' weight='0.15' /> </IfCondition>
-                            <IfCondition condition=':= ?blockExists("Railcraft:cube:6")'> <Replaces block='Railcraft:cube:6' weight='1.0' /> </IfCondition>
-                            <Biome name='Ocean'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 0.5 * rlcrAbyssalOresFreq ' range=':=  _default_ * rlcrAbyssalOresFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= _default_ * rlcrAbyssalOresSize  * 0.5 ' range=':=  _default_ * rlcrAbyssalOresSize  * 0.5 ' type='normal' />
-                            <Setting name='MotherlodeHeight' avg=':= 20 ' range=':=  4 ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentLength' avg=':= _default_ * rlcrAbyssalOresSize ' range=':=  _default_ * rlcrAbyssalOresSize ' type='normal' />
-                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= _default_ * rlcrAbyssalOresSize ' range=':=  _default_ * rlcrAbyssalOresSize ' type='normal' />
-                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        </Veins>
-                        <Veins name='rlcrAbyssalOresGeodeBubble'  inherits='rlcrAbyssalOresGeodeOre' seed='0x9668' drawWireframe='true' wireframeColor='0x60000000' drawBoundBox='false' boundBoxColor='0x60000000'>
-                            <Description>
-                                Multi-layered deposit.  On the
-                                outside is a shell, usually made  of
-                                some form of stone.  Within  this
-                                shell is sprinkled ores.  Inside both
-                                is an air pocket from  which the
-                                enterprising miner can  look for the
-                                contained ores.
-                            </Description>
-                            <IfCondition condition=':= ?blockExists("minecraft:air")'> <OreBlock block='minecraft:air' weight='1.0' /> </IfCondition>
-                            <IfCondition condition=':= ?blockExists("Railcraft:cube:6")'> <Replaces block='Railcraft:cube:6' weight='1.0' /> </IfCondition>
-                            <IfCondition condition=':= ?blockExists("Railcraft:ore:2")'> <Replaces block='Railcraft:ore:2' weight='1.0' /> </IfCondition>
-                            <IfCondition condition=':= ?blockExists("Railcraft:ore:3")'> <Replaces block='Railcraft:ore:3' weight='1.0' /> </IfCondition>
-                            <IfCondition condition=':= ?blockExists("Railcraft:ore:4")'> <Replaces block='Railcraft:ore:4' weight='1.0' /> </IfCondition>
-                            <Biome name='Ocean'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 0.5 * rlcrAbyssalOresFreq ' range=':=  _default_ * rlcrAbyssalOresFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= _default_ * rlcrAbyssalOresSize  * 0.5 ' range=':=  _default_ * rlcrAbyssalOresSize  * 0.5 ' type='normal' />
-                            <Setting name='MotherlodeHeight' avg=':= 20 ' range=':=  4 ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchInclination' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':=  _default_ ' type='normal' scaleTo='base' />
-                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentLength' avg=':= _default_ * rlcrAbyssalOresSize ' range=':=  _default_ * rlcrAbyssalOresSize ' type='normal' />
-                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= _default_ * rlcrAbyssalOresSize ' range=':=  _default_ * rlcrAbyssalOresSize ' type='normal' />
-                            <Setting name='OreDensity' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':=  _default_ ' type='normal' />
-                        </Veins>
-
-                        <!-- Beginning "Preferred" configuration. -->
-                    </IfCondition>
-                </ConfigSection>
-                <!-- Geode Preset for Abyssal Ores is complete. -->
-
-                <!-- End Abyssal Ores Generation -->
-
                 <!-- Finished adding blocks -->
 
             </IfCondition>
             <!-- Overworld Setup Complete -->
 
+
+
+
+
+            <!-- Nether Setup Beginning -->
+
+            <IfCondition condition=':= dimension.generator = "HellRandomLevelSource"'>
+
+                <!-- Starting Original "Nether" Block Removal -->
+
+                <IfCondition condition=':= ?blockExists("minecraft:stone")'>
+                    <Substitute name='rlcrNetherBlockSubstitute0' block='minecraft:stone'>
+                        <Description>
+                            Replace vanilla-generated ore clusters.
+                        </Description>
+                        <Comment>
+                            The global option  deferredPopulationRange
+                            must be large  enough to catch all ore
+                            clusters (>=  32).
+                        </Comment>
+                        <IfCondition condition=':= ?blockExists("Railcraft:ore:5")'> <Replaces block='Railcraft:ore:5' weight='1.0' /> </IfCondition>
+                    </Substitute>
+                </IfCondition>
+
+                <!-- Original "Nether" Block Removal Complete -->
+
+                <!-- Adding blocks -->
+
+                <!-- Begin Firestone Generation -->
+
+                <!-- Starting SmallDeposits Preset for Firestone. -->
+                <ConfigSection>
+                    <IfCondition condition=':= rlcrFirestoneDist = "SmallDeposits"'>
+                        <Veins name='rlcrFirestoneVeins'  inherits='PresetSmallDeposits' drawWireframe='true' wireframeColor='0x60C64E0D' drawBoundBox='false' boundBoxColor='0x60C64E0D'>
+                            <Description>
+                                Small motherlodes without any
+                                branches.  Similar to the  deposits
+                                produced by StandardGen
+                                distributions.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("Railcraft:ore:5")'> <OreBlock block='Railcraft:ore:5' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 0.191 * _default_ * rlcrFirestoneFreq ' range=':= _default_ * rlcrFirestoneFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 0.576 * _default_ * rlcrFirestoneSize ' range=':= _default_ * rlcrFirestoneSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 16 ' range=':= 15 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 0.576 * _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * rlcrFirestoneSize ' range=':= _default_ * rlcrFirestoneSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.576 * _default_ * rlcrFirestoneSize ' range=':= _default_ * rlcrFirestoneSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                        </Veins>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- SmallDeposits Preset for Firestone is complete. -->
+
+
+                <!-- Starting Cloud Preset for Firestone. -->
+                <ConfigSection>
+                    <IfCondition condition=':= rlcrFirestoneDist = "Cloud"'>
+                        <Cloud name='rlcrFirestoneCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60C64E0D' drawBoundBox='false' boundBoxColor='0x60C64E0D'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("Railcraft:ore:5")'> <OreBlock block='Railcraft:ore:5' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 0.486 * _default_ * rlcrFirestoneSize ' range=':= _default_ * rlcrFirestoneSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 0.486 * _default_ * rlcrFirestoneSize ' range=':= _default_ * rlcrFirestoneSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 0.236  * _default_ * rlcrFirestoneFreq ' range=':= _default_ * rlcrFirestoneFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 16 ' range=':= 15 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Veins name='rlcrFirestoneHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60C64E0D' drawBoundBox='false' boundBoxColor='0x60C64E0D'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("Railcraft:ore:5")'> <OreBlock block='Railcraft:ore:5' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:dirt")'> <Replaces block='minecraft:dirt' weight='1.0' /> </IfCondition>
+                                <IfCondition condition=':= ?blockExists("minecraft:sandstone")'> <Replaces block='minecraft:sandstone' weight='1.0' /> </IfCondition>
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Cloud Preset for Firestone is complete. -->
+
+
+                <!-- Starting Vanilla Preset for Firestone. -->
+                <ConfigSection>
+                    <IfCondition condition=':= rlcrFirestoneDist = "Vanilla"'>
+                        <StandardGen name='rlcrFirestoneStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60C64E0D' drawBoundBox='false' boundBoxColor='0x60C64E0D'>
+                            <Description>
+                                A master preset for standardgen  ore
+                                distributions.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("Railcraft:ore:5")'> <OreBlock block='Railcraft:ore:5' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 1 * rlcrFirestoneSize ' range=':= _default_ * rlcrFirestoneSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 1 * rlcrFirestoneFreq ' range=':= _default_ * rlcrFirestoneFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 16 ' range=':= 15 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Firestone is complete. -->
+
+                <!-- End Firestone Generation -->
+
+                <!-- Finished adding blocks -->
+
+            </IfCondition>
+            <!-- Nether Setup Complete -->
 
 
         </IfCondition>
