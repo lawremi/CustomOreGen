@@ -1,113 +1,138 @@
+<!-- =================================================================
+     Custom Ore Generation "Tinkers Steelworks" Module: This
+     configuration covers limestone.
+     ================================================================= -->
 
-<!-- ================================================================ 
 
-Custom Ore Generation:   Tinkers Steelworks Module
 
-Generates: 
-Limestone
 
-================================================================ -->
 
-    <!-- Mod detection -->
-    <IfModInstalled name="TSteelworks">
-        
-        <!-- Starting Custom Ore Gen Configuration. -->
+
+<!-- Is the "Tinkers Steelworks" mod on the system?  Let's find out! -->
+<IfModInstalled name="TSteelworks">
+
+    <!-- Starting Configuration for Custom Ore Generation. -->
+    <ConfigSection>
+
+
+
+
+
+        <!-- Setup Screen Configuration -->
         <ConfigSection>
-        
-            
-            <!-- Setup Screen Configuration -->
+            <OptionDisplayGroup name='groupTinkersSteelworks' displayName='Tinkers Steelworks' displayState='shown'>
+                <Description>
+                    Distribution options for Tinkers Steelworks Ores.
+                </Description>
+            </OptionDisplayGroup>
+            <OptionChoice name='enableTinkersSteelworks' displayName='Handle Tinkers Steelworks Setup?' default='true' displayState='shown_dynamic' displayGroup='groupTinkersSteelworks'>
+                <Description> Should Custom Ore Generation handle Tinkers Steelworks ore generation? </Description>
+                <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Tinkers Steelworks ores.'/>
+                <Choice value=':= ?false' displayValue='No' description='Tinkers Steelworks ores will be handled by the mod itself.'/>
+            </OptionChoice>
+
+            <!-- Limestone Configuration UI Starting -->
             <ConfigSection>
-                <OptionDisplayGroup name='groupTinkersSteelworks' displayName='Tinkers Steelworks' displayState='shown'> 
-                    <Description>
-                        Distribution options for Tinkers Steelworks Ores.
-                    </Description>
-                </OptionDisplayGroup>
-                
-                <!-- Limestone Configuration UI Starting -->
-                <ConfigSection>
-                    <OptionChoice name='tiswLimestoneDist'  displayState='shown' displayGroup='groupTinkersSteelworks'> 
-                        <Description> Controls how Limestone is generated </Description> 
-                        <DisplayName>Tinkers Steelworks Limestone</DisplayName>
-                        <Choice value='layeredVeins' displayValue='Layered Veins'>
-                            <Description>
-                                Layered Veins.
-                            </Description>
-                        </Choice>
-                        <Choice value='none' displayValue='None' description='Limestone is not generated in the world.'/>
-                    </OptionChoice>
-                    <OptionNumeric name='tiswLimestoneFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupTinkersSteelworks'>
-                        <Description> Frequency multiplier for Tinkers Steelworks Limestone distributions </Description>
-                        <DisplayName>Tinkers Steelworks Limestone Freq.</DisplayName>
-                    </OptionNumeric>
-                    <OptionNumeric name='tiswLimestoneSize' default='1'  min='0' max='5' displayState=':= if(?advOptions,"shown","hidden")' displayGroup='groupTinkersSteelworks'>
-                        <Description> Size multiplier for Tinkers Steelworks Limestone distributions </Description>
-                        <DisplayName>Tinkers Steelworks Limestone Size</DisplayName>
-                    </OptionNumeric>
-                </ConfigSection> 
-                <!-- Limestone Configuration UI Complete -->
-                
+                <OptionChoice name='tiswLimestoneDist'  displayState=':= if(?enableTinkersSteelworks, "shown", "hidden")' displayGroup='groupTinkersSteelworks'>
+                    <Description> Controls how Limestone is generated </Description>
+                    <DisplayName>Tinkers Steelworks Limestone</DisplayName>
+                    <Choice value='Vanilla' displayValue='Vanilla'>
+                        <Description>
+                            Simulates Vanilla Minecraft.
+                        </Description>
+                    </Choice>
+                    <Choice value='none' displayValue='None' description='Limestone is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='tiswLimestoneFreq' default='1'  min='0' max='5' displayState=':= if(?enableTinkersSteelworks, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupTinkersSteelworks'>
+                    <Description> Frequency multiplier for Tinkers Steelworks Limestone distributions </Description>
+                    <DisplayName>Tinkers Steelworks Limestone Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='tiswLimestoneSize' default='1'  min='0' max='5' displayState=':= if(?enableTinkersSteelworks, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupTinkersSteelworks'>
+                    <Description> Size multiplier for Tinkers Steelworks Limestone distributions </Description>
+                    <DisplayName>Tinkers Steelworks Limestone Size</DisplayName>
+                </OptionNumeric>
             </ConfigSection>
-            <!-- Setup Screen Complete -->
+            <!-- Limestone Configuration UI Complete -->
+
+        </ConfigSection>
+        <!-- Setup Screen Complete -->
+
+        <IfCondition condition=':= ?enableTinkersSteelworks'>
 
 
-            <!-- Setup Overworld -->
+
+
+            <!-- Overworld Setup Beginning -->
+
             <IfCondition condition=':= ?COGActive'>
-                
-                <!-- Starting Original Overworld Ore Removal -->
-                <!-- Original Overworld Ore Removal Complete -->
-                
-                <!-- Adding ores --> 
-                
-                <!-- Begin Limestone Generation --> 
-                
-                <!-- Begin Layered Veins distribution of Limestone -->
-                <IfCondition condition=':= tiswLimestoneDist = "layeredVeins"'>
-                
-                    <Veins name='tiswLimestoneBaseVeins' block='TSteelworks:Limestone' inherits='PresetLayeredVeins'>
-                        <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60CD3AC4</WireframeColor>
-                        <Setting name='MotherlodeSize' avg=':= 1 * 1 * tiswLimestoneSize * _default_' range=':= 1 * 1 * tiswLimestoneSize * _default_'/>
-                        <Setting name='MotherlodeHeight' avg=':= 128' range=':= 128' type='uniform' scaleTo='SeaLevel'/> 
-                        <Setting name='SegmentRadius' avg=':= 1 * 1 * tiswLimestoneSize * _default_' range=':= 1 * 1 * tiswLimestoneSize * _default_'/>
-                        <Setting name='OreDensity' avg=':= 1 * 1 * _default_' range=':= _default_'/>
-                        <Setting name='MotherlodeFrequency' avg=':= 3 * 1 * tiswLimestoneFreq * _default_'/>
-                        <Replaces block='minecraft:stone'/>
-                    </Veins>
-                    
-                    <!-- Begin Preferred Biome Distribution (Limestone Layered Veins) Settings -->
-                    <Veins name='tiswLimestonePrefersVeins' block='TSteelworks:Limestone' inherits='tiswLimestoneBaseVeins'>
-                        <Description>
-                            Spawns 2 more times in preferred biomes.
-                        </Description>
-                        <DrawWireframe>:=drawWireframes</DrawWireframe>
-                        <WireframeColor>0x60CD3AC4</WireframeColor>
-                        <Setting name='MotherlodeFrequency' avg=':= 2 * _default_'/>
-                        <BiomeType name='swamp'/>
-                    </Veins>
-                    <!-- End Preferred Biome Distribution (Limestone Layered Veins) Settings -->
-                
-                </IfCondition>
-                <!-- End Layered Veins distribution of Limestone -->
-                
-                <!-- End Limestone Generation --> 
 
-                <!-- Done adding ores -->
-            
+                <!-- Starting Original "Overworld" Block Removal -->
+
+                <IfCondition condition=':= ?blockExists("minecraft:stone")'>
+                    <Substitute name='tiswOverworldBlockSubstitute0' block='minecraft:stone'>
+                        <Description>
+                            Replace vanilla-generated ore clusters.
+                        </Description>
+                        <Comment>
+                            The global option  deferredPopulationRange
+                            must be large  enough to catch all ore
+                            clusters (>=  32).
+                        </Comment>
+                        <IfCondition condition=':= ?blockExists("TSteelworks:Limestone")'> <Replaces block='TSteelworks:Limestone' weight='1.0' /> </IfCondition>
+                    </Substitute>
+                </IfCondition>
+
+                <!-- Original "Overworld" Block Removal Complete -->
+
+                <!-- Adding blocks -->
+
+                <!-- Begin Limestone Generation -->
+
+                <!-- Starting Vanilla Preset for Limestone. -->
+                <ConfigSection>
+                    <IfCondition condition=':= tiswLimestoneDist = "Vanilla"'>
+                        <StandardGen name='tiswLimestoneStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60C5CCA9' drawBoundBox='false' boundBoxColor='0x60C5CCA9'>
+                            <Description>
+                                A master preset for standardgen  ore
+                                distributions.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("TSteelworks:Limestone")'> <OreBlock block='TSteelworks:Limestone' weight='1.0' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 3 * tiswLimestoneSize ' range=':= _default_ * tiswLimestoneSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 8 * tiswLimestoneFreq ' range=':= _default_ * tiswLimestoneFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 64 ' range=':= 64 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Limestone is complete. -->
+
+                <!-- End Limestone Generation -->
+
+                <!-- Finished adding blocks -->
+
             </IfCondition>
             <!-- Overworld Setup Complete -->
 
 
- 
- 
-        
-        </ConfigSection>
-        <!-- Custom Ore Gen Configuration Complete! -->
-    
-    </IfModInstalled> 
- 
+
+        </IfCondition>
+
+    </ConfigSection>
+    <!-- Configuration for Custom Ore Generation Complete! -->
+
+</IfModInstalled>
+<!-- The "Tinkers Steelworks" mod is now configured. -->
 
 
-<!-- This file was made using the Sprocket Configuration Generator. -->
+
+
+
+<!-- =================================================================
+     This file was made using the Sprocket Configuration Generator.
+     If you wish to make your own configurations for a mod not
+     currently supported by Custom Ore Generation, and you don't want
+     the hassle of writing XML, you can find the generator script at
+     its GitHub page: http://https://github.com/reteo/Sprocket
+     ================================================================= -->
