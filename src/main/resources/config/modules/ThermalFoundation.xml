@@ -1,7 +1,7 @@
 <!-- =================================================================
      Custom Ore Generation "Thermal Foundation" Module: This
-     configuration covers copper, tin, silver, lead, ferrous, and
-     shiny.
+     configuration covers copper, tin, silver, lead, nickel, and
+     platinum.
      ================================================================= -->
 
 
@@ -171,11 +171,11 @@
             <!-- Lead Configuration UI Complete -->
 
 
-            <!-- Ferrous Configuration UI Starting -->
+            <!-- Nickel Configuration UI Starting -->
             <ConfigSection>
-                <OptionChoice name='thfoFerrousDist'  displayState=':= if(?enableThermalFoundation, "shown", "hidden")' displayGroup='groupThermalFoundation'>
-                    <Description> Controls how Ferrous is generated </Description>
-                    <DisplayName>Thermal Foundation Ferrous</DisplayName>
+                <OptionChoice name='thfoNickelDist'  displayState=':= if(?enableThermalFoundation, "shown", "hidden")' displayGroup='groupThermalFoundation'>
+                    <Description> Controls how Nickel is generated </Description>
+                    <DisplayName>Thermal Foundation Nickel</DisplayName>
                     <Choice value='LayeredVeins' displayValue='Layered Veins'>
                         <Description>
                             Small, fairly rare motherlodes with 2-4 horizontal veins each.
@@ -191,25 +191,25 @@
                             Simulates Vanilla Minecraft.
                         </Description>
                     </Choice>
-                    <Choice value='none' displayValue='None' description='Ferrous is not generated in the world.'/>
+                    <Choice value='none' displayValue='None' description='Nickel is not generated in the world.'/>
                 </OptionChoice>
-                <OptionNumeric name='thfoFerrousFreq' default='1'  min='0' max='5' displayState=':= if(?enableThermalFoundation, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThermalFoundation'>
-                    <Description> Frequency multiplier for Thermal Foundation Ferrous distributions </Description>
-                    <DisplayName>Thermal Foundation Ferrous Freq.</DisplayName>
+                <OptionNumeric name='thfoNickelFreq' default='1'  min='0' max='5' displayState=':= if(?enableThermalFoundation, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThermalFoundation'>
+                    <Description> Frequency multiplier for Thermal Foundation Nickel distributions </Description>
+                    <DisplayName>Thermal Foundation Nickel Freq.</DisplayName>
                 </OptionNumeric>
-                <OptionNumeric name='thfoFerrousSize' default='1'  min='0' max='5' displayState=':= if(?enableThermalFoundation, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThermalFoundation'>
-                    <Description> Size multiplier for Thermal Foundation Ferrous distributions </Description>
-                    <DisplayName>Thermal Foundation Ferrous Size</DisplayName>
+                <OptionNumeric name='thfoNickelSize' default='1'  min='0' max='5' displayState=':= if(?enableThermalFoundation, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThermalFoundation'>
+                    <Description> Size multiplier for Thermal Foundation Nickel distributions </Description>
+                    <DisplayName>Thermal Foundation Nickel Size</DisplayName>
                 </OptionNumeric>
             </ConfigSection>
-            <!-- Ferrous Configuration UI Complete -->
+            <!-- Nickel Configuration UI Complete -->
 
 
-            <!-- Shiny Configuration UI Starting -->
+            <!-- Platinum Configuration UI Starting -->
             <ConfigSection>
-                <OptionChoice name='thfoShinyDist'  displayState=':= if(?enableThermalFoundation, "shown", "hidden")' displayGroup='groupThermalFoundation'>
-                    <Description> Controls how Shiny is generated </Description>
-                    <DisplayName>Thermal Foundation Shiny</DisplayName>
+                <OptionChoice name='thfoPlatinumDist'  displayState=':= if(?enableThermalFoundation, "shown", "hidden")' displayGroup='groupThermalFoundation'>
+                    <Description> Controls how Platinum is generated </Description>
+                    <DisplayName>Thermal Foundation Platinum</DisplayName>
                     <Choice value='LayeredVeins' displayValue='Layered Veins'>
                         <Description>
                             Small, fairly rare motherlodes with 2-4 horizontal veins each.
@@ -225,18 +225,18 @@
                             Simulates Vanilla Minecraft.
                         </Description>
                     </Choice>
-                    <Choice value='none' displayValue='None' description='Shiny is not generated in the world.'/>
+                    <Choice value='none' displayValue='None' description='Platinum is not generated in the world.'/>
                 </OptionChoice>
-                <OptionNumeric name='thfoShinyFreq' default='1'  min='0' max='5' displayState=':= if(?enableThermalFoundation, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThermalFoundation'>
-                    <Description> Frequency multiplier for Thermal Foundation Shiny distributions </Description>
-                    <DisplayName>Thermal Foundation Shiny Freq.</DisplayName>
+                <OptionNumeric name='thfoPlatinumFreq' default='1'  min='0' max='5' displayState=':= if(?enableThermalFoundation, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThermalFoundation'>
+                    <Description> Frequency multiplier for Thermal Foundation Platinum distributions </Description>
+                    <DisplayName>Thermal Foundation Platinum Freq.</DisplayName>
                 </OptionNumeric>
-                <OptionNumeric name='thfoShinySize' default='1'  min='0' max='5' displayState=':= if(?enableThermalFoundation, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThermalFoundation'>
-                    <Description> Size multiplier for Thermal Foundation Shiny distributions </Description>
-                    <DisplayName>Thermal Foundation Shiny Size</DisplayName>
+                <OptionNumeric name='thfoPlatinumSize' default='1'  min='0' max='5' displayState=':= if(?enableThermalFoundation, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThermalFoundation'>
+                    <Description> Size multiplier for Thermal Foundation Platinum distributions </Description>
+                    <DisplayName>Thermal Foundation Platinum Size</DisplayName>
                 </OptionNumeric>
             </ConfigSection>
-            <!-- Shiny Configuration UI Complete -->
+            <!-- Platinum Configuration UI Complete -->
 
         </ConfigSection>
         <!-- Setup Screen Complete -->
@@ -288,19 +288,19 @@
                             <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore")'> <OreBlock block='ThermalFoundation:Ore' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 1.059 * _default_ * thfoCopperFreq ' range=':= _default_ * thfoCopperFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 1.010 * _default_ * thfoCopperSize ' range=':= _default_ * thfoCopperSize ' type='normal' />
+                            <Setting name='MotherlodeFrequency' avg=':= 1.583 * _default_ * thfoCopperFreq ' range=':= 1.583 * _default_ * thfoCopperFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.080 * _default_ * thfoCopperSize ' range=':= 1.080 * _default_ * thfoCopperSize ' type='normal' />
                             <Setting name='MotherlodeHeight' avg=':= 68 ' range=':= 28 ' type='normal' scaleTo='base' />
                             <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 1.029 * _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.258 * _default_ ' range=':= 1.258 * _default_ ' type='normal' />
                             <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * thfoCopperSize ' range=':= _default_ * thfoCopperSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 1.15 * _default_ * thfoCopperSize ' range=':= _default_ * thfoCopperSize ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.122 * _default_ * thfoCopperSize ' range=':= 1.122 * _default_ * thfoCopperSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
@@ -330,9 +330,9 @@
                             <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore")'> <OreBlock block='ThermalFoundation:Ore' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 1.454 * _default_ * thfoCopperSize ' range=':= _default_ * thfoCopperSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.454 * _default_ * thfoCopperSize ' range=':= _default_ * thfoCopperSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 2.115  * _default_ * thfoCopperFreq ' range=':= _default_ * thfoCopperFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 1.177 * _default_ * thfoCopperSize ' range=':= 1.177 * _default_ * thfoCopperSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.177 * _default_ * thfoCopperSize ' range=':= 1.177 * _default_ * thfoCopperSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.385 * _default_ * thfoCopperFreq ' range=':= 1.385 * _default_ * thfoCopperFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 68 ' range=':= 28 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -382,8 +382,8 @@
                             <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore")'> <OreBlock block='ThermalFoundation:Ore' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='Size' avg=':= 8 * thfoCopperSize ' range=':= _default_ * thfoCopperSize ' type='normal' />
-                            <Setting name='Frequency' avg=':= 10 * thfoCopperFreq ' range=':= _default_ * thfoCopperFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Size' avg=':= 8.000 * thfoCopperSize ' range=':= _default_ * thfoCopperSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 10.000 * thfoCopperFreq ' range=':= _default_ * thfoCopperFreq ' type='normal' scaleTo='base' />
                             <Setting name='Height' avg=':= 68 ' range=':= 28 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </StandardGen>
@@ -407,19 +407,19 @@
                             <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:1")'> <OreBlock block='ThermalFoundation:Ore:1' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 0.948 * _default_ * thfoTinFreq ' range=':= _default_ * thfoTinFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 0.991 * _default_ * thfoTinSize ' range=':= _default_ * thfoTinSize ' type='normal' />
+                            <Setting name='MotherlodeFrequency' avg=':= 1.416 * _default_ * thfoTinFreq ' range=':= 1.416 * _default_ * thfoTinFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.060 * _default_ * thfoTinSize ' range=':= 1.060 * _default_ * thfoTinSize ' type='normal' />
                             <Setting name='MotherlodeHeight' avg=':= 38 ' range=':= 17 ' type='normal' scaleTo='base' />
                             <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 0.973 * _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.190 * _default_ ' range=':= 1.190 * _default_ ' type='normal' />
                             <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * thfoTinSize ' range=':= _default_ * thfoTinSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 0.987 * _default_ * thfoTinSize ' range=':= _default_ * thfoTinSize ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.091 * _default_ * thfoTinSize ' range=':= 1.091 * _default_ * thfoTinSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
@@ -449,9 +449,9 @@
                             <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:1")'> <OreBlock block='ThermalFoundation:Ore:1' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 1.375 * _default_ * thfoTinSize ' range=':= _default_ * thfoTinSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.375 * _default_ * thfoTinSize ' range=':= _default_ * thfoTinSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 1.892  * _default_ * thfoTinFreq ' range=':= _default_ * thfoTinFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 1.113 * _default_ * thfoTinSize ' range=':= 1.113 * _default_ * thfoTinSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.113 * _default_ * thfoTinSize ' range=':= 1.113 * _default_ * thfoTinSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.239 * _default_ * thfoTinFreq ' range=':= 1.239 * _default_ * thfoTinFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 38 ' range=':= 17 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -501,8 +501,8 @@
                             <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:1")'> <OreBlock block='ThermalFoundation:Ore:1' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='Size' avg=':= 8 * thfoTinSize ' range=':= _default_ * thfoTinSize ' type='normal' />
-                            <Setting name='Frequency' avg=':= 8 * thfoTinFreq ' range=':= _default_ * thfoTinFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Size' avg=':= 8.000 * thfoTinSize ' range=':= _default_ * thfoTinSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 8.000 * thfoTinFreq ' range=':= _default_ * thfoTinFreq ' type='normal' scaleTo='base' />
                             <Setting name='Height' avg=':= 38 ' range=':= 17 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </StandardGen>
@@ -645,19 +645,19 @@
                             <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:3")'> <OreBlock block='ThermalFoundation:Ore:3' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 0.948 * _default_ * thfoLeadFreq ' range=':= _default_ * thfoLeadFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 0.991 * _default_ * thfoLeadSize ' range=':= _default_ * thfoLeadSize ' type='normal' />
+                            <Setting name='MotherlodeFrequency' avg=':= 1.416 * _default_ * thfoLeadFreq ' range=':= 1.416 * _default_ * thfoLeadFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.060 * _default_ * thfoLeadSize ' range=':= 1.060 * _default_ * thfoLeadSize ' type='normal' />
                             <Setting name='MotherlodeHeight' avg=':= 23 ' range=':= 12 ' type='normal' scaleTo='base' />
                             <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 0.973 * _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.190 * _default_ ' range=':= 1.190 * _default_ ' type='normal' />
                             <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * thfoLeadSize ' range=':= _default_ * thfoLeadSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 0.987 * _default_ * thfoLeadSize ' range=':= _default_ * thfoLeadSize ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.091 * _default_ * thfoLeadSize ' range=':= 1.091 * _default_ * thfoLeadSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
@@ -687,9 +687,9 @@
                             <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:3")'> <OreBlock block='ThermalFoundation:Ore:3' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 1.375 * _default_ * thfoLeadSize ' range=':= _default_ * thfoLeadSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.375 * _default_ * thfoLeadSize ' range=':= _default_ * thfoLeadSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 1.892  * _default_ * thfoLeadFreq ' range=':= _default_ * thfoLeadFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 1.113 * _default_ * thfoLeadSize ' range=':= 1.113 * _default_ * thfoLeadSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.113 * _default_ * thfoLeadSize ' range=':= 1.113 * _default_ * thfoLeadSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.239 * _default_ * thfoLeadFreq ' range=':= 1.239 * _default_ * thfoLeadFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 23 ' range=':= 12 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -739,8 +739,8 @@
                             <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:3")'> <OreBlock block='ThermalFoundation:Ore:3' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='Size' avg=':= 8 * thfoLeadSize ' range=':= _default_ * thfoLeadSize ' type='normal' />
-                            <Setting name='Frequency' avg=':= 8 * thfoLeadFreq ' range=':= _default_ * thfoLeadFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Size' avg=':= 8.000 * thfoLeadSize ' range=':= _default_ * thfoLeadSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 8.000 * thfoLeadFreq ' range=':= _default_ * thfoLeadFreq ' type='normal' scaleTo='base' />
                             <Setting name='Height' avg=':= 23 ' range=':= 12 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </StandardGen>
@@ -751,12 +751,12 @@
                 <!-- End Lead Generation -->
 
 
-                <!-- Begin Ferrous Generation -->
+                <!-- Begin Nickel Generation -->
 
-                <!-- Starting LayeredVeins Preset for Ferrous. -->
+                <!-- Starting LayeredVeins Preset for Nickel. -->
                 <ConfigSection>
-                    <IfCondition condition=':= thfoFerrousDist = "LayeredVeins"'>
-                        <Veins name='thfoFerrousVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
+                    <IfCondition condition=':= thfoNickelDist = "LayeredVeins"'>
+                        <Veins name='thfoNickelVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
                             <Description>
                                 Small, fairly rare motherlodes  with
                                 2-4 horizontal veins each.
@@ -764,31 +764,31 @@
                             <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:4")'> <OreBlock block='ThermalFoundation:Ore:4' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 0.410 * _default_ * thfoFerrousFreq ' range=':= _default_ * thfoFerrousFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 0.862 * _default_ * thfoFerrousSize ' range=':= _default_ * thfoFerrousSize ' type='normal' />
+                            <Setting name='MotherlodeFrequency' avg=':= 0.613 * _default_ * thfoNickelFreq ' range=':= 0.613 * _default_ * thfoNickelFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 0.922 * _default_ * thfoNickelSize ' range=':= 0.922 * _default_ * thfoNickelSize ' type='normal' />
                             <Setting name='MotherlodeHeight' avg=':= 13 ' range=':= 7 ' type='normal' scaleTo='base' />
                             <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 0.641 * _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 0.783 * _default_ ' range=':= 0.783 * _default_ ' type='normal' />
                             <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='SegmentLength' avg=':= _default_ * thfoFerrousSize ' range=':= _default_ * thfoFerrousSize ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * thfoNickelSize ' range=':= _default_ * thfoNickelSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 0.800 * _default_ * thfoFerrousSize ' range=':= _default_ * thfoFerrousSize ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.885 * _default_ * thfoNickelSize ' range=':= 0.885 * _default_ * thfoNickelSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
                     </IfCondition>
                 </ConfigSection>
-                <!-- LayeredVeins Preset for Ferrous is complete. -->
+                <!-- LayeredVeins Preset for Nickel is complete. -->
 
 
-                <!-- Starting Cloud Preset for Ferrous. -->
+                <!-- Starting Cloud Preset for Nickel. -->
                 <ConfigSection>
-                    <IfCondition condition=':= thfoFerrousDist = "Cloud"'>
-                        <Cloud name='thfoFerrousCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
+                    <IfCondition condition=':= thfoNickelDist = "Cloud"'>
+                        <Cloud name='thfoNickelCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
                             <Description>
                                 Large irregular clouds filled  lightly
                                 with ore.  These are  huge, spanning
@@ -806,9 +806,9 @@
                             <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:4")'> <OreBlock block='ThermalFoundation:Ore:4' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 0.905 * _default_ * thfoFerrousSize ' range=':= _default_ * thfoFerrousSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 0.905 * _default_ * thfoFerrousSize ' range=':= _default_ * thfoFerrousSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 0.819  * _default_ * thfoFerrousFreq ' range=':= _default_ * thfoFerrousFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 0.732 * _default_ * thfoNickelSize ' range=':= 0.732 * _default_ * thfoNickelSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 0.732 * _default_ * thfoNickelSize ' range=':= 0.732 * _default_ * thfoNickelSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 0.536 * _default_ * thfoNickelFreq ' range=':= 0.536 * _default_ * thfoNickelFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 13 ' range=':= 7 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -816,7 +816,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='thfoFerrousHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
+                            <Veins name='thfoNickelHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -844,13 +844,13 @@
                         </Cloud>
                     </IfCondition>
                 </ConfigSection>
-                <!-- Cloud Preset for Ferrous is complete. -->
+                <!-- Cloud Preset for Nickel is complete. -->
 
 
-                <!-- Starting Vanilla Preset for Ferrous. -->
+                <!-- Starting Vanilla Preset for Nickel. -->
                 <ConfigSection>
-                    <IfCondition condition=':= thfoFerrousDist = "Vanilla"'>
-                        <StandardGen name='thfoFerrousStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
+                    <IfCondition condition=':= thfoNickelDist = "Vanilla"'>
+                        <StandardGen name='thfoNickelStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
                             <Description>
                                 A master preset for standardgen  ore
                                 distributions.
@@ -858,24 +858,24 @@
                             <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:4")'> <OreBlock block='ThermalFoundation:Ore:4' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='Size' avg=':= 4 * thfoFerrousSize ' range=':= _default_ * thfoFerrousSize ' type='normal' />
-                            <Setting name='Frequency' avg=':= 3 * thfoFerrousFreq ' range=':= _default_ * thfoFerrousFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Size' avg=':= 4.000 * thfoNickelSize ' range=':= _default_ * thfoNickelSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 3.000 * thfoNickelFreq ' range=':= _default_ * thfoNickelFreq ' type='normal' scaleTo='base' />
                             <Setting name='Height' avg=':= 13 ' range=':= 7 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </StandardGen>
                     </IfCondition>
                 </ConfigSection>
-                <!-- Vanilla Preset for Ferrous is complete. -->
+                <!-- Vanilla Preset for Nickel is complete. -->
 
-                <!-- End Ferrous Generation -->
+                <!-- End Nickel Generation -->
 
 
-                <!-- Begin Shiny Generation -->
+                <!-- Begin Platinum Generation -->
 
-                <!-- Starting LayeredVeins Preset for Shiny. -->
+                <!-- Starting LayeredVeins Preset for Platinum. -->
                 <ConfigSection>
-                    <IfCondition condition=':= thfoShinyDist = "LayeredVeins"'>
-                        <Veins name='thfoShinyVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
+                    <IfCondition condition=':= thfoPlatinumDist = "LayeredVeins"'>
+                        <Veins name='thfoPlatinumVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
                             <Description>
                                 Small, fairly rare motherlodes  with
                                 2-4 horizontal veins each.
@@ -883,31 +883,31 @@
                             <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:5")'> <OreBlock block='ThermalFoundation:Ore:5' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 0.205 * _default_ * thfoShinyFreq ' range=':= _default_ * thfoShinyFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 0.768 * _default_ * thfoShinySize ' range=':= _default_ * thfoShinySize ' type='normal' />
+                            <Setting name='MotherlodeFrequency' avg=':= 0.306 * _default_ * thfoPlatinumFreq ' range=':= 0.306 * _default_ * thfoPlatinumFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 0.821 * _default_ * thfoPlatinumSize ' range=':= 0.821 * _default_ * thfoPlatinumSize ' type='normal' />
                             <Setting name='MotherlodeHeight' avg=':= 18 ' range=':= 12 ' type='normal' scaleTo='base' />
                             <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 0.453 * _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 0.554 * _default_ ' range=':= 0.554 * _default_ ' type='normal' />
                             <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='SegmentLength' avg=':= _default_ * thfoShinySize ' range=':= _default_ * thfoShinySize ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * thfoPlatinumSize ' range=':= _default_ * thfoPlatinumSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 0.673 * _default_ * thfoShinySize ' range=':= _default_ * thfoShinySize ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.744 * _default_ * thfoPlatinumSize ' range=':= 0.744 * _default_ * thfoPlatinumSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
                     </IfCondition>
                 </ConfigSection>
-                <!-- LayeredVeins Preset for Shiny is complete. -->
+                <!-- LayeredVeins Preset for Platinum is complete. -->
 
 
-                <!-- Starting Cloud Preset for Shiny. -->
+                <!-- Starting Cloud Preset for Platinum. -->
                 <ConfigSection>
-                    <IfCondition condition=':= thfoShinyDist = "Cloud"'>
-                        <Cloud name='thfoShinyCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
+                    <IfCondition condition=':= thfoPlatinumDist = "Cloud"'>
+                        <Cloud name='thfoPlatinumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
                             <Description>
                                 Large irregular clouds filled  lightly
                                 with ore.  These are  huge, spanning
@@ -925,9 +925,9 @@
                             <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:5")'> <OreBlock block='ThermalFoundation:Ore:5' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 0.640 * _default_ * thfoShinySize ' range=':= _default_ * thfoShinySize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 0.640 * _default_ * thfoShinySize ' range=':= _default_ * thfoShinySize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 0.410  * _default_ * thfoShinyFreq ' range=':= _default_ * thfoShinyFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 0.518 * _default_ * thfoPlatinumSize ' range=':= 0.518 * _default_ * thfoPlatinumSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 0.518 * _default_ * thfoPlatinumSize ' range=':= 0.518 * _default_ * thfoPlatinumSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 0.268 * _default_ * thfoPlatinumFreq ' range=':= 0.268 * _default_ * thfoPlatinumFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 18 ' range=':= 12 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -935,7 +935,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='thfoShinyHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
+                            <Veins name='thfoPlatinumHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -963,13 +963,13 @@
                         </Cloud>
                     </IfCondition>
                 </ConfigSection>
-                <!-- Cloud Preset for Shiny is complete. -->
+                <!-- Cloud Preset for Platinum is complete. -->
 
 
-                <!-- Starting Vanilla Preset for Shiny. -->
+                <!-- Starting Vanilla Preset for Platinum. -->
                 <ConfigSection>
-                    <IfCondition condition=':= thfoShinyDist = "Vanilla"'>
-                        <StandardGen name='thfoShinyStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
+                    <IfCondition condition=':= thfoPlatinumDist = "Vanilla"'>
+                        <StandardGen name='thfoPlatinumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
                             <Description>
                                 A master preset for standardgen  ore
                                 distributions.
@@ -977,16 +977,16 @@
                             <IfCondition condition=':= ?blockExists("ThermalFoundation:Ore:5")'> <OreBlock block='ThermalFoundation:Ore:5' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:stone")'> <Replaces block='minecraft:stone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='Size' avg=':= 3 * thfoShinySize ' range=':= _default_ * thfoShinySize ' type='normal' />
-                            <Setting name='Frequency' avg=':= 1 * thfoShinyFreq ' range=':= _default_ * thfoShinyFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Size' avg=':= 3.000 * thfoPlatinumSize ' range=':= _default_ * thfoPlatinumSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 1.000 * thfoPlatinumFreq ' range=':= _default_ * thfoPlatinumFreq ' type='normal' scaleTo='base' />
                             <Setting name='Height' avg=':= 18 ' range=':= 12 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </StandardGen>
                     </IfCondition>
                 </ConfigSection>
-                <!-- Vanilla Preset for Shiny is complete. -->
+                <!-- Vanilla Preset for Platinum is complete. -->
 
-                <!-- End Shiny Generation -->
+                <!-- End Platinum Generation -->
 
                 <!-- Finished adding blocks -->
 

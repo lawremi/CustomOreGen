@@ -233,14 +233,15 @@
 
 
 
-            <!-- Overworld Setup Beginning -->
 
-            <IfCondition condition=':= ?COGActive'>
+            <!-- Nether Setup Beginning -->
 
-                <!-- Starting Original "Overworld" Block Removal -->
+            <IfCondition condition=':= dimension.generator = "HellRandomLevelSource"'>
+
+                <!-- Starting Original "Nether" Block Removal -->
 
                 <IfCondition condition=':= ?blockExists("minecraft:glowstone")'>
-                    <Substitute name='nthrOverworldBlockSubstitute0' block='minecraft:glowstone'>
+                    <Substitute name='nthrNetherBlockSubstitute0' block='minecraft:glowstone'>
                         <Description>
                             Replace vanilla-generated ore clusters.
                         </Description>
@@ -255,7 +256,7 @@
 
 
                 <IfCondition condition=':= ?blockExists("minecraft:netherrack")'>
-                    <Substitute name='nthrOverworldBlockSubstitute1' block='minecraft:netherrack'>
+                    <Substitute name='nthrNetherBlockSubstitute1' block='minecraft:netherrack'>
                         <Description>
                             Replace vanilla-generated ore clusters.
                         </Description>
@@ -272,7 +273,7 @@
                     </Substitute>
                 </IfCondition>
 
-                <!-- Original "Overworld" Block Removal Complete -->
+                <!-- Original "Nether" Block Removal Complete -->
 
                 <!-- Adding blocks -->
 
@@ -281,7 +282,7 @@
                 <!-- Starting LayeredVeins Preset for Fyrite. -->
                 <ConfigSection>
                     <IfCondition condition=':= nthrFyriteDist = "LayeredVeins"'>
-                        <Veins name='nthrFyriteVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x600F0035' drawBoundBox='false' boundBoxColor='0x60BF0000'>
+                        <Veins name='nthrFyriteVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60BF0000' drawBoundBox='false' boundBoxColor='0x60BF0000'>
                             <Description>
                                 Small, fairly rare motherlodes  with
                                 2-4 horizontal veins each.
@@ -289,19 +290,19 @@
                             <IfCondition condition=':= ?blockExists("netherrocks:fyrite_ore")'> <OreBlock block='netherrocks:fyrite_ore' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:netherrack")'> <Replaces block='minecraft:netherrack' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 0.917 * _default_ * nthrFyriteFreq ' range=':= _default_ * nthrFyriteFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 0.986 * _default_ * nthrFyriteSize ' range=':= _default_ * nthrFyriteSize ' type='normal' />
+                            <Setting name='MotherlodeFrequency' avg=':= 1.371 * _default_ * nthrFyriteFreq ' range=':= 1.371 * _default_ * nthrFyriteFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.054 * _default_ * nthrFyriteSize ' range=':= 1.054 * _default_ * nthrFyriteSize ' type='normal' />
                             <Setting name='MotherlodeHeight' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
                             <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 0.958 * _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.171 * _default_ ' range=':= 1.171 * _default_ ' type='normal' />
                             <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * nthrFyriteSize ' range=':= _default_ * nthrFyriteSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 0.979 * _default_ * nthrFyriteSize ' range=':= _default_ * nthrFyriteSize ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.082 * _default_ * nthrFyriteSize ' range=':= 1.082 * _default_ * nthrFyriteSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
@@ -313,7 +314,7 @@
                 <!-- Starting Cloud Preset for Fyrite. -->
                 <ConfigSection>
                     <IfCondition condition=':= nthrFyriteDist = "Cloud"'>
-                        <Cloud name='nthrFyriteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x600F0035' drawBoundBox='false' boundBoxColor='0x60BF0000'>
+                        <Cloud name='nthrFyriteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60BF0000' drawBoundBox='false' boundBoxColor='0x60BF0000'>
                             <Description>
                                 Large irregular clouds filled  lightly
                                 with ore.  These are  huge, spanning
@@ -331,9 +332,9 @@
                             <IfCondition condition=':= ?blockExists("netherrocks:fyrite_ore")'> <OreBlock block='netherrocks:fyrite_ore' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:netherrack")'> <Replaces block='minecraft:netherrack' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 1.353 * _default_ * nthrFyriteSize ' range=':= _default_ * nthrFyriteSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.353 * _default_ * nthrFyriteSize ' range=':= _default_ * nthrFyriteSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 1.832  * _default_ * nthrFyriteFreq ' range=':= _default_ * nthrFyriteFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 1.095 * _default_ * nthrFyriteSize ' range=':= 1.095 * _default_ * nthrFyriteSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.095 * _default_ * nthrFyriteSize ' range=':= 1.095 * _default_ * nthrFyriteSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.199 * _default_ * nthrFyriteFreq ' range=':= 1.199 * _default_ * nthrFyriteFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -341,7 +342,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='nthrFyriteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x600F0035' drawBoundBox='false' boundBoxColor='0x60BF0000'>
+                            <Veins name='nthrFyriteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60BF0000' drawBoundBox='false' boundBoxColor='0x60BF0000'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -375,7 +376,7 @@
                 <!-- Starting Vanilla Preset for Fyrite. -->
                 <ConfigSection>
                     <IfCondition condition=':= nthrFyriteDist = "Vanilla"'>
-                        <StandardGen name='nthrFyriteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x600F0035' drawBoundBox='false' boundBoxColor='0x60BF0000'>
+                        <StandardGen name='nthrFyriteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60BF0000' drawBoundBox='false' boundBoxColor='0x60BF0000'>
                             <Description>
                                 A master preset for standardgen  ore
                                 distributions.
@@ -383,8 +384,8 @@
                             <IfCondition condition=':= ?blockExists("netherrocks:fyrite_ore")'> <OreBlock block='netherrocks:fyrite_ore' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:netherrack")'> <Replaces block='minecraft:netherrack' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='Size' avg=':= 6 * nthrFyriteSize ' range=':= _default_ * nthrFyriteSize ' type='normal' />
-                            <Setting name='Frequency' avg=':= 10 * nthrFyriteFreq ' range=':= _default_ * nthrFyriteFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Size' avg=':= 6.000 * nthrFyriteSize ' range=':= _default_ * nthrFyriteSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 10.000 * nthrFyriteFreq ' range=':= _default_ * nthrFyriteFreq ' type='normal' scaleTo='base' />
                             <Setting name='Height' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </StandardGen>
@@ -400,7 +401,7 @@
                 <!-- Starting LayeredVeins Preset for Malachite. -->
                 <ConfigSection>
                     <IfCondition condition=':= nthrMalachiteDist = "LayeredVeins"'>
-                        <Veins name='nthrMalachiteVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x600F0035' drawBoundBox='false' boundBoxColor='0x60046652'>
+                        <Veins name='nthrMalachiteVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60046652' drawBoundBox='false' boundBoxColor='0x60046652'>
                             <Description>
                                 Small, fairly rare motherlodes  with
                                 2-4 horizontal veins each.
@@ -408,19 +409,19 @@
                             <IfCondition condition=':= ?blockExists("netherrocks:malachite_ore")'> <OreBlock block='netherrocks:malachite_ore' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:netherrack")'> <Replaces block='minecraft:netherrack' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 0.991 * _default_ * nthrMalachiteFreq ' range=':= _default_ * nthrMalachiteFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 0.998 * _default_ * nthrMalachiteSize ' range=':= _default_ * nthrMalachiteSize ' type='normal' />
+                            <Setting name='MotherlodeFrequency' avg=':= 1.480 * _default_ * nthrMalachiteFreq ' range=':= 1.480 * _default_ * nthrMalachiteFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.068 * _default_ * nthrMalachiteSize ' range=':= 1.068 * _default_ * nthrMalachiteSize ' type='normal' />
                             <Setting name='MotherlodeHeight' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
                             <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 0.995 * _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.217 * _default_ ' range=':= 1.217 * _default_ ' type='normal' />
                             <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * nthrMalachiteSize ' range=':= _default_ * nthrMalachiteSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 0.998 * _default_ * nthrMalachiteSize ' range=':= _default_ * nthrMalachiteSize ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.103 * _default_ * nthrMalachiteSize ' range=':= 1.103 * _default_ * nthrMalachiteSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
@@ -432,7 +433,7 @@
                 <!-- Starting Cloud Preset for Malachite. -->
                 <ConfigSection>
                     <IfCondition condition=':= nthrMalachiteDist = "Cloud"'>
-                        <Cloud name='nthrMalachiteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x600F0035' drawBoundBox='false' boundBoxColor='0x60046652'>
+                        <Cloud name='nthrMalachiteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60046652' drawBoundBox='false' boundBoxColor='0x60046652'>
                             <Description>
                                 Large irregular clouds filled  lightly
                                 with ore.  These are  huge, spanning
@@ -450,9 +451,9 @@
                             <IfCondition condition=':= ?blockExists("netherrocks:malachite_ore")'> <OreBlock block='netherrocks:malachite_ore' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:netherrack")'> <Replaces block='minecraft:netherrack' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 1.407 * _default_ * nthrMalachiteSize ' range=':= _default_ * nthrMalachiteSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.407 * _default_ * nthrMalachiteSize ' range=':= _default_ * nthrMalachiteSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 1.979  * _default_ * nthrMalachiteFreq ' range=':= _default_ * nthrMalachiteFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 1.138 * _default_ * nthrMalachiteSize ' range=':= 1.138 * _default_ * nthrMalachiteSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.138 * _default_ * nthrMalachiteSize ' range=':= 1.138 * _default_ * nthrMalachiteSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.295 * _default_ * nthrMalachiteFreq ' range=':= 1.295 * _default_ * nthrMalachiteFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -460,7 +461,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='nthrMalachiteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x600F0035' drawBoundBox='false' boundBoxColor='0x60046652'>
+                            <Veins name='nthrMalachiteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60046652' drawBoundBox='false' boundBoxColor='0x60046652'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -494,7 +495,7 @@
                 <!-- Starting Vanilla Preset for Malachite. -->
                 <ConfigSection>
                     <IfCondition condition=':= nthrMalachiteDist = "Vanilla"'>
-                        <StandardGen name='nthrMalachiteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x600F0035' drawBoundBox='false' boundBoxColor='0x60046652'>
+                        <StandardGen name='nthrMalachiteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60046652' drawBoundBox='false' boundBoxColor='0x60046652'>
                             <Description>
                                 A master preset for standardgen  ore
                                 distributions.
@@ -502,8 +503,8 @@
                             <IfCondition condition=':= ?blockExists("netherrocks:malachite_ore")'> <OreBlock block='netherrocks:malachite_ore' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:netherrack")'> <Replaces block='minecraft:netherrack' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='Size' avg=':= 7 * nthrMalachiteSize ' range=':= _default_ * nthrMalachiteSize ' type='normal' />
-                            <Setting name='Frequency' avg=':= 10 * nthrMalachiteFreq ' range=':= _default_ * nthrMalachiteFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Size' avg=':= 7.000 * nthrMalachiteSize ' range=':= _default_ * nthrMalachiteSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 10.000 * nthrMalachiteFreq ' range=':= _default_ * nthrMalachiteFreq ' type='normal' scaleTo='base' />
                             <Setting name='Height' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </StandardGen>
@@ -519,7 +520,7 @@
                 <!-- Starting LayeredVeins Preset for Ashtone. -->
                 <ConfigSection>
                     <IfCondition condition=':= nthrAshtoneDist = "LayeredVeins"'>
-                        <Veins name='nthrAshtoneVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x600F0035' drawBoundBox='false' boundBoxColor='0x603F3F60'>
+                        <Veins name='nthrAshtoneVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x603F3F60' drawBoundBox='false' boundBoxColor='0x603F3F60'>
                             <Description>
                                 Small, fairly rare motherlodes  with
                                 2-4 horizontal veins each.
@@ -527,19 +528,19 @@
                             <IfCondition condition=':= ?blockExists("netherrocks:ashstone_ore")'> <OreBlock block='netherrocks:ashstone_ore' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:netherrack")'> <Replaces block='minecraft:netherrack' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 0.838 * _default_ * nthrAshtoneFreq ' range=':= _default_ * nthrAshtoneFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 0.971 * _default_ * nthrAshtoneSize ' range=':= _default_ * nthrAshtoneSize ' type='normal' />
+                            <Setting name='MotherlodeFrequency' avg=':= 1.251 * _default_ * nthrAshtoneFreq ' range=':= 1.251 * _default_ * nthrAshtoneFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.038 * _default_ * nthrAshtoneSize ' range=':= 1.038 * _default_ * nthrAshtoneSize ' type='normal' />
                             <Setting name='MotherlodeHeight' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
                             <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 0.915 * _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.119 * _default_ ' range=':= 1.119 * _default_ ' type='normal' />
                             <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * nthrAshtoneSize ' range=':= _default_ * nthrAshtoneSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 0.957 * _default_ * nthrAshtoneSize ' range=':= _default_ * nthrAshtoneSize ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.058 * _default_ * nthrAshtoneSize ' range=':= 1.058 * _default_ * nthrAshtoneSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
@@ -551,7 +552,7 @@
                 <!-- Starting Cloud Preset for Ashtone. -->
                 <ConfigSection>
                     <IfCondition condition=':= nthrAshtoneDist = "Cloud"'>
-                        <Cloud name='nthrAshtoneCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x600F0035' drawBoundBox='false' boundBoxColor='0x603F3F60'>
+                        <Cloud name='nthrAshtoneCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x603F3F60' drawBoundBox='false' boundBoxColor='0x603F3F60'>
                             <Description>
                                 Large irregular clouds filled  lightly
                                 with ore.  These are  huge, spanning
@@ -569,9 +570,9 @@
                             <IfCondition condition=':= ?blockExists("netherrocks:ashstone_ore")'> <OreBlock block='netherrocks:ashstone_ore' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:netherrack")'> <Replaces block='minecraft:netherrack' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 1.293 * _default_ * nthrAshtoneSize ' range=':= _default_ * nthrAshtoneSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.293 * _default_ * nthrAshtoneSize ' range=':= _default_ * nthrAshtoneSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 1.672  * _default_ * nthrAshtoneFreq ' range=':= _default_ * nthrAshtoneFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 1.046 * _default_ * nthrAshtoneSize ' range=':= 1.046 * _default_ * nthrAshtoneSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.046 * _default_ * nthrAshtoneSize ' range=':= 1.046 * _default_ * nthrAshtoneSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.095 * _default_ * nthrAshtoneFreq ' range=':= 1.095 * _default_ * nthrAshtoneFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -579,7 +580,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='nthrAshtoneHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x600F0035' drawBoundBox='false' boundBoxColor='0x603F3F60'>
+                            <Veins name='nthrAshtoneHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x603F3F60' drawBoundBox='false' boundBoxColor='0x603F3F60'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -613,7 +614,7 @@
                 <!-- Starting Vanilla Preset for Ashtone. -->
                 <ConfigSection>
                     <IfCondition condition=':= nthrAshtoneDist = "Vanilla"'>
-                        <StandardGen name='nthrAshtoneStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x600F0035' drawBoundBox='false' boundBoxColor='0x603F3F60'>
+                        <StandardGen name='nthrAshtoneStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x603F3F60' drawBoundBox='false' boundBoxColor='0x603F3F60'>
                             <Description>
                                 A master preset for standardgen  ore
                                 distributions.
@@ -621,8 +622,8 @@
                             <IfCondition condition=':= ?blockExists("netherrocks:ashstone_ore")'> <OreBlock block='netherrocks:ashstone_ore' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:netherrack")'> <Replaces block='minecraft:netherrack' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='Size' avg=':= 5 * nthrAshtoneSize ' range=':= _default_ * nthrAshtoneSize ' type='normal' />
-                            <Setting name='Frequency' avg=':= 10 * nthrAshtoneFreq ' range=':= _default_ * nthrAshtoneFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Size' avg=':= 5.000 * nthrAshtoneSize ' range=':= _default_ * nthrAshtoneSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 10.000 * nthrAshtoneFreq ' range=':= _default_ * nthrAshtoneFreq ' type='normal' scaleTo='base' />
                             <Setting name='Height' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </StandardGen>
@@ -638,7 +639,7 @@
                 <!-- Starting Vanilla Preset for Illumenite. -->
                 <ConfigSection>
                     <IfCondition condition=':= nthrIllumeniteDist = "Vanilla"'>
-                        <StandardGen name='nthrIllumeniteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x600F0035' drawBoundBox='false' boundBoxColor='0x60FCFEB0'>
+                        <StandardGen name='nthrIllumeniteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FCFEB0' drawBoundBox='false' boundBoxColor='0x60FCFEB0'>
                             <Description>
                                 A master preset for standardgen  ore
                                 distributions.
@@ -646,8 +647,8 @@
                             <IfCondition condition=':= ?blockExists("netherrocks:illumenite_ore")'> <OreBlock block='netherrocks:illumenite_ore' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:glowstone")'> <Replaces block='minecraft:glowstone' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='Size' avg=':= 15 * nthrIllumeniteSize ' range=':= _default_ * nthrIllumeniteSize ' type='normal' />
-                            <Setting name='Frequency' avg=':= 350 * nthrIllumeniteFreq ' range=':= _default_ * nthrIllumeniteFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Size' avg=':= 15.000 * nthrIllumeniteSize ' range=':= _default_ * nthrIllumeniteSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 350.000 * nthrIllumeniteFreq ' range=':= _default_ * nthrIllumeniteFreq ' type='normal' scaleTo='base' />
                             <Setting name='Height' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </StandardGen>
@@ -671,19 +672,19 @@
                             <IfCondition condition=':= ?blockExists("netherrocks:dragonstone_ore")'> <OreBlock block='netherrocks:dragonstone_ore' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:netherrack")'> <Replaces block='minecraft:netherrack' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 0.649 * _default_ * nthrDragonstoneFreq ' range=':= _default_ * nthrDragonstoneFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 0.930 * _default_ * nthrDragonstoneSize ' range=':= _default_ * nthrDragonstoneSize ' type='normal' />
+                            <Setting name='MotherlodeFrequency' avg=':= 0.969 * _default_ * nthrDragonstoneFreq ' range=':= 0.969 * _default_ * nthrDragonstoneFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 0.995 * _default_ * nthrDragonstoneSize ' range=':= 0.995 * _default_ * nthrDragonstoneSize ' type='normal' />
                             <Setting name='MotherlodeHeight' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
                             <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 0.805 * _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 0.984 * _default_ ' range=':= 0.984 * _default_ ' type='normal' />
                             <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * nthrDragonstoneSize ' range=':= _default_ * nthrDragonstoneSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 0.897 * _default_ * nthrDragonstoneSize ' range=':= _default_ * nthrDragonstoneSize ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.992 * _default_ * nthrDragonstoneSize ' range=':= 0.992 * _default_ * nthrDragonstoneSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
@@ -713,9 +714,9 @@
                             <IfCondition condition=':= ?blockExists("netherrocks:dragonstone_ore")'> <OreBlock block='netherrocks:dragonstone_ore' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:netherrack")'> <Replaces block='minecraft:netherrack' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 1.138 * _default_ * nthrDragonstoneSize ' range=':= _default_ * nthrDragonstoneSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.138 * _default_ * nthrDragonstoneSize ' range=':= _default_ * nthrDragonstoneSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 1.295  * _default_ * nthrDragonstoneFreq ' range=':= _default_ * nthrDragonstoneFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 0.921 * _default_ * nthrDragonstoneSize ' range=':= 0.921 * _default_ * nthrDragonstoneSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 0.921 * _default_ * nthrDragonstoneSize ' range=':= 0.921 * _default_ * nthrDragonstoneSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 0.848 * _default_ * nthrDragonstoneFreq ' range=':= 0.848 * _default_ * nthrDragonstoneFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -765,8 +766,8 @@
                             <IfCondition condition=':= ?blockExists("netherrocks:dragonstone_ore")'> <OreBlock block='netherrocks:dragonstone_ore' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:netherrack")'> <Replaces block='minecraft:netherrack' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='Size' avg=':= 5 * nthrDragonstoneSize ' range=':= _default_ * nthrDragonstoneSize ' type='normal' />
-                            <Setting name='Frequency' avg=':= 6 * nthrDragonstoneFreq ' range=':= _default_ * nthrDragonstoneFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Size' avg=':= 5.000 * nthrDragonstoneSize ' range=':= _default_ * nthrDragonstoneSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 6.000 * nthrDragonstoneFreq ' range=':= _default_ * nthrDragonstoneFreq ' type='normal' scaleTo='base' />
                             <Setting name='Height' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </StandardGen>
@@ -790,19 +791,19 @@
                             <IfCondition condition=':= ?blockExists("netherrocks:argonite_ore")'> <OreBlock block='netherrocks:argonite_ore' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:netherrack")'> <Replaces block='minecraft:netherrack' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 0.917 * _default_ * nthrArgoniteFreq ' range=':= _default_ * nthrArgoniteFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 0.986 * _default_ * nthrArgoniteSize ' range=':= _default_ * nthrArgoniteSize ' type='normal' />
+                            <Setting name='MotherlodeFrequency' avg=':= 1.371 * _default_ * nthrArgoniteFreq ' range=':= 1.371 * _default_ * nthrArgoniteFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.054 * _default_ * nthrArgoniteSize ' range=':= 1.054 * _default_ * nthrArgoniteSize ' type='normal' />
                             <Setting name='MotherlodeHeight' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
                             <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 0.958 * _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.171 * _default_ ' range=':= 1.171 * _default_ ' type='normal' />
                             <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * nthrArgoniteSize ' range=':= _default_ * nthrArgoniteSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 0.979 * _default_ * nthrArgoniteSize ' range=':= _default_ * nthrArgoniteSize ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.082 * _default_ * nthrArgoniteSize ' range=':= 1.082 * _default_ * nthrArgoniteSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
@@ -832,9 +833,9 @@
                             <IfCondition condition=':= ?blockExists("netherrocks:argonite_ore")'> <OreBlock block='netherrocks:argonite_ore' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:netherrack")'> <Replaces block='minecraft:netherrack' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 1.353 * _default_ * nthrArgoniteSize ' range=':= _default_ * nthrArgoniteSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.353 * _default_ * nthrArgoniteSize ' range=':= _default_ * nthrArgoniteSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 1.832  * _default_ * nthrArgoniteFreq ' range=':= _default_ * nthrArgoniteFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 1.095 * _default_ * nthrArgoniteSize ' range=':= 1.095 * _default_ * nthrArgoniteSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.095 * _default_ * nthrArgoniteSize ' range=':= 1.095 * _default_ * nthrArgoniteSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.199 * _default_ * nthrArgoniteFreq ' range=':= 1.199 * _default_ * nthrArgoniteFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -884,8 +885,8 @@
                             <IfCondition condition=':= ?blockExists("netherrocks:argonite_ore")'> <OreBlock block='netherrocks:argonite_ore' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:netherrack")'> <Replaces block='minecraft:netherrack' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='Size' avg=':= 6 * nthrArgoniteSize ' range=':= _default_ * nthrArgoniteSize ' type='normal' />
-                            <Setting name='Frequency' avg=':= 10 * nthrArgoniteFreq ' range=':= _default_ * nthrArgoniteFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Size' avg=':= 6.000 * nthrArgoniteSize ' range=':= _default_ * nthrArgoniteSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 10.000 * nthrArgoniteFreq ' range=':= _default_ * nthrArgoniteFreq ' type='normal' scaleTo='base' />
                             <Setting name='Height' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </StandardGen>
@@ -898,8 +899,7 @@
                 <!-- Finished adding blocks -->
 
             </IfCondition>
-            <!-- Overworld Setup Complete -->
-
+            <!-- Nether Setup Complete -->
 
 
         </IfCondition>
