@@ -143,9 +143,9 @@
                 <OptionChoice name='ticoCobaltDist'  displayState=':= if(?enableTinkersConstruct, "shown", "hidden")' displayGroup='groupTinkersConstruct'>
                     <Description> Controls how Cobalt is generated </Description>
                     <DisplayName>Tinkers Construct Cobalt</DisplayName>
-                    <Choice value='LayeredVeins' displayValue='Layered Veins'>
+                    <Choice value='SmallDeposits' displayValue='Small Deposits'>
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small motherlodes without any branches.
                         </Description>
                     </Choice>
                     <Choice value='Cloud' displayValue='Strategic Cloud'>
@@ -177,9 +177,9 @@
                 <OptionChoice name='ticoArditeDist'  displayState=':= if(?enableTinkersConstruct, "shown", "hidden")' displayGroup='groupTinkersConstruct'>
                     <Description> Controls how Ardite is generated </Description>
                     <DisplayName>Tinkers Construct Ardite</DisplayName>
-                    <Choice value='LayeredVeins' displayValue='Layered Veins'>
+                    <Choice value='SmallDeposits' displayValue='Small Deposits'>
                         <Description>
-                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                            Small motherlodes without any branches.
                         </Description>
                     </Choice>
                     <Choice value='Cloud' displayValue='Strategic Cloud'>
@@ -1072,7 +1072,7 @@
                             <Biome name='.*'  />
                             <Setting name='MotherlodeFrequency' avg=':= 1.583 * _default_ * ticoCopperGravelFreq ' range=':= 1.583 * _default_ * ticoCopperGravelFreq ' type='normal' scaleTo='base' />
                             <Setting name='MotherlodeSize' avg=':= 1.080 * _default_ * ticoCopperGravelSize ' range=':= 1.080 * _default_ * ticoCopperGravelSize ' type='normal' />
-                            <Setting name='MotherlodeHeight' avg=':= 68 ' range=':= 28 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeHeight' avg=':= 40 ' range=':= 20 ' type='normal' scaleTo='base' />
                             <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1116,7 +1116,7 @@
                             <Setting name='CloudRadius' avg=':= 1.177 * _default_ * ticoCopperGravelSize ' range=':= 1.177 * _default_ * ticoCopperGravelSize ' type='normal' />
                             <Setting name='CloudThickness' avg=':= 1.177 * _default_ * ticoCopperGravelSize ' range=':= 1.177 * _default_ * ticoCopperGravelSize ' type='normal' scaleTo='base' />
                             <Setting name='DistributionFrequency' avg=':= 1.385 * _default_ * ticoCopperGravelFreq ' range=':= 1.385 * _default_ * ticoCopperGravelFreq ' type='normal' scaleTo='base' />
-                            <Setting name='CloudHeight' avg=':= 68 ' range=':= 28 ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 40 ' range=':= 20 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1167,7 +1167,7 @@
                             <Biome name='.*'  />
                             <Setting name='Size' avg=':= 8.000 * ticoCopperGravelSize ' range=':= _default_ * ticoCopperGravelSize ' type='normal' />
                             <Setting name='Frequency' avg=':= 10.000 * ticoCopperGravelFreq ' range=':= _default_ * ticoCopperGravelFreq ' type='normal' scaleTo='base' />
-                            <Setting name='Height' avg=':= 68 ' range=':= 28 ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 40 ' range=':= 20 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </StandardGen>
                     </IfCondition>
@@ -1466,36 +1466,38 @@
 
                 <!-- Begin Cobalt Generation -->
 
-                <!-- Starting LayeredVeins Preset for Cobalt. -->
+                <!-- Starting SmallDeposits Preset for Cobalt. -->
                 <ConfigSection>
-                    <IfCondition condition=':= ticoCobaltDist = "LayeredVeins"'>
-                        <Veins name='ticoCobaltVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x601D62B8' drawBoundBox='false' boundBoxColor='0x601D62B8'>
+                    <IfCondition condition=':= ticoCobaltDist = "SmallDeposits"'>
+                        <Veins name='ticoCobaltVeins'  inherits='PresetSmallDeposits' drawWireframe='true' wireframeColor='0x601D62B8' drawBoundBox='false' boundBoxColor='0x601D62B8'>
                             <Description>
-                                Small, fairly rare motherlodes  with
-                                2-4 horizontal veins each.
+                                Small motherlodes without any
+                                branches.  Similar to the  deposits
+                                produced by StandardGen
+                                distributions.
                             </Description>
                             <IfCondition condition=':= ?blockExists("TConstruct:SearedBrick:1")'> <OreBlock block='TConstruct:SearedBrick:1' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:netherrack")'> <Replaces block='minecraft:netherrack' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 0.867 * _default_ * ticoCobaltFreq ' range=':= 0.867 * _default_ * ticoCobaltFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 0.976 * _default_ * ticoCobaltSize ' range=':= 0.976 * _default_ * ticoCobaltSize ' type='normal' />
-                            <Setting name='MotherlodeHeight' avg=':= 64 ' range=':= 64 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeFrequency' avg=':= 1.084 * _default_ * ticoCobaltFreq ' range=':= 1.084 * _default_ * ticoCobaltFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.014 * _default_ * ticoCobaltSize ' range=':= 1.014 * _default_ * ticoCobaltSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
                             <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 0.931 * _default_ ' range=':= 0.931 * _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.041 * _default_ ' range=':= 1.041 * _default_ ' type='normal' />
                             <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * ticoCobaltSize ' range=':= _default_ * ticoCobaltSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 0.965 * _default_ * ticoCobaltSize ' range=':= 0.965 * _default_ * ticoCobaltSize ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.020 * _default_ * ticoCobaltSize ' range=':= 1.020 * _default_ * ticoCobaltSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
                     </IfCondition>
                 </ConfigSection>
-                <!-- LayeredVeins Preset for Cobalt is complete. -->
+                <!-- SmallDeposits Preset for Cobalt is complete. -->
 
 
                 <!-- Starting Cloud Preset for Cobalt. -->
@@ -1522,7 +1524,7 @@
                             <Setting name='CloudRadius' avg=':= 0.871 * _default_ * ticoCobaltSize ' range=':= 0.871 * _default_ * ticoCobaltSize ' type='normal' />
                             <Setting name='CloudThickness' avg=':= 0.871 * _default_ * ticoCobaltSize ' range=':= 0.871 * _default_ * ticoCobaltSize ' type='normal' scaleTo='base' />
                             <Setting name='DistributionFrequency' avg=':= 0.758 * _default_ * ticoCobaltFreq ' range=':= 0.758 * _default_ * ticoCobaltFreq ' type='normal' scaleTo='base' />
-                            <Setting name='CloudHeight' avg=':= 64 ' range=':= 64 ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1573,7 +1575,7 @@
                             <Biome name='.*'  />
                             <Setting name='Size' avg=':= 3.000 * ticoCobaltSize ' range=':= _default_ * ticoCobaltSize ' type='normal' />
                             <Setting name='Frequency' avg=':= 8.000 * ticoCobaltFreq ' range=':= _default_ * ticoCobaltFreq ' type='normal' scaleTo='base' />
-                            <Setting name='Height' avg=':= 64 ' range=':= 64 ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </StandardGen>
                     </IfCondition>
@@ -1585,36 +1587,38 @@
 
                 <!-- Begin Ardite Generation -->
 
-                <!-- Starting LayeredVeins Preset for Ardite. -->
+                <!-- Starting SmallDeposits Preset for Ardite. -->
                 <ConfigSection>
-                    <IfCondition condition=':= ticoArditeDist = "LayeredVeins"'>
-                        <Veins name='ticoArditeVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60F48A00' drawBoundBox='false' boundBoxColor='0x60F48A00'>
+                    <IfCondition condition=':= ticoArditeDist = "SmallDeposits"'>
+                        <Veins name='ticoArditeVeins'  inherits='PresetSmallDeposits' drawWireframe='true' wireframeColor='0x60F48A00' drawBoundBox='false' boundBoxColor='0x60F48A00'>
                             <Description>
-                                Small, fairly rare motherlodes  with
-                                2-4 horizontal veins each.
+                                Small motherlodes without any
+                                branches.  Similar to the  deposits
+                                produced by StandardGen
+                                distributions.
                             </Description>
                             <IfCondition condition=':= ?blockExists("TConstruct:SearedBrick:2")'> <OreBlock block='TConstruct:SearedBrick:2' weight='1.0' /> </IfCondition>
                             <IfCondition condition=':= ?blockExists("minecraft:netherrack")'> <Replaces block='minecraft:netherrack' weight='1.0' /> </IfCondition>
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 0.867 * _default_ * ticoArditeFreq ' range=':= 0.867 * _default_ * ticoArditeFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 0.976 * _default_ * ticoArditeSize ' range=':= 0.976 * _default_ * ticoArditeSize ' type='normal' />
-                            <Setting name='MotherlodeHeight' avg=':= 64 ' range=':= 64 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeFrequency' avg=':= 1.084 * _default_ * ticoArditeFreq ' range=':= 1.084 * _default_ * ticoArditeFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.014 * _default_ * ticoArditeSize ' range=':= 1.014 * _default_ * ticoArditeSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
                             <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 0.931 * _default_ ' range=':= 0.931 * _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.041 * _default_ ' range=':= 1.041 * _default_ ' type='normal' />
                             <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * ticoArditeSize ' range=':= _default_ * ticoArditeSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 0.965 * _default_ * ticoArditeSize ' range=':= 0.965 * _default_ * ticoArditeSize ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.020 * _default_ * ticoArditeSize ' range=':= 1.020 * _default_ * ticoArditeSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
                     </IfCondition>
                 </ConfigSection>
-                <!-- LayeredVeins Preset for Ardite is complete. -->
+                <!-- SmallDeposits Preset for Ardite is complete. -->
 
 
                 <!-- Starting Cloud Preset for Ardite. -->
@@ -1641,7 +1645,7 @@
                             <Setting name='CloudRadius' avg=':= 0.871 * _default_ * ticoArditeSize ' range=':= 0.871 * _default_ * ticoArditeSize ' type='normal' />
                             <Setting name='CloudThickness' avg=':= 0.871 * _default_ * ticoArditeSize ' range=':= 0.871 * _default_ * ticoArditeSize ' type='normal' scaleTo='base' />
                             <Setting name='DistributionFrequency' avg=':= 0.758 * _default_ * ticoArditeFreq ' range=':= 0.758 * _default_ * ticoArditeFreq ' type='normal' scaleTo='base' />
-                            <Setting name='CloudHeight' avg=':= 64 ' range=':= 64 ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1692,7 +1696,7 @@
                             <Biome name='.*'  />
                             <Setting name='Size' avg=':= 3.000 * ticoArditeSize ' range=':= _default_ * ticoArditeSize ' type='normal' />
                             <Setting name='Frequency' avg=':= 8.000 * ticoArditeFreq ' range=':= _default_ * ticoArditeFreq ' type='normal' scaleTo='base' />
-                            <Setting name='Height' avg=':= 64 ' range=':= 64 ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </StandardGen>
                     </IfCondition>
