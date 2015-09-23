@@ -72,6 +72,7 @@ public class CustomOreGenBase
             "GeoStrata.xml",
             "Gregtech.xml",
             "Gregtech6.xml"
+            "ImmersiveEngineering.xml",
             "IndustrialCraft2.xml",
             "Mekanism.xml",
             "Metallurgy4.xml",
