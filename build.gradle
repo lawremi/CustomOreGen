@@ -18,6 +18,7 @@ buildscript {
 }
 
 apply plugin: 'forge'
+apply plugin: 'curseforge'
 
 version = getVersionName()
 group= "org.pfaa.CustomOreGen"
@@ -25,6 +26,17 @@ group= "org.pfaa.CustomOreGen"
 minecraft {
     version = "1.7.10-10.13.4.1448-1.7.10"
     runDir = "eclipse/assets"
+}
+
+curse {
+    projectId = '2262983'
+    apiKey = project.hasProperty('curseForgeApiKey') ? project.curseForgeApiKey : ''
+    releaseType = 'release'
+
+    displayName = 'Custom Ore Generation'
+    // autogenerate from git logs?
+    // https://github.com/marcpoppleton/gradle-changelog-plugin
+    changelog = file('changelog.txt')
 }
 
 def getVersionName()
