@@ -263,6 +263,7 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
             int hRange = (this.additionalRange + 7) / 8;
             int minh = Math.max(0, this.minHeight);
             int maxh = Math.min(world.getHeight() - 1, this.maxHeight);
+            BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks, besideBlocks);
 
             for (int dCX = -cRange; dCX <= cRange; ++dCX)
             {
@@ -297,7 +298,6 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
                                 	}
                                     for (int y = xzminh; y <= xzmaxh; ++y)
                                     {
-                                    	BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks, besideBlocks);
                                     	int worldX = chunkX * 16 + x;
                                     	int worldZ = chunkZ * 16 + z;
                                     	if (arrangement.matchesAt(world, random, worldX, y, worldZ)) {	
