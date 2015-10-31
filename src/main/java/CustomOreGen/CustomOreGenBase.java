@@ -71,7 +71,7 @@ public class CustomOreGenBase
             "Galacticraft.xml",
             "GeoStrata.xml",
             "Gregtech.xml",
-            "Gregtech6.xml"
+            "Gregtech6.xml",
             "ImmersiveEngineering.xml",
             "IndustrialCraft2.xml",
             "Mekanism.xml",
@@ -89,7 +89,7 @@ public class CustomOreGenBase
             "ThermalFoundation.xml",
             "TinkersConstruct.xml",
             "TinkersSteelworks.xml",
-            "VanillaMinecraft.xml",
+            "VanillaMinecraft.xml"
         };
         for (String module : extraModules) {
         	unpackConfigFile("modules/" + module, new File(defaultModulesDir, module));
