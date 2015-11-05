@@ -128,6 +128,7 @@ public class ServerState
         }
     }
 
+    // TODO: add force option; if true then we will generate even when there is no version
     public static void populateDistributions(Collection<IOreDistribution> distributions, World world, int chunkX, int chunkZ)
     {
         SimpleProfiler.globalProfiler.startSection("Populate");

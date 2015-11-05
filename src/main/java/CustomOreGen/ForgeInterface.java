@@ -9,7 +9,8 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.ForgeChunkManager.ForceChunkEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.OreGenEvent;
-import net.minecraftforge.event.world.WorldEvent.Load;
+import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.event.world.ChunkEvent;
 import CustomOreGen.Client.ClientState;
 import CustomOreGen.Server.ServerState;
 import cpw.mods.fml.common.eventhandler.Event.Result;
@@ -38,7 +39,7 @@ public class ForgeInterface
     }
 
     @SubscribeEvent
-    public void onLoadWorld(Load event)
+    public void onLoadWorld(WorldEvent.Load event)
     {
         if (event.world instanceof WorldServer)
         {
@@ -51,6 +52,12 @@ public class ForgeInterface
         }
     }
 
+    @SubscribeEvent
+    public void onLoadChunk(ChunkEvent.Load event)
+    {
+    	// TODO: call populateDistributions, but instruct it to only generate if there is a version, and it's old
+    }
+    
     @SubscribeEvent
     public void onGenerateMinable(OreGenEvent.GenerateMinable event)
     {

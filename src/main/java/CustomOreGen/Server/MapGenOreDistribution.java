@@ -176,6 +176,12 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
     )
     public long placedBlocks;
     
+    @DistributionSetting(
+            name = "version",
+            info = "Version of the distribution configuration."
+    )
+    public long version;
+    
     protected Map<Long,GeometryStream> debuggingGeometryMap;
     protected boolean _valid;
     protected final boolean _canGenerate;
