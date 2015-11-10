@@ -43,7 +43,7 @@
                             Small, fairly rare motherlodes with 2-4 horizontal veins each.
                         </Description>
                     </Choice>
-                    <Choice value='StrategicClouds' displayValue='Strategic Cloud'>
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
@@ -77,7 +77,7 @@
                             Small, fairly rare motherlodes with 2-4 horizontal veins each.
                         </Description>
                     </Choice>
-                    <Choice value='StrategicClouds' displayValue='Strategic Cloud'>
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
@@ -111,7 +111,7 @@
                             Small, fairly rare motherlodes with 2-4 horizontal veins each.
                         </Description>
                     </Choice>
-                    <Choice value='StrategicClouds' displayValue='Strategic Cloud'>
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
@@ -145,7 +145,7 @@
                             Small, fairly rare motherlodes with 2-4 horizontal veins each.
                         </Description>
                     </Choice>
-                    <Choice value='StrategicClouds' displayValue='Strategic Cloud'>
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
@@ -179,7 +179,7 @@
                             Small, fairly rare motherlodes with 2-4 horizontal veins each.
                         </Description>
                     </Choice>
-                    <Choice value='StrategicClouds' displayValue='Strategic Cloud'>
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
@@ -272,6 +272,68 @@
                 <!-- LayeredVeins Preset for Copper is complete. -->
 
 
+                <!-- Starting StrategicClouds Preset for Copper. -->
+                <ConfigSection>
+                    <IfCondition condition=':= iengCopperDist = "StrategicClouds"'>
+                        <Cloud name='iengCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E78125' drawBoundBox='false' boundBoxColor='0x60E78125'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ImmersiveEngineering:ore:0")'> <OreBlock block='ImmersiveEngineering:ore:0' weight='1.0' /> </IfCondition>
+                            <ReplacesOre block='stone' weight='1.0' />
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 1.271 * _default_ * iengCopperSize ' range=':= 1.271 * _default_ * iengCopperSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.271 * _default_ * iengCopperSize ' range=':= 1.271 * _default_ * iengCopperSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.616 * _default_ * iengCopperFreq ' range=':= 1.616 * _default_ * iengCopperFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 56 ' range=':= 16 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Veins name='iengCopperHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E78125' drawBoundBox='false' boundBoxColor='0x60E78125'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("ImmersiveEngineering:ore:0")'> <OreBlock block='ImmersiveEngineering:ore:0' weight='1.0' /> </IfCondition>
+                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <Replaces block='minecraft:sandstone' weight='1.0' />
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- StrategicClouds Preset for Copper is complete. -->
+
+
                 <!-- Starting Vanilla Preset for Copper. -->
                 <ConfigSection>
                     <IfCondition condition=':= iengCopperDist = "Vanilla"'>
@@ -327,6 +389,68 @@
                     </IfCondition>
                 </ConfigSection>
                 <!-- LayeredVeins Preset for Bauxite is complete. -->
+
+
+                <!-- Starting StrategicClouds Preset for Bauxite. -->
+                <ConfigSection>
+                    <IfCondition condition=':= iengBauxiteDist = "StrategicClouds"'>
+                        <Cloud name='iengBauxiteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60C0C7CA' drawBoundBox='false' boundBoxColor='0x60C0C7CA'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ImmersiveEngineering:ore:1")'> <OreBlock block='ImmersiveEngineering:ore:1' weight='1.0' /> </IfCondition>
+                            <ReplacesOre block='stone' weight='1.0' />
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 1.069 * _default_ * iengBauxiteSize ' range=':= 1.069 * _default_ * iengBauxiteSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.069 * _default_ * iengBauxiteSize ' range=':= 1.069 * _default_ * iengBauxiteSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.143 * _default_ * iengBauxiteFreq ' range=':= 1.143 * _default_ * iengBauxiteFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 62.5 ' range=':= 22.5 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Veins name='iengBauxiteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60C0C7CA' drawBoundBox='false' boundBoxColor='0x60C0C7CA'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("ImmersiveEngineering:ore:1")'> <OreBlock block='ImmersiveEngineering:ore:1' weight='1.0' /> </IfCondition>
+                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <Replaces block='minecraft:sandstone' weight='1.0' />
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- StrategicClouds Preset for Bauxite is complete. -->
 
 
                 <!-- Starting Vanilla Preset for Bauxite. -->
@@ -386,6 +510,68 @@
                 <!-- LayeredVeins Preset for Lead is complete. -->
 
 
+                <!-- Starting StrategicClouds Preset for Lead. -->
+                <ConfigSection>
+                    <IfCondition condition=':= iengLeadDist = "StrategicClouds"'>
+                        <Cloud name='iengLeadCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60636A81' drawBoundBox='false' boundBoxColor='0x60636A81'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ImmersiveEngineering:ore:2")'> <OreBlock block='ImmersiveEngineering:ore:2' weight='1.0' /> </IfCondition>
+                            <ReplacesOre block='stone' weight='1.0' />
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 0.995 * _default_ * iengLeadSize ' range=':= 0.995 * _default_ * iengLeadSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 0.995 * _default_ * iengLeadSize ' range=':= 0.995 * _default_ * iengLeadSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 0.990 * _default_ * iengLeadFreq ' range=':= 0.990 * _default_ * iengLeadFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 22 ' range=':= 14 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Veins name='iengLeadHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60636A81' drawBoundBox='false' boundBoxColor='0x60636A81'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("ImmersiveEngineering:ore:2")'> <OreBlock block='ImmersiveEngineering:ore:2' weight='1.0' /> </IfCondition>
+                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <Replaces block='minecraft:sandstone' weight='1.0' />
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- StrategicClouds Preset for Lead is complete. -->
+
+
                 <!-- Starting Vanilla Preset for Lead. -->
                 <ConfigSection>
                     <IfCondition condition=':= iengLeadDist = "Vanilla"'>
@@ -443,6 +629,68 @@
                 <!-- LayeredVeins Preset for Silver is complete. -->
 
 
+                <!-- Starting StrategicClouds Preset for Silver. -->
+                <ConfigSection>
+                    <IfCondition condition=':= iengSilverDist = "StrategicClouds"'>
+                        <Cloud name='iengSilverCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E8F6FF' drawBoundBox='false' boundBoxColor='0x60E8F6FF'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ImmersiveEngineering:ore:3")'> <OreBlock block='ImmersiveEngineering:ore:3' weight='1.0' /> </IfCondition>
+                            <ReplacesOre block='stone' weight='1.0' />
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 1.069 * _default_ * iengSilverSize ' range=':= 1.069 * _default_ * iengSilverSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.069 * _default_ * iengSilverSize ' range=':= 1.069 * _default_ * iengSilverSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.143 * _default_ * iengSilverFreq ' range=':= 1.143 * _default_ * iengSilverFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 24 ' range=':= 16 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Veins name='iengSilverHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E8F6FF' drawBoundBox='false' boundBoxColor='0x60E8F6FF'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("ImmersiveEngineering:ore:3")'> <OreBlock block='ImmersiveEngineering:ore:3' weight='1.0' /> </IfCondition>
+                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <Replaces block='minecraft:sandstone' weight='1.0' />
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- StrategicClouds Preset for Silver is complete. -->
+
+
                 <!-- Starting Vanilla Preset for Silver. -->
                 <ConfigSection>
                     <IfCondition condition=':= iengSilverDist = "Vanilla"'>
@@ -498,6 +746,68 @@
                     </IfCondition>
                 </ConfigSection>
                 <!-- LayeredVeins Preset for Nickel is complete. -->
+
+
+                <!-- Starting StrategicClouds Preset for Nickel. -->
+                <ConfigSection>
+                    <IfCondition condition=':= iengNickelDist = "StrategicClouds"'>
+                        <Cloud name='iengNickelCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60D3D9C8' drawBoundBox='false' boundBoxColor='0x60D3D9C8'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("ImmersiveEngineering:ore:4")'> <OreBlock block='ImmersiveEngineering:ore:4' weight='1.0' /> </IfCondition>
+                            <ReplacesOre block='stone' weight='1.0' />
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 0.837 * _default_ * iengNickelSize ' range=':= 0.837 * _default_ * iengNickelSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 0.837 * _default_ * iengNickelSize ' range=':= 0.837 * _default_ * iengNickelSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 0.700 * _default_ * iengNickelFreq ' range=':= 0.700 * _default_ * iengNickelFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 16 ' range=':= 8 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Veins name='iengNickelHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60D3D9C8' drawBoundBox='false' boundBoxColor='0x60D3D9C8'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("ImmersiveEngineering:ore:4")'> <OreBlock block='ImmersiveEngineering:ore:4' weight='1.0' /> </IfCondition>
+                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <Replaces block='minecraft:sandstone' weight='1.0' />
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- StrategicClouds Preset for Nickel is complete. -->
 
 
                 <!-- Starting Vanilla Preset for Nickel. -->

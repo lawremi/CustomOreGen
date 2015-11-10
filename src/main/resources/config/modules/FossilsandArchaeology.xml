@@ -44,7 +44,7 @@
                             Large veins filled very lightly with ore.
                         </Description>
                     </Choice>
-                    <Choice value='StrategicClouds' displayValue='Strategic Cloud'>
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
@@ -78,7 +78,7 @@
                             Large veins filled very lightly with ore.
                         </Description>
                     </Choice>
-                    <Choice value='StrategicClouds' displayValue='Strategic Cloud'>
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
@@ -204,6 +204,101 @@
                 <!-- SparseVeins Preset for Fossils is complete. -->
 
 
+                <!-- Starting StrategicClouds Preset for Fossils. -->
+                <ConfigSection>
+                    <IfCondition condition=':= fsarFossilsDist = "StrategicClouds"'>
+                        <Cloud name='fsarFossilsCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FEFDDF' drawBoundBox='false' boundBoxColor='0x60FEFDDF'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("fossil:fossil")'> <OreBlock block='fossil:fossil' weight='1.0' /> </IfCondition>
+                            <ReplacesOre block='stone' weight='1.0' />
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 1.877 * _default_ * fsarFossilsSize ' range=':= 1.877 * _default_ * fsarFossilsSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.877 * _default_ * fsarFossilsSize ' range=':= 1.877 * _default_ * fsarFossilsSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 3.523 * _default_ * fsarFossilsFreq ' range=':= 3.523 * _default_ * fsarFossilsFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 53 ' range=':= 47 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Veins name='fsarFossilsHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FEFDDF' drawBoundBox='false' boundBoxColor='0x60FEFDDF'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("fossil:fossil")'> <OreBlock block='fossil:fossil' weight='1.0' /> </IfCondition>
+                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <Replaces block='minecraft:sandstone' weight='1.0' />
+                            </Veins>
+                        </Cloud>
+
+                        <!-- Beginning "Preferred" configuration. -->
+                        <Cloud name='fsarFossilsPreferredCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FEFDDF' drawBoundBox='false' boundBoxColor='0x60FEFDDF'>
+                            <Description>
+                                Ore generation is doubled in
+                                preferred biomes.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("fossil:fossil")'> <OreBlock block='fossil:fossil' weight='1.0' /> </IfCondition>
+                            <ReplacesOre block='stone' weight='1.0' />
+                            <BiomeType name='Swamp'  />
+                            <BiomeType name='desert'  />
+                            <Setting name='CloudRadius' avg=':= 1.877 * _default_ * fsarFossilsSize ' range=':= 1.877 * _default_ * fsarFossilsSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.877 * _default_ * fsarFossilsSize ' range=':= 1.877 * _default_ * fsarFossilsSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 3.523 * _default_ * fsarFossilsFreq ' range=':= 3.523 * _default_ * fsarFossilsFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 53 ' range=':= 47 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Veins name='fsarFossilsPreferredHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FEFDDF' drawBoundBox='false' boundBoxColor='0x60FEFDDF'>
+                                <Description>
+                                    Ore generation is doubled in
+                                    preferred biomes.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("fossil:fossil")'> <OreBlock block='fossil:fossil' weight='1.0' /> </IfCondition>
+                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <Replaces block='minecraft:sandstone' weight='1.0' />
+                            </Veins>
+                        </Cloud>
+                        <!-- "Preferred" configuration complete. -->
+
+                    </IfCondition>
+                </ConfigSection>
+                <!-- StrategicClouds Preset for Fossils is complete. -->
+
+
                 <!-- Starting Vanilla Preset for Fossils. -->
                 <ConfigSection>
                     <IfCondition condition=':= fsarFossilsDist = "Vanilla"'>
@@ -267,6 +362,70 @@
                     </IfCondition>
                 </ConfigSection>
                 <!-- SparseVeins Preset for Permafrost is complete. -->
+
+
+                <!-- Starting StrategicClouds Preset for Permafrost. -->
+                <ConfigSection>
+                    <IfCondition condition=':= fsarPermafrostDist = "StrategicClouds"'>
+                        <Cloud name='fsarPermafrostCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60A5C3F5' drawBoundBox='false' boundBoxColor='0x60A5C3F5'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("fossil:permafrost")'> <OreBlock block='fossil:permafrost' weight='1.0' /> </IfCondition>
+                            <ReplacesOre block='stone' weight='1.0' />
+                            <Biome name='.*'  />
+                            <BiomeType name='Frozen'  />
+                            <Setting name='CloudRadius' avg=':= 1.069 * _default_ * fsarPermafrostSize ' range=':= 1.069 * _default_ * fsarPermafrostSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.069 * _default_ * fsarPermafrostSize ' range=':= 1.069 * _default_ * fsarPermafrostSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.143 * _default_ * fsarPermafrostFreq ' range=':= 1.143 * _default_ * fsarPermafrostFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 18 ' range=':= 12.5 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Veins name='fsarPermafrostHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60A5C3F5' drawBoundBox='false' boundBoxColor='0x60A5C3F5'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("fossil:permafrost")'> <OreBlock block='fossil:permafrost' weight='1.0' /> </IfCondition>
+                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <Replaces block='minecraft:sandstone' weight='1.0' />
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- StrategicClouds Preset for Permafrost is
+                     complete. -->
 
 
                 <!-- Starting Vanilla Preset for Permafrost. -->

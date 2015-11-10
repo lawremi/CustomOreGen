@@ -43,7 +43,7 @@
                             Small, fairly rare motherlodes with 2-4 horizontal veins each.
                         </Description>
                     </Choice>
-                    <Choice value='StrategicClouds' displayValue='Strategic Cloud'>
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
@@ -130,6 +130,68 @@
                     </IfCondition>
                 </ConfigSection>
                 <!-- LayeredVeins Preset for Uranium is complete. -->
+
+
+                <!-- Starting StrategicClouds Preset for Uranium. -->
+                <ConfigSection>
+                    <IfCondition condition=':= mchmUraniumDist = "StrategicClouds"'>
+                        <Cloud name='mchmUraniumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60ACFE91' drawBoundBox='false' boundBoxColor='0x60ACFE91'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("minechem:tile.oreUranium")'> <OreBlock block='minechem:tile.oreUranium' weight='1.0' /> </IfCondition>
+                            <ReplacesOre block='stone' weight='1.0' />
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 0.756 * _default_ * mchmUraniumSize ' range=':= 0.756 * _default_ * mchmUraniumSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 0.756 * _default_ * mchmUraniumSize ' range=':= 0.756 * _default_ * mchmUraniumSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 0.571 * _default_ * mchmUraniumFreq ' range=':= 0.571 * _default_ * mchmUraniumFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 17.5 ' range=':= 12.5 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Veins name='mchmUraniumHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60ACFE91' drawBoundBox='false' boundBoxColor='0x60ACFE91'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("minechem:tile.oreUranium")'> <OreBlock block='minechem:tile.oreUranium' weight='1.0' /> </IfCondition>
+                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <Replaces block='minecraft:sandstone' weight='1.0' />
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- StrategicClouds Preset for Uranium is complete. -->
 
 
                 <!-- Starting Vanilla Preset for Uranium. -->

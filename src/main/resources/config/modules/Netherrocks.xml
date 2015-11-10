@@ -44,7 +44,7 @@
                             Small, fairly rare motherlodes with 2-4 horizontal veins each.
                         </Description>
                     </Choice>
-                    <Choice value='StrategicClouds' displayValue='Strategic Cloud'>
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
@@ -78,7 +78,7 @@
                             Small, fairly rare motherlodes with 2-4 horizontal veins each.
                         </Description>
                     </Choice>
-                    <Choice value='StrategicClouds' displayValue='Strategic Cloud'>
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
@@ -112,7 +112,7 @@
                             Small, fairly rare motherlodes with 2-4 horizontal veins each.
                         </Description>
                     </Choice>
-                    <Choice value='StrategicClouds' displayValue='Strategic Cloud'>
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
@@ -170,7 +170,7 @@
                             Small, fairly rare motherlodes with 2-4 horizontal veins each.
                         </Description>
                     </Choice>
-                    <Choice value='StrategicClouds' displayValue='Strategic Cloud'>
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
@@ -204,7 +204,7 @@
                             Small, fairly rare motherlodes with 2-4 horizontal veins each.
                         </Description>
                     </Choice>
-                    <Choice value='StrategicClouds' displayValue='Strategic Cloud'>
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
@@ -313,6 +313,68 @@
                 <!-- LayeredVeins Preset for Fyrite is complete. -->
 
 
+                <!-- Starting StrategicClouds Preset for Fyrite. -->
+                <ConfigSection>
+                    <IfCondition condition=':= nthrFyriteDist = "StrategicClouds"'>
+                        <Cloud name='nthrFyriteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60BF0000' drawBoundBox='false' boundBoxColor='0x60BF0000'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("netherrocks:fyrite_ore")'> <OreBlock block='netherrocks:fyrite_ore' weight='1.0' /> </IfCondition>
+                            <Replaces block='minecraft:netherrack' weight='1.0' />
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 1.251 * _default_ * nthrFyriteSize ' range=':= 1.251 * _default_ * nthrFyriteSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.251 * _default_ * nthrFyriteSize ' range=':= 1.251 * _default_ * nthrFyriteSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.565 * _default_ * nthrFyriteFreq ' range=':= 1.565 * _default_ * nthrFyriteFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 128 ' range=':= 128 ' type='uniform' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Veins name='nthrFyriteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60BF0000' drawBoundBox='false' boundBoxColor='0x60BF0000'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("netherrocks:fyrite_ore")'> <OreBlock block='netherrocks:fyrite_ore' weight='1.0' /> </IfCondition>
+                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <Replaces block='minecraft:sandstone' weight='1.0' />
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- StrategicClouds Preset for Fyrite is complete. -->
+
+
                 <!-- Starting Vanilla Preset for Fyrite. -->
                 <ConfigSection>
                     <IfCondition condition=':= nthrFyriteDist = "Vanilla"'>
@@ -370,6 +432,68 @@
                 <!-- LayeredVeins Preset for Malachite is complete. -->
 
 
+                <!-- Starting StrategicClouds Preset for Malachite. -->
+                <ConfigSection>
+                    <IfCondition condition=':= nthrMalachiteDist = "StrategicClouds"'>
+                        <Cloud name='nthrMalachiteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60046652' drawBoundBox='false' boundBoxColor='0x60046652'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("netherrocks:malachite_ore")'> <OreBlock block='netherrocks:malachite_ore' weight='1.0' /> </IfCondition>
+                            <Replaces block='minecraft:netherrack' weight='1.0' />
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 1.300 * _default_ * nthrMalachiteSize ' range=':= 1.300 * _default_ * nthrMalachiteSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.300 * _default_ * nthrMalachiteSize ' range=':= 1.300 * _default_ * nthrMalachiteSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.690 * _default_ * nthrMalachiteFreq ' range=':= 1.690 * _default_ * nthrMalachiteFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 128 ' range=':= 128 ' type='uniform' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Veins name='nthrMalachiteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60046652' drawBoundBox='false' boundBoxColor='0x60046652'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("netherrocks:malachite_ore")'> <OreBlock block='netherrocks:malachite_ore' weight='1.0' /> </IfCondition>
+                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <Replaces block='minecraft:sandstone' weight='1.0' />
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- StrategicClouds Preset for Malachite is complete. -->
+
+
                 <!-- Starting Vanilla Preset for Malachite. -->
                 <ConfigSection>
                     <IfCondition condition=':= nthrMalachiteDist = "Vanilla"'>
@@ -425,6 +549,68 @@
                     </IfCondition>
                 </ConfigSection>
                 <!-- LayeredVeins Preset for Ashtone is complete. -->
+
+
+                <!-- Starting StrategicClouds Preset for Ashtone. -->
+                <ConfigSection>
+                    <IfCondition condition=':= nthrAshtoneDist = "StrategicClouds"'>
+                        <Cloud name='nthrAshtoneCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x603F3F60' drawBoundBox='false' boundBoxColor='0x603F3F60'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("netherrocks:ashstone_ore")'> <OreBlock block='netherrocks:ashstone_ore' weight='1.0' /> </IfCondition>
+                            <Replaces block='minecraft:netherrack' weight='1.0' />
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 1.195 * _default_ * nthrAshtoneSize ' range=':= 1.195 * _default_ * nthrAshtoneSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.195 * _default_ * nthrAshtoneSize ' range=':= 1.195 * _default_ * nthrAshtoneSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.429 * _default_ * nthrAshtoneFreq ' range=':= 1.429 * _default_ * nthrAshtoneFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 128 ' range=':= 128 ' type='uniform' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Veins name='nthrAshtoneHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x603F3F60' drawBoundBox='false' boundBoxColor='0x603F3F60'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("netherrocks:ashstone_ore")'> <OreBlock block='netherrocks:ashstone_ore' weight='1.0' /> </IfCondition>
+                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <Replaces block='minecraft:sandstone' weight='1.0' />
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- StrategicClouds Preset for Ashtone is complete. -->
 
 
                 <!-- Starting Vanilla Preset for Ashtone. -->
@@ -509,6 +695,69 @@
                 <!-- LayeredVeins Preset for Dragonstone is complete. -->
 
 
+                <!-- Starting StrategicClouds Preset for Dragonstone. -->
+                <ConfigSection>
+                    <IfCondition condition=':= nthrDragonstoneDist = "StrategicClouds"'>
+                        <Cloud name='nthrDragonstoneCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x600F0035' drawBoundBox='false' boundBoxColor='0x600F0035'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("netherrocks:dragonstone_ore")'> <OreBlock block='netherrocks:dragonstone_ore' weight='1.0' /> </IfCondition>
+                            <Replaces block='minecraft:netherrack' weight='1.0' />
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 1.052 * _default_ * nthrDragonstoneSize ' range=':= 1.052 * _default_ * nthrDragonstoneSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.052 * _default_ * nthrDragonstoneSize ' range=':= 1.052 * _default_ * nthrDragonstoneSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.107 * _default_ * nthrDragonstoneFreq ' range=':= 1.107 * _default_ * nthrDragonstoneFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 128 ' range=':= 128 ' type='uniform' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Veins name='nthrDragonstoneHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x600F0035' drawBoundBox='false' boundBoxColor='0x600F0035'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("netherrocks:dragonstone_ore")'> <OreBlock block='netherrocks:dragonstone_ore' weight='1.0' /> </IfCondition>
+                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <Replaces block='minecraft:sandstone' weight='1.0' />
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- StrategicClouds Preset for Dragonstone is
+                     complete. -->
+
+
                 <!-- Starting Vanilla Preset for Dragonstone. -->
                 <ConfigSection>
                     <IfCondition condition=':= nthrDragonstoneDist = "Vanilla"'>
@@ -564,6 +813,68 @@
                     </IfCondition>
                 </ConfigSection>
                 <!-- LayeredVeins Preset for Argonite is complete. -->
+
+
+                <!-- Starting StrategicClouds Preset for Argonite. -->
+                <ConfigSection>
+                    <IfCondition condition=':= nthrArgoniteDist = "StrategicClouds"'>
+                        <Cloud name='nthrArgoniteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x600F0035' drawBoundBox='false' boundBoxColor='0x600F0035'>
+                            <Description>
+                                Large irregular clouds filled  lightly
+                                with ore.  These are  huge, spanning
+                                several adjacent  chunks, and
+                                consequently rather  rare.  They
+                                contain a sizeable  amount of ore, but
+                                it takes some  time and effort to mine
+                                due to  low density. The intent for
+                                strategic clouds is that the  player
+                                will need to actively  search for one
+                                and then set up a  semi-permanent
+                                mining base and  spend some time
+                                actually mining  the ore.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("netherrocks:argonite_ore")'> <OreBlock block='netherrocks:argonite_ore' weight='1.0' /> </IfCondition>
+                            <Replaces block='minecraft:netherrack' weight='1.0' />
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 1.251 * _default_ * nthrArgoniteSize ' range=':= 1.251 * _default_ * nthrArgoniteSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.251 * _default_ * nthrArgoniteSize ' range=':= 1.251 * _default_ * nthrArgoniteSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.565 * _default_ * nthrArgoniteFreq ' range=':= 1.565 * _default_ * nthrArgoniteFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 128 ' range=':= 128 ' type='uniform' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Veins name='nthrArgoniteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x600F0035' drawBoundBox='false' boundBoxColor='0x600F0035'>
+                                <Description>
+                                    Single blocks, generously
+                                    scattered through all heights
+                                    (density is about that of  vanilla
+                                    iron ore). They will  replace dirt
+                                    and sandstone  (but not grass or
+                                    sand), so  they can be found
+                                    nearer to  the surface than most
+                                    ores.  Intened to be used as a
+                                    child  distribution for large,
+                                    rare  strategic deposits that
+                                    would  otherwise be very difficult
+                                    to find.  Note that the  frequency
+                                    is multiplied by  ground level to
+                                    maintain a  constant density, but
+                                    not by  ore frequency because it
+                                    is  assumed that the frequency of
+                                    the parent distribution will
+                                    already be scaled by that.
+                                </Description>
+                                <IfCondition condition=':= ?blockExists("netherrocks:argonite_ore")'> <OreBlock block='netherrocks:argonite_ore' weight='1.0' /> </IfCondition>
+                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <Replaces block='minecraft:sandstone' weight='1.0' />
+                            </Veins>
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- StrategicClouds Preset for Argonite is complete. -->
 
 
                 <!-- Starting Vanilla Preset for Argonite. -->
