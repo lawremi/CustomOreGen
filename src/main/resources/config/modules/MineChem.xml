@@ -38,21 +38,33 @@
                 <OptionChoice name='mchmUraniumDist'  displayState=':= if(?enableMineChem, "shown", "hidden")' displayGroup='groupMineChem'>
                     <Description> Controls how Uranium is generated </Description>
                     <DisplayName>MineChem Uranium</DisplayName>
+                    <IfCondition condition=':= (?blockExists("minechem:tile.oreUranium")) '>
+
                     <Choice value='LayeredVeins' displayValue='Layered Veins'>
                         <Description>
                             Small, fairly rare motherlodes with 2-4 horizontal veins each.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("minechem:tile.oreUranium")) '>
+
                     <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("minechem:tile.oreUranium")) '>
+
                     <Choice value='Vanilla' displayValue='Vanilla'>
                         <Description>
                             Simulates Vanilla Minecraft.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
                     <Choice value='none' displayValue='None' description='Uranium is not generated in the world.'/>
                 </OptionChoice>
                 <OptionNumeric name='mchmUraniumFreq' default='1'  min='0' max='5' displayState=':= if(?enableMineChem, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupMineChem'>

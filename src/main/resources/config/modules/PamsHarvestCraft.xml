@@ -39,21 +39,33 @@
                 <OptionChoice name='hvstSaltDist'  displayState=':= if(?enablePamsHarvestCraft, "shown", "hidden")' displayGroup='groupPamsHarvestCraft'>
                     <Description> Controls how Salt is generated </Description>
                     <DisplayName>Pams HarvestCraft Salt</DisplayName>
+                    <IfCondition condition=':= (?blockExists("harvestcraft:salt")) '>
+
                     <Choice value='SparseVeins' displayValue='Sparse Veins'>
                         <Description>
                             Large veins filled very lightly with ore.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("harvestcraft:salt")) '>
+
                     <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("harvestcraft:salt")) '>
+
                     <Choice value='Vanilla' displayValue='Vanilla'>
                         <Description>
                             Simulates Vanilla Minecraft.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
                     <Choice value='none' displayValue='None' description='Salt is not generated in the world.'/>
                 </OptionChoice>
                 <OptionNumeric name='hvstSaltFreq' default='1'  min='0' max='5' displayState=':= if(?enablePamsHarvestCraft, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupPamsHarvestCraft'>

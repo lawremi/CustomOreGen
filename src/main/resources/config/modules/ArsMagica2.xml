@@ -38,21 +38,33 @@
                 <OptionChoice name='arsmVinteumDist'  displayState=':= if(?enableArsMagica2, "shown", "hidden")' displayGroup='groupArsMagica2'>
                     <Description> Controls how Vinteum is generated </Description>
                     <DisplayName>Ars Magica 2 Vinteum</DisplayName>
+                    <IfCondition condition=':= (?blockExists("arsmagica2:vinteumOre")) '>
+
                     <Choice value='SparseVeins' displayValue='Sparse Veins'>
                         <Description>
                             Large veins filled very lightly with ore.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("arsmagica2:vinteumOre")) '>
+
                     <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("arsmagica2:vinteumOre")) '>
+
                     <Choice value='Vanilla' displayValue='Vanilla'>
                         <Description>
                             Simulates Vanilla Minecraft.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
                     <Choice value='none' displayValue='None' description='Vinteum is not generated in the world.'/>
                 </OptionChoice>
                 <OptionNumeric name='arsmVinteumFreq' default='1'  min='0' max='5' displayState=':= if(?enableArsMagica2, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupArsMagica2'>
@@ -72,21 +84,33 @@
                 <OptionChoice name='arsmChimeriteDist'  displayState=':= if(?enableArsMagica2, "shown", "hidden")' displayGroup='groupArsMagica2'>
                     <Description> Controls how Chimerite is generated </Description>
                     <DisplayName>Ars Magica 2 Chimerite</DisplayName>
+                    <IfCondition condition=':= (?blockExists("arsmagica2:vinteumOre:1")) '>
+
                     <Choice value='SparseVeins' displayValue='Sparse Veins'>
                         <Description>
                             Large veins filled very lightly with ore.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("arsmagica2:vinteumOre:1")) '>
+
                     <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("arsmagica2:vinteumOre:1")) '>
+
                     <Choice value='Vanilla' displayValue='Vanilla'>
                         <Description>
                             Simulates Vanilla Minecraft.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
                     <Choice value='none' displayValue='None' description='Chimerite is not generated in the world.'/>
                 </OptionChoice>
                 <OptionNumeric name='arsmChimeriteFreq' default='1'  min='0' max='5' displayState=':= if(?enableArsMagica2, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupArsMagica2'>
@@ -106,21 +130,33 @@
                 <OptionChoice name='arsmBlueTopazDist'  displayState=':= if(?enableArsMagica2, "shown", "hidden")' displayGroup='groupArsMagica2'>
                     <Description> Controls how Blue Topaz is generated </Description>
                     <DisplayName>Ars Magica 2 Blue Topaz</DisplayName>
+                    <IfCondition condition=':= (?blockExists("arsmagica2:vinteumOre:2")) '>
+
                     <Choice value='SparseVeins' displayValue='Sparse Veins'>
                         <Description>
                             Large veins filled very lightly with ore.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("arsmagica2:vinteumOre:2")) '>
+
                     <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("arsmagica2:vinteumOre:2")) '>
+
                     <Choice value='Vanilla' displayValue='Vanilla'>
                         <Description>
                             Simulates Vanilla Minecraft.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
                     <Choice value='none' displayValue='None' description='Blue Topaz is not generated in the world.'/>
                 </OptionChoice>
                 <OptionNumeric name='arsmBlueTopazFreq' default='1'  min='0' max='5' displayState=':= if(?enableArsMagica2, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupArsMagica2'>
@@ -189,7 +225,7 @@
                             <ReplacesOre block='stone' weight='1.0' />
                             <Biome name='.*'  />
                             <Setting name='MotherlodeFrequency' avg=':= 2.122 * _default_ * arsmVinteumFreq ' range=':= 2.122 * _default_ * arsmVinteumFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= none * _default_ * arsmVinteumSize ' range=':= none * _default_ * arsmVinteumSize ' type='normal' />
+                            <Setting name='MotherlodeSize' avg=':= 0 * _default_ * arsmVinteumSize ' range=':= 0 * _default_ * arsmVinteumSize ' type='normal' />
                             <Setting name='MotherlodeHeight' avg=':= 27.5 ' range=':= 17.5 ' type='normal' scaleTo='base' />
                             <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -315,7 +351,7 @@
                             <ReplacesOre block='stone' weight='1.0' />
                             <Biome name='.*'  />
                             <Setting name='MotherlodeFrequency' avg=':= 3.001 * _default_ * arsmChimeriteFreq ' range=':= 3.001 * _default_ * arsmChimeriteFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= none * _default_ * arsmChimeriteSize ' range=':= none * _default_ * arsmChimeriteSize ' type='normal' />
+                            <Setting name='MotherlodeSize' avg=':= 0 * _default_ * arsmChimeriteSize ' range=':= 0 * _default_ * arsmChimeriteSize ' type='normal' />
                             <Setting name='MotherlodeHeight' avg=':= 45 ' range=':= 35 ' type='normal' scaleTo='base' />
                             <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -441,7 +477,7 @@
                             <ReplacesOre block='stone' weight='1.0' />
                             <Biome name='.*'  />
                             <Setting name='MotherlodeFrequency' avg=':= 3.001 * _default_ * arsmBlueTopazFreq ' range=':= 3.001 * _default_ * arsmBlueTopazFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= none * _default_ * arsmBlueTopazSize ' range=':= none * _default_ * arsmBlueTopazSize ' type='normal' />
+                            <Setting name='MotherlodeSize' avg=':= 0 * _default_ * arsmBlueTopazSize ' range=':= 0 * _default_ * arsmBlueTopazSize ' type='normal' />
                             <Setting name='MotherlodeHeight' avg=':= 45 ' range=':= 35 ' type='normal' scaleTo='base' />
                             <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
