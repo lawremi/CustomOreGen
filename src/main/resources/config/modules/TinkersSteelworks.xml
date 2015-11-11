@@ -38,11 +38,33 @@
                 <OptionChoice name='tiswLimestoneDist'  displayState=':= if(?enableTinkersSteelworks, "shown", "hidden")' displayGroup='groupTinkersSteelworks'>
                     <Description> Controls how Limestone is generated </Description>
                     <DisplayName>Tinkers Steelworks Limestone</DisplayName>
+                    <IfCondition condition=':= (?blockExists("TSteelworks:Limestone")) '>
+
+                    <Choice value='StratumClouds' displayValue='Strata'>
+                        <Description>
+                            Wide, thin, and flat disks of ore.
+                        </Description>
+                    </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("TSteelworks:Limestone")) '>
+
+                    <Choice value='LayeredVeins' displayValue='Layered Veins'>
+                        <Description>
+                            Small, fairly rare motherlodes with 2-4 horizontal veins each.
+                        </Description>
+                    </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("TSteelworks:Limestone")) '>
+
                     <Choice value='Vanilla' displayValue='Vanilla'>
                         <Description>
                             Simulates Vanilla Minecraft.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
                     <Choice value='none' displayValue='None' description='Limestone is not generated in the world.'/>
                 </OptionChoice>
                 <OptionNumeric name='tiswLimestoneFreq' default='1'  min='0' max='5' displayState=':= if(?enableTinkersSteelworks, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupTinkersSteelworks'>
@@ -89,6 +111,67 @@
                 <!-- Adding blocks -->
 
                 <!-- Begin Limestone Generation -->
+
+                <!-- Starting StratumClouds Preset for Limestone. -->
+                <ConfigSection>
+                    <IfCondition condition=':= tiswLimestoneDist = "StratumClouds"'>
+                        <Cloud name='tiswLimestoneCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60C5CCA9' drawBoundBox='false' boundBoxColor='0x60C5CCA9'>
+                            <Description>
+                                Wide, thin, and flat disks of  ore.
+                                Primarily, this  distribution is meant
+                                to provide  realistic distribution of
+                                stone  in a strata formation.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("TSteelworks:Limestone")'> <OreBlock block='TSteelworks:Limestone' weight='1.0' /> </IfCondition>
+                            <ReplacesOre block='stone' weight='1.0' />
+                            <Biome name='.*'  />
+                            <Setting name='CloudRadius' avg=':= 0.972 * _default_ * tiswLimestoneSize ' range=':= 0.972 * _default_ * tiswLimestoneSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 0.972 * _default_ * tiswLimestoneSize ' range=':= 0.972 * _default_ * tiswLimestoneSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 0.945 * _default_ * tiswLimestoneFreq ' range=':= 0.945 * _default_ * tiswLimestoneFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudHeight' avg=':= 38 ' range=':= 26 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                        </Cloud>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- StratumClouds Preset for Limestone is complete. -->
+
+
+                <!-- Starting LayeredVeins Preset for Limestone. -->
+                <ConfigSection>
+                    <IfCondition condition=':= tiswLimestoneDist = "LayeredVeins"'>
+                        <Veins name='tiswLimestoneVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60C5CCA9' drawBoundBox='false' boundBoxColor='0x60C5CCA9'>
+                            <Description>
+                                Small, fairly rare motherlodes  with
+                                2-4 horizontal veins each.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("TSteelworks:Limestone")'> <OreBlock block='TSteelworks:Limestone' weight='1.0' /> </IfCondition>
+                            <ReplacesOre block='stone' weight='1.0' />
+                            <Biome name='.*'  />
+                            <Setting name='MotherlodeFrequency' avg=':= 1.416 * _default_ * tiswLimestoneFreq ' range=':= 1.416 * _default_ * tiswLimestoneFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.060 * _default_ * tiswLimestoneSize ' range=':= 1.060 * _default_ * tiswLimestoneSize ' type='normal' />
+                            <Setting name='MotherlodeHeight' avg=':= 38 ' range=':= 26 ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.190 * _default_ ' range=':= 1.190 * _default_ ' type='normal' />
+                            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+                            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentLength' avg=':= _default_ * tiswLimestoneSize ' range=':= _default_ * tiswLimestoneSize ' type='normal' />
+                            <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.091 * _default_ * tiswLimestoneSize ' range=':= 1.091 * _default_ * tiswLimestoneSize ' type='normal' />
+                            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                        </Veins>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- LayeredVeins Preset for Limestone is complete. -->
+
 
                 <!-- Starting Vanilla Preset for Limestone. -->
                 <ConfigSection>

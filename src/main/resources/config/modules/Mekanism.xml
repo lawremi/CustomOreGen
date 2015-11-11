@@ -37,21 +37,33 @@
                 <OptionChoice name='mknsOsmiumDist'  displayState=':= if(?enableMekanism, "shown", "hidden")' displayGroup='groupMekanism'>
                     <Description> Controls how Osmium is generated </Description>
                     <DisplayName>Mekanism Osmium</DisplayName>
+                    <IfCondition condition=':= (?blockExists("Mekanism:OreBlock")) '>
+
                     <Choice value='LayeredVeins' displayValue='Layered Veins'>
                         <Description>
                             Small, fairly rare motherlodes with 2-4 horizontal veins each.
                         </Description>
                     </Choice>
-                    <Choice value='Cloud' displayValue='Strategic Cloud'>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("Mekanism:OreBlock")) '>
+
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("Mekanism:OreBlock")) '>
+
                     <Choice value='Vanilla' displayValue='Vanilla'>
                         <Description>
                             Simulates Vanilla Minecraft.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
                     <Choice value='none' displayValue='None' description='Osmium is not generated in the world.'/>
                 </OptionChoice>
                 <OptionNumeric name='mknsOsmiumFreq' default='1'  min='0' max='5' displayState=':= if(?enableMekanism, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupMekanism'>
@@ -71,21 +83,33 @@
                 <OptionChoice name='mknsCopperDist'  displayState=':= if(?enableMekanism, "shown", "hidden")' displayGroup='groupMekanism'>
                     <Description> Controls how Copper is generated </Description>
                     <DisplayName>Mekanism Copper</DisplayName>
+                    <IfCondition condition=':= (?blockExists("Mekanism:OreBlock:1")) '>
+
                     <Choice value='LayeredVeins' displayValue='Layered Veins'>
                         <Description>
                             Small, fairly rare motherlodes with 2-4 horizontal veins each.
                         </Description>
                     </Choice>
-                    <Choice value='Cloud' displayValue='Strategic Cloud'>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("Mekanism:OreBlock:1")) '>
+
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("Mekanism:OreBlock:1")) '>
+
                     <Choice value='Vanilla' displayValue='Vanilla'>
                         <Description>
                             Simulates Vanilla Minecraft.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
                     <Choice value='none' displayValue='None' description='Copper is not generated in the world.'/>
                 </OptionChoice>
                 <OptionNumeric name='mknsCopperFreq' default='1'  min='0' max='5' displayState=':= if(?enableMekanism, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupMekanism'>
@@ -105,21 +129,33 @@
                 <OptionChoice name='mknsTinDist'  displayState=':= if(?enableMekanism, "shown", "hidden")' displayGroup='groupMekanism'>
                     <Description> Controls how Tin is generated </Description>
                     <DisplayName>Mekanism Tin</DisplayName>
+                    <IfCondition condition=':= (?blockExists("Mekanism:OreBlock:2")) '>
+
                     <Choice value='LayeredVeins' displayValue='Layered Veins'>
                         <Description>
                             Small, fairly rare motherlodes with 2-4 horizontal veins each.
                         </Description>
                     </Choice>
-                    <Choice value='Cloud' displayValue='Strategic Cloud'>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("Mekanism:OreBlock:2")) '>
+
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("Mekanism:OreBlock:2")) '>
+
                     <Choice value='Vanilla' displayValue='Vanilla'>
                         <Description>
                             Simulates Vanilla Minecraft.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
                     <Choice value='none' displayValue='None' description='Tin is not generated in the world.'/>
                 </OptionChoice>
                 <OptionNumeric name='mknsTinFreq' default='1'  min='0' max='5' displayState=':= if(?enableMekanism, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupMekanism'>
@@ -180,19 +216,19 @@
                             <IfCondition condition=':= ?blockExists("Mekanism:OreBlock")'> <OreBlock block='Mekanism:OreBlock' weight='1.0' /> </IfCondition>
                             <ReplacesOre block='stone' weight='1.0' />
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 1.226 * _default_ * mknsOsmiumFreq ' range=':= 1.226 * _default_ * mknsOsmiumFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 1.035 * _default_ * mknsOsmiumSize ' range=':= 1.035 * _default_ * mknsOsmiumSize ' type='normal' />
+                            <Setting name='MotherlodeFrequency' avg=':= 1.734 * _default_ * mknsOsmiumFreq ' range=':= 1.734 * _default_ * mknsOsmiumFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.096 * _default_ * mknsOsmiumSize ' range=':= 1.096 * _default_ * mknsOsmiumSize ' type='normal' />
                             <Setting name='MotherlodeHeight' avg=':= 33 ' range=':= 27 ' type='normal' scaleTo='base' />
                             <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 1.107 * _default_ ' range=':= 1.107 * _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.317 * _default_ ' range=':= 1.317 * _default_ ' type='normal' />
                             <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * mknsOsmiumSize ' range=':= _default_ * mknsOsmiumSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 1.052 * _default_ * mknsOsmiumSize ' range=':= 1.052 * _default_ * mknsOsmiumSize ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.147 * _default_ * mknsOsmiumSize ' range=':= 1.147 * _default_ * mknsOsmiumSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
@@ -201,9 +237,9 @@
                 <!-- LayeredVeins Preset for Osmium is complete. -->
 
 
-                <!-- Starting Cloud Preset for Osmium. -->
+                <!-- Starting StrategicClouds Preset for Osmium. -->
                 <ConfigSection>
-                    <IfCondition condition=':= mknsOsmiumDist = "Cloud"'>
+                    <IfCondition condition=':= mknsOsmiumDist = "StrategicClouds"'>
                         <Cloud name='mknsOsmiumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x607CB3EE' drawBoundBox='false' boundBoxColor='0x607CB3EE'>
                             <Description>
                                 Large irregular clouds filled  lightly
@@ -222,9 +258,9 @@
                             <IfCondition condition=':= ?blockExists("Mekanism:OreBlock")'> <OreBlock block='Mekanism:OreBlock' weight='1.0' /> </IfCondition>
                             <ReplacesOre block='stone' weight='1.0' />
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 1.036 * _default_ * mknsOsmiumSize ' range=':= 1.036 * _default_ * mknsOsmiumSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.036 * _default_ * mknsOsmiumSize ' range=':= 1.036 * _default_ * mknsOsmiumSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 1.073 * _default_ * mknsOsmiumFreq ' range=':= 1.073 * _default_ * mknsOsmiumFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 1.407 * _default_ * mknsOsmiumSize ' range=':= 1.407 * _default_ * mknsOsmiumSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.407 * _default_ * mknsOsmiumSize ' range=':= 1.407 * _default_ * mknsOsmiumSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.979 * _default_ * mknsOsmiumFreq ' range=':= 1.979 * _default_ * mknsOsmiumFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 33 ' range=':= 27 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -260,7 +296,7 @@
                         </Cloud>
                     </IfCondition>
                 </ConfigSection>
-                <!-- Cloud Preset for Osmium is complete. -->
+                <!-- StrategicClouds Preset for Osmium is complete. -->
 
 
                 <!-- Starting Vanilla Preset for Osmium. -->
@@ -299,19 +335,19 @@
                             <IfCondition condition=':= ?blockExists("Mekanism:OreBlock:1")'> <OreBlock block='Mekanism:OreBlock:1' weight='1.0' /> </IfCondition>
                             <ReplacesOre block='stone' weight='1.0' />
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 1.416 * _default_ * mknsCopperFreq ' range=':= 1.416 * _default_ * mknsCopperFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 1.060 * _default_ * mknsCopperSize ' range=':= 1.060 * _default_ * mknsCopperSize ' type='normal' />
+                            <Setting name='MotherlodeFrequency' avg=':= 2.002 * _default_ * mknsCopperFreq ' range=':= 2.002 * _default_ * mknsCopperFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.123 * _default_ * mknsCopperSize ' range=':= 1.123 * _default_ * mknsCopperSize ' type='normal' />
                             <Setting name='MotherlodeHeight' avg=':= 33 ' range=':= 27 ' type='normal' scaleTo='base' />
                             <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 1.190 * _default_ ' range=':= 1.190 * _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.415 * _default_ ' range=':= 1.415 * _default_ ' type='normal' />
                             <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * mknsCopperSize ' range=':= _default_ * mknsCopperSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 1.091 * _default_ * mknsCopperSize ' range=':= 1.091 * _default_ * mknsCopperSize ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.189 * _default_ * mknsCopperSize ' range=':= 1.189 * _default_ * mknsCopperSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
@@ -320,9 +356,9 @@
                 <!-- LayeredVeins Preset for Copper is complete. -->
 
 
-                <!-- Starting Cloud Preset for Copper. -->
+                <!-- Starting StrategicClouds Preset for Copper. -->
                 <ConfigSection>
-                    <IfCondition condition=':= mknsCopperDist = "Cloud"'>
+                    <IfCondition condition=':= mknsCopperDist = "StrategicClouds"'>
                         <Cloud name='mknsCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60AE4408' drawBoundBox='false' boundBoxColor='0x60AE4408'>
                             <Description>
                                 Large irregular clouds filled  lightly
@@ -341,9 +377,9 @@
                             <IfCondition condition=':= ?blockExists("Mekanism:OreBlock:1")'> <OreBlock block='Mekanism:OreBlock:1' weight='1.0' /> </IfCondition>
                             <ReplacesOre block='stone' weight='1.0' />
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 1.113 * _default_ * mknsCopperSize ' range=':= 1.113 * _default_ * mknsCopperSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.113 * _default_ * mknsCopperSize ' range=':= 1.113 * _default_ * mknsCopperSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 1.239 * _default_ * mknsCopperFreq ' range=':= 1.239 * _default_ * mknsCopperFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 1.512 * _default_ * mknsCopperSize ' range=':= 1.512 * _default_ * mknsCopperSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.512 * _default_ * mknsCopperSize ' range=':= 1.512 * _default_ * mknsCopperSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 2.286 * _default_ * mknsCopperFreq ' range=':= 2.286 * _default_ * mknsCopperFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 33 ' range=':= 27 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -379,7 +415,7 @@
                         </Cloud>
                     </IfCondition>
                 </ConfigSection>
-                <!-- Cloud Preset for Copper is complete. -->
+                <!-- StrategicClouds Preset for Copper is complete. -->
 
 
                 <!-- Starting Vanilla Preset for Copper. -->
@@ -418,19 +454,19 @@
                             <IfCondition condition=':= ?blockExists("Mekanism:OreBlock:2")'> <OreBlock block='Mekanism:OreBlock:2' weight='1.0' /> </IfCondition>
                             <ReplacesOre block='stone' weight='1.0' />
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 1.324 * _default_ * mknsTinFreq ' range=':= 1.324 * _default_ * mknsTinFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 1.048 * _default_ * mknsTinSize ' range=':= 1.048 * _default_ * mknsTinSize ' type='normal' />
+                            <Setting name='MotherlodeFrequency' avg=':= 1.873 * _default_ * mknsTinFreq ' range=':= 1.873 * _default_ * mknsTinFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 1.110 * _default_ * mknsTinSize ' range=':= 1.110 * _default_ * mknsTinSize ' type='normal' />
                             <Setting name='MotherlodeHeight' avg=':= 33 ' range=':= 27 ' type='normal' scaleTo='base' />
                             <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 1.151 * _default_ ' range=':= 1.151 * _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 1.368 * _default_ ' range=':= 1.368 * _default_ ' type='normal' />
                             <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * mknsTinSize ' range=':= _default_ * mknsTinSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 1.073 * _default_ * mknsTinSize ' range=':= 1.073 * _default_ * mknsTinSize ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.170 * _default_ * mknsTinSize ' range=':= 1.170 * _default_ * mknsTinSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
@@ -439,9 +475,9 @@
                 <!-- LayeredVeins Preset for Tin is complete. -->
 
 
-                <!-- Starting Cloud Preset for Tin. -->
+                <!-- Starting StrategicClouds Preset for Tin. -->
                 <ConfigSection>
-                    <IfCondition condition=':= mknsTinDist = "Cloud"'>
+                    <IfCondition condition=':= mknsTinDist = "StrategicClouds"'>
                         <Cloud name='mknsTinCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60C1C8C8' drawBoundBox='false' boundBoxColor='0x60C1C8C8'>
                             <Description>
                                 Large irregular clouds filled  lightly
@@ -460,9 +496,9 @@
                             <IfCondition condition=':= ?blockExists("Mekanism:OreBlock:2")'> <OreBlock block='Mekanism:OreBlock:2' weight='1.0' /> </IfCondition>
                             <ReplacesOre block='stone' weight='1.0' />
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 1.076 * _default_ * mknsTinSize ' range=':= 1.076 * _default_ * mknsTinSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.076 * _default_ * mknsTinSize ' range=':= 1.076 * _default_ * mknsTinSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 1.159 * _default_ * mknsTinFreq ' range=':= 1.159 * _default_ * mknsTinFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 1.462 * _default_ * mknsTinSize ' range=':= 1.462 * _default_ * mknsTinSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.462 * _default_ * mknsTinSize ' range=':= 1.462 * _default_ * mknsTinSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 2.138 * _default_ * mknsTinFreq ' range=':= 2.138 * _default_ * mknsTinFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 33 ' range=':= 27 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -498,7 +534,7 @@
                         </Cloud>
                     </IfCondition>
                 </ConfigSection>
-                <!-- Cloud Preset for Tin is complete. -->
+                <!-- StrategicClouds Preset for Tin is complete. -->
 
 
                 <!-- Starting Vanilla Preset for Tin. -->

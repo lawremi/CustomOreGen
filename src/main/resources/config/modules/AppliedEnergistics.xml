@@ -40,21 +40,33 @@
                 <OptionChoice name='apenCertusQuartzDist'  displayState=':= if(?enableAppliedEnergistics, "shown", "hidden")' displayGroup='groupAppliedEnergistics'>
                     <Description> Controls how Certus Quartz is generated </Description>
                     <DisplayName>Applied Energistics Certus Quartz</DisplayName>
+                    <IfCondition condition=':= (?blockExists("appliedenergistics2:tile.OreQuartz") | ?blockExists("appliedenergistics2:tile.OreQuartzCharged")) '>
+
                     <Choice value='SparseVeins' displayValue='Sparse Veins'>
                         <Description>
                             Large veins filled very lightly with ore.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("appliedenergistics2:tile.OreQuartz") | ?blockExists("appliedenergistics2:tile.OreQuartzCharged")) '>
+
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
+                        <Description>
+                            Large irregular clouds filled lightly with ore.
+                        </Description>
+                    </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("appliedenergistics2:tile.OreQuartz") | ?blockExists("appliedenergistics2:tile.OreQuartzCharged")) '>
+
                     <Choice value='Vanilla' displayValue='Vanilla'>
                         <Description>
                             Simulates Vanilla Minecraft.
                         </Description>
                     </Choice>
-                    <Choice value='Cloud' displayValue='Strategic Cloud'>
-                        <Description>
-                            Large irregular clouds filled lightly with ore.
-                        </Description>
-                    </Choice>
+                    </IfCondition>
+
                     <Choice value='none' displayValue='None' description='Certus Quartz is not generated in the world.'/>
                 </OptionChoice>
                 <OptionNumeric name='apenCertusQuartzFreq' default='1'  min='0' max='5' displayState=':= if(?enableAppliedEnergistics, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupAppliedEnergistics'>
@@ -143,31 +155,10 @@
                 <!-- SparseVeins Preset for Certus Quartz is complete. -->
 
 
-                <!-- Starting Vanilla Preset for Certus Quartz. -->
+                <!-- Starting StrategicClouds Preset for Certus
+                     Quartz. -->
                 <ConfigSection>
-                    <IfCondition condition=':= apenCertusQuartzDist = "Vanilla"'>
-                        <StandardGen name='apenCertusQuartzStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
-                            <Description>
-                                A master preset for standardgen  ore
-                                distributions.
-                            </Description>
-                            <IfCondition condition=':= ?blockExists("appliedenergistics2:tile.OreQuartz")'> <OreBlock block='appliedenergistics2:tile.OreQuartz' weight='0.90' /> </IfCondition>
-                            <IfCondition condition=':= ?blockExists("appliedenergistics2:tile.OreQuartzCharged")'> <OreBlock block='appliedenergistics2:tile.OreQuartzCharged' weight='0.10' /> </IfCondition>
-                            <ReplacesOre block='stone' weight='1.0' />
-                            <Biome name='.*'  />
-                            <Setting name='Size' avg=':= 2.000 * apenCertusQuartzSize ' range=':= 2.000 * apenCertusQuartzSize ' type='normal' />
-                            <Setting name='Frequency' avg=':= 7.500 * apenCertusQuartzFreq ' range=':= 7.500 * apenCertusQuartzFreq ' type='normal' scaleTo='base' />
-                            <Setting name='Height' avg=':= 43 ' range=':= 26 ' type='normal' scaleTo='base' />
-                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                        </StandardGen>
-                    </IfCondition>
-                </ConfigSection>
-                <!-- Vanilla Preset for Certus Quartz is complete. -->
-
-
-                <!-- Starting Cloud Preset for Certus Quartz. -->
-                <ConfigSection>
-                    <IfCondition condition=':= apenCertusQuartzDist = "Cloud"'>
+                    <IfCondition condition=':= apenCertusQuartzDist = "StrategicClouds"'>
                         <Cloud name='apenCertusQuartzCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
                             <Description>
                                 Large irregular clouds filled  lightly
@@ -187,9 +178,9 @@
                             <IfCondition condition=':= ?blockExists("appliedenergistics2:tile.OreQuartzCharged")'> <OreBlock block='appliedenergistics2:tile.OreQuartzCharged' weight='0.10' /> </IfCondition>
                             <ReplacesOre block='stone' weight='1.0' />
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 1.095 * _default_ * apenCertusQuartzSize ' range=':= 1.095 * _default_ * apenCertusQuartzSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.095 * _default_ * apenCertusQuartzSize ' range=':= 1.095 * _default_ * apenCertusQuartzSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 1.199 * _default_ * apenCertusQuartzFreq ' range=':= 1.199 * _default_ * apenCertusQuartzFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 1.251 * _default_ * apenCertusQuartzSize ' range=':= 1.251 * _default_ * apenCertusQuartzSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.251 * _default_ * apenCertusQuartzSize ' range=':= 1.251 * _default_ * apenCertusQuartzSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.565 * _default_ * apenCertusQuartzFreq ' range=':= 1.565 * _default_ * apenCertusQuartzFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 43 ' range=':= 26 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -226,7 +217,30 @@
                         </Cloud>
                     </IfCondition>
                 </ConfigSection>
-                <!-- Cloud Preset for Certus Quartz is complete. -->
+                <!-- StrategicClouds Preset for Certus Quartz is
+                     complete. -->
+
+
+                <!-- Starting Vanilla Preset for Certus Quartz. -->
+                <ConfigSection>
+                    <IfCondition condition=':= apenCertusQuartzDist = "Vanilla"'>
+                        <StandardGen name='apenCertusQuartzStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
+                            <Description>
+                                A master preset for standardgen  ore
+                                distributions.
+                            </Description>
+                            <IfCondition condition=':= ?blockExists("appliedenergistics2:tile.OreQuartz")'> <OreBlock block='appliedenergistics2:tile.OreQuartz' weight='0.90' /> </IfCondition>
+                            <IfCondition condition=':= ?blockExists("appliedenergistics2:tile.OreQuartzCharged")'> <OreBlock block='appliedenergistics2:tile.OreQuartzCharged' weight='0.10' /> </IfCondition>
+                            <ReplacesOre block='stone' weight='1.0' />
+                            <Biome name='.*'  />
+                            <Setting name='Size' avg=':= 2.000 * apenCertusQuartzSize ' range=':= 2.000 * apenCertusQuartzSize ' type='normal' />
+                            <Setting name='Frequency' avg=':= 7.500 * apenCertusQuartzFreq ' range=':= 7.500 * apenCertusQuartzFreq ' type='normal' scaleTo='base' />
+                            <Setting name='Height' avg=':= 43 ' range=':= 26 ' type='normal' scaleTo='base' />
+                            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                        </StandardGen>
+                    </IfCondition>
+                </ConfigSection>
+                <!-- Vanilla Preset for Certus Quartz is complete. -->
 
                 <!-- End Certus Quartz Generation -->
 

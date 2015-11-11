@@ -38,21 +38,33 @@
                 <OptionChoice name='fctrSilverDist'  displayState=':= if(?enableFactorization, "shown", "hidden")' displayGroup='groupFactorization'>
                     <Description> Controls how Silver is generated </Description>
                     <DisplayName>Factorization Silver</DisplayName>
+                    <IfCondition condition=':= (?blockExists("factorization:ResourceBlock")) '>
+
                     <Choice value='LayeredVeins' displayValue='Layered Veins'>
                         <Description>
                             Small, fairly rare motherlodes with 2-4 horizontal veins each.
                         </Description>
                     </Choice>
-                    <Choice value='Cloud' displayValue='Strategic Cloud'>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("factorization:ResourceBlock")) '>
+
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("factorization:ResourceBlock")) '>
+
                     <Choice value='Vanilla' displayValue='Vanilla'>
                         <Description>
                             Simulates Vanilla Minecraft.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
                     <Choice value='none' displayValue='None' description='Silver is not generated in the world.'/>
                 </OptionChoice>
                 <OptionNumeric name='fctrSilverFreq' default='1'  min='0' max='5' displayState=':= if(?enableFactorization, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupFactorization'>
@@ -72,21 +84,33 @@
                 <OptionChoice name='fctrDarkIronDist'  displayState=':= if(?enableFactorization, "shown", "hidden")' displayGroup='groupFactorization'>
                     <Description> Controls how Dark Iron is generated </Description>
                     <DisplayName>Factorization Dark Iron</DisplayName>
+                    <IfCondition condition=':= (?blockExists("factorization:DarkIronOre")) '>
+
                     <Choice value='SparseVeins' displayValue='Sparse Veins'>
                         <Description>
                             Large veins filled very lightly with ore.
                         </Description>
                     </Choice>
-                    <Choice value='Cloud' displayValue='Strategic Cloud'>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("factorization:DarkIronOre")) '>
+
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("factorization:DarkIronOre")) '>
+
                     <Choice value='Vanilla' displayValue='Vanilla'>
                         <Description>
                             Simulates Vanilla Minecraft.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
                     <Choice value='none' displayValue='None' description='Dark Iron is not generated in the world.'/>
                 </OptionChoice>
                 <OptionNumeric name='fctrDarkIronFreq' default='1'  min='0' max='5' displayState=':= if(?enableFactorization, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupFactorization'>
@@ -167,9 +191,9 @@
                 <!-- LayeredVeins Preset for Silver is complete. -->
 
 
-                <!-- Starting Cloud Preset for Silver. -->
+                <!-- Starting StrategicClouds Preset for Silver. -->
                 <ConfigSection>
-                    <IfCondition condition=':= fctrSilverDist = "Cloud"'>
+                    <IfCondition condition=':= fctrSilverDist = "StrategicClouds"'>
                         <Cloud name='fctrSilverCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
                             <Description>
                                 Large irregular clouds filled  lightly
@@ -188,9 +212,9 @@
                             <IfCondition condition=':= ?blockExists("factorization:ResourceBlock")'> <OreBlock block='factorization:ResourceBlock' weight='1.0' /> </IfCondition>
                             <ReplacesOre block='stone' weight='1.0' />
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 0.842 * _default_ * fctrSilverSize ' range=':= 0.842 * _default_ * fctrSilverSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 0.842 * _default_ * fctrSilverSize ' range=':= 0.842 * _default_ * fctrSilverSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 0.709 * _default_ * fctrSilverFreq ' range=':= 0.709 * _default_ * fctrSilverFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 0.962 * _default_ * fctrSilverSize ' range=':= 0.962 * _default_ * fctrSilverSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 0.962 * _default_ * fctrSilverSize ' range=':= 0.962 * _default_ * fctrSilverSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 0.926 * _default_ * fctrSilverFreq ' range=':= 0.926 * _default_ * fctrSilverFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 25 ' range=':= 10 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -226,7 +250,7 @@
                         </Cloud>
                     </IfCondition>
                 </ConfigSection>
-                <!-- Cloud Preset for Silver is complete. -->
+                <!-- StrategicClouds Preset for Silver is complete. -->
 
 
                 <!-- Starting Vanilla Preset for Silver. -->
@@ -295,9 +319,9 @@
                 <!-- SparseVeins Preset for Dark Iron is complete. -->
 
 
-                <!-- Starting Cloud Preset for Dark Iron. -->
+                <!-- Starting StrategicClouds Preset for Dark Iron. -->
                 <ConfigSection>
-                    <IfCondition condition=':= fctrDarkIronDist = "Cloud"'>
+                    <IfCondition condition=':= fctrDarkIronDist = "StrategicClouds"'>
                         <Cloud name='fctrDarkIronCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60781CCB' drawBoundBox='false' boundBoxColor='0x60781CCB'>
                             <Description>
                                 Large irregular clouds filled  lightly
@@ -318,9 +342,9 @@
                             <ReplacesOre block='dirt' weight='1.0' />
                             <ReplacesOre block='gravel' weight='1.0' />
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 0.393 * _default_ * fctrDarkIronSize ' range=':= 0.393 * _default_ * fctrDarkIronSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 0.393 * _default_ * fctrDarkIronSize ' range=':= 0.393 * _default_ * fctrDarkIronSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 0.155 * _default_ * fctrDarkIronFreq ' range=':= 0.155 * _default_ * fctrDarkIronFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 0.449 * _default_ * fctrDarkIronSize ' range=':= 0.449 * _default_ * fctrDarkIronSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 0.449 * _default_ * fctrDarkIronSize ' range=':= 0.449 * _default_ * fctrDarkIronSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 0.202 * _default_ * fctrDarkIronFreq ' range=':= 0.202 * _default_ * fctrDarkIronFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 3 ' range=':= 2 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -356,7 +380,7 @@
                         </Cloud>
                     </IfCondition>
                 </ConfigSection>
-                <!-- Cloud Preset for Dark Iron is complete. -->
+                <!-- StrategicClouds Preset for Dark Iron is complete. -->
 
 
                 <!-- Starting Vanilla Preset for Dark Iron. -->

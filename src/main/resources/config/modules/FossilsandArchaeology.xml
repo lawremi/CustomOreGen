@@ -39,21 +39,33 @@
                 <OptionChoice name='fsarFossilsDist'  displayState=':= if(?enableFossilsandArchaeology, "shown", "hidden")' displayGroup='groupFossilsandArchaeology'>
                     <Description> Controls how Fossils is generated </Description>
                     <DisplayName>Fossils and Archaeology Fossils</DisplayName>
+                    <IfCondition condition=':= (?blockExists("fossil:fossil")) '>
+
                     <Choice value='SparseVeins' displayValue='Sparse Veins'>
                         <Description>
                             Large veins filled very lightly with ore.
                         </Description>
                     </Choice>
-                    <Choice value='Cloud' displayValue='Strategic Cloud'>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("fossil:fossil")) '>
+
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("fossil:fossil")) '>
+
                     <Choice value='Vanilla' displayValue='Vanilla'>
                         <Description>
                             Simulates Vanilla Minecraft.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
                     <Choice value='none' displayValue='None' description='Fossils is not generated in the world.'/>
                 </OptionChoice>
                 <OptionNumeric name='fsarFossilsFreq' default='1'  min='0' max='5' displayState=':= if(?enableFossilsandArchaeology, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupFossilsandArchaeology'>
@@ -73,21 +85,33 @@
                 <OptionChoice name='fsarPermafrostDist'  displayState=':= if(?enableFossilsandArchaeology, "shown", "hidden")' displayGroup='groupFossilsandArchaeology'>
                     <Description> Controls how Permafrost is generated </Description>
                     <DisplayName>Fossils and Archaeology Permafrost</DisplayName>
+                    <IfCondition condition=':= (?blockExists("fossil:permafrost")) '>
+
                     <Choice value='SparseVeins' displayValue='Sparse Veins'>
                         <Description>
                             Large veins filled very lightly with ore.
                         </Description>
                     </Choice>
-                    <Choice value='Cloud' displayValue='Strategic Cloud'>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("fossil:permafrost")) '>
+
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("fossil:permafrost")) '>
+
                     <Choice value='Vanilla' displayValue='Vanilla'>
                         <Description>
                             Simulates Vanilla Minecraft.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
                     <Choice value='none' displayValue='None' description='Permafrost is not generated in the world.'/>
                 </OptionChoice>
                 <OptionNumeric name='fsarPermafrostFreq' default='1'  min='0' max='5' displayState=':= if(?enableFossilsandArchaeology, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupFossilsandArchaeology'>
@@ -204,9 +228,9 @@
                 <!-- SparseVeins Preset for Fossils is complete. -->
 
 
-                <!-- Starting Cloud Preset for Fossils. -->
+                <!-- Starting StrategicClouds Preset for Fossils. -->
                 <ConfigSection>
-                    <IfCondition condition=':= fsarFossilsDist = "Cloud"'>
+                    <IfCondition condition=':= fsarFossilsDist = "StrategicClouds"'>
                         <Cloud name='fsarFossilsCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FEFDDF' drawBoundBox='false' boundBoxColor='0x60FEFDDF'>
                             <Description>
                                 Large irregular clouds filled  lightly
@@ -225,9 +249,9 @@
                             <IfCondition condition=':= ?blockExists("fossil:fossil")'> <OreBlock block='fossil:fossil' weight='1.0' /> </IfCondition>
                             <ReplacesOre block='stone' weight='1.0' />
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 1.643 * _default_ * fsarFossilsSize ' range=':= 1.643 * _default_ * fsarFossilsSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.643 * _default_ * fsarFossilsSize ' range=':= 1.643 * _default_ * fsarFossilsSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 2.699 * _default_ * fsarFossilsFreq ' range=':= 2.699 * _default_ * fsarFossilsFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 1.877 * _default_ * fsarFossilsSize ' range=':= 1.877 * _default_ * fsarFossilsSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.877 * _default_ * fsarFossilsSize ' range=':= 1.877 * _default_ * fsarFossilsSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 3.523 * _default_ * fsarFossilsFreq ' range=':= 3.523 * _default_ * fsarFossilsFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 53 ' range=':= 47 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -272,9 +296,9 @@
                             <ReplacesOre block='stone' weight='1.0' />
                             <BiomeType name='Swamp'  />
                             <BiomeType name='desert'  />
-                            <Setting name='CloudRadius' avg=':= 1.643 * _default_ * fsarFossilsSize ' range=':= 1.643 * _default_ * fsarFossilsSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.643 * _default_ * fsarFossilsSize ' range=':= 1.643 * _default_ * fsarFossilsSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 2.699 * _default_ * fsarFossilsFreq ' range=':= 2.699 * _default_ * fsarFossilsFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 1.877 * _default_ * fsarFossilsSize ' range=':= 1.877 * _default_ * fsarFossilsSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.877 * _default_ * fsarFossilsSize ' range=':= 1.877 * _default_ * fsarFossilsSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 3.523 * _default_ * fsarFossilsFreq ' range=':= 3.523 * _default_ * fsarFossilsFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 53 ' range=':= 47 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -296,7 +320,7 @@
 
                     </IfCondition>
                 </ConfigSection>
-                <!-- Cloud Preset for Fossils is complete. -->
+                <!-- StrategicClouds Preset for Fossils is complete. -->
 
 
                 <!-- Starting Vanilla Preset for Fossils. -->
@@ -364,9 +388,9 @@
                 <!-- SparseVeins Preset for Permafrost is complete. -->
 
 
-                <!-- Starting Cloud Preset for Permafrost. -->
+                <!-- Starting StrategicClouds Preset for Permafrost. -->
                 <ConfigSection>
-                    <IfCondition condition=':= fsarPermafrostDist = "Cloud"'>
+                    <IfCondition condition=':= fsarPermafrostDist = "StrategicClouds"'>
                         <Cloud name='fsarPermafrostCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60A5C3F5' drawBoundBox='false' boundBoxColor='0x60A5C3F5'>
                             <Description>
                                 Large irregular clouds filled  lightly
@@ -386,9 +410,9 @@
                             <ReplacesOre block='stone' weight='1.0' />
                             <Biome name='.*'  />
                             <BiomeType name='Frozen'  />
-                            <Setting name='CloudRadius' avg=':= 0.936 * _default_ * fsarPermafrostSize ' range=':= 0.936 * _default_ * fsarPermafrostSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 0.936 * _default_ * fsarPermafrostSize ' range=':= 0.936 * _default_ * fsarPermafrostSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 0.876 * _default_ * fsarPermafrostFreq ' range=':= 0.876 * _default_ * fsarPermafrostFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 1.069 * _default_ * fsarPermafrostSize ' range=':= 1.069 * _default_ * fsarPermafrostSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.069 * _default_ * fsarPermafrostSize ' range=':= 1.069 * _default_ * fsarPermafrostSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.143 * _default_ * fsarPermafrostFreq ' range=':= 1.143 * _default_ * fsarPermafrostFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 18 ' range=':= 12.5 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -424,7 +448,8 @@
                         </Cloud>
                     </IfCondition>
                 </ConfigSection>
-                <!-- Cloud Preset for Permafrost is complete. -->
+                <!-- StrategicClouds Preset for Permafrost is
+                     complete. -->
 
 
                 <!-- Starting Vanilla Preset for Permafrost. -->

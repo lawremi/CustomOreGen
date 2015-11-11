@@ -39,21 +39,33 @@
                 <OptionChoice name='hvstSaltDist'  displayState=':= if(?enablePamsHarvestCraft, "shown", "hidden")' displayGroup='groupPamsHarvestCraft'>
                     <Description> Controls how Salt is generated </Description>
                     <DisplayName>Pams HarvestCraft Salt</DisplayName>
+                    <IfCondition condition=':= (?blockExists("harvestcraft:salt")) '>
+
                     <Choice value='SparseVeins' displayValue='Sparse Veins'>
                         <Description>
                             Large veins filled very lightly with ore.
                         </Description>
                     </Choice>
-                    <Choice value='Cloud' displayValue='Strategic Cloud'>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("harvestcraft:salt")) '>
+
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("harvestcraft:salt")) '>
+
                     <Choice value='Vanilla' displayValue='Vanilla'>
                         <Description>
                             Simulates Vanilla Minecraft.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
                     <Choice value='none' displayValue='None' description='Salt is not generated in the world.'/>
                 </OptionChoice>
                 <OptionNumeric name='hvstSaltFreq' default='1'  min='0' max='5' displayState=':= if(?enablePamsHarvestCraft, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupPamsHarvestCraft'>
@@ -119,19 +131,19 @@
                             <IfCondition condition=':= ?blockExists("harvestcraft:salt")'> <OreBlock block='harvestcraft:salt' weight='1.0' /> </IfCondition>
                             <ReplacesOre block='stone' weight='1.0' />
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 3.751 * _default_ * hvstSaltFreq ' range=':= 3.751 * _default_ * hvstSaltFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeFrequency' avg=':= 5.305 * _default_ * hvstSaltFreq ' range=':= 5.305 * _default_ * hvstSaltFreq ' type='normal' scaleTo='base' />
                             <Setting name='MotherlodeSize' avg=':= 0 * _default_ * hvstSaltSize ' range=':= 0 * _default_ * hvstSaltSize ' type='normal' />
                             <Setting name='MotherlodeHeight' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
                             <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 1.937 * _default_ ' range=':= 1.937 * _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 2.303 * _default_ ' range=':= 2.303 * _default_ ' type='normal' />
                             <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * hvstSaltSize ' range=':= _default_ * hvstSaltSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 1.392 * _default_ * hvstSaltSize ' range=':= 1.392 * _default_ * hvstSaltSize ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 1.518 * _default_ * hvstSaltSize ' range=':= 1.518 * _default_ * hvstSaltSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
@@ -140,9 +152,9 @@
                 <!-- SparseVeins Preset for Salt is complete. -->
 
 
-                <!-- Starting Cloud Preset for Salt. -->
+                <!-- Starting StrategicClouds Preset for Salt. -->
                 <ConfigSection>
-                    <IfCondition condition=':= hvstSaltDist = "Cloud"'>
+                    <IfCondition condition=':= hvstSaltDist = "StrategicClouds"'>
                         <Cloud name='hvstSaltCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x6090927C' drawBoundBox='false' boundBoxColor='0x6090927C'>
                             <Description>
                                 Large irregular clouds filled  lightly
@@ -161,9 +173,9 @@
                             <IfCondition condition=':= ?blockExists("harvestcraft:salt")'> <OreBlock block='harvestcraft:salt' weight='1.0' /> </IfCondition>
                             <ReplacesOre block='stone' weight='1.0' />
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 1.158 * _default_ * hvstSaltSize ' range=':= 1.158 * _default_ * hvstSaltSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.158 * _default_ * hvstSaltSize ' range=':= 1.158 * _default_ * hvstSaltSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 1.341 * _default_ * hvstSaltFreq ' range=':= 1.341 * _default_ * hvstSaltFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 1.573 * _default_ * hvstSaltSize ' range=':= 1.573 * _default_ * hvstSaltSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.573 * _default_ * hvstSaltSize ' range=':= 1.573 * _default_ * hvstSaltSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 2.474 * _default_ * hvstSaltFreq ' range=':= 2.474 * _default_ * hvstSaltFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -199,7 +211,7 @@
                         </Cloud>
                     </IfCondition>
                 </ConfigSection>
-                <!-- Cloud Preset for Salt is complete. -->
+                <!-- StrategicClouds Preset for Salt is complete. -->
 
 
                 <!-- Starting Vanilla Preset for Salt. -->

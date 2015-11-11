@@ -38,21 +38,33 @@
                 <OptionChoice name='mchmUraniumDist'  displayState=':= if(?enableMineChem, "shown", "hidden")' displayGroup='groupMineChem'>
                     <Description> Controls how Uranium is generated </Description>
                     <DisplayName>MineChem Uranium</DisplayName>
+                    <IfCondition condition=':= (?blockExists("minechem:tile.oreUranium")) '>
+
                     <Choice value='LayeredVeins' displayValue='Layered Veins'>
                         <Description>
                             Small, fairly rare motherlodes with 2-4 horizontal veins each.
                         </Description>
                     </Choice>
-                    <Choice value='Cloud' displayValue='Strategic Cloud'>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("minechem:tile.oreUranium")) '>
+
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("minechem:tile.oreUranium")) '>
+
                     <Choice value='Vanilla' displayValue='Vanilla'>
                         <Description>
                             Simulates Vanilla Minecraft.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
                     <Choice value='none' displayValue='None' description='Uranium is not generated in the world.'/>
                 </OptionChoice>
                 <OptionNumeric name='mchmUraniumFreq' default='1'  min='0' max='5' displayState=':= if(?enableMineChem, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupMineChem'>
@@ -111,19 +123,19 @@
                             <IfCondition condition=':= ?blockExists("minechem:tile.oreUranium")'> <OreBlock block='minechem:tile.oreUranium' weight='1.0' /> </IfCondition>
                             <ReplacesOre block='stone' weight='1.0' />
                             <Biome name='.*'  />
-                            <Setting name='MotherlodeFrequency' avg=':= 0.354 * _default_ * mchmUraniumFreq ' range=':= 0.354 * _default_ * mchmUraniumFreq ' type='normal' scaleTo='base' />
-                            <Setting name='MotherlodeSize' avg=':= 0.841 * _default_ * mchmUraniumSize ' range=':= 0.841 * _default_ * mchmUraniumSize ' type='normal' />
+                            <Setting name='MotherlodeFrequency' avg=':= 0.500 * _default_ * mchmUraniumFreq ' range=':= 0.500 * _default_ * mchmUraniumFreq ' type='normal' scaleTo='base' />
+                            <Setting name='MotherlodeSize' avg=':= 0.891 * _default_ * mchmUraniumSize ' range=':= 0.891 * _default_ * mchmUraniumSize ' type='normal' />
                             <Setting name='MotherlodeHeight' avg=':= 17.5 ' range=':= 12.5 ' type='normal' scaleTo='base' />
                             <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='BranchLength' avg=':= 0.595 * _default_ ' range=':= 0.595 * _default_ ' type='normal' />
+                            <Setting name='BranchLength' avg=':= 0.707 * _default_ ' range=':= 0.707 * _default_ ' type='normal' />
                             <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * mchmUraniumSize ' range=':= _default_ * mchmUraniumSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Setting name='SegmentRadius' avg=':= 0.771 * _default_ * mchmUraniumSize ' range=':= 0.771 * _default_ * mchmUraniumSize ' type='normal' />
+                            <Setting name='SegmentRadius' avg=':= 0.841 * _default_ * mchmUraniumSize ' range=':= 0.841 * _default_ * mchmUraniumSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                         </Veins>
@@ -132,9 +144,9 @@
                 <!-- LayeredVeins Preset for Uranium is complete. -->
 
 
-                <!-- Starting Cloud Preset for Uranium. -->
+                <!-- Starting StrategicClouds Preset for Uranium. -->
                 <ConfigSection>
-                    <IfCondition condition=':= mchmUraniumDist = "Cloud"'>
+                    <IfCondition condition=':= mchmUraniumDist = "StrategicClouds"'>
                         <Cloud name='mchmUraniumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60ACFE91' drawBoundBox='false' boundBoxColor='0x60ACFE91'>
                             <Description>
                                 Large irregular clouds filled  lightly
@@ -153,9 +165,9 @@
                             <IfCondition condition=':= ?blockExists("minechem:tile.oreUranium")'> <OreBlock block='minechem:tile.oreUranium' weight='1.0' /> </IfCondition>
                             <ReplacesOre block='stone' weight='1.0' />
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 0.556 * _default_ * mchmUraniumSize ' range=':= 0.556 * _default_ * mchmUraniumSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 0.556 * _default_ * mchmUraniumSize ' range=':= 0.556 * _default_ * mchmUraniumSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 0.310 * _default_ * mchmUraniumFreq ' range=':= 0.310 * _default_ * mchmUraniumFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 0.756 * _default_ * mchmUraniumSize ' range=':= 0.756 * _default_ * mchmUraniumSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 0.756 * _default_ * mchmUraniumSize ' range=':= 0.756 * _default_ * mchmUraniumSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 0.571 * _default_ * mchmUraniumFreq ' range=':= 0.571 * _default_ * mchmUraniumFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 17.5 ' range=':= 12.5 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -191,7 +203,7 @@
                         </Cloud>
                     </IfCondition>
                 </ConfigSection>
-                <!-- Cloud Preset for Uranium is complete. -->
+                <!-- StrategicClouds Preset for Uranium is complete. -->
 
 
                 <!-- Starting Vanilla Preset for Uranium. -->

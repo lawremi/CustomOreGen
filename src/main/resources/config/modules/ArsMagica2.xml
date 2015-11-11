@@ -38,21 +38,33 @@
                 <OptionChoice name='arsmVinteumDist'  displayState=':= if(?enableArsMagica2, "shown", "hidden")' displayGroup='groupArsMagica2'>
                     <Description> Controls how Vinteum is generated </Description>
                     <DisplayName>Ars Magica 2 Vinteum</DisplayName>
+                    <IfCondition condition=':= (?blockExists("arsmagica2:vinteumOre")) '>
+
                     <Choice value='SparseVeins' displayValue='Sparse Veins'>
                         <Description>
                             Large veins filled very lightly with ore.
                         </Description>
                     </Choice>
-                    <Choice value='Cloud' displayValue='Strategic Cloud'>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("arsmagica2:vinteumOre")) '>
+
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("arsmagica2:vinteumOre")) '>
+
                     <Choice value='Vanilla' displayValue='Vanilla'>
                         <Description>
                             Simulates Vanilla Minecraft.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
                     <Choice value='none' displayValue='None' description='Vinteum is not generated in the world.'/>
                 </OptionChoice>
                 <OptionNumeric name='arsmVinteumFreq' default='1'  min='0' max='5' displayState=':= if(?enableArsMagica2, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupArsMagica2'>
@@ -72,21 +84,33 @@
                 <OptionChoice name='arsmChimeriteDist'  displayState=':= if(?enableArsMagica2, "shown", "hidden")' displayGroup='groupArsMagica2'>
                     <Description> Controls how Chimerite is generated </Description>
                     <DisplayName>Ars Magica 2 Chimerite</DisplayName>
+                    <IfCondition condition=':= (?blockExists("arsmagica2:vinteumOre:1")) '>
+
                     <Choice value='SparseVeins' displayValue='Sparse Veins'>
                         <Description>
                             Large veins filled very lightly with ore.
                         </Description>
                     </Choice>
-                    <Choice value='Cloud' displayValue='Strategic Cloud'>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("arsmagica2:vinteumOre:1")) '>
+
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("arsmagica2:vinteumOre:1")) '>
+
                     <Choice value='Vanilla' displayValue='Vanilla'>
                         <Description>
                             Simulates Vanilla Minecraft.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
                     <Choice value='none' displayValue='None' description='Chimerite is not generated in the world.'/>
                 </OptionChoice>
                 <OptionNumeric name='arsmChimeriteFreq' default='1'  min='0' max='5' displayState=':= if(?enableArsMagica2, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupArsMagica2'>
@@ -106,21 +130,33 @@
                 <OptionChoice name='arsmBlueTopazDist'  displayState=':= if(?enableArsMagica2, "shown", "hidden")' displayGroup='groupArsMagica2'>
                     <Description> Controls how Blue Topaz is generated </Description>
                     <DisplayName>Ars Magica 2 Blue Topaz</DisplayName>
+                    <IfCondition condition=':= (?blockExists("arsmagica2:vinteumOre:2")) '>
+
                     <Choice value='SparseVeins' displayValue='Sparse Veins'>
                         <Description>
                             Large veins filled very lightly with ore.
                         </Description>
                     </Choice>
-                    <Choice value='Cloud' displayValue='Strategic Cloud'>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("arsmagica2:vinteumOre:2")) '>
+
+                    <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
                         <Description>
                             Large irregular clouds filled lightly with ore.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
+                    <IfCondition condition=':= (?blockExists("arsmagica2:vinteumOre:2")) '>
+
                     <Choice value='Vanilla' displayValue='Vanilla'>
                         <Description>
                             Simulates Vanilla Minecraft.
                         </Description>
                     </Choice>
+                    </IfCondition>
+
                     <Choice value='none' displayValue='None' description='Blue Topaz is not generated in the world.'/>
                 </OptionChoice>
                 <OptionNumeric name='arsmBlueTopazFreq' default='1'  min='0' max='5' displayState=':= if(?enableArsMagica2, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupArsMagica2'>
@@ -209,9 +245,9 @@
                 <!-- SparseVeins Preset for Vinteum is complete. -->
 
 
-                <!-- Starting Cloud Preset for Vinteum. -->
+                <!-- Starting StrategicClouds Preset for Vinteum. -->
                 <ConfigSection>
-                    <IfCondition condition=':= arsmVinteumDist = "Cloud"'>
+                    <IfCondition condition=':= arsmVinteumDist = "StrategicClouds"'>
                         <Cloud name='arsmVinteumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x605364EE' drawBoundBox='false' boundBoxColor='0x605364EE'>
                             <Description>
                                 Large irregular clouds filled  lightly
@@ -230,9 +266,9 @@
                             <IfCondition condition=':= ?blockExists("arsmagica2:vinteumOre")'> <OreBlock block='arsmagica2:vinteumOre' weight='1.0' /> </IfCondition>
                             <ReplacesOre block='stone' weight='1.0' />
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 0.871 * _default_ * arsmVinteumSize ' range=':= 0.871 * _default_ * arsmVinteumSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 0.871 * _default_ * arsmVinteumSize ' range=':= 0.871 * _default_ * arsmVinteumSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 0.758 * _default_ * arsmVinteumFreq ' range=':= 0.758 * _default_ * arsmVinteumFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 0.995 * _default_ * arsmVinteumSize ' range=':= 0.995 * _default_ * arsmVinteumSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 0.995 * _default_ * arsmVinteumSize ' range=':= 0.995 * _default_ * arsmVinteumSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 0.990 * _default_ * arsmVinteumFreq ' range=':= 0.990 * _default_ * arsmVinteumFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 27.5 ' range=':= 17.5 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -268,7 +304,7 @@
                         </Cloud>
                     </IfCondition>
                 </ConfigSection>
-                <!-- Cloud Preset for Vinteum is complete. -->
+                <!-- StrategicClouds Preset for Vinteum is complete. -->
 
 
                 <!-- Starting Vanilla Preset for Vinteum. -->
@@ -335,9 +371,9 @@
                 <!-- SparseVeins Preset for Chimerite is complete. -->
 
 
-                <!-- Starting Cloud Preset for Chimerite. -->
+                <!-- Starting StrategicClouds Preset for Chimerite. -->
                 <ConfigSection>
-                    <IfCondition condition=':= arsmChimeriteDist = "Cloud"'>
+                    <IfCondition condition=':= arsmChimeriteDist = "StrategicClouds"'>
                         <Cloud name='arsmChimeriteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60B8E6C6' drawBoundBox='false' boundBoxColor='0x60B8E6C6'>
                             <Description>
                                 Large irregular clouds filled  lightly
@@ -356,9 +392,9 @@
                             <IfCondition condition=':= ?blockExists("arsmagica2:vinteumOre:1")'> <OreBlock block='arsmagica2:vinteumOre:1' weight='1.0' /> </IfCondition>
                             <ReplacesOre block='stone' weight='1.0' />
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 1.036 * _default_ * arsmChimeriteSize ' range=':= 1.036 * _default_ * arsmChimeriteSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.036 * _default_ * arsmChimeriteSize ' range=':= 1.036 * _default_ * arsmChimeriteSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 1.073 * _default_ * arsmChimeriteFreq ' range=':= 1.073 * _default_ * arsmChimeriteFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 1.183 * _default_ * arsmChimeriteSize ' range=':= 1.183 * _default_ * arsmChimeriteSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.183 * _default_ * arsmChimeriteSize ' range=':= 1.183 * _default_ * arsmChimeriteSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.400 * _default_ * arsmChimeriteFreq ' range=':= 1.400 * _default_ * arsmChimeriteFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 45 ' range=':= 35 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -394,7 +430,7 @@
                         </Cloud>
                     </IfCondition>
                 </ConfigSection>
-                <!-- Cloud Preset for Chimerite is complete. -->
+                <!-- StrategicClouds Preset for Chimerite is complete. -->
 
 
                 <!-- Starting Vanilla Preset for Chimerite. -->
@@ -461,9 +497,9 @@
                 <!-- SparseVeins Preset for Blue Topaz is complete. -->
 
 
-                <!-- Starting Cloud Preset for Blue Topaz. -->
+                <!-- Starting StrategicClouds Preset for Blue Topaz. -->
                 <ConfigSection>
-                    <IfCondition condition=':= arsmBlueTopazDist = "Cloud"'>
+                    <IfCondition condition=':= arsmBlueTopazDist = "StrategicClouds"'>
                         <Cloud name='arsmBlueTopazCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x607EE5F4' drawBoundBox='false' boundBoxColor='0x607EE5F4'>
                             <Description>
                                 Large irregular clouds filled  lightly
@@ -482,9 +518,9 @@
                             <IfCondition condition=':= ?blockExists("arsmagica2:vinteumOre:2")'> <OreBlock block='arsmagica2:vinteumOre:2' weight='1.0' /> </IfCondition>
                             <ReplacesOre block='stone' weight='1.0' />
                             <Biome name='.*'  />
-                            <Setting name='CloudRadius' avg=':= 1.036 * _default_ * arsmBlueTopazSize ' range=':= 1.036 * _default_ * arsmBlueTopazSize ' type='normal' />
-                            <Setting name='CloudThickness' avg=':= 1.036 * _default_ * arsmBlueTopazSize ' range=':= 1.036 * _default_ * arsmBlueTopazSize ' type='normal' scaleTo='base' />
-                            <Setting name='DistributionFrequency' avg=':= 1.073 * _default_ * arsmBlueTopazFreq ' range=':= 1.073 * _default_ * arsmBlueTopazFreq ' type='normal' scaleTo='base' />
+                            <Setting name='CloudRadius' avg=':= 1.183 * _default_ * arsmBlueTopazSize ' range=':= 1.183 * _default_ * arsmBlueTopazSize ' type='normal' />
+                            <Setting name='CloudThickness' avg=':= 1.183 * _default_ * arsmBlueTopazSize ' range=':= 1.183 * _default_ * arsmBlueTopazSize ' type='normal' scaleTo='base' />
+                            <Setting name='DistributionFrequency' avg=':= 1.400 * _default_ * arsmBlueTopazFreq ' range=':= 1.400 * _default_ * arsmBlueTopazFreq ' type='normal' scaleTo='base' />
                             <Setting name='CloudHeight' avg=':= 45 ' range=':= 35 ' type='normal' scaleTo='base' />
                             <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -520,7 +556,8 @@
                         </Cloud>
                     </IfCondition>
                 </ConfigSection>
-                <!-- Cloud Preset for Blue Topaz is complete. -->
+                <!-- StrategicClouds Preset for Blue Topaz is
+                     complete. -->
 
 
                 <!-- Starting Vanilla Preset for Blue Topaz. -->
