@@ -81,6 +81,7 @@ public class CustomOreGenBase
             "Metallurgy4.xml",
             "MineChem.xml",
             "MinecraftComesAlive.xml",
+            "MinecraftSpecialRules.xml",
             "NetherOres.xml",
             "Netherrocks.xml",
             "Nuclearcraft.xml",

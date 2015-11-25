@@ -1,0 +1,235 @@
+<!-- =================================================================
+     Custom Ore Generation "Special Rules" Module: This configuration
+     covers mantle, water table, and igneous dikes.
+     ================================================================= -->
+
+
+<!-- Several special rules that can alter the playstyle in the world.
+     Is disabled by default.  Configuration by Reteo. -->
+
+
+
+
+<!-- Starting Configuration for Custom Ore Generation. -->
+<ConfigSection>
+
+
+
+
+
+    <!-- Setup Screen Configuration -->
+    <ConfigSection>
+        <OptionDisplayGroup name='groupSpecialRules' displayName='Special Rules' displayState='shown'>
+            <Description>
+                Distribution options for Special Rules Ores.
+            </Description>
+        </OptionDisplayGroup>
+
+        <!-- Mantle Configuration UI Starting -->
+        <ConfigSection>
+            <OptionChoice name='spruMantleDist' default='none'  displayState=':= "shown"' displayGroup='groupSpecialRules'>
+                <Description> Controls how Mantle is generated </Description>
+                <DisplayName>Special Rules Mantle</DisplayName>
+                <IfCondition condition=':= (?blockExists("minecraft:lava")) '>
+
+                <Choice value='Substitution' displayValue='Substitution'>
+                    <Description>
+                        Universal Block Replacement.
+                    </Description>
+                </Choice>
+                </IfCondition>
+
+                <Choice value='none' displayValue='None' description='Mantle is not generated in the world.'/>
+            </OptionChoice>
+            <OptionNumeric name='spruMantleFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions, "shown", "hidden")' displayGroup='groupSpecialRules'>
+                <Description> Frequency multiplier for Special Rules Mantle distributions </Description>
+                <DisplayName>Special Rules Mantle Freq.</DisplayName>
+            </OptionNumeric>
+            <OptionNumeric name='spruMantleSize' default='1'  min='0' max='5' displayState=':= if(?advOptions, "shown", "hidden")' displayGroup='groupSpecialRules'>
+                <Description> Size multiplier for Special Rules Mantle distributions </Description>
+                <DisplayName>Special Rules Mantle Size</DisplayName>
+            </OptionNumeric>
+            <OptionNumeric name='spruMantleLevel' default='8'  min='1' max='64'    displayState=':= "shown"' displayGroup='groupSpecialRules'>
+                <Description> How high should the mantle be? </Description>
+                <DisplayName>Special Rules Mantle Level</DisplayName>
+            </OptionNumeric>
+        </ConfigSection>
+        <!-- Mantle Configuration UI Complete -->
+
+
+        <!-- Water Table Configuration UI Starting -->
+        <ConfigSection>
+            <OptionChoice name='spruWaterTableDist' default='none'  displayState=':= "shown"' displayGroup='groupSpecialRules'>
+                <Description> Controls how Water Table is generated </Description>
+                <DisplayName>Special Rules Water Table</DisplayName>
+                <IfCondition condition=':= (?blockExists("minecraft:water")) '>
+
+                <Choice value='Substitution' displayValue='Substitution'>
+                    <Description>
+                        Universal Block Replacement.
+                    </Description>
+                </Choice>
+                </IfCondition>
+
+                <Choice value='none' displayValue='None' description='Water Table is not generated in the world.'/>
+            </OptionChoice>
+            <OptionNumeric name='spruWaterTableFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions, "shown", "hidden")' displayGroup='groupSpecialRules'>
+                <Description> Frequency multiplier for Special Rules Water Table distributions </Description>
+                <DisplayName>Special Rules Water Table Freq.</DisplayName>
+            </OptionNumeric>
+            <OptionNumeric name='spruWaterTableSize' default='1'  min='0' max='5' displayState=':= if(?advOptions, "shown", "hidden")' displayGroup='groupSpecialRules'>
+                <Description> Size multiplier for Special Rules Water Table distributions </Description>
+                <DisplayName>Special Rules Water Table Size</DisplayName>
+            </OptionNumeric>
+            <OptionNumeric name='spruWaterTableLevel' default='8'  min='1' max='64'  displayState=':= "shown"' displayGroup='groupSpecialRules'>
+                <Description> How high should the water table be? </Description>
+                <DisplayName>Special Rules Water Table Level</DisplayName>
+            </OptionNumeric>
+        </ConfigSection>
+        <!-- Water Table Configuration UI Complete -->
+
+
+        <!-- Igneous Dikes Configuration UI Starting -->
+        <ConfigSection>
+            <OptionChoice name='spruIgneousDikesDist' default='none'  displayState=':= "shown"' displayGroup='groupSpecialRules'>
+                <Description> Controls how Igneous Dikes is generated </Description>
+                <DisplayName>Special Rules Igneous Dikes</DisplayName>
+                <IfCondition condition=':= (?blockExists("minecraft:lava")) '>
+
+                <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
+                    <Description>
+                        Large irregular clouds filled lightly with ore.
+                    </Description>
+                </Choice>
+                </IfCondition>
+
+                <Choice value='none' displayValue='None' description='Igneous Dikes is not generated in the world.'/>
+            </OptionChoice>
+            <OptionNumeric name='spruIgneousDikesFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions, "shown", "hidden")' displayGroup='groupSpecialRules'>
+                <Description> Frequency multiplier for Special Rules Igneous Dikes distributions </Description>
+                <DisplayName>Special Rules Igneous Dikes Freq.</DisplayName>
+            </OptionNumeric>
+            <OptionNumeric name='spruIgneousDikesSize' default='1'  min='0' max='5' displayState=':= if(?advOptions, "shown", "hidden")' displayGroup='groupSpecialRules'>
+                <Description> Size multiplier for Special Rules Igneous Dikes distributions </Description>
+                <DisplayName>Special Rules Igneous Dikes Size</DisplayName>
+            </OptionNumeric>
+        </ConfigSection>
+        <!-- Igneous Dikes Configuration UI Complete -->
+
+    </ConfigSection>
+    <!-- Setup Screen Complete -->
+
+
+
+
+
+    <!-- Overworld Setup Beginning -->
+
+    <IfCondition condition=':= ?COGActive'>
+
+        <!-- Starting Original "Overworld" Block Removal -->
+        <!-- Original "Overworld" Block Removal Complete -->
+
+        <!-- Adding blocks -->
+
+        <!-- Begin Mantle Generation -->
+
+        <!-- Starting Substitution Preset for Mantle. -->
+        <ConfigSection>
+            <IfCondition condition=':= spruMantleDist = "Substitution"'>
+                <Substitute name='spruMantleSubstitute'  minHeight='0'  maxHeight=':= spruMantleLevel' >
+                    <Description>
+                        All caves below a specified level will be
+                        full of lava.
+                    </Description>
+                    <OreBlock block='minecraft:lava' weight='1.0' />
+                    <Replaces block='minecraft:air' weight='1.0' />
+                    <ReplacesOre block='dirt' weight='1.0' />
+                    <ReplacesOre block='gravel' weight='1.0' />
+                    <Replaces block='minecraft:water' weight='1.0' />
+                    <Biome name='.*'  />
+                </Substitute>
+            </IfCondition>
+        </ConfigSection>
+        <!-- Substitution Preset for Mantle is complete. -->
+
+        <!-- End Mantle Generation -->
+
+
+        <!-- Begin Water Table Generation -->
+
+        <!-- Starting Substitution Preset for Water Table. -->
+        <ConfigSection>
+            <IfCondition condition=':= spruWaterTableDist = "Substitution"'>
+                <Substitute name='spruWaterTableSubstitute'  minHeight='0'  maxHeight=':= spruWaterTableLevel' >
+                    <Description>
+                        All caves below a specified level will be
+                        full of water.
+                    </Description>
+                    <OreBlock block='minecraft:water' weight='1.0' />
+                    <Replaces block='minecraft:air' weight='1.0' />
+                    <Biome name='.*'  />
+                </Substitute>
+            </IfCondition>
+        </ConfigSection>
+        <!-- Substitution Preset for Water Table is complete. -->
+
+        <!-- End Water Table Generation -->
+
+
+        <!-- Begin Igneous Dikes Generation -->
+
+        <!-- Starting StrategicClouds Preset for Igneous Dikes. -->
+        <ConfigSection>
+            <IfCondition condition=':= spruIgneousDikesDist = "StrategicClouds"'>
+                <Cloud name='spruIgneousDikesCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FF4400' drawBoundBox='false' boundBoxColor='0x60FF4400'>
+                    <Description>
+                        Lava from the mantle intrudes above the
+                        bedrock layer in an enormous lump  Great
+                        for games with a high need for lava.
+                    </Description>
+                    <OreBlock block='minecraft:lava' weight='1.0' />
+                    <Replaces block='minecraft:air' weight='1.0' />
+                    <ReplacesOre block='stone' weight='1.0' />
+                    <ReplacesOre block='dirt' weight='1.0' />
+                    <ReplacesOre block='gravel' weight='1.0' />
+                    <Replaces block='minecraft:water' weight='1.0' />
+                    <Biome name='.*'  />
+                    <Setting name='CloudRadius' avg=':= 40 * spruIgneousDikesSize ' range=':= 20 * spruIgneousDikesSize ' type='normal' />
+                    <Setting name='CloudThickness' avg=':= 20 * spruIgneousDikesSize ' range=':= 10 * spruIgneousDikesSize ' type='normal' scaleTo='base' />
+                    <Setting name='DistributionFrequency' avg=':= _default_ * spruIgneousDikesFreq ' range=':= _default_ * spruIgneousDikesFreq ' type='normal' scaleTo='base' />
+                    <Setting name='CloudHeight' avg=':= 0 ' range=':= 0 ' type='normal' scaleTo='base' />
+                    <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                    <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                    <Setting name='CloudInclination' avg=':= 0 ' range=':= 90 ' type='normal' />
+                    <Setting name='OreDensity' avg=':= 1 ' range=':= 0 ' type='normal' scaleTo='base' />
+                    <Setting name='OreVolumeNoiseCutoff' avg=':= 0 ' range=':= 0 ' type='normal' />
+                    <Setting name='OreRadiusMult' avg=':= 1 ' range=':= 0 ' type='normal' />
+                </Cloud>
+            </IfCondition>
+        </ConfigSection>
+        <!-- StrategicClouds Preset for Igneous Dikes is complete. -->
+
+        <!-- End Igneous Dikes Generation -->
+
+        <!-- Finished adding blocks -->
+
+    </IfCondition>
+    <!-- Overworld Setup Complete -->
+
+
+
+
+</ConfigSection>
+<!-- Configuration for Custom Ore Generation Complete! -->
+
+
+
+
+<!-- =================================================================
+     This file was made using the Sprocket Configuration Generator.
+     If you wish to make your own configurations for a mod not
+     currently supported by Custom Ore Generation, and you don't want
+     the hassle of writing XML, you can find the generator script at
+     its GitHub page: http://https://github.com/reteo/Sprocket
+     ================================================================= -->
