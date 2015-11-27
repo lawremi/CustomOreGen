@@ -63,7 +63,6 @@ public class CustomOreGenBase
             "Dartcraft.xml",
             "DenseOres.xml",
             "ElectriCraft.xml",
-            "ExtraCaves.xml",
             "EtFuturum.xml",
             "Factorization.xml",
             "FlaxbeardsSteamcraft.xml",
