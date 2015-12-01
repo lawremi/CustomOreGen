@@ -40,15 +40,6 @@
                 </Choice>
                 </IfCondition>
 
-                <IfCondition condition=':= (?blockExists("minecraft:clay")) '>
-
-                <Choice value='StratumClouds' displayValue='Strata'>
-                    <Description>
-                        Wide, thin, and flat disks of ore.
-                    </Description>
-                </Choice>
-                </IfCondition>
-
                 <Choice value='none' displayValue='None' description='Clay is not generated in the world.'/>
             </OptionChoice>
             <OptionNumeric name='vnlaClayFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions, "shown", "hidden")' displayGroup='groupVanillaMinecraft'>
@@ -485,7 +476,7 @@
         <!-- Starting SmallDeposits Preset for Clay. -->
         <ConfigSection>
             <IfCondition condition=':= vnlaClayDist = "SmallDeposits"'>
-                <Veins name='vnlaClayVeins'  inherits='PresetSmallDeposits' drawWireframe='true' wireframeColor='0x60A5A9B9' drawBoundBox='false' boundBoxColor='0x60A5A9B9'>
+                <Veins name='vnlaClayVeins'  inherits='PresetSmallDeposits' branchType='Bezier' drawWireframe='true' wireframeColor='0x60A5A9B9' drawBoundBox='false' boundBoxColor='0x60A5A9B9'>
                     <Description>
                         Small motherlodes without any branches.
                         Similar to the deposits produced by
@@ -493,8 +484,8 @@
                     </Description>
                     <OreBlock block='minecraft:clay' weight='1.0' />
                     <ReplacesOre block='sand' weight='1.0' />
-                    <ReplacesOre block='gravel' weight='1.0' />
-                    <ReplacesOre block='dirt' weight='1.0' />
+                    <Replaces block='minecraft:gravel' weight='1.0' />
+                    <Replaces block='minecraft:dirt' weight='1.0' />
                     <Biome name='.*'  />
                     <Biome name='Ocean'  weight='-1' />
                     <Biome name='Desert'  weight='-1' />
@@ -511,21 +502,22 @@
                     <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='SegmentLength' avg=':= _default_ * vnlaClaySize ' range=':= _default_ * vnlaClaySize ' type='normal' />
                     <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                    <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='SegmentRadius' avg=':= 0 * _default_ * vnlaClaySize ' range=':= 0 * _default_ * vnlaClaySize ' type='normal' />
                     <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                 </Veins>
 
                 <!-- Beginning "Preferred" configuration. -->
-                <Veins name='vnlaClayPreferredVeins'  inherits='PresetSmallDeposits' drawWireframe='true' wireframeColor='0x60A5A9B9' drawBoundBox='false' boundBoxColor='0x60A5A9B9'>
+                <Veins name='vnlaClayPreferredVeins'  inherits='PresetSmallDeposits' branchType='Bezier' drawWireframe='true' wireframeColor='0x60A5A9B9' drawBoundBox='false' boundBoxColor='0x60A5A9B9'>
                     <Description>
                         Ore generation is doubled in preferred
                         biomes.
                     </Description>
                     <OreBlock block='minecraft:clay' weight='1.0' />
                     <ReplacesOre block='sand' weight='1.0' />
-                    <ReplacesOre block='gravel' weight='1.0' />
-                    <ReplacesOre block='dirt' weight='1.0' />
+                    <Replaces block='minecraft:gravel' weight='1.0' />
+                    <Replaces block='minecraft:dirt' weight='1.0' />
                     <BiomeType name='Swamp'  />
                     <BiomeType name='Beach'  />
                     <BiomeType name='River'  />
@@ -544,6 +536,7 @@
                     <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='SegmentLength' avg=':= _default_ * vnlaClaySize ' range=':= _default_ * vnlaClaySize ' type='normal' />
                     <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                    <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='SegmentRadius' avg=':= 0 * _default_ * vnlaClaySize ' range=':= 0 * _default_ * vnlaClaySize ' type='normal' />
                     <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -554,70 +547,6 @@
         </ConfigSection>
         <!-- SmallDeposits Preset for Clay is complete. -->
 
-
-        <!-- Starting StratumClouds Preset for Clay. -->
-        <ConfigSection>
-            <IfCondition condition=':= vnlaClayDist = "StratumClouds"'>
-                <Cloud name='vnlaClayCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60A5A9B9' drawBoundBox='false' boundBoxColor='0x60A5A9B9'>
-                    <Description>
-                        Wide, thin, and flat disks of ore.  Primarily,
-                        this distribution is meant to  provide
-                        realistic distribution of stone  in a strata
-                        formation.
-                    </Description>
-                    <OreBlock block='minecraft:clay' weight='1.0' />
-                    <ReplacesOre block='sand' weight='1.0' />
-                    <ReplacesOre block='gravel' weight='1.0' />
-                    <ReplacesOre block='dirt' weight='1.0' />
-                    <Biome name='.*'  />
-                    <Biome name='Ocean'  weight='-1' />
-                    <Biome name='Desert'  weight='-1' />
-                    <Biome name='Mountain'  weight='-1' />
-                    <Setting name='CloudRadius' avg=':= 1.635 * _default_ * vnlaClaySize ' range=':= 1.635 * _default_ * vnlaClaySize ' type='normal' />
-                    <Setting name='CloudThickness' avg=':= 1.635 * _default_ * vnlaClaySize ' range=':= 1.635 * _default_ * vnlaClaySize ' type='normal' scaleTo='base' />
-                    <Setting name='DistributionFrequency' avg=':= 2.673 * _default_ * vnlaClayFreq ' range=':= 2.673 * _default_ * vnlaClayFreq ' type='normal' scaleTo='base' />
-                    <Setting name='CloudHeight' avg=':= 64 ' range=':= 10 ' type='uniform' scaleTo='base' />
-                    <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                    <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                    <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                    <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
-                    <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                    <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                </Cloud>
-
-                <!-- Beginning "Preferred" configuration. -->
-                <Cloud name='vnlaClayPreferredCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60A5A9B9' drawBoundBox='false' boundBoxColor='0x60A5A9B9'>
-                    <Description>
-                        Ore generation is doubled in preferred
-                        biomes.
-                    </Description>
-                    <OreBlock block='minecraft:clay' weight='1.0' />
-                    <ReplacesOre block='sand' weight='1.0' />
-                    <ReplacesOre block='gravel' weight='1.0' />
-                    <ReplacesOre block='dirt' weight='1.0' />
-                    <BiomeType name='Swamp'  />
-                    <BiomeType name='Beach'  />
-                    <BiomeType name='River'  />
-                    <Biome name='Ocean'  weight='-1' />
-                    <Biome name='Desert'  weight='-1' />
-                    <Biome name='Mountain'  weight='-1' />
-                    <Setting name='CloudRadius' avg=':= 1.635 * _default_ * vnlaClaySize ' range=':= 1.635 * _default_ * vnlaClaySize ' type='normal' />
-                    <Setting name='CloudThickness' avg=':= 1.635 * _default_ * vnlaClaySize ' range=':= 1.635 * _default_ * vnlaClaySize ' type='normal' scaleTo='base' />
-                    <Setting name='DistributionFrequency' avg=':= 2.673 * _default_ * vnlaClayFreq ' range=':= 2.673 * _default_ * vnlaClayFreq ' type='normal' scaleTo='base' />
-                    <Setting name='CloudHeight' avg=':= 64 ' range=':= 10 ' type='uniform' scaleTo='base' />
-                    <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                    <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                    <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                    <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
-                    <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                    <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                </Cloud>
-                <!-- "Preferred" configuration complete. -->
-
-            </IfCondition>
-        </ConfigSection>
-        <!-- StratumClouds Preset for Clay is complete. -->
-
         <!-- End Clay Generation -->
 
 
@@ -626,7 +555,7 @@
         <!-- Starting SparseVeins Preset for Coal. -->
         <ConfigSection>
             <IfCondition condition=':= vnlaCoalDist = "SparseVeins"'>
-                <Veins name='vnlaCoalVeins'  inherits='PresetSparseVeins' drawWireframe='true' wireframeColor='0x602A2A2A' drawBoundBox='false' boundBoxColor='0x602A2A2A'>
+                <Veins name='vnlaCoalVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x602A2A2A' drawBoundBox='false' boundBoxColor='0x602A2A2A'>
                     <Description>
                         Large veins filled very lightly with ore.
                         Because they contain less ore per volume,
@@ -652,6 +581,7 @@
                     <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='SegmentLength' avg=':= _default_ * vnlaCoalSize ' range=':= _default_ * vnlaCoalSize ' type='normal' />
                     <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                    <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='SegmentRadius' avg=':= 1.668 * _default_ * vnlaCoalSize ' range=':= 1.668 * _default_ * vnlaCoalSize ' type='normal' />
                     <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -690,7 +620,7 @@
                     <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                     <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                    <Veins name='vnlaCoalHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x602A2A2A' drawBoundBox='false' boundBoxColor='0x602A2A2A'>
+                    <Veins name='vnlaCoalHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x602A2A2A' drawBoundBox='false' boundBoxColor='0x602A2A2A'>
                         <Description>
                             Single blocks, generously scattered
                             through all heights (density is about
@@ -709,8 +639,10 @@
                             scaled  by that.
                         </Description>
                         <OreBlock block='minecraft:coal_ore' weight='1.0' />
-                        <Replaces block='minecraft:dirt' weight='1.0' />
+                        <ReplacesOre block='dirt' weight='1.0' />
                         <Replaces block='minecraft:sandstone' weight='1.0' />
+                        <ReplacesOre block='stone' weight='1.0' />
+                        <ReplacesOre block='gravel' weight='1.0' />
                     </Veins>
                 </Cloud>
             </IfCondition>
@@ -746,7 +678,7 @@
         <!-- Starting LayeredVeins Preset for Iron. -->
         <ConfigSection>
             <IfCondition condition=':= vnlaIronDist = "LayeredVeins"'>
-                <Veins name='vnlaIronVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
+                <Veins name='vnlaIronVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
                     <Description>
                         Small, fairly rare motherlodes with 2-4
                         horizontal veins each.
@@ -766,6 +698,7 @@
                     <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='SegmentLength' avg=':= _default_ * vnlaIronSize ' range=':= _default_ * vnlaIronSize ' type='normal' />
                     <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                    <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='SegmentRadius' avg=':= 1.223 * _default_ * vnlaIronSize ' range=':= 1.223 * _default_ * vnlaIronSize ' type='normal' />
                     <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -804,7 +737,7 @@
                     <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                     <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                    <Veins name='vnlaIronHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
+                    <Veins name='vnlaIronHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
                         <Description>
                             Single blocks, generously scattered
                             through all heights (density is about
@@ -823,8 +756,10 @@
                             scaled  by that.
                         </Description>
                         <OreBlock block='minecraft:iron_ore' weight='1.0' />
-                        <Replaces block='minecraft:dirt' weight='1.0' />
+                        <ReplacesOre block='dirt' weight='1.0' />
                         <Replaces block='minecraft:sandstone' weight='1.0' />
+                        <ReplacesOre block='stone' weight='1.0' />
+                        <ReplacesOre block='gravel' weight='1.0' />
                     </Veins>
                 </Cloud>
             </IfCondition>
@@ -860,7 +795,7 @@
         <!-- Starting LayeredVeins Preset for Gold. -->
         <ConfigSection>
             <IfCondition condition=':= vnlaGoldDist = "LayeredVeins"'>
-                <Veins name='vnlaGoldVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
+                <Veins name='vnlaGoldVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
                     <Description>
                         Small, fairly rare motherlodes with 2-4
                         horizontal veins each.
@@ -880,6 +815,7 @@
                     <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='SegmentLength' avg=':= _default_ * vnlaGoldSize ' range=':= _default_ * vnlaGoldSize ' type='normal' />
                     <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                    <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='SegmentRadius' avg=':= 0.917 * _default_ * vnlaGoldSize ' range=':= 0.917 * _default_ * vnlaGoldSize ' type='normal' />
                     <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -918,7 +854,7 @@
                     <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                     <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                    <Veins name='vnlaGoldHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
+                    <Veins name='vnlaGoldHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
                         <Description>
                             Single blocks, generously scattered
                             through all heights (density is about
@@ -937,8 +873,10 @@
                             scaled  by that.
                         </Description>
                         <OreBlock block='minecraft:gold_ore' weight='1.0' />
-                        <Replaces block='minecraft:dirt' weight='1.0' />
+                        <ReplacesOre block='dirt' weight='1.0' />
                         <Replaces block='minecraft:sandstone' weight='1.0' />
+                        <ReplacesOre block='stone' weight='1.0' />
+                        <ReplacesOre block='gravel' weight='1.0' />
                     </Veins>
                 </Cloud>
             </IfCondition>
@@ -974,7 +912,7 @@
         <!-- Starting VerticalVeins Preset for Redstone. -->
         <ConfigSection>
             <IfCondition condition=':= vnlaRedstoneDist = "VerticalVeins"'>
-                <Veins name='vnlaRedstoneVeins'  inherits='PresetVerticalVeins' drawWireframe='true' wireframeColor='0x60A80002' drawBoundBox='false' boundBoxColor='0x60A80002'>
+                <Veins name='vnlaRedstoneVeins'  inherits='PresetVerticalVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60A80002' drawBoundBox='false' boundBoxColor='0x60A80002'>
                     <Description>
                         Single vertical veins that occur with no
                         motherlodes.
@@ -994,6 +932,7 @@
                     <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='SegmentLength' avg=':= _default_ * vnlaRedstoneSize ' range=':= _default_ * vnlaRedstoneSize ' type='normal' />
                     <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                    <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='SegmentRadius' avg=':= 1.551 * _default_ * vnlaRedstoneSize ' range=':= 1.551 * _default_ * vnlaRedstoneSize ' type='normal' />
                     <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1032,7 +971,7 @@
                     <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                     <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                    <Veins name='vnlaRedstoneHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60A80002' drawBoundBox='false' boundBoxColor='0x60A80002'>
+                    <Veins name='vnlaRedstoneHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60A80002' drawBoundBox='false' boundBoxColor='0x60A80002'>
                         <Description>
                             Single blocks, generously scattered
                             through all heights (density is about
@@ -1051,8 +990,10 @@
                             scaled  by that.
                         </Description>
                         <OreBlock block='minecraft:redstone_ore' weight='1.0' />
-                        <Replaces block='minecraft:dirt' weight='1.0' />
+                        <ReplacesOre block='dirt' weight='1.0' />
                         <Replaces block='minecraft:sandstone' weight='1.0' />
+                        <ReplacesOre block='stone' weight='1.0' />
+                        <ReplacesOre block='gravel' weight='1.0' />
                     </Veins>
                 </Cloud>
             </IfCondition>
@@ -1088,7 +1029,7 @@
         <!-- Starting PipeVeins Preset for Diamond. -->
         <ConfigSection>
             <IfCondition condition=':= vnlaDiamondDist = "PipeVeins"'>
-                <Veins name='vnlaDiamondVeins'  inherits='PresetPipeVeins' seed='0x197B' drawWireframe='true' wireframeColor='0x608BF4E3' drawBoundBox='false' boundBoxColor='0x608BF4E3'>
+                <Veins name='vnlaDiamondVeins'  inherits='PresetPipeVeins' branchType='Bezier' seed='0x197B' drawWireframe='true' wireframeColor='0x608BF4E3' drawBoundBox='false' boundBoxColor='0x608BF4E3'>
                     <Description>
                         Short sparsely filled veins sloping up  from
                         near the bottom of the map.
@@ -1108,13 +1049,14 @@
                     <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='SegmentLength' avg=':= _default_ * vnlaDiamondSize ' range=':= _default_ * vnlaDiamondSize ' type='normal' />
                     <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                    <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='SegmentRadius' avg=':= 0.919 * _default_ * vnlaDiamondSize ' range=':= 0.919 * _default_ * vnlaDiamondSize ' type='normal' />
                     <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                 </Veins>
 
                 <!-- Configuring contained material. -->
-                <Veins name='vnlaDiamondVeinsPipe'  inherits='vnlaDiamondVeins' seed='0x197B' drawWireframe='true' wireframeColor='0x608BF4E3' drawBoundBox='false' boundBoxColor='0x608BF4E3'>
+                <Veins name='vnlaDiamondVeinsPipe'  inherits='vnlaDiamondVeins' branchType='Bezier' seed='0x197B' drawWireframe='true' wireframeColor='0x608BF4E3' drawBoundBox='false' boundBoxColor='0x608BF4E3'>
                     <OreBlock block='minecraft:lava' weight='1.0' />
                     <ReplacesOre block='stone' weight='1.0' />
                     <Replaces block='minecraft:diamond_ore' weight='1.0' />
@@ -1156,7 +1098,7 @@
                     <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                     <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                    <Veins name='vnlaDiamondHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x608BF4E3' drawBoundBox='false' boundBoxColor='0x608BF4E3'>
+                    <Veins name='vnlaDiamondHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x608BF4E3' drawBoundBox='false' boundBoxColor='0x608BF4E3'>
                         <Description>
                             Single blocks, generously scattered
                             through all heights (density is about
@@ -1175,8 +1117,10 @@
                             scaled  by that.
                         </Description>
                         <OreBlock block='minecraft:diamond_ore' weight='1.0' />
-                        <Replaces block='minecraft:dirt' weight='1.0' />
+                        <ReplacesOre block='dirt' weight='1.0' />
                         <Replaces block='minecraft:sandstone' weight='1.0' />
+                        <ReplacesOre block='stone' weight='1.0' />
+                        <ReplacesOre block='gravel' weight='1.0' />
                     </Veins>
                 </Cloud>
             </IfCondition>
@@ -1212,7 +1156,7 @@
         <!-- Starting VerticalVeins Preset for Lapis Lazuli. -->
         <ConfigSection>
             <IfCondition condition=':= vnlaLapisLazuliDist = "VerticalVeins"'>
-                <Veins name='vnlaLapisLazuliVeins'  inherits='PresetVerticalVeins' drawWireframe='true' wireframeColor='0x601442BA' drawBoundBox='false' boundBoxColor='0x601442BA'>
+                <Veins name='vnlaLapisLazuliVeins'  inherits='PresetVerticalVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x601442BA' drawBoundBox='false' boundBoxColor='0x601442BA'>
                     <Description>
                         Single vertical veins that occur with no
                         motherlodes.
@@ -1232,6 +1176,7 @@
                     <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='SegmentLength' avg=':= _default_ * vnlaLapisLazuliSize ' range=':= _default_ * vnlaLapisLazuliSize ' type='normal' />
                     <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                    <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='SegmentRadius' avg=':= 0.887 * _default_ * vnlaLapisLazuliSize ' range=':= 0.887 * _default_ * vnlaLapisLazuliSize ' type='normal' />
                     <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1270,7 +1215,7 @@
                     <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                     <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                    <Veins name='vnlaLapisLazuliHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x601442BA' drawBoundBox='false' boundBoxColor='0x601442BA'>
+                    <Veins name='vnlaLapisLazuliHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x601442BA' drawBoundBox='false' boundBoxColor='0x601442BA'>
                         <Description>
                             Single blocks, generously scattered
                             through all heights (density is about
@@ -1289,8 +1234,10 @@
                             scaled  by that.
                         </Description>
                         <OreBlock block='minecraft:lapis_ore' weight='1.0' />
-                        <Replaces block='minecraft:dirt' weight='1.0' />
+                        <ReplacesOre block='dirt' weight='1.0' />
                         <Replaces block='minecraft:sandstone' weight='1.0' />
+                        <ReplacesOre block='stone' weight='1.0' />
+                        <ReplacesOre block='gravel' weight='1.0' />
                     </Veins>
                 </Cloud>
             </IfCondition>
@@ -1326,7 +1273,7 @@
         <!-- Starting PipeVeins Preset for Emerald. -->
         <ConfigSection>
             <IfCondition condition=':= vnlaEmeraldDist = "PipeVeins"'>
-                <Veins name='vnlaEmeraldVeins'  inherits='PresetPipeVeins' seed='0x54B3' drawWireframe='true' wireframeColor='0x606CE391' drawBoundBox='false' boundBoxColor='0x606CE391'>
+                <Veins name='vnlaEmeraldVeins'  inherits='PresetPipeVeins' branchType='Bezier' seed='0x54B3' drawWireframe='true' wireframeColor='0x606CE391' drawBoundBox='false' boundBoxColor='0x606CE391'>
                     <Description>
                         Short sparsely filled veins sloping up  from
                         near the bottom of the map.
@@ -1346,13 +1293,14 @@
                     <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='SegmentLength' avg=':= _default_ * vnlaEmeraldSize ' range=':= _default_ * vnlaEmeraldSize ' type='normal' />
                     <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                    <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='SegmentRadius' avg=':= 1.035 * _default_ * vnlaEmeraldSize ' range=':= 1.035 * _default_ * vnlaEmeraldSize ' type='normal' />
                     <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                 </Veins>
 
                 <!-- Configuring contained material. -->
-                <Veins name='vnlaEmeraldVeinsPipe'  inherits='vnlaEmeraldVeins' seed='0x54B3' drawWireframe='true' wireframeColor='0x606CE391' drawBoundBox='false' boundBoxColor='0x606CE391'>
+                <Veins name='vnlaEmeraldVeinsPipe'  inherits='vnlaEmeraldVeins' branchType='Bezier' seed='0x54B3' drawWireframe='true' wireframeColor='0x606CE391' drawBoundBox='false' boundBoxColor='0x606CE391'>
                     <OreBlock block='minecraft:monster_egg' weight='1.0' />
                     <ReplacesOre block='stone' weight='1.0' />
                     <Replaces block='minecraft:emerald_ore' weight='1.0' />
@@ -1394,7 +1342,7 @@
                     <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                     <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                    <Veins name='vnlaEmeraldHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x606CE391' drawBoundBox='false' boundBoxColor='0x606CE391'>
+                    <Veins name='vnlaEmeraldHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x606CE391' drawBoundBox='false' boundBoxColor='0x606CE391'>
                         <Description>
                             Single blocks, generously scattered
                             through all heights (density is about
@@ -1413,8 +1361,10 @@
                             scaled  by that.
                         </Description>
                         <OreBlock block='minecraft:emerald_ore' weight='1.0' />
-                        <Replaces block='minecraft:dirt' weight='1.0' />
+                        <ReplacesOre block='dirt' weight='1.0' />
                         <Replaces block='minecraft:sandstone' weight='1.0' />
+                        <ReplacesOre block='stone' weight='1.0' />
+                        <ReplacesOre block='gravel' weight='1.0' />
                     </Veins>
                 </Cloud>
             </IfCondition>
@@ -1481,7 +1431,7 @@
         <!-- Starting SparseVeins Preset for Nether Quartz. -->
         <ConfigSection>
             <IfCondition condition=':= vnlaNetherQuartzDist = "SparseVeins"'>
-                <Veins name='vnlaNetherQuartzVeins'  inherits='PresetSparseVeins' drawWireframe='true' wireframeColor='0x60DBCCBF' drawBoundBox='false' boundBoxColor='0x60DBCCBF'>
+                <Veins name='vnlaNetherQuartzVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60DBCCBF' drawBoundBox='false' boundBoxColor='0x60DBCCBF'>
                     <Description>
                         Large veins filled very lightly with ore.
                         Because they contain less ore per volume,
@@ -1507,6 +1457,7 @@
                     <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='SegmentLength' avg=':= _default_ * vnlaNetherQuartzSize ' range=':= _default_ * vnlaNetherQuartzSize ' type='normal' />
                     <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                    <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='SegmentRadius' avg=':= 1.581 * _default_ * vnlaNetherQuartzSize ' range=':= 1.581 * _default_ * vnlaNetherQuartzSize ' type='normal' />
                     <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1545,7 +1496,7 @@
                     <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                     <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                     <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                    <Veins name='vnlaNetherQuartzHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60DBCCBF' drawBoundBox='false' boundBoxColor='0x60DBCCBF'>
+                    <Veins name='vnlaNetherQuartzHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60DBCCBF' drawBoundBox='false' boundBoxColor='0x60DBCCBF'>
                         <Description>
                             Single blocks, generously scattered
                             through all heights (density is about
@@ -1564,8 +1515,10 @@
                             scaled  by that.
                         </Description>
                         <OreBlock block='minecraft:quartz_ore' weight='1.0' />
-                        <Replaces block='minecraft:dirt' weight='1.0' />
+                        <ReplacesOre block='dirt' weight='1.0' />
                         <Replaces block='minecraft:sandstone' weight='1.0' />
+                        <ReplacesOre block='stone' weight='1.0' />
+                        <ReplacesOre block='gravel' weight='1.0' />
                     </Veins>
                 </Cloud>
             </IfCondition>
@@ -1609,9 +1562,9 @@
 
 
 <!-- =================================================================
-     This file was made using the Sprocket Configuration Generator.
-     If you wish to make your own configurations for a mod not
-     currently supported by Custom Ore Generation, and you don't want
-     the hassle of writing XML, you can find the generator script at
-     its GitHub page: http://https://github.com/reteo/Sprocket
+     This file was made using the Sprocket Advanced Configuration
+     Generator.  If you wish to make your own configurations for a mod
+     not currently supported by Custom Ore Generation, and you don't
+     want the hassle of writing XML, you can find the generator script
+     at its GitHub page: http://https://github.com/reteo/Sprocket
      ================================================================= -->

@@ -868,7 +868,7 @@
                 <!-- Starting SparseVeins Preset for Pitchblende. -->
                 <ConfigSection>
                     <IfCondition condition=':= recrPitchblendeDist = "SparseVeins"'>
-                        <Veins name='recrPitchblendeVeins'  inherits='PresetSparseVeins' drawWireframe='true' wireframeColor='0x60454454' drawBoundBox='false' boundBoxColor='0x60454454'>
+                        <Veins name='recrPitchblendeVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60454454' drawBoundBox='false' boundBoxColor='0x60454454'>
                             <Description>
                                 Large veins filled very lightly  with
                                 ore.  Because they contain  less ore
@@ -897,6 +897,7 @@
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * recrPitchblendeSize ' range=':= _default_ * recrPitchblendeSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentRadius' avg=':= 1.316 * _default_ * recrPitchblendeSize ' range=':= 1.316 * _default_ * recrPitchblendeSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -939,7 +940,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='recrPitchblendeHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60454454' drawBoundBox='false' boundBoxColor='0x60454454'>
+                            <Veins name='recrPitchblendeHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60454454' drawBoundBox='false' boundBoxColor='0x60454454'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -961,8 +962,10 @@
                                     already be scaled by that.
                                 </Description>
                                 <OreBlock block='ReactorCraft:reactorcraft_block_ore:1' weight='1.0' />
-                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <ReplacesOre block='dirt' weight='1.0' />
                                 <Replaces block='minecraft:sandstone' weight='1.0' />
+                                <ReplacesOre block='stone' weight='1.0' />
+                                <ReplacesOre block='gravel' weight='1.0' />
                             </Veins>
                         </Cloud>
                     </IfCondition>
@@ -1001,7 +1004,7 @@
                 <!-- Starting LayeredVeins Preset for Cadmium. -->
                 <ConfigSection>
                     <IfCondition condition=':= recrCadmiumDist = "LayeredVeins"'>
-                        <Veins name='recrCadmiumVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x607184A4' drawBoundBox='false' boundBoxColor='0x607184A4'>
+                        <Veins name='recrCadmiumVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x607184A4' drawBoundBox='false' boundBoxColor='0x607184A4'>
                             <Description>
                                 Small, fairly rare motherlodes  with
                                 2-4 horizontal veins each.
@@ -1021,6 +1024,7 @@
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * recrCadmiumSize ' range=':= _default_ * recrCadmiumSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentRadius' avg=':= 0.979 * _default_ * recrCadmiumSize ' range=':= 0.979 * _default_ * recrCadmiumSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1061,7 +1065,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='recrCadmiumHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x607184A4' drawBoundBox='false' boundBoxColor='0x607184A4'>
+                            <Veins name='recrCadmiumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x607184A4' drawBoundBox='false' boundBoxColor='0x607184A4'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -1083,8 +1087,10 @@
                                     already be scaled by that.
                                 </Description>
                                 <OreBlock block='ReactorCraft:reactorcraft_block_ore:2' weight='1.0' />
-                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <ReplacesOre block='dirt' weight='1.0' />
                                 <Replaces block='minecraft:sandstone' weight='1.0' />
+                                <ReplacesOre block='stone' weight='1.0' />
+                                <ReplacesOre block='gravel' weight='1.0' />
                             </Veins>
                         </Cloud>
                     </IfCondition>
@@ -1120,7 +1126,7 @@
                 <!-- Starting LayeredVeins Preset for Indium. -->
                 <ConfigSection>
                     <IfCondition condition=':= recrIndiumDist = "LayeredVeins"'>
-                        <Veins name='recrIndiumVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x607A7C89' drawBoundBox='false' boundBoxColor='0x607A7C89'>
+                        <Veins name='recrIndiumVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x607A7C89' drawBoundBox='false' boundBoxColor='0x607A7C89'>
                             <Description>
                                 Small, fairly rare motherlodes  with
                                 2-4 horizontal veins each.
@@ -1140,6 +1146,7 @@
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * recrIndiumSize ' range=':= _default_ * recrIndiumSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentRadius' avg=':= 0.902 * _default_ * recrIndiumSize ' range=':= 0.902 * _default_ * recrIndiumSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1180,7 +1187,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='recrIndiumHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x607A7C89' drawBoundBox='false' boundBoxColor='0x607A7C89'>
+                            <Veins name='recrIndiumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x607A7C89' drawBoundBox='false' boundBoxColor='0x607A7C89'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -1202,8 +1209,10 @@
                                     already be scaled by that.
                                 </Description>
                                 <OreBlock block='ReactorCraft:reactorcraft_block_ore:3' weight='1.0' />
-                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <ReplacesOre block='dirt' weight='1.0' />
                                 <Replaces block='minecraft:sandstone' weight='1.0' />
+                                <ReplacesOre block='stone' weight='1.0' />
+                                <ReplacesOre block='gravel' weight='1.0' />
                             </Veins>
                         </Cloud>
                     </IfCondition>
@@ -1239,7 +1248,7 @@
                 <!-- Starting LayeredVeins Preset for Silver. -->
                 <ConfigSection>
                     <IfCondition condition=':= recrSilverDist = "LayeredVeins"'>
-                        <Veins name='recrSilverVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+                        <Veins name='recrSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
                             <Description>
                                 Small, fairly rare motherlodes  with
                                 2-4 horizontal veins each.
@@ -1259,6 +1268,7 @@
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * recrSilverSize ' range=':= _default_ * recrSilverSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentRadius' avg=':= 0.931 * _default_ * recrSilverSize ' range=':= 0.931 * _default_ * recrSilverSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1299,7 +1309,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='recrSilverHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+                            <Veins name='recrSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -1321,8 +1331,10 @@
                                     already be scaled by that.
                                 </Description>
                                 <OreBlock block='ReactorCraft:reactorcraft_block_ore:4' weight='1.0' />
-                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <ReplacesOre block='dirt' weight='1.0' />
                                 <Replaces block='minecraft:sandstone' weight='1.0' />
+                                <ReplacesOre block='stone' weight='1.0' />
+                                <ReplacesOre block='gravel' weight='1.0' />
                             </Veins>
                         </Cloud>
                     </IfCondition>
@@ -1358,7 +1370,7 @@
                 <!-- Starting SparseVeins Preset for Calcite. -->
                 <ConfigSection>
                     <IfCondition condition=':= recrCalciteDist = "SparseVeins"'>
-                        <Veins name='recrCalciteVeins'  inherits='PresetSparseVeins' drawWireframe='true' wireframeColor='0x60FEA219' drawBoundBox='false' boundBoxColor='0x60FEA219'>
+                        <Veins name='recrCalciteVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60FEA219' drawBoundBox='false' boundBoxColor='0x60FEA219'>
                             <Description>
                                 Large veins filled very lightly  with
                                 ore.  Because they contain  less ore
@@ -1385,6 +1397,7 @@
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * recrCalciteSize ' range=':= _default_ * recrCalciteSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentRadius' avg=':= 1.316 * _default_ * recrCalciteSize ' range=':= 1.316 * _default_ * recrCalciteSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1425,7 +1438,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='recrCalciteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FEA219' drawBoundBox='false' boundBoxColor='0x60FEA219'>
+                            <Veins name='recrCalciteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FEA219' drawBoundBox='false' boundBoxColor='0x60FEA219'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -1447,8 +1460,10 @@
                                     already be scaled by that.
                                 </Description>
                                 <OreBlock block='ReactorCraft:reactorcraft_block_ore:7' weight='1.0' />
-                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <ReplacesOre block='dirt' weight='1.0' />
                                 <Replaces block='minecraft:sandstone' weight='1.0' />
+                                <ReplacesOre block='stone' weight='1.0' />
+                                <ReplacesOre block='gravel' weight='1.0' />
                             </Veins>
                         </Cloud>
                     </IfCondition>
@@ -1484,7 +1499,7 @@
                 <!-- Starting SparseVeins Preset for Magnetite. -->
                 <ConfigSection>
                     <IfCondition condition=':= recrMagnetiteDist = "SparseVeins"'>
-                        <Veins name='recrMagnetiteVeins'  inherits='PresetSparseVeins' drawWireframe='true' wireframeColor='0x60212121' drawBoundBox='false' boundBoxColor='0x60212121'>
+                        <Veins name='recrMagnetiteVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60212121' drawBoundBox='false' boundBoxColor='0x60212121'>
                             <Description>
                                 Large veins filled very lightly  with
                                 ore.  Because they contain  less ore
@@ -1511,6 +1526,7 @@
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * recrMagnetiteSize ' range=':= _default_ * recrMagnetiteSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentRadius' avg=':= 1.463 * _default_ * recrMagnetiteSize ' range=':= 1.463 * _default_ * recrMagnetiteSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1551,7 +1567,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='recrMagnetiteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60212121' drawBoundBox='false' boundBoxColor='0x60212121'>
+                            <Veins name='recrMagnetiteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60212121' drawBoundBox='false' boundBoxColor='0x60212121'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -1573,8 +1589,10 @@
                                     already be scaled by that.
                                 </Description>
                                 <OreBlock block='ReactorCraft:reactorcraft_block_ore:8' weight='1.0' />
-                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <ReplacesOre block='dirt' weight='1.0' />
                                 <Replaces block='minecraft:sandstone' weight='1.0' />
+                                <ReplacesOre block='stone' weight='1.0' />
+                                <ReplacesOre block='gravel' weight='1.0' />
                             </Veins>
                         </Cloud>
                     </IfCondition>
@@ -1610,7 +1628,7 @@
                 <!-- Starting LayeredVeins Preset for Blue Fluorite. -->
                 <ConfigSection>
                     <IfCondition condition=':= recrBlueFluoriteDist = "LayeredVeins"'>
-                        <Veins name='recrBlueFluoriteVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60283270' drawBoundBox='false' boundBoxColor='0x60283270'>
+                        <Veins name='recrBlueFluoriteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60283270' drawBoundBox='false' boundBoxColor='0x60283270'>
                             <Description>
                                 Small, fairly rare motherlodes  with
                                 2-4 horizontal veins each.
@@ -1630,6 +1648,7 @@
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * recrBlueFluoriteSize ' range=':= _default_ * recrBlueFluoriteSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentRadius' avg=':= 1.147 * _default_ * recrBlueFluoriteSize ' range=':= 1.147 * _default_ * recrBlueFluoriteSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1672,7 +1691,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='recrBlueFluoriteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60283270' drawBoundBox='false' boundBoxColor='0x60283270'>
+                            <Veins name='recrBlueFluoriteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60283270' drawBoundBox='false' boundBoxColor='0x60283270'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -1694,8 +1713,10 @@
                                     already be scaled by that.
                                 </Description>
                                 <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore' weight='1.0' />
-                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <ReplacesOre block='dirt' weight='1.0' />
                                 <Replaces block='minecraft:sandstone' weight='1.0' />
+                                <ReplacesOre block='stone' weight='1.0' />
+                                <ReplacesOre block='gravel' weight='1.0' />
                             </Veins>
                         </Cloud>
                     </IfCondition>
@@ -1732,7 +1753,7 @@
                 <!-- Starting LayeredVeins Preset for Pink Fluorite. -->
                 <ConfigSection>
                     <IfCondition condition=':= recrPinkFluoriteDist = "LayeredVeins"'>
-                        <Veins name='recrPinkFluoriteVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x607A5970' drawBoundBox='false' boundBoxColor='0x607A5970'>
+                        <Veins name='recrPinkFluoriteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x607A5970' drawBoundBox='false' boundBoxColor='0x607A5970'>
                             <Description>
                                 Small, fairly rare motherlodes  with
                                 2-4 horizontal veins each.
@@ -1752,6 +1773,7 @@
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * recrPinkFluoriteSize ' range=':= _default_ * recrPinkFluoriteSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentRadius' avg=':= 1.147 * _default_ * recrPinkFluoriteSize ' range=':= 1.147 * _default_ * recrPinkFluoriteSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1794,7 +1816,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='recrPinkFluoriteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x607A5970' drawBoundBox='false' boundBoxColor='0x607A5970'>
+                            <Veins name='recrPinkFluoriteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x607A5970' drawBoundBox='false' boundBoxColor='0x607A5970'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -1816,8 +1838,10 @@
                                     already be scaled by that.
                                 </Description>
                                 <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore:1' weight='1.0' />
-                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <ReplacesOre block='dirt' weight='1.0' />
                                 <Replaces block='minecraft:sandstone' weight='1.0' />
+                                <ReplacesOre block='stone' weight='1.0' />
+                                <ReplacesOre block='gravel' weight='1.0' />
                             </Veins>
                         </Cloud>
                     </IfCondition>
@@ -1854,7 +1878,7 @@
                 <!-- Starting LayeredVeins Preset for Orange Fluorite. -->
                 <ConfigSection>
                     <IfCondition condition=':= recrOrangeFluoriteDist = "LayeredVeins"'>
-                        <Veins name='recrOrangeFluoriteVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x607A5927' drawBoundBox='false' boundBoxColor='0x607A5927'>
+                        <Veins name='recrOrangeFluoriteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x607A5927' drawBoundBox='false' boundBoxColor='0x607A5927'>
                             <Description>
                                 Small, fairly rare motherlodes  with
                                 2-4 horizontal veins each.
@@ -1874,6 +1898,7 @@
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * recrOrangeFluoriteSize ' range=':= _default_ * recrOrangeFluoriteSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentRadius' avg=':= 1.147 * _default_ * recrOrangeFluoriteSize ' range=':= 1.147 * _default_ * recrOrangeFluoriteSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1916,7 +1941,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='recrOrangeFluoriteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x607A5927' drawBoundBox='false' boundBoxColor='0x607A5927'>
+                            <Veins name='recrOrangeFluoriteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x607A5927' drawBoundBox='false' boundBoxColor='0x607A5927'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -1938,8 +1963,10 @@
                                     already be scaled by that.
                                 </Description>
                                 <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore:2' weight='1.0' />
-                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <ReplacesOre block='dirt' weight='1.0' />
                                 <Replaces block='minecraft:sandstone' weight='1.0' />
+                                <ReplacesOre block='stone' weight='1.0' />
+                                <ReplacesOre block='gravel' weight='1.0' />
                             </Veins>
                         </Cloud>
                     </IfCondition>
@@ -1977,7 +2004,7 @@
                      Fluorite. -->
                 <ConfigSection>
                     <IfCondition condition=':= recrMagentaFluoriteDist = "LayeredVeins"'>
-                        <Veins name='recrMagentaFluoriteVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60602774' drawBoundBox='false' boundBoxColor='0x60602774'>
+                        <Veins name='recrMagentaFluoriteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60602774' drawBoundBox='false' boundBoxColor='0x60602774'>
                             <Description>
                                 Small, fairly rare motherlodes  with
                                 2-4 horizontal veins each.
@@ -1997,6 +2024,7 @@
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * recrMagentaFluoriteSize ' range=':= _default_ * recrMagentaFluoriteSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentRadius' avg=':= 1.147 * _default_ * recrMagentaFluoriteSize ' range=':= 1.147 * _default_ * recrMagentaFluoriteSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -2039,7 +2067,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='recrMagentaFluoriteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60602774' drawBoundBox='false' boundBoxColor='0x60602774'>
+                            <Veins name='recrMagentaFluoriteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60602774' drawBoundBox='false' boundBoxColor='0x60602774'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -2061,8 +2089,10 @@
                                     already be scaled by that.
                                 </Description>
                                 <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore:3' weight='1.0' />
-                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <ReplacesOre block='dirt' weight='1.0' />
                                 <Replaces block='minecraft:sandstone' weight='1.0' />
+                                <ReplacesOre block='stone' weight='1.0' />
+                                <ReplacesOre block='gravel' weight='1.0' />
                             </Veins>
                         </Cloud>
                     </IfCondition>
@@ -2099,7 +2129,7 @@
                 <!-- Starting LayeredVeins Preset for Green Fluorite. -->
                 <ConfigSection>
                     <IfCondition condition=':= recrGreenFluoriteDist = "LayeredVeins"'>
-                        <Veins name='recrGreenFluoriteVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60347D3B' drawBoundBox='false' boundBoxColor='0x60347D3B'>
+                        <Veins name='recrGreenFluoriteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60347D3B' drawBoundBox='false' boundBoxColor='0x60347D3B'>
                             <Description>
                                 Small, fairly rare motherlodes  with
                                 2-4 horizontal veins each.
@@ -2119,6 +2149,7 @@
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * recrGreenFluoriteSize ' range=':= _default_ * recrGreenFluoriteSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentRadius' avg=':= 1.147 * _default_ * recrGreenFluoriteSize ' range=':= 1.147 * _default_ * recrGreenFluoriteSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -2161,7 +2192,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='recrGreenFluoriteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60347D3B' drawBoundBox='false' boundBoxColor='0x60347D3B'>
+                            <Veins name='recrGreenFluoriteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60347D3B' drawBoundBox='false' boundBoxColor='0x60347D3B'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -2183,8 +2214,10 @@
                                     already be scaled by that.
                                 </Description>
                                 <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore:4' weight='1.0' />
-                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <ReplacesOre block='dirt' weight='1.0' />
                                 <Replaces block='minecraft:sandstone' weight='1.0' />
+                                <ReplacesOre block='stone' weight='1.0' />
+                                <ReplacesOre block='gravel' weight='1.0' />
                             </Veins>
                         </Cloud>
                     </IfCondition>
@@ -2221,7 +2254,7 @@
                 <!-- Starting LayeredVeins Preset for Red Fluorite. -->
                 <ConfigSection>
                     <IfCondition condition=':= recrRedFluoriteDist = "LayeredVeins"'>
-                        <Veins name='recrRedFluoriteVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60974747' drawBoundBox='false' boundBoxColor='0x60974747'>
+                        <Veins name='recrRedFluoriteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60974747' drawBoundBox='false' boundBoxColor='0x60974747'>
                             <Description>
                                 Small, fairly rare motherlodes  with
                                 2-4 horizontal veins each.
@@ -2241,6 +2274,7 @@
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * recrRedFluoriteSize ' range=':= _default_ * recrRedFluoriteSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentRadius' avg=':= 1.147 * _default_ * recrRedFluoriteSize ' range=':= 1.147 * _default_ * recrRedFluoriteSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -2281,7 +2315,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='recrRedFluoriteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60974747' drawBoundBox='false' boundBoxColor='0x60974747'>
+                            <Veins name='recrRedFluoriteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60974747' drawBoundBox='false' boundBoxColor='0x60974747'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -2303,8 +2337,10 @@
                                     already be scaled by that.
                                 </Description>
                                 <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore:5' weight='1.0' />
-                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <ReplacesOre block='dirt' weight='1.0' />
                                 <Replaces block='minecraft:sandstone' weight='1.0' />
+                                <ReplacesOre block='stone' weight='1.0' />
+                                <ReplacesOre block='gravel' weight='1.0' />
                             </Veins>
                         </Cloud>
                     </IfCondition>
@@ -2341,7 +2377,7 @@
                 <!-- Starting LayeredVeins Preset for White Fluorite. -->
                 <ConfigSection>
                     <IfCondition condition=':= recrWhiteFluoriteDist = "LayeredVeins"'>
-                        <Veins name='recrWhiteFluoriteVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60969696' drawBoundBox='false' boundBoxColor='0x60969696'>
+                        <Veins name='recrWhiteFluoriteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60969696' drawBoundBox='false' boundBoxColor='0x60969696'>
                             <Description>
                                 Small, fairly rare motherlodes  with
                                 2-4 horizontal veins each.
@@ -2361,6 +2397,7 @@
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * recrWhiteFluoriteSize ' range=':= _default_ * recrWhiteFluoriteSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentRadius' avg=':= 1.147 * _default_ * recrWhiteFluoriteSize ' range=':= 1.147 * _default_ * recrWhiteFluoriteSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -2403,7 +2440,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='recrWhiteFluoriteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60969696' drawBoundBox='false' boundBoxColor='0x60969696'>
+                            <Veins name='recrWhiteFluoriteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60969696' drawBoundBox='false' boundBoxColor='0x60969696'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -2425,8 +2462,10 @@
                                     already be scaled by that.
                                 </Description>
                                 <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore:6' weight='1.0' />
-                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <ReplacesOre block='dirt' weight='1.0' />
                                 <Replaces block='minecraft:sandstone' weight='1.0' />
+                                <ReplacesOre block='stone' weight='1.0' />
+                                <ReplacesOre block='gravel' weight='1.0' />
                             </Veins>
                         </Cloud>
                     </IfCondition>
@@ -2463,7 +2502,7 @@
                 <!-- Starting LayeredVeins Preset for Yellow Fluorite. -->
                 <ConfigSection>
                     <IfCondition condition=':= recrYellowFluoriteDist = "LayeredVeins"'>
-                        <Veins name='recrYellowFluoriteVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60978834' drawBoundBox='false' boundBoxColor='0x60978834'>
+                        <Veins name='recrYellowFluoriteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60978834' drawBoundBox='false' boundBoxColor='0x60978834'>
                             <Description>
                                 Small, fairly rare motherlodes  with
                                 2-4 horizontal veins each.
@@ -2483,6 +2522,7 @@
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * recrYellowFluoriteSize ' range=':= _default_ * recrYellowFluoriteSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentRadius' avg=':= 1.147 * _default_ * recrYellowFluoriteSize ' range=':= 1.147 * _default_ * recrYellowFluoriteSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -2525,7 +2565,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='recrYellowFluoriteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60978834' drawBoundBox='false' boundBoxColor='0x60978834'>
+                            <Veins name='recrYellowFluoriteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60978834' drawBoundBox='false' boundBoxColor='0x60978834'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -2547,8 +2587,10 @@
                                     already be scaled by that.
                                 </Description>
                                 <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore:7' weight='1.0' />
-                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <ReplacesOre block='dirt' weight='1.0' />
                                 <Replaces block='minecraft:sandstone' weight='1.0' />
+                                <ReplacesOre block='stone' weight='1.0' />
+                                <ReplacesOre block='gravel' weight='1.0' />
                             </Veins>
                         </Cloud>
                     </IfCondition>
@@ -2619,7 +2661,7 @@
                      Chloride. -->
                 <ConfigSection>
                     <IfCondition condition=':= recrAmmoniumChlorideDist = "SparseVeins"'>
-                        <Veins name='recrAmmoniumChlorideVeins'  inherits='PresetSparseVeins' drawWireframe='true' wireframeColor='0x60FFFFFF' drawBoundBox='false' boundBoxColor='0x60FFFFFF'>
+                        <Veins name='recrAmmoniumChlorideVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60FFFFFF' drawBoundBox='false' boundBoxColor='0x60FFFFFF'>
                             <Description>
                                 Large veins filled very lightly  with
                                 ore.  Because they contain  less ore
@@ -2646,6 +2688,7 @@
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * recrAmmoniumChlorideSize ' range=':= _default_ * recrAmmoniumChlorideSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentRadius' avg=':= 1.316 * _default_ * recrAmmoniumChlorideSize ' range=':= 1.316 * _default_ * recrAmmoniumChlorideSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -2688,7 +2731,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='recrAmmoniumChlorideHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FFFFFF' drawBoundBox='false' boundBoxColor='0x60FFFFFF'>
+                            <Veins name='recrAmmoniumChlorideHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FFFFFF' drawBoundBox='false' boundBoxColor='0x60FFFFFF'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -2710,8 +2753,10 @@
                                     already be scaled by that.
                                 </Description>
                                 <OreBlock block='ReactorCraft:reactorcraft_block_ore:6' weight='1.0' />
-                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <ReplacesOre block='dirt' weight='1.0' />
                                 <Replaces block='minecraft:sandstone' weight='1.0' />
+                                <ReplacesOre block='stone' weight='1.0' />
+                                <ReplacesOre block='gravel' weight='1.0' />
                             </Veins>
                         </Cloud>
                     </IfCondition>
@@ -2748,7 +2793,7 @@
                 <!-- Starting SparseVeins Preset for Thorite. -->
                 <ConfigSection>
                     <IfCondition condition=':= recrThoriteDist = "SparseVeins"'>
-                        <Veins name='recrThoriteVeins'  inherits='PresetSparseVeins' drawWireframe='true' wireframeColor='0x6054A228' drawBoundBox='false' boundBoxColor='0x6054A228'>
+                        <Veins name='recrThoriteVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x6054A228' drawBoundBox='false' boundBoxColor='0x6054A228'>
                             <Description>
                                 Large veins filled very lightly  with
                                 ore.  Because they contain  less ore
@@ -2775,6 +2820,7 @@
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * recrThoriteSize ' range=':= _default_ * recrThoriteSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentRadius' avg=':= 1.207 * _default_ * recrThoriteSize ' range=':= 1.207 * _default_ * recrThoriteSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -2815,7 +2861,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='recrThoriteHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x6054A228' drawBoundBox='false' boundBoxColor='0x6054A228'>
+                            <Veins name='recrThoriteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x6054A228' drawBoundBox='false' boundBoxColor='0x6054A228'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -2837,8 +2883,10 @@
                                     already be scaled by that.
                                 </Description>
                                 <OreBlock block='ReactorCraft:reactorcraft_block_ore:9' weight='1.0' />
-                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <ReplacesOre block='dirt' weight='1.0' />
                                 <Replaces block='minecraft:sandstone' weight='1.0' />
+                                <ReplacesOre block='stone' weight='1.0' />
+                                <ReplacesOre block='gravel' weight='1.0' />
                             </Veins>
                         </Cloud>
                     </IfCondition>
@@ -2906,7 +2954,7 @@
                 <!-- Starting SparseVeins Preset for End Pitchblende. -->
                 <ConfigSection>
                     <IfCondition condition=':= recrEndPitchblendeDist = "SparseVeins"'>
-                        <Veins name='recrEndPitchblendeVeins'  inherits='PresetSparseVeins' drawWireframe='true' wireframeColor='0x60454454' drawBoundBox='false' boundBoxColor='0x60454454'>
+                        <Veins name='recrEndPitchblendeVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60454454' drawBoundBox='false' boundBoxColor='0x60454454'>
                             <Description>
                                 Large veins filled very lightly  with
                                 ore.  Because they contain  less ore
@@ -2933,6 +2981,7 @@
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * recrEndPitchblendeSize ' range=':= _default_ * recrEndPitchblendeSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentRadius' avg=':= 1.435 * _default_ * recrEndPitchblendeSize ' range=':= 1.435 * _default_ * recrEndPitchblendeSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -2975,7 +3024,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='recrEndPitchblendeHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60454454' drawBoundBox='false' boundBoxColor='0x60454454'>
+                            <Veins name='recrEndPitchblendeHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60454454' drawBoundBox='false' boundBoxColor='0x60454454'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -2997,8 +3046,10 @@
                                     already be scaled by that.
                                 </Description>
                                 <OreBlock block='ReactorCraft:reactorcraft_block_ore:5' weight='1.0' />
-                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <ReplacesOre block='dirt' weight='1.0' />
                                 <Replaces block='minecraft:sandstone' weight='1.0' />
+                                <ReplacesOre block='stone' weight='1.0' />
+                                <ReplacesOre block='gravel' weight='1.0' />
                             </Veins>
                         </Cloud>
                     </IfCondition>
@@ -3047,9 +3098,9 @@
 
 
 <!-- =================================================================
-     This file was made using the Sprocket Configuration Generator.
-     If you wish to make your own configurations for a mod not
-     currently supported by Custom Ore Generation, and you don't want
-     the hassle of writing XML, you can find the generator script at
-     its GitHub page: http://https://github.com/reteo/Sprocket
+     This file was made using the Sprocket Advanced Configuration
+     Generator.  If you wish to make your own configurations for a mod
+     not currently supported by Custom Ore Generation, and you don't
+     want the hassle of writing XML, you can find the generator script
+     at its GitHub page: http://https://github.com/reteo/Sprocket
      ================================================================= -->

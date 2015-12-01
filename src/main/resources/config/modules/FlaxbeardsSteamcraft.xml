@@ -162,7 +162,7 @@
                 <!-- Starting LayeredVeins Preset for Copper. -->
                 <ConfigSection>
                     <IfCondition condition=':= flxbCopperDist = "LayeredVeins"'>
-                        <Veins name='flxbCopperVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60D26B2F' drawBoundBox='false' boundBoxColor='0x60D26B2F'>
+                        <Veins name='flxbCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60D26B2F' drawBoundBox='false' boundBoxColor='0x60D26B2F'>
                             <Description>
                                 Small, fairly rare motherlodes  with
                                 2-4 horizontal veins each.
@@ -182,6 +182,7 @@
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * flxbCopperSize ' range=':= _default_ * flxbCopperSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentRadius' avg=':= 1.058 * _default_ * flxbCopperSize ' range=':= 1.058 * _default_ * flxbCopperSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -222,7 +223,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='flxbCopperHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60D26B2F' drawBoundBox='false' boundBoxColor='0x60D26B2F'>
+                            <Veins name='flxbCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60D26B2F' drawBoundBox='false' boundBoxColor='0x60D26B2F'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -244,8 +245,10 @@
                                     already be scaled by that.
                                 </Description>
                                 <OreBlock block='Steamcraft:steamcraftOre' weight='1.0' />
-                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <ReplacesOre block='dirt' weight='1.0' />
                                 <Replaces block='minecraft:sandstone' weight='1.0' />
+                                <ReplacesOre block='stone' weight='1.0' />
+                                <ReplacesOre block='gravel' weight='1.0' />
                             </Veins>
                         </Cloud>
                     </IfCondition>
@@ -281,7 +284,7 @@
                 <!-- Starting LayeredVeins Preset for Zinc. -->
                 <ConfigSection>
                     <IfCondition condition=':= flxbZincDist = "LayeredVeins"'>
-                        <Veins name='flxbZincVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x60EAEAEA' drawBoundBox='false' boundBoxColor='0x60EAEAEA'>
+                        <Veins name='flxbZincVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60EAEAEA' drawBoundBox='false' boundBoxColor='0x60EAEAEA'>
                             <Description>
                                 Small, fairly rare motherlodes  with
                                 2-4 horizontal veins each.
@@ -301,6 +304,7 @@
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * flxbZincSize ' range=':= _default_ * flxbZincSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentRadius' avg=':= 0.984 * _default_ * flxbZincSize ' range=':= 0.984 * _default_ * flxbZincSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -341,7 +345,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='flxbZincHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60EAEAEA' drawBoundBox='false' boundBoxColor='0x60EAEAEA'>
+                            <Veins name='flxbZincHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60EAEAEA' drawBoundBox='false' boundBoxColor='0x60EAEAEA'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -363,8 +367,10 @@
                                     already be scaled by that.
                                 </Description>
                                 <OreBlock block='Steamcraft:steamcraftOre:1' weight='1.0' />
-                                <Replaces block='minecraft:dirt' weight='1.0' />
+                                <ReplacesOre block='dirt' weight='1.0' />
                                 <Replaces block='minecraft:sandstone' weight='1.0' />
+                                <ReplacesOre block='stone' weight='1.0' />
+                                <ReplacesOre block='gravel' weight='1.0' />
                             </Veins>
                         </Cloud>
                     </IfCondition>
@@ -414,9 +420,9 @@
 
 
 <!-- =================================================================
-     This file was made using the Sprocket Configuration Generator.
-     If you wish to make your own configurations for a mod not
-     currently supported by Custom Ore Generation, and you don't want
-     the hassle of writing XML, you can find the generator script at
-     its GitHub page: http://https://github.com/reteo/Sprocket
+     This file was made using the Sprocket Advanced Configuration
+     Generator.  If you wish to make your own configurations for a mod
+     not currently supported by Custom Ore Generation, and you don't
+     want the hassle of writing XML, you can find the generator script
+     at its GitHub page: http://https://github.com/reteo/Sprocket
      ================================================================= -->
