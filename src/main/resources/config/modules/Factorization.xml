@@ -162,7 +162,7 @@
                 <!-- Starting LayeredVeins Preset for Silver. -->
                 <ConfigSection>
                     <IfCondition condition=':= fctrSilverDist = "LayeredVeins"'>
-                        <Veins name='fctrSilverVeins'  inherits='PresetLayeredVeins' drawWireframe='true' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
+                        <Veins name='fctrSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
                             <Description>
                                 Small, fairly rare motherlodes  with
                                 2-4 horizontal veins each.
@@ -182,6 +182,7 @@
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * fctrSilverSize ' range=':= _default_ * fctrSilverSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentRadius' avg=':= 0.949 * _default_ * fctrSilverSize ' range=':= 0.949 * _default_ * fctrSilverSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -222,7 +223,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='fctrSilverHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
+                            <Veins name='fctrSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -283,7 +284,7 @@
                 <!-- Starting SparseVeins Preset for Dark Iron. -->
                 <ConfigSection>
                     <IfCondition condition=':= fctrDarkIronDist = "SparseVeins"'>
-                        <Veins name='fctrDarkIronVeins'  inherits='PresetSparseVeins' drawWireframe='true' wireframeColor='0x60781CCB' drawBoundBox='false' boundBoxColor='0x60781CCB'>
+                        <Veins name='fctrDarkIronVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60781CCB' drawBoundBox='false' boundBoxColor='0x60781CCB'>
                             <Description>
                                 Large veins filled very lightly  with
                                 ore.  Because they contain  less ore
@@ -297,8 +298,8 @@
                             </Description>
                             <OreBlock block='factorization:DarkIronOre' weight='1.0' />
                             <ReplacesOre block='stone' weight='1.0' />
-                            <ReplacesOre block='dirt' weight='1.0' />
-                            <ReplacesOre block='gravel' weight='1.0' />
+                            <Replaces block='minecraft:dirt' weight='1.0' />
+                            <Replaces block='minecraft:gravel' weight='1.0' />
                             <Biome name='.*'  />
                             <Setting name='MotherlodeFrequency' avg=':= 0.433 * _default_ * fctrDarkIronFreq ' range=':= 0.433 * _default_ * fctrDarkIronFreq ' type='normal' scaleTo='base' />
                             <Setting name='MotherlodeSize' avg=':= 0 * _default_ * fctrDarkIronSize ' range=':= 0 * _default_ * fctrDarkIronSize ' type='normal' />
@@ -312,6 +313,7 @@
                             <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentLength' avg=':= _default_ * fctrDarkIronSize ' range=':= _default_ * fctrDarkIronSize ' type='normal' />
                             <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+                            <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='SegmentRadius' avg=':= 0.811 * _default_ * fctrDarkIronSize ' range=':= 0.811 * _default_ * fctrDarkIronSize ' type='normal' />
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -341,8 +343,8 @@
                             </Description>
                             <OreBlock block='factorization:DarkIronOre' weight='1.0' />
                             <ReplacesOre block='stone' weight='1.0' />
-                            <ReplacesOre block='dirt' weight='1.0' />
-                            <ReplacesOre block='gravel' weight='1.0' />
+                            <Replaces block='minecraft:dirt' weight='1.0' />
+                            <Replaces block='minecraft:gravel' weight='1.0' />
                             <Biome name='.*'  />
                             <Setting name='CloudRadius' avg=':= 0.449 * _default_ * fctrDarkIronSize ' range=':= 0.449 * _default_ * fctrDarkIronSize ' type='normal' />
                             <Setting name='CloudThickness' avg=':= 0.449 * _default_ * fctrDarkIronSize ' range=':= 0.449 * _default_ * fctrDarkIronSize ' type='normal' scaleTo='base' />
@@ -354,7 +356,7 @@
                             <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
                             <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
                             <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-                            <Veins name='fctrDarkIronHintVeins'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60781CCB' drawBoundBox='false' boundBoxColor='0x60781CCB'>
+                            <Veins name='fctrDarkIronHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60781CCB' drawBoundBox='false' boundBoxColor='0x60781CCB'>
                                 <Description>
                                     Single blocks, generously
                                     scattered through all heights
@@ -397,8 +399,8 @@
                             </Description>
                             <OreBlock block='factorization:DarkIronOre' weight='1.0' />
                             <ReplacesOre block='stone' weight='1.0' />
-                            <ReplacesOre block='dirt' weight='1.0' />
-                            <ReplacesOre block='gravel' weight='1.0' />
+                            <Replaces block='minecraft:dirt' weight='1.0' />
+                            <Replaces block='minecraft:gravel' weight='1.0' />
                             <Biome name='.*'  />
                             <Setting name='Size' avg=':= 0.500 * fctrDarkIronSize ' range=':= 0.500 * fctrDarkIronSize ' type='normal' />
                             <Setting name='Frequency' avg=':= 0.500 * fctrDarkIronFreq ' range=':= 0.500 * fctrDarkIronFreq ' type='normal' scaleTo='base' />
@@ -431,9 +433,9 @@
 
 
 <!-- =================================================================
-     This file was made using the Sprocket Configuration Generator.
-     If you wish to make your own configurations for a mod not
-     currently supported by Custom Ore Generation, and you don't want
-     the hassle of writing XML, you can find the generator script at
-     its GitHub page: http://https://github.com/reteo/Sprocket
+     This file was made using the Sprocket Advanced Configuration
+     Generator.  If you wish to make your own configurations for a mod
+     not currently supported by Custom Ore Generation, and you don't
+     want the hassle of writing XML, you can find the generator script
+     at its GitHub page: http://https://github.com/reteo/Sprocket
      ================================================================= -->
