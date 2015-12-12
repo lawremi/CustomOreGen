@@ -473,7 +473,7 @@ public class MapGenVeins extends MapGenOreDistribution
                     }
                 }
             }
-            while (this.context.advance(0.7F * (float)var24));
+            while (var24 > 0 && this.context.advance(0.7F * (float)var24));
 
             super.addComponentParts(world, random, bounds);
             return true;
