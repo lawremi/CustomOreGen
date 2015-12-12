@@ -362,7 +362,9 @@ public class WorldConfig
         properties.put("dimension", world == null ? "" : world.provider.getDimensionName());
         properties.put("dimension.id", world == null ? 0 : world.provider.dimensionId);
         properties.put("dimension.isSurface", world == null ? false : world.provider.isSurfaceWorld());
+        properties.put("dimension.hasNoSky", world == null ? false : world.provider.hasNoSky);
         properties.put("dimension.groundLevel", world == null ? 0 : world.provider.getAverageGroundLevel());
+        properties.put("dimension.actualHeight", world == null ? 0 : world.getActualHeight());
         properties.put("dimension.height", world == null ? 0 : world.getHeight());
         properties.put("age", false);
     }
