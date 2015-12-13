@@ -192,7 +192,7 @@ public class MapGenVeins extends MapGenOreDistribution
 
             length -= segLen;
             segLen /= 2.0F;
-            float segRad = this.sgRadius.getValue(random);
+            float segRad = Math.max(this.sgRadius.getValue(random), 0F);
             mat.translate(0.0F, 0.0F, segLen);
             Transform segMat = mat.clone().scale(segRad, segRad, segLen);
             Component component = null;
