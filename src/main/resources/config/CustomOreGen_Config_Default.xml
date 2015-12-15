@@ -118,7 +118,68 @@
             <Choice value='true' displayValue='On'/>
             <Choice value='false' displayValue='Off'/>
         </OptionChoice> 
-        
+
+        <OptionNumeric name='rootHeightFactor' default='17'
+		       displayGroup='groupGeneral'>
+            <Description> 
+                Multiplier for rootHeight during biome height scaling
+            </Description>
+            <Comment>     
+                This is a "magic" option - it has meaning outside of
+		this file in the COG engine itelf. You can change the
+		value, but do not remove the option itself.
+
+		Biome height scaling needs to estimate the average
+		height of a biome. This is non-trivial, because
+		terrain generation is complex and varies across biomes
+		and dimensions/worlds. There are two explicit
+		parameters: root height and height variation. The
+		offset from the dimension ground level is a linear
+		combination of those, as well as their
+		interaction.
+
+		This option represents the factor for the root height.
+            </Comment>
+            <DisplayState>hidden</DisplayState>
+            <DisplayName>Root Height Factor</DisplayName>
+        </OptionNumeric> 
+	
+	<OptionNumeric name='heightVarFactor' default='0'
+		       displayGroup='groupGeneral'>
+            <Description> 
+                Multiplier for heightVariation during biome height scaling
+            </Description>
+            <Comment>     
+                This is a "magic" option - it has meaning outside of
+		this file in the COG engine itelf. You can change the
+		value, but do not remove the option itself.
+
+		See the coment for 'rootHeightFactor'.  This option
+		represents the factor for the height variation.
+            </Comment>
+            <DisplayState>hidden</DisplayState>
+            <DisplayName>Height Variation Factor</DisplayName>
+        </OptionNumeric>
+
+	<OptionNumeric name='rootHeightVarFactor' default='0'
+		       displayGroup='groupGeneral'>
+            <Description> 
+                Multiplier for the product of the rootHeight and
+                heightVariation during biome height scaling
+            </Description>
+            <Comment>     
+                This is a "magic" option - it has meaning outside of
+		this file in the COG engine itelf. You can change the
+		value, but do not remove the option itself.
+
+		See the coment for 'rootHeightFactor'.  This option
+		represents the factor for the product (interaction) of
+		the root height and height variation.
+            </Comment>
+            <DisplayState>hidden</DisplayState>
+            <DisplayName>Root Height * Variation Factor</DisplayName>
+        </OptionNumeric> 
+
         <OptionChoice name='drawWireframes' default='true' displayGroup='groupGeneral'>
             <Description> 
                 Default wireframe state for distributions.  
@@ -275,7 +336,7 @@
             <Setting name='SegmentForkLengthMult' avg='0.5' range='0.25'/>
             <Setting name='SegmentLength' avg=':= 30 * oreSize' range=':= 6 * oreSize' />
             <Setting name='SegmentAngle' avg='0.30' range='0.30'/>
-            <Setting name='SegmentRadius' avg=':= 0.025 * oreSize' range=':= 0.2 * oreSize'/>
+            <Setting name='SegmentRadius' avg=':= 0.025 * oreSize' range=':= 0.02 * oreSize'/>
             <Setting name='OreDensity' avg='1' range='0'/>
             <Setting name='OreRadiusMult' avg='1' range='0.25'/>
             <ReplacesOre block='stone'/>

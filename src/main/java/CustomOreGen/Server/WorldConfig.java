@@ -50,6 +50,9 @@ public class WorldConfig
     public boolean debuggingMode;
     public boolean vanillaOreGen;
     public boolean custom;
+    public double rootHeightFactor;
+    public double heightVarFactor;
+    public double rootHeightVarFactor;
     private Map<String,IOreDistribution> oreDistributions;
     private Map<String,ConfigOption> configOptions;
     private Map<String,String> loadedOptions;
@@ -90,6 +93,9 @@ public class WorldConfig
         this.deferredPopulationRange = 0;
         this.debuggingMode = false;
         this.vanillaOreGen = false;
+        this.rootHeightFactor = 17;
+        this.heightVarFactor = 0;
+        this.rootHeightVarFactor = 0;
         this.oreDistributions = new LinkedHashMap<String,IOreDistribution>();
         this.configOptions = new CIStringMap<ConfigOption>(new LinkedHashMap<String, ConfigOption>());
         this.loadedOptions = new CIStringMap<String>(new LinkedHashMap<String, String>());
@@ -187,7 +193,7 @@ public class WorldConfig
             File[] optionsFileList = new File[3];
             this.buildFileList(CustomOreGenBase.OPTIONS_FILENAME, optionsFileList, false);
             File optionsFile = optionsFileList[2];
-            ConfigOption vangen;
+            ConfigOption vangen, rootHeightOption, heightVarOption, rootHeightVarOption;
 
             for (int defpopOption = configFileDepth; defpopOption < optionsFileList.length; ++defpopOption)
             {
@@ -250,6 +256,24 @@ public class WorldConfig
             else
             {
                 CustomOreGenBase.log.warn("Choice Option \'" + vangen + "\' not found in config file - defaulting to \'" + this.vanillaOreGen + "\'.");
+            }
+            
+            rootHeightOption = (ConfigOption)this.configOptions.get("rootHeightFactor");
+            if (rootHeightOption != null && rootHeightOption instanceof NumericOption)
+            {
+            	this.rootHeightFactor = (Double)rootHeightOption.getValue();
+            }
+            
+            heightVarOption = (ConfigOption)this.configOptions.get("heightVarFactor");
+            if (heightVarOption != null && heightVarOption instanceof NumericOption)
+            {
+            	this.heightVarFactor = (Double)heightVarOption.getValue();
+            }
+
+            rootHeightVarOption = (ConfigOption)this.configOptions.get("rootHeightVarFactor");
+            if (rootHeightVarOption != null && rootHeightVarOption instanceof NumericOption)
+            {
+            	this.rootHeightVarFactor = (Double)rootHeightVarOption.getValue();
             }
         }
     }
@@ -362,7 +386,9 @@ public class WorldConfig
         properties.put("dimension", world == null ? "" : world.provider.getDimensionName());
         properties.put("dimension.id", world == null ? 0 : world.provider.dimensionId);
         properties.put("dimension.isSurface", world == null ? false : world.provider.isSurfaceWorld());
+        properties.put("dimension.hasNoSky", world == null ? false : world.provider.hasNoSky);
         properties.put("dimension.groundLevel", world == null ? 0 : world.provider.getAverageGroundLevel());
+        properties.put("dimension.actualHeight", world == null ? 0 : world.getActualHeight());
         properties.put("dimension.height", world == null ? 0 : world.getHeight());
         properties.put("age", false);
     }

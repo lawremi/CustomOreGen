@@ -1,5 +1,7 @@
 package CustomOreGen.Util;
 
+import CustomOreGen.Server.ServerState;
+import CustomOreGen.Server.WorldConfig;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -9,18 +11,22 @@ public class BiomeHeightScale implements HeightScale {
 	@Override
 	public int getHeight(World world, int x, int z) {
 		BiomeGenBase biome = world.getBiomeGenForCoords(x, z);
-		if (world.provider.hasNoSky || biome == null) {
+		if (biome == null) {
 			return new WorldHeightScale().getHeight(world, x, z);
 		}
-		return this.biomeToBlockHeight(biome.rootHeight, world);
+		return this.calcBlockHeight(world, biome.rootHeight, biome.heightVariation);
 	}
 
-	private int biomeToBlockHeight(float biomeHeight, World world) {
-		int groundHeight = world.provider.getAverageGroundLevel();
-		if (world.provider.terrainType == WorldType.AMPLIFIED && biomeHeight > 0) {
-			biomeHeight = 1.0F + biomeHeight * 2.0F; 
+	private int calcBlockHeight(World world, float rootHeight, float heightVariation) {
+		WorldConfig config = ServerState.getWorldConfig(world);
+		if (world.provider.terrainType == WorldType.AMPLIFIED && rootHeight > 0) {
+			rootHeight = 1.0F + rootHeight * 2.0F; 
 		}
-		return (int)(groundHeight + Math.min(biomeHeight, 4.0) / 2 * groundHeight);
+		return (int)(
+				world.provider.getAverageGroundLevel() +
+				rootHeight * config.rootHeightFactor + 
+				heightVariation * config.heightVarFactor +
+				rootHeight * heightVariation * config.rootHeightVarFactor);
 	}
 	
 	@Override
