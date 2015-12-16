@@ -78,6 +78,7 @@ public class CustomOreGenBase
             "IndustrialCraft2.xml",
             "Mekanism.xml",
             "Metallurgy4.xml",
+            "Mimicry.xml",
             "MineChem.xml",
             "MinecraftComesAlive.xml",
             "MinecraftSpecialRules.xml",
