@@ -33,6 +33,11 @@
                 <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Dense Ores ores.'/>
                 <Choice value=':= ?false' displayValue='No' description='Dense Ores ores will be handled by the mod itself.'/>
             </OptionChoice>
+            <OptionChoice name='cleanUpDenseOres' displayName='Use Dense Ores Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupDenseOres'>
+                <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Dense Ores ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
+                <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Dense Ores ores.'/>
+                <Choice value=':= ?false' displayValue='No' description='Dense Ores ores do not need to be cleaned up by a substitution pass.'/>
+            </OptionChoice>
 
             <!-- Coal Configuration UI Starting -->
             <ConfigSection>
@@ -415,31 +420,34 @@
 
                 <!-- Starting Original "Overworld" Block Removal -->
 
-                <IfCondition condition=':= ?blockExists("minecraft:stone")'>
-                    <Substitute name='dnsoOverworldBlockSubstitute0' block='minecraft:stone'>
-                        <Description>
-                            Replace vanilla-generated ore clusters.
-                        </Description>
-                        <Comment>
-                            The global option  deferredPopulationRange
-                            must be large  enough to catch all ore
-                            clusters (>=  32).
-                        </Comment>
-                        <Replaces block='denseores:block0' weight='1.0' />
-                        <Replaces block='denseores:block0:1' weight='1.0' />
-                        <Replaces block='denseores:block0:2' weight='1.0' />
-                        <Replaces block='denseores:block0:3' weight='1.0' />
-                        <Replaces block='denseores:block0:4' weight='1.0' />
-                        <Replaces block='denseores:block0:5' weight='1.0' />
-                        <Replaces block='denseores:block0:6' weight='1.0' />
-                        <Replaces block='minecraft:coal_ore' weight='1.0' />
-                        <Replaces block='minecraft:diamond_ore' weight='1.0' />
-                        <Replaces block='minecraft:emerald_ore' weight='1.0' />
-                        <Replaces block='minecraft:gold_ore' weight='1.0' />
-                        <Replaces block='minecraft:iron_ore' weight='1.0' />
-                        <Replaces block='minecraft:lapis_ore' weight='1.0' />
-                        <Replaces block='minecraft:redstone_ore' weight='1.0' />
-                    </Substitute>
+                <IfCondition condition=':= ?cleanUpDenseOres'>
+                    <IfCondition condition=':= ?blockExists("minecraft:stone")'>
+                        <Substitute name='dnsoOverworldBlockSubstitute0' block='minecraft:stone'>
+                            <Description>
+                                Replace vanilla-generated ore clusters.
+                            </Description>
+                            <Comment>
+                                The global option
+                                deferredPopulationRange must be  large
+                                enough to catch all ore  clusters (>=
+                                32).
+                            </Comment>
+                            <Replaces block='denseores:block0' weight='1.0' />
+                            <Replaces block='denseores:block0:1' weight='1.0' />
+                            <Replaces block='denseores:block0:2' weight='1.0' />
+                            <Replaces block='denseores:block0:3' weight='1.0' />
+                            <Replaces block='denseores:block0:4' weight='1.0' />
+                            <Replaces block='denseores:block0:5' weight='1.0' />
+                            <Replaces block='denseores:block0:6' weight='1.0' />
+                            <Replaces block='minecraft:coal_ore' weight='1.0' />
+                            <Replaces block='minecraft:diamond_ore' weight='1.0' />
+                            <Replaces block='minecraft:emerald_ore' weight='1.0' />
+                            <Replaces block='minecraft:gold_ore' weight='1.0' />
+                            <Replaces block='minecraft:iron_ore' weight='1.0' />
+                            <Replaces block='minecraft:lapis_ore' weight='1.0' />
+                            <Replaces block='minecraft:redstone_ore' weight='1.0' />
+                        </Substitute>
+                    </IfCondition>
                 </IfCondition>
 
                 <!-- Original "Overworld" Block Removal Complete -->
@@ -1373,19 +1381,22 @@
 
                 <!-- Starting Original "Nether" Block Removal -->
 
-                <IfCondition condition=':= ?blockExists("minecraft:netherrack")'>
-                    <Substitute name='dnsoNetherBlockSubstitute0' block='minecraft:netherrack'>
-                        <Description>
-                            Replace vanilla-generated ore clusters.
-                        </Description>
-                        <Comment>
-                            The global option  deferredPopulationRange
-                            must be large  enough to catch all ore
-                            clusters (>=  32).
-                        </Comment>
-                        <Replaces block='denseores:block0:7' weight='1.0' />
-                        <Replaces block='minecraft:quartz_ore' weight='1.0' />
-                    </Substitute>
+                <IfCondition condition=':= ?cleanUpDenseOres'>
+                    <IfCondition condition=':= ?blockExists("minecraft:netherrack")'>
+                        <Substitute name='dnsoNetherBlockSubstitute0' block='minecraft:netherrack'>
+                            <Description>
+                                Replace vanilla-generated ore clusters.
+                            </Description>
+                            <Comment>
+                                The global option
+                                deferredPopulationRange must be  large
+                                enough to catch all ore  clusters (>=
+                                32).
+                            </Comment>
+                            <Replaces block='denseores:block0:7' weight='1.0' />
+                            <Replaces block='minecraft:quartz_ore' weight='1.0' />
+                        </Substitute>
+                    </IfCondition>
                 </IfCondition>
 
                 <!-- Original "Nether" Block Removal Complete -->

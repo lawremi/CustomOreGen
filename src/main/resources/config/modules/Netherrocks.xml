@@ -33,6 +33,11 @@
                 <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Netherrocks ores.'/>
                 <Choice value=':= ?false' displayValue='No' description='Netherrocks ores will be handled by the mod itself.'/>
             </OptionChoice>
+            <OptionChoice name='cleanUpNetherrocks' displayName='Use Netherrocks Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupNetherrocks'>
+                <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Netherrocks ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
+                <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Netherrocks ores.'/>
+                <Choice value=':= ?false' displayValue='No' description='Netherrocks ores do not need to be cleaned up by a substitution pass.'/>
+            </OptionChoice>
 
             <!-- Fyrite Configuration UI Starting -->
             <ConfigSection>
@@ -306,37 +311,43 @@
 
                 <!-- Starting Original "Nether" Block Removal -->
 
-                <IfCondition condition=':= ?blockExists("minecraft:glowstone")'>
-                    <Substitute name='nthrNetherBlockSubstitute0' block='minecraft:glowstone'>
-                        <Description>
-                            Replace vanilla-generated ore clusters.
-                        </Description>
-                        <Comment>
-                            The global option  deferredPopulationRange
-                            must be large  enough to catch all ore
-                            clusters (>=  32).
-                        </Comment>
-                        <Replaces block='netherrocks:illumenite_ore' weight='1.0' />
-                    </Substitute>
+                <IfCondition condition=':= ?cleanUpNetherrocks'>
+                    <IfCondition condition=':= ?blockExists("minecraft:glowstone")'>
+                        <Substitute name='nthrNetherBlockSubstitute0' block='minecraft:glowstone'>
+                            <Description>
+                                Replace vanilla-generated ore clusters.
+                            </Description>
+                            <Comment>
+                                The global option
+                                deferredPopulationRange must be  large
+                                enough to catch all ore  clusters (>=
+                                32).
+                            </Comment>
+                            <Replaces block='netherrocks:illumenite_ore' weight='1.0' />
+                        </Substitute>
+                    </IfCondition>
                 </IfCondition>
 
 
-                <IfCondition condition=':= ?blockExists("minecraft:netherrack")'>
-                    <Substitute name='nthrNetherBlockSubstitute1' block='minecraft:netherrack'>
-                        <Description>
-                            Replace vanilla-generated ore clusters.
-                        </Description>
-                        <Comment>
-                            The global option  deferredPopulationRange
-                            must be large  enough to catch all ore
-                            clusters (>=  32).
-                        </Comment>
-                        <Replaces block='netherrocks:argonite_ore' weight='1.0' />
-                        <Replaces block='netherrocks:ashstone_ore' weight='1.0' />
-                        <Replaces block='netherrocks:dragonstone_ore' weight='1.0' />
-                        <Replaces block='netherrocks:fyrite_ore' weight='1.0' />
-                        <Replaces block='netherrocks:malachite_ore' weight='1.0' />
-                    </Substitute>
+                <IfCondition condition=':= ?cleanUpNetherrocks'>
+                    <IfCondition condition=':= ?blockExists("minecraft:netherrack")'>
+                        <Substitute name='nthrNetherBlockSubstitute1' block='minecraft:netherrack'>
+                            <Description>
+                                Replace vanilla-generated ore clusters.
+                            </Description>
+                            <Comment>
+                                The global option
+                                deferredPopulationRange must be  large
+                                enough to catch all ore  clusters (>=
+                                32).
+                            </Comment>
+                            <Replaces block='netherrocks:argonite_ore' weight='1.0' />
+                            <Replaces block='netherrocks:ashstone_ore' weight='1.0' />
+                            <Replaces block='netherrocks:dragonstone_ore' weight='1.0' />
+                            <Replaces block='netherrocks:fyrite_ore' weight='1.0' />
+                            <Replaces block='netherrocks:malachite_ore' weight='1.0' />
+                        </Substitute>
+                    </IfCondition>
                 </IfCondition>
 
                 <!-- Original "Nether" Block Removal Complete -->

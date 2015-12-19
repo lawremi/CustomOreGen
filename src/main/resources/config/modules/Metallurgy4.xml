@@ -39,6 +39,11 @@
                 <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Metallurgy 4 ores.'/>
                 <Choice value=':= ?false' displayValue='No' description='Metallurgy 4 ores will be handled by the mod itself.'/>
             </OptionChoice>
+            <OptionChoice name='cleanUpMetallurgy4' displayName='Use Metallurgy 4 Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupMetallurgy4'>
+                <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Metallurgy 4 ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
+                <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Metallurgy 4 ores.'/>
+                <Choice value=':= ?false' displayValue='No' description='Metallurgy 4 ores do not need to be cleaned up by a substitution pass.'/>
+            </OptionChoice>
 
             <!-- Sulfur Configuration UI Starting -->
             <ConfigSection>
@@ -1663,40 +1668,43 @@
 
                 <!-- Starting Original "Overworld" Block Removal -->
 
-                <IfCondition condition=':= ?blockExists("minecraft:stone")'>
-                    <Substitute name='mtlgOverworldBlockSubstitute0' block='minecraft:stone'>
-                        <Description>
-                            Replace vanilla-generated ore clusters.
-                        </Description>
-                        <Comment>
-                            The global option  deferredPopulationRange
-                            must be large  enough to catch all ore
-                            clusters (>=  32).
-                        </Comment>
-                        <Replaces block='Metallurgy:base.ore' weight='1.0' />
-                        <Replaces block='Metallurgy:base.ore:1' weight='1.0' />
-                        <Replaces block='Metallurgy:base.ore:2' weight='1.0' />
-                        <Replaces block='Metallurgy:fantasy.ore' weight='1.0' />
-                        <Replaces block='Metallurgy:fantasy.ore:1' weight='1.0' />
-                        <Replaces block='Metallurgy:fantasy.ore:11' weight='1.0' />
-                        <Replaces block='Metallurgy:fantasy.ore:13' weight='1.0' />
-                        <Replaces block='Metallurgy:fantasy.ore:14' weight='1.0' />
-                        <Replaces block='Metallurgy:fantasy.ore:2' weight='1.0' />
-                        <Replaces block='Metallurgy:fantasy.ore:4' weight='1.0' />
-                        <Replaces block='Metallurgy:fantasy.ore:5' weight='1.0' />
-                        <Replaces block='Metallurgy:fantasy.ore:6' weight='1.0' />
-                        <Replaces block='Metallurgy:fantasy.ore:7' weight='1.0' />
-                        <Replaces block='Metallurgy:fantasy.ore:8' weight='1.0' />
-                        <Replaces block='Metallurgy:precious.ore' weight='1.0' />
-                        <Replaces block='Metallurgy:precious.ore:1' weight='1.0' />
-                        <Replaces block='Metallurgy:precious.ore:2' weight='1.0' />
-                        <Replaces block='Metallurgy:utility.ore' weight='1.0' />
-                        <Replaces block='Metallurgy:utility.ore:1' weight='1.0' />
-                        <Replaces block='Metallurgy:utility.ore:2' weight='1.0' />
-                        <Replaces block='Metallurgy:utility.ore:3' weight='1.0' />
-                        <Replaces block='Metallurgy:utility.ore:4' weight='1.0' />
-                        <Replaces block='Metallurgy:utility.ore:5' weight='1.0' />
-                    </Substitute>
+                <IfCondition condition=':= ?cleanUpMetallurgy4'>
+                    <IfCondition condition=':= ?blockExists("minecraft:stone")'>
+                        <Substitute name='mtlgOverworldBlockSubstitute0' block='minecraft:stone'>
+                            <Description>
+                                Replace vanilla-generated ore clusters.
+                            </Description>
+                            <Comment>
+                                The global option
+                                deferredPopulationRange must be  large
+                                enough to catch all ore  clusters (>=
+                                32).
+                            </Comment>
+                            <Replaces block='Metallurgy:base.ore' weight='1.0' />
+                            <Replaces block='Metallurgy:base.ore:1' weight='1.0' />
+                            <Replaces block='Metallurgy:base.ore:2' weight='1.0' />
+                            <Replaces block='Metallurgy:fantasy.ore' weight='1.0' />
+                            <Replaces block='Metallurgy:fantasy.ore:1' weight='1.0' />
+                            <Replaces block='Metallurgy:fantasy.ore:11' weight='1.0' />
+                            <Replaces block='Metallurgy:fantasy.ore:13' weight='1.0' />
+                            <Replaces block='Metallurgy:fantasy.ore:14' weight='1.0' />
+                            <Replaces block='Metallurgy:fantasy.ore:2' weight='1.0' />
+                            <Replaces block='Metallurgy:fantasy.ore:4' weight='1.0' />
+                            <Replaces block='Metallurgy:fantasy.ore:5' weight='1.0' />
+                            <Replaces block='Metallurgy:fantasy.ore:6' weight='1.0' />
+                            <Replaces block='Metallurgy:fantasy.ore:7' weight='1.0' />
+                            <Replaces block='Metallurgy:fantasy.ore:8' weight='1.0' />
+                            <Replaces block='Metallurgy:precious.ore' weight='1.0' />
+                            <Replaces block='Metallurgy:precious.ore:1' weight='1.0' />
+                            <Replaces block='Metallurgy:precious.ore:2' weight='1.0' />
+                            <Replaces block='Metallurgy:utility.ore' weight='1.0' />
+                            <Replaces block='Metallurgy:utility.ore:1' weight='1.0' />
+                            <Replaces block='Metallurgy:utility.ore:2' weight='1.0' />
+                            <Replaces block='Metallurgy:utility.ore:3' weight='1.0' />
+                            <Replaces block='Metallurgy:utility.ore:4' weight='1.0' />
+                            <Replaces block='Metallurgy:utility.ore:5' weight='1.0' />
+                        </Substitute>
+                    </IfCondition>
                 </IfCondition>
 
                 <!-- Original "Overworld" Block Removal Complete -->
@@ -4573,27 +4581,30 @@
 
                 <!-- Starting Original "Nether" Block Removal -->
 
-                <IfCondition condition=':= ?blockExists("minecraft:netherrack")'>
-                    <Substitute name='mtlgNetherBlockSubstitute0' block='minecraft:netherrack'>
-                        <Description>
-                            Replace vanilla-generated ore clusters.
-                        </Description>
-                        <Comment>
-                            The global option  deferredPopulationRange
-                            must be large  enough to catch all ore
-                            clusters (>=  32).
-                        </Comment>
-                        <Replaces block='Metallurgy:nether.ore' weight='1.0' />
-                        <Replaces block='Metallurgy:nether.ore:1' weight='1.0' />
-                        <Replaces block='Metallurgy:nether.ore:2' weight='1.0' />
-                        <Replaces block='Metallurgy:nether.ore:3' weight='1.0' />
-                        <Replaces block='Metallurgy:nether.ore:4' weight='1.0' />
-                        <Replaces block='Metallurgy:nether.ore:5' weight='1.0' />
-                        <Replaces block='Metallurgy:nether.ore:6' weight='1.0' />
-                        <Replaces block='Metallurgy:nether.ore:7' weight='1.0' />
-                        <Replaces block='Metallurgy:nether.ore:8' weight='1.0' />
-                        <Replaces block='Metallurgy:nether.ore:9' weight='1.0' />
-                    </Substitute>
+                <IfCondition condition=':= ?cleanUpMetallurgy4'>
+                    <IfCondition condition=':= ?blockExists("minecraft:netherrack")'>
+                        <Substitute name='mtlgNetherBlockSubstitute0' block='minecraft:netherrack'>
+                            <Description>
+                                Replace vanilla-generated ore clusters.
+                            </Description>
+                            <Comment>
+                                The global option
+                                deferredPopulationRange must be  large
+                                enough to catch all ore  clusters (>=
+                                32).
+                            </Comment>
+                            <Replaces block='Metallurgy:nether.ore' weight='1.0' />
+                            <Replaces block='Metallurgy:nether.ore:1' weight='1.0' />
+                            <Replaces block='Metallurgy:nether.ore:2' weight='1.0' />
+                            <Replaces block='Metallurgy:nether.ore:3' weight='1.0' />
+                            <Replaces block='Metallurgy:nether.ore:4' weight='1.0' />
+                            <Replaces block='Metallurgy:nether.ore:5' weight='1.0' />
+                            <Replaces block='Metallurgy:nether.ore:6' weight='1.0' />
+                            <Replaces block='Metallurgy:nether.ore:7' weight='1.0' />
+                            <Replaces block='Metallurgy:nether.ore:8' weight='1.0' />
+                            <Replaces block='Metallurgy:nether.ore:9' weight='1.0' />
+                        </Substitute>
+                    </IfCondition>
                 </IfCondition>
 
                 <!-- Original "Nether" Block Removal Complete -->
@@ -5837,19 +5848,22 @@
 
                 <!-- Starting Original "End" Block Removal -->
 
-                <IfCondition condition=':= ?blockExists("minecraft:end_stone")'>
-                    <Substitute name='mtlgEndBlockSubstitute0' block='minecraft:end_stone'>
-                        <Description>
-                            Replace vanilla-generated ore clusters.
-                        </Description>
-                        <Comment>
-                            The global option  deferredPopulationRange
-                            must be large  enough to catch all ore
-                            clusters (>=  32).
-                        </Comment>
-                        <Replaces block='Metallurgy:ender.ore' weight='1.0' />
-                        <Replaces block='Metallurgy:ender.ore:1' weight='1.0' />
-                    </Substitute>
+                <IfCondition condition=':= ?cleanUpMetallurgy4'>
+                    <IfCondition condition=':= ?blockExists("minecraft:end_stone")'>
+                        <Substitute name='mtlgEndBlockSubstitute0' block='minecraft:end_stone'>
+                            <Description>
+                                Replace vanilla-generated ore clusters.
+                            </Description>
+                            <Comment>
+                                The global option
+                                deferredPopulationRange must be  large
+                                enough to catch all ore  clusters (>=
+                                32).
+                            </Comment>
+                            <Replaces block='Metallurgy:ender.ore' weight='1.0' />
+                            <Replaces block='Metallurgy:ender.ore:1' weight='1.0' />
+                        </Substitute>
+                    </IfCondition>
                 </IfCondition>
 
                 <!-- Original "End" Block Removal Complete -->

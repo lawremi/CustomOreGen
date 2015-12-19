@@ -32,6 +32,11 @@
                 <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle MagnetiCraft ores.'/>
                 <Choice value=':= ?false' displayValue='No' description='MagnetiCraft ores will be handled by the mod itself.'/>
             </OptionChoice>
+            <OptionChoice name='cleanUpMagnetiCraft' displayName='Use MagnetiCraft Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupMagnetiCraft'>
+                <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of MagnetiCraft ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
+                <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up MagnetiCraft ores.'/>
+                <Choice value=':= ?false' displayValue='No' description='MagnetiCraft ores do not need to be cleaned up by a substitution pass.'/>
+            </OptionChoice>
 
             <!-- Copper Configuration UI Starting -->
             <ConfigSection>
@@ -414,25 +419,28 @@
 
                 <!-- Starting Original "Overworld" Block Removal -->
 
-                <IfCondition condition=':= ?blockExists("minecraft:stone")'>
-                    <Substitute name='mgntOverworldBlockSubstitute0' block='minecraft:stone'>
-                        <Description>
-                            Replace vanilla-generated ore clusters.
-                        </Description>
-                        <Comment>
-                            The global option  deferredPopulationRange
-                            must be large  enough to catch all ore
-                            clusters (>=  32).
-                        </Comment>
-                        <Replaces block='Magneticraft:copper_ore' weight='1.0' />
-                        <Replaces block='Magneticraft:limestone' weight='1.0' />
-                        <Replaces block='Magneticraft:salt_ore' weight='1.0' />
-                        <Replaces block='Magneticraft:sulfur_ore' weight='1.0' />
-                        <Replaces block='Magneticraft:thorium_ore' weight='1.0' />
-                        <Replaces block='Magneticraft:tungsten_ore' weight='1.0' />
-                        <Replaces block='Magneticraft:uranium_ore' weight='1.0' />
-                        <Replaces block='Magneticraft:zinc_ore' weight='1.0' />
-                    </Substitute>
+                <IfCondition condition=':= ?cleanUpMagnetiCraft'>
+                    <IfCondition condition=':= ?blockExists("minecraft:stone")'>
+                        <Substitute name='mgntOverworldBlockSubstitute0' block='minecraft:stone'>
+                            <Description>
+                                Replace vanilla-generated ore clusters.
+                            </Description>
+                            <Comment>
+                                The global option
+                                deferredPopulationRange must be  large
+                                enough to catch all ore  clusters (>=
+                                32).
+                            </Comment>
+                            <Replaces block='Magneticraft:copper_ore' weight='1.0' />
+                            <Replaces block='Magneticraft:limestone' weight='1.0' />
+                            <Replaces block='Magneticraft:salt_ore' weight='1.0' />
+                            <Replaces block='Magneticraft:sulfur_ore' weight='1.0' />
+                            <Replaces block='Magneticraft:thorium_ore' weight='1.0' />
+                            <Replaces block='Magneticraft:tungsten_ore' weight='1.0' />
+                            <Replaces block='Magneticraft:uranium_ore' weight='1.0' />
+                            <Replaces block='Magneticraft:zinc_ore' weight='1.0' />
+                        </Substitute>
+                    </IfCondition>
                 </IfCondition>
 
                 <!-- Original "Overworld" Block Removal Complete -->

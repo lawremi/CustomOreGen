@@ -33,6 +33,11 @@
                 <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Project Red ores.'/>
                 <Choice value=':= ?false' displayValue='No' description='Project Red ores will be handled by the mod itself.'/>
             </OptionChoice>
+            <OptionChoice name='cleanUpProjectRed' displayName='Use Project Red Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupProjectRed'>
+                <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Project Red ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
+                <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Project Red ores.'/>
+                <Choice value=':= ?false' displayValue='No' description='Project Red ores do not need to be cleaned up by a substitution pass.'/>
+            </OptionChoice>
 
             <!-- Ruby Configuration UI Starting -->
             <ConfigSection>
@@ -415,25 +420,28 @@
 
                 <!-- Starting Original "Overworld" Block Removal -->
 
-                <IfCondition condition=':= ?blockExists("minecraft:stone")'>
-                    <Substitute name='predOverworldBlockSubstitute0' block='minecraft:stone'>
-                        <Description>
-                            Replace vanilla-generated ore clusters.
-                        </Description>
-                        <Comment>
-                            The global option  deferredPopulationRange
-                            must be large  enough to catch all ore
-                            clusters (>=  32).
-                        </Comment>
-                        <Replaces block='ProjRed|Exploration:projectred.exploration.ore' weight='1.0' />
-                        <Replaces block='ProjRed|Exploration:projectred.exploration.ore:1' weight='1.0' />
-                        <Replaces block='ProjRed|Exploration:projectred.exploration.ore:2' weight='1.0' />
-                        <Replaces block='ProjRed|Exploration:projectred.exploration.ore:3' weight='1.0' />
-                        <Replaces block='ProjRed|Exploration:projectred.exploration.ore:4' weight='1.0' />
-                        <Replaces block='ProjRed|Exploration:projectred.exploration.ore:5' weight='1.0' />
-                        <Replaces block='ProjRed|Exploration:projectred.exploration.ore:6' weight='1.0' />
-                        <Replaces block='ProjRed|Exploration:projectred.exploration.stone' weight='1.0' />
-                    </Substitute>
+                <IfCondition condition=':= ?cleanUpProjectRed'>
+                    <IfCondition condition=':= ?blockExists("minecraft:stone")'>
+                        <Substitute name='predOverworldBlockSubstitute0' block='minecraft:stone'>
+                            <Description>
+                                Replace vanilla-generated ore clusters.
+                            </Description>
+                            <Comment>
+                                The global option
+                                deferredPopulationRange must be  large
+                                enough to catch all ore  clusters (>=
+                                32).
+                            </Comment>
+                            <Replaces block='ProjRed|Exploration:projectred.exploration.ore' weight='1.0' />
+                            <Replaces block='ProjRed|Exploration:projectred.exploration.ore:1' weight='1.0' />
+                            <Replaces block='ProjRed|Exploration:projectred.exploration.ore:2' weight='1.0' />
+                            <Replaces block='ProjRed|Exploration:projectred.exploration.ore:3' weight='1.0' />
+                            <Replaces block='ProjRed|Exploration:projectred.exploration.ore:4' weight='1.0' />
+                            <Replaces block='ProjRed|Exploration:projectred.exploration.ore:5' weight='1.0' />
+                            <Replaces block='ProjRed|Exploration:projectred.exploration.ore:6' weight='1.0' />
+                            <Replaces block='ProjRed|Exploration:projectred.exploration.stone' weight='1.0' />
+                        </Substitute>
+                    </IfCondition>
                 </IfCondition>
 
                 <!-- Original "Overworld" Block Removal Complete -->

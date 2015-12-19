@@ -36,6 +36,11 @@
                 <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Nether Ores ores.'/>
                 <Choice value=':= ?false' displayValue='No' description='Nether Ores ores will be handled by the mod itself.'/>
             </OptionChoice>
+            <OptionChoice name='cleanUpNetherOres' displayName='Use Nether Ores Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupNetherOres'>
+                <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Nether Ores ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
+                <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Nether Ores ores.'/>
+                <Choice value=':= ?false' displayValue='No' description='Nether Ores ores do not need to be cleaned up by a substitution pass.'/>
+            </OptionChoice>
 
             <!-- Coal Configuration UI Starting -->
             <ConfigSection>
@@ -1523,49 +1528,52 @@
 
                 <!-- Starting Original "Nether" Block Removal -->
 
-                <IfCondition condition=':= ?blockExists("minecraft:netherrack")'>
-                    <Substitute name='nthoNetherBlockSubstitute0' block='minecraft:netherrack'>
-                        <Description>
-                            Replace vanilla-generated ore clusters.
-                        </Description>
-                        <Comment>
-                            The global option  deferredPopulationRange
-                            must be large  enough to catch all ore
-                            clusters (>=  32).
-                        </Comment>
-                        <Replaces block='NetherOres:tile.netherores.ore.0' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.0:1' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.0:10' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.0:11' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.0:12' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.0:13' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.0:14' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.0:15' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.0:2' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.0:3' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.0:4' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.0:5' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.0:6' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.0:7' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.0:8' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.0:9' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.1' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.1:1' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.1:10' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.1:11' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.1:12' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.1:13' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.1:14' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.1:15' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.1:2' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.1:3' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.1:4' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.1:5' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.1:6' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.1:7' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.1:8' weight='1.0' />
-                        <Replaces block='NetherOres:tile.netherores.ore.1:9' weight='1.0' />
-                    </Substitute>
+                <IfCondition condition=':= ?cleanUpNetherOres'>
+                    <IfCondition condition=':= ?blockExists("minecraft:netherrack")'>
+                        <Substitute name='nthoNetherBlockSubstitute0' block='minecraft:netherrack'>
+                            <Description>
+                                Replace vanilla-generated ore clusters.
+                            </Description>
+                            <Comment>
+                                The global option
+                                deferredPopulationRange must be  large
+                                enough to catch all ore  clusters (>=
+                                32).
+                            </Comment>
+                            <Replaces block='NetherOres:tile.netherores.ore.0' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.0:1' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.0:10' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.0:11' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.0:12' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.0:13' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.0:14' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.0:15' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.0:2' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.0:3' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.0:4' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.0:5' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.0:6' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.0:7' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.0:8' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.0:9' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.1' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.1:1' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.1:10' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.1:11' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.1:12' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.1:13' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.1:14' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.1:15' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.1:2' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.1:3' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.1:4' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.1:5' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.1:6' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.1:7' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.1:8' weight='1.0' />
+                            <Replaces block='NetherOres:tile.netherores.ore.1:9' weight='1.0' />
+                        </Substitute>
+                    </IfCondition>
                 </IfCondition>
 
                 <!-- Original "Nether" Block Removal Complete -->

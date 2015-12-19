@@ -34,6 +34,11 @@
                 <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle GeoStrata ores.'/>
                 <Choice value=':= ?false' displayValue='No' description='GeoStrata ores will be handled by the mod itself.'/>
             </OptionChoice>
+            <OptionChoice name='cleanUpGeoStrata' displayName='Use GeoStrata Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupGeoStrata'>
+                <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of GeoStrata ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
+                <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up GeoStrata ores.'/>
+                <Choice value=':= ?false' displayValue='No' description='GeoStrata ores do not need to be cleaned up by a substitution pass.'/>
+            </OptionChoice>
 
             <!-- Shale Configuration UI Starting -->
             <ConfigSection>
@@ -830,34 +835,37 @@
 
                 <!-- Starting Original "Overworld" Block Removal -->
 
-                <IfCondition condition=':= ?blockExists("minecraft:stone")'>
-                    <Substitute name='gstaOverworldBlockSubstitute0' block='minecraft:stone'>
-                        <Description>
-                            Replace vanilla-generated ore clusters.
-                        </Description>
-                        <Comment>
-                            The global option  deferredPopulationRange
-                            must be large  enough to catch all ore
-                            clusters (>=  32).
-                        </Comment>
-                        <Replaces block='GeoStrata:geostrata_rock_basalt_smooth' weight='1.0' />
-                        <Replaces block='GeoStrata:geostrata_rock_gneiss_smooth' weight='1.0' />
-                        <Replaces block='GeoStrata:geostrata_rock_granite_smooth' weight='1.0' />
-                        <Replaces block='GeoStrata:geostrata_rock_granulite_smooth' weight='1.0' />
-                        <Replaces block='GeoStrata:geostrata_rock_hornfel_smooth' weight='1.0' />
-                        <Replaces block='GeoStrata:geostrata_rock_limestone_smooth' weight='1.0' />
-                        <Replaces block='GeoStrata:geostrata_rock_marble_smooth' weight='1.0' />
-                        <Replaces block='GeoStrata:geostrata_rock_migmatite_smooth' weight='1.0' />
-                        <Replaces block='GeoStrata:geostrata_rock_onyx_smooth' weight='1.0' />
-                        <Replaces block='GeoStrata:geostrata_rock_opal_smooth' weight='1.0' />
-                        <Replaces block='GeoStrata:geostrata_rock_peridotite_smooth' weight='1.0' />
-                        <Replaces block='GeoStrata:geostrata_rock_pumice_smooth' weight='1.0' />
-                        <Replaces block='GeoStrata:geostrata_rock_quartz_smooth' weight='1.0' />
-                        <Replaces block='GeoStrata:geostrata_rock_sandstone_smooth' weight='1.0' />
-                        <Replaces block='GeoStrata:geostrata_rock_schist_smooth' weight='1.0' />
-                        <Replaces block='GeoStrata:geostrata_rock_shale_smooth' weight='1.0' />
-                        <Replaces block='GeoStrata:geostrata_rock_slate_smooth' weight='1.0' />
-                    </Substitute>
+                <IfCondition condition=':= ?cleanUpGeoStrata'>
+                    <IfCondition condition=':= ?blockExists("minecraft:stone")'>
+                        <Substitute name='gstaOverworldBlockSubstitute0' block='minecraft:stone'>
+                            <Description>
+                                Replace vanilla-generated ore clusters.
+                            </Description>
+                            <Comment>
+                                The global option
+                                deferredPopulationRange must be  large
+                                enough to catch all ore  clusters (>=
+                                32).
+                            </Comment>
+                            <Replaces block='GeoStrata:geostrata_rock_basalt_smooth' weight='1.0' />
+                            <Replaces block='GeoStrata:geostrata_rock_gneiss_smooth' weight='1.0' />
+                            <Replaces block='GeoStrata:geostrata_rock_granite_smooth' weight='1.0' />
+                            <Replaces block='GeoStrata:geostrata_rock_granulite_smooth' weight='1.0' />
+                            <Replaces block='GeoStrata:geostrata_rock_hornfel_smooth' weight='1.0' />
+                            <Replaces block='GeoStrata:geostrata_rock_limestone_smooth' weight='1.0' />
+                            <Replaces block='GeoStrata:geostrata_rock_marble_smooth' weight='1.0' />
+                            <Replaces block='GeoStrata:geostrata_rock_migmatite_smooth' weight='1.0' />
+                            <Replaces block='GeoStrata:geostrata_rock_onyx_smooth' weight='1.0' />
+                            <Replaces block='GeoStrata:geostrata_rock_opal_smooth' weight='1.0' />
+                            <Replaces block='GeoStrata:geostrata_rock_peridotite_smooth' weight='1.0' />
+                            <Replaces block='GeoStrata:geostrata_rock_pumice_smooth' weight='1.0' />
+                            <Replaces block='GeoStrata:geostrata_rock_quartz_smooth' weight='1.0' />
+                            <Replaces block='GeoStrata:geostrata_rock_sandstone_smooth' weight='1.0' />
+                            <Replaces block='GeoStrata:geostrata_rock_schist_smooth' weight='1.0' />
+                            <Replaces block='GeoStrata:geostrata_rock_shale_smooth' weight='1.0' />
+                            <Replaces block='GeoStrata:geostrata_rock_slate_smooth' weight='1.0' />
+                        </Substitute>
+                    </IfCondition>
                 </IfCondition>
 
                 <!-- Original "Overworld" Block Removal Complete -->

@@ -33,6 +33,11 @@
                 <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Biomes O Plenty ores.'/>
                 <Choice value=':= ?false' displayValue='No' description='Biomes O Plenty ores will be handled by the mod itself.'/>
             </OptionChoice>
+            <OptionChoice name='cleanUpBiomesOPlenty' displayName='Use Biomes O Plenty Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupBiomesOPlenty'>
+                <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Biomes O Plenty ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
+                <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Biomes O Plenty ores.'/>
+                <Choice value=':= ?false' displayValue='No' description='Biomes O Plenty ores do not need to be cleaned up by a substitution pass.'/>
+            </OptionChoice>
 
             <!-- Amethyst Configuration UI Starting -->
             <ConfigSection>
@@ -415,24 +420,27 @@
 
                 <!-- Starting Original "Overworld" Block Removal -->
 
-                <IfCondition condition=':= ?blockExists("minecraft:stone")'>
-                    <Substitute name='boplOverworldBlockSubstitute0' block='minecraft:stone'>
-                        <Description>
-                            Replace vanilla-generated ore clusters.
-                        </Description>
-                        <Comment>
-                            The global option  deferredPopulationRange
-                            must be large  enough to catch all ore
-                            clusters (>=  32).
-                        </Comment>
-                        <Replaces block='BiomesOPlenty:gemOre:10' weight='1.0' />
-                        <Replaces block='BiomesOPlenty:gemOre:12' weight='1.0' />
-                        <Replaces block='BiomesOPlenty:gemOre:14' weight='1.0' />
-                        <Replaces block='BiomesOPlenty:gemOre:2' weight='1.0' />
-                        <Replaces block='BiomesOPlenty:gemOre:4' weight='1.0' />
-                        <Replaces block='BiomesOPlenty:gemOre:6' weight='1.0' />
-                        <Replaces block='BiomesOPlenty:gemOre:8' weight='1.0' />
-                    </Substitute>
+                <IfCondition condition=':= ?cleanUpBiomesOPlenty'>
+                    <IfCondition condition=':= ?blockExists("minecraft:stone")'>
+                        <Substitute name='boplOverworldBlockSubstitute0' block='minecraft:stone'>
+                            <Description>
+                                Replace vanilla-generated ore clusters.
+                            </Description>
+                            <Comment>
+                                The global option
+                                deferredPopulationRange must be  large
+                                enough to catch all ore  clusters (>=
+                                32).
+                            </Comment>
+                            <Replaces block='BiomesOPlenty:gemOre:10' weight='1.0' />
+                            <Replaces block='BiomesOPlenty:gemOre:12' weight='1.0' />
+                            <Replaces block='BiomesOPlenty:gemOre:14' weight='1.0' />
+                            <Replaces block='BiomesOPlenty:gemOre:2' weight='1.0' />
+                            <Replaces block='BiomesOPlenty:gemOre:4' weight='1.0' />
+                            <Replaces block='BiomesOPlenty:gemOre:6' weight='1.0' />
+                            <Replaces block='BiomesOPlenty:gemOre:8' weight='1.0' />
+                        </Substitute>
+                    </IfCondition>
                 </IfCondition>
 
                 <!-- Original "Overworld" Block Removal Complete -->
@@ -1411,18 +1419,21 @@
 
                 <!-- Starting Original "End" Block Removal -->
 
-                <IfCondition condition=':= ?blockExists("minecraft:end_stone")'>
-                    <Substitute name='boplEndBlockSubstitute0' block='minecraft:end_stone'>
-                        <Description>
-                            Replace vanilla-generated ore clusters.
-                        </Description>
-                        <Comment>
-                            The global option  deferredPopulationRange
-                            must be large  enough to catch all ore
-                            clusters (>=  32).
-                        </Comment>
-                        <Replaces block='BiomesOPlenty:gemOre' weight='1.0' />
-                    </Substitute>
+                <IfCondition condition=':= ?cleanUpBiomesOPlenty'>
+                    <IfCondition condition=':= ?blockExists("minecraft:end_stone")'>
+                        <Substitute name='boplEndBlockSubstitute0' block='minecraft:end_stone'>
+                            <Description>
+                                Replace vanilla-generated ore clusters.
+                            </Description>
+                            <Comment>
+                                The global option
+                                deferredPopulationRange must be  large
+                                enough to catch all ore  clusters (>=
+                                32).
+                            </Comment>
+                            <Replaces block='BiomesOPlenty:gemOre' weight='1.0' />
+                        </Substitute>
+                    </IfCondition>
                 </IfCondition>
 
                 <!-- Original "End" Block Removal Complete -->
