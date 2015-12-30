@@ -1,6 +1,6 @@
 <!-- =================================================================
      Custom Ore Generation "Minecraft Comes Alive" Module: This
-     configuration covers rose gold.
+     configuration covers rose gold and mountain rose gold.
      ================================================================= -->
 
 
@@ -85,6 +85,52 @@
       </ConfigSection>
       <!-- Rose Gold Configuration UI Complete -->
 
+
+      <!-- Mountain Rose Gold Configuration UI Starting -->
+      <ConfigSection>
+        <OptionChoice name='mccaMountainRoseGoldDist'  displayState=':= if(?enableMinecraftComesAlive, "shown", "hidden")' displayGroup='groupMinecraftComesAlive'>
+          <Description> Controls how Mountain Rose Gold is generated </Description>
+          <DisplayName>Minecraft Comes Alive Mountain Rose Gold</DisplayName>
+          <IfCondition condition=':= (?blockExists("MCA:tile.roseGoldOre")) '>
+
+          <Choice value='LayeredVeins' displayValue='Layered Veins'>
+            <Description>
+              Small, fairly rare motherlodes with 2-4 horizontal veins each.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("MCA:tile.roseGoldOre")) '>
+
+          <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
+            <Description>
+              Large irregular clouds filled lightly with ore.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("MCA:tile.roseGoldOre")) '>
+
+          <Choice value='Vanilla' displayValue='Vanilla'>
+            <Description>
+              Simulates Vanilla Minecraft.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <Choice value='none' displayValue='None' description='Mountain Rose Gold is not generated in the world.'/>
+        </OptionChoice>
+        <OptionNumeric name='mccaMountainRoseGoldFreq' default='1'  min='0' max='5' displayState=':= if(?enableMinecraftComesAlive, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupMinecraftComesAlive'>
+          <Description> Frequency multiplier for Minecraft Comes Alive Mountain Rose Gold distributions </Description>
+          <DisplayName>Minecraft Comes Alive Mountain Rose Gold Freq.</DisplayName>
+        </OptionNumeric>
+        <OptionNumeric name='mccaMountainRoseGoldSize' default='1'  min='0' max='5' displayState=':= if(?enableMinecraftComesAlive, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupMinecraftComesAlive'>
+          <Description> Size multiplier for Minecraft Comes Alive Mountain Rose Gold distributions </Description>
+          <DisplayName>Minecraft Comes Alive Mountain Rose Gold Size</DisplayName>
+        </OptionNumeric>
+      </ConfigSection>
+      <!-- Mountain Rose Gold Configuration UI Complete -->
+
     </ConfigSection>
     <!-- Setup Screen Complete -->
 
@@ -133,7 +179,7 @@
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 0.969 * _default_ * mccaRoseGoldFreq ' range=':= 0.969 * _default_ * mccaRoseGoldFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 0.995 * _default_ * mccaRoseGoldSize ' range=':= 0.995 * _default_ * mccaRoseGoldSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 26 ' range=':= 14 ' type='normal' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 26 ' range=':= 14 ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -174,7 +220,7 @@
               <Setting name='CloudRadius' avg=':= 1.052 * _default_ * mccaRoseGoldSize ' range=':= 1.052 * _default_ * mccaRoseGoldSize ' type='normal' />
               <Setting name='CloudThickness' avg=':= 1.052 * _default_ * mccaRoseGoldSize ' range=':= 1.052 * _default_ * mccaRoseGoldSize ' type='normal' scaleTo='base' />
               <Setting name='DistributionFrequency' avg=':= 1.107 * _default_ * mccaRoseGoldFreq ' range=':= 1.107 * _default_ * mccaRoseGoldFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 26 ' range=':= 14 ' type='normal' scaleTo='position' />
+              <Setting name='CloudHeight' avg=':= 26 ' range=':= 14 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -220,7 +266,7 @@
               <Biome name='.*'  />
               <Setting name='Size' avg=':= 4.0 * mccaRoseGoldSize ' range=':= 2.0 * mccaRoseGoldSize ' type='normal' />
               <Setting name='Frequency' avg=':= 3.333 * mccaRoseGoldFreq ' range=':= 1.67 * mccaRoseGoldFreq ' type='normal' scaleTo='base' />
-              <Setting name='Height' avg=':= 26 ' range=':= 14 ' type='normal' scaleTo='position' />
+              <Setting name='Height' avg=':= 26 ' range=':= 14 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
           </IfCondition>
@@ -228,6 +274,119 @@
         <!-- Vanilla Preset for Rose Gold is complete. -->
 
         <!-- End Rose Gold Generation -->
+
+
+        <!-- Begin Mountain Rose Gold Generation -->
+
+        <!-- Starting LayeredVeins Preset for Mountain Rose  Gold. -->
+        <ConfigSection>
+          <IfCondition condition=':= mccaMountainRoseGoldDist = "LayeredVeins"'>
+            <Veins name='mccaMountainRoseGoldVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60FFDDA2' drawBoundBox='false' boundBoxColor='0x60FFDDA2'>
+              <Description>
+                Small, fairly rare motherlodes  with 2-4 horizontal
+                veins each.
+              </Description>
+              <OreBlock block='MCA:tile.roseGoldOre' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='MotherlodeFrequency' avg=':= 0.969 * _default_ * mccaMountainRoseGoldFreq ' range=':= 0.969 * _default_ * mccaMountainRoseGoldFreq ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeSize' avg=':= 0.995 * _default_ * mccaMountainRoseGoldSize ' range=':= 0.995 * _default_ * mccaMountainRoseGoldSize ' type='normal' />
+              <Setting name='MotherlodeHeight' avg=':= 142 ' range=':= 42 ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchLength' avg=':= 0.984 * _default_ ' range=':= 0.984 * _default_ ' type='normal' />
+              <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentLength' avg=':= _default_ * mccaMountainRoseGoldSize ' range=':= _default_ * mccaMountainRoseGoldSize ' type='normal' />
+              <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentRadius' avg=':= 0.992 * _default_ * mccaMountainRoseGoldSize ' range=':= 0.992 * _default_ * mccaMountainRoseGoldSize ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </Veins>
+          </IfCondition>
+        </ConfigSection>
+        <!-- LayeredVeins Preset for Mountain Rose Gold is  complete. -->
+
+
+        <!-- Starting StrategicClouds Preset for Mountain Rose  Gold. -->
+        <ConfigSection>
+          <IfCondition condition=':= mccaMountainRoseGoldDist = "StrategicClouds"'>
+            <Cloud name='mccaMountainRoseGoldCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FFDDA2' drawBoundBox='false' boundBoxColor='0x60FFDDA2'>
+              <Description>
+                Large irregular clouds filled  lightly with ore.
+                These are  huge, spanning several adjacent  chunks,
+                and consequently rather  rare.  They contain a
+                sizeable  amount of ore, but it takes some  time and
+                effort to mine due to  low density. The intent for
+                strategic clouds is that the  player will need to
+                actively  search for one and then set up a  semi-
+                permanent mining base and  spend some time actually
+                mining  the ore.
+              </Description>
+              <OreBlock block='MCA:tile.roseGoldOre' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='CloudRadius' avg=':= 1.052 * _default_ * mccaMountainRoseGoldSize ' range=':= 1.052 * _default_ * mccaMountainRoseGoldSize ' type='normal' />
+              <Setting name='CloudThickness' avg=':= 1.052 * _default_ * mccaMountainRoseGoldSize ' range=':= 1.052 * _default_ * mccaMountainRoseGoldSize ' type='normal' scaleTo='base' />
+              <Setting name='DistributionFrequency' avg=':= 1.107 * _default_ * mccaMountainRoseGoldFreq ' range=':= 1.107 * _default_ * mccaMountainRoseGoldFreq ' type='normal' scaleTo='base' />
+              <Setting name='CloudHeight' avg=':= 142 ' range=':= 42 ' type='normal' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Veins name='mccaMountainRoseGoldHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FFDDA2' drawBoundBox='false' boundBoxColor='0x60FFDDA2'>
+                <Description>
+                  Single blocks, generously  scattered through all
+                  heights  (density is about that of  vanilla iron
+                  ore). They will  replace dirt and sandstone  (but
+                  not grass or sand), so  they can be found nearer to
+                  the surface than most ores.  Intened to be used as a
+                  child  distribution for large, rare  strategic
+                  deposits that would  otherwise be very difficult  to
+                  find.  Note that the  frequency is multiplied by
+                  ground level to maintain a  constant density, but
+                  not by  ore frequency because it is  assumed that
+                  the frequency of  the parent distribution will
+                  already be scaled by that.
+                </Description>
+                <OreBlock block='MCA:tile.roseGoldOre' weight='1.0' />
+                <Replaces block='minecraft:dirt' weight='1.0' />
+                <Replaces block='minecraft:sandstone' weight='1.0' />
+                <ReplacesOre block='stone' weight='1.0' />
+                <Replaces block='minecraft:gravel' weight='1.0' />
+              </Veins>
+            </Cloud>
+          </IfCondition>
+        </ConfigSection>
+        <!-- StrategicClouds Preset for Mountain Rose Gold is
+             complete. -->
+
+
+        <!-- Starting Vanilla Preset for Mountain Rose Gold. -->
+        <ConfigSection>
+          <IfCondition condition=':= mccaMountainRoseGoldDist = "Vanilla"'>
+            <StandardGen name='mccaMountainRoseGoldStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FFDDA2' drawBoundBox='false' boundBoxColor='0x60FFDDA2'>
+              <Description>
+                A master preset for standardgen  ore distributions.
+              </Description>
+              <OreBlock block='MCA:tile.roseGoldOre' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='Size' avg=':= 4.0 * mccaMountainRoseGoldSize ' range=':= 2.0 * mccaMountainRoseGoldSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 3.333 * mccaMountainRoseGoldFreq ' range=':= 1.67 * mccaMountainRoseGoldFreq ' type='normal' scaleTo='base' />
+              <Setting name='Height' avg=':= 142 ' range=':= 42 ' type='normal' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </StandardGen>
+          </IfCondition>
+        </ConfigSection>
+        <!-- Vanilla Preset for Mountain Rose Gold is  complete. -->
+
+        <!-- End Mountain Rose Gold Generation -->
 
         <!-- Finished adding blocks -->
 

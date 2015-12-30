@@ -1,6 +1,6 @@
 <!-- =================================================================
      Custom Ore Generation "Applied Energistics" Module: This
-     configuration covers certus quartz.
+     configuration covers certus quartz and mountain certus quartz.
      ================================================================= -->
 
 
@@ -85,6 +85,52 @@
       </ConfigSection>
       <!-- Certus Quartz Configuration UI Complete -->
 
+
+      <!-- Mountain Certus Quartz Configuration UI Starting -->
+      <ConfigSection>
+        <OptionChoice name='apenMountainCertusQuartzDist'  displayState=':= if(?enableAppliedEnergistics, "shown", "hidden")' displayGroup='groupAppliedEnergistics'>
+          <Description> Controls how Mountain Certus Quartz is generated </Description>
+          <DisplayName>Applied Energistics Mountain Certus Quartz</DisplayName>
+          <IfCondition condition=':= (?blockExists("appliedenergistics2:tile.OreQuartz")  &amp; ?blockExists("appliedenergistics2:tile.OreQuartzCharged")) '>
+
+          <Choice value='SparseVeins' displayValue='Sparse Veins'>
+            <Description>
+              Large veins filled very lightly with ore.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("appliedenergistics2:tile.OreQuartz")  &amp; ?blockExists("appliedenergistics2:tile.OreQuartzCharged")) '>
+
+          <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
+            <Description>
+              Large irregular clouds filled lightly with ore.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("appliedenergistics2:tile.OreQuartz")  &amp; ?blockExists("appliedenergistics2:tile.OreQuartzCharged")) '>
+
+          <Choice value='Vanilla' displayValue='Vanilla'>
+            <Description>
+              Simulates Vanilla Minecraft.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <Choice value='none' displayValue='None' description='Mountain Certus Quartz is not generated in the world.'/>
+        </OptionChoice>
+        <OptionNumeric name='apenMountainCertusQuartzFreq' default='1'  min='0' max='5' displayState=':= if(?enableAppliedEnergistics, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupAppliedEnergistics'>
+          <Description> Frequency multiplier for Applied Energistics Mountain Certus Quartz distributions </Description>
+          <DisplayName>Applied Energistics Mountain Certus Quartz Freq.</DisplayName>
+        </OptionNumeric>
+        <OptionNumeric name='apenMountainCertusQuartzSize' default='1'  min='0' max='5' displayState=':= if(?enableAppliedEnergistics, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupAppliedEnergistics'>
+          <Description> Size multiplier for Applied Energistics Mountain Certus Quartz distributions </Description>
+          <DisplayName>Applied Energistics Mountain Certus Quartz Size</DisplayName>
+        </OptionNumeric>
+      </ConfigSection>
+      <!-- Mountain Certus Quartz Configuration UI Complete -->
+
     </ConfigSection>
     <!-- Setup Screen Complete -->
 
@@ -140,7 +186,7 @@
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 3.355 * _default_ * apenCertusQuartzFreq ' range=':= 3.355 * _default_ * apenCertusQuartzFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 0 * _default_ * apenCertusQuartzSize ' range=':= 0 * _default_ * apenCertusQuartzSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 43 ' range=':= 26 ' type='normal' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 43 ' range=':= 26 ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -182,7 +228,7 @@
               <Setting name='CloudRadius' avg=':= 1.251 * _default_ * apenCertusQuartzSize ' range=':= 1.251 * _default_ * apenCertusQuartzSize ' type='normal' />
               <Setting name='CloudThickness' avg=':= 1.251 * _default_ * apenCertusQuartzSize ' range=':= 1.251 * _default_ * apenCertusQuartzSize ' type='normal' scaleTo='base' />
               <Setting name='DistributionFrequency' avg=':= 1.565 * _default_ * apenCertusQuartzFreq ' range=':= 1.565 * _default_ * apenCertusQuartzFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 43 ' range=':= 26 ' type='normal' scaleTo='position' />
+              <Setting name='CloudHeight' avg=':= 43 ' range=':= 26 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -230,7 +276,7 @@
               <Biome name='.*'  />
               <Setting name='Size' avg=':= 2.667 * apenCertusQuartzSize ' range=':= 1.33 * apenCertusQuartzSize ' type='normal' />
               <Setting name='Frequency' avg=':= 10.0 * apenCertusQuartzFreq ' range=':= 5.0 * apenCertusQuartzFreq ' type='normal' scaleTo='base' />
-              <Setting name='Height' avg=':= 43 ' range=':= 26 ' type='normal' scaleTo='position' />
+              <Setting name='Height' avg=':= 43 ' range=':= 26 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
           </IfCondition>
@@ -238,6 +284,130 @@
         <!-- Vanilla Preset for Certus Quartz is complete. -->
 
         <!-- End Certus Quartz Generation -->
+
+
+        <!-- Begin Mountain Certus Quartz Generation -->
+
+        <!-- Starting SparseVeins Preset for Mountain Certus  Quartz. -->
+        <ConfigSection>
+          <IfCondition condition=':= apenMountainCertusQuartzDist = "SparseVeins"'>
+            <Veins name='apenMountainCertusQuartzVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
+              <Description>
+                Large veins filled very lightly  with ore.  Because
+                they contain  less ore per volume, these veins  are
+                relatively wide and long.  Mining the ore from them is
+                time  consuming compared to solid ore  veins.  They
+                are also more  difficult to follow, since it is
+                harder to get an idea of their  direction while
+                mining.
+              </Description>
+              <OreBlock block='appliedenergistics2:tile.OreQuartz' weight='0.90' />
+              <OreBlock block='appliedenergistics2:tile.OreQuartzCharged' weight='0.10' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='MotherlodeFrequency' avg=':= 3.355 * _default_ * apenMountainCertusQuartzFreq ' range=':= 3.355 * _default_ * apenMountainCertusQuartzFreq ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeSize' avg=':= 0 * _default_ * apenMountainCertusQuartzSize ' range=':= 0 * _default_ * apenMountainCertusQuartzSize ' type='normal' />
+              <Setting name='MotherlodeHeight' avg=':= 193 ' range=':= 78 ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchLength' avg=':= 1.832 * _default_ ' range=':= 1.832 * _default_ ' type='normal' />
+              <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentLength' avg=':= _default_ * apenMountainCertusQuartzSize ' range=':= _default_ * apenMountainCertusQuartzSize ' type='normal' />
+              <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentRadius' avg=':= 1.353 * _default_ * apenMountainCertusQuartzSize ' range=':= 1.353 * _default_ * apenMountainCertusQuartzSize ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </Veins>
+          </IfCondition>
+        </ConfigSection>
+        <!-- SparseVeins Preset for Mountain Certus Quartz is
+             complete. -->
+
+
+        <!-- Starting StrategicClouds Preset for Mountain  Certus
+             Quartz. -->
+        <ConfigSection>
+          <IfCondition condition=':= apenMountainCertusQuartzDist = "StrategicClouds"'>
+            <Cloud name='apenMountainCertusQuartzCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
+              <Description>
+                Large irregular clouds filled  lightly with ore.
+                These are  huge, spanning several adjacent  chunks,
+                and consequently rather  rare.  They contain a
+                sizeable  amount of ore, but it takes some  time and
+                effort to mine due to  low density. The intent for
+                strategic clouds is that the  player will need to
+                actively  search for one and then set up a  semi-
+                permanent mining base and  spend some time actually
+                mining  the ore.
+              </Description>
+              <OreBlock block='appliedenergistics2:tile.OreQuartz' weight='0.90' />
+              <OreBlock block='appliedenergistics2:tile.OreQuartzCharged' weight='0.10' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='CloudRadius' avg=':= 1.251 * _default_ * apenMountainCertusQuartzSize ' range=':= 1.251 * _default_ * apenMountainCertusQuartzSize ' type='normal' />
+              <Setting name='CloudThickness' avg=':= 1.251 * _default_ * apenMountainCertusQuartzSize ' range=':= 1.251 * _default_ * apenMountainCertusQuartzSize ' type='normal' scaleTo='base' />
+              <Setting name='DistributionFrequency' avg=':= 1.565 * _default_ * apenMountainCertusQuartzFreq ' range=':= 1.565 * _default_ * apenMountainCertusQuartzFreq ' type='normal' scaleTo='base' />
+              <Setting name='CloudHeight' avg=':= 193 ' range=':= 78 ' type='normal' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Veins name='apenMountainCertusQuartzHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
+                <Description>
+                  Single blocks, generously  scattered through all
+                  heights  (density is about that of  vanilla iron
+                  ore). They will  replace dirt and sandstone  (but
+                  not grass or sand), so  they can be found nearer to
+                  the surface than most ores.  Intened to be used as a
+                  child  distribution for large, rare  strategic
+                  deposits that would  otherwise be very difficult  to
+                  find.  Note that the  frequency is multiplied by
+                  ground level to maintain a  constant density, but
+                  not by  ore frequency because it is  assumed that
+                  the frequency of  the parent distribution will
+                  already be scaled by that.
+                </Description>
+                <OreBlock block='appliedenergistics2:tile.OreQuartz' weight='0.90' />
+                <OreBlock block='appliedenergistics2:tile.OreQuartzCharged' weight='0.10' />
+                <Replaces block='minecraft:dirt' weight='1.0' />
+                <Replaces block='minecraft:sandstone' weight='1.0' />
+                <ReplacesOre block='stone' weight='1.0' />
+                <Replaces block='minecraft:gravel' weight='1.0' />
+              </Veins>
+            </Cloud>
+          </IfCondition>
+        </ConfigSection>
+        <!-- StrategicClouds Preset for Mountain Certus Quartz  is
+             complete. -->
+
+
+        <!-- Starting Vanilla Preset for Mountain Certus  Quartz. -->
+        <ConfigSection>
+          <IfCondition condition=':= apenMountainCertusQuartzDist = "Vanilla"'>
+            <StandardGen name='apenMountainCertusQuartzStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
+              <Description>
+                A master preset for standardgen  ore distributions.
+              </Description>
+              <OreBlock block='appliedenergistics2:tile.OreQuartz' weight='0.90' />
+              <OreBlock block='appliedenergistics2:tile.OreQuartzCharged' weight='0.10' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='Size' avg=':= 2.667 * apenMountainCertusQuartzSize ' range=':= 1.33 * apenMountainCertusQuartzSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 10.0 * apenMountainCertusQuartzFreq ' range=':= 5.0 * apenMountainCertusQuartzFreq ' type='normal' scaleTo='base' />
+              <Setting name='Height' avg=':= 193 ' range=':= 78 ' type='normal' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </StandardGen>
+          </IfCondition>
+        </ConfigSection>
+        <!-- Vanilla Preset for Mountain Certus Quartz is  complete. -->
+
+        <!-- End Mountain Certus Quartz Generation -->
 
         <!-- Finished adding blocks -->
 

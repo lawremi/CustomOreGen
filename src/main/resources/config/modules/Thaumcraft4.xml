@@ -1,8 +1,9 @@
 <!-- =================================================================
      Custom Ore Generation "Thaumcraft 4" Module: This configuration
-     covers amber bearing stone, cinnabar, air infused stone, fire
-     infused stone, water infused stone, earth infused stone, order
-     infused stone, and entropy infused stone.
+     covers amber bearing stone, mountain amber bearing stone,
+     cinnabar, mountain cinnabar, air infused stone, fire infused
+     stone, water infused stone, earth infused stone, order infused
+     stone, and entropy infused stone.
      ================================================================= -->
 
 
@@ -87,6 +88,52 @@
       <!-- Amber Bearing Stone Configuration UI Complete -->
 
 
+      <!-- Mountain Amber Bearing Stone Configuration UI  Starting -->
+      <ConfigSection>
+        <OptionChoice name='thm4MountainAmberBearingStoneDist'  displayState=':= if(?enableThaumcraft4, "shown", "hidden")' displayGroup='groupThaumcraft4'>
+          <Description> Controls how Mountain Amber Bearing Stone is generated </Description>
+          <DisplayName>Thaumcraft 4 Mountain Amber Bearing Stone</DisplayName>
+          <IfCondition condition=':= (?blockExists("Thaumcraft:blockCustomOre:7")) '>
+
+          <Choice value='SparseVeins' displayValue='Sparse Veins'>
+            <Description>
+              Large veins filled very lightly with ore.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("Thaumcraft:blockCustomOre:7")) '>
+
+          <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
+            <Description>
+              Large irregular clouds filled lightly with ore.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("Thaumcraft:blockCustomOre:7")) '>
+
+          <Choice value='Vanilla' displayValue='Vanilla'>
+            <Description>
+              Simulates Vanilla Minecraft.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <Choice value='none' displayValue='None' description='Mountain Amber Bearing Stone is not generated in the world.'/>
+        </OptionChoice>
+        <OptionNumeric name='thm4MountainAmberBearingStoneFreq' default='1'  min='0' max='5' displayState=':= if(?enableThaumcraft4, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThaumcraft4'>
+          <Description> Frequency multiplier for Thaumcraft 4 Mountain Amber Bearing Stone distributions </Description>
+          <DisplayName>Thaumcraft 4 Mountain Amber Bearing Stone Freq.</DisplayName>
+        </OptionNumeric>
+        <OptionNumeric name='thm4MountainAmberBearingStoneSize' default='1'  min='0' max='5' displayState=':= if(?enableThaumcraft4, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThaumcraft4'>
+          <Description> Size multiplier for Thaumcraft 4 Mountain Amber Bearing Stone distributions </Description>
+          <DisplayName>Thaumcraft 4 Mountain Amber Bearing Stone Size</DisplayName>
+        </OptionNumeric>
+      </ConfigSection>
+      <!-- Mountain Amber Bearing Stone Configuration UI  Complete -->
+
+
       <!-- Cinnabar Configuration UI Starting -->
       <ConfigSection>
         <OptionChoice name='thm4CinnabarDist'  displayState=':= if(?enableThaumcraft4, "shown", "hidden")' displayGroup='groupThaumcraft4'>
@@ -131,6 +178,52 @@
         </OptionNumeric>
       </ConfigSection>
       <!-- Cinnabar Configuration UI Complete -->
+
+
+      <!-- Mountain Cinnabar Configuration UI Starting -->
+      <ConfigSection>
+        <OptionChoice name='thm4MountainCinnabarDist'  displayState=':= if(?enableThaumcraft4, "shown", "hidden")' displayGroup='groupThaumcraft4'>
+          <Description> Controls how Mountain Cinnabar is generated </Description>
+          <DisplayName>Thaumcraft 4 Mountain Cinnabar</DisplayName>
+          <IfCondition condition=':= (?blockExists("Thaumcraft:blockCustomOre")) '>
+
+          <Choice value='SparseVeins' displayValue='Sparse Veins'>
+            <Description>
+              Large veins filled very lightly with ore.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("Thaumcraft:blockCustomOre")) '>
+
+          <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
+            <Description>
+              Large irregular clouds filled lightly with ore.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("Thaumcraft:blockCustomOre")) '>
+
+          <Choice value='Vanilla' displayValue='Vanilla'>
+            <Description>
+              Simulates Vanilla Minecraft.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <Choice value='none' displayValue='None' description='Mountain Cinnabar is not generated in the world.'/>
+        </OptionChoice>
+        <OptionNumeric name='thm4MountainCinnabarFreq' default='1'  min='0' max='5' displayState=':= if(?enableThaumcraft4, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThaumcraft4'>
+          <Description> Frequency multiplier for Thaumcraft 4 Mountain Cinnabar distributions </Description>
+          <DisplayName>Thaumcraft 4 Mountain Cinnabar Freq.</DisplayName>
+        </OptionNumeric>
+        <OptionNumeric name='thm4MountainCinnabarSize' default='1'  min='0' max='5' displayState=':= if(?enableThaumcraft4, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupThaumcraft4'>
+          <Description> Size multiplier for Thaumcraft 4 Mountain Cinnabar distributions </Description>
+          <DisplayName>Thaumcraft 4 Mountain Cinnabar Size</DisplayName>
+        </OptionNumeric>
+      </ConfigSection>
+      <!-- Mountain Cinnabar Configuration UI Complete -->
 
 
       <!-- Air Infused Stone Configuration UI Starting -->
@@ -468,7 +561,7 @@
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 1.937 * _default_ * thm4AmberBearingStoneFreq ' range=':= 1.937 * _default_ * thm4AmberBearingStoneFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 0 * _default_ * thm4AmberBearingStoneSize ' range=':= 0 * _default_ * thm4AmberBearingStoneSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 12.5 ' range=':= 12.5 ' type='normal' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 51.5 ' range=':= 12.5 ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -509,7 +602,7 @@
               <Setting name='CloudRadius' avg=':= 0.951 * _default_ * thm4AmberBearingStoneSize ' range=':= 0.951 * _default_ * thm4AmberBearingStoneSize ' type='normal' />
               <Setting name='CloudThickness' avg=':= 0.951 * _default_ * thm4AmberBearingStoneSize ' range=':= 0.951 * _default_ * thm4AmberBearingStoneSize ' type='normal' scaleTo='base' />
               <Setting name='DistributionFrequency' avg=':= 0.904 * _default_ * thm4AmberBearingStoneFreq ' range=':= 0.904 * _default_ * thm4AmberBearingStoneFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 12.5 ' range=':= 12.5 ' type='normal' scaleTo='position' />
+              <Setting name='CloudHeight' avg=':= 51.5 ' range=':= 12.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -556,7 +649,7 @@
               <Biome name='.*'  />
               <Setting name='Size' avg=':= 0.667 * thm4AmberBearingStoneSize ' range=':= 0.33 * thm4AmberBearingStoneSize ' type='normal' />
               <Setting name='Frequency' avg=':= 13.333 * thm4AmberBearingStoneFreq ' range=':= 6.67 * thm4AmberBearingStoneFreq ' type='normal' scaleTo='base' />
-              <Setting name='Height' avg=':= 12.5 ' range=':= 12.5 ' type='normal' scaleTo='position' />
+              <Setting name='Height' avg=':= 51.5 ' range=':= 12.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
           </IfCondition>
@@ -564,6 +657,129 @@
         <!-- Vanilla Preset for Amber Bearing Stone is  complete. -->
 
         <!-- End Amber Bearing Stone Generation -->
+
+
+        <!-- Begin Mountain Amber Bearing Stone Generation -->
+
+        <!-- Starting SparseVeins Preset for Mountain Amber  Bearing
+             Stone. -->
+        <ConfigSection>
+          <IfCondition condition=':= thm4MountainAmberBearingStoneDist = "SparseVeins"'>
+            <Veins name='thm4MountainAmberBearingStoneVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60FE9D1B' drawBoundBox='false' boundBoxColor='0x60FE9D1B'>
+              <Description>
+                Large veins filled very lightly  with ore.  Because
+                they contain  less ore per volume, these veins  are
+                relatively wide and long.  Mining the ore from them is
+                time  consuming compared to solid ore  veins.  They
+                are also more  difficult to follow, since it is
+                harder to get an idea of their  direction while
+                mining.
+              </Description>
+              <OreBlock block='Thaumcraft:blockCustomOre:7' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='MotherlodeFrequency' avg=':= 1.937 * _default_ * thm4MountainAmberBearingStoneFreq ' range=':= 1.937 * _default_ * thm4MountainAmberBearingStoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeSize' avg=':= 0 * _default_ * thm4MountainAmberBearingStoneSize ' range=':= 0 * _default_ * thm4MountainAmberBearingStoneSize ' type='normal' />
+              <Setting name='MotherlodeHeight' avg=':= 218.5 ' range=':= 37.5 ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchLength' avg=':= 1.392 * _default_ ' range=':= 1.392 * _default_ ' type='normal' />
+              <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentLength' avg=':= _default_ * thm4MountainAmberBearingStoneSize ' range=':= _default_ * thm4MountainAmberBearingStoneSize ' type='normal' />
+              <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentRadius' avg=':= 1.180 * _default_ * thm4MountainAmberBearingStoneSize ' range=':= 1.180 * _default_ * thm4MountainAmberBearingStoneSize ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </Veins>
+          </IfCondition>
+        </ConfigSection>
+        <!-- SparseVeins Preset for Mountain Amber Bearing  Stone is
+             complete. -->
+
+
+        <!-- Starting StrategicClouds Preset for Mountain  Amber
+             Bearing Stone. -->
+        <ConfigSection>
+          <IfCondition condition=':= thm4MountainAmberBearingStoneDist = "StrategicClouds"'>
+            <Cloud name='thm4MountainAmberBearingStoneCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FE9D1B' drawBoundBox='false' boundBoxColor='0x60FE9D1B'>
+              <Description>
+                Large irregular clouds filled  lightly with ore.
+                These are  huge, spanning several adjacent  chunks,
+                and consequently rather  rare.  They contain a
+                sizeable  amount of ore, but it takes some  time and
+                effort to mine due to  low density. The intent for
+                strategic clouds is that the  player will need to
+                actively  search for one and then set up a  semi-
+                permanent mining base and  spend some time actually
+                mining  the ore.
+              </Description>
+              <OreBlock block='Thaumcraft:blockCustomOre:7' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='CloudRadius' avg=':= 0.951 * _default_ * thm4MountainAmberBearingStoneSize ' range=':= 0.951 * _default_ * thm4MountainAmberBearingStoneSize ' type='normal' />
+              <Setting name='CloudThickness' avg=':= 0.951 * _default_ * thm4MountainAmberBearingStoneSize ' range=':= 0.951 * _default_ * thm4MountainAmberBearingStoneSize ' type='normal' scaleTo='base' />
+              <Setting name='DistributionFrequency' avg=':= 0.904 * _default_ * thm4MountainAmberBearingStoneFreq ' range=':= 0.904 * _default_ * thm4MountainAmberBearingStoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='CloudHeight' avg=':= 218.5 ' range=':= 37.5 ' type='normal' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Veins name='thm4MountainAmberBearingStoneHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FE9D1B' drawBoundBox='false' boundBoxColor='0x60FE9D1B'>
+                <Description>
+                  Single blocks, generously  scattered through all
+                  heights  (density is about that of  vanilla iron
+                  ore). They will  replace dirt and sandstone  (but
+                  not grass or sand), so  they can be found nearer to
+                  the surface than most ores.  Intened to be used as a
+                  child  distribution for large, rare  strategic
+                  deposits that would  otherwise be very difficult  to
+                  find.  Note that the  frequency is multiplied by
+                  ground level to maintain a  constant density, but
+                  not by  ore frequency because it is  assumed that
+                  the frequency of  the parent distribution will
+                  already be scaled by that.
+                </Description>
+                <OreBlock block='Thaumcraft:blockCustomOre:7' weight='1.0' />
+                <Replaces block='minecraft:dirt' weight='1.0' />
+                <Replaces block='minecraft:sandstone' weight='1.0' />
+                <ReplacesOre block='stone' weight='1.0' />
+                <Replaces block='minecraft:gravel' weight='1.0' />
+              </Veins>
+            </Cloud>
+          </IfCondition>
+        </ConfigSection>
+        <!-- StrategicClouds Preset for Mountain Amber Bearing  Stone
+             is complete. -->
+
+
+        <!-- Starting Vanilla Preset for Mountain Amber  Bearing
+             Stone. -->
+        <ConfigSection>
+          <IfCondition condition=':= thm4MountainAmberBearingStoneDist = "Vanilla"'>
+            <StandardGen name='thm4MountainAmberBearingStoneStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FE9D1B' drawBoundBox='false' boundBoxColor='0x60FE9D1B'>
+              <Description>
+                A master preset for standardgen  ore distributions.
+              </Description>
+              <OreBlock block='Thaumcraft:blockCustomOre:7' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='Size' avg=':= 0.667 * thm4MountainAmberBearingStoneSize ' range=':= 0.33 * thm4MountainAmberBearingStoneSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 13.333 * thm4MountainAmberBearingStoneFreq ' range=':= 6.67 * thm4MountainAmberBearingStoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='Height' avg=':= 218.5 ' range=':= 37.5 ' type='normal' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </StandardGen>
+          </IfCondition>
+        </ConfigSection>
+        <!-- Vanilla Preset for Mountain Amber Bearing Stone  is
+             complete. -->
+
+        <!-- End Mountain Amber Bearing Stone Generation -->
 
 
         <!-- Begin Cinnabar Generation -->
@@ -586,7 +802,7 @@
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 1.838 * _default_ * thm4CinnabarFreq ' range=':= 1.838 * _default_ * thm4CinnabarFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 0 * _default_ * thm4CinnabarSize ' range=':= 0 * _default_ * thm4CinnabarSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 6.4 ' range=':= 6.4 ' type='normal' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 26 ' range=':= 26 ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -627,7 +843,7 @@
               <Setting name='CloudRadius' avg=':= 0.926 * _default_ * thm4CinnabarSize ' range=':= 0.926 * _default_ * thm4CinnabarSize ' type='normal' />
               <Setting name='CloudThickness' avg=':= 0.926 * _default_ * thm4CinnabarSize ' range=':= 0.926 * _default_ * thm4CinnabarSize ' type='normal' scaleTo='base' />
               <Setting name='DistributionFrequency' avg=':= 0.857 * _default_ * thm4CinnabarFreq ' range=':= 0.857 * _default_ * thm4CinnabarFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 6.4 ' range=':= 6.4 ' type='normal' scaleTo='position' />
+              <Setting name='CloudHeight' avg=':= 26 ' range=':= 26 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -673,7 +889,7 @@
               <Biome name='.*'  />
               <Setting name='Size' avg=':= 0.667 * thm4CinnabarSize ' range=':= 0.33 * thm4CinnabarSize ' type='normal' />
               <Setting name='Frequency' avg=':= 12.0 * thm4CinnabarFreq ' range=':= 6.0 * thm4CinnabarFreq ' type='normal' scaleTo='base' />
-              <Setting name='Height' avg=':= 6.4 ' range=':= 6.4 ' type='normal' scaleTo='position' />
+              <Setting name='Height' avg=':= 26 ' range=':= 26 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
           </IfCondition>
@@ -681,6 +897,124 @@
         <!-- Vanilla Preset for Cinnabar is complete. -->
 
         <!-- End Cinnabar Generation -->
+
+
+        <!-- Begin Mountain Cinnabar Generation -->
+
+        <!-- Starting SparseVeins Preset for Mountain  Cinnabar. -->
+        <ConfigSection>
+          <IfCondition condition=':= thm4MountainCinnabarDist = "SparseVeins"'>
+            <Veins name='thm4MountainCinnabarVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60831C20' drawBoundBox='false' boundBoxColor='0x60831C20'>
+              <Description>
+                Large veins filled very lightly  with ore.  Because
+                they contain  less ore per volume, these veins  are
+                relatively wide and long.  Mining the ore from them is
+                time  consuming compared to solid ore  veins.  They
+                are also more  difficult to follow, since it is
+                harder to get an idea of their  direction while
+                mining.
+              </Description>
+              <OreBlock block='Thaumcraft:blockCustomOre' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='MotherlodeFrequency' avg=':= 1.838 * _default_ * thm4MountainCinnabarFreq ' range=':= 1.838 * _default_ * thm4MountainCinnabarFreq ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeSize' avg=':= 0 * _default_ * thm4MountainCinnabarSize ' range=':= 0 * _default_ * thm4MountainCinnabarSize ' type='normal' />
+              <Setting name='MotherlodeHeight' avg=':= 142 ' range=':= 78 ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchLength' avg=':= 1.356 * _default_ ' range=':= 1.356 * _default_ ' type='normal' />
+              <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentLength' avg=':= _default_ * thm4MountainCinnabarSize ' range=':= _default_ * thm4MountainCinnabarSize ' type='normal' />
+              <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentRadius' avg=':= 1.164 * _default_ * thm4MountainCinnabarSize ' range=':= 1.164 * _default_ * thm4MountainCinnabarSize ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </Veins>
+          </IfCondition>
+        </ConfigSection>
+        <!-- SparseVeins Preset for Mountain Cinnabar is  complete. -->
+
+
+        <!-- Starting StrategicClouds Preset for Mountain  Cinnabar. -->
+        <ConfigSection>
+          <IfCondition condition=':= thm4MountainCinnabarDist = "StrategicClouds"'>
+            <Cloud name='thm4MountainCinnabarCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60831C20' drawBoundBox='false' boundBoxColor='0x60831C20'>
+              <Description>
+                Large irregular clouds filled  lightly with ore.
+                These are  huge, spanning several adjacent  chunks,
+                and consequently rather  rare.  They contain a
+                sizeable  amount of ore, but it takes some  time and
+                effort to mine due to  low density. The intent for
+                strategic clouds is that the  player will need to
+                actively  search for one and then set up a  semi-
+                permanent mining base and  spend some time actually
+                mining  the ore.
+              </Description>
+              <OreBlock block='Thaumcraft:blockCustomOre' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='CloudRadius' avg=':= 0.926 * _default_ * thm4MountainCinnabarSize ' range=':= 0.926 * _default_ * thm4MountainCinnabarSize ' type='normal' />
+              <Setting name='CloudThickness' avg=':= 0.926 * _default_ * thm4MountainCinnabarSize ' range=':= 0.926 * _default_ * thm4MountainCinnabarSize ' type='normal' scaleTo='base' />
+              <Setting name='DistributionFrequency' avg=':= 0.857 * _default_ * thm4MountainCinnabarFreq ' range=':= 0.857 * _default_ * thm4MountainCinnabarFreq ' type='normal' scaleTo='base' />
+              <Setting name='CloudHeight' avg=':= 142 ' range=':= 78 ' type='normal' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Veins name='thm4MountainCinnabarHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60831C20' drawBoundBox='false' boundBoxColor='0x60831C20'>
+                <Description>
+                  Single blocks, generously  scattered through all
+                  heights  (density is about that of  vanilla iron
+                  ore). They will  replace dirt and sandstone  (but
+                  not grass or sand), so  they can be found nearer to
+                  the surface than most ores.  Intened to be used as a
+                  child  distribution for large, rare  strategic
+                  deposits that would  otherwise be very difficult  to
+                  find.  Note that the  frequency is multiplied by
+                  ground level to maintain a  constant density, but
+                  not by  ore frequency because it is  assumed that
+                  the frequency of  the parent distribution will
+                  already be scaled by that.
+                </Description>
+                <OreBlock block='Thaumcraft:blockCustomOre' weight='1.0' />
+                <Replaces block='minecraft:dirt' weight='1.0' />
+                <Replaces block='minecraft:sandstone' weight='1.0' />
+                <ReplacesOre block='stone' weight='1.0' />
+                <Replaces block='minecraft:gravel' weight='1.0' />
+              </Veins>
+            </Cloud>
+          </IfCondition>
+        </ConfigSection>
+        <!-- StrategicClouds Preset for Mountain Cinnabar is
+             complete. -->
+
+
+        <!-- Starting Vanilla Preset for Mountain Cinnabar. -->
+        <ConfigSection>
+          <IfCondition condition=':= thm4MountainCinnabarDist = "Vanilla"'>
+            <StandardGen name='thm4MountainCinnabarStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60831C20' drawBoundBox='false' boundBoxColor='0x60831C20'>
+              <Description>
+                A master preset for standardgen  ore distributions.
+              </Description>
+              <OreBlock block='Thaumcraft:blockCustomOre' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='Size' avg=':= 0.667 * thm4MountainCinnabarSize ' range=':= 0.33 * thm4MountainCinnabarSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 12.0 * thm4MountainCinnabarFreq ' range=':= 6.0 * thm4MountainCinnabarFreq ' type='normal' scaleTo='base' />
+              <Setting name='Height' avg=':= 142 ' range=':= 78 ' type='normal' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </StandardGen>
+          </IfCondition>
+        </ConfigSection>
+        <!-- Vanilla Preset for Mountain Cinnabar is complete. -->
+
+        <!-- End Mountain Cinnabar Generation -->
 
 
         <!-- Begin Air Infused Stone Generation -->
@@ -703,7 +1037,7 @@
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 3.001 * _default_ * thm4AirInfusedStoneFreq ' range=':= 3.001 * _default_ * thm4AirInfusedStoneFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 0 * _default_ * thm4AirInfusedStoneSize ' range=':= 0 * _default_ * thm4AirInfusedStoneSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -726,10 +1060,13 @@
               </Description>
               <OreBlock block='Thaumcraft:blockCustomOre:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Savanna'  />
+              <BiomeType name='Mountain'  />
+              <BiomeType name='Hills'  />
               <BiomeType name='Plains'  />
               <Setting name='MotherlodeFrequency' avg=':= 3.001 * _default_ * thm4AirInfusedStoneFreq ' range=':= 3.001 * _default_ * thm4AirInfusedStoneFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 0 * _default_ * thm4AirInfusedStoneSize ' range=':= 0 * _default_ * thm4AirInfusedStoneSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -772,7 +1109,7 @@
               <Setting name='CloudRadius' avg=':= 0.905 * _default_ * thm4AirInfusedStoneSize ' range=':= 0.905 * _default_ * thm4AirInfusedStoneSize ' type='normal' />
               <Setting name='CloudThickness' avg=':= 0.905 * _default_ * thm4AirInfusedStoneSize ' range=':= 0.905 * _default_ * thm4AirInfusedStoneSize ' type='normal' scaleTo='base' />
               <Setting name='DistributionFrequency' avg=':= 0.818 * _default_ * thm4AirInfusedStoneFreq ' range=':= 0.818 * _default_ * thm4AirInfusedStoneFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -809,11 +1146,14 @@
               </Description>
               <OreBlock block='Thaumcraft:blockCustomOre:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Savanna'  />
+              <BiomeType name='Mountain'  />
+              <BiomeType name='Hills'  />
               <BiomeType name='Plains'  />
               <Setting name='CloudRadius' avg=':= 0.905 * _default_ * thm4AirInfusedStoneSize ' range=':= 0.905 * _default_ * thm4AirInfusedStoneSize ' type='normal' />
               <Setting name='CloudThickness' avg=':= 0.905 * _default_ * thm4AirInfusedStoneSize ' range=':= 0.905 * _default_ * thm4AirInfusedStoneSize ' type='normal' scaleTo='base' />
               <Setting name='DistributionFrequency' avg=':= 0.818 * _default_ * thm4AirInfusedStoneFreq ' range=':= 0.818 * _default_ * thm4AirInfusedStoneFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -851,7 +1191,7 @@
               <Biome name='.*'  />
               <Setting name='Size' avg=':= 4.0 * thm4AirInfusedStoneSize ' range=':= 2.0 * thm4AirInfusedStoneSize ' type='normal' />
               <Setting name='Frequency' avg=':= 5.333 * thm4AirInfusedStoneFreq ' range=':= 2.67 * thm4AirInfusedStoneFreq ' type='normal' scaleTo='base' />
-              <Setting name='Height' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='Height' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
           </IfCondition>
@@ -881,7 +1221,7 @@
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 3.001 * _default_ * thm4FireInfusedStoneFreq ' range=':= 3.001 * _default_ * thm4FireInfusedStoneFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 0 * _default_ * thm4FireInfusedStoneSize ' range=':= 0 * _default_ * thm4FireInfusedStoneSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -904,10 +1244,13 @@
               </Description>
               <OreBlock block='Thaumcraft:blockCustomOre:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
-              <BiomeType name='Desert'  />
+              <BiomeType name='Hot'  />
+              <BiomeType name='Sandy'  />
+              <BiomeType name='Nether'  />
+              <BiomeType name='Mesa'  />
               <Setting name='MotherlodeFrequency' avg=':= 3.001 * _default_ * thm4FireInfusedStoneFreq ' range=':= 3.001 * _default_ * thm4FireInfusedStoneFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 0 * _default_ * thm4FireInfusedStoneSize ' range=':= 0 * _default_ * thm4FireInfusedStoneSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -950,7 +1293,7 @@
               <Setting name='CloudRadius' avg=':= 0.905 * _default_ * thm4FireInfusedStoneSize ' range=':= 0.905 * _default_ * thm4FireInfusedStoneSize ' type='normal' />
               <Setting name='CloudThickness' avg=':= 0.905 * _default_ * thm4FireInfusedStoneSize ' range=':= 0.905 * _default_ * thm4FireInfusedStoneSize ' type='normal' scaleTo='base' />
               <Setting name='DistributionFrequency' avg=':= 0.818 * _default_ * thm4FireInfusedStoneFreq ' range=':= 0.818 * _default_ * thm4FireInfusedStoneFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -987,11 +1330,14 @@
               </Description>
               <OreBlock block='Thaumcraft:blockCustomOre:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
-              <BiomeType name='Desert'  />
+              <BiomeType name='Hot'  />
+              <BiomeType name='Sandy'  />
+              <BiomeType name='Nether'  />
+              <BiomeType name='Mesa'  />
               <Setting name='CloudRadius' avg=':= 0.905 * _default_ * thm4FireInfusedStoneSize ' range=':= 0.905 * _default_ * thm4FireInfusedStoneSize ' type='normal' />
               <Setting name='CloudThickness' avg=':= 0.905 * _default_ * thm4FireInfusedStoneSize ' range=':= 0.905 * _default_ * thm4FireInfusedStoneSize ' type='normal' scaleTo='base' />
               <Setting name='DistributionFrequency' avg=':= 0.818 * _default_ * thm4FireInfusedStoneFreq ' range=':= 0.818 * _default_ * thm4FireInfusedStoneFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1029,7 +1375,7 @@
               <Biome name='.*'  />
               <Setting name='Size' avg=':= 4.0 * thm4FireInfusedStoneSize ' range=':= 2.0 * thm4FireInfusedStoneSize ' type='normal' />
               <Setting name='Frequency' avg=':= 5.333 * thm4FireInfusedStoneFreq ' range=':= 2.67 * thm4FireInfusedStoneFreq ' type='normal' scaleTo='base' />
-              <Setting name='Height' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='Height' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
           </IfCondition>
@@ -1059,7 +1405,7 @@
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 3.001 * _default_ * thm4WaterInfusedStoneFreq ' range=':= 3.001 * _default_ * thm4WaterInfusedStoneFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 0 * _default_ * thm4WaterInfusedStoneSize ' range=':= 0 * _default_ * thm4WaterInfusedStoneSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1083,10 +1429,12 @@
               <OreBlock block='Thaumcraft:blockCustomOre:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Water'  />
-              <BiomeType name='Swamp'  />
+              <BiomeType name='Ocean'  />
+              <BiomeType name='River'  />
+              <BiomeType name='Wet'  />
               <Setting name='MotherlodeFrequency' avg=':= 3.001 * _default_ * thm4WaterInfusedStoneFreq ' range=':= 3.001 * _default_ * thm4WaterInfusedStoneFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 0 * _default_ * thm4WaterInfusedStoneSize ' range=':= 0 * _default_ * thm4WaterInfusedStoneSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1129,7 +1477,7 @@
               <Setting name='CloudRadius' avg=':= 0.905 * _default_ * thm4WaterInfusedStoneSize ' range=':= 0.905 * _default_ * thm4WaterInfusedStoneSize ' type='normal' />
               <Setting name='CloudThickness' avg=':= 0.905 * _default_ * thm4WaterInfusedStoneSize ' range=':= 0.905 * _default_ * thm4WaterInfusedStoneSize ' type='normal' scaleTo='base' />
               <Setting name='DistributionFrequency' avg=':= 0.818 * _default_ * thm4WaterInfusedStoneFreq ' range=':= 0.818 * _default_ * thm4WaterInfusedStoneFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1167,11 +1515,13 @@
               <OreBlock block='Thaumcraft:blockCustomOre:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Water'  />
-              <BiomeType name='Swamp'  />
+              <BiomeType name='Ocean'  />
+              <BiomeType name='River'  />
+              <BiomeType name='Wet'  />
               <Setting name='CloudRadius' avg=':= 0.905 * _default_ * thm4WaterInfusedStoneSize ' range=':= 0.905 * _default_ * thm4WaterInfusedStoneSize ' type='normal' />
               <Setting name='CloudThickness' avg=':= 0.905 * _default_ * thm4WaterInfusedStoneSize ' range=':= 0.905 * _default_ * thm4WaterInfusedStoneSize ' type='normal' scaleTo='base' />
               <Setting name='DistributionFrequency' avg=':= 0.818 * _default_ * thm4WaterInfusedStoneFreq ' range=':= 0.818 * _default_ * thm4WaterInfusedStoneFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1209,7 +1559,7 @@
               <Biome name='.*'  />
               <Setting name='Size' avg=':= 4.0 * thm4WaterInfusedStoneSize ' range=':= 2.0 * thm4WaterInfusedStoneSize ' type='normal' />
               <Setting name='Frequency' avg=':= 5.333 * thm4WaterInfusedStoneFreq ' range=':= 2.67 * thm4WaterInfusedStoneFreq ' type='normal' scaleTo='base' />
-              <Setting name='Height' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='Height' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
           </IfCondition>
@@ -1239,7 +1589,7 @@
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 3.001 * _default_ * thm4EarthInfusedStoneFreq ' range=':= 3.001 * _default_ * thm4EarthInfusedStoneFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 0 * _default_ * thm4EarthInfusedStoneSize ' range=':= 0 * _default_ * thm4EarthInfusedStoneSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1262,10 +1612,13 @@
               </Description>
               <OreBlock block='Thaumcraft:blockCustomOre:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Coniferous'  />
               <BiomeType name='Forest'  />
+              <BiomeType name='Sandy'  />
+              <BiomeType name='Beach'  />
               <Setting name='MotherlodeFrequency' avg=':= 3.001 * _default_ * thm4EarthInfusedStoneFreq ' range=':= 3.001 * _default_ * thm4EarthInfusedStoneFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 0 * _default_ * thm4EarthInfusedStoneSize ' range=':= 0 * _default_ * thm4EarthInfusedStoneSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1308,7 +1661,7 @@
               <Setting name='CloudRadius' avg=':= 0.905 * _default_ * thm4EarthInfusedStoneSize ' range=':= 0.905 * _default_ * thm4EarthInfusedStoneSize ' type='normal' />
               <Setting name='CloudThickness' avg=':= 0.905 * _default_ * thm4EarthInfusedStoneSize ' range=':= 0.905 * _default_ * thm4EarthInfusedStoneSize ' type='normal' scaleTo='base' />
               <Setting name='DistributionFrequency' avg=':= 0.818 * _default_ * thm4EarthInfusedStoneFreq ' range=':= 0.818 * _default_ * thm4EarthInfusedStoneFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1345,11 +1698,14 @@
               </Description>
               <OreBlock block='Thaumcraft:blockCustomOre:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Coniferous'  />
               <BiomeType name='Forest'  />
+              <BiomeType name='Sandy'  />
+              <BiomeType name='Beach'  />
               <Setting name='CloudRadius' avg=':= 0.905 * _default_ * thm4EarthInfusedStoneSize ' range=':= 0.905 * _default_ * thm4EarthInfusedStoneSize ' type='normal' />
               <Setting name='CloudThickness' avg=':= 0.905 * _default_ * thm4EarthInfusedStoneSize ' range=':= 0.905 * _default_ * thm4EarthInfusedStoneSize ' type='normal' scaleTo='base' />
               <Setting name='DistributionFrequency' avg=':= 0.818 * _default_ * thm4EarthInfusedStoneFreq ' range=':= 0.818 * _default_ * thm4EarthInfusedStoneFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1387,7 +1743,7 @@
               <Biome name='.*'  />
               <Setting name='Size' avg=':= 4.0 * thm4EarthInfusedStoneSize ' range=':= 2.0 * thm4EarthInfusedStoneSize ' type='normal' />
               <Setting name='Frequency' avg=':= 5.333 * thm4EarthInfusedStoneFreq ' range=':= 2.67 * thm4EarthInfusedStoneFreq ' type='normal' scaleTo='base' />
-              <Setting name='Height' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='Height' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
           </IfCondition>
@@ -1417,7 +1773,7 @@
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 3.001 * _default_ * thm4OrderInfusedStoneFreq ' range=':= 3.001 * _default_ * thm4OrderInfusedStoneFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 0 * _default_ * thm4OrderInfusedStoneSize ' range=':= 0 * _default_ * thm4OrderInfusedStoneSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1440,12 +1796,13 @@
               </Description>
               <OreBlock block='Thaumcraft:blockCustomOre:5' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Dense'  />
+              <BiomeType name='Snowy'  />
+              <BiomeType name='Cold'  />
               <BiomeType name='Mushroom'  />
-              <BiomeType name='Mountain'  />
-              <BiomeType name='Magical'  />
               <Setting name='MotherlodeFrequency' avg=':= 3.001 * _default_ * thm4OrderInfusedStoneFreq ' range=':= 3.001 * _default_ * thm4OrderInfusedStoneFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 0 * _default_ * thm4OrderInfusedStoneSize ' range=':= 0 * _default_ * thm4OrderInfusedStoneSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1488,7 +1845,7 @@
               <Setting name='CloudRadius' avg=':= 0.905 * _default_ * thm4OrderInfusedStoneSize ' range=':= 0.905 * _default_ * thm4OrderInfusedStoneSize ' type='normal' />
               <Setting name='CloudThickness' avg=':= 0.905 * _default_ * thm4OrderInfusedStoneSize ' range=':= 0.905 * _default_ * thm4OrderInfusedStoneSize ' type='normal' scaleTo='base' />
               <Setting name='DistributionFrequency' avg=':= 0.818 * _default_ * thm4OrderInfusedStoneFreq ' range=':= 0.818 * _default_ * thm4OrderInfusedStoneFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1525,13 +1882,14 @@
               </Description>
               <OreBlock block='Thaumcraft:blockCustomOre:5' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Dense'  />
+              <BiomeType name='Snowy'  />
+              <BiomeType name='Cold'  />
               <BiomeType name='Mushroom'  />
-              <BiomeType name='Mountain'  />
-              <BiomeType name='Magical'  />
               <Setting name='CloudRadius' avg=':= 0.905 * _default_ * thm4OrderInfusedStoneSize ' range=':= 0.905 * _default_ * thm4OrderInfusedStoneSize ' type='normal' />
               <Setting name='CloudThickness' avg=':= 0.905 * _default_ * thm4OrderInfusedStoneSize ' range=':= 0.905 * _default_ * thm4OrderInfusedStoneSize ' type='normal' scaleTo='base' />
               <Setting name='DistributionFrequency' avg=':= 0.818 * _default_ * thm4OrderInfusedStoneFreq ' range=':= 0.818 * _default_ * thm4OrderInfusedStoneFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1569,7 +1927,7 @@
               <Biome name='.*'  />
               <Setting name='Size' avg=':= 4.0 * thm4OrderInfusedStoneSize ' range=':= 2.0 * thm4OrderInfusedStoneSize ' type='normal' />
               <Setting name='Frequency' avg=':= 5.333 * thm4OrderInfusedStoneFreq ' range=':= 2.67 * thm4OrderInfusedStoneFreq ' type='normal' scaleTo='base' />
-              <Setting name='Height' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='Height' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
           </IfCondition>
@@ -1599,7 +1957,7 @@
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 3.001 * _default_ * thm4EntropyInfusedStoneFreq ' range=':= 3.001 * _default_ * thm4EntropyInfusedStoneFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 0 * _default_ * thm4EntropyInfusedStoneSize ' range=':= 0 * _default_ * thm4EntropyInfusedStoneSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1622,11 +1980,13 @@
               </Description>
               <OreBlock block='Thaumcraft:blockCustomOre:6' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Dry'  />
+              <BiomeType name='Sparse'  />
               <BiomeType name='Swamp'  />
               <BiomeType name='Wasteland'  />
               <Setting name='MotherlodeFrequency' avg=':= 3.001 * _default_ * thm4EntropyInfusedStoneFreq ' range=':= 3.001 * _default_ * thm4EntropyInfusedStoneFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 0 * _default_ * thm4EntropyInfusedStoneSize ' range=':= 0 * _default_ * thm4EntropyInfusedStoneSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1671,7 +2031,7 @@
               <Setting name='CloudRadius' avg=':= 0.905 * _default_ * thm4EntropyInfusedStoneSize ' range=':= 0.905 * _default_ * thm4EntropyInfusedStoneSize ' type='normal' />
               <Setting name='CloudThickness' avg=':= 0.905 * _default_ * thm4EntropyInfusedStoneSize ' range=':= 0.905 * _default_ * thm4EntropyInfusedStoneSize ' type='normal' scaleTo='base' />
               <Setting name='DistributionFrequency' avg=':= 0.818 * _default_ * thm4EntropyInfusedStoneFreq ' range=':= 0.818 * _default_ * thm4EntropyInfusedStoneFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1708,12 +2068,14 @@
               </Description>
               <OreBlock block='Thaumcraft:blockCustomOre:6' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Dry'  />
+              <BiomeType name='Sparse'  />
               <BiomeType name='Swamp'  />
               <BiomeType name='Wasteland'  />
               <Setting name='CloudRadius' avg=':= 0.905 * _default_ * thm4EntropyInfusedStoneSize ' range=':= 0.905 * _default_ * thm4EntropyInfusedStoneSize ' type='normal' />
               <Setting name='CloudThickness' avg=':= 0.905 * _default_ * thm4EntropyInfusedStoneSize ' range=':= 0.905 * _default_ * thm4EntropyInfusedStoneSize ' type='normal' scaleTo='base' />
               <Setting name='DistributionFrequency' avg=':= 0.818 * _default_ * thm4EntropyInfusedStoneFreq ' range=':= 0.818 * _default_ * thm4EntropyInfusedStoneFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='CloudHeight' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -1751,7 +2113,7 @@
               <Biome name='.*'  />
               <Setting name='Size' avg=':= 4.0 * thm4EntropyInfusedStoneSize ' range=':= 2.0 * thm4EntropyInfusedStoneSize ' type='normal' />
               <Setting name='Frequency' avg=':= 5.333 * thm4EntropyInfusedStoneFreq ' range=':= 2.67 * thm4EntropyInfusedStoneFreq ' type='normal' scaleTo='base' />
-              <Setting name='Height' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='position' />
+              <Setting name='Height' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
           </IfCondition>

@@ -1,6 +1,6 @@
 <!-- =================================================================
      Custom Ore Generation "Mariculture" Module: This configuration
-     covers bauxite and copper.
+     covers bauxite, copper, and mountain copper.
      ================================================================= -->
 
 
@@ -128,6 +128,52 @@
       </ConfigSection>
       <!-- Copper Configuration UI Complete -->
 
+
+      <!-- Mountain Copper Configuration UI Starting -->
+      <ConfigSection>
+        <OptionChoice name='mrclMountainCopperDist'  displayState=':= if(?enableMariculture, "shown", "hidden")' displayGroup='groupMariculture'>
+          <Description> Controls how Mountain Copper is generated </Description>
+          <DisplayName>Mariculture Mountain Copper</DisplayName>
+          <IfCondition condition=':= (?blockExists("Mariculture:rocks:1")) '>
+
+          <Choice value='LayeredVeins' displayValue='Layered Veins'>
+            <Description>
+              Small, fairly rare motherlodes with 2-4 horizontal veins each.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("Mariculture:rocks:1")) '>
+
+          <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
+            <Description>
+              Large irregular clouds filled lightly with ore.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("Mariculture:rocks:1")) '>
+
+          <Choice value='Vanilla' displayValue='Vanilla'>
+            <Description>
+              Simulates Vanilla Minecraft.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <Choice value='none' displayValue='None' description='Mountain Copper is not generated in the world.'/>
+        </OptionChoice>
+        <OptionNumeric name='mrclMountainCopperFreq' default='1'  min='0' max='5' displayState=':= if(?enableMariculture, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupMariculture'>
+          <Description> Frequency multiplier for Mariculture Mountain Copper distributions </Description>
+          <DisplayName>Mariculture Mountain Copper Freq.</DisplayName>
+        </OptionNumeric>
+        <OptionNumeric name='mrclMountainCopperSize' default='1'  min='0' max='5' displayState=':= if(?enableMariculture, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupMariculture'>
+          <Description> Size multiplier for Mariculture Mountain Copper distributions </Description>
+          <DisplayName>Mariculture Mountain Copper Size</DisplayName>
+        </OptionNumeric>
+      </ConfigSection>
+      <!-- Mountain Copper Configuration UI Complete -->
+
     </ConfigSection>
     <!-- Setup Screen Complete -->
 
@@ -177,7 +223,7 @@
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 2.002 * _default_ * mrclBauxiteFreq ' range=':= 2.002 * _default_ * mrclBauxiteFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 1.123 * _default_ * mrclBauxiteSize ' range=':= 1.123 * _default_ * mrclBauxiteSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 96 ' range=':= 32 ' type='uniform' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 96 ' range=':= 32 ' type='uniform' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -218,7 +264,7 @@
               <Setting name='CloudRadius' avg=':= 1.512 * _default_ * mrclBauxiteSize ' range=':= 1.512 * _default_ * mrclBauxiteSize ' type='normal' />
               <Setting name='CloudThickness' avg=':= 1.512 * _default_ * mrclBauxiteSize ' range=':= 1.512 * _default_ * mrclBauxiteSize ' type='normal' scaleTo='base' />
               <Setting name='DistributionFrequency' avg=':= 2.286 * _default_ * mrclBauxiteFreq ' range=':= 2.286 * _default_ * mrclBauxiteFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 96 ' range=':= 32 ' type='uniform' scaleTo='position' />
+              <Setting name='CloudHeight' avg=':= 96 ' range=':= 32 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -264,7 +310,7 @@
               <Biome name='.*'  />
               <Setting name='Size' avg=':= 5.333 * mrclBauxiteSize ' range=':= 2.67 * mrclBauxiteSize ' type='normal' />
               <Setting name='Frequency' avg=':= 10.667 * mrclBauxiteFreq ' range=':= 5.33 * mrclBauxiteFreq ' type='normal' scaleTo='base' />
-              <Setting name='Height' avg=':= 96 ' range=':= 32 ' type='uniform' scaleTo='position' />
+              <Setting name='Height' avg=':= 96 ' range=':= 32 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
           </IfCondition>
@@ -289,7 +335,7 @@
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 1.371 * _default_ * mrclCopperFreq ' range=':= 1.371 * _default_ * mrclCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 1.054 * _default_ * mrclCopperSize ' range=':= 1.054 * _default_ * mrclCopperSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 32.5 ' range=':= 31.5 ' type='normal' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 32.5 ' range=':= 31.5 ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -330,7 +376,7 @@
               <Setting name='CloudRadius' avg=':= 1.251 * _default_ * mrclCopperSize ' range=':= 1.251 * _default_ * mrclCopperSize ' type='normal' />
               <Setting name='CloudThickness' avg=':= 1.251 * _default_ * mrclCopperSize ' range=':= 1.251 * _default_ * mrclCopperSize ' type='normal' scaleTo='base' />
               <Setting name='DistributionFrequency' avg=':= 1.565 * _default_ * mrclCopperFreq ' range=':= 1.565 * _default_ * mrclCopperFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 32.5 ' range=':= 31.5 ' type='normal' scaleTo='position' />
+              <Setting name='CloudHeight' avg=':= 32.5 ' range=':= 31.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -376,7 +422,7 @@
               <Biome name='.*'  />
               <Setting name='Size' avg=':= 3.333 * mrclCopperSize ' range=':= 1.67 * mrclCopperSize ' type='normal' />
               <Setting name='Frequency' avg=':= 8.0 * mrclCopperFreq ' range=':= 4.0 * mrclCopperFreq ' type='normal' scaleTo='base' />
-              <Setting name='Height' avg=':= 32.5 ' range=':= 31.5 ' type='normal' scaleTo='position' />
+              <Setting name='Height' avg=':= 32.5 ' range=':= 31.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
           </IfCondition>
@@ -384,6 +430,118 @@
         <!-- Vanilla Preset for Copper is complete. -->
 
         <!-- End Copper Generation -->
+
+
+        <!-- Begin Mountain Copper Generation -->
+
+        <!-- Starting LayeredVeins Preset for Mountain Copper. -->
+        <ConfigSection>
+          <IfCondition condition=':= mrclMountainCopperDist = "LayeredVeins"'>
+            <Veins name='mrclMountainCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60C85432' drawBoundBox='false' boundBoxColor='0x60C85432'>
+              <Description>
+                Small, fairly rare motherlodes  with 2-4 horizontal
+                veins each.
+              </Description>
+              <OreBlock block='Mariculture:rocks:1' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='MotherlodeFrequency' avg=':= 1.371 * _default_ * mrclMountainCopperFreq ' range=':= 1.371 * _default_ * mrclMountainCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeSize' avg=':= 1.054 * _default_ * mrclMountainCopperSize ' range=':= 1.054 * _default_ * mrclMountainCopperSize ' type='normal' />
+              <Setting name='MotherlodeHeight' avg=':= 161.5 ' range=':= 94.5 ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchLength' avg=':= 1.171 * _default_ ' range=':= 1.171 * _default_ ' type='normal' />
+              <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentLength' avg=':= _default_ * mrclMountainCopperSize ' range=':= _default_ * mrclMountainCopperSize ' type='normal' />
+              <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentRadius' avg=':= 1.082 * _default_ * mrclMountainCopperSize ' range=':= 1.082 * _default_ * mrclMountainCopperSize ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </Veins>
+          </IfCondition>
+        </ConfigSection>
+        <!-- LayeredVeins Preset for Mountain Copper is  complete. -->
+
+
+        <!-- Starting StrategicClouds Preset for Mountain  Copper. -->
+        <ConfigSection>
+          <IfCondition condition=':= mrclMountainCopperDist = "StrategicClouds"'>
+            <Cloud name='mrclMountainCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60C85432' drawBoundBox='false' boundBoxColor='0x60C85432'>
+              <Description>
+                Large irregular clouds filled  lightly with ore.
+                These are  huge, spanning several adjacent  chunks,
+                and consequently rather  rare.  They contain a
+                sizeable  amount of ore, but it takes some  time and
+                effort to mine due to  low density. The intent for
+                strategic clouds is that the  player will need to
+                actively  search for one and then set up a  semi-
+                permanent mining base and  spend some time actually
+                mining  the ore.
+              </Description>
+              <OreBlock block='Mariculture:rocks:1' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='CloudRadius' avg=':= 1.251 * _default_ * mrclMountainCopperSize ' range=':= 1.251 * _default_ * mrclMountainCopperSize ' type='normal' />
+              <Setting name='CloudThickness' avg=':= 1.251 * _default_ * mrclMountainCopperSize ' range=':= 1.251 * _default_ * mrclMountainCopperSize ' type='normal' scaleTo='base' />
+              <Setting name='DistributionFrequency' avg=':= 1.565 * _default_ * mrclMountainCopperFreq ' range=':= 1.565 * _default_ * mrclMountainCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='CloudHeight' avg=':= 161.5 ' range=':= 94.5 ' type='normal' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Veins name='mrclMountainCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60C85432' drawBoundBox='false' boundBoxColor='0x60C85432'>
+                <Description>
+                  Single blocks, generously  scattered through all
+                  heights  (density is about that of  vanilla iron
+                  ore). They will  replace dirt and sandstone  (but
+                  not grass or sand), so  they can be found nearer to
+                  the surface than most ores.  Intened to be used as a
+                  child  distribution for large, rare  strategic
+                  deposits that would  otherwise be very difficult  to
+                  find.  Note that the  frequency is multiplied by
+                  ground level to maintain a  constant density, but
+                  not by  ore frequency because it is  assumed that
+                  the frequency of  the parent distribution will
+                  already be scaled by that.
+                </Description>
+                <OreBlock block='Mariculture:rocks:1' weight='1.0' />
+                <Replaces block='minecraft:dirt' weight='1.0' />
+                <Replaces block='minecraft:sandstone' weight='1.0' />
+                <ReplacesOre block='stone' weight='1.0' />
+                <Replaces block='minecraft:gravel' weight='1.0' />
+              </Veins>
+            </Cloud>
+          </IfCondition>
+        </ConfigSection>
+        <!-- StrategicClouds Preset for Mountain Copper is  complete. -->
+
+
+        <!-- Starting Vanilla Preset for Mountain Copper. -->
+        <ConfigSection>
+          <IfCondition condition=':= mrclMountainCopperDist = "Vanilla"'>
+            <StandardGen name='mrclMountainCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60C85432' drawBoundBox='false' boundBoxColor='0x60C85432'>
+              <Description>
+                A master preset for standardgen  ore distributions.
+              </Description>
+              <OreBlock block='Mariculture:rocks:1' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='Size' avg=':= 3.333 * mrclMountainCopperSize ' range=':= 1.67 * mrclMountainCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 8.0 * mrclMountainCopperFreq ' range=':= 4.0 * mrclMountainCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Height' avg=':= 161.5 ' range=':= 94.5 ' type='normal' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </StandardGen>
+          </IfCondition>
+        </ConfigSection>
+        <!-- Vanilla Preset for Mountain Copper is complete. -->
+
+        <!-- End Mountain Copper Generation -->
 
         <!-- Finished adding blocks -->
 

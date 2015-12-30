@@ -1,6 +1,6 @@
 <!-- =================================================================
      Custom Ore Generation "Tinkers Steelworks" Module: This
-     configuration covers limestone.
+     configuration covers limestone and mountain limestone.
      ================================================================= -->
 
 
@@ -83,6 +83,52 @@
       </ConfigSection>
       <!-- Limestone Configuration UI Complete -->
 
+
+      <!-- Mountain Limestone Configuration UI Starting -->
+      <ConfigSection>
+        <OptionChoice name='tiswMountainLimestoneDist'  displayState=':= if(?enableTinkersSteelworks, "shown", "hidden")' displayGroup='groupTinkersSteelworks'>
+          <Description> Controls how Mountain Limestone is generated </Description>
+          <DisplayName>Tinkers Steelworks Mountain Limestone</DisplayName>
+          <IfCondition condition=':= (?blockExists("TSteelworks:Limestone")) '>
+
+          <Choice value='StratumClouds' displayValue='Strata'>
+            <Description>
+              Wide, thin, and flat disks of ore.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("TSteelworks:Limestone")) '>
+
+          <Choice value='LayeredVeins' displayValue='Layered Veins'>
+            <Description>
+              Small, fairly rare motherlodes with 2-4 horizontal veins each.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("TSteelworks:Limestone")) '>
+
+          <Choice value='Vanilla' displayValue='Vanilla'>
+            <Description>
+              Simulates Vanilla Minecraft.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <Choice value='none' displayValue='None' description='Mountain Limestone is not generated in the world.'/>
+        </OptionChoice>
+        <OptionNumeric name='tiswMountainLimestoneFreq' default='1'  min='0' max='5' displayState=':= if(?enableTinkersSteelworks, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupTinkersSteelworks'>
+          <Description> Frequency multiplier for Tinkers Steelworks Mountain Limestone distributions </Description>
+          <DisplayName>Tinkers Steelworks Mountain Limestone Freq.</DisplayName>
+        </OptionNumeric>
+        <OptionNumeric name='tiswMountainLimestoneSize' default='1'  min='0' max='5' displayState=':= if(?enableTinkersSteelworks, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupTinkersSteelworks'>
+          <Description> Size multiplier for Tinkers Steelworks Mountain Limestone distributions </Description>
+          <DisplayName>Tinkers Steelworks Mountain Limestone Size</DisplayName>
+        </OptionNumeric>
+      </ConfigSection>
+      <!-- Mountain Limestone Configuration UI Complete -->
+
     </ConfigSection>
     <!-- Setup Screen Complete -->
 
@@ -133,7 +179,7 @@
               <Setting name='CloudRadius' avg=':= 0.972 * _default_ * tiswLimestoneSize ' range=':= 0.972 * _default_ * tiswLimestoneSize ' type='normal' />
               <Setting name='CloudThickness' avg=':= 0.972 * _default_ * tiswLimestoneSize ' range=':= 0.972 * _default_ * tiswLimestoneSize ' type='normal' scaleTo='base' />
               <Setting name='DistributionFrequency' avg=':= 0.945 * _default_ * tiswLimestoneFreq ' range=':= 0.945 * _default_ * tiswLimestoneFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 38 ' range=':= 26 ' type='normal' scaleTo='position' />
+              <Setting name='CloudHeight' avg=':= 38 ' range=':= 26 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -159,7 +205,7 @@
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 1.416 * _default_ * tiswLimestoneFreq ' range=':= 1.416 * _default_ * tiswLimestoneFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 1.060 * _default_ * tiswLimestoneSize ' range=':= 1.060 * _default_ * tiswLimestoneSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 38 ' range=':= 26 ' type='normal' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 38 ' range=':= 26 ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -191,7 +237,7 @@
               <Biome name='.*'  />
               <Setting name='Size' avg=':= 21.333 * tiswLimestoneSize ' range=':= 10.67 * tiswLimestoneSize ' type='normal' />
               <Setting name='Frequency' avg=':= 1.333 * tiswLimestoneFreq ' range=':= 0.67 * tiswLimestoneFreq ' type='normal' scaleTo='base' />
-              <Setting name='Height' avg=':= 38 ' range=':= 26 ' type='normal' scaleTo='position' />
+              <Setting name='Height' avg=':= 38 ' range=':= 26 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
           </IfCondition>
@@ -199,6 +245,91 @@
         <!-- Vanilla Preset for Limestone is complete. -->
 
         <!-- End Limestone Generation -->
+
+
+        <!-- Begin Mountain Limestone Generation -->
+
+        <!-- Starting StratumClouds Preset for Mountain  Limestone. -->
+        <ConfigSection>
+          <IfCondition condition=':= tiswMountainLimestoneDist = "StratumClouds"'>
+            <Cloud name='tiswMountainLimestoneCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60C5CCA9' drawBoundBox='false' boundBoxColor='0x60C5CCA9'>
+              <Description>
+                Wide, thin, and flat disks of  ore.  Primarily, this
+                distribution is meant to provide  realistic
+                distribution of stone  in a strata formation.
+              </Description>
+              <OreBlock block='TSteelworks:Limestone' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='CloudRadius' avg=':= 0.972 * _default_ * tiswMountainLimestoneSize ' range=':= 0.972 * _default_ * tiswMountainLimestoneSize ' type='normal' />
+              <Setting name='CloudThickness' avg=':= 0.972 * _default_ * tiswMountainLimestoneSize ' range=':= 0.972 * _default_ * tiswMountainLimestoneSize ' type='normal' scaleTo='base' />
+              <Setting name='DistributionFrequency' avg=':= 0.945 * _default_ * tiswMountainLimestoneFreq ' range=':= 0.945 * _default_ * tiswMountainLimestoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='CloudHeight' avg=':= 178 ' range=':= 78 ' type='normal' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </Cloud>
+          </IfCondition>
+        </ConfigSection>
+        <!-- StratumClouds Preset for Mountain Limestone is  complete. -->
+
+
+        <!-- Starting LayeredVeins Preset for Mountain  Limestone. -->
+        <ConfigSection>
+          <IfCondition condition=':= tiswMountainLimestoneDist = "LayeredVeins"'>
+            <Veins name='tiswMountainLimestoneVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60C5CCA9' drawBoundBox='false' boundBoxColor='0x60C5CCA9'>
+              <Description>
+                Small, fairly rare motherlodes  with 2-4 horizontal
+                veins each.
+              </Description>
+              <OreBlock block='TSteelworks:Limestone' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='MotherlodeFrequency' avg=':= 1.416 * _default_ * tiswMountainLimestoneFreq ' range=':= 1.416 * _default_ * tiswMountainLimestoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeSize' avg=':= 1.060 * _default_ * tiswMountainLimestoneSize ' range=':= 1.060 * _default_ * tiswMountainLimestoneSize ' type='normal' />
+              <Setting name='MotherlodeHeight' avg=':= 178 ' range=':= 78 ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchLength' avg=':= 1.190 * _default_ ' range=':= 1.190 * _default_ ' type='normal' />
+              <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentLength' avg=':= _default_ * tiswMountainLimestoneSize ' range=':= _default_ * tiswMountainLimestoneSize ' type='normal' />
+              <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentRadius' avg=':= 1.091 * _default_ * tiswMountainLimestoneSize ' range=':= 1.091 * _default_ * tiswMountainLimestoneSize ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </Veins>
+          </IfCondition>
+        </ConfigSection>
+        <!-- LayeredVeins Preset for Mountain Limestone is  complete. -->
+
+
+        <!-- Starting Vanilla Preset for Mountain Limestone. -->
+        <ConfigSection>
+          <IfCondition condition=':= tiswMountainLimestoneDist = "Vanilla"'>
+            <StandardGen name='tiswMountainLimestoneStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60C5CCA9' drawBoundBox='false' boundBoxColor='0x60C5CCA9'>
+              <Description>
+                A master preset for standardgen  ore distributions.
+              </Description>
+              <OreBlock block='TSteelworks:Limestone' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='Size' avg=':= 21.333 * tiswMountainLimestoneSize ' range=':= 10.67 * tiswMountainLimestoneSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * tiswMountainLimestoneFreq ' range=':= 0.67 * tiswMountainLimestoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='Height' avg=':= 178 ' range=':= 78 ' type='normal' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </StandardGen>
+          </IfCondition>
+        </ConfigSection>
+        <!-- Vanilla Preset for Mountain Limestone is  complete. -->
+
+        <!-- End Mountain Limestone Generation -->
 
         <!-- Finished adding blocks -->
 

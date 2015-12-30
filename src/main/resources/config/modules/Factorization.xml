@@ -1,6 +1,6 @@
 <!-- =================================================================
      Custom Ore Generation "Factorization" Module: This configuration
-     covers silver and dark iron.
+     covers silver, mountain silver, and dark iron.
      ================================================================= -->
 
 
@@ -82,6 +82,52 @@
         </OptionNumeric>
       </ConfigSection>
       <!-- Silver Configuration UI Complete -->
+
+
+      <!-- Mountain Silver Configuration UI Starting -->
+      <ConfigSection>
+        <OptionChoice name='fctrMountainSilverDist'  displayState=':= if(?enableFactorization, "shown", "hidden")' displayGroup='groupFactorization'>
+          <Description> Controls how Mountain Silver is generated </Description>
+          <DisplayName>Factorization Mountain Silver</DisplayName>
+          <IfCondition condition=':= (?blockExists("factorization:ResourceBlock")) '>
+
+          <Choice value='LayeredVeins' displayValue='Layered Veins'>
+            <Description>
+              Small, fairly rare motherlodes with 2-4 horizontal veins each.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("factorization:ResourceBlock")) '>
+
+          <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
+            <Description>
+              Large irregular clouds filled lightly with ore.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("factorization:ResourceBlock")) '>
+
+          <Choice value='Vanilla' displayValue='Vanilla'>
+            <Description>
+              Simulates Vanilla Minecraft.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <Choice value='none' displayValue='None' description='Mountain Silver is not generated in the world.'/>
+        </OptionChoice>
+        <OptionNumeric name='fctrMountainSilverFreq' default='1'  min='0' max='5' displayState=':= if(?enableFactorization, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupFactorization'>
+          <Description> Frequency multiplier for Factorization Mountain Silver distributions </Description>
+          <DisplayName>Factorization Mountain Silver Freq.</DisplayName>
+        </OptionNumeric>
+        <OptionNumeric name='fctrMountainSilverSize' default='1'  min='0' max='5' displayState=':= if(?enableFactorization, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupFactorization'>
+          <Description> Size multiplier for Factorization Mountain Silver distributions </Description>
+          <DisplayName>Factorization Mountain Silver Size</DisplayName>
+        </OptionNumeric>
+      </ConfigSection>
+      <!-- Mountain Silver Configuration UI Complete -->
 
 
       <!-- Dark Iron Configuration UI Starting -->
@@ -178,7 +224,7 @@
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 0.811 * _default_ * fctrSilverFreq ' range=':= 0.811 * _default_ * fctrSilverFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 0.966 * _default_ * fctrSilverSize ' range=':= 0.966 * _default_ * fctrSilverSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 25 ' range=':= 10 ' type='normal' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 25 ' range=':= 10 ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -219,7 +265,7 @@
               <Setting name='CloudRadius' avg=':= 0.962 * _default_ * fctrSilverSize ' range=':= 0.962 * _default_ * fctrSilverSize ' type='normal' />
               <Setting name='CloudThickness' avg=':= 0.962 * _default_ * fctrSilverSize ' range=':= 0.962 * _default_ * fctrSilverSize ' type='normal' scaleTo='base' />
               <Setting name='DistributionFrequency' avg=':= 0.926 * _default_ * fctrSilverFreq ' range=':= 0.926 * _default_ * fctrSilverFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 25 ' range=':= 10 ' type='normal' scaleTo='position' />
+              <Setting name='CloudHeight' avg=':= 25 ' range=':= 10 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -265,7 +311,7 @@
               <Biome name='.*'  />
               <Setting name='Size' avg=':= 4.667 * fctrSilverSize ' range=':= 2.33 * fctrSilverSize ' type='normal' />
               <Setting name='Frequency' avg=':= 2.0 * fctrSilverFreq ' range=':= 1.0 * fctrSilverFreq ' type='normal' scaleTo='base' />
-              <Setting name='Height' avg=':= 25 ' range=':= 10 ' type='normal' scaleTo='position' />
+              <Setting name='Height' avg=':= 25 ' range=':= 10 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
           </IfCondition>
@@ -273,6 +319,118 @@
         <!-- Vanilla Preset for Silver is complete. -->
 
         <!-- End Silver Generation -->
+
+
+        <!-- Begin Mountain Silver Generation -->
+
+        <!-- Starting LayeredVeins Preset for Mountain Silver. -->
+        <ConfigSection>
+          <IfCondition condition=':= fctrMountainSilverDist = "LayeredVeins"'>
+            <Veins name='fctrMountainSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
+              <Description>
+                Small, fairly rare motherlodes  with 2-4 horizontal
+                veins each.
+              </Description>
+              <OreBlock block='factorization:ResourceBlock' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='MotherlodeFrequency' avg=':= 0.811 * _default_ * fctrMountainSilverFreq ' range=':= 0.811 * _default_ * fctrMountainSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeSize' avg=':= 0.966 * _default_ * fctrMountainSilverSize ' range=':= 0.966 * _default_ * fctrMountainSilverSize ' type='normal' />
+              <Setting name='MotherlodeHeight' avg=':= 139 ' range=':= 30 ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchLength' avg=':= 0.900 * _default_ ' range=':= 0.900 * _default_ ' type='normal' />
+              <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentLength' avg=':= _default_ * fctrMountainSilverSize ' range=':= _default_ * fctrMountainSilverSize ' type='normal' />
+              <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentRadius' avg=':= 0.949 * _default_ * fctrMountainSilverSize ' range=':= 0.949 * _default_ * fctrMountainSilverSize ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </Veins>
+          </IfCondition>
+        </ConfigSection>
+        <!-- LayeredVeins Preset for Mountain Silver is  complete. -->
+
+
+        <!-- Starting StrategicClouds Preset for Mountain  Silver. -->
+        <ConfigSection>
+          <IfCondition condition=':= fctrMountainSilverDist = "StrategicClouds"'>
+            <Cloud name='fctrMountainSilverCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
+              <Description>
+                Large irregular clouds filled  lightly with ore.
+                These are  huge, spanning several adjacent  chunks,
+                and consequently rather  rare.  They contain a
+                sizeable  amount of ore, but it takes some  time and
+                effort to mine due to  low density. The intent for
+                strategic clouds is that the  player will need to
+                actively  search for one and then set up a  semi-
+                permanent mining base and  spend some time actually
+                mining  the ore.
+              </Description>
+              <OreBlock block='factorization:ResourceBlock' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='CloudRadius' avg=':= 0.962 * _default_ * fctrMountainSilverSize ' range=':= 0.962 * _default_ * fctrMountainSilverSize ' type='normal' />
+              <Setting name='CloudThickness' avg=':= 0.962 * _default_ * fctrMountainSilverSize ' range=':= 0.962 * _default_ * fctrMountainSilverSize ' type='normal' scaleTo='base' />
+              <Setting name='DistributionFrequency' avg=':= 0.926 * _default_ * fctrMountainSilverFreq ' range=':= 0.926 * _default_ * fctrMountainSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='CloudHeight' avg=':= 139 ' range=':= 30 ' type='normal' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Veins name='fctrMountainSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
+                <Description>
+                  Single blocks, generously  scattered through all
+                  heights  (density is about that of  vanilla iron
+                  ore). They will  replace dirt and sandstone  (but
+                  not grass or sand), so  they can be found nearer to
+                  the surface than most ores.  Intened to be used as a
+                  child  distribution for large, rare  strategic
+                  deposits that would  otherwise be very difficult  to
+                  find.  Note that the  frequency is multiplied by
+                  ground level to maintain a  constant density, but
+                  not by  ore frequency because it is  assumed that
+                  the frequency of  the parent distribution will
+                  already be scaled by that.
+                </Description>
+                <OreBlock block='factorization:ResourceBlock' weight='1.0' />
+                <Replaces block='minecraft:dirt' weight='1.0' />
+                <Replaces block='minecraft:sandstone' weight='1.0' />
+                <ReplacesOre block='stone' weight='1.0' />
+                <Replaces block='minecraft:gravel' weight='1.0' />
+              </Veins>
+            </Cloud>
+          </IfCondition>
+        </ConfigSection>
+        <!-- StrategicClouds Preset for Mountain Silver is  complete. -->
+
+
+        <!-- Starting Vanilla Preset for Mountain Silver. -->
+        <ConfigSection>
+          <IfCondition condition=':= fctrMountainSilverDist = "Vanilla"'>
+            <StandardGen name='fctrMountainSilverStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
+              <Description>
+                A master preset for standardgen  ore distributions.
+              </Description>
+              <OreBlock block='factorization:ResourceBlock' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='Size' avg=':= 4.667 * fctrMountainSilverSize ' range=':= 2.33 * fctrMountainSilverSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * fctrMountainSilverFreq ' range=':= 1.0 * fctrMountainSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='Height' avg=':= 139 ' range=':= 30 ' type='normal' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </StandardGen>
+          </IfCondition>
+        </ConfigSection>
+        <!-- Vanilla Preset for Mountain Silver is complete. -->
+
+        <!-- End Mountain Silver Generation -->
 
 
         <!-- Begin Dark Iron Generation -->
@@ -291,7 +449,7 @@
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 0.433 * _default_ * fctrDarkIronFreq ' range=':= 0.433 * _default_ * fctrDarkIronFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 0 * _default_ * fctrDarkIronSize ' range=':= 0 * _default_ * fctrDarkIronSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 3 ' range=':= 2 ' type='normal' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 3 ' range=':= 2 ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -334,7 +492,7 @@
               <Setting name='CloudRadius' avg=':= 0.449 * _default_ * fctrDarkIronSize ' range=':= 0.449 * _default_ * fctrDarkIronSize ' type='normal' />
               <Setting name='CloudThickness' avg=':= 0.449 * _default_ * fctrDarkIronSize ' range=':= 0.449 * _default_ * fctrDarkIronSize ' type='normal' scaleTo='base' />
               <Setting name='DistributionFrequency' avg=':= 0.202 * _default_ * fctrDarkIronFreq ' range=':= 0.202 * _default_ * fctrDarkIronFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 3 ' range=':= 2 ' type='normal' scaleTo='position' />
+              <Setting name='CloudHeight' avg=':= 3 ' range=':= 2 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -382,7 +540,7 @@
               <Biome name='.*'  />
               <Setting name='Size' avg=':= 0.667 * fctrDarkIronSize ' range=':= 0.33 * fctrDarkIronSize ' type='normal' />
               <Setting name='Frequency' avg=':= 0.667 * fctrDarkIronFreq ' range=':= 0.33 * fctrDarkIronFreq ' type='normal' scaleTo='base' />
-              <Setting name='Height' avg=':= 3 ' range=':= 2 ' type='normal' scaleTo='position' />
+              <Setting name='Height' avg=':= 3 ' range=':= 2 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
           </IfCondition>
