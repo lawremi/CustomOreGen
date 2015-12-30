@@ -1,6 +1,7 @@
 <!-- =================================================================
      Custom Ore Generation "Mimicry" Module: This configuration covers
-     mimichite, nether mimichite, and end mimichite.
+     mimichite, mountain mimichite, nether mimichite, and end
+     mimichite.
      ================================================================= -->
 
 
@@ -81,6 +82,52 @@
         </OptionNumeric>
       </ConfigSection>
       <!-- Mimichite Configuration UI Complete -->
+
+
+      <!-- Mountain Mimichite Configuration UI Starting -->
+      <ConfigSection>
+        <OptionChoice name='mcryMountainMimichiteDist'  displayState=':= if(?enableMimicry, "shown", "hidden")' displayGroup='groupMimicry'>
+          <Description> Controls how Mountain Mimichite is generated </Description>
+          <DisplayName>Mimicry Mountain Mimichite</DisplayName>
+          <IfCondition condition=':= (?blockExists("Mimicry:Sparr_Mimichite Ore")) '>
+
+          <Choice value='SparseVeins' displayValue='Sparse Veins'>
+            <Description>
+              Large veins filled very lightly with ore.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("Mimicry:Sparr_Mimichite Ore")) '>
+
+          <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
+            <Description>
+              Large irregular clouds filled lightly with ore.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("Mimicry:Sparr_Mimichite Ore")) '>
+
+          <Choice value='Vanilla' displayValue='Vanilla'>
+            <Description>
+              Simulates Vanilla Minecraft.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <Choice value='none' displayValue='None' description='Mountain Mimichite is not generated in the world.'/>
+        </OptionChoice>
+        <OptionNumeric name='mcryMountainMimichiteFreq' default='1'  min='0' max='5' displayState=':= if(?enableMimicry, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupMimicry'>
+          <Description> Frequency multiplier for Mimicry Mountain Mimichite distributions </Description>
+          <DisplayName>Mimicry Mountain Mimichite Freq.</DisplayName>
+        </OptionNumeric>
+        <OptionNumeric name='mcryMountainMimichiteSize' default='1'  min='0' max='5' displayState=':= if(?enableMimicry, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupMimicry'>
+          <Description> Size multiplier for Mimicry Mountain Mimichite distributions </Description>
+          <DisplayName>Mimicry Mountain Mimichite Size</DisplayName>
+        </OptionNumeric>
+      </ConfigSection>
+      <!-- Mountain Mimichite Configuration UI Complete -->
 
 
       <!-- Nether Mimichite Configuration UI Starting -->
@@ -225,20 +272,20 @@
               <OreBlock block='Mimicry:Sparr_Mimichite Ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='MotherlodeFrequency' avg=':= 3.465 * _default_ * mcryMimichiteFreq ' range=':= 3.465 * _default_ * mcryMimichiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeFrequency' avg=':= 2.450 * _default_ * mcryMimichiteFreq ' range=':= 2.450 * _default_ * mcryMimichiteFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 0 * _default_ * mcryMimichiteSize ' range=':= 0 * _default_ * mcryMimichiteSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 30 ' range=':= 30 ' type='normal' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 30 ' range=':= 30 ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Setting name='BranchLength' avg=':= 1.861 * _default_ ' range=':= 1.861 * _default_ ' type='normal' />
+              <Setting name='BranchLength' avg=':= 1.565 * _default_ ' range=':= 1.565 * _default_ ' type='normal' />
               <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='SegmentLength' avg=':= _default_ * mcryMimichiteSize ' range=':= _default_ * mcryMimichiteSize ' type='normal' />
               <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Setting name='SegmentRadius' avg=':= 1.364 * _default_ * mcryMimichiteSize ' range=':= 1.364 * _default_ * mcryMimichiteSize ' type='normal' />
+              <Setting name='SegmentRadius' avg=':= 1.251 * _default_ * mcryMimichiteSize ' range=':= 1.251 * _default_ * mcryMimichiteSize ' type='normal' />
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </Veins>
@@ -265,10 +312,10 @@
               <OreBlock block='Mimicry:Sparr_Mimichite Ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='CloudRadius' avg=':= 1.271 * _default_ * mcryMimichiteSize ' range=':= 1.271 * _default_ * mcryMimichiteSize ' type='normal' />
-              <Setting name='CloudThickness' avg=':= 1.271 * _default_ * mcryMimichiteSize ' range=':= 1.271 * _default_ * mcryMimichiteSize ' type='normal' scaleTo='base' />
-              <Setting name='DistributionFrequency' avg=':= 1.616 * _default_ * mcryMimichiteFreq ' range=':= 1.616 * _default_ * mcryMimichiteFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 30 ' range=':= 30 ' type='normal' scaleTo='position' />
+              <Setting name='CloudRadius' avg=':= 1.069 * _default_ * mcryMimichiteSize ' range=':= 1.069 * _default_ * mcryMimichiteSize ' type='normal' />
+              <Setting name='CloudThickness' avg=':= 1.069 * _default_ * mcryMimichiteSize ' range=':= 1.069 * _default_ * mcryMimichiteSize ' type='normal' scaleTo='base' />
+              <Setting name='DistributionFrequency' avg=':= 1.143 * _default_ * mcryMimichiteFreq ' range=':= 1.143 * _default_ * mcryMimichiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='CloudHeight' avg=':= 30 ' range=':= 30 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -312,9 +359,9 @@
               <OreBlock block='Mimicry:Sparr_Mimichite Ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 10.667 * mcryMimichiteSize ' range=':= 5.33 * mcryMimichiteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * mcryMimichiteFreq ' range=':= 1.33 * mcryMimichiteFreq ' type='normal' scaleTo='base' />
-              <Setting name='Height' avg=':= 30 ' range=':= 30 ' type='normal' scaleTo='position' />
+              <Setting name='Size' avg=':= 2.667 * mcryMimichiteSize ' range=':= 1.33 * mcryMimichiteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * mcryMimichiteFreq ' range=':= 2.67 * mcryMimichiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Height' avg=':= 30 ' range=':= 30 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
           </IfCondition>
@@ -322,6 +369,124 @@
         <!-- Vanilla Preset for Mimichite is complete. -->
 
         <!-- End Mimichite Generation -->
+
+
+        <!-- Begin Mountain Mimichite Generation -->
+
+        <!-- Starting SparseVeins Preset for Mountain  Mimichite. -->
+        <ConfigSection>
+          <IfCondition condition=':= mcryMountainMimichiteDist = "SparseVeins"'>
+            <Veins name='mcryMountainMimichiteVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
+              <Description>
+                Large veins filled very lightly  with ore.  Because
+                they contain  less ore per volume, these veins  are
+                relatively wide and long.  Mining the ore from them is
+                time  consuming compared to solid ore  veins.  They
+                are also more  difficult to follow, since it is
+                harder to get an idea of their  direction while
+                mining.
+              </Description>
+              <OreBlock block='Mimicry:Sparr_Mimichite Ore' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='MotherlodeFrequency' avg=':= 2.450 * _default_ * mcryMountainMimichiteFreq ' range=':= 2.450 * _default_ * mcryMountainMimichiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeSize' avg=':= 0 * _default_ * mcryMountainMimichiteSize ' range=':= 0 * _default_ * mcryMountainMimichiteSize ' type='normal' />
+              <Setting name='MotherlodeHeight' avg=':= 94 ' range=':= 30 ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchLength' avg=':= 1.565 * _default_ ' range=':= 1.565 * _default_ ' type='normal' />
+              <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentLength' avg=':= _default_ * mcryMountainMimichiteSize ' range=':= _default_ * mcryMountainMimichiteSize ' type='normal' />
+              <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentRadius' avg=':= 1.251 * _default_ * mcryMountainMimichiteSize ' range=':= 1.251 * _default_ * mcryMountainMimichiteSize ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </Veins>
+          </IfCondition>
+        </ConfigSection>
+        <!-- SparseVeins Preset for Mountain Mimichite is  complete. -->
+
+
+        <!-- Starting StrategicClouds Preset for Mountain  Mimichite. -->
+        <ConfigSection>
+          <IfCondition condition=':= mcryMountainMimichiteDist = "StrategicClouds"'>
+            <Cloud name='mcryMountainMimichiteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
+              <Description>
+                Large irregular clouds filled  lightly with ore.
+                These are  huge, spanning several adjacent  chunks,
+                and consequently rather  rare.  They contain a
+                sizeable  amount of ore, but it takes some  time and
+                effort to mine due to  low density. The intent for
+                strategic clouds is that the  player will need to
+                actively  search for one and then set up a  semi-
+                permanent mining base and  spend some time actually
+                mining  the ore.
+              </Description>
+              <OreBlock block='Mimicry:Sparr_Mimichite Ore' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='CloudRadius' avg=':= 1.069 * _default_ * mcryMountainMimichiteSize ' range=':= 1.069 * _default_ * mcryMountainMimichiteSize ' type='normal' />
+              <Setting name='CloudThickness' avg=':= 1.069 * _default_ * mcryMountainMimichiteSize ' range=':= 1.069 * _default_ * mcryMountainMimichiteSize ' type='normal' scaleTo='base' />
+              <Setting name='DistributionFrequency' avg=':= 1.143 * _default_ * mcryMountainMimichiteFreq ' range=':= 1.143 * _default_ * mcryMountainMimichiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='CloudHeight' avg=':= 94 ' range=':= 30 ' type='normal' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Veins name='mcryMountainMimichiteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
+                <Description>
+                  Single blocks, generously  scattered through all
+                  heights  (density is about that of  vanilla iron
+                  ore). They will  replace dirt and sandstone  (but
+                  not grass or sand), so  they can be found nearer to
+                  the surface than most ores.  Intened to be used as a
+                  child  distribution for large, rare  strategic
+                  deposits that would  otherwise be very difficult  to
+                  find.  Note that the  frequency is multiplied by
+                  ground level to maintain a  constant density, but
+                  not by  ore frequency because it is  assumed that
+                  the frequency of  the parent distribution will
+                  already be scaled by that.
+                </Description>
+                <OreBlock block='Mimicry:Sparr_Mimichite Ore' weight='1.0' />
+                <Replaces block='minecraft:dirt' weight='1.0' />
+                <Replaces block='minecraft:sandstone' weight='1.0' />
+                <ReplacesOre block='stone' weight='1.0' />
+                <Replaces block='minecraft:gravel' weight='1.0' />
+              </Veins>
+            </Cloud>
+          </IfCondition>
+        </ConfigSection>
+        <!-- StrategicClouds Preset for Mountain Mimichite is
+             complete. -->
+
+
+        <!-- Starting Vanilla Preset for Mountain Mimichite. -->
+        <ConfigSection>
+          <IfCondition condition=':= mcryMountainMimichiteDist = "Vanilla"'>
+            <StandardGen name='mcryMountainMimichiteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
+              <Description>
+                A master preset for standardgen  ore distributions.
+              </Description>
+              <OreBlock block='Mimicry:Sparr_Mimichite Ore' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <BiomeType name='Mountain'  />
+              <Setting name='Size' avg=':= 2.667 * mcryMountainMimichiteSize ' range=':= 1.33 * mcryMountainMimichiteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * mcryMountainMimichiteFreq ' range=':= 2.67 * mcryMountainMimichiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Height' avg=':= 94 ' range=':= 30 ' type='normal' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </StandardGen>
+          </IfCondition>
+        </ConfigSection>
+        <!-- Vanilla Preset for Mountain Mimichite is  complete. -->
+
+        <!-- End Mountain Mimichite Generation -->
 
         <!-- Finished adding blocks -->
 
@@ -375,20 +540,20 @@
               <OreBlock block='Mimicry:Sparr_Mimichite Ore:1' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='MotherlodeFrequency' avg=':= 4.900 * _default_ * mcryNetherMimichiteFreq ' range=':= 4.900 * _default_ * mcryNetherMimichiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeFrequency' avg=':= 3.465 * _default_ * mcryNetherMimichiteFreq ' range=':= 3.465 * _default_ * mcryNetherMimichiteFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 0 * _default_ * mcryNetherMimichiteSize ' range=':= 0 * _default_ * mcryNetherMimichiteSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Setting name='BranchLength' avg=':= 2.214 * _default_ ' range=':= 2.214 * _default_ ' type='normal' />
+              <Setting name='BranchLength' avg=':= 1.861 * _default_ ' range=':= 1.861 * _default_ ' type='normal' />
               <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='SegmentLength' avg=':= _default_ * mcryNetherMimichiteSize ' range=':= _default_ * mcryNetherMimichiteSize ' type='normal' />
               <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Setting name='SegmentRadius' avg=':= 1.488 * _default_ * mcryNetherMimichiteSize ' range=':= 1.488 * _default_ * mcryNetherMimichiteSize ' type='normal' />
+              <Setting name='SegmentRadius' avg=':= 1.364 * _default_ * mcryNetherMimichiteSize ' range=':= 1.364 * _default_ * mcryNetherMimichiteSize ' type='normal' />
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </Veins>
@@ -415,10 +580,10 @@
               <OreBlock block='Mimicry:Sparr_Mimichite Ore:1' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='CloudRadius' avg=':= 1.512 * _default_ * mcryNetherMimichiteSize ' range=':= 1.512 * _default_ * mcryNetherMimichiteSize ' type='normal' />
-              <Setting name='CloudThickness' avg=':= 1.512 * _default_ * mcryNetherMimichiteSize ' range=':= 1.512 * _default_ * mcryNetherMimichiteSize ' type='normal' scaleTo='base' />
-              <Setting name='DistributionFrequency' avg=':= 2.286 * _default_ * mcryNetherMimichiteFreq ' range=':= 2.286 * _default_ * mcryNetherMimichiteFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='position' />
+              <Setting name='CloudRadius' avg=':= 1.271 * _default_ * mcryNetherMimichiteSize ' range=':= 1.271 * _default_ * mcryNetherMimichiteSize ' type='normal' />
+              <Setting name='CloudThickness' avg=':= 1.271 * _default_ * mcryNetherMimichiteSize ' range=':= 1.271 * _default_ * mcryNetherMimichiteSize ' type='normal' scaleTo='base' />
+              <Setting name='DistributionFrequency' avg=':= 1.616 * _default_ * mcryNetherMimichiteFreq ' range=':= 1.616 * _default_ * mcryNetherMimichiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='CloudHeight' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -462,9 +627,9 @@
               <OreBlock block='Mimicry:Sparr_Mimichite Ore:1' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 21.333 * mcryNetherMimichiteSize ' range=':= 10.67 * mcryNetherMimichiteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * mcryNetherMimichiteFreq ' range=':= 1.33 * mcryNetherMimichiteFreq ' type='normal' scaleTo='base' />
-              <Setting name='Height' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='position' />
+              <Setting name='Size' avg=':= 2.667 * mcryNetherMimichiteSize ' range=':= 1.33 * mcryNetherMimichiteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 10.667 * mcryNetherMimichiteFreq ' range=':= 5.33 * mcryNetherMimichiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Height' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
           </IfCondition>
@@ -525,20 +690,20 @@
               <OreBlock block='Mimicry:Sparr_Mimichite Ore:2' weight='1.0' />
               <Replaces block='minecraft:end_stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='MotherlodeFrequency' avg=':= 6.930 * _default_ * mcryEndMimichiteFreq ' range=':= 6.930 * _default_ * mcryEndMimichiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeFrequency' avg=':= 4.900 * _default_ * mcryEndMimichiteFreq ' range=':= 4.900 * _default_ * mcryEndMimichiteFreq ' type='normal' scaleTo='base' />
               <Setting name='MotherlodeSize' avg=':= 0 * _default_ * mcryEndMimichiteSize ' range=':= 0 * _default_ * mcryEndMimichiteSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='position' />
+              <Setting name='MotherlodeHeight' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
               <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Setting name='BranchLength' avg=':= 2.633 * _default_ ' range=':= 2.633 * _default_ ' type='normal' />
+              <Setting name='BranchLength' avg=':= 2.214 * _default_ ' range=':= 2.214 * _default_ ' type='normal' />
               <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='SegmentLength' avg=':= _default_ * mcryEndMimichiteSize ' range=':= _default_ * mcryEndMimichiteSize ' type='normal' />
               <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Setting name='SegmentRadius' avg=':= 1.623 * _default_ * mcryEndMimichiteSize ' range=':= 1.623 * _default_ * mcryEndMimichiteSize ' type='normal' />
+              <Setting name='SegmentRadius' avg=':= 1.488 * _default_ * mcryEndMimichiteSize ' range=':= 1.488 * _default_ * mcryEndMimichiteSize ' type='normal' />
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </Veins>
@@ -565,10 +730,10 @@
               <OreBlock block='Mimicry:Sparr_Mimichite Ore:2' weight='1.0' />
               <Replaces block='minecraft:end_stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='CloudRadius' avg=':= 1.798 * _default_ * mcryEndMimichiteSize ' range=':= 1.798 * _default_ * mcryEndMimichiteSize ' type='normal' />
-              <Setting name='CloudThickness' avg=':= 1.798 * _default_ * mcryEndMimichiteSize ' range=':= 1.798 * _default_ * mcryEndMimichiteSize ' type='normal' scaleTo='base' />
-              <Setting name='DistributionFrequency' avg=':= 3.232 * _default_ * mcryEndMimichiteFreq ' range=':= 3.232 * _default_ * mcryEndMimichiteFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='position' />
+              <Setting name='CloudRadius' avg=':= 1.512 * _default_ * mcryEndMimichiteSize ' range=':= 1.512 * _default_ * mcryEndMimichiteSize ' type='normal' />
+              <Setting name='CloudThickness' avg=':= 1.512 * _default_ * mcryEndMimichiteSize ' range=':= 1.512 * _default_ * mcryEndMimichiteSize ' type='normal' scaleTo='base' />
+              <Setting name='DistributionFrequency' avg=':= 2.286 * _default_ * mcryEndMimichiteFreq ' range=':= 2.286 * _default_ * mcryEndMimichiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='CloudHeight' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
@@ -612,9 +777,9 @@
               <OreBlock block='Mimicry:Sparr_Mimichite Ore:2' weight='1.0' />
               <Replaces block='minecraft:end_stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 42.667 * mcryEndMimichiteSize ' range=':= 21.33 * mcryEndMimichiteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * mcryEndMimichiteFreq ' range=':= 1.33 * mcryEndMimichiteFreq ' type='normal' scaleTo='base' />
-              <Setting name='Height' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='position' />
+              <Setting name='Size' avg=':= 2.667 * mcryEndMimichiteSize ' range=':= 1.33 * mcryEndMimichiteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 21.333 * mcryEndMimichiteFreq ' range=':= 10.67 * mcryEndMimichiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Height' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
           </IfCondition>
