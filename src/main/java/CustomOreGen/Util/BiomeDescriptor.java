@@ -66,10 +66,10 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 
     public BiomeDescriptor add(String descriptor, float weight)
     {
-        return this.add(descriptor, 1.0F, new Climate(), false);
+        return this.add(descriptor, 1.0F, new BiomeRestriction(), false);
     }
     
-    public BiomeDescriptor add(String descriptor, float weight, Climate climate, boolean describesType)
+    public BiomeDescriptor add(String descriptor, float weight, BiomeRestriction climate, boolean describesType)
     {
         if (descriptor != null && weight != 0.0F)
         {
@@ -303,11 +303,11 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
     {
         public final String description;
         public final float weight;
-        public final Climate climate;
+        public final BiomeRestriction climate;
         public final boolean describesType;
         private Pattern pattern = null;
 
-        public Descriptor(String description, float weight, Climate climate, boolean describesType)
+        public Descriptor(String description, float weight, BiomeRestriction climate, boolean describesType)
         {
             this.description = description;
             this.weight = weight;
@@ -331,25 +331,38 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
         }
     }
     
-    public static class Climate {
+    public static class BiomeRestriction {
     	public final float minTemperature, maxTemperature;
         public final float minRainfall, maxRainfall;
+        public final int minTreesPerChunk, maxTreesPerChunk;
+        public final float minHeightVariation, maxHeightVariation;
         
-        public Climate(float minTemperature, float maxTemperature, float minRainfall, float maxRainfall) {
+        public BiomeRestriction(float minTemperature, float maxTemperature, float minRainfall, float maxRainfall,
+        		int minTreesPerChunk, int maxTreesPerChunk, float minHeightVariation, float maxHeightVariation) {
         	this.minTemperature = minTemperature;
 			this.maxTemperature = maxTemperature;
 			this.minRainfall = minRainfall;
 			this.maxRainfall = maxRainfall;
+			this.minTreesPerChunk = minTreesPerChunk;
+			this.maxTreesPerChunk = maxTreesPerChunk;
+			this.minHeightVariation = minHeightVariation;
+			this.maxHeightVariation = maxHeightVariation;
         }
         
-        public Climate() {
-        	this.minTemperature = this.minRainfall = Float.NEGATIVE_INFINITY;
-			this.maxTemperature = this.maxRainfall = Float.POSITIVE_INFINITY;
+        public BiomeRestriction() {
+        	this.minTemperature = this.minRainfall = this.minHeightVariation = Float.NEGATIVE_INFINITY;
+			this.maxTemperature = this.maxRainfall = this.maxHeightVariation = Float.POSITIVE_INFINITY;
+			this.minTreesPerChunk = Integer.MIN_VALUE;
+			this.maxTreesPerChunk = Integer.MAX_VALUE;
         }
         
         public boolean isCompatible(BiomeGenBase biome) {
 			return biome.temperature >= minTemperature && biome.temperature <= maxTemperature &&
-				   biome.rainfall >= minRainfall && biome.rainfall <= maxRainfall;
+				   biome.rainfall >= minRainfall && biome.rainfall <= maxRainfall &&
+				   biome.theBiomeDecorator.treesPerChunk >= minTreesPerChunk &&
+				   biome.theBiomeDecorator.treesPerChunk <= maxTreesPerChunk &&
+				   biome.heightVariation >= minHeightVariation &&
+				   biome.heightVariation <= maxHeightVariation;
 		}
     }
 

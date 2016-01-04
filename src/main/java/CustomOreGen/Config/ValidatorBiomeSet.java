@@ -55,10 +55,10 @@ public class ValidatorBiomeSet extends ValidatorNode {
 	    
 	public void validateBiomes() throws ParserException {
 		for (ValidatorBiomeDescriptor biome : validateNamedChildren(2, "Biome", new ValidatorBiomeDescriptor.Factory())) {
-			this.biomeSet.add(biome.biome, biome.weight * this.weight, biome.climate, false);
+			this.biomeSet.add(biome.biome, biome.weight * this.weight, biome.restriction, false);
         }
         for (ValidatorBiomeDescriptor biomeType : validateNamedChildren(2, "BiomeType", new ValidatorBiomeDescriptor.Factory())) {
-        	this.biomeSet.add(biomeType.biome, biomeType.weight * this.weight, biomeType.climate, true);
+        	this.biomeSet.add(biomeType.biome, biomeType.weight * this.weight, biomeType.restriction, true);
         }
         for (ValidatorBiomeSet biomeSet : validateNamedChildren(2, "BiomeSet", new ValidatorBiomeSet.Factory())) {
         	this.biomeSet.addAll(biomeSet.biomeSet, this.weight);
