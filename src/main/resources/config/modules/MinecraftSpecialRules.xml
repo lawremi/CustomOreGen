@@ -26,12 +26,23 @@
             </Description>
         </OptionDisplayGroup>
 
+	<OptionChoice name='spruShown' default='false'
+		      displayState='shown_dynamic'
+		      displayGroup='groupSpecialRules'>
+	  <Description> 
+                Show options for special rules.
+          </Description>
+	  <DisplayName>Show special rules</DisplayName>
+          <Choice value='true' displayValue='Shown'/>
+          <Choice value='false' displayValue='Hidden'/>
+	</OptionChoice>
+
         <!-- Supplemental Caves Configuration UI Starting -->
         <ConfigSection>
-            <OptionChoice name='spruSupplementalCavesDist' default='none'  displayState=':= "shown"' displayGroup='groupSpecialRules'>
+            <OptionChoice name='spruSupplementalCavesDist' default='none'  displayState=':= if(?spruShown,"shown","hidden")' displayGroup='groupSpecialRules'>
                 <!-- EDITED: Changed description to match original -->
                 <Description> Enables/disables COG cave generation.  This does not affect the vanilla cave generator. </Description>
-                <DisplayName>Special Rules Supplemental Caves</DisplayName>
+                <DisplayName>Supplemental Caves</DisplayName>
                 <IfCondition condition=':= (?blockExists("minecraft:air")) '>
 
                 <!-- EDITED: Changed display value to match original -->
@@ -46,13 +57,17 @@
                 <!-- EDITED: Changed display value and description to clarify option -->
                 <Choice value='none' displayValue='False' description='Disable the COG cave generation.'/>
             </OptionChoice>
-            <OptionNumeric name='spruSupplementalCavesFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions, "shown", "hidden")' displayGroup='groupSpecialRules'>
-                <Description> Frequency multiplier for Special Rules Supplemental Caves distributions </Description>
-                <DisplayName>Special Rules Supplemental Caves Freq.</DisplayName>
+            <OptionNumeric name='spruSupplementalCavesFreq'
+			   default='1'  min='0' max='5'
+			   displayState=':= if(?advOptions &amp; ?spruShown, "shown", "hidden")' displayGroup='groupSpecialRules'>
+                <Description> Frequency multiplier for Supplemental Caves distributions </Description>
+                <DisplayName>Supplemental Caves Freq.</DisplayName>
             </OptionNumeric>
-            <OptionNumeric name='spruSupplementalCavesSize' default='1'  min='0' max='5' displayState=':= if(?advOptions, "shown", "hidden")' displayGroup='groupSpecialRules'>
-                <Description> Size multiplier for Special Rules Supplemental Caves distributions </Description>
-                <DisplayName>Special Rules Supplemental Caves Size</DisplayName>
+            <OptionNumeric name='spruSupplementalCavesSize' default='1'
+			   min='0' max='5'
+			   displayState=':= if(?advOptions &amp; ?spruShown, "shown", "hidden")' displayGroup='groupSpecialRules'>
+                <Description> Size multiplier for Supplemental Caves distributions </Description>
+                <DisplayName>Supplemental Caves Size</DisplayName>
             </OptionNumeric>
         </ConfigSection>
         <!-- Supplemental Caves Configuration UI Complete -->
@@ -60,9 +75,9 @@
 
         <!-- Mantle Configuration UI Starting -->
         <ConfigSection>
-            <OptionChoice name='spruMantleDist' default='none'  displayState=':= "shown"' displayGroup='groupSpecialRules'>
+            <OptionChoice name='spruMantleDist' default='none'  displayState=':= if(?spruShown,"shown","hidden")' displayGroup='groupSpecialRules'>
                 <Description> Controls how Mantle is generated </Description>
-                <DisplayName>Special Rules Mantle</DisplayName>
+                <DisplayName>Mantle</DisplayName>
                 <IfCondition condition=':= (?blockExists("minecraft:lava")) '>
 
                 <Choice value='Substitution' displayValue='Substitution'>
@@ -74,18 +89,20 @@
 
                 <Choice value='none' displayValue='None' description='Mantle is not generated in the world.'/>
             </OptionChoice>
-            <OptionNumeric name='spruMantleFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions, "shown", "hidden")' displayGroup='groupSpecialRules'>
-                <Description> Frequency multiplier for Special Rules Mantle distributions </Description>
-                <DisplayName>Special Rules Mantle Freq.</DisplayName>
+            <OptionNumeric name='spruMantleFreq' default='1'  min='0' max='5'
+			   displayState=':= if(?advOptions &amp; ?spruShown, "shown", "hidden")' displayGroup='groupSpecialRules'>
+                <Description> Frequency multiplier for Mantle distributions </Description>
+                <DisplayName>Mantle Freq.</DisplayName>
             </OptionNumeric>
-            <OptionNumeric name='spruMantleSize' default='1'  min='0' max='5' displayState=':= if(?advOptions, "shown", "hidden")' displayGroup='groupSpecialRules'>
-                <Description> Size multiplier for Special Rules Mantle distributions </Description>
-                <DisplayName>Special Rules Mantle Size</DisplayName>
+            <OptionNumeric name='spruMantleSize' default='1'  min='0' max='5'
+			   displayState=':= if(?advOptions &amp; ?spruShown, "shown", "hidden")' displayGroup='groupSpecialRules'>
+                <Description> Size multiplier for Mantle distributions </Description>
+                <DisplayName>Mantle Size</DisplayName>
             </OptionNumeric>
             <!-- EDITED: Added new slider to set the lava level in caves. -->
-            <OptionNumeric name='spruMantleLevel' default='8'  min='1' max='64'    displayState=':= "shown"' displayGroup='groupSpecialRules'>
+            <OptionNumeric name='spruMantleLevel' default='8'  min='1' max='64'    displayState=':= if(?spruShown,"shown","hidden")' displayGroup='groupSpecialRules'>
                 <Description> How high should the mantle be? </Description>
-                <DisplayName>Special Rules Mantle Level</DisplayName>
+                <DisplayName>Mantle Level</DisplayName>
             </OptionNumeric>
         </ConfigSection>
         <!-- Mantle Configuration UI Complete -->
@@ -93,9 +110,9 @@
 
         <!-- Water Table Configuration UI Starting -->
         <ConfigSection>
-            <OptionChoice name='spruWaterTableDist' default='none'  displayState=':= "shown"' displayGroup='groupSpecialRules'>
+            <OptionChoice name='spruWaterTableDist' default='none'  displayState=':= if(?spruShown,"shown","hidden")' displayGroup='groupSpecialRules'>
                 <Description> Controls how Water Table is generated </Description>
-                <DisplayName>Special Rules Water Table</DisplayName>
+                <DisplayName>Water Table</DisplayName>
                 <IfCondition condition=':= (?blockExists("minecraft:water")) '>
 
                 <Choice value='Substitution' displayValue='Substitution'>
@@ -107,18 +124,20 @@
 
                 <Choice value='none' displayValue='None' description='Water Table is not generated in the world.'/>
             </OptionChoice>
-            <OptionNumeric name='spruWaterTableFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions, "shown", "hidden")' displayGroup='groupSpecialRules'>
-                <Description> Frequency multiplier for Special Rules Water Table distributions </Description>
-                <DisplayName>Special Rules Water Table Freq.</DisplayName>
+            <OptionNumeric name='spruWaterTableFreq' default='1' min='0' max='5'
+			   displayState=':= if(?advOptions &amp; ?spruShown, "shown", "hidden")' displayGroup='groupSpecialRules'>
+                <Description> Frequency multiplier for Water Table distributions </Description>
+                <DisplayName>Water Table Freq.</DisplayName>
             </OptionNumeric>
-            <OptionNumeric name='spruWaterTableSize' default='1'  min='0' max='5' displayState=':= if(?advOptions, "shown", "hidden")' displayGroup='groupSpecialRules'>
-                <Description> Size multiplier for Special Rules Water Table distributions </Description>
-                <DisplayName>Special Rules Water Table Size</DisplayName>
+            <OptionNumeric name='spruWaterTableSize' default='1' min='0' max='5'
+			   displayState=':= if(?advOptions &amp; ?spruShown, "shown", "hidden")' displayGroup='groupSpecialRules'>
+                <Description> Size multiplier for Water Table distributions </Description>
+                <DisplayName>Water Table Size</DisplayName>
             </OptionNumeric>
             <!-- EDITED: Added new slider to set the water level in caves. -->
-            <OptionNumeric name='spruWaterTableLevel' default='8'  min='1' max='64'  displayState=':= "shown"' displayGroup='groupSpecialRules'>
+            <OptionNumeric name='spruWaterTableLevel' default='8'  min='1' max='64'  displayState=':= if(?spruShown,"shown","hidden")' displayGroup='groupSpecialRules'>
                 <Description> How high should the water table be? </Description>
-                <DisplayName>Special Rules Water Table Level</DisplayName>
+                <DisplayName>Water Table Level</DisplayName>
             </OptionNumeric>
         </ConfigSection>
         <!-- Water Table Configuration UI Complete -->
@@ -126,9 +145,9 @@
 
         <!-- Igneous Dikes Configuration UI Starting -->
         <ConfigSection>
-            <OptionChoice name='spruIgneousDikesDist' default='none'  displayState=':= "shown"' displayGroup='groupSpecialRules'>
+            <OptionChoice name='spruIgneousDikesDist' default='none'  displayState=':= if(?spruShown,"shown","hidden")' displayGroup='groupSpecialRules'>
                 <Description> Controls how Igneous Dikes is generated </Description>
-                <DisplayName>Special Rules Igneous Dikes</DisplayName>
+                <DisplayName>Igneous Dikes</DisplayName>
                 <IfCondition condition=':= (?blockExists("minecraft:lava")) '>
 
                 <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
@@ -141,13 +160,17 @@
 
                 <Choice value='none' displayValue='None' description='Igneous Dikes is not generated in the world.'/>
             </OptionChoice>
-            <OptionNumeric name='spruIgneousDikesFreq' default='1'  min='0' max='5' displayState=':= if(?advOptions, "shown", "hidden")' displayGroup='groupSpecialRules'>
-                <Description> Frequency multiplier for Special Rules Igneous Dikes distributions </Description>
-                <DisplayName>Special Rules Igneous Dikes Freq.</DisplayName>
+            <OptionNumeric name='spruIgneousDikesFreq' default='1'
+			   min='0' max='5'
+			   displayState=':= if(?advOptions &amp; ?spruShown, "shown", "hidden")' displayGroup='groupSpecialRules'>
+                <Description> Frequency multiplier for Igneous Dikes distributions </Description>
+                <DisplayName>Igneous Dikes Freq.</DisplayName>
             </OptionNumeric>
-            <OptionNumeric name='spruIgneousDikesSize' default='1'  min='0' max='5' displayState=':= if(?advOptions, "shown", "hidden")' displayGroup='groupSpecialRules'>
-                <Description> Size multiplier for Special Rules Igneous Dikes distributions </Description>
-                <DisplayName>Special Rules Igneous Dikes Size</DisplayName>
+            <OptionNumeric name='spruIgneousDikesSize' default='1'
+			   min='0' max='5'
+			   displayState=':= if(?advOptions &amp; ?spruShown, "shown", "hidden")' displayGroup='groupSpecialRules'>
+                <Description> Size multiplier for Igneous Dikes distributions </Description>
+                <DisplayName>Igneous Dikes Size</DisplayName>
             </OptionNumeric>
         </ConfigSection>
         <!-- Igneous Dikes Configuration UI Complete -->

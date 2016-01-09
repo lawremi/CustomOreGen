@@ -208,11 +208,11 @@ public class ValidatorDistribution extends ValidatorNode
             BiomeDescriptor biomeDescriptor = new BiomeDescriptor();
             
             for (ValidatorBiomeDescriptor biome : validateNamedChildren(2, "Biome", new ValidatorBiomeDescriptor.Factory())) {
-            	biomeDescriptor.add(biome.biome, biome.weight, biome.climate, false);
+            	biomeDescriptor.add(biome.biome, biome.weight, biome.restriction, false);
             }
 
             for (ValidatorBiomeDescriptor biomeType : validateNamedChildren(2, "BiomeType", new ValidatorBiomeDescriptor.Factory())) {
-            	biomeDescriptor.add(biomeType.biome, biomeType.weight, biomeType.climate, true);
+            	biomeDescriptor.add(biomeType.biome, biomeType.weight, biomeType.restriction, true);
             }
             
             for (ValidatorBiomeSet biomeSet : validateNamedChildren(2, "BiomeSet", new ValidatorBiomeSet.Factory())) {

@@ -217,9 +217,11 @@ public class WorldConfig
             if (optionsFile != null)
             {
             	putOptions(this.configOptions.values(), this.loadedOptions);
-            	Map<String,String> dimLevelOptions = setdiffOptions(this.loadedOptions, saveLevelOptions);
-            	loadOptions(optionsFile, loadedOptionOverrides[2], dimLevelOptions);
-            	saveOptions(optionsFile, dimLevelOptions);
+            	if (world != null) {
+            		Map<String,String> dimLevelOptions = setdiffOptions(this.loadedOptions, saveLevelOptions);
+            		loadOptions(optionsFile, loadedOptionOverrides[2], dimLevelOptions);
+            		saveOptions(optionsFile, dimLevelOptions);
+            	}
             }
 
             ConfigOption var21 = (ConfigOption)this.configOptions.get("deferredPopulationRange");
