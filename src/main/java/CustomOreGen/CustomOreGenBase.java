@@ -93,7 +93,7 @@ public class CustomOreGenBase
             "ThermalFoundation.xml",
             "TinkersConstruct.xml",
             "TinkersSteelworks.xml",
-            "VanillaMinecraft.xml"
+            "Vanilla.xml"
         };
         for (String module : extraModules) {
         	unpackConfigFile("modules/" + module, new File(defaultModulesDir, module));
