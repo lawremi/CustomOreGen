@@ -1341,6 +1341,160 @@
 
 
 
+      <!-- End Setup Beginning -->
+
+      <IfCondition condition=':= dimension.generator.class = "ChunkProviderEnd"'>
+
+        <!-- Starting Original "End" Block Removal -->
+
+        <IfCondition condition=':= ?cleanUpBiomesOPlenty'>
+          <IfCondition condition=':= ?blockExists("minecraft:end_stone")'>
+            <Substitute name='boplEndBlockSubstitute0' block='minecraft:end_stone'>
+              <Description>
+                Replace vanilla-generated ore clusters.
+              </Description>
+              <Comment>
+                The global option  deferredPopulationRange must be
+                large enough to catch all ore  clusters (>= 32).
+              </Comment>
+              <Replaces block='BiomesOPlenty:gemOre' weight='1.0' />
+            </Substitute>
+          </IfCondition>
+        </IfCondition>
+
+        <!-- Original "End" Block Removal Complete -->
+
+        <!-- Adding blocks -->
+
+        <!-- Begin Amethyst Generation -->
+
+        <!-- Starting PipeVeins Preset for Amethyst. -->
+        <ConfigSection>
+          <IfCondition condition=':= boplAmethystDist = "PipeVeins"'>
+            <Veins name='boplAmethystVeins'  inherits='PresetPipeVeins' branchType='Bezier' seed='0x58D8' drawWireframe='true' wireframeColor='0x60DD4EEA' drawBoundBox='false' boundBoxColor='0x60DD4EEA'>
+              <Description>
+                Short sparsely filled veins  sloping up from near the
+                bottom  of the map.
+              </Description>
+              <OreBlock block='BiomesOPlenty:gemOre' weight='1.0' />
+              <Replaces block='minecraft:end_stone' weight='1.0' />
+              <Biome name='.*'  />
+              <Setting name='MotherlodeFrequency' avg=':= 0.270 * _default_ * boplAmethystFreq ' range=':= 0.270 * _default_ * boplAmethystFreq ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeSize' avg=':= 0 * _default_ * boplAmethystSize ' range=':= 0 * _default_ * boplAmethystSize ' type='normal' />
+              <Setting name='MotherlodeHeight' avg=':= 19 ' range=':= 13 ' type='uniform' scaleTo='base' />
+              <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchLength' avg=':= 0.520 * _default_ ' range=':= 0.520 * _default_ ' type='normal' />
+              <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentLength' avg=':= _default_ * boplAmethystSize ' range=':= _default_ * boplAmethystSize ' type='normal' />
+              <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentRadius' avg=':= 0.721 * _default_ * boplAmethystSize ' range=':= 0.721 * _default_ * boplAmethystSize ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </Veins>
+
+            <!-- Configuring contained material. -->
+            <Veins name='boplAmethystVeinsPipe'  inherits='boplAmethystVeins' branchType='Bezier' seed='0x58D8' drawWireframe='true' wireframeColor='0x60DD4EEA' drawBoundBox='false' boundBoxColor='0x60DD4EEA'>
+              <OreBlock block='minecraft:lava' weight='1.0' />
+              <Replaces block='minecraft:end_stone' weight='1.0' />
+              <Replaces block='BiomesOPlenty:gemOre' weight='1.0' />
+              <Setting name='MotherlodeSize' avg=':= 0 * _default_ * boplAmethystSize  * 0.5 ' range=':= 0 * _default_ * boplAmethystSize  * 0.5 ' type='normal' />
+              <Setting name='SegmentRadius' avg=':= 0.721 * _default_ * boplAmethystSize  * 0.5 ' range=':= 0.721 * _default_ * boplAmethystSize  * 0.5 ' type='normal' />
+              <Setting name='OreDensity' avg=':= 1.0 ' range=':= 0 ' type='normal' />
+            </Veins>
+          </IfCondition>
+        </ConfigSection>
+        <!-- PipeVeins Preset for Amethyst is complete. -->
+
+
+        <!-- Starting StrategicClouds Preset for Amethyst. -->
+        <ConfigSection>
+          <IfCondition condition=':= boplAmethystDist = "StrategicClouds"'>
+            <Cloud name='boplAmethystCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60DD4EEA' drawBoundBox='false' boundBoxColor='0x60DD4EEA'>
+              <Description>
+                Large irregular clouds filled  lightly with ore.
+                These are  huge, spanning several adjacent  chunks,
+                and consequently rather  rare.  They contain a
+                sizeable  amount of ore, but it takes some  time and
+                effort to mine due to  low density. The intent for
+                strategic clouds is that the  player will need to
+                actively  search for one and then set up a  semi-
+                permanent mining base and  spend some time actually
+                mining  the ore.
+              </Description>
+              <OreBlock block='BiomesOPlenty:gemOre' weight='1.0' />
+              <Replaces block='minecraft:end_stone' weight='1.0' />
+              <Biome name='.*'  />
+              <Setting name='CloudRadius' avg=':= 0.449 * _default_ * boplAmethystSize ' range=':= 0.449 * _default_ * boplAmethystSize ' type='normal' />
+              <Setting name='CloudThickness' avg=':= 0.449 * _default_ * boplAmethystSize ' range=':= 0.449 * _default_ * boplAmethystSize ' type='normal' scaleTo='base' />
+              <Setting name='DistributionFrequency' avg=':= 0.202 * _default_ * boplAmethystFreq ' range=':= 0.202 * _default_ * boplAmethystFreq ' type='normal' scaleTo='base' />
+              <Setting name='CloudHeight' avg=':= 19 ' range=':= 13 ' type='uniform' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Veins name='boplAmethystHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60DD4EEA' drawBoundBox='false' boundBoxColor='0x60DD4EEA'>
+                <Description>
+                  Single blocks, generously  scattered through all
+                  heights  (density is about that of  vanilla iron
+                  ore). They will  replace dirt and sandstone  (but
+                  not grass or sand), so  they can be found nearer to
+                  the surface than most ores.  Intened to be used as a
+                  child  distribution for large, rare  strategic
+                  deposits that would  otherwise be very difficult  to
+                  find.  Note that the  frequency is multiplied by
+                  ground level to maintain a  constant density, but
+                  not by  ore frequency because it is  assumed that
+                  the frequency of  the parent distribution will
+                  already be scaled by that.
+                </Description>
+                <OreBlock block='BiomesOPlenty:gemOre' weight='1.0' />
+                <Replaces block='minecraft:dirt' weight='1.0' />
+                <Replaces block='minecraft:sandstone' weight='1.0' />
+                <ReplacesOre block='stone' weight='1.0' />
+                <Replaces block='minecraft:gravel' weight='1.0' />
+              </Veins>
+            </Cloud>
+          </IfCondition>
+        </ConfigSection>
+        <!-- StrategicClouds Preset for Amethyst is complete. -->
+
+
+        <!-- Starting Vanilla Preset for Amethyst. -->
+        <ConfigSection>
+          <IfCondition condition=':= boplAmethystDist = "Vanilla"'>
+            <StandardGen name='boplAmethystStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60DD4EEA' drawBoundBox='false' boundBoxColor='0x60DD4EEA'>
+              <Description>
+                A master preset for standardgen  ore distributions.
+              </Description>
+              <OreBlock block='BiomesOPlenty:gemOre' weight='1.0' />
+              <Replaces block='minecraft:end_stone' weight='1.0' />
+              <Biome name='.*'  />
+              <Setting name='Size' avg=':= 0.667 * boplAmethystSize ' range=':= 0.33 * boplAmethystSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 0.667 * boplAmethystFreq ' range=':= 0.33 * boplAmethystFreq ' type='normal' scaleTo='base' />
+              <Setting name='Height' avg=':= 19 ' range=':= 13 ' type='uniform' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </StandardGen>
+          </IfCondition>
+        </ConfigSection>
+        <!-- Vanilla Preset for Amethyst is complete. -->
+
+        <!-- End Amethyst Generation -->
+
+        <!-- Finished adding blocks -->
+
+      </IfCondition>
+      <!-- End Setup Complete -->
+
+
+
+
 
 
 
