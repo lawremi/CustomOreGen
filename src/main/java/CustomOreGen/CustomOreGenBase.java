@@ -60,6 +60,7 @@ public class CustomOreGenBase
             "ArsMagica2.xml",
             "BiomesOPlenty.xml",
             "Chisel2.xml",
+            "CommonOres.xml",
             "DenseOres.xml",
             "ElectriCraft.xml",
             "EtFuturum.xml",
