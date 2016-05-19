@@ -619,37 +619,41 @@
 
     <!-- Starting Original "Overworld" Block Removal -->
 
-    <IfCondition condition=':= ?blockExists("minecraft:sand")'>
-      <Substitute name='vnlaOverworldBlockSubstitute2' block='minecraft:sand'>
-        <Description>
-          Replace vanilla-generated ore clusters.
-        </Description>
-        <Comment>
-          The global option deferredPopulationRange  must be large
-          enough to catch all ore  clusters (>= 32).
-        </Comment>
-        <Replaces block='minecraft:clay' weight='1.0' />
-      </Substitute>
+    <IfCondition condition=':= vanillaOreGen'>
+      <IfCondition condition=':= ?blockExists("minecraft:sand")'>
+        <Substitute name='vnlaOverworldBlockSubstitute2' block='minecraft:sand'>
+          <Description>
+            Replace vanilla-generated ore clusters.
+          </Description>
+          <Comment>
+            The global option deferredPopulationRange  must be large
+            enough to catch all ore  clusters (>= 32).
+          </Comment>
+          <Replaces block='minecraft:clay' weight='1.0' />
+        </Substitute>
+      </IfCondition>
     </IfCondition>
 
 
-    <IfCondition condition=':= ?blockExists("minecraft:stone")'>
-      <Substitute name='vnlaOverworldBlockSubstitute3' block='minecraft:stone'>
-        <Description>
-          Replace vanilla-generated ore clusters.
-        </Description>
-        <Comment>
-          The global option deferredPopulationRange  must be large
-          enough to catch all ore  clusters (>= 32).
-        </Comment>
-        <Replaces block='minecraft:coal_ore' weight='1.0' />
-        <Replaces block='minecraft:diamond_ore' weight='1.0' />
-        <Replaces block='minecraft:emerald_ore' weight='1.0' />
-        <Replaces block='minecraft:gold_ore' weight='1.0' />
-        <Replaces block='minecraft:iron_ore' weight='1.0' />
-        <Replaces block='minecraft:lapis_ore' weight='1.0' />
-        <Replaces block='minecraft:redstone_ore' weight='1.0' />
-      </Substitute>
+    <IfCondition condition=':= vanillaOreGen'>
+      <IfCondition condition=':= ?blockExists("minecraft:stone")'>
+        <Substitute name='vnlaOverworldBlockSubstitute3' block='minecraft:stone'>
+          <Description>
+            Replace vanilla-generated ore clusters.
+          </Description>
+          <Comment>
+            The global option deferredPopulationRange  must be large
+            enough to catch all ore  clusters (>= 32).
+          </Comment>
+          <Replaces block='minecraft:coal_ore' weight='1.0' />
+          <Replaces block='minecraft:diamond_ore' weight='1.0' />
+          <Replaces block='minecraft:emerald_ore' weight='1.0' />
+          <Replaces block='minecraft:gold_ore' weight='1.0' />
+          <Replaces block='minecraft:iron_ore' weight='1.0' />
+          <Replaces block='minecraft:lapis_ore' weight='1.0' />
+          <Replaces block='minecraft:redstone_ore' weight='1.0' />
+        </Substitute>
+      </IfCondition>
     </IfCondition>
 
     <!-- Original "Overworld" Block Removal Complete -->
@@ -818,6 +822,7 @@
             <Replaces block='minecraft:sandstone' weight='1.0' />
             <ReplacesOre block='stone' weight='1.0' />
             <Replaces block='minecraft:gravel' weight='1.0' />
+            <Setting name='MotherlodeFrequency' avg=':= 7.748 * _default_ * vnlaCoalFreq  * 0.1 ' range=':= 7.748 * _default_ * vnlaCoalFreq  * 0.1 ' type='normal' scaleTo='base' />
           </Veins>
         </Cloud>
       </IfCondition>
@@ -928,6 +933,7 @@
             <Replaces block='minecraft:sandstone' weight='1.0' />
             <ReplacesOre block='stone' weight='1.0' />
             <Replaces block='minecraft:gravel' weight='1.0' />
+            <Setting name='MotherlodeFrequency' avg=':= 2.238 * _default_ * vnlaIronFreq  * 0.1 ' range=':= 2.238 * _default_ * vnlaIronFreq  * 0.1 ' type='normal' scaleTo='base' />
           </Veins>
         </Cloud>
       </IfCondition>
@@ -1038,6 +1044,7 @@
             <Replaces block='minecraft:sandstone' weight='1.0' />
             <ReplacesOre block='stone' weight='1.0' />
             <Replaces block='minecraft:gravel' weight='1.0' />
+            <Setting name='MotherlodeFrequency' avg=':= 2.238 * _default_ * vnlaMountainIronFreq  * 0.1 ' range=':= 2.238 * _default_ * vnlaMountainIronFreq  * 0.1 ' type='normal' scaleTo='base' />
           </Veins>
         </Cloud>
       </IfCondition>
@@ -1148,6 +1155,7 @@
             <Replaces block='minecraft:sandstone' weight='1.0' />
             <ReplacesOre block='stone' weight='1.0' />
             <Replaces block='minecraft:gravel' weight='1.0' />
+            <Setting name='MotherlodeFrequency' avg=':= 0.708 * _default_ * vnlaGoldFreq  * 0.1 ' range=':= 0.708 * _default_ * vnlaGoldFreq  * 0.1 ' type='normal' scaleTo='base' />
           </Veins>
         </Cloud>
       </IfCondition>
@@ -1258,6 +1266,7 @@
             <Replaces block='minecraft:sandstone' weight='1.0' />
             <ReplacesOre block='stone' weight='1.0' />
             <Replaces block='minecraft:gravel' weight='1.0' />
+            <Setting name='MotherlodeFrequency' avg=':= 0.708 * _default_ * vnlaMountainGoldFreq  * 0.1 ' range=':= 0.708 * _default_ * vnlaMountainGoldFreq  * 0.1 ' type='normal' scaleTo='base' />
           </Veins>
         </Cloud>
       </IfCondition>
@@ -1367,6 +1376,7 @@
             <Replaces block='minecraft:sandstone' weight='1.0' />
             <ReplacesOre block='stone' weight='1.0' />
             <Replaces block='minecraft:gravel' weight='1.0' />
+            <Setting name='MotherlodeFrequency' avg=':= 2.406 * _default_ * vnlaRedstoneFreq  * 0.1 ' range=':= 2.406 * _default_ * vnlaRedstoneFreq  * 0.1 ' type='normal' scaleTo='base' />
           </Veins>
         </Cloud>
       </IfCondition>
@@ -1476,6 +1486,7 @@
             <Replaces block='minecraft:sandstone' weight='1.0' />
             <ReplacesOre block='stone' weight='1.0' />
             <Replaces block='minecraft:gravel' weight='1.0' />
+            <Setting name='MotherlodeFrequency' avg=':= 2.406 * _default_ * vnlaMountainRedstoneFreq  * 0.1 ' range=':= 2.406 * _default_ * vnlaMountainRedstoneFreq  * 0.1 ' type='normal' scaleTo='base' />
           </Veins>
         </Cloud>
       </IfCondition>
@@ -1596,6 +1607,7 @@
             <Replaces block='minecraft:sandstone' weight='1.0' />
             <ReplacesOre block='stone' weight='1.0' />
             <Replaces block='minecraft:gravel' weight='1.0' />
+            <Setting name='MotherlodeFrequency' avg=':= 0.714 * _default_ * vnlaDiamondFreq  * 0.1 ' range=':= 0.714 * _default_ * vnlaDiamondFreq  * 0.1 ' type='normal' scaleTo='base' />
           </Veins>
         </Cloud>
       </IfCondition>
@@ -1705,6 +1717,7 @@
             <Replaces block='minecraft:sandstone' weight='1.0' />
             <ReplacesOre block='stone' weight='1.0' />
             <Replaces block='minecraft:gravel' weight='1.0' />
+            <Setting name='MotherlodeFrequency' avg=':= 0.787 * _default_ * vnlaLapisLazuliFreq  * 0.1 ' range=':= 0.787 * _default_ * vnlaLapisLazuliFreq  * 0.1 ' type='normal' scaleTo='base' />
           </Veins>
         </Cloud>
       </IfCondition>
@@ -1814,6 +1827,7 @@
             <Replaces block='minecraft:sandstone' weight='1.0' />
             <ReplacesOre block='stone' weight='1.0' />
             <Replaces block='minecraft:gravel' weight='1.0' />
+            <Setting name='MotherlodeFrequency' avg=':= 0.787 * _default_ * vnlaMountainLapisLazuliFreq  * 0.1 ' range=':= 0.787 * _default_ * vnlaMountainLapisLazuliFreq  * 0.1 ' type='normal' scaleTo='base' />
           </Veins>
         </Cloud>
       </IfCondition>
@@ -1935,6 +1949,7 @@
             <Replaces block='minecraft:sandstone' weight='1.0' />
             <ReplacesOre block='stone' weight='1.0' />
             <Replaces block='minecraft:gravel' weight='1.0' />
+            <Setting name='MotherlodeFrequency' avg=':= 0.382 * _default_ * vnlaEmeraldFreq  * 0.1 ' range=':= 0.382 * _default_ * vnlaEmeraldFreq  * 0.1 ' type='normal' scaleTo='base' />
           </Veins>
         </Cloud>
       </IfCondition>
@@ -1978,17 +1993,19 @@
 
     <!-- Starting Original "Nether" Block Removal -->
 
-    <IfCondition condition=':= ?blockExists("minecraft:netherrack")'>
-      <Substitute name='vnlaNetherBlockSubstitute0' block='minecraft:netherrack'>
-        <Description>
-          Replace vanilla-generated ore clusters.
-        </Description>
-        <Comment>
-          The global option deferredPopulationRange  must be large
-          enough to catch all ore  clusters (>= 32).
-        </Comment>
-        <Replaces block='minecraft:quartz_ore' weight='1.0' />
-      </Substitute>
+    <IfCondition condition=':= vanillaOreGen'>
+      <IfCondition condition=':= ?blockExists("minecraft:netherrack")'>
+        <Substitute name='vnlaNetherBlockSubstitute0' block='minecraft:netherrack'>
+          <Description>
+            Replace vanilla-generated ore clusters.
+          </Description>
+          <Comment>
+            The global option deferredPopulationRange  must be large
+            enough to catch all ore  clusters (>= 32).
+          </Comment>
+          <Replaces block='minecraft:quartz_ore' weight='1.0' />
+        </Substitute>
+      </IfCondition>
     </IfCondition>
 
     <!-- Original "Nether" Block Removal Complete -->
@@ -2080,6 +2097,7 @@
             <Replaces block='minecraft:sandstone' weight='1.0' />
             <ReplacesOre block='stone' weight='1.0' />
             <Replaces block='minecraft:gravel' weight='1.0' />
+            <Setting name='MotherlodeFrequency' avg=':= 6.247 * _default_ * vnlaNetherQuartzFreq  * 0.1 ' range=':= 6.247 * _default_ * vnlaNetherQuartzFreq  * 0.1 ' type='normal' scaleTo='base' />
           </Veins>
         </Cloud>
       </IfCondition>
