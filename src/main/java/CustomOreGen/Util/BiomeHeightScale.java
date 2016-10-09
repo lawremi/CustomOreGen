@@ -1,7 +1,5 @@
 package CustomOreGen.Util;
 
-import CustomOreGen.Server.ServerState;
-import CustomOreGen.Server.WorldConfig;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -14,19 +12,14 @@ public class BiomeHeightScale implements HeightScale {
 		if (biome == null) {
 			return new WorldHeightScale().getHeight(world, x, z);
 		}
-		return this.calcBlockHeight(world, biome.rootHeight, biome.heightVariation);
+		return this.calcBlockHeight(world, biome.rootHeight);
 	}
 
-	private int calcBlockHeight(World world, float rootHeight, float heightVariation) {
-		WorldConfig config = ServerState.getWorldConfig(world);
+	private int calcBlockHeight(World world, float rootHeight) {
 		if (world.provider.terrainType == WorldType.AMPLIFIED && rootHeight > 0) {
 			rootHeight = 1.0F + rootHeight * 2.0F; 
 		}
-		return (int)(
-				world.provider.getAverageGroundLevel() +
-				rootHeight * config.rootHeightFactor + 
-				heightVariation * config.heightVarFactor +
-				rootHeight * heightVariation * config.rootHeightVarFactor);
+		return (int)(world.provider.getAverageGroundLevel() + rootHeight * 17);
 	}
 	
 	@Override
