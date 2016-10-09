@@ -41,8 +41,6 @@ public class ServerState
 {
     private static MinecraftServer _server = null;
     private static Map<World,WorldConfig> _worldConfigs = new HashMap<World, WorldConfig>();
-    private static Map<Integer,Map<ChunkCoordIntPair,int[]>> _populatedChunks = 
-    		new HashMap<Integer, Map<ChunkCoordIntPair, int[]>>();
     private static Object _optionsGuiButton = null;
     private static boolean forcingChunk;
 
@@ -289,7 +287,6 @@ public class ServerState
     {
         _worldConfigs.clear();
         WorldConfig.loadedOptionOverrides[1] = WorldConfig.loadedOptionOverrides[2] = null;
-        _populatedChunks.clear();
 
         _server = server;
         CustomOreGenBase.log.debug("Server world changed to " + worldInfo.getWorldName());

@@ -340,7 +340,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             else
             {
                 long key = (long)chunkX << Integer.SIZE | (long)chunkZ & 4294967295L;
-                return (GeometryStream)this.debuggingGeometryMap.get(Long.valueOf(key));
+                return this.debuggingGeometryMap.get(key);
             }
         }
         else
@@ -733,12 +733,12 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                 int cX = bb.getCenterX() / 16;
                 int cZ = bb.getCenterZ() / 16;
                 long key = (long)cX << 32 | (long)cZ & 4294967295L;
-                builder = (GeometryStream)debuggingGeometryMap.get(Long.valueOf(key));
+                builder = debuggingGeometryMap.get(key);
 
                 if (builder == null)
                 {
                     builder = new GeometryStream();
-                    debuggingGeometryMap.put(Long.valueOf(key), builder);
+                    debuggingGeometryMap.put(key, builder);
                 }
                 comp.buildWireframe(builder);
             }
