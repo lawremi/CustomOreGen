@@ -6,19 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.ChunkCoordIntPair;
-import net.minecraft.world.ChunkPosition;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.structure.MapGenStructure;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
-import net.minecraft.world.gen.structure.StructureComponent;
-import net.minecraft.world.gen.structure.StructureStart;
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
 import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockArrangement;
@@ -32,6 +19,20 @@ import CustomOreGen.Util.PDist.Type;
 import CustomOreGen.Util.TileEntityHelper;
 import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.WireframeShapes;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraft.world.ChunkPosition;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.structure.MapGenStructure;
+import net.minecraft.world.gen.structure.StructureBoundingBox;
+import net.minecraft.world.gen.structure.StructureComponent;
+import net.minecraft.world.gen.structure.StructureStart;
 
 public abstract class MapGenOreDistribution extends MapGenStructure implements IOreDistribution
 {
@@ -665,7 +666,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
             if (componentType == 0)
             {
-                BiomeGenBase dist = worldObj.getBiomeGenForCoords(iX, iZ);
+                Biome dist = worldObj.getBiome(new BlockPos(iX, iY, iZ));
 
                 if (dist != null && !biomes.matchesBiome(dist, random))
                 {
