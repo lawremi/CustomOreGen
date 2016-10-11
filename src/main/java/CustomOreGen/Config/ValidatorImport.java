@@ -82,21 +82,21 @@ public class ValidatorImport extends ValidatorNode
 
         while (!subPaths.isEmpty())
         {
-            String var12 = subPaths.pop();
+            String subPath = subPaths.pop();
             LinkedList<File> nextFiles = new LinkedList<File>();
             for (File dir : files) {
-                if (!var12.contains("*") && !var12.contains("?"))
+                if (!subPath.contains("*") && !subPath.contains("?"))
                 {
-                    File var13 = new File(dir, var12);
+                    File f = new File(dir, subPath);
 
-                    if (var13.exists())
+                    if (f.exists())
                     {
-                        nextFiles.add(var13);
+                        nextFiles.add(f);
                     }
                 }
                 else if (dir.isDirectory())
                 {
-                    File[] file = dir.listFiles(new WildcardFileFilter(var12));
+                    File[] file = dir.listFiles(new WildcardFileFilter(subPath));
                     for (File file1 : file) {
                     	if (file1.exists())
                         {

@@ -135,20 +135,21 @@ public class ConfigParser
         validator.validate();
     }
 
-    public static Object parseString(Class<?> type, String value) throws IllegalArgumentException
+    @SuppressWarnings("unchecked")
+	public static <T> T parseString(Class<T> type, String value) throws IllegalArgumentException
     {
         if (type != null && value != null)
         {
             if (type.isAssignableFrom(String.class))
             {
-                return value;
+                return (T)value;
             }
             else if (type.isEnum())
             {
             	for (Enum<?> val : (Enum[])type.getEnumConstants()) {
             		if (val.name().equalsIgnoreCase(value))
                     {
-                        return val;
+                        return (T)val;
                     }
             	}
                 throw new IllegalArgumentException("Invalid enumeration value \'" + value + "\'");
@@ -175,32 +176,32 @@ public class ConfigParser
                                             }
                                             else
                                             {
-                                                return Double.valueOf(Double.parseDouble(value));
+                                                return (T)Double.valueOf(Double.parseDouble(value));
                                             }
                                         }
                                         else
                                         {
-                                            return Float.valueOf(Float.parseFloat(value));
+                                            return (T)Float.valueOf(Float.parseFloat(value));
                                         }
                                     }
                                     else
                                     {
-                                        return Long.decode(value);
+                                        return (T)Long.decode(value);
                                     }
                                 }
                                 else
                                 {
-                                    return Integer.decode(value);
+                                    return (T)Integer.decode(value);
                                 }
                             }
                             else
                             {
-                                return Short.decode(value);
+                                return (T)Short.decode(value);
                             }
                         }
                         else
                         {
-                            return Byte.decode(value);
+                            return (T)Byte.decode(value);
                         }
                     }
                     catch (NumberFormatException var6)
@@ -210,12 +211,12 @@ public class ConfigParser
                 }
                 else
                 {
-                    return Boolean.valueOf(Boolean.parseBoolean(value));
+                    return (T)Boolean.valueOf(Boolean.parseBoolean(value));
                 }
             }
             else
             {
-                return value.length() == 0 ? Character.valueOf('\u0000') : Character.valueOf(value.charAt(0));
+                return (T)(value.length() == 0 ? Character.valueOf('\u0000') : Character.valueOf(value.charAt(0)));
             }
         }
         else

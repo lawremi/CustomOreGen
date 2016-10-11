@@ -99,7 +99,7 @@ public class MapGenCloud extends MapGenOreDistribution
             clMat.rotateY(this.clInclination.getValue(random));
             float thickness = this.clThickness.getValue(random, this.worldObj, clX, clZ);
             clMat.scale(this.clRadius.getValue(random), this.clRadius.getValue(random), thickness);
-            DiffuseCloudComponent cloud = new DiffuseCloudComponent(this, structureGroup, clMat, random);
+            DiffuseCloudComponent cloud = new DiffuseCloudComponent(structureGroup, clMat, random);
             structureGroup.addComponent(cloud, (Component)null);
             return cloud;
         }
@@ -113,12 +113,12 @@ public class MapGenCloud extends MapGenOreDistribution
         protected final float sizeNoiseMagnitude;
         protected final int noiseLevels;
 
-        public DiffuseCloudComponent(MapGenCloud var1, StructureGroup structureGroup, Transform transform, Random random)
+        public DiffuseCloudComponent(StructureGroup structureGroup, Transform transform, Random random)
         {
             super(structureGroup);
             this.noiseGen = new NoiseGenerator(random);
-            this.sizeNoiseMagnitude = Math.abs(var1.clSizeNoise.getValue(random));
-            float rMax = (1.0F + this.sizeNoiseMagnitude * 2.0F) * var1.orRadiusMult.getMax();
+            this.sizeNoiseMagnitude = Math.abs(clSizeNoise.getValue(random));
+            float rMax = (1.0F + this.sizeNoiseMagnitude * 2.0F) * orRadiusMult.getMax();
 
             if (rMax < 0.0F)
             {

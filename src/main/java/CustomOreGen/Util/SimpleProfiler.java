@@ -41,14 +41,14 @@ public class SimpleProfiler
             }
         }
 
-        int var7 = this.getSlot(key);
+        int slot = this.getSlot(key);
 
-        if (this._sections[var7] == null)
+        if (this._sections[slot] == null)
         {
-            this._sections[var7] = new Section(key, var7, ++this._sectionCount);
+            this._sections[slot] = new Section(key, slot, ++this._sectionCount);
         }
 
-        return this._sections[var7];
+        return this._sections[slot];
     }
 
     public void startSection(Object key)
@@ -175,12 +175,20 @@ public class SimpleProfiler
         }
 
         System.out.format("%40s    %8s          %21s               %21s       \n", new Object[] {"Key", "Hits", "Run Time (us)", "Open Time (us)"});
-        Iterator<Section> var7 = sections.iterator();
+        Iterator<Section> it = sections.iterator();
 
-        while (var7.hasNext())
+        while (it.hasNext())
         {
-            Section s = (Section)var7.next();
-            System.out.format("%40s =  %8d  %12d (%8.0f) (%6.2f%%)  %12d (%8.0f) (%6.2f%%)\n", new Object[] {s.key, Integer.valueOf(s.hits), Long.valueOf(s.runTime / 1000L), Float.valueOf((float)s.runTime / 1000.0F / (float)s.hits), Double.valueOf(100.0D * (double)s.runTime / maxOpentime), Long.valueOf(s.openTime / 1000L), Float.valueOf((float)s.openTime / 1000.0F / (float)s.hits), Double.valueOf(100.0D * (double)s.openTime / maxOpentime)});
+            Section s = it.next();
+            System.out.format("%40s =  %8d  %12d (%8.0f) (%6.2f%%)  %12d (%8.0f) (%6.2f%%)\n", 
+            		new Object[] {
+            				s.key,
+            				s.hits,
+            				s.runTime / 1000L,
+            				(float)s.runTime / 1000.0F / (float)s.hits,
+            				100.0D * (double)s.runTime / maxOpentime,
+            				s.openTime / 1000L,
+            				(float)s.openTime / 1000.0F / (float)s.hits, 100.0D * (double)s.openTime / maxOpentime});
         }
     }
 

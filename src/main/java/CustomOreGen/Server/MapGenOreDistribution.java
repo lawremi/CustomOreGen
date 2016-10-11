@@ -524,7 +524,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         return group;
     }
 
-    public abstract Component generateStructure(StructureGroup var1, Random var2);
+    public abstract Component generateStructure(StructureGroup structureGroup, Random rand);
 
     public boolean generateStructuresInChunk(World world, Random random, int chunkX, int chunkZ)
     {

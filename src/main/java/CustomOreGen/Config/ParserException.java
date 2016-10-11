@@ -202,20 +202,20 @@ public class ParserException extends SAXException
         }
 
         String child;
-        String var7;
+        String prefix;
 
         if (nameFormat != null)
         {
             buffer.append(" ");
-            var7 = node.getPrefix();
+            prefix = node.getPrefix();
 
-            if (var7 == null)
+            if (prefix == null)
             {
-                var7 = "";
+                prefix = "";
             }
             else
             {
-                var7 = var7 + ":";
+                prefix = prefix + ":";
             }
 
             child = node.getLocalName();
@@ -225,7 +225,7 @@ public class ParserException extends SAXException
                 child = node.getNodeName();
             }
 
-            buffer.append(String.format(nameFormat, new Object[] {var7 + child}));
+            buffer.append(String.format(nameFormat, new Object[] {prefix + child}));
         }
 
         if ((flags & 16) != 0)
@@ -240,11 +240,11 @@ public class ParserException extends SAXException
 
         if ((flags & 4) != 0)
         {
-            var7 = node.getNamespaceURI();
+            prefix = node.getNamespaceURI();
 
-            if (var7 != null)
+            if (prefix != null)
             {
-                buffer.append(" (xmlns=" + var7 + ")");
+                buffer.append(" (xmlns=" + prefix + ")");
             }
         }
 
@@ -275,18 +275,18 @@ public class ParserException extends SAXException
 
         if ((flags & 4096) != 0)
         {
-            NamedNodeMap var9 = node.getAttributes();
+            NamedNodeMap attrs = node.getAttributes();
             String result;
 
-            for (int var8 = 0; var9 != null && var8 < var9.getLength(); ++var8)
+            for (int var8 = 0; attrs != null && var8 < attrs.getLength(); ++var8)
             {
-                result = "\n" + formatNode(var9.item(var8), flags);
+                result = "\n" + formatNode(attrs.item(var8), flags);
                 buffer.append(result.replace("\n", "\n  "));
             }
 
-            for (Node var10 = node.getFirstChild(); var10 != null; var10 = var10.getNextSibling())
+            for (Node ch = node.getFirstChild(); ch != null; ch = ch.getNextSibling())
             {
-                result = "\n" + formatNode(var10, flags);
+                result = "\n" + formatNode(ch, flags);
                 buffer.append(result.replace("\n", "\n  "));
             }
         }

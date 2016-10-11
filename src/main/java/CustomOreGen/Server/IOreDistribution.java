@@ -8,19 +8,19 @@ public interface IOreDistribution
 {
     Map<String,String> getDistributionSettingDescriptions();
 
-    Object getDistributionSetting(String var1);
+    Object getDistributionSetting(String name);
 
-    void setDistributionSetting(String var1, Object var2) throws IllegalArgumentException, IllegalAccessException;
+    void setDistributionSetting(String name, Object value) throws IllegalArgumentException, IllegalAccessException;
 
-    void generate(World var1, int var2, int var3);
+    void generate(World world, int chunkX, int chunkZ);
 
-    void populate(World var1, int var2, int var3);
+    void populate(World world, int chunkX, int chunkY);
 
     void cull();
 
     void clear();
 
-    GeometryStream getDebuggingGeometry(World var1, int var2, int var3);
+    GeometryStream getDebuggingGeometry(World world, int chunkX, int chunkY);
 
     boolean validate() throws IllegalStateException;
 
@@ -30,7 +30,7 @@ public interface IOreDistribution
     
     public static interface IDistributionFactory
     {
-        IOreDistribution createDistribution(int var1);
+        IOreDistribution createDistribution(int id);
     }
 
     public enum StandardSettings

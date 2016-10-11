@@ -49,7 +49,7 @@ public class PropertyIO
         {
             char c = comments.charAt(current);
 
-            if (c > 255 || c == 10 || c == 13)
+            if (c > 255 || c == '\n' || c == '\r')
             {
                 if (last != current)
                 {
@@ -68,12 +68,12 @@ public class PropertyIO
                 {
                     bw.newLine();
 
-                    if (c == 13 && current != len - 1 && comments.charAt(current + 1) == 10)
+                    if (c == '\r' && current != len - 1 && comments.charAt(current + 1) == '\n')
                     {
                         ++current;
                     }
 
-                    if (current == len - 1 || comments.charAt(current + 1) != 35 && comments.charAt(current + 1) != 33)
+                    if (current == len - 1 || comments.charAt(current + 1) != '#' && comments.charAt(current + 1) != '!')
                     {
                         bw.write("#");
                     }
@@ -107,9 +107,9 @@ public class PropertyIO
         {
             char aChar = theString.charAt(x);
 
-            if (aChar > 61 && aChar < 127)
+            if (aChar > '=' && aChar < 127)
             {
-                if (aChar == 92)
+                if (aChar == '\\')
                 {
                     outBuffer.append('\\');
                     outBuffer.append('\\');
@@ -161,7 +161,7 @@ public class PropertyIO
                         break;
 
                     default:
-                        if ((aChar < 32 || aChar > 126) & escapeUnicode)
+                        if ((aChar < ' ' || aChar > '~') & escapeUnicode)
                         {
                             outBuffer.append('\\');
                             outBuffer.append('u');
@@ -196,22 +196,22 @@ public class PropertyIO
 
             while (true)
             {
-                char var12;
+                char ch;
 
                 if (keyLen < limit)
                 {
-                    var12 = lr.lineBuf[keyLen];
+                    ch = lr.lineBuf[keyLen];
 
-                    if ((var12 == 61 || var12 == 58) && !precedingBackslash)
+                    if ((ch == '=' || ch == ':') && !precedingBackslash)
                     {
                         valueStart = keyLen + 1;
                         hasSep = true;
                     }
                     else
                     {
-                        if (var12 != 32 && var12 != 9 && var12 != 12 || precedingBackslash)
+                        if (ch != ' ' && ch != '\t' && ch != '\f' || precedingBackslash)
                         {
-                            if (var12 == 92)
+                            if (ch == 92)
                             {
                                 precedingBackslash = !precedingBackslash;
                             }
@@ -230,11 +230,11 @@ public class PropertyIO
 
                 for (; valueStart < limit; ++valueStart)
                 {
-                    var12 = lr.lineBuf[valueStart];
+                    ch = lr.lineBuf[valueStart];
 
-                    if (var12 != 32 && var12 != 9 && var12 != 12)
+                    if (ch != ' ' && ch != '\t' && ch != '\f')
                     {
-                        if (hasSep || var12 != 61 && var12 != 58)
+                        if (hasSep || ch != '=' && ch != ':')
                         {
                             break;
                         }
@@ -271,87 +271,87 @@ public class PropertyIO
 
         while (off < end)
         {
-            char var10 = in[off++];
+            char ch = in[off++];
 
-            if (var10 == 92)
+            if (ch == '\\')
             {
-                var10 = in[off++];
+                ch = in[off++];
 
-                if (var10 == 117)
+                if (ch == 'u')
                 {
                     int value = 0;
 
                     for (int i = 0; i < 4; ++i)
                     {
-                        var10 = in[off++];
+                        ch = in[off++];
 
-                        switch (var10)
+                        switch (ch)
                         {
-                            case 48:
-                            case 49:
-                            case 50:
-                            case 51:
-                            case 52:
-                            case 53:
-                            case 54:
-                            case 55:
-                            case 56:
-                            case 57:
-                                value = (value << 4) + var10 - 48;
+                            case '0':
+                            case '1':
+                            case '2':
+                            case '3':
+                            case '4':
+                            case '5':
+                            case '6':
+                            case '7':
+                            case '8':
+                            case '9':
+                                value = (value << 4) + ch - '0';
                                 break;
 
-                            case 58:
-                            case 59:
-                            case 60:
-                            case 61:
-                            case 62:
-                            case 63:
-                            case 64:
-                            case 71:
-                            case 72:
-                            case 73:
-                            case 74:
-                            case 75:
-                            case 76:
-                            case 77:
-                            case 78:
-                            case 79:
-                            case 80:
-                            case 81:
-                            case 82:
-                            case 83:
-                            case 84:
-                            case 85:
-                            case 86:
-                            case 87:
-                            case 88:
-                            case 89:
-                            case 90:
-                            case 91:
-                            case 92:
-                            case 93:
-                            case 94:
-                            case 95:
-                            case 96:
+                            case ':':
+                            case ';':
+                            case '<':
+                            case '=':
+                            case '>':
+                            case '?':
+                            case '@':
+                            case 'G':
+                            case 'H':
+                            case 'I':
+                            case 'J':
+                            case 'K':
+                            case 'L':
+                            case 'M':
+                            case 'N':
+                            case 'O':
+                            case 'P':
+                            case 'Q':
+                            case 'R':
+                            case 'S':
+                            case 'T':
+                            case 'U':
+                            case 'V':
+                            case 'W':
+                            case 'X':
+                            case 'Y':
+                            case 'Z':
+                            case '[':
+                            case '\\':
+                            case ']':
+                            case '^':
+                            case '_':
+                            case '`':
                             default:
                                 throw new IllegalArgumentException("Malformed \\uxxxx encoding.");
 
-                            case 65:
-                            case 66:
-                            case 67:
-                            case 68:
-                            case 69:
-                            case 70:
-                                value = (value << 4) + 10 + var10 - 65;
+                            case 'A':
+                            case 'B':
+                            case 'C':
+                            case 'D':
+                            case 'E':
+                            case 'F':
+                                value = (value << 4) + 10 + ch - 'A';
                                 break;
 
-                            case 97:
-                            case 98:
-                            case 99:
-                            case 100:
-                            case 101:
-                            case 102:
-                                value = (value << 4) + 10 + var10 - 97;
+                            case 'a':
+                            case 'b':
+                            case 'c':
+                            case 'd':
+                            case 'e':
+                            case 'f':
+                                value = (value << 4) + 10 + ch - 'a';
                         }
                     }
 
@@ -359,29 +359,29 @@ public class PropertyIO
                 }
                 else
                 {
-                    if (var10 == 116)
+                    if (ch == 't')
                     {
-                        var10 = 9;
+                        ch = '\t';
                     }
-                    else if (var10 == 114)
+                    else if (ch == 'r')
                     {
-                        var10 = 13;
+                        ch = '\r';
                     }
-                    else if (var10 == 110)
+                    else if (ch == 'n')
                     {
-                        var10 = 10;
+                        ch = '\n';
                     }
-                    else if (var10 == 102)
+                    else if (ch == 'f')
                     {
-                        var10 = 12;
+                        ch = '\f';
                     }
 
-                    out[outLen++] = var10;
+                    out[outLen++] = ch;
                 }
             }
             else
             {
-                out[outLen++] = var10;
+                out[outLen++] = ch;
             }
         }
 
@@ -432,22 +432,22 @@ public class PropertyIO
                     }
                 }
 
-                char var11;
+                char ch;
 
                 if (this.inStream != null)
                 {
-                    var11 = (char)(255 & this.inByteBuf[this.inOff++]);
+                    ch = (char)(255 & this.inByteBuf[this.inOff++]);
                 }
                 else
                 {
-                    var11 = this.inCharBuf[this.inOff++];
+                    ch = this.inCharBuf[this.inOff++];
                 }
 
                 if (skipLF)
                 {
                     skipLF = false;
 
-                    if (var11 == 10)
+                    if (ch == '\n')
                     {
                         continue;
                     }
@@ -455,7 +455,7 @@ public class PropertyIO
 
                 if (skipWhiteSpace)
                 {
-                    if (var11 == 32 || var11 == 9 || var11 == 12 || !appendedLineBegin && (var11 == 13 || var11 == 10))
+                    if (ch == ' ' || ch == '\t' || ch == '\f' || !appendedLineBegin && (ch == '\r' || ch == '\n'))
                     {
                         continue;
                     }
@@ -468,16 +468,16 @@ public class PropertyIO
                 {
                     isNewLine = false;
 
-                    if (var11 == 35 || var11 == 33)
+                    if (ch == '#' || ch == '!')
                     {
                         isCommentLine = true;
                         continue;
                     }
                 }
 
-                if (var11 != 10 && var11 != 13)
+                if (ch != '\n' && ch != '\r')
                 {
-                    this.lineBuf[len++] = var11;
+                    this.lineBuf[len++] = ch;
 
                     if (len == this.lineBuf.length)
                     {
@@ -493,7 +493,7 @@ public class PropertyIO
                         this.lineBuf = buf;
                     }
 
-                    if (var11 == 92)
+                    if (ch == '\\')
                     {
                         precedingBackslash = !precedingBackslash;
                     }
@@ -525,7 +525,7 @@ public class PropertyIO
                     appendedLineBegin = true;
                     precedingBackslash = false;
 
-                    if (var11 == 13)
+                    if (ch == '\r')
                     {
                         skipLF = true;
                     }

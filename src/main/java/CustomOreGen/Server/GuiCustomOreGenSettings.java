@@ -190,24 +190,24 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 }
             }
 
-            int var13 = mouseX;
-            int var14 = mouseY;
+            int tipX = mouseX;
+            int tipY = mouseY;
 
             if (mouseX > 2 * super.width / 5)
             {
-                var13 = mouseX - tipW;
+                tipX = mouseX - tipW;
             }
 
             if (mouseY > super.height / 2)
             {
-                var14 = mouseY - tipH;
+                tipY = mouseY - tipH;
             }
 
-            this.drawGradientRect(var13, var14, var13 + tipW, var14 + tipH, -15724528, -14671840);
+            this.drawGradientRect(tipX, tipY, tipX + tipW, tipY + tipH, -15724528, -14671840);
             l = 0;
 
             for (String line : lines) {
-            	super.fontRendererObj.drawString(line, var13 + (tipW - lineWidths[l]) / 2 + 4, var14 + 4 + l * super.fontRendererObj.FONT_HEIGHT, 16777215);
+            	super.fontRendererObj.drawString(line, tipX + (tipW - lineWidths[l]) / 2 + 4, tipY + 4 + l * super.fontRendererObj.FONT_HEIGHT, 16777215);
             	++l;
             }
 
@@ -545,7 +545,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
             }
         }
 
-        protected boolean isSelected(int var1)
+        protected boolean isSelected(int index)
         {
             return false;
         }

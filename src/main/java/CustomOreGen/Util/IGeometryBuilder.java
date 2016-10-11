@@ -3,25 +3,25 @@ package CustomOreGen.Util;
 
 public interface IGeometryBuilder
 {
-    void setPositionTransform(Transform var1);
+    void setPositionTransform(Transform transform);
 
-    void setNormal(float[] var1);
+    void setNormal(float[] normal);
 
-    void setColor(float[] var1);
+    void setColor(float[] color);
 
-    void setTexture(String var1);
+    void setTexture(String texture);
 
-    void setTextureTransform(Transform var1);
+    void setTextureTransform(Transform transform);
 
-    void setTextureCoordinates(float[] var1);
+    void setTextureCoordinates(float[] texcoords);
 
-    void setVertexMode(PrimitiveType var1, int ... var2);
+    void setVertexMode(PrimitiveType primitive, int ... vertexIndices);
 
-    void addVertex(float[] var1);
+    void addVertex(float[] pos);
 
-    void addVertex(float[] var1, float[] var2, float[] var3, float[] var4);
+    void addVertex(float[] pos, float[] normal, float[] color, float[] texcoords);
 
-    void addVertexRef(int var1);
+    void addVertexRef(int vertexIndex);
     
     public enum PrimitiveType
     {

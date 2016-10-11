@@ -100,12 +100,7 @@ public class GeometryRenderer implements IGeometryBuilder
 
         if (textureURI != null && this._textureMap != null)
         {
-            Integer value = this._textureMap.get(textureURI);
-
-            if (value != null)
-            {
-                texture = value.intValue();
-            }
+            texture = this._textureMap.get(textureURI);
         }
 
         if (this._texcoords != null && this._texture != texture)
@@ -175,7 +170,7 @@ public class GeometryRenderer implements IGeometryBuilder
             this._posTrans.transformVector(pos);
         }
 
-        int var10 = argIdx + 1;
+        int i = argIdx + 1;
         args[argIdx] = pos;
 
         if (this._normal != null)
@@ -191,7 +186,7 @@ public class GeometryRenderer implements IGeometryBuilder
                 this._nmlTrans.transformVector(normal);
             }
 
-            args[var10++] = normal;
+            args[i++] = normal;
 
             if (this._dbgNormalLines != null)
             {
@@ -214,7 +209,7 @@ public class GeometryRenderer implements IGeometryBuilder
                 color = this._color;
             }
 
-            args[var10++] = color;
+            args[i++] = color;
         }
 
         if (this._texture >= 0 && this._texcoords != null)
@@ -230,7 +225,7 @@ public class GeometryRenderer implements IGeometryBuilder
                 this._texTrans.transformVector(texcoords);
             }
 
-            args[var10++] = texcoords;
+            args[i++] = texcoords;
         }
 
         int vidx = curBuffer.addVertex(args);
@@ -403,14 +398,14 @@ public class GeometryRenderer implements IGeometryBuilder
                     {
                         for (i = 0; i < vCount; ++i)
                         {
-                            int var12 = this._primitive == PrimitiveType.TRIANGLE_ALT && this._polygonParity ? vCount - 1 - i : i;
+                            int bufIdx = this._primitive == PrimitiveType.TRIANGLE_ALT && this._polygonParity ? vCount - 1 - i : i;
 
-                            if (polyVertBuffers[var12] != curBuffer)
+                            if (polyVertBuffers[bufIdx] != curBuffer)
                             {
-                                polyVertIndices[var12] = curBuffer.copyVertex(polyVertBuffers[var12], polyVertIndices[var12]);
+                                polyVertIndices[bufIdx] = curBuffer.copyVertex(polyVertBuffers[bufIdx], polyVertIndices[bufIdx]);
                             }
 
-                            curBuffer.addIndex(polyVertIndices[var12]);
+                            curBuffer.addIndex(polyVertIndices[bufIdx]);
                         }
 
                         this._polygonParity = !this._polygonParity;
@@ -553,23 +548,23 @@ public class GeometryRenderer implements IGeometryBuilder
 
             this.vBuffer.limit(offset + vsize);
             this.vBuffer.position(offset);
-            byte var9 = 0;
-            this.vBuffer.putFloat(data[var9][0]);
-            this.vBuffer.putFloat(data[var9][1]);
-            this.vBuffer.putFloat(data[var9][2]);
-            int var10 = var9 + 1;
+            byte argIdx = 0;
+            this.vBuffer.putFloat(data[argIdx][0]);
+            this.vBuffer.putFloat(data[argIdx][1]);
+            this.vBuffer.putFloat(data[argIdx][2]);
+            int i = argIdx + 1;
 
             if (this.hasNormal)
             {
-                this.vBuffer.putFloat(data[var10][0]);
-                this.vBuffer.putFloat(data[var10][1]);
-                this.vBuffer.putFloat(data[var10][2]);
-                ++var10;
+                this.vBuffer.putFloat(data[i][0]);
+                this.vBuffer.putFloat(data[i][1]);
+                this.vBuffer.putFloat(data[i][2]);
+                ++i;
             }
 
             if (this.hasColor)
             {
-                int r = (int)((double)(data[var10][0] * 255.0F) + 0.5D);
+                int r = (int)((double)(data[i][0] * 255.0F) + 0.5D);
 
                 if (r > 255)
                 {
@@ -580,7 +575,7 @@ public class GeometryRenderer implements IGeometryBuilder
                     r = 0;
                 }
 
-                int g = (int)((double)(data[var10][1] * 255.0F) + 0.5D);
+                int g = (int)((double)(data[i][1] * 255.0F) + 0.5D);
 
                 if (g > 255)
                 {
@@ -591,7 +586,7 @@ public class GeometryRenderer implements IGeometryBuilder
                     g = 0;
                 }
 
-                int b = (int)((double)(data[var10][2] * 255.0F) + 0.5D);
+                int b = (int)((double)(data[i][2] * 255.0F) + 0.5D);
 
                 if (b > 255)
                 {
@@ -604,9 +599,9 @@ public class GeometryRenderer implements IGeometryBuilder
 
                 int a = 255;
 
-                if (data[var10].length > 3)
+                if (data[i].length > 3)
                 {
-                    a = (int)((double)(data[var10][3] * 255.0F) + 0.5D);
+                    a = (int)((double)(data[i][3] * 255.0F) + 0.5D);
 
                     if (a > 255)
                     {
@@ -627,14 +622,14 @@ public class GeometryRenderer implements IGeometryBuilder
                     this.vBuffer.putInt(r << 24 | g << 16 | b << 8 | a);
                 }
 
-                ++var10;
+                ++i;
             }
 
             if (this.texture >= 0)
             {
-                this.vBuffer.putFloat(data[var10][0]);
-                this.vBuffer.putFloat(data[var10][1]);
-                ++var10;
+                this.vBuffer.putFloat(data[i][0]);
+                this.vBuffer.putFloat(data[i][1]);
+                ++i;
             }
 
             return offset / vsize;

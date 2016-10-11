@@ -195,7 +195,7 @@ public class WorldConfig
             }
 
             (new ConfigParser(this)).parseFile(configFile);
-            ConfigOption var20;
+            ConfigOption option;
 
             Map<String,String> saveLevelOptions = new LinkedHashMap<String, String>();
             if (optionsFileList[1] != null) {
@@ -218,28 +218,28 @@ public class WorldConfig
             	}
             }
 
-            ConfigOption var21 = (ConfigOption)this.configOptions.get("deferredPopulationRange");
+            option = (ConfigOption)this.configOptions.get("deferredPopulationRange");
 
-            if (var21 != null && var21 instanceof NumericOption)
+            if (option != null && option instanceof NumericOption)
             {
-                Double var18 = (Double)var21.getValue();
+                Double var18 = (Double)option.getValue();
                 this.deferredPopulationRange = var18 != null && var18.doubleValue() > 0.0D ? (int)Math.ceil(var18.doubleValue()) : 0;
             }
             else
             {
-                CustomOreGenBase.log.warn("Numeric Option \'" + var21 + "\' not found in config file - defaulting to \'" + this.deferredPopulationRange + "\'.");
+                CustomOreGenBase.log.warn("Numeric Option \'" + option + "\' not found in config file - defaulting to \'" + this.deferredPopulationRange + "\'.");
             }
 
-            var20 = (ConfigOption)this.configOptions.get("debugMode");
+            option = (ConfigOption)this.configOptions.get("debugMode");
 
-            if (var20 != null && var20 instanceof ChoiceOption)
+            if (option != null && option instanceof ChoiceOption)
             {
-                String var22 = (String)var20.getValue();
-                this.debuggingMode = var22 == null ? false : var22.equalsIgnoreCase("on") || var22.equalsIgnoreCase("true");
+                String debugValue = (String)option.getValue();
+                this.debuggingMode = debugValue == null ? false : debugValue.equalsIgnoreCase("on") || debugValue.equalsIgnoreCase("true");
             }
             else
             {
-                CustomOreGenBase.log.warn("Choice Option \'" + var20 + "\' not found in config file - defaulting to \'" + this.debuggingMode + "\'.");
+                CustomOreGenBase.log.warn("Choice Option \'" + option + "\' not found in config file - defaulting to \'" + this.debuggingMode + "\'.");
             }
 
             vangen = (ConfigOption)this.configOptions.get("vanillaOreGen");

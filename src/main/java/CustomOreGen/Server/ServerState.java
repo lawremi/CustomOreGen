@@ -290,24 +290,24 @@ public class ServerState
 
         _server = server;
         CustomOreGenBase.log.debug("Server world changed to " + worldInfo.getWorldName());
-        File var8 = null;
-        ISaveFormat var9 = _server.getActiveAnvilConverter();
+        File f = null;
+        ISaveFormat format = _server.getActiveAnvilConverter();
 
-        if (var9 != null && var9 instanceof SaveFormatOld)
+        if (format != null && format instanceof SaveFormatOld)
         {
-            var8 = ((SaveFormatOld)var9).savesDirectory;
+            f = ((SaveFormatOld)format).savesDirectory;
         }
 
-        var8 = new File(var8, _server.getFolderName());
-        WorldConfig var10 = null;
+        f = new File(f, _server.getFolderName());
+        WorldConfig config = null;
 
-        while (var10 == null)
+        while (config == null)
         {
             try
             {
-                var10 = new WorldConfig(worldInfo, var8);
-                validateOptions(var10.getConfigOptions(), false);
-                validateDistributions(var10.getOreDistributions(), false);
+                config = new WorldConfig(worldInfo, f);
+                validateOptions(config.getConfigOptions(), false);
+                validateDistributions(config.getOreDistributions(), false);
             }
             catch (Exception var7)
             {
@@ -316,7 +316,7 @@ public class ServerState
                     break;
                 }
 
-                var10 = null;
+                config = null;
             }
         }
     }
