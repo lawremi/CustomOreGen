@@ -10,9 +10,9 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.common.BiomeDictionary;
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
+import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.BiomeDictionary;
 
 public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 {
@@ -104,26 +104,26 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
         return Collections.unmodifiableList(this._descriptors);
     }
 
-    protected void add(BiomeGenBase biome, float weight)
+    protected void add(Biome biome, float weight)
     {
         if (biome != null && weight != 0.0F)
         {
-            Float currentValue = (Float)this._matches.get(biome.biomeID);
+            Float currentValue = (Float)this._matches.get(Biome.getIdForBiome(biome));
 
             if (currentValue != null)
             {
                 weight += currentValue.floatValue();
             }
 
-            this._matches.put(biome.biomeID, Float.valueOf(weight));
+            this._matches.put(Biome.getIdForBiome(biome), Float.valueOf(weight));
         }
     }
 
-    protected float matchingWeight(BiomeGenBase biome)
+    protected float matchingWeight(Biome biome)
     {
         float totalWeight = 0.0F;
         
-        String name = biome.biomeName;
+        String name = biome.getBiomeName();
         
         for (Descriptor desc : this._descriptors) {
             Matcher matcher;
@@ -160,7 +160,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
             this._compiled = true;
             this._matches.clear();
             
-            for (BiomeGenBase biome : BiomeGenBase.getBiomeGenArray()) {
+            for (Biome biome : Biome.REGISTRY) {
                 if (biome != null)
                 {
                 	this.add(biome, this.matchingWeight(biome));
@@ -169,14 +169,14 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
         }
     }
     
-    public float getWeight(BiomeGenBase biome)
+    public float getWeight(Biome biome)
     {
         this.compileMatches();
-        Float value = (Float)this._matches.get(biome.biomeID);
+        Float value = (Float)this._matches.get(Biome.getIdForBiome(biome));
         return value == null ? 0.0F : value.floatValue();
     }
 
-    public boolean matchesBiome(BiomeGenBase biome, Random rand)
+    public boolean matchesBiome(Biome biome, Random rand)
     {
         float weight = this.getWeight(biome);
 
@@ -199,14 +199,14 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
         }
     }
 
-    public BiomeGenBase getMatchingBiome(Random rand)
+    public Biome getMatchingBiome(Random rand)
     {
         this.compileMatches();
         float value = -1.0F;
         
         for (Entry<Integer,Float> entry : this._matches.entrySet()) {
         	float weight = entry.getValue();
-            BiomeGenBase biome = BiomeGenBase.getBiome(entry.getKey());
+            Biome biome = Biome.getBiome(entry.getKey());
 
             if (weight > 0.0F)
             {
@@ -281,7 +281,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 
         for (Entry<Integer,Float> entry : this._matches.entrySet()) {
         	float weight = entry.getValue();
-            BiomeGenBase biome = BiomeGenBase.getBiome(entry.getKey());
+            Biome biome = Biome.getBiome(entry.getKey());
 
             if (biome == null)
             {
@@ -289,7 +289,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
             }
             else
             {
-                breakdown[i] = biome.biomeName;
+                breakdown[i] = biome.getBiomeName();
             }
 
             breakdown[i] = breakdown[i] + " - " + weight;
@@ -356,13 +356,13 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 			this.maxTreesPerChunk = Integer.MAX_VALUE;
         }
         
-        public boolean isCompatible(BiomeGenBase biome) {
-			return biome.temperature >= minTemperature && biome.temperature <= maxTemperature &&
-				   biome.rainfall >= minRainfall && biome.rainfall <= maxRainfall &&
+        public boolean isCompatible(Biome biome) {
+			return biome.getTemperature() >= minTemperature && biome.getTemperature() <= maxTemperature &&
+				   biome.getRainfall() >= minRainfall && biome.getRainfall() <= maxRainfall &&
 				   biome.theBiomeDecorator.treesPerChunk >= minTreesPerChunk &&
 				   biome.theBiomeDecorator.treesPerChunk <= maxTreesPerChunk &&
-				   biome.heightVariation >= minHeightVariation &&
-				   biome.heightVariation <= maxHeightVariation;
+				   biome.getHeightVariation() >= minHeightVariation &&
+				   biome.getHeightVariation() <= maxHeightVariation;
 		}
     }
 
