@@ -27,13 +27,13 @@ public class CustomPacketPayloadHandler {
     public void clientCustomPayload(ClientCustomPacketEvent event)
     {
     	Minecraft mc = Minecraft.getMinecraft();
-    	EntityClientPlayerMP player = mc.thePlayer;
+    	EntityPlayerSP player = mc.thePlayer;
         if (mc.theWorld != null && ClientState.hasWorldChanged(mc.theWorld))
         {
             ClientState.onWorldChanged(mc.theWorld);
         }
 
-        CustomPacketPayload payload = CustomPacketPayload.decodePacket(event.packet);
+        CustomPacketPayload payload = CustomPacketPayload.decodePacket(event.getPacket());
 
         if (payload != null)
         {
@@ -99,10 +99,10 @@ public class CustomPacketPayloadHandler {
 	@SubscribeEvent
     public void serverCustomPayload(ServerCustomPacketEvent event)
     {
-    	EntityPlayerMP player = ((NetHandlerPlayServer)event.handler).playerEntity;
+    	EntityPlayerMP player = ((NetHandlerPlayServer)event.getHandler()).playerEntity;
     	World handlerWorld = player == null ? null : player.worldObj;
-        ServerState.checkIfServerChanged(MinecraftServer.getServer(), handlerWorld == null ? null : handlerWorld.getWorldInfo());
-        CustomPacketPayload payload = CustomPacketPayload.decodePacket(event.packet);
+        ServerState.checkIfServerChanged(FMLServerHandler.instance().getServer(), handlerWorld == null ? null : handlerWorld.getWorldInfo());
+        CustomPacketPayload payload = CustomPacketPayload.decodePacket(event.getPacket());
 
         if (payload != null)
         {
@@ -111,7 +111,7 @@ public class CustomPacketPayloadHandler {
                 case DebuggingGeometryRequest:
                     GeometryData geometryData = null;
 
-                    if (player.mcServer.getConfigurationManager().func_152596_g(player.getGameProfile()));
+                    if (player.mcServer.getPlayerList().canSendCommands(player.getGameProfile()));
                     {
                         geometryData = ServerState.getDebuggingGeometryData((GeometryRequestData)payload.data);
                     }
