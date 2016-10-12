@@ -115,7 +115,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
     }
 
 	public BlockDescriptor set(Block block) {
-		return this.set(Block.blockRegistry.getNameForObject(block));
+		return this.set(Block.REGISTRY.getNameForObject(block).toString());
 	}
 	
     public BlockDescriptor set(String descriptor)
@@ -430,7 +430,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             int metaData = entry.getKey().getMetadata();
             Block block = entry.getKey().getBlock();
             
-            breakdown[i] = Block.blockRegistry.getNameForObject(block);
+            breakdown[i] = Block.REGISTRY.getNameForObject(block).toString();
             
             if (metaData != OreDictionary.WILDCARD_VALUE)
             {
