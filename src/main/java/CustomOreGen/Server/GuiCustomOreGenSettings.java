@@ -140,7 +140,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
         super.buttonList.add(this._resetButton);
     }
 
-    protected void actionPerformed(GuiButton button)
+    protected void actionPerformed(GuiButton button) throws IOException
     {
         super.actionPerformed(button);
 
@@ -158,7 +158,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
         }
     }
 
-    protected void mouseClicked(int mouseX, int mouseY, int buttonID)
+    protected void mouseClicked(int mouseX, int mouseY, int buttonID) throws IOException
     {
         super.mouseClicked(mouseX, mouseY, buttonID);
         this._groupPanel.mouseClicked(mouseX, mouseY, buttonID);
