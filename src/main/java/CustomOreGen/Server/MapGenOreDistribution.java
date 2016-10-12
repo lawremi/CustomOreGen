@@ -877,16 +877,14 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             }
         }
 
-        /* For constructing/populating an NBT tag representing this component */
-		@Override
-		protected void func_143012_a(NBTTagCompound nbttagcompound) {
+        @Override
+		protected void writeStructureToNBT(NBTTagCompound tagCompound) {
 			// TODO Auto-generated method stub
 			
 		}
 
-		/* For parsing an NBT tag representing this component */
 		@Override
-		protected void func_143011_b(NBTTagCompound nbttagcompound) {
+		protected void readStructureFromNBT(NBTTagCompound tagCompound) {
 			// TODO Auto-generated method stub
 			
 		}
