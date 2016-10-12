@@ -133,7 +133,7 @@ public class ServerState
     {
         SimpleProfiler.globalProfiler.startSection("Populate");
         BlockSand.fallInstantly = true;
-        world.scheduledUpdatesAreImmediate = true;
+        ReflectionHelper.setPrivateValue(World.class, world, true, "scheduledUpdatesAreImmediate","field_72999_e");
         
         for (IOreDistribution dist : distributions) {
         	dist.generate(world, chunkX, chunkZ);
