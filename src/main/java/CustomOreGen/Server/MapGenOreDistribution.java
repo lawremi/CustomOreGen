@@ -724,15 +724,14 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             }
         }
 
-        @SuppressWarnings("unchecked")
-		public void buildWireframes()
+        public void buildWireframes()
         {
             GeometryStream builder;
 
-            for (Component comp : (List<Component>)this.getComponents()) {
+            for (StructureComponent comp : this.getComponents()) {
             	StructureBoundingBox bb = comp.getBoundingBox();
-                int cX = bb.getCenterX() / 16;
-                int cZ = bb.getCenterZ() / 16;
+                int cX = bb.getCenter().getX() / 16;
+                int cZ = bb.getCenter().getZ() / 16;
                 long key = (long)cX << 32 | (long)cZ & 4294967295L;
                 builder = debuggingGeometryMap.get(key);
 
@@ -741,7 +740,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                     builder = new GeometryStream();
                     debuggingGeometryMap.put(key, builder);
                 }
-                comp.buildWireframe(builder);
+                ((Component)comp).buildWireframe(builder);
             }
         }
     }
