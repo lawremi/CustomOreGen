@@ -49,7 +49,7 @@ public class FMLInterface implements IWorldGenerator
         GameRegistry.registerWorldGenerator(this, Integer.MAX_VALUE);
         ForgeInterface.createAndRegister();
         CustomPacketPayload.registerChannels(new CustomPacketPayloadHandler());
-        FMLCommonHandler.instance().bus().register(this);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @EventHandler
