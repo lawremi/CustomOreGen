@@ -132,7 +132,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
         }
 
         this._groupPanel = new GuiGroupPanel(0, 20, super.width, 20, currentGroup, visibleGroups1);
-        this._optionPanel = new GuiOptionSlot(visibleGroups1.isEmpty() ? 16 : 40, super.height - 30, 25, visibleOptions1);
+        this._optionPanel = new GuiOptionSlot(Minecraft.getMinecraft(), visibleGroups1.isEmpty() ? 16 : 40, super.height - 30, 25, visibleOptions1);
         this._optionPanel.registerScrollButtons(1, 2);
         this._doneButton = new GuiButton(0, super.width / 2 - 155, super.height - 24, 150, 20, "Done");
         this._resetButton = new GuiButton(0, super.width / 2 + 5, super.height - 24, 150, 20, "Defaults");
@@ -497,7 +497,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
         protected final Vector<IOptionControl> _optionControls;
         protected IOptionControl _clickTarget;
 
-        public GuiOptionSlot(int top, int bottom, int slotHeight, Vector<ConfigOption> options)
+        public GuiOptionSlot(Minecraft mc, int top, int bottom, int slotHeight, Vector<ConfigOption> options)
         {
             super(mc, GuiCustomOreGenSettings.this.width, GuiCustomOreGenSettings.this.height, top, bottom, slotHeight);
             this._optionControls = new Vector<IOptionControl>();
