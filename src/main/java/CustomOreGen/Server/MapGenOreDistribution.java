@@ -189,7 +189,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
     public MapGenOreDistribution(DistributionSettingMap settingMap, int distributionID, boolean canGenerate)
     {
-        this.replaceableBlocks = new BlockDescriptor(Blocks.stone);
+        this.replaceableBlocks = new BlockDescriptor(Blocks.STONE);
         this.aboveBlocks = new BlockDescriptor();
         this.belowBlocks = new BlockDescriptor();
         this.besideBlocks = new BlockDescriptor();

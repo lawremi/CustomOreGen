@@ -127,7 +127,7 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
 
     public WorldGenSubstitution(int distributionID, boolean canGenerate)
     {
-        this.oreBlock = new BlockDescriptor(Blocks.stone);
+        this.oreBlock = new BlockDescriptor(Blocks.STONE);
         this.replaceableBlocks = new BlockDescriptor();
         this.aboveBlocks = new BlockDescriptor();
         this.belowBlocks = new BlockDescriptor();
@@ -335,20 +335,20 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
         }
     }
 
-    private boolean isSurfaceBlock(Block block) {
-    	Material material = block.getMaterial();
+    private boolean isSurfaceBlock(IBlockState state) {
+    	Material material = state.getMaterial();
     	return 
-    	  material == Material.clay || 
-		  material == Material.grass || 
-		  material == Material.ground || 
-		  material == Material.ice ||
-		  material == Material.rock ||
-		  material == Material.sand;
+    	  material == Material.CLAY || 
+		  material == Material.GRASS || 
+		  material == Material.GROUND || 
+		  material == Material.ICE ||
+		  material == Material.ROCK ||
+		  material == Material.SAND;
     }
     
     private int findSurfaceHeight(Chunk chunk, int x, int z) {
     	int surfh = chunk.getHeightValue(x, z);
-		while (surfh > 0 && !isSurfaceBlock(chunk.getBlock(x, surfh, z))) 
+		while (surfh > 0 && !isSurfaceBlock(chunk.getBlockState(x, surfh, z))) 
 		{
 			surfh--;
 		}
