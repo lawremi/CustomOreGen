@@ -15,16 +15,9 @@ import java.util.regex.Pattern;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.ChunkProviderEnd;
-import net.minecraft.world.gen.ChunkProviderFlat;
-import net.minecraft.world.gen.ChunkProviderGenerate;
-import net.minecraft.world.gen.ChunkProviderHell;
-import net.minecraft.world.storage.SaveHandler;
-import net.minecraft.world.storage.WorldInfo;
-
 import org.xml.sax.SAXException;
+
+import com.google.common.collect.Maps;
 
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.ForgeInterface;
@@ -34,8 +27,14 @@ import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.CIStringMap;
 import CustomOreGen.Util.MapCollection;
-
-import com.google.common.collect.Maps;
+import net.minecraft.world.World;
+import net.minecraft.world.chunk.IChunkGenerator;
+import net.minecraft.world.gen.ChunkProviderEnd;
+import net.minecraft.world.gen.ChunkProviderFlat;
+import net.minecraft.world.gen.ChunkProviderHell;
+import net.minecraft.world.gen.ChunkProviderOverworld;
+import net.minecraft.world.storage.SaveHandler;
+import net.minecraft.world.storage.WorldInfo;
 
 public class WorldConfig
 {
@@ -337,23 +336,23 @@ public class WorldConfig
 
         if (world != null)
         {
-            IChunkProvider chunkProvider = world.provider.createChunkGenerator();
-            genName = chunkProvider.makeString();
-            genClass = chunkProvider.getClass().getSimpleName();
+            IChunkGenerator chunkGenerator = world.provider.createChunkGenerator();
+            genName = chunkGenerator.toString();
+            genClass = chunkGenerator.getClass().getSimpleName();
 
-            if (chunkProvider instanceof ChunkProviderGenerate)
+            if (chunkGenerator instanceof ChunkProviderOverworld)
             {
-                genClass = "ChunkProviderGenerate";
+                genClass = "ChunkProviderOverworld";
             }
-            else if (chunkProvider instanceof ChunkProviderFlat)
+            else if (chunkGenerator instanceof ChunkProviderFlat)
             {
                 genClass = "ChunkProviderFlat";
             }
-            else if (chunkProvider instanceof ChunkProviderHell)
+            else if (chunkGenerator instanceof ChunkProviderHell)
             {
                 genClass = "ChunkProviderHell";
             }
-            else if (chunkProvider instanceof ChunkProviderEnd)
+            else if (chunkGenerator instanceof ChunkProviderEnd)
             {
                 genName = "EndRandomLevelSource";
                 genClass = "ChunkProviderEnd";
