@@ -4,10 +4,12 @@ import java.util.Iterator;
 import java.util.Set;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 @SuppressWarnings("unchecked")
@@ -22,15 +24,18 @@ public class TileEntityHelper {
 	
 	public static void readFromPartialNBT(World world, int x, int y, int z, NBTTagCompound source) {
 		if (source != null) {
-			TileEntity te = world.getTileEntity(x, y, z);
+			BlockPos pos = new BlockPos(x, y, z);
+			TileEntity te = world.getTileEntity(pos);
 			if (te == null) {
-				te = tryToCreateGTPrefixBlockTileEntity(world.getBlock(x, y, z));
+				te = tryToCreateGTPrefixBlockTileEntity(world.getBlockState(pos).getBlock());
 				if (te != null) {
-					world.setTileEntity(x, y, z, te);
+					world.setTileEntity(pos, te);
 				}
 			}
 			if (te != null) {
 				TileEntityHelper.readFromPartialNBT(te, source);
+				IBlockState state = world.getBlockState(pos);
+				world.notifyBlockUpdate(pos, state, state, 2);
 			}
 		}
 	}

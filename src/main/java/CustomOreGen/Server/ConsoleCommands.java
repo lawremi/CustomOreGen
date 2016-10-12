@@ -233,9 +233,9 @@ public class ConsoleCommands
     {
         WorldConfig cfg = ServerState.getWorldConfig(world);
         Collection<IOreDistribution> list = cfg.getOreDistributions(distribution);
-        ChunkCoordinates senderPos = sender.getPlayerCoordinates();
-        int cX = centerX == null ? senderPos.posX : centerX.intValue();
-        int cZ = centerZ == null ? senderPos.posZ : centerZ.intValue();
+        BlockPos senderPos = sender.getPosition();
+        int cX = centerX == null ? senderPos.getX() : centerX.intValue();
+        int cZ = centerZ == null ? senderPos.getZ() : centerZ.intValue();
 
         for (int chunkX = (cX >> 4) - chunkRange; chunkX <= (cX >> 4) + chunkRange; ++chunkX)
         {

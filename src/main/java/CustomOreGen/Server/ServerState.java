@@ -199,7 +199,7 @@ public class ServerState
             	if (allNeighborsPopulated(world, iX, iZ, range)) {
             		//CustomOreGenBase.log.info("[" + iX + "," + iZ + "]: POPULATING");
             		populateDistributions(cfg.getOreDistributions(), world, iX, iZ);
-            		MinecraftForge.ORE_GEN_BUS.post(new CogOreGenEvent(world, rand, iX*16, iZ*16));
+            		MinecraftForge.ORE_GEN_BUS.post(new CogOreGenEvent(world, rand, new BlockPos(iX*16, 0, iZ*16)));
             	}
             }
         }
@@ -353,7 +353,7 @@ public class ServerState
         }
     }
     
-	public static void chunkForced(World world, ChunkCoordIntPair location) {
+	public static void chunkForced(World world, ChunkPos location) {
 		if (forcingChunk) { // prevent infinite recursion when there are multiple chunk loaders
 			return;
 		}
