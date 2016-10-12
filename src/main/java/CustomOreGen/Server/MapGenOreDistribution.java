@@ -453,13 +453,12 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                 long l1 = (long)j1 * l;
                 long i2 = (long)k1 * i1;
                 this.rand.setSeed(l1 ^ i2 ^ par2World.getSeed());
-                this.recursiveGenerate2(par2World, j1, k1, par3, par4, chunkBlocks);
+                this.recursiveGenerate2(par2World, j1, k1, par3, par4, primer);
             }
         }
     }
     
-    @SuppressWarnings("unchecked")
-	protected void recursiveGenerate2(World world, int chunkX, int chunkZ, int rootX, int rootZ, Block[] chunkBlocks)
+    protected void recursiveGenerate2(World world, int chunkX, int chunkZ, int rootX, int rootZ, ChunkPrimer primer)
     {
         if (this.parent != null)
         {
@@ -644,8 +643,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             return true;
         }
 
-        @SuppressWarnings("unchecked")
-		public void addComponent(Component component, Component parent)
+        public void addComponent(Component component, Component parent)
         {
             super.components.add(component);
             component.setParent(parent);
