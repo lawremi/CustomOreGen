@@ -324,22 +324,22 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 texSize.getControl().drawButton(mc, mouseX, mouseY);
             }
 
-            Tessellator tess1 = Tessellator.instance;
-            GL11.glDisable(2929);
-            mc.getTextureManager().bindTexture(Gui.optionsBackground);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             double texSize1 = 32.0D;
-            tess1.startDrawingQuads();
-            tess1.setColorRGBA_I(4473924, 255);
-            tess1.addVertexWithUV((double)this.posX, (double)(this.posY + this.height), 0.0D, 0.0D, (double)this.height / texSize1);
-            tess1.addVertexWithUV((double)(this.posX + this._scrollHInset), (double)(this.posY + this.height), 0.0D, (double)this._scrollHInset / texSize1, (double)this.height / texSize1);
-            tess1.addVertexWithUV((double)(this.posX + this._scrollHInset), (double)this.posY, 0.0D, (double)this._scrollHInset / texSize1, 0.0D);
-            tess1.addVertexWithUV((double)this.posX, (double)this.posY, 0.0D, 0.0D, 0.0D);
-            tess1.addVertexWithUV((double)(this.posX + this.width - this._scrollHInset), (double)(this.posY + this.height), 0.0D, 0.0D, (double)this.height / texSize1);
-            tess1.addVertexWithUV((double)(this.posX + this.width), (double)(this.posY + this.height), 0.0D, (double)this._scrollHInset / texSize1, (double)this.height / texSize1);
-            tess1.addVertexWithUV((double)(this.posX + this.width), (double)this.posY, 0.0D, (double)this._scrollHInset / texSize1, 0.0D);
-            tess1.addVertexWithUV((double)(this.posX + this.width - this._scrollHInset), (double)this.posY, 0.0D, 0.0D, 0.0D);
-            tess1.draw();
+            GlStateManager.disableDepth();
+            Tessellator tessellator = Tessellator.getInstance();
+            VertexBuffer vertexbuffer = tessellator.getBuffer();
+            mc.getTextureManager().bindTexture(OPTIONS_BACKGROUND);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+            vertexbuffer.pos((double)this.posX, (double)(this.posY + this.height), 0.0D).tex(0.0D, (double)this.height / texSize1);
+            vertexbuffer.pos((double)(this.posX + this._scrollHInset), (double)(this.posY + this.height), 0.0D).tex((double)this._scrollHInset / texSize1, (double)this.height / texSize1);
+            vertexbuffer.pos((double)(this.posX + this._scrollHInset), (double)this.posY, 0.0D).tex((double)this._scrollHInset / texSize1, 0.0D);
+            vertexbuffer.pos((double)this.posX, (double)this.posY, 0.0D).tex(0.0D, 0.0D);
+            vertexbuffer.pos((double)(this.posX + this.width - this._scrollHInset), (double)(this.posY + this.height), 0.0D).tex(0.0D, (double)this.height / texSize1);
+            vertexbuffer.pos((double)(this.posX + this.width), (double)(this.posY + this.height), 0.0D).tex((double)this._scrollHInset / texSize1, (double)this.height / texSize1);
+            vertexbuffer.pos((double)(this.posX + this.width), (double)this.posY, 0.0D).tex((double)this._scrollHInset / texSize1, 0.0D);
+            vertexbuffer.pos((double)(this.posX + this.width - this._scrollHInset), (double)this.posY, 0.0D).tex(0.0D, 0.0D);
+            tessellator.draw();
 
             if (this._groupScrollLButton != null)
             {
@@ -556,9 +556,9 @@ public class GuiCustomOreGenSettings extends GuiScreen
         }
 
         protected void drawBackground() {}
-
-		@Override
-        protected void drawSlot(int index, int slotX, int slotY, int slotH, Tessellator tess, int mouseX, int mouseY)
+        
+        @Override
+        protected void drawSlot(int index, int slotX, int slotY, int slotH, int mouseX, int mouseY)
         {
             IOptionControl optCtrl = (IOptionControl)this._optionControls.get(index);
             ConfigOption option = optCtrl.getOption();
