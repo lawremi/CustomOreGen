@@ -11,6 +11,10 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
+import CustomOreGen.CustomPacketPayload;
+import CustomOreGen.CustomPacketPayload.PayloadType;
+import CustomOreGen.Config.ConfigParser;
+import CustomOreGen.Server.ServerState;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -19,13 +23,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import CustomOreGen.CustomPacketPayload;
-import CustomOreGen.CustomPacketPayload.PayloadType;
-import CustomOreGen.Config.ConfigParser;
-import CustomOreGen.Server.ServerState;
 
 public class ConsoleCommand extends CommandBase
 {
@@ -70,13 +70,13 @@ public class ConsoleCommand extends CommandBase
         		}
 	            else
 	            {
-	            	recipient.addChatMessage(new ChatComponentText(line));
+	            	recipient.addChatMessage(new TextComponentString(line));
 	            }
         	}
         }
     }
 
-    public static WorldServer getSenderWorld(ICommandSender sender)
+    public static WorldServer getSenderWorldServer(ICommandSender sender)
     {
         World entityWorld = null;
 
@@ -171,7 +171,7 @@ public class ConsoleCommand extends CommandBase
             {
                 if (clazz.isAssignableFrom(WorldServer.class))
                 {
-                    if (getSenderWorld(sender) != null)
+                    if (getSenderWorldServer(sender) != null)
                     	continue;
                     
                     clazz = Integer.class;
@@ -261,12 +261,12 @@ public class ConsoleCommand extends CommandBase
                 }
                 else if (clazz.isAssignableFrom(WorldServer.class))
                 {
-                    pvalues[pidx] = getSenderWorld(sender);
+                    pvalues[pidx] = getSenderWorldServer(sender);
 
                     if (pvalues[pidx] == null)
                     {
-                        Integer dimId = ConfigParser.parseString(Integer.class, ex < args.length ? args[ex++] : defValue);
-                        pvalues[pidx] = dimId == null ? null : MinecraftServer.getServer().worldServerForDimension(dimId.intValue());
+                    	Integer dimId = ConfigParser.parseString(Integer.class, ex < args.length ? args[ex++] : defValue);
+                        pvalues[pidx] = dimId == null ? null : sender.getServer().worldServerForDimension(dimId.intValue());
 
                         if (pvalues[pidx] == null && required)
                         {
