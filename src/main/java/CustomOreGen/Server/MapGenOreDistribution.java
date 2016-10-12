@@ -254,7 +254,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                 this.clear();
             }
 
-            this.func_151539_a(world.getChunkProvider(), world, chunkX, chunkZ, (Block[])null);
+            this.generate(world, chunkX, chunkZ, new ChunkPrimer());
         }
     }
 
@@ -438,7 +438,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
     // FIXME: copy-and-pasted this from MapGenBase, because MapGenStructure now declares recursiveGenerate as 'final'. 
     // We worked around this by renaming to recursiveGenerate2, which is called by this method. 
     @Override
-    public void func_151539_a(IChunkProvider par1IChunkProvider, World par2World, int par3, int par4, Block[] chunkBlocks)
+    public void generate(World par2World, int par3, int par4, ChunkPrimer primer)
     {
         int k = this.range;
         this.worldObj = par2World;
