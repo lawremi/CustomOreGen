@@ -10,34 +10,42 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.regex.Pattern;
 
+import CustomOreGen.Server.DistributionSettingMap.Copyable;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
-import CustomOreGen.Server.DistributionSettingMap.Copyable;
-import cpw.mods.fml.common.registry.GameData;
 
 public class BlockDescriptor implements Copyable<BlockDescriptor>
 {
 	public static class BlockInfo
     {
-        private Block block;
-        private int metadata;
+        private IBlockState blockState;
+        private boolean wildcard;
         private NBTTagCompound nbt;
         
-        public BlockInfo(Block block, int metadata, NBTTagCompound nbt) {
+        public BlockInfo(IBlockState blockState, NBTTagCompound nbt) {
 			super();
-			this.block = block;
-			this.metadata = metadata;
+			this.blockState = blockState;
 			this.nbt = nbt;
 		}
+        
+        public BlockInfo(Block block, int metadata, NBTTagCompound nbt) {
+        	this(block.getStateFromMeta(metadata), nbt);
+        }
+        
+        public BlockInfo(Block block, NBTTagCompound nbt) {
+        	this(block.getDefaultState(), nbt);
+        	this.wildcard = true;
+        }
         
 		@Override
         public int hashCode()
         {
-            int code = Block.getIdFromBlock(this.block) << Short.SIZE | this.metadata & Short.MAX_VALUE;
+			int code = this.wildcard ? Block.getIdFromBlock(this.blockState.getBlock()) : this.blockState.hashCode();
             if (this.nbt != null)
             	code ^= nbt.hashCode();
             return code;
