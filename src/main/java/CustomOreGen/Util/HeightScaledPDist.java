@@ -2,10 +2,10 @@ package CustomOreGen.Util;
 
 import java.util.Random;
 
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
 import CustomOreGen.Util.PDist.Type;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 
 /* Conceptually, HeightScaledPDist could be an extension of PDist, or a decorator. 
  * It requires the world location to calculate some version of the height, or
