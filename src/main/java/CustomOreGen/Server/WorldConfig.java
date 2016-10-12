@@ -108,9 +108,9 @@ public class WorldConfig
                 worldBaseDir = null;
             }
 
-            dimensionBasename = "DIM" + world.provider.dimensionId;
+            dimensionBasename = "DIM" + world.provider.getDimension();
 
-            if (world.provider.dimensionId != 0)
+            if (world.provider.getDimension() != 0)
             {
             	dimensionBasename = ForgeInterface.getWorldDimensionFolder(world);
             }
@@ -362,10 +362,10 @@ public class WorldConfig
 
         properties.put("dimension.generator", genName);
         properties.put("dimension.generator.class", genClass);
-        properties.put("dimension", world == null ? "" : world.provider.getDimensionName());
-        properties.put("dimension.id", world == null ? 0 : world.provider.dimensionId);
+        properties.put("dimension", world == null ? "" : world.provider.getDimensionType().getName());
+        properties.put("dimension.id", world == null ? 0 : world.provider.getDimension());
         properties.put("dimension.isSurface", world == null ? false : world.provider.isSurfaceWorld());
-        properties.put("dimension.hasNoSky", world == null ? false : world.provider.hasNoSky);
+        properties.put("dimension.hasNoSky", world == null ? false : world.provider.getHasNoSky());
         properties.put("dimension.groundLevel", world == null ? 0 : world.provider.getAverageGroundLevel());
         properties.put("dimension.actualHeight", world == null ? 0 : world.getActualHeight());
         properties.put("dimension.height", world == null ? 0 : world.getHeight());

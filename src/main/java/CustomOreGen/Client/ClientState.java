@@ -171,7 +171,7 @@ public class ClientState
         {
             if (geometryData.batchID == _dgBatchID)
             {
-                if (geometryData.dimensionID == _world.provider.dimensionId)
+                if (geometryData.dimensionID == _world.provider.getDimension())
                 {
                     GeometryRenderer renderer = new GeometryRenderer();
 

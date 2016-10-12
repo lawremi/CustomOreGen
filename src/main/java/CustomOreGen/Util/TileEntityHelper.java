@@ -47,7 +47,7 @@ public class TileEntityHelper {
 	}
 	
 	public static NBTTagCompound tryToCreateGTPrefixBlockNBT(ItemStack ore) {
-		Block block = ((ItemBlock)ore.getItem()).field_150939_a;
+		Block block = ((ItemBlock)ore.getItem()).block;
 		NBTTagCompound nbt = null;
 		if (isGTPrefixBlock(block)) {
 			nbt = new NBTTagCompound();
@@ -73,7 +73,7 @@ public class TileEntityHelper {
 	}
 
 	private static void mergeNbt(NBTTagCompound source, NBTTagCompound dest) {
-		Iterator<String> keys = ((Set<String>)source.func_150296_c()).iterator(); 
+		Iterator<String> keys = ((Set<String>)source.getKeySet()).iterator(); 
 		while(keys.hasNext()) {
 			String key = keys.next();
 			dest.setTag(key, source.getTag(key));

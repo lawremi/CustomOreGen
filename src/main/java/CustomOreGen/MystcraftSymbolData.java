@@ -25,7 +25,7 @@ public class MystcraftSymbolData implements Serializable
 
         if (world != null)
         {
-            this.dimensionID = world.provider.dimensionId;
+            this.dimensionID = world.provider.getDimension();
         }
 
         this.symbolName = this.displayName = symbolName;

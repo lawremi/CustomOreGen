@@ -20,7 +20,7 @@ public class GeometryRequestData implements Serializable
     public GeometryRequestData(World world, int chunkX, int chunkZ, int batchID)
     {
         this.world = world;
-        this.dimensionID = world == null ? 0 : world.provider.dimensionId;
+        this.dimensionID = world == null ? 0 : world.provider.getDimension();
         this.chunkX = chunkX;
         this.chunkZ = chunkZ;
         this.batchID = batchID;
