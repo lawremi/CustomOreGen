@@ -44,7 +44,6 @@ public class GuiCustomOreGenSettings extends GuiScreen
         this._parentGui = parentGui;
     }
 
-    @SuppressWarnings("unchecked")
 	public void initGui()
     {
         super.initGui();
@@ -174,7 +173,6 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
         if (this._toolTip != null)
         {
-            @SuppressWarnings("unchecked")
 			List<String> lines = super.fontRendererObj.listFormattedStringToWidth(this._toolTip, 2 * super.width / 5 - 8);
             int[] lineWidths = new int[lines.size()];
             int tipW = 0;
