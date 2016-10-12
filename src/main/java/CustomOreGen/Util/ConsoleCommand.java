@@ -324,17 +324,24 @@ public class ConsoleCommand extends CommandBase
         }
     }
 
-    public boolean canCommandSenderUseCommand(ICommandSender sender)
-    {
-        CommandDelegate cmdDef = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
+    
+    @Override
+	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
+		CommandDelegate cmdDef = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
 
         if (cmdDef == null || cmdDef.isDebugging())
         {
-            WorldServer senderWorld = getSenderWorld(sender);
+            WorldServer senderWorld = getSenderWorldServer(sender);
 
             if (senderWorld != null)
             {
-                ServerState.checkIfServerChanged(MinecraftServer.getServer(), senderWorld.getWorldInfo());
+                ServerState.checkIfServerChanged(server, senderWorld.getWorldInfo());
 
                 if (!ServerState.getWorldConfig(senderWorld).debuggingMode)
                 {
@@ -343,7 +350,7 @@ public class ConsoleCommand extends CommandBase
             }
         }
 
-        return super.canCommandSenderUseCommand(sender);
+        return super.checkPermission(server, sender);
     }
 
     public int getRequiredPermissionLevel()
