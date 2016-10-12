@@ -217,7 +217,7 @@ public class ConsoleCommand extends CommandBase
         return out.toString();
     }
 
-    public void processCommand(ICommandSender sender, String[] args)
+    public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
         Class<?>[] ptypes = this._method.getParameterTypes();
         Annotation[][] pantns = this._method.getParameterAnnotations();
