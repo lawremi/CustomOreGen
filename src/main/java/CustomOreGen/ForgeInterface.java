@@ -34,20 +34,21 @@ public class ForgeInterface
     @SideOnly(Side.CLIENT)
     public void onRenderWorldLast(RenderWorldLastEvent event)
     {
-        ClientState.onRenderWorld(Minecraft.getMinecraft().renderViewEntity, (double)event.partialTicks);
+        ClientState.onRenderWorld(Minecraft.getMinecraft().getRenderViewEntity(), (double)event.getPartialTicks());
     }
 
     @SubscribeEvent
     public void onLoadWorld(WorldEvent.Load event)
     {
-        if (event.world instanceof WorldServer)
+    	World world = event.getWorld();
+        if (world instanceof WorldServer)
         {
-            ServerState.checkIfServerChanged(MinecraftServer.getServer(), event.world.getWorldInfo());
-            ServerState.getWorldConfig(event.world);
+            ServerState.checkIfServerChanged(world.getMinecraftServer(), world.getWorldInfo());
+            ServerState.getWorldConfig(world);
         }
-        else if (event.world instanceof WorldClient && ClientState.hasWorldChanged(event.world))
+        else if (event.getWorld() instanceof WorldClient && ClientState.hasWorldChanged(world))
         {
-            ClientState.onWorldChanged(event.world);
+            ClientState.onWorldChanged(world);
         }
     }
 
@@ -60,17 +61,18 @@ public class ForgeInterface
     @SubscribeEvent
     public void onGenerateMinable(OreGenEvent.GenerateMinable event)
     {
-    	ServerState.checkIfServerChanged(MinecraftServer.getServer(), event.world.getWorldInfo());
-        boolean vanillaOreGen = ServerState.getWorldConfig(event.world).vanillaOreGen;
-        boolean isCustom = event.type == OreGenEvent.GenerateMinable.EventType.CUSTOM;
-        boolean isOre = event.type != OreGenEvent.GenerateMinable.EventType.GRAVEL && 
-        		        event.type != OreGenEvent.GenerateMinable.EventType.DIRT; 
+    	World world = event.getWorld();
+    	ServerState.checkIfServerChanged(world.getMinecraftServer(), world.getWorldInfo());
+        boolean vanillaOreGen = ServerState.getWorldConfig(world).vanillaOreGen;
+        boolean isCustom = event.getType() == OreGenEvent.GenerateMinable.EventType.CUSTOM;
+        boolean isOre = event.getType() != OreGenEvent.GenerateMinable.EventType.GRAVEL && 
+        		        event.getType() != OreGenEvent.GenerateMinable.EventType.DIRT; 
         event.setResult((vanillaOreGen || isCustom || !isOre) ? Result.ALLOW : Result.DENY);
     }
     
     @SubscribeEvent
     public void onForceChunk(ForceChunkEvent event) {
-    	ServerState.chunkForced(event.ticket.world, event.location);
+    	ServerState.chunkForced(event.getTicket().world, event.getLocation());
     }
     
     public static String getWorldDimensionFolder(World world)
