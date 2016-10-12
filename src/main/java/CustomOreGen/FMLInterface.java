@@ -113,7 +113,7 @@ public class FMLInterface implements IWorldGenerator
 
                 ServerState.onWorldCreationMenuTick((GuiCreateWorld)mc.currentScreen);
             }
-            else if (this._worldCreationGui != null && (mc.currentScreen instanceof GuiSelectWorld || mc.currentScreen instanceof GuiMainMenu))
+            else if (this._worldCreationGui != null && (mc.currentScreen instanceof GuiWorldSelection || mc.currentScreen instanceof GuiMainMenu))
             {
                 this._worldCreationGui = null;
                 ServerState.onWorldCreationMenuTick((GuiCreateWorld)null);
