@@ -100,8 +100,8 @@ public class ConsoleCommand extends CommandBase
         }
         else
         {
-            int dim = entityWorld.provider.dimensionId;
-            return MinecraftServer.getServer().worldServerForDimension(dim);
+        	int dim = entityWorld.provider.getDimension();
+            return sender.getServer().worldServerForDimension(dim);
         }
     }
 

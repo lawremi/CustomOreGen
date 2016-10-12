@@ -61,7 +61,7 @@ public class FMLInterface implements IWorldGenerator
     @EventHandler
     public void onServerStarting(FMLServerStartingEvent event)
     {
-        ServerState.checkIfServerChanged(MinecraftServer.getServer(), (WorldInfo)null);    
+        ServerState.checkIfServerChanged(event.getServer(), (WorldInfo)null);    
         registerCommands(event);
     }
 
@@ -77,17 +77,19 @@ public class FMLInterface implements IWorldGenerator
         }
 	}
 
-	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
+
+	@Override
+	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
-        ServerState.checkIfServerChanged(MinecraftServer.getServer(), world.getWorldInfo());
+        ServerState.checkIfServerChanged(world.getMinecraftServer(), world.getWorldInfo());
         ServerState.onPopulateChunk(world, chunkX, chunkZ, random);
     }
-    
+
     @SubscribeEvent
     public void onServerTick(ServerTickEvent event)
     {
     	if (event.phase == TickEvent.Phase.END) {
-    		ServerState.checkIfServerChanged(MinecraftServer.getServer(), (WorldInfo)null);
+    		ServerState.checkIfServerChanged(FMLServerHandler.instance().getServer(), (WorldInfo)null);
     	}
     }
 
@@ -140,7 +142,8 @@ public class FMLInterface implements IWorldGenerator
     public void onClientLogin(PlayerLoggedInEvent event)
     {
         World handlerWorld = event.player == null ? null : event.player.worldObj;
-        ServerState.checkIfServerChanged(MinecraftServer.getServer(), handlerWorld == null ? null : handlerWorld.getWorldInfo());
+        ServerState.checkIfServerChanged(FMLServerHandler.instance().getServer(), 
+        		handlerWorld == null ? null : handlerWorld.getWorldInfo());
     }
 
 	private static ModContainer getModContainer() {

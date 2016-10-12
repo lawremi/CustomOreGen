@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.server.FMLServerHandler;
 
 public class MystcraftSymbolData implements Serializable
 {
@@ -34,7 +35,7 @@ public class MystcraftSymbolData implements Serializable
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
     {
         in.defaultReadObject();
-        MinecraftServer ms = MinecraftServer.getServer();
+        MinecraftServer ms = FMLServerHandler.instance().getServer();
 
         if (ms != null && ms.isServerRunning())
         {
