@@ -91,7 +91,7 @@ public class ConsoleCommand extends CommandBase
                 return null;
             }
 
-            entityWorld = ((TileEntity)sender).getWorldObj();
+            entityWorld = ((TileEntity)sender).getWorld();
         }
 
         if (entityWorld == null)

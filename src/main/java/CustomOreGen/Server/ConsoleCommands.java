@@ -114,7 +114,7 @@ public class ConsoleCommands
 
         if (config.world != null)
         {
-            msg.append("Dim " + config.world.provider.dimensionId + ", ");
+            msg.append("Dim " + config.world.provider.getDimension() + ", ");
         }
 
         if (dists != null)
@@ -372,7 +372,7 @@ public class ConsoleCommands
                         desc.clear();
                     }
 
-                    NBTBase nbtBase = JsonToNBT.func_150315_a(nbt);
+                    NBTBase nbtBase = JsonToNBT.getTagFromJson(nbt);
                     if (!(nbtBase instanceof NBTTagCompound)) {
                     	throw new IllegalArgumentException("NBT is not a compound tag");
                     }
@@ -688,7 +688,7 @@ public class ConsoleCommands
 
         if (config.world != null)
         {
-            msg.append("Dim " + config.world.provider.dimensionId + ", ");
+            msg.append("Dim " + config.world.provider.getDimension() + ", ");
         }
 
         if (options != null)

@@ -26,7 +26,7 @@ public class ValidatorBlockDescriptor extends ValidatorNode
         String nbtJson = this.validateNamedAttribute(String.class, "NBT", null, true);
         if (nbtJson != null) {
         	try {
-        		NBTBase base = JsonToNBT.func_150315_a(nbtJson);
+        		NBTBase base = JsonToNBT.getTagFromJson(nbtJson);
         		if (base instanceof NBTTagCompound) {
         			this.nbt = (NBTTagCompound)base;
         		} else {

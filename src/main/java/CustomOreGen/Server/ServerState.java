@@ -226,17 +226,17 @@ public class ServerState
 		// NOTE: We assume the chunk has been populated if it is only on disk, 
 		//       because if we load it to check, it will be populated automatically.
 		return chunkIsLoaded(world, chunkX, chunkZ) ? 
-				world.getChunkFromChunkCoords(chunkX, chunkZ).isTerrainPopulated : 
+				world.getChunkFromChunkCoords(chunkX, chunkZ).isTerrainPopulated() : 
 					chunkIsSaved(world, chunkX, chunkZ);
 	}
 
 	private static boolean chunkIsLoaded(World world, int chunkX, int chunkZ) {
-		return world.getChunkProvider().chunkExists(chunkX, chunkZ);
+		return world.getChunkProvider().getLoadedChunk(chunkX, chunkZ) != null;
 	}
 	
 	private static boolean chunkIsSaved(World world, int chunkX, int chunkZ) {
 		if (world.getChunkProvider() instanceof ChunkProviderServer) {
-			IChunkLoader loader = ((ChunkProviderServer)world.getChunkProvider()).currentChunkLoader;
+			IChunkLoader loader = ((ChunkProviderServer)world.getChunkProvider()).chunkLoader;
 			if (loader instanceof AnvilChunkLoader) {
 				//if (((AnvilChunkLoader) loader).chunkExists(world, chunkX, chunkZ))
 				//	CustomOreGenBase.log.info("[" + chunkX + "," + chunkZ + "]: saved on disk");
