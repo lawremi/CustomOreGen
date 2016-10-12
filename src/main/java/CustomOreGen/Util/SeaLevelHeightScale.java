@@ -6,10 +6,7 @@ public class SeaLevelHeightScale implements HeightScale {
 
 	@Override
 	public int getHeight(World world, int x, int z) {
-		int seaLevel = world.provider.getAverageGroundLevel();
-		if (world.provider.isHellWorld)
-			seaLevel /= 2;
-		return seaLevel;
+		return world.getSeaLevel();
 	}
 
 	@Override
