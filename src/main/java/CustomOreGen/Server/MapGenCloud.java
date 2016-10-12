@@ -317,7 +317,7 @@ public class MapGenCloud extends MapGenOreDistribution
     }
 
 	@Override
-	public String func_143025_a() {
+	public String getStructureName() {
 		return "COG:Cloud";
 	}
 
