@@ -141,10 +141,11 @@ public class ServerState
             dist.cull();
         }
         
-        world.scheduledUpdatesAreImmediate = false;
+        ReflectionHelper.setPrivateValue(World.class, world, false, "scheduledUpdatesAreImmediate","field_72999_e");
         BlockSand.fallInstantly = false;
         if (Loader.isModLoaded("UndergroundBiomes")) {
-        	UBAPIHook.ubAPIHook.ubOreTexturizer.redoOres(chunkX*16, chunkZ*16, world);
+        	// FIXME: API not yet available for 1.8.x
+        	// UBAPIHook.ubAPIHook.ubOreTexturizer.redoOres(chunkX*16, chunkZ*16, world);
         }
         SimpleProfiler.globalProfiler.endSection();
     }
