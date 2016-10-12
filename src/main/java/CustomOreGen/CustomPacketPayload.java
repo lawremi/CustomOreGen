@@ -85,7 +85,7 @@ public class CustomPacketPayload
 
         if (!compressed)
         {
-            return new FMLProxyPacket[] {new FMLProxyPacket(wrappedBuffer(bytes), CHANNEL_NAME)};
+            return new FMLProxyPacket[] {new FMLProxyPacket(new PacketBuffer(wrappedBuffer(bytes)), CHANNEL_NAME)};
         }
         else
         {
@@ -108,7 +108,7 @@ public class CustomPacketPayload
                 piece[7] = (byte)(i >> 8);
                 System.arraycopy(bytes, offset, piece, 8, dataLen);
                 offset += dataLen;
-                packets[i - 1] = new FMLProxyPacket(wrappedBuffer(piece), XCHANNEL_NAME);
+                packets[i - 1] = new FMLProxyPacket(new PacketBuffer(wrappedBuffer(piece)), XCHANNEL_NAME);
             }
 
             return packets;
