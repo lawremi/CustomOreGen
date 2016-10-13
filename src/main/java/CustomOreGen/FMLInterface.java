@@ -9,9 +9,6 @@ import CustomOreGen.Server.ServerState;
 import CustomOreGen.Util.ConsoleCommand;
 import CustomOreGen.Util.ConsoleCommand.CommandDelegate;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiCreateWorld;
-import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.client.gui.GuiWorldSelection;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -99,36 +96,6 @@ public class FMLInterface implements IWorldGenerator
     		return;
     	}
         Minecraft mc = Minecraft.getMinecraft();
-
-        if (mc.theWorld == null && mc.currentScreen != null)
-        {
-            if (mc.currentScreen instanceof GuiCreateWorld)
-            {
-                if (this._worldCreationGui == null)
-                {
-                    this._worldCreationGui = mc.currentScreen;
-                }
-
-                ServerState.onWorldCreationMenuTick((GuiCreateWorld)mc.currentScreen);
-            }
-            else if (this._worldCreationGui != null && (mc.currentScreen instanceof GuiWorldSelection || mc.currentScreen instanceof GuiMainMenu))
-            {
-                this._worldCreationGui = null;
-                ServerState.onWorldCreationMenuTick((GuiCreateWorld)null);
-            }
-        }
-        else if (this._worldCreationGui != null)
-        {
-            this._worldCreationGui = null;
-            ServerState.onWorldCreationMenuTick((GuiCreateWorld)null);
-        }
-
-        /* Still needed?
-        if (mc.isSingleplayer())
-        {
-            this.onServerTick();
-        }
-        */
 
         if (mc.theWorld != null && ClientState.hasWorldChanged(mc.theWorld))
         {

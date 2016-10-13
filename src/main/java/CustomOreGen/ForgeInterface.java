@@ -3,9 +3,11 @@ package CustomOreGen;
 import CustomOreGen.Client.ClientState;
 import CustomOreGen.Server.ServerState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiCreateWorld;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.ForgeChunkManager.ForceChunkEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -77,6 +79,14 @@ public class ForgeInterface
     @SubscribeEvent
     public void onForceChunk(ForceChunkEvent event) {
     	ServerState.chunkForced(event.getTicket().world, event.getLocation());
+    }
+    
+    @SubscribeEvent
+    public void onInitGui(GuiScreenEvent.InitGuiEvent.Post event) {
+        if (event.getGui() instanceof GuiCreateWorld)
+        {
+            ServerState.addOptionsButtonToGui((GuiCreateWorld)event.getGui(), event.getButtonList());
+        }
     }
     
     public static String getWorldDimensionFolder(World world)
