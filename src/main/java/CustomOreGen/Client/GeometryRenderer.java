@@ -737,14 +737,14 @@ public class GeometryRenderer implements IGeometryBuilder
                 byte offset = 0;
                 this.vBuffer.position(offset);
                 GL11.glVertexPointer(3, vsize, this.vBuffer.asFloatBuffer());
-                GL11.glEnableClientState(32884);
+                GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
                 int offset1 = offset + 12;
 
                 if (this.hasNormal)
                 {
                     this.vBuffer.position(offset1);
                     GL11.glNormalPointer(vsize, this.vBuffer.asFloatBuffer());
-                    GL11.glEnableClientState(32885);
+                    GL11.glEnableClientState(GL11.GL_NORMAL_ARRAY);
                     offset1 += 12;
                 }
 
@@ -752,7 +752,7 @@ public class GeometryRenderer implements IGeometryBuilder
                 {
                     this.vBuffer.position(offset1);
                     GL11.glColorPointer(4, true, vsize, this.vBuffer);
-                    GL11.glEnableClientState(32886);
+                    GL11.glEnableClientState(GL11.GL_COLOR_ARRAY);
                     offset1 += 4;
                 }
 
@@ -760,32 +760,32 @@ public class GeometryRenderer implements IGeometryBuilder
                 {
                     this.vBuffer.position(offset1);
                     GL11.glTexCoordPointer(2, vsize, this.vBuffer.asFloatBuffer());
-                    GL11.glEnableClientState(32888);
+                    GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
                     offset1 += 8;
                 }
 
-                if (this.texture >= 0 && this.texture != GL11.glGetInteger(32873))
+                if (this.texture >= 0 && this.texture != GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D))
                 {
-                    GL11.glBindTexture(3553, this.texture);
+                    GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.texture);
                 }
 
                 this.xBuffer.rewind();
                 GL11.glDrawElements(this.renderMode, this.xBuffer);
-                GL11.glDisableClientState(32884);
+                GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
 
                 if (this.hasNormal)
                 {
-                    GL11.glDisableClientState(32885);
+                    GL11.glDisableClientState(GL11.GL_NORMAL_ARRAY);
                 }
 
                 if (this.hasColor)
                 {
-                    GL11.glDisableClientState(32886);
+                    GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);
                 }
 
                 if (this.texture >= 0)
                 {
-                    GL11.glDisableClientState(32888);
+                    GL11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
                 }
             }
         }
