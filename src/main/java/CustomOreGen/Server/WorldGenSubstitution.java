@@ -10,7 +10,6 @@ import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.BlockDescriptor.BlockInfo;
 import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.TileEntityHelper;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -310,9 +309,7 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
                                             {
                                                 return false;
                                             }
-                                            Block matchBlock = match.getBlock();
-                                            if (match != null && matchBlock.canPlaceBlockAt(world, worldPos) && 
-                                            	world.setBlockState(new BlockPos(worldX, y, worldZ), match.getBlockState(), 2))
+                                            if (match != null && world.setBlockState(new BlockPos(worldX, y, worldZ), match.getBlockState(), 2))
                                             {
                                                 ++this.placedBlocks;
                                                 TileEntityHelper.readFromPartialNBT(world, worldX, y, worldZ, match.getNBT());
