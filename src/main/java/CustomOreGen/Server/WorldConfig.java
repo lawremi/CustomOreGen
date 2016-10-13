@@ -332,7 +332,7 @@ public class WorldConfig
         properties.put("world.type", worldInfo == null ? "" : worldInfo.getTerrainType().getWorldTypeName());
         properties.put("world.type.version", worldInfo == null ? 0 : worldInfo.getTerrainType().getGeneratorVersion());
         String genName = "RandomLevelSource";
-        String genClass = "ChunkProviderGenerate";
+        String genClass = "ChunkProviderOverworld";
 
         if (world != null)
         {
