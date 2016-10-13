@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -19,7 +20,6 @@ import CustomOreGen.Util.SimpleProfiler;
 import net.minecraft.block.BlockSand;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiCreateWorld;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -273,10 +273,11 @@ public class ServerState
                     }                	
                 }
                 
-                if (worldInfo == null)
-                {
-                    return false;
-                }
+            }
+
+            if (worldInfo == null)
+            {
+                return false;
             }
 
             onServerChanged(currentServer, worldInfo);
@@ -323,7 +324,7 @@ public class ServerState
     }
 
     @SideOnly(Side.CLIENT)
-    public static void onWorldCreationMenuTick(GuiCreateWorld gui)
+    public static void addOptionsButtonToGui(GuiCreateWorld gui, List<GuiButton> buttonList)
     {
         if (gui == null)
         {
@@ -339,14 +340,12 @@ public class ServerState
             }
 
             GuiOpenMenuButton button1 = (GuiOpenMenuButton)_optionsGuiButton;
-            @SuppressWarnings("unchecked")
-			Collection<GuiButton> controlList = (Collection<GuiButton>)ReflectionHelper.getPrivateValue(GuiScreen.class, gui, 4);
-
-            if (!controlList.contains(button1))
+            
+            if (!buttonList.contains(button1))
             {
                 button1.xPosition = (gui.width - button1.getWidth()) / 2;
                 button1.yPosition = 165;
-                controlList.add(button1);
+                buttonList.add(button1);
             }
 
             button1.visible = !((Boolean)ReflectionHelper.getPrivateValue(GuiCreateWorld.class, gui, 11)).booleanValue();
