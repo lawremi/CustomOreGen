@@ -66,7 +66,11 @@ public class ForgeInterface
         boolean vanillaOreGen = ServerState.getWorldConfig(world).vanillaOreGen;
         boolean isCustom = event.getType() == OreGenEvent.GenerateMinable.EventType.CUSTOM;
         boolean isOre = event.getType() != OreGenEvent.GenerateMinable.EventType.GRAVEL && 
-        		        event.getType() != OreGenEvent.GenerateMinable.EventType.DIRT; 
+        		        event.getType() != OreGenEvent.GenerateMinable.EventType.DIRT &&
+        		        // TODO: remove after we add stone generation to the configs
+        		        event.getType() != OreGenEvent.GenerateMinable.EventType.ANDESITE &&
+        		        event.getType() != OreGenEvent.GenerateMinable.EventType.DIORITE &&
+        		        event.getType() != OreGenEvent.GenerateMinable.EventType.GRANITE; 
         event.setResult((vanillaOreGen || isCustom || !isOre) ? Result.ALLOW : Result.DENY);
     }
     
