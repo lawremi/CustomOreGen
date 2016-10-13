@@ -34,14 +34,12 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.fml.server.FMLServerHandler;
 
-@Mod(modid="CustomOreGen", useMetadata=true)
+@Mod(modid="customoregen", useMetadata=true, version="@VERSION@", acceptedMinecraftVersions="[1.10]")
 public class FMLInterface implements IWorldGenerator
 {
-    @Instance("CustomOreGen")
+    @Instance("customoregen")
     public static FMLInterface instance;
-    private Object _worldCreationGui = null;
     @EventHandler
     public void onFMLPreInit(FMLPreInitializationEvent event)
     {
