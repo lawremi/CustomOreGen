@@ -3,9 +3,10 @@ package CustomOreGen;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.server.FMLServerHandler;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class GeometryRequestData implements Serializable
 {
@@ -30,7 +31,7 @@ public class GeometryRequestData implements Serializable
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
     {
         in.defaultReadObject();
-        MinecraftServer ms = FMLServerHandler.instance().getServer();
+        MinecraftServer ms = FMLCommonHandler.instance().getMinecraftServerInstance();
 
         if (ms != null && ms.isServerRunning())
         {
