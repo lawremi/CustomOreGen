@@ -380,7 +380,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
                     if (control.getControl().mousePressed(mc, mouseX, mouseY))
                     {
                         this._currentButton = control.getControl();
-                        mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(new SoundEvent(new ResourceLocation("gui.button.press")), 1.0F));
+                        mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
                         break;
                     }
                 }
@@ -540,7 +540,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
             if (control.getControl().mousePressed(mc, mouseX, mouseY))
             {
-            	mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(new SoundEvent(new ResourceLocation("gui.button.press")), 1.0F));
+            	mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
                 this._clickTarget = control;
             }
         }
