@@ -10,9 +10,6 @@ import org.lwjgl.input.Mouse;
 
 import CustomOreGen.Server.ConfigOption.DisplayGroup;
 import CustomOreGen.Util.Localization;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.FontRenderer;
@@ -25,8 +22,10 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.init.SoundEvents;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiCustomOreGenSettings extends GuiScreen
@@ -44,6 +43,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
         this._parentGui = parentGui;
     }
 
+    @Override
 	public void initGui()
     {
         super.initGui();
@@ -139,6 +139,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
         super.buttonList.add(this._resetButton);
     }
 
+    @Override
     protected void actionPerformed(GuiButton button) throws IOException
     {
         super.actionPerformed(button);
@@ -157,12 +158,22 @@ public class GuiCustomOreGenSettings extends GuiScreen
         }
     }
 
+    
+    @Override
+    public void handleMouseInput() throws IOException {
+    	super.handleMouseInput();
+    	this._optionPanel.handleMouseInput();
+    }
+
+    @Override
     protected void mouseClicked(int mouseX, int mouseY, int buttonID) throws IOException
     {
         super.mouseClicked(mouseX, mouseY, buttonID);
         this._groupPanel.mouseClicked(mouseX, mouseY, buttonID);
+        this._optionPanel.handleMouseInput();
     }
 
+    @Override
     public void drawScreen(int mouseX, int mouseY, float partialTick)
     {
         this.drawDefaultBackground();
@@ -427,6 +438,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 return !isInScrollArea(super.xPosition, super.yPosition) && !isInScrollArea(super.xPosition + super.width, super.yPosition + super.height);
             }
 
+            @Override
             public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
             {
                 if (this.isButtonVisible() && this.isMouseOver() && super.mousePressed(mc, mouseX, mouseY))
@@ -441,6 +453,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 }
             }
 
+            @Override
             public int getHoverState(boolean mouseOver)
             {
                 if (isInScrollArea(mouseX, mouseY))
@@ -454,6 +467,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 }
             }
 
+            @Override
             public void drawButton(Minecraft mc, int mouseX, int mouseY)
             {
                 if (this.isButtonVisible() && super.visible)
@@ -579,6 +593,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
             control.drawButton(mc, super.mouseX, super.mouseY);
         }
 
+        @Override
         public void drawScreen(int mouseX, int mouseY, float partialTick)
         {
             super.drawScreen(mouseX, mouseY, partialTick);
@@ -630,6 +645,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 super.width = Math.min(this._maxWidth, strWidth + 10);
             }
 
+            @Override
             public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
             {
                 if (super.mousePressed(mc, mouseX, mouseY))
@@ -644,6 +660,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 }
             }
 
+            @Override
             public int getHoverState(boolean mouseOver)
             {
                 if (GuiOptionSlot.this.isInBounds(this.mouseX, this.mouseY))
@@ -657,6 +674,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 }
             }
 
+            @Override
             public void drawButton(Minecraft mc, int mouseX, int mouseY)
             {
                 super.drawButton(mc, mouseX, mouseY);
@@ -723,6 +741,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
             	this.onValueChanged();
             }
 
+            @Override
             public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
             {
                 if (super.mousePressed(mc, mouseX, mouseY))
@@ -736,6 +755,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 }
             }
 
+            @Override
             protected void mouseDragged(Minecraft mc, int mouseX, int mouseY)
             {
                 super.mouseDragged(mc, mouseX, mouseY);
@@ -763,6 +783,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
             return super.width;
         }
 
+        @Override
         public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
         {
             if (super.mousePressed(mc, mouseX, mouseY))
