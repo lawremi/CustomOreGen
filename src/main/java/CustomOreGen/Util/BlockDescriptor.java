@@ -27,22 +27,26 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         private boolean wildcard;
         private NBTTagCompound nbt;
         
+        private BlockInfo(IBlockState blockState, NBTTagCompound nbt, boolean wildcard) {
+        	this.blockState = blockState;
+        	this.nbt = nbt;
+        	this.wildcard = wildcard;
+        }
+        
         public BlockInfo(IBlockState blockState, NBTTagCompound nbt) {
-			super();
-			this.blockState = blockState;
-			this.nbt = nbt;
-		}
+	        this(blockState, nbt, false);
+        }
         
         public BlockInfo(Block block, int metadata, NBTTagCompound nbt) {
-        	this(block.getStateFromMeta(metadata), nbt);
+        	this(metadata == OreDictionary.WILDCARD_VALUE ? block.getDefaultState() : block.getStateFromMeta(metadata),
+         	     nbt, metadata == OreDictionary.WILDCARD_VALUE);
         }
         
         public BlockInfo(Block block, NBTTagCompound nbt) {
-        	this(block.getDefaultState(), nbt);
-        	this.wildcard = true;
+        	this(block.getDefaultState(), nbt, true);
         }
         
-		@Override
+        @Override
         public int hashCode()
         {
 			int code = this.wildcard ? Block.getIdFromBlock(this.blockState.getBlock()) : this.blockState.hashCode();
@@ -242,11 +246,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             				// FIXME: Blocks tend to be registered as meta 0, even when the meta is irrelevant,
             				// so we are unable to take advantage of the fast ID hash. 
             				// This is particularly true of vanilla 'stone'.
-            				if (damage == OreDictionary.WILDCARD_VALUE) {
-            					this.add(block, nbt, desc.weight);
-            				} else {
-            					this.add(block, damage, nbt, desc.weight);	
-            				}
+            				this.add(block, damage, nbt, desc.weight);
             			}
             			if (desc.matchFirst) {
             				break;
