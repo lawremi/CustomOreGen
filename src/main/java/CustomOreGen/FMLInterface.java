@@ -89,7 +89,7 @@ public class FMLInterface implements IWorldGenerator
     public void onServerTick(ServerTickEvent event)
     {
     	if (event.phase == TickEvent.Phase.END) {
-    		ServerState.checkIfServerChanged(FMLServerHandler.instance().getServer(), (WorldInfo)null);
+    		ServerState.checkIfServerChanged(FMLCommonHandler.instance().getMinecraftServerInstance(), (WorldInfo)null);
     	}
     }
 
@@ -141,9 +141,9 @@ public class FMLInterface implements IWorldGenerator
     @SubscribeEvent
     public void onClientLogin(PlayerLoggedInEvent event)
     {
-        World handlerWorld = event.player == null ? null : event.player.worldObj;
-        ServerState.checkIfServerChanged(FMLServerHandler.instance().getServer(), 
-        		handlerWorld == null ? null : handlerWorld.getWorldInfo());
+        World handlerWorld = event.player.worldObj;
+        ServerState.checkIfServerChanged(handlerWorld.getMinecraftServer(), 
+        		handlerWorld.getWorldInfo());
     }
 
 	private static ModContainer getModContainer() {

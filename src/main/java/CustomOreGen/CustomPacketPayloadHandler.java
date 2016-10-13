@@ -15,7 +15,6 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketE
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.fml.server.FMLServerHandler;
 
 public class CustomPacketPayloadHandler {
 	public CustomPacketPayloadHandler() {
@@ -100,8 +99,8 @@ public class CustomPacketPayloadHandler {
     public void serverCustomPayload(ServerCustomPacketEvent event)
     {
     	EntityPlayerMP player = ((NetHandlerPlayServer)event.getHandler()).playerEntity;
-    	World handlerWorld = player == null ? null : player.worldObj;
-        ServerState.checkIfServerChanged(FMLServerHandler.instance().getServer(), handlerWorld == null ? null : handlerWorld.getWorldInfo());
+    	World handlerWorld = player.worldObj;
+        ServerState.checkIfServerChanged(handlerWorld.getMinecraftServer(), handlerWorld.getWorldInfo());
         CustomPacketPayload payload = CustomPacketPayload.decodePacket(event.getPacket());
 
         if (payload != null)
