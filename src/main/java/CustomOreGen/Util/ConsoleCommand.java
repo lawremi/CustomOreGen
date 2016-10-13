@@ -9,6 +9,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import CustomOreGen.CustomPacketPayload;
@@ -123,18 +124,21 @@ public class ConsoleCommand extends CommandBase
         this((Object)null, method);
     }
 
+    @Override
     public String getCommandName()
     {
         CommandDelegate cmdDef = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
         return cmdDef != null && cmdDef.names() != null && cmdDef.names().length > 0 ? cmdDef.names()[0] : this._method.getName();
     }
 
+    @Override
     public List<String> getCommandAliases()
     {
         CommandDelegate cmdDef = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
-        return cmdDef != null && cmdDef.names() != null && cmdDef.names().length > 1 ? Arrays.asList(Arrays.copyOfRange(cmdDef.names(), 1, cmdDef.names().length)) : null;
+        return cmdDef != null && cmdDef.names() != null && cmdDef.names().length > 1 ? Arrays.asList(Arrays.copyOfRange(cmdDef.names(), 1, cmdDef.names().length)) : Collections.<String>emptyList();
     }
 
+    @Override
     public String getCommandUsage(ICommandSender sender)
     {
         return this.getCommandHelp(sender, false);
@@ -217,8 +221,8 @@ public class ConsoleCommand extends CommandBase
         return out.toString();
     }
 
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException
-    {
+    @Override
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         Class<?>[] ptypes = this._method.getParameterTypes();
         Annotation[][] pantns = this._method.getParameterAnnotations();
         Object[] pvalues = new Object[ptypes.length];
@@ -323,14 +327,7 @@ public class ConsoleCommand extends CommandBase
             throw new CommandException("Unkown Error: " + var17.getMessage(), new Object[0]);
         }
     }
-
     
-    @Override
-	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
 		CommandDelegate cmdDef = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
@@ -353,6 +350,7 @@ public class ConsoleCommand extends CommandBase
         return super.checkPermission(server, sender);
     }
 
+    @Override
     public int getRequiredPermissionLevel()
     {
         CommandDelegate cmdDef = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
