@@ -42,6 +42,7 @@ public class ClientState
     @SideOnly(Side.CLIENT)
     private static IntBuffer _chunkDGListBuffer = null;
     private static Queue<GeometryData> geometryDataQueue = new ConcurrentLinkedQueue<GeometryData>();
+	private static boolean clearDisplayLists;
 
     public enum WireframeRenderMode
     {
@@ -54,9 +55,13 @@ public class ClientState
     @SideOnly(Side.CLIENT)
     public static void onRenderWorld(Entity cameraPOV, double partialTicks)
     {
+    	if (clearDisplayLists) {
+    		clearDebuggingDisplayLists();
+    		clearDisplayLists = false;
+    	}
         if (_world != null && dgEnabled && dgRenderingMode != null && dgRenderingMode != WireframeRenderMode.NONE)
         {
-            buildGeometryDisplayLists();
+        	buildGeometryDisplayLists();
 	    
             double posX = cameraPOV.lastTickPosX + (cameraPOV.posX - cameraPOV.lastTickPosX) * partialTicks;
             double posY = cameraPOV.lastTickPosY + (cameraPOV.posY - cameraPOV.lastTickPosY) * partialTicks;
@@ -268,6 +273,12 @@ public class ClientState
 
     @SideOnly(Side.CLIENT)
     public static void clearDebuggingGeometry()
+    {
+    	clearDisplayLists = true;
+    }
+    
+    @SideOnly(Side.CLIENT)
+    private static void clearDebuggingDisplayLists()
     {
     	for (int list : _dgListMap.values()) {
     		if (list != 0)
