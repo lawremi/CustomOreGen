@@ -82,6 +82,7 @@ public class ForgeInterface
     }
     
     @SubscribeEvent
+    @SideOnly(Side.CLIENT)
     public void onInitGui(GuiScreenEvent.InitGuiEvent.Post event) {
         if (event.getGui() instanceof GuiCreateWorld)
         {
