@@ -90,6 +90,15 @@ public class ForgeInterface
         }
     }
     
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public void onActionPerformed(GuiScreenEvent.ActionPerformedEvent.Post event) {
+        if (event.getGui() instanceof GuiCreateWorld)
+        {
+            ServerState.updateOptionsButtonVisibility((GuiCreateWorld)event.getGui());
+        }
+    }
+    
     public static String getWorldDimensionFolder(World world)
     {
         return world.provider.getSaveFolder();

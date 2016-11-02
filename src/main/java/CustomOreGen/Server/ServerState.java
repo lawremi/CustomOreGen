@@ -41,7 +41,7 @@ public class ServerState
 {
     private static MinecraftServer _server = null;
     private static Map<World,WorldConfig> _worldConfigs = new HashMap<World, WorldConfig>();
-    private static Object _optionsGuiButton = null;
+    private static GuiOpenMenuButton _optionsGuiButton = null;
     private static boolean forcingChunk;
 
     public static WorldConfig getWorldConfig(World world)
@@ -339,7 +339,7 @@ public class ServerState
                 _optionsGuiButton = new GuiOpenMenuButton(gui, 99, 0, 0, 150, 20, "Custom Ore Generation...", button);
             }
 
-            GuiOpenMenuButton button1 = (GuiOpenMenuButton)_optionsGuiButton;
+            GuiOpenMenuButton button1 = _optionsGuiButton;
             
             if (!buttonList.contains(button1))
             {
@@ -347,9 +347,12 @@ public class ServerState
                 button1.yPosition = 165;
                 buttonList.add(button1);
             }
-
-            button1.visible = !((Boolean)ReflectionHelper.getPrivateValue(GuiCreateWorld.class, gui, 11)).booleanValue();
         }
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public static void updateOptionsButtonVisibility(GuiCreateWorld gui) {
+    	_optionsGuiButton.visible = !(Boolean)ReflectionHelper.getPrivateValue(GuiCreateWorld.class, gui, "inMoreWorldOptionsDisplay");
     }
     
 	public static void chunkForced(World world, ChunkPos location) {
