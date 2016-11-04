@@ -33,6 +33,7 @@ import net.minecraft.world.storage.SaveFormatOld;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -352,7 +353,7 @@ public class ServerState
     
     @SideOnly(Side.CLIENT)
     public static void updateOptionsButtonVisibility(GuiCreateWorld gui) {
-    	_optionsGuiButton.visible = !(Boolean)ReflectionHelper.getPrivateValue(GuiCreateWorld.class, gui, "inMoreWorldOptionsDisplay");
+    	_optionsGuiButton.visible = !(Boolean)ObfuscationReflectionHelper.getPrivateValue(GuiCreateWorld.class, gui, 12);
     }
     
 	public static void chunkForced(World world, ChunkPos location) {
