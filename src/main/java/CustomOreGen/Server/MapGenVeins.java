@@ -399,21 +399,21 @@ public class MapGenVeins extends MapGenOreDistribution
             float[] pos = new float[3];
             float[] bb = new float[6];
             this.context.init(0.0F, true);
-            int var24;
+            int height;
 
             do
             {
-                var24 = (int)this.context.radius / 4 + 1;
+                height = (int)this.context.radius / 4 + 1;
 
                 if (this.context.radius > 0.0F)
                 {
-                    float step = 0.7F * (float)var24 / this.context.radius;
+                    float step = 0.7F * (float)height / this.context.radius;
                     int stepCount = (int)(maxR / step) + 1;
                     boolean oneBlockThreshold = this.context.radius * maxR < 0.25F;
                     this.mat.identity();
                     this.mat.translate(this.context.pos[0], this.context.pos[1], this.context.pos[2]);
                     this.mat.rotateZInto(this.context.der[0], this.context.der[1], this.context.der[2]);
-                    this.mat.scale(this.context.radius, this.context.radius, (float)var24);
+                    this.mat.scale(this.context.radius, this.context.radius, (float)height);
                     bb[0] = -maxR;
                     bb[1] = -maxR;
                     bb[2] = -1.0F;
@@ -449,15 +449,15 @@ public class MapGenVeins extends MapGenOreDistribution
                                     if (!oneBlockThreshold || this.context.radius * maxR * 4.0F >= random.nextFloat())
                                     {
                                         this.mat.transformVector(pos);
-                                        int var25 = MathHelper.floor_float(pos[0]) - var24 / 2;
-                                        int baseY = MathHelper.floor_float(pos[1]) - var24 / 2;
-                                        int baseZ = MathHelper.floor_float(pos[2]) - var24 / 2;
+                                        int baseX = MathHelper.floor_float(pos[0]) - height / 2;
+                                        int baseY = MathHelper.floor_float(pos[1]) - height / 2;
+                                        int baseZ = MathHelper.floor_float(pos[2]) - height / 2;
 
-                                        for (int blockX = var25; blockX < var24 + var25; ++blockX)
+                                        for (int blockX = baseX; blockX < height + baseX; ++blockX)
                                         {
-                                            for (int blockY = baseY; blockY < var24 + baseY; ++blockY)
+                                            for (int blockY = baseY; blockY < height + baseY; ++blockY)
                                             {
-                                                for (int blockZ = baseZ; blockZ < var24 + baseZ; ++blockZ)
+                                                for (int blockZ = baseZ; blockZ < height + baseZ; ++blockZ)
                                                 {
                                                     if (orDensity.getIntValue(random) >= 1)
                                                     {
@@ -473,7 +473,7 @@ public class MapGenVeins extends MapGenOreDistribution
                     }
                 }
             }
-            while (var24 > 0 && this.context.advance(0.7F * (float)var24));
+            while (height > 0 && this.context.advance(0.7F * (float)height));
 
             super.addComponentParts(world, random, bounds);
             return true;

@@ -171,13 +171,9 @@ public class ConsoleCommand extends CommandBase
             {
                 if (clazz.isAssignableFrom(WorldServer.class))
                 {
-                    WorldServer var15 = getSenderWorld(sender);
-
-                    if (var15 != null)
-                    {
-                        continue;
-                    }
-
+                    if (getSenderWorld(sender) != null)
+                    	continue;
+                    
                     clazz = Integer.class;
                 }
                 else if (clazz.isArray() && cmdDef == ptypes.length - 1 && this._method.isVarArgs())
@@ -210,12 +206,12 @@ public class ConsoleCommand extends CommandBase
             }
         }
 
-        CommandDelegate var14 = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
+        CommandDelegate delegate = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
 
-        if (verbose && var14 != null && var14.desc() != null && !var14.desc().isEmpty())
+        if (verbose && delegate != null && delegate.desc() != null && !delegate.desc().isEmpty())
         {
             out.append("\n  ");
-            out.append(var14.desc());
+            out.append(delegate.desc());
         }
 
         return out.toString();
@@ -269,8 +265,8 @@ public class ConsoleCommand extends CommandBase
 
                     if (pvalues[pidx] == null)
                     {
-                        Integer var20 = (Integer)ConfigParser.parseString(Integer.class, ex < args.length ? args[ex++] : defValue);
-                        pvalues[pidx] = var20 == null ? null : MinecraftServer.getServer().worldServerForDimension(var20.intValue());
+                        Integer dimId = ConfigParser.parseString(Integer.class, ex < args.length ? args[ex++] : defValue);
+                        pvalues[pidx] = dimId == null ? null : MinecraftServer.getServer().worldServerForDimension(dimId.intValue());
 
                         if (pvalues[pidx] == null && required)
                         {
@@ -282,10 +278,10 @@ public class ConsoleCommand extends CommandBase
                 {
                     pvalues[pidx] = Array.newInstance(clazz.getComponentType(), args.length - ex);
 
-                    for (int var21 = 0; var21 < Array.getLength(pvalues[pidx]); ++var21)
+                    for (int i = 0; i < Array.getLength(pvalues[pidx]); ++i)
                     {
-                        Object var22 = ConfigParser.parseString(clazz.getComponentType(), args[ex++]);
-                        Array.set(pvalues[pidx], var21, var22);
+                        Object pvalue = ConfigParser.parseString(clazz.getComponentType(), args[ex++]);
+                        Array.set(pvalues[pidx], i, pvalue);
                     }
                 }
                 else
@@ -311,11 +307,11 @@ public class ConsoleCommand extends CommandBase
 
         try
         {
-            Object var19 = this._method.invoke(this._obj, pvalues);
+            Object result = this._method.invoke(this._obj, pvalues);
 
-            if (var19 != null)
+            if (result != null)
             {
-                sendText(sender, var19.toString());
+                sendText(sender, result.toString());
             }
         }
         catch (InvocationTargetException var16)

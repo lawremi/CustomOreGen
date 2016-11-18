@@ -74,9 +74,9 @@ public class CustomPacketPayloadHandler {
                     }
                     else
                     {
-                        int var11 = ClientState.dgRenderingMode == null ? 0 : ClientState.dgRenderingMode.ordinal();
-                        var11 = (var11 + 1) % WireframeRenderMode.values().length;
-                        ClientState.dgRenderingMode = WireframeRenderMode.values()[var11];
+                        int mode = ClientState.dgRenderingMode == null ? 0 : ClientState.dgRenderingMode.ordinal();
+                        mode = (mode + 1) % WireframeRenderMode.values().length;
+                        ClientState.dgRenderingMode = WireframeRenderMode.values()[mode];
                     }
 
                     player.addChatMessage(new ChatComponentText("COG Client wireframe mode: " + ClientState.dgRenderingMode.name()));

@@ -64,7 +64,7 @@ public class CustomPacketPayload
     private FMLProxyPacket[] createPackets()
     {
         boolean compressed = false;
-        byte[] var11;
+        byte[] bytes;
 
         try
         {
@@ -74,7 +74,7 @@ public class CustomPacketPayload
             packets.writeObject(this.data);
             packets.close();
             packetCount.close();
-            var11 = packetCount.toByteArray();
+            bytes = packetCount.toByteArray();
             compressed = packetCount.isCompressed();
         }
         catch (IOException var10)
@@ -84,33 +84,33 @@ public class CustomPacketPayload
 
         if (!compressed)
         {
-            return new FMLProxyPacket[] {new FMLProxyPacket(wrappedBuffer(var11), CHANNEL_NAME)};
+            return new FMLProxyPacket[] {new FMLProxyPacket(wrappedBuffer(bytes), CHANNEL_NAME)};
         }
         else
         {
-            int var12 = (var11.length + 32000 - 1) / 32000;
-            FMLProxyPacket[] var13 = new FMLProxyPacket[var12];
+            int npackets = (bytes.length + 32000 - 1) / 32000;
+            FMLProxyPacket[] packets = new FMLProxyPacket[npackets];
             int id = _xpacketNextID.incrementAndGet();
             int i = 1;
 
-            for (int offset = 0; i <= var12; ++i)
+            for (int offset = 0; i <= npackets; ++i)
             {
-                int dataLen = Math.min(32000, var11.length - offset);
+                int dataLen = Math.min(32000, bytes.length - offset);
                 byte[] piece = new byte[8 + dataLen];
                 piece[0] = (byte)id;
                 piece[1] = (byte)(id >> 8);
                 piece[2] = (byte)(id >> 16);
                 piece[3] = (byte)(id >> 24);
-                piece[4] = (byte)var12;
-                piece[5] = (byte)(var12 >> 8);
+                piece[4] = (byte)npackets;
+                piece[5] = (byte)(npackets >> 8);
                 piece[6] = (byte)i;
                 piece[7] = (byte)(i >> 8);
-                System.arraycopy(var11, offset, piece, 8, dataLen);
+                System.arraycopy(bytes, offset, piece, 8, dataLen);
                 offset += dataLen;
-                var13[i - 1] = new FMLProxyPacket(wrappedBuffer(piece), XCHANNEL_NAME);
+                packets[i - 1] = new FMLProxyPacket(wrappedBuffer(piece), XCHANNEL_NAME);
             }
 
-            return var13;
+            return packets;
         }
     }
 

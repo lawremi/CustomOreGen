@@ -455,10 +455,10 @@ public class ExpressionEvaluator
 
                 if (Character.isDigit(ch))
                 {
-                    boolean var9 = false;
+                    boolean isReal = false;
                     char ex;
 
-                    if (ch == 48 && input.length() > end && Character.toLowerCase(input.charAt(end)) == 120)
+                    if (ch == 48 && input.length() > end && Character.toLowerCase(input.charAt(end)) == 'x')
                     {
                         ++end;
 
@@ -466,7 +466,7 @@ public class ExpressionEvaluator
                         {
                             ex = input.charAt(end);
 
-                            if (!Character.isDigit(ex) && (ex < 97 || ex > 102) && (ex < 65 || ex > 70))
+                            if (!Character.isDigit(ex) && (ex < 'a' || ex > 'f') && (ex < 'A' || ex > 'F'))
                             {
                                 break;
                             }
@@ -486,20 +486,20 @@ public class ExpressionEvaluator
                             }
                             else
                             {
-                                if (ex != 46)
+                                if (ex != '.')
                                 {
                                     break;
                                 }
 
                                 ++end;
-                                var9 = true;
+                                isReal = true;
                             }
                         }
                     }
 
                     try
                     {
-                        return var9 ? new Token(input, start, end, TokenType.NUMBER, Double.valueOf(Double.parseDouble(input.substring(start, end)))) : new Token(input, start, end, TokenType.NUMBER, Long.decode(input.substring(start, end)));
+                        return isReal ? new Token(input, start, end, TokenType.NUMBER, Double.valueOf(Double.parseDouble(input.substring(start, end)))) : new Token(input, start, end, TokenType.NUMBER, Long.decode(input.substring(start, end)));
                     }
                     catch (NumberFormatException var7)
                     {
@@ -508,9 +508,9 @@ public class ExpressionEvaluator
                 }
                 else
                 {
-                    if (!Character.isLetter(ch) && ch != 95)
+                    if (!Character.isLetter(ch) && ch != '_')
                     {
-                        if (ch == 34 || ch == 39)
+                        if (ch == '"' || ch == '\'')
                         {
                             end = input.indexOf(ch, end);
 
@@ -523,7 +523,7 @@ public class ExpressionEvaluator
                             return new Token(input, start, end, TokenType.STRING, input.substring(start + 1, end - 1));
                         }
 
-                        if ((ch == 60 || ch == 62 || ch == 33) && input.length() > end && input.charAt(end) == 61)
+                        if ((ch == '<' || ch == '>' || ch == '!') && input.length() > end && input.charAt(end) == '=')
                         {
                             ++end;
                         }
@@ -534,7 +534,7 @@ public class ExpressionEvaluator
                         {
                             char type = input.charAt(end);
 
-                            if (!Character.isLetterOrDigit(type) && type != 95 && type != 46)
+                            if (!Character.isLetterOrDigit(type) && type != '_' && type != '.')
                             {
                                 break;
                             }
@@ -542,24 +542,24 @@ public class ExpressionEvaluator
                             ++end;
                         }
 
-                        Object var8 = this.getIdentifierValue(input.substring(start, end));
+                        Object id = this.getIdentifierValue(input.substring(start, end));
 
-                        if (var8 != null)
+                        if (id != null)
                         {
-                            if (var8 instanceof EvaluationDelegate && ((EvaluationDelegate)var8).explicitArguments() > 0)
+                            if (id instanceof EvaluationDelegate && ((EvaluationDelegate)id).explicitArguments() > 0)
                             {
-                                return new Token(input, start, end, TokenType.FUNCTION, var8);
+                                return new Token(input, start, end, TokenType.FUNCTION, id);
                             }
 
-                            return new Token(input, start, end, TokenType.VARIABLE, var8);
+                            return new Token(input, start, end, TokenType.VARIABLE, id);
                         }
                     }
 
-                    TokenType var10 = _symbolMap.get(input.substring(start, end).toLowerCase());
+                    TokenType sym = _symbolMap.get(input.substring(start, end).toLowerCase());
 
-                    if (var10 != null)
+                    if (sym != null)
                     {
-                        return new Token(input, start, end, var10);
+                        return new Token(input, start, end, sym);
                     }
                     else
                     {
@@ -726,7 +726,7 @@ public class ExpressionEvaluator
             {
                 if (passToken)
                 {
-                    boolean var12 = false;
+                    boolean valid = false;
 
                     if (method.getParameterTypes().length > 0)
                     {
@@ -734,11 +734,11 @@ public class ExpressionEvaluator
 
                         if (var13.isAssignableFrom(String.class) || var13.isAssignableFrom(Token.class))
                         {
-                            var12 = true;
+                            valid = true;
                         }
                     }
 
-                    if (!var12)
+                    if (!valid)
                     {
                         throw new IllegalArgumentException("Method \'" + methodName + "\' for class " + clazz.getSimpleName() + " must take a String or Token as the first parameter");
                     }
@@ -791,15 +791,15 @@ public class ExpressionEvaluator
 
             try
             {
-                Object var9 = this._method.invoke(this._obj, argValues);
+                Object result = this._method.invoke(this._obj, argValues);
 
-                if (var9 == null)
+                if (result == null)
                 {
                     throw new EvaluatorException("Delegate evaluation produced null value.", token);
                 }
                 else
                 {
-                    return var9;
+                    return result;
                 }
             }
             catch (IllegalAccessException var6)

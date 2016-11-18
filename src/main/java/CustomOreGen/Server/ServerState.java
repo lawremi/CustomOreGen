@@ -9,6 +9,18 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Random;
 
+import CustomOreGen.CustomOreGenBase;
+import CustomOreGen.GeometryData;
+import CustomOreGen.GeometryRequestData;
+import CustomOreGen.Server.GuiCustomOreGenSettings.GuiOpenMenuButton;
+import CustomOreGen.Util.CogOreGenEvent;
+import CustomOreGen.Util.GeometryStream;
+import CustomOreGen.Util.SimpleProfiler;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.relauncher.ReflectionHelper;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import exterminatorJeff.undergroundBiomes.api.UBAPIHook;
 import net.minecraft.block.BlockSand;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiCreateWorld;
@@ -24,23 +36,11 @@ import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.SaveFormatOld;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.MinecraftForge;
-import CustomOreGen.CustomOreGenBase;
-import CustomOreGen.GeometryData;
-import CustomOreGen.GeometryRequestData;
-import CustomOreGen.Server.GuiCustomOreGenSettings.GuiOpenMenuButton;
-import CustomOreGen.Util.CogOreGenEvent;
-import CustomOreGen.Util.GeometryStream;
-import CustomOreGen.Util.SimpleProfiler;
-import cpw.mods.fml.relauncher.ReflectionHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ServerState
 {
     private static MinecraftServer _server = null;
     private static Map<World,WorldConfig> _worldConfigs = new HashMap<World, WorldConfig>();
-    private static Map<Integer,Map<ChunkCoordIntPair,int[]>> _populatedChunks = 
-    		new HashMap<Integer, Map<ChunkCoordIntPair, int[]>>();
     private static Object _optionsGuiButton = null;
     private static boolean forcingChunk;
 
@@ -143,6 +143,9 @@ public class ServerState
         
         world.scheduledUpdatesAreImmediate = false;
         BlockSand.fallInstantly = false;
+        if (Loader.isModLoaded("UndergroundBiomes")) {
+        	UBAPIHook.ubAPIHook.ubOreTexturizer.redoOres(chunkX*16, chunkZ*16, world);
+        }
         SimpleProfiler.globalProfiler.endSection();
     }
 
@@ -284,28 +287,27 @@ public class ServerState
     {
         _worldConfigs.clear();
         WorldConfig.loadedOptionOverrides[1] = WorldConfig.loadedOptionOverrides[2] = null;
-        _populatedChunks.clear();
 
         _server = server;
         CustomOreGenBase.log.debug("Server world changed to " + worldInfo.getWorldName());
-        File var8 = null;
-        ISaveFormat var9 = _server.getActiveAnvilConverter();
+        File f = null;
+        ISaveFormat format = _server.getActiveAnvilConverter();
 
-        if (var9 != null && var9 instanceof SaveFormatOld)
+        if (format != null && format instanceof SaveFormatOld)
         {
-            var8 = ((SaveFormatOld)var9).savesDirectory;
+            f = ((SaveFormatOld)format).savesDirectory;
         }
 
-        var8 = new File(var8, _server.getFolderName());
-        WorldConfig var10 = null;
+        f = new File(f, _server.getFolderName());
+        WorldConfig config = null;
 
-        while (var10 == null)
+        while (config == null)
         {
             try
             {
-                var10 = new WorldConfig(worldInfo, var8);
-                validateOptions(var10.getConfigOptions(), false);
-                validateDistributions(var10.getOreDistributions(), false);
+                config = new WorldConfig(worldInfo, f);
+                validateOptions(config.getConfigOptions(), false);
+                validateDistributions(config.getOreDistributions(), false);
             }
             catch (Exception var7)
             {
@@ -314,7 +316,7 @@ public class ServerState
                     break;
                 }
 
-                var10 = null;
+                config = null;
             }
         }
     }

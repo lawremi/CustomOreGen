@@ -283,13 +283,13 @@ public class ConsoleCommands
             parentDist = (IOreDistribution)count.iterator().next();
         }
 
-        int var12 = 0;
+        int count = 0;
         
         for (IOreDistribution dist : cfg.getOreDistributions(distribution)) {
         	try
             {
                 dist.setDistributionSetting(IOreDistribution.StandardSettings.Parent.name(), parentDist);
-                ++var12;
+                ++count;
                 dist.clear();
                 dist.validate();
             }
@@ -300,7 +300,7 @@ public class ConsoleCommands
         }
 
         resetClientGeometryCache();
-        return "Changed parent for " + var12 + " distributions";
+        return "Changed parent for " + count + " distributions";
     }
 
     private static int changeBiomeDescriptor(String settingName, ICommandSender sender, WorldServer world, String distribution, String descriptor, float weight, boolean clear)
@@ -748,10 +748,10 @@ public class ConsoleCommands
         WorldConfig.loadedOptionOverrides[2] = options;
         ServerState.clearWorldConfig(world);
         cfg = ServerState.getWorldConfig(world);
-        String var10 = cfg.dimensionDir.toString();
+        String dim = cfg.dimensionDir.toString();
         WorldConfig.loadedOptionOverrides[2] = null;
         resetClientGeometryCache();
-        return "Changed " + count + " options for " + var10;
+        return "Changed " + count + " options for " + dim;
     }
 
     @CommandDelegate(

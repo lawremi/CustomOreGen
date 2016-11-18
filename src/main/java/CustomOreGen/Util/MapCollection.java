@@ -23,7 +23,7 @@ public abstract class MapCollection<K,V> implements Collection<V>
         }        
     }
 
-    protected abstract K getKey(V var1);
+    protected abstract K getKey(V value);
 
     public int size()
     {

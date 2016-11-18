@@ -130,11 +130,11 @@ public class ValidatorNode
             }
         }
 
-        NodeList var5 = this._node.getChildNodes();
+        NodeList children = this._node.getChildNodes();
 
-        for (int var6 = 0; var5 != null && var6 < var5.getLength(); ++var6)
+        for (int i = 0; children != null && i < children.getLength(); ++i)
         {
-            Node child = var5.item(var6);
+            Node child = children.item(i);
 
             switch (child.getNodeType())
             {
@@ -263,9 +263,9 @@ public class ValidatorNode
                                 throw new ParserException("Attempting to merge attribute to non-element node.", newNode);
                             }
 
-                            Attr var9 = (Attr)newNode;
-                            var9.getOwnerElement().removeAttributeNode(var9);
-                            ((Element)parent).setAttributeNode(var9);
+                            Attr attr = (Attr)newNode;
+                            attr.getOwnerElement().removeAttributeNode(attr);
+                            ((Element)parent).setAttributeNode(attr);
                         }
                         else
                         {
@@ -322,11 +322,11 @@ public class ValidatorNode
 
                         if (parent.getNodeType() == 1)
                         {
-                            NamedNodeMap var13 = containerNode.getAttributes();
+                            NamedNodeMap attrs = containerNode.getAttributes();
 
-                            for (int var14 = 0; var14 < var13.getLength(); ++var14)
+                            for (int i = 0; i < attrs.getLength(); ++i)
                             {
-                                hiddenParent = var13.item(var14);
+                                hiddenParent = attrs.item(i);
                                 Node n1 = hiddenParent;
 
                                 while (true)
@@ -347,7 +347,7 @@ public class ValidatorNode
                                     n1 = hiddenParent1;
                                 }
 
-                                content.add(var13.item(var14));
+                                content.add(attrs.item(i));
                             }
                         }
 

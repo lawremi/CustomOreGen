@@ -50,9 +50,6 @@ public class WorldConfig
     public boolean debuggingMode;
     public boolean vanillaOreGen;
     public boolean custom;
-    public double rootHeightFactor;
-    public double heightVarFactor;
-    public double rootHeightVarFactor;
     private Map<String,IOreDistribution> oreDistributions;
     private Map<String,ConfigOption> configOptions;
     private Map<String,String> loadedOptions;
@@ -93,9 +90,6 @@ public class WorldConfig
         this.deferredPopulationRange = 0;
         this.debuggingMode = false;
         this.vanillaOreGen = false;
-        this.rootHeightFactor = 17;
-        this.heightVarFactor = 0;
-        this.rootHeightVarFactor = 0;
         this.oreDistributions = new LinkedHashMap<String,IOreDistribution>();
         this.configOptions = new CIStringMap<ConfigOption>(new LinkedHashMap<String, ConfigOption>());
         this.loadedOptions = new CIStringMap<String>(new LinkedHashMap<String, String>());
@@ -193,7 +187,7 @@ public class WorldConfig
             File[] optionsFileList = new File[3];
             this.buildFileList(CustomOreGenBase.OPTIONS_FILENAME, optionsFileList, false);
             File optionsFile = optionsFileList[2];
-            ConfigOption vangen, rootHeightOption, heightVarOption, rootHeightVarOption;
+            ConfigOption vangen;
 
             for (int defpopOption = configFileDepth; defpopOption < optionsFileList.length; ++defpopOption)
             {
@@ -201,7 +195,7 @@ public class WorldConfig
             }
 
             (new ConfigParser(this)).parseFile(configFile);
-            ConfigOption var20;
+            ConfigOption option;
 
             Map<String,String> saveLevelOptions = new LinkedHashMap<String, String>();
             if (optionsFileList[1] != null) {
@@ -224,28 +218,28 @@ public class WorldConfig
             	}
             }
 
-            ConfigOption var21 = (ConfigOption)this.configOptions.get("deferredPopulationRange");
+            option = (ConfigOption)this.configOptions.get("deferredPopulationRange");
 
-            if (var21 != null && var21 instanceof NumericOption)
+            if (option != null && option instanceof NumericOption)
             {
-                Double var18 = (Double)var21.getValue();
+                Double var18 = (Double)option.getValue();
                 this.deferredPopulationRange = var18 != null && var18.doubleValue() > 0.0D ? (int)Math.ceil(var18.doubleValue()) : 0;
             }
             else
             {
-                CustomOreGenBase.log.warn("Numeric Option \'" + var21 + "\' not found in config file - defaulting to \'" + this.deferredPopulationRange + "\'.");
+                CustomOreGenBase.log.warn("Numeric Option \'" + option + "\' not found in config file - defaulting to \'" + this.deferredPopulationRange + "\'.");
             }
 
-            var20 = (ConfigOption)this.configOptions.get("debugMode");
+            option = (ConfigOption)this.configOptions.get("debugMode");
 
-            if (var20 != null && var20 instanceof ChoiceOption)
+            if (option != null && option instanceof ChoiceOption)
             {
-                String var22 = (String)var20.getValue();
-                this.debuggingMode = var22 == null ? false : var22.equalsIgnoreCase("on") || var22.equalsIgnoreCase("true");
+                String debugValue = (String)option.getValue();
+                this.debuggingMode = debugValue == null ? false : debugValue.equalsIgnoreCase("on") || debugValue.equalsIgnoreCase("true");
             }
             else
             {
-                CustomOreGenBase.log.warn("Choice Option \'" + var20 + "\' not found in config file - defaulting to \'" + this.debuggingMode + "\'.");
+                CustomOreGenBase.log.warn("Choice Option \'" + option + "\' not found in config file - defaulting to \'" + this.debuggingMode + "\'.");
             }
 
             vangen = (ConfigOption)this.configOptions.get("vanillaOreGen");
@@ -260,23 +254,6 @@ public class WorldConfig
                 CustomOreGenBase.log.warn("Choice Option \'" + vangen + "\' not found in config file - defaulting to \'" + this.vanillaOreGen + "\'.");
             }
             
-            rootHeightOption = (ConfigOption)this.configOptions.get("rootHeightFactor");
-            if (rootHeightOption != null && rootHeightOption instanceof NumericOption)
-            {
-            	this.rootHeightFactor = (Double)rootHeightOption.getValue();
-            }
-            
-            heightVarOption = (ConfigOption)this.configOptions.get("heightVarFactor");
-            if (heightVarOption != null && heightVarOption instanceof NumericOption)
-            {
-            	this.heightVarFactor = (Double)heightVarOption.getValue();
-            }
-
-            rootHeightVarOption = (ConfigOption)this.configOptions.get("rootHeightVarFactor");
-            if (rootHeightVarOption != null && rootHeightVarOption instanceof NumericOption)
-            {
-            	this.rootHeightVarFactor = (Double)rootHeightVarOption.getValue();
-            }
         }
     }
 
