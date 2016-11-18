@@ -39,7 +39,7 @@
       <OptionChoice name='enableReactorCraft' displayName='Handle ReactorCraft Setup?' default='true' displayState='shown_dynamic' displayGroup='groupReactorCraft'>
         <Description> Should Custom Ore Generation handle ReactorCraft ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle ReactorCraft ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='ReactorCraft ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='ReactorCraft ores will be handled by Minecraft directly.'/>
       </OptionChoice>
       <OptionChoice name='cleanUpReactorCraft' displayName='Use ReactorCraft Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupReactorCraft'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of ReactorCraft ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
@@ -1538,8 +1538,8 @@
               <BiomeType name='Mushroom'  />
               <BiomeType name='Ocean'  />
               <BiomeType name='River'  />
-              <Setting name='Size' avg=':= 10.667 * recrPitchblendeSize ' range=':= 5.33 * recrPitchblendeSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * recrPitchblendeFreq ' range=':= 1.0 * recrPitchblendeFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 10.667 * oreSize * recrPitchblendeSize ' range=':= 5.33 * oreSize * recrPitchblendeSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * recrPitchblendeFreq ' range=':= 1.0 * oreFreq * recrPitchblendeFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 16 ' range=':= 8 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1651,8 +1651,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_ore:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 6.0 * recrCadmiumSize ' range=':= 3.0 * recrCadmiumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * recrCadmiumFreq ' range=':= 1.0 * recrCadmiumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 6.0 * oreSize * recrCadmiumSize ' range=':= 3.0 * oreSize * recrCadmiumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * recrCadmiumFreq ' range=':= 1.0 * oreFreq * recrCadmiumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 22 ' range=':= 10 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1764,8 +1764,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_ore:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 6.0 * recrMountainCadmiumSize ' range=':= 3.0 * recrMountainCadmiumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * recrMountainCadmiumFreq ' range=':= 1.0 * recrMountainCadmiumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 6.0 * oreSize * recrMountainCadmiumSize ' range=':= 3.0 * oreSize * recrMountainCadmiumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * recrMountainCadmiumFreq ' range=':= 1.0 * oreFreq * recrMountainCadmiumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 130 ' range=':= 30 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1877,8 +1877,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_ore:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.667 * recrIndiumSize ' range=':= 2.33 * recrIndiumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * recrIndiumFreq ' range=':= 0.67 * recrIndiumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * recrIndiumSize ' range=':= 2.33 * oreSize * recrIndiumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * recrIndiumFreq ' range=':= 0.67 * oreFreq * recrIndiumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 11 ' range=':= 5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1990,8 +1990,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_ore:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.667 * recrMountainIndiumSize ' range=':= 2.33 * recrMountainIndiumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * recrMountainIndiumFreq ' range=':= 0.67 * recrMountainIndiumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * recrMountainIndiumSize ' range=':= 2.33 * oreSize * recrMountainIndiumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * recrMountainIndiumFreq ' range=':= 0.67 * oreFreq * recrMountainIndiumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 97 ' range=':= 15 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2103,8 +2103,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_ore:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 6.0 * recrSilverSize ' range=':= 3.0 * recrSilverSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * recrSilverFreq ' range=':= 0.67 * recrSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 6.0 * oreSize * recrSilverSize ' range=':= 3.0 * oreSize * recrSilverSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * recrSilverFreq ' range=':= 0.67 * oreFreq * recrSilverFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 28 ' range=':= 12 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2216,8 +2216,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_ore:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 6.0 * recrMountainSilverSize ' range=':= 3.0 * recrMountainSilverSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * recrMountainSilverFreq ' range=':= 0.67 * recrMountainSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 6.0 * oreSize * recrMountainSilverSize ' range=':= 3.0 * oreSize * recrMountainSilverSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * recrMountainSilverFreq ' range=':= 0.67 * oreFreq * recrMountainSilverFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 148 ' range=':= 36 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2334,8 +2334,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_ore:7' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * recrCalciteSize ' range=':= 1.33 * recrCalciteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 8.0 * recrCalciteFreq ' range=':= 4.0 * recrCalciteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * recrCalciteSize ' range=':= 1.33 * oreSize * recrCalciteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 8.0 * oreFreq * recrCalciteFreq ' range=':= 4.0 * oreFreq * recrCalciteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 46 ' range=':= 14 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2452,8 +2452,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_ore:7' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 2.667 * recrMountainCalciteSize ' range=':= 1.33 * recrMountainCalciteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 8.0 * recrMountainCalciteFreq ' range=':= 4.0 * recrMountainCalciteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * recrMountainCalciteSize ' range=':= 1.33 * oreSize * recrMountainCalciteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 8.0 * oreFreq * recrMountainCalciteFreq ' range=':= 4.0 * oreFreq * recrMountainCalciteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 202 ' range=':= 42 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2570,8 +2570,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_ore:8' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 10.667 * recrMagnetiteSize ' range=':= 5.33 * recrMagnetiteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.667 * recrMagnetiteFreq ' range=':= 2.33 * recrMagnetiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 10.667 * oreSize * recrMagnetiteSize ' range=':= 5.33 * oreSize * recrMagnetiteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.667 * oreFreq * recrMagnetiteFreq ' range=':= 2.33 * oreFreq * recrMagnetiteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 94 ' range=':= 34 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2683,8 +2683,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * recrBlueFluoriteSize ' range=':= 2.67 * recrBlueFluoriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.0 * recrBlueFluoriteFreq ' range=':= 0.5 * recrBlueFluoriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * recrBlueFluoriteSize ' range=':= 2.67 * oreSize * recrBlueFluoriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.0 * oreFreq * recrBlueFluoriteFreq ' range=':= 0.5 * oreFreq * recrBlueFluoriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 46 ' range=':= 14 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2799,8 +2799,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * recrMountainBlueFluoriteSize ' range=':= 2.67 * recrMountainBlueFluoriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.0 * recrMountainBlueFluoriteFreq ' range=':= 0.5 * recrMountainBlueFluoriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * recrMountainBlueFluoriteSize ' range=':= 2.67 * oreSize * recrMountainBlueFluoriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.0 * oreFreq * recrMountainBlueFluoriteFreq ' range=':= 0.5 * oreFreq * recrMountainBlueFluoriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 202 ' range=':= 42 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2912,8 +2912,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * recrPinkFluoriteSize ' range=':= 2.67 * recrPinkFluoriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.0 * recrPinkFluoriteFreq ' range=':= 0.5 * recrPinkFluoriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * recrPinkFluoriteSize ' range=':= 2.67 * oreSize * recrPinkFluoriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.0 * oreFreq * recrPinkFluoriteFreq ' range=':= 0.5 * oreFreq * recrPinkFluoriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 46 ' range=':= 14 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3028,8 +3028,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * recrMountainPinkFluoriteSize ' range=':= 2.67 * recrMountainPinkFluoriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.0 * recrMountainPinkFluoriteFreq ' range=':= 0.5 * recrMountainPinkFluoriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * recrMountainPinkFluoriteSize ' range=':= 2.67 * oreSize * recrMountainPinkFluoriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.0 * oreFreq * recrMountainPinkFluoriteFreq ' range=':= 0.5 * oreFreq * recrMountainPinkFluoriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 202 ' range=':= 42 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3141,8 +3141,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * recrOrangeFluoriteSize ' range=':= 2.67 * recrOrangeFluoriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.0 * recrOrangeFluoriteFreq ' range=':= 0.5 * recrOrangeFluoriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * recrOrangeFluoriteSize ' range=':= 2.67 * oreSize * recrOrangeFluoriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.0 * oreFreq * recrOrangeFluoriteFreq ' range=':= 0.5 * oreFreq * recrOrangeFluoriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 46 ' range=':= 14 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3258,8 +3258,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * recrMountainOrangeFluoriteSize ' range=':= 2.67 * recrMountainOrangeFluoriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.0 * recrMountainOrangeFluoriteFreq ' range=':= 0.5 * recrMountainOrangeFluoriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * recrMountainOrangeFluoriteSize ' range=':= 2.67 * oreSize * recrMountainOrangeFluoriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.0 * oreFreq * recrMountainOrangeFluoriteFreq ' range=':= 0.5 * oreFreq * recrMountainOrangeFluoriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 202 ' range=':= 42 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3371,8 +3371,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * recrMagentaFluoriteSize ' range=':= 2.67 * recrMagentaFluoriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.0 * recrMagentaFluoriteFreq ' range=':= 0.5 * recrMagentaFluoriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * recrMagentaFluoriteSize ' range=':= 2.67 * oreSize * recrMagentaFluoriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.0 * oreFreq * recrMagentaFluoriteFreq ' range=':= 0.5 * oreFreq * recrMagentaFluoriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 46 ' range=':= 14 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3488,8 +3488,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * recrMountainMagentaFluoriteSize ' range=':= 2.67 * recrMountainMagentaFluoriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.0 * recrMountainMagentaFluoriteFreq ' range=':= 0.5 * recrMountainMagentaFluoriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * recrMountainMagentaFluoriteSize ' range=':= 2.67 * oreSize * recrMountainMagentaFluoriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.0 * oreFreq * recrMountainMagentaFluoriteFreq ' range=':= 0.5 * oreFreq * recrMountainMagentaFluoriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 202 ' range=':= 42 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3602,8 +3602,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * recrGreenFluoriteSize ' range=':= 2.67 * recrGreenFluoriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.0 * recrGreenFluoriteFreq ' range=':= 0.5 * recrGreenFluoriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * recrGreenFluoriteSize ' range=':= 2.67 * oreSize * recrGreenFluoriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.0 * oreFreq * recrGreenFluoriteFreq ' range=':= 0.5 * oreFreq * recrGreenFluoriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 46 ' range=':= 14 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3719,8 +3719,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * recrMountainGreenFluoriteSize ' range=':= 2.67 * recrMountainGreenFluoriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.0 * recrMountainGreenFluoriteFreq ' range=':= 0.5 * recrMountainGreenFluoriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * recrMountainGreenFluoriteSize ' range=':= 2.67 * oreSize * recrMountainGreenFluoriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.0 * oreFreq * recrMountainGreenFluoriteFreq ' range=':= 0.5 * oreFreq * recrMountainGreenFluoriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 202 ' range=':= 42 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3832,8 +3832,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore:5' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * recrRedFluoriteSize ' range=':= 2.67 * recrRedFluoriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.0 * recrRedFluoriteFreq ' range=':= 0.5 * recrRedFluoriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * recrRedFluoriteSize ' range=':= 2.67 * oreSize * recrRedFluoriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.0 * oreFreq * recrRedFluoriteFreq ' range=':= 0.5 * oreFreq * recrRedFluoriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 46 ' range=':= 14 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3948,8 +3948,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore:5' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * recrMountainRedFluoriteSize ' range=':= 2.67 * recrMountainRedFluoriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.0 * recrMountainRedFluoriteFreq ' range=':= 0.5 * recrMountainRedFluoriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * recrMountainRedFluoriteSize ' range=':= 2.67 * oreSize * recrMountainRedFluoriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.0 * oreFreq * recrMountainRedFluoriteFreq ' range=':= 0.5 * oreFreq * recrMountainRedFluoriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 202 ' range=':= 42 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4061,8 +4061,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore:6' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * recrWhiteFluoriteSize ' range=':= 2.67 * recrWhiteFluoriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.0 * recrWhiteFluoriteFreq ' range=':= 0.5 * recrWhiteFluoriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * recrWhiteFluoriteSize ' range=':= 2.67 * oreSize * recrWhiteFluoriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.0 * oreFreq * recrWhiteFluoriteFreq ' range=':= 0.5 * oreFreq * recrWhiteFluoriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 46 ' range=':= 14 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4178,8 +4178,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore:6' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * recrMountainWhiteFluoriteSize ' range=':= 2.67 * recrMountainWhiteFluoriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.0 * recrMountainWhiteFluoriteFreq ' range=':= 0.5 * recrMountainWhiteFluoriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * recrMountainWhiteFluoriteSize ' range=':= 2.67 * oreSize * recrMountainWhiteFluoriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.0 * oreFreq * recrMountainWhiteFluoriteFreq ' range=':= 0.5 * oreFreq * recrMountainWhiteFluoriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 202 ' range=':= 42 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4291,8 +4291,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore:7' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * recrYellowFluoriteSize ' range=':= 2.67 * recrYellowFluoriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.0 * recrYellowFluoriteFreq ' range=':= 0.5 * recrYellowFluoriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * recrYellowFluoriteSize ' range=':= 2.67 * oreSize * recrYellowFluoriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.0 * oreFreq * recrYellowFluoriteFreq ' range=':= 0.5 * oreFreq * recrYellowFluoriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 46 ' range=':= 14 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4408,8 +4408,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_fluoriteore:7' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * recrMountainYellowFluoriteSize ' range=':= 2.67 * recrMountainYellowFluoriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.0 * recrMountainYellowFluoriteFreq ' range=':= 0.5 * recrMountainYellowFluoriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * recrMountainYellowFluoriteSize ' range=':= 2.67 * oreSize * recrMountainYellowFluoriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.0 * oreFreq * recrMountainYellowFluoriteFreq ' range=':= 0.5 * oreFreq * recrMountainYellowFluoriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 202 ' range=':= 42 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4561,8 +4561,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_ore:6' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * recrAmmoniumChlorideSize ' range=':= 2.67 * recrAmmoniumChlorideSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * recrAmmoniumChlorideFreq ' range=':= 2.0 * recrAmmoniumChlorideFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * recrAmmoniumChlorideSize ' range=':= 2.67 * oreSize * recrAmmoniumChlorideSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * recrAmmoniumChlorideFreq ' range=':= 2.0 * oreFreq * recrAmmoniumChlorideFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 32 ' range=':= 0 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4679,8 +4679,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_ore:9' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 16.0 * recrThoriteSize ' range=':= 8.0 * recrThoriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 0.667 * recrThoriteFreq ' range=':= 0.33 * recrThoriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 16.0 * oreSize * recrThoriteSize ' range=':= 8.0 * oreSize * recrThoriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 0.667 * oreFreq * recrThoriteFreq ' range=':= 0.33 * oreFreq * recrThoriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 18.5 ' range=':= 13.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4830,8 +4830,8 @@
               <OreBlock block='ReactorCraft:reactorcraft_block_ore:5' weight='1.0' />
               <Replaces block='minecraft:end_stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 10.667 * recrEndPitchblendeSize ' range=':= 5.33 * recrEndPitchblendeSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * recrEndPitchblendeFreq ' range=':= 2.0 * recrEndPitchblendeFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 10.667 * oreSize * recrEndPitchblendeSize ' range=':= 5.33 * oreSize * recrEndPitchblendeSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * recrEndPitchblendeFreq ' range=':= 2.0 * oreFreq * recrEndPitchblendeFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 34.5 ' range=':= 29.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>

@@ -32,7 +32,7 @@
       <OptionChoice name='enableDenseOres' displayName='Handle Dense Ores Setup?' default='true' displayState='shown_dynamic' displayGroup='groupDenseOres'>
         <Description> Should Custom Ore Generation handle Dense Ores ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Dense Ores ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='Dense Ores ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='Dense Ores ores will be handled by Minecraft directly.'/>
       </OptionChoice>
       <OptionChoice name='cleanUpDenseOres' displayName='Use Dense Ores Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupDenseOres'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Dense Ores ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
@@ -747,8 +747,8 @@
               <OreBlock block='denseores:block0:6' weight='0.1' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 10.667 * dnsoCoalSize ' range=':= 5.33 * dnsoCoalSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 13.333 * dnsoCoalFreq ' range=':= 6.67 * dnsoCoalFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 10.667 * oreSize * dnsoCoalSize ' range=':= 5.33 * oreSize * dnsoCoalSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 13.333 * oreFreq * dnsoCoalFreq ' range=':= 6.67 * oreFreq * dnsoCoalFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64 ' range=':= 64 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -864,8 +864,8 @@
               <OreBlock block='denseores:block0' weight='0.1' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * dnsoIronSize ' range=':= 2.67 * dnsoIronSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 13.333 * dnsoIronFreq ' range=':= 6.67 * dnsoIronFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * dnsoIronSize ' range=':= 2.67 * oreSize * dnsoIronSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 13.333 * oreFreq * dnsoIronFreq ' range=':= 6.67 * oreFreq * dnsoIronFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 32 ' range=':= 32 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -981,8 +981,8 @@
               <OreBlock block='denseores:block0' weight='0.1' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * dnsoMountainIronSize ' range=':= 2.67 * dnsoMountainIronSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 13.333 * dnsoMountainIronFreq ' range=':= 6.67 * dnsoMountainIronFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * dnsoMountainIronSize ' range=':= 2.67 * oreSize * dnsoMountainIronSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 13.333 * oreFreq * dnsoMountainIronFreq ' range=':= 6.67 * oreFreq * dnsoMountainIronFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 160 ' range=':= 96 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1098,8 +1098,8 @@
               <OreBlock block='denseores:block0:1' weight='0.1' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * dnsoGoldSize ' range=':= 2.67 * dnsoGoldSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * dnsoGoldFreq ' range=':= 0.67 * dnsoGoldFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * dnsoGoldSize ' range=':= 2.67 * oreSize * dnsoGoldSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * dnsoGoldFreq ' range=':= 0.67 * oreFreq * dnsoGoldFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 16 ' range=':= 16 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1215,8 +1215,8 @@
               <OreBlock block='denseores:block0:1' weight='0.1' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * dnsoMountainGoldSize ' range=':= 2.67 * dnsoMountainGoldSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * dnsoMountainGoldFreq ' range=':= 0.67 * dnsoMountainGoldFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * dnsoMountainGoldSize ' range=':= 2.67 * oreSize * dnsoMountainGoldSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * dnsoMountainGoldFreq ' range=':= 0.67 * oreFreq * dnsoMountainGoldFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 112 ' range=':= 48 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1331,8 +1331,8 @@
               <OreBlock block='denseores:block0:5' weight='0.1' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.667 * dnsoRedstoneSize ' range=':= 2.33 * dnsoRedstoneSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * dnsoRedstoneFreq ' range=':= 2.67 * dnsoRedstoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * dnsoRedstoneSize ' range=':= 2.33 * oreSize * dnsoRedstoneSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * dnsoRedstoneFreq ' range=':= 2.67 * oreFreq * dnsoRedstoneFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 8 ' range=':= 8 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1448,8 +1448,8 @@
               <OreBlock block='denseores:block0:5' weight='0.1' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.667 * dnsoMountainRedstoneSize ' range=':= 2.33 * dnsoMountainRedstoneSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * dnsoMountainRedstoneFreq ' range=':= 2.67 * dnsoMountainRedstoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * dnsoMountainRedstoneSize ' range=':= 2.33 * oreSize * dnsoMountainRedstoneSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * dnsoMountainRedstoneFreq ' range=':= 2.67 * oreFreq * dnsoMountainRedstoneFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 88 ' range=':= 24 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1576,8 +1576,8 @@
               <OreBlock block='denseores:block0:3' weight='0.1' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.667 * dnsoDiamondSize ' range=':= 2.33 * dnsoDiamondSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 0.667 * dnsoDiamondFreq ' range=':= 0.33 * dnsoDiamondFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * dnsoDiamondSize ' range=':= 2.33 * oreSize * dnsoDiamondSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 0.667 * oreFreq * dnsoDiamondFreq ' range=':= 0.33 * oreFreq * dnsoDiamondFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 8 ' range=':= 8 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1692,8 +1692,8 @@
               <OreBlock block='denseores:block0:2' weight='0.1' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * dnsoLapisLazuliSize ' range=':= 2.0 * dnsoLapisLazuliSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 0.667 * dnsoLapisLazuliFreq ' range=':= 0.33 * dnsoLapisLazuliFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * dnsoLapisLazuliSize ' range=':= 2.0 * oreSize * dnsoLapisLazuliSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 0.667 * oreFreq * dnsoLapisLazuliFreq ' range=':= 0.33 * oreFreq * dnsoLapisLazuliFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 16 ' range=':= 0 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1811,8 +1811,8 @@
               <OreBlock block='denseores:block0:2' weight='0.1' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.0 * dnsoMountainLapisLazuliSize ' range=':= 2.0 * dnsoMountainLapisLazuliSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 0.667 * dnsoMountainLapisLazuliFreq ' range=':= 0.33 * dnsoMountainLapisLazuliFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * dnsoMountainLapisLazuliSize ' range=':= 2.0 * oreSize * dnsoMountainLapisLazuliSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 0.667 * oreFreq * dnsoMountainLapisLazuliFreq ' range=':= 0.33 * oreFreq * dnsoMountainLapisLazuliFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 112 ' range=':= 0 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1939,8 +1939,8 @@
               <OreBlock block='denseores:block0:4' weight='0.1' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 1.333 * dnsoEmeraldSize ' range=':= 0.67 * dnsoEmeraldSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 6.0 * dnsoEmeraldFreq ' range=':= 3.0 * dnsoEmeraldFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 1.333 * oreSize * dnsoEmeraldSize ' range=':= 0.67 * oreSize * dnsoEmeraldSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 6.0 * oreFreq * dnsoEmeraldFreq ' range=':= 3.0 * oreFreq * dnsoEmeraldFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 16 ' range=':= 12 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2095,8 +2095,8 @@
               <OreBlock block='denseores:block0:7' weight='0.1' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 10.667 * dnsoNetherQuartzSize ' range=':= 5.33 * dnsoNetherQuartzSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 8.667 * dnsoNetherQuartzFreq ' range=':= 4.33 * dnsoNetherQuartzFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 10.667 * oreSize * dnsoNetherQuartzSize ' range=':= 5.33 * oreSize * dnsoNetherQuartzSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 8.667 * oreFreq * dnsoNetherQuartzFreq ' range=':= 4.33 * oreFreq * dnsoNetherQuartzFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 59 ' range=':= 49 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>

@@ -32,7 +32,7 @@
       <OptionChoice name='enableGalacticraft' displayName='Handle Galacticraft Setup?' default='true' displayState='shown_dynamic' displayGroup='groupGalacticraft'>
         <Description> Should Custom Ore Generation handle Galacticraft ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Galacticraft ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='Galacticraft ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='Galacticraft ores will be handled by Minecraft directly.'/>
       </OptionChoice>
       <OptionChoice name='cleanUpGalacticraft' displayName='Use Galacticraft Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupGalacticraft'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Galacticraft ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
@@ -544,8 +544,8 @@
               <OreBlock block='GalacticraftCore:tile.gcBlockCore:5' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.667 * glctCopperSize ' range=':= 2.33 * glctCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 16.0 * glctCopperFreq ' range=':= 8.0 * glctCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * glctCopperSize ' range=':= 2.33 * oreSize * glctCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 16.0 * oreFreq * glctCopperFreq ' range=':= 8.0 * oreFreq * glctCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 40 ' range=':= 35 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -657,8 +657,8 @@
               <OreBlock block='GalacticraftCore:tile.gcBlockCore:5' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.667 * glctMountainCopperSize ' range=':= 2.33 * glctMountainCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 16.0 * glctMountainCopperFreq ' range=':= 8.0 * glctMountainCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * glctMountainCopperSize ' range=':= 2.33 * oreSize * glctMountainCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 16.0 * oreFreq * glctMountainCopperFreq ' range=':= 8.0 * oreFreq * glctMountainCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 184 ' range=':= 105 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -770,8 +770,8 @@
               <OreBlock block='GalacticraftCore:tile.gcBlockCore:6' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.667 * glctTinSize ' range=':= 2.33 * glctTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 14.667 * glctTinFreq ' range=':= 7.33 * glctTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * glctTinSize ' range=':= 2.33 * oreSize * glctTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 14.667 * oreFreq * glctTinFreq ' range=':= 7.33 * oreFreq * glctTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 33 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -883,8 +883,8 @@
               <OreBlock block='GalacticraftCore:tile.gcBlockCore:6' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.667 * glctMountainTinSize ' range=':= 2.33 * glctMountainTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 14.667 * glctMountainTinFreq ' range=':= 7.33 * glctMountainTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * glctMountainTinSize ' range=':= 2.33 * oreSize * glctMountainTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 14.667 * oreFreq * glctMountainTinFreq ' range=':= 7.33 * oreFreq * glctMountainTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 163 ' range=':= 81 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -996,8 +996,8 @@
               <OreBlock block='GalacticraftCore:tile.gcBlockCore:7' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.667 * glctAluminumSize ' range=':= 2.33 * glctAluminumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 12.0 * glctAluminumFreq ' range=':= 6.0 * glctAluminumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * glctAluminumSize ' range=':= 2.33 * oreSize * glctAluminumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 12.0 * oreFreq * glctAluminumFreq ' range=':= 6.0 * oreFreq * glctAluminumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 25 ' range=':= 20 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1110,8 +1110,8 @@
               <OreBlock block='GalacticraftCore:tile.gcBlockCore:7' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.667 * glctMountainAluminumSize ' range=':= 2.33 * glctMountainAluminumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 12.0 * glctMountainAluminumFreq ' range=':= 6.0 * glctMountainAluminumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * glctMountainAluminumSize ' range=':= 2.33 * oreSize * glctMountainAluminumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 12.0 * oreFreq * glctMountainAluminumFreq ' range=':= 6.0 * oreFreq * glctMountainAluminumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 139 ' range=':= 60 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1223,8 +1223,8 @@
               <OreBlock block='GalacticraftCore:tile.gcBlockCore:8' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.667 * glctSiliconSize ' range=':= 2.33 * glctSiliconSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * glctSiliconFreq ' range=':= 1.0 * glctSiliconFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * glctSiliconSize ' range=':= 2.33 * oreSize * glctSiliconSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * glctSiliconFreq ' range=':= 1.0 * oreFreq * glctSiliconFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 15 ' range=':= 10 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1336,8 +1336,8 @@
               <OreBlock block='GalacticraftCore:tile.gcBlockCore:8' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.667 * glctMountainSiliconSize ' range=':= 2.33 * glctMountainSiliconSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * glctMountainSiliconFreq ' range=':= 1.0 * glctMountainSiliconFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * glctMountainSiliconSize ' range=':= 2.33 * oreSize * glctMountainSiliconSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * glctMountainSiliconFreq ' range=':= 1.0 * oreFreq * glctMountainSiliconFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 109 ' range=':= 30 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>

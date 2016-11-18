@@ -34,7 +34,7 @@
       <OptionChoice name='enableNetherOres' displayName='Handle Nether Ores Setup?' default='true' displayState='shown_dynamic' displayGroup='groupNetherOres'>
         <Description> Should Custom Ore Generation handle Nether Ores ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Nether Ores ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='Nether Ores ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='Nether Ores ores will be handled by Minecraft directly.'/>
       </OptionChoice>
       <OptionChoice name='cleanUpNetherOres' displayName='Use Nether Ores Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupNetherOres'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Nether Ores ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
@@ -1683,8 +1683,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.0' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 10.667 * nthoCoalSize ' range=':= 5.33 * nthoCoalSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * nthoCoalFreq ' range=':= 2.67 * nthoCoalFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 10.667 * oreSize * nthoCoalSize ' range=':= 5.33 * oreSize * nthoCoalSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * nthoCoalFreq ' range=':= 2.67 * oreFreq * nthoCoalFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1806,8 +1806,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.0:1' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * nthoDiamondSize ' range=':= 1.0 * nthoDiamondSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * nthoDiamondFreq ' range=':= 1.33 * nthoDiamondFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * nthoDiamondSize ' range=':= 1.0 * oreSize * nthoDiamondSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * nthoDiamondFreq ' range=':= 1.33 * oreFreq * nthoDiamondFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1919,8 +1919,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.0:2' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * nthoGoldSize ' range=':= 2.0 * nthoGoldSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * nthoGoldFreq ' range=':= 2.67 * nthoGoldFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * nthoGoldSize ' range=':= 2.0 * oreSize * nthoGoldSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * nthoGoldFreq ' range=':= 2.67 * oreFreq * nthoGoldFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2032,8 +2032,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.0:3' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * nthoIronSize ' range=':= 2.67 * nthoIronSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * nthoIronFreq ' range=':= 2.67 * nthoIronFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * nthoIronSize ' range=':= 2.67 * oreSize * nthoIronSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * nthoIronFreq ' range=':= 2.67 * oreFreq * nthoIronFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2144,8 +2144,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.0:4' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * nthoLapisLazuliSize ' range=':= 2.0 * nthoLapisLazuliSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nthoLapisLazuliFreq ' range=':= 2.0 * nthoLapisLazuliFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * nthoLapisLazuliSize ' range=':= 2.0 * oreSize * nthoLapisLazuliSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nthoLapisLazuliFreq ' range=':= 2.0 * oreFreq * nthoLapisLazuliFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2256,8 +2256,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.0:5' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * nthoRedstoneSize ' range=':= 2.67 * nthoRedstoneSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nthoRedstoneFreq ' range=':= 2.0 * nthoRedstoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * nthoRedstoneSize ' range=':= 2.67 * oreSize * nthoRedstoneSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nthoRedstoneFreq ' range=':= 2.0 * oreFreq * nthoRedstoneFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2369,8 +2369,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.0:6' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * nthoCopperSize ' range=':= 2.67 * nthoCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * nthoCopperFreq ' range=':= 2.67 * nthoCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * nthoCopperSize ' range=':= 2.67 * oreSize * nthoCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * nthoCopperFreq ' range=':= 2.67 * oreFreq * nthoCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2482,8 +2482,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.0:7' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * nthoTinSize ' range=':= 2.67 * nthoTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * nthoTinFreq ' range=':= 2.67 * nthoTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * nthoTinSize ' range=':= 2.67 * oreSize * nthoTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * nthoTinFreq ' range=':= 2.67 * oreFreq * nthoTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2605,8 +2605,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.0:8' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 1.333 * nthoEmeraldSize ' range=':= 0.67 * nthoEmeraldSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * nthoEmeraldFreq ' range=':= 1.0 * nthoEmeraldFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 1.333 * oreSize * nthoEmeraldSize ' range=':= 0.67 * oreSize * nthoEmeraldSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * nthoEmeraldFreq ' range=':= 1.0 * oreFreq * nthoEmeraldFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2718,8 +2718,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.0:9' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * nthoSilverSize ' range=':= 1.33 * nthoSilverSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nthoSilverFreq ' range=':= 2.0 * nthoSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * nthoSilverSize ' range=':= 1.33 * oreSize * nthoSilverSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nthoSilverFreq ' range=':= 2.0 * oreFreq * nthoSilverFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2831,8 +2831,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.0:10' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * nthoLeadSize ' range=':= 2.0 * nthoLeadSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nthoLeadFreq ' range=':= 2.0 * nthoLeadFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * nthoLeadSize ' range=':= 2.0 * oreSize * nthoLeadSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nthoLeadFreq ' range=':= 2.0 * oreFreq * nthoLeadFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2949,8 +2949,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.0:11' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 1.333 * nthoUraniumSize ' range=':= 0.67 * nthoUraniumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * nthoUraniumFreq ' range=':= 1.0 * nthoUraniumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 1.333 * oreSize * nthoUraniumSize ' range=':= 0.67 * oreSize * nthoUraniumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * nthoUraniumFreq ' range=':= 1.0 * oreFreq * nthoUraniumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3061,8 +3061,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.0:12' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * nthoNikoliteSize ' range=':= 1.33 * nthoNikoliteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * nthoNikoliteFreq ' range=':= 2.67 * nthoNikoliteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * nthoNikoliteSize ' range=':= 1.33 * oreSize * nthoNikoliteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * nthoNikoliteFreq ' range=':= 2.67 * oreFreq * nthoNikoliteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3184,8 +3184,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.0:13' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * nthoRubySize ' range=':= 1.0 * nthoRubySize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nthoRubyFreq ' range=':= 2.0 * nthoRubyFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * nthoRubySize ' range=':= 1.0 * oreSize * nthoRubySize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nthoRubyFreq ' range=':= 2.0 * oreFreq * nthoRubyFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3307,8 +3307,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.0:14' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * nthoPeridotSize ' range=':= 1.0 * nthoPeridotSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nthoPeridotFreq ' range=':= 2.0 * nthoPeridotFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * nthoPeridotSize ' range=':= 1.0 * oreSize * nthoPeridotSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nthoPeridotFreq ' range=':= 2.0 * oreFreq * nthoPeridotFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3430,8 +3430,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.0:15' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * nthoSapphireSize ' range=':= 1.0 * nthoSapphireSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nthoSapphireFreq ' range=':= 2.0 * nthoSapphireFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * nthoSapphireSize ' range=':= 1.0 * oreSize * nthoSapphireSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nthoSapphireFreq ' range=':= 2.0 * oreFreq * nthoSapphireFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3543,8 +3543,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.1' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * nthoPlatinumSize ' range=':= 1.0 * nthoPlatinumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 0.667 * nthoPlatinumFreq ' range=':= 0.33 * nthoPlatinumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * nthoPlatinumSize ' range=':= 1.0 * oreSize * nthoPlatinumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 0.667 * oreFreq * nthoPlatinumFreq ' range=':= 0.33 * oreFreq * nthoPlatinumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3656,8 +3656,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.1:1' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * nthoNickelSize ' range=':= 2.0 * nthoNickelSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * nthoNickelFreq ' range=':= 1.33 * nthoNickelFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * nthoNickelSize ' range=':= 2.0 * oreSize * nthoNickelSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * nthoNickelFreq ' range=':= 1.33 * oreFreq * nthoNickelFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3769,8 +3769,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.1:2' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * nthoSteelSize ' range=':= 1.33 * nthoSteelSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * nthoSteelFreq ' range=':= 1.0 * nthoSteelFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * nthoSteelSize ' range=':= 1.33 * oreSize * nthoSteelSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * nthoSteelFreq ' range=':= 1.0 * oreFreq * nthoSteelFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3882,8 +3882,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.1:3' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 1.333 * nthoIridiumSize ' range=':= 0.67 * nthoIridiumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 0.667 * nthoIridiumFreq ' range=':= 0.33 * nthoIridiumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 1.333 * oreSize * nthoIridiumSize ' range=':= 0.67 * oreSize * nthoIridiumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 0.667 * oreFreq * nthoIridiumFreq ' range=':= 0.33 * oreFreq * nthoIridiumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3995,8 +3995,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.1:4' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.667 * nthoOsmiumSize ' range=':= 2.33 * nthoOsmiumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * nthoOsmiumFreq ' range=':= 2.67 * nthoOsmiumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * nthoOsmiumSize ' range=':= 2.33 * oreSize * nthoOsmiumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * nthoOsmiumFreq ' range=':= 2.67 * oreFreq * nthoOsmiumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4118,8 +4118,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.1:5' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 8.0 * nthoSulfurSize ' range=':= 4.0 * nthoSulfurSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 8.0 * nthoSulfurFreq ' range=':= 4.0 * nthoSulfurFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 8.0 * oreSize * nthoSulfurSize ' range=':= 4.0 * oreSize * nthoSulfurSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 8.0 * oreFreq * nthoSulfurFreq ' range=':= 4.0 * oreFreq * nthoSulfurFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4231,8 +4231,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.1:6' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 1.333 * nthoTitaniumSize ' range=':= 0.67 * nthoTitaniumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * nthoTitaniumFreq ' range=':= 1.0 * nthoTitaniumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 1.333 * oreSize * nthoTitaniumSize ' range=':= 0.67 * oreSize * nthoTitaniumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * nthoTitaniumFreq ' range=':= 1.0 * oreFreq * nthoTitaniumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4344,8 +4344,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.1:7' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * nthoMithrilSize ' range=':= 2.0 * nthoMithrilSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nthoMithrilFreq ' range=':= 2.0 * nthoMithrilFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * nthoMithrilSize ' range=':= 2.0 * oreSize * nthoMithrilSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nthoMithrilFreq ' range=':= 2.0 * oreFreq * nthoMithrilFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4457,8 +4457,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.1:8' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * nthoAdamantiumSize ' range=':= 1.33 * nthoAdamantiumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 3.333 * nthoAdamantiumFreq ' range=':= 1.67 * nthoAdamantiumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * nthoAdamantiumSize ' range=':= 1.33 * oreSize * nthoAdamantiumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 3.333 * oreFreq * nthoAdamantiumFreq ' range=':= 1.67 * oreFreq * nthoAdamantiumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4570,8 +4570,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.1:9' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * nthoRutileSize ' range=':= 1.33 * nthoRutileSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * nthoRutileFreq ' range=':= 1.0 * nthoRutileFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * nthoRutileSize ' range=':= 1.33 * oreSize * nthoRutileSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * nthoRutileFreq ' range=':= 1.0 * oreFreq * nthoRutileFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4683,8 +4683,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.1:10' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * nthoTungstenSize ' range=':= 2.67 * nthoTungstenSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * nthoTungstenFreq ' range=':= 2.67 * nthoTungstenFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * nthoTungstenSize ' range=':= 2.67 * oreSize * nthoTungstenSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * nthoTungstenFreq ' range=':= 2.67 * oreFreq * nthoTungstenFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4801,8 +4801,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.1:11' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * nthoAmberSize ' range=':= 2.0 * nthoAmberSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 3.333 * nthoAmberFreq ' range=':= 1.67 * nthoAmberFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * nthoAmberSize ' range=':= 2.0 * oreSize * nthoAmberSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 3.333 * oreFreq * nthoAmberFreq ' range=':= 1.67 * oreFreq * nthoAmberFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4914,8 +4914,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.1:12' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * nthoTennantiteSize ' range=':= 2.67 * nthoTennantiteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * nthoTennantiteFreq ' range=':= 2.67 * nthoTennantiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * nthoTennantiteSize ' range=':= 2.67 * oreSize * nthoTennantiteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * nthoTennantiteFreq ' range=':= 2.67 * oreFreq * nthoTennantiteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -5032,8 +5032,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.1:13' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 3.333 * nthoSaltSize ' range=':= 1.67 * nthoSaltSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 3.333 * nthoSaltFreq ' range=':= 1.67 * nthoSaltFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 3.333 * oreSize * nthoSaltSize ' range=':= 1.67 * oreSize * nthoSaltSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 3.333 * oreFreq * nthoSaltFreq ' range=':= 1.67 * oreFreq * nthoSaltFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -5150,8 +5150,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.1:14' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * nthoSaltpeterSize ' range=':= 1.33 * nthoSaltpeterSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nthoSaltpeterFreq ' range=':= 2.0 * nthoSaltpeterFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * nthoSaltpeterSize ' range=':= 1.33 * oreSize * nthoSaltpeterSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nthoSaltpeterFreq ' range=':= 2.0 * oreFreq * nthoSaltpeterFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -5268,8 +5268,8 @@
               <OreBlock block='NetherOres:tile.netherores.ore.1:15' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 3.333 * nthoMagnesiumSize ' range=':= 1.67 * nthoMagnesiumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * nthoMagnesiumFreq ' range=':= 1.33 * nthoMagnesiumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 3.333 * oreSize * nthoMagnesiumSize ' range=':= 1.67 * oreSize * nthoMagnesiumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * nthoMagnesiumFreq ' range=':= 1.33 * oreFreq * nthoMagnesiumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>

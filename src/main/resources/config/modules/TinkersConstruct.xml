@@ -35,7 +35,7 @@
       <OptionChoice name='enableTinkersConstruct' displayName='Handle Tinkers Construct Setup?' default='true' displayState='shown_dynamic' displayGroup='groupTinkersConstruct'>
         <Description> Should Custom Ore Generation handle Tinkers Construct ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Tinkers Construct ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='Tinkers Construct ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='Tinkers Construct ores will be handled by Minecraft directly.'/>
       </OptionChoice>
       <OptionChoice name='cleanUpTinkersConstruct' displayName='Use Tinkers Construct Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupTinkersConstruct'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Tinkers Construct ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
@@ -1026,8 +1026,8 @@
               <OreBlock block='TConstruct:SearedBrick:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * ticoCopperSize ' range=':= 2.67 * ticoCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * ticoCopperFreq ' range=':= 0.67 * ticoCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * ticoCopperSize ' range=':= 2.67 * oreSize * ticoCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * ticoCopperFreq ' range=':= 0.67 * oreFreq * ticoCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 40 ' range=':= 20 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1139,8 +1139,8 @@
               <OreBlock block='TConstruct:SearedBrick:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * ticoMountainCopperSize ' range=':= 2.67 * ticoMountainCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * ticoMountainCopperFreq ' range=':= 0.67 * ticoMountainCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * ticoMountainCopperSize ' range=':= 2.67 * oreSize * ticoMountainCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * ticoMountainCopperFreq ' range=':= 0.67 * oreFreq * ticoMountainCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 184 ' range=':= 60 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1252,8 +1252,8 @@
               <OreBlock block='TConstruct:SearedBrick:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * ticoTinSize ' range=':= 2.67 * ticoTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * ticoTinFreq ' range=':= 0.67 * ticoTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * ticoTinSize ' range=':= 2.67 * oreSize * ticoTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * ticoTinFreq ' range=':= 0.67 * oreFreq * ticoTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 23 ' range=':= 17 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1365,8 +1365,8 @@
               <OreBlock block='TConstruct:SearedBrick:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * ticoMountainTinSize ' range=':= 2.67 * ticoMountainTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * ticoMountainTinFreq ' range=':= 0.67 * ticoMountainTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * ticoMountainTinSize ' range=':= 2.67 * oreSize * ticoMountainTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * ticoMountainTinFreq ' range=':= 0.67 * oreFreq * ticoMountainTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 133 ' range=':= 51 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1478,8 +1478,8 @@
               <OreBlock block='TConstruct:SearedBrick:5' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * ticoAluminumSize ' range=':= 2.0 * ticoAluminumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * ticoAluminumFreq ' range=':= 1.0 * ticoAluminumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * ticoAluminumSize ' range=':= 2.0 * oreSize * ticoAluminumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * ticoAluminumFreq ' range=':= 1.0 * oreFreq * ticoAluminumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 35 ' range=':= 29 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1592,8 +1592,8 @@
               <OreBlock block='TConstruct:SearedBrick:5' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.0 * ticoMountainAluminumSize ' range=':= 2.0 * ticoMountainAluminumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * ticoMountainAluminumFreq ' range=':= 1.0 * ticoMountainAluminumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * ticoMountainAluminumSize ' range=':= 2.0 * oreSize * ticoMountainAluminumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * ticoMountainAluminumFreq ' range=':= 1.0 * oreFreq * ticoMountainAluminumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 169 ' range=':= 87 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1705,8 +1705,8 @@
               <OreBlock block='TConstruct:GravelOre' weight='1.0' />
               <Replaces block='minecraft:gravel' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * ticoIronGravelSize ' range=':= 2.67 * ticoIronGravelSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 13.333 * ticoIronGravelFreq ' range=':= 6.67 * ticoIronGravelFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * ticoIronGravelSize ' range=':= 2.67 * oreSize * ticoIronGravelSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 13.333 * oreFreq * ticoIronGravelFreq ' range=':= 6.67 * oreFreq * ticoIronGravelFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 36 ' range=':= 31 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1821,8 +1821,8 @@
               <OreBlock block='TConstruct:GravelOre' weight='1.0' />
               <Replaces block='minecraft:gravel' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * ticoMountainIronGravelSize ' range=':= 2.67 * ticoMountainIronGravelSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 13.333 * ticoMountainIronGravelFreq ' range=':= 6.67 * ticoMountainIronGravelFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * ticoMountainIronGravelSize ' range=':= 2.67 * oreSize * ticoMountainIronGravelSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 13.333 * oreFreq * ticoMountainIronGravelFreq ' range=':= 6.67 * oreFreq * ticoMountainIronGravelFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 172 ' range=':= 93 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1934,8 +1934,8 @@
               <OreBlock block='TConstruct:GravelOre:1' weight='1.0' />
               <Replaces block='minecraft:gravel' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * ticoGoldGravelSize ' range=':= 2.67 * ticoGoldGravelSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * ticoGoldGravelFreq ' range=':= 0.67 * ticoGoldGravelFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * ticoGoldGravelSize ' range=':= 2.67 * oreSize * ticoGoldGravelSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * ticoGoldGravelFreq ' range=':= 0.67 * oreFreq * ticoGoldGravelFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 19 ' range=':= 14 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2050,8 +2050,8 @@
               <OreBlock block='TConstruct:GravelOre:1' weight='1.0' />
               <Replaces block='minecraft:gravel' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * ticoMountainGoldGravelSize ' range=':= 2.67 * ticoMountainGoldGravelSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * ticoMountainGoldGravelFreq ' range=':= 0.67 * ticoMountainGoldGravelFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * ticoMountainGoldGravelSize ' range=':= 2.67 * oreSize * ticoMountainGoldGravelSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * ticoMountainGoldGravelFreq ' range=':= 0.67 * oreFreq * ticoMountainGoldGravelFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 121 ' range=':= 42 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2163,8 +2163,8 @@
               <OreBlock block='TConstruct:GravelOre:2' weight='1.0' />
               <Replaces block='minecraft:gravel' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * ticoCopperGravelSize ' range=':= 2.67 * ticoCopperGravelSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * ticoCopperGravelFreq ' range=':= 0.67 * ticoCopperGravelFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * ticoCopperGravelSize ' range=':= 2.67 * oreSize * ticoCopperGravelSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * ticoCopperGravelFreq ' range=':= 0.67 * oreFreq * ticoCopperGravelFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 68 ' range=':= 28 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2276,8 +2276,8 @@
               <OreBlock block='TConstruct:GravelOre:3' weight='1.0' />
               <Replaces block='minecraft:gravel' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * ticoTinGravelSize ' range=':= 2.67 * ticoTinGravelSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * ticoTinGravelFreq ' range=':= 2.67 * ticoTinGravelFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * ticoTinGravelSize ' range=':= 2.67 * oreSize * ticoTinGravelSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * ticoTinGravelFreq ' range=':= 2.67 * oreFreq * ticoTinGravelFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 38 ' range=':= 17 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2390,8 +2390,8 @@
               <OreBlock block='TConstruct:GravelOre:3' weight='1.0' />
               <Replaces block='minecraft:gravel' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * ticoMountainTinGravelSize ' range=':= 2.67 * ticoMountainTinGravelSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * ticoMountainTinGravelFreq ' range=':= 2.67 * ticoMountainTinGravelFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * ticoMountainTinGravelSize ' range=':= 2.67 * oreSize * ticoMountainTinGravelSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * ticoMountainTinGravelFreq ' range=':= 2.67 * oreFreq * ticoMountainTinGravelFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 178 ' range=':= 51 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2503,8 +2503,8 @@
               <OreBlock block='TConstruct:GravelOre:4' weight='1.0' />
               <Replaces block='minecraft:gravel' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * ticoAluminumGravelSize ' range=':= 2.0 * ticoAluminumGravelSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * ticoAluminumGravelFreq ' range=':= 1.0 * ticoAluminumGravelFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * ticoAluminumGravelSize ' range=':= 2.0 * oreSize * ticoAluminumGravelSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * ticoAluminumGravelFreq ' range=':= 1.0 * oreFreq * ticoAluminumGravelFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 35 ' range=':= 29 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2620,8 +2620,8 @@
               <OreBlock block='TConstruct:GravelOre:4' weight='1.0' />
               <Replaces block='minecraft:gravel' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.0 * ticoMountainAluminumGravelSize ' range=':= 2.0 * ticoMountainAluminumGravelSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * ticoMountainAluminumGravelFreq ' range=':= 1.0 * ticoMountainAluminumGravelFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * ticoMountainAluminumGravelSize ' range=':= 2.0 * oreSize * ticoMountainAluminumGravelSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * ticoMountainAluminumGravelFreq ' range=':= 1.0 * oreFreq * ticoMountainAluminumGravelFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 169 ' range=':= 87 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2783,8 +2783,8 @@
               <OreBlock block='TConstruct:SearedBrick:1' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * ticoCobaltSize ' range=':= 1.0 * ticoCobaltSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * ticoCobaltFreq ' range=':= 2.67 * ticoCobaltFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * ticoCobaltSize ' range=':= 1.0 * oreSize * ticoCobaltSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * ticoCobaltFreq ' range=':= 2.67 * oreFreq * ticoCobaltFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2896,8 +2896,8 @@
               <OreBlock block='TConstruct:SearedBrick:2' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * ticoArditeSize ' range=':= 1.0 * ticoArditeSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * ticoArditeFreq ' range=':= 2.67 * ticoArditeFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * ticoArditeSize ' range=':= 1.0 * oreSize * ticoArditeSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * ticoArditeFreq ' range=':= 2.67 * oreFreq * ticoArditeFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3009,8 +3009,8 @@
               <OreBlock block='TConstruct:GravelOre:5' weight='1.0' />
               <Replaces block='minecraft:gravel' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * ticoCobaltGravelSize ' range=':= 1.0 * ticoCobaltGravelSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * ticoCobaltGravelFreq ' range=':= 2.67 * ticoCobaltGravelFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * ticoCobaltGravelSize ' range=':= 1.0 * oreSize * ticoCobaltGravelSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * ticoCobaltGravelFreq ' range=':= 2.67 * oreFreq * ticoCobaltGravelFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>

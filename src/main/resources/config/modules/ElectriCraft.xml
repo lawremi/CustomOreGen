@@ -33,7 +33,7 @@
       <OptionChoice name='enableElectriCraft' displayName='Handle ElectriCraft Setup?' default='true' displayState='shown_dynamic' displayGroup='groupElectriCraft'>
         <Description> Should Custom Ore Generation handle ElectriCraft ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle ElectriCraft ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='ElectriCraft ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='ElectriCraft ores will be handled by Minecraft directly.'/>
       </OptionChoice>
       <OptionChoice name='cleanUpElectriCraft' displayName='Use ElectriCraft Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupElectriCraft'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of ElectriCraft ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
@@ -685,8 +685,8 @@
               <OreBlock block='ElectriCraft:electricraft_block_ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * elcrCopperSize ' range=':= 2.0 * elcrCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * elcrCopperFreq ' range=':= 2.67 * elcrCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * elcrCopperSize ' range=':= 2.0 * oreSize * elcrCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * elcrCopperFreq ' range=':= 2.67 * oreFreq * elcrCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 48 ' range=':= 16 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -798,8 +798,8 @@
               <OreBlock block='ElectriCraft:electricraft_block_ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.0 * elcrMountainCopperSize ' range=':= 2.0 * elcrMountainCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * elcrMountainCopperFreq ' range=':= 2.67 * elcrMountainCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * elcrMountainCopperSize ' range=':= 2.0 * oreSize * elcrMountainCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * elcrMountainCopperFreq ' range=':= 2.67 * oreFreq * elcrMountainCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 208 ' range=':= 48 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -911,8 +911,8 @@
               <OreBlock block='ElectriCraft:electricraft_block_ore:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * elcrTinSize ' range=':= 2.67 * elcrTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * elcrTinFreq ' range=':= 2.67 * elcrTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * elcrTinSize ' range=':= 2.67 * oreSize * elcrTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * elcrTinFreq ' range=':= 2.67 * oreFreq * elcrTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 60 ' range=':= 12 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1024,8 +1024,8 @@
               <OreBlock block='ElectriCraft:electricraft_block_ore:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * elcrMountainTinSize ' range=':= 2.67 * elcrMountainTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * elcrMountainTinFreq ' range=':= 2.67 * elcrMountainTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * elcrMountainTinSize ' range=':= 2.67 * oreSize * elcrMountainTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * elcrMountainTinFreq ' range=':= 2.67 * oreFreq * elcrMountainTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 244 ' range=':= 36 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1137,8 +1137,8 @@
               <OreBlock block='ElectriCraft:electricraft_block_ore:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * elcrSilverSize ' range=':= 2.0 * elcrSilverSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * elcrSilverFreq ' range=':= 1.33 * elcrSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * elcrSilverSize ' range=':= 2.0 * oreSize * elcrSilverSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * elcrSilverFreq ' range=':= 1.33 * oreFreq * elcrSilverFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 19 ' range=':= 13 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1250,8 +1250,8 @@
               <OreBlock block='ElectriCraft:electricraft_block_ore:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.0 * elcrMountainSilverSize ' range=':= 2.0 * elcrMountainSilverSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * elcrMountainSilverFreq ' range=':= 1.33 * elcrMountainSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * elcrMountainSilverSize ' range=':= 2.0 * oreSize * elcrMountainSilverSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * elcrMountainSilverFreq ' range=':= 1.33 * oreFreq * elcrMountainSilverFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 121 ' range=':= 39 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1363,8 +1363,8 @@
               <OreBlock block='ElectriCraft:electricraft_block_ore:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * elcrNickelSize ' range=':= 2.67 * elcrNickelSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * elcrNickelFreq ' range=':= 2.0 * elcrNickelFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * elcrNickelSize ' range=':= 2.67 * oreSize * elcrNickelSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * elcrNickelFreq ' range=':= 2.0 * oreFreq * elcrNickelFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 32 ' range=':= 16 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1476,8 +1476,8 @@
               <OreBlock block='ElectriCraft:electricraft_block_ore:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * elcrMountainNickelSize ' range=':= 2.67 * elcrMountainNickelSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * elcrMountainNickelFreq ' range=':= 2.0 * elcrMountainNickelFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * elcrMountainNickelSize ' range=':= 2.67 * oreSize * elcrMountainNickelSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * elcrMountainNickelFreq ' range=':= 2.0 * oreFreq * elcrMountainNickelFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 160 ' range=':= 48 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1589,8 +1589,8 @@
               <OreBlock block='ElectriCraft:electricraft_block_ore:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * elcrAluminumSize ' range=':= 2.67 * elcrAluminumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 6.667 * elcrAluminumFreq ' range=':= 3.33 * elcrAluminumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * elcrAluminumSize ' range=':= 2.67 * oreSize * elcrAluminumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 6.667 * oreFreq * elcrAluminumFreq ' range=':= 3.33 * oreFreq * elcrAluminumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 94 ' range=':= 34 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1702,8 +1702,8 @@
               <OreBlock block='ElectriCraft:electricraft_block_ore:5' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * elcrPlatinumSize ' range=':= 1.33 * elcrPlatinumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * elcrPlatinumFreq ' range=':= 0.67 * elcrPlatinumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * elcrPlatinumSize ' range=':= 1.33 * oreSize * elcrPlatinumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * elcrPlatinumFreq ' range=':= 0.67 * oreFreq * elcrPlatinumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 11 ' range=':= 5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1816,8 +1816,8 @@
               <OreBlock block='ElectriCraft:electricraft_block_ore:5' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 2.667 * elcrMountainPlatinumSize ' range=':= 1.33 * elcrMountainPlatinumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * elcrMountainPlatinumFreq ' range=':= 0.67 * elcrMountainPlatinumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * elcrMountainPlatinumSize ' range=':= 1.33 * oreSize * elcrMountainPlatinumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * elcrMountainPlatinumFreq ' range=':= 0.67 * oreFreq * elcrMountainPlatinumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 97 ' range=':= 15 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>

@@ -33,7 +33,7 @@
       <OptionChoice name='enableRailCraft' displayName='Handle RailCraft Setup?' default='true' displayState='shown_dynamic' displayGroup='groupRailCraft'>
         <Description> Should Custom Ore Generation handle RailCraft ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle RailCraft ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='RailCraft ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='RailCraft ores will be handled by Minecraft directly.'/>
       </OptionChoice>
       <OptionChoice name='cleanUpRailCraft' displayName='Use RailCraft Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupRailCraft'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of RailCraft ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
@@ -912,8 +912,8 @@
               <OreBlock block='Railcraft:ore:7' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 10.667 * rlcrPoorIronSize ' range=':= 5.33 * rlcrPoorIronSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 21.333 * rlcrPoorIronFreq ' range=':= 10.67 * rlcrPoorIronFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 10.667 * oreSize * rlcrPoorIronSize ' range=':= 5.33 * oreSize * rlcrPoorIronSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 21.333 * oreFreq * rlcrPoorIronFreq ' range=':= 10.67 * oreFreq * rlcrPoorIronFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 40 ' range=':= 4 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1031,8 +1031,8 @@
               <OreBlock block='Railcraft:ore:7' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 10.667 * rlcrMountainPoorIronSize ' range=':= 5.33 * rlcrMountainPoorIronSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 21.333 * rlcrMountainPoorIronFreq ' range=':= 10.67 * rlcrMountainPoorIronFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 10.667 * oreSize * rlcrMountainPoorIronSize ' range=':= 5.33 * oreSize * rlcrMountainPoorIronSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 21.333 * oreFreq * rlcrMountainPoorIronFreq ' range=':= 10.67 * oreFreq * rlcrMountainPoorIronFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 184 ' range=':= 12 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1149,8 +1149,8 @@
               <OreBlock block='Railcraft:ore:8' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 0.667 * rlcrPoorGoldSize ' range=':= 0.33 * rlcrPoorGoldSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 21.333 * rlcrPoorGoldFreq ' range=':= 10.67 * rlcrPoorGoldFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 0.667 * oreSize * rlcrPoorGoldSize ' range=':= 0.33 * oreSize * rlcrPoorGoldSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 21.333 * oreFreq * rlcrPoorGoldFreq ' range=':= 10.67 * oreFreq * rlcrPoorGoldFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 15 ' range=':= 1 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1268,8 +1268,8 @@
               <OreBlock block='Railcraft:ore:8' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 0.667 * rlcrMountainPoorGoldSize ' range=':= 0.33 * rlcrMountainPoorGoldSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 21.333 * rlcrMountainPoorGoldFreq ' range=':= 10.67 * rlcrMountainPoorGoldFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 0.667 * oreSize * rlcrMountainPoorGoldSize ' range=':= 0.33 * oreSize * rlcrMountainPoorGoldSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 21.333 * oreFreq * rlcrMountainPoorGoldFreq ' range=':= 10.67 * oreFreq * rlcrMountainPoorGoldFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 109 ' range=':= 3 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1386,8 +1386,8 @@
               <OreBlock block='Railcraft:ore:9' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * rlcrPoorCopperSize ' range=':= 2.67 * rlcrPoorCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 21.333 * rlcrPoorCopperFreq ' range=':= 10.67 * rlcrPoorCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * rlcrPoorCopperSize ' range=':= 2.67 * oreSize * rlcrPoorCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 21.333 * oreFreq * rlcrPoorCopperFreq ' range=':= 10.67 * oreFreq * rlcrPoorCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 60 ' range=':= 3 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1506,8 +1506,8 @@
               <OreBlock block='Railcraft:ore:9' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * rlcrMountainPoorCopperSize ' range=':= 2.67 * rlcrMountainPoorCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 21.333 * rlcrMountainPoorCopperFreq ' range=':= 10.67 * rlcrMountainPoorCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * rlcrMountainPoorCopperSize ' range=':= 2.67 * oreSize * rlcrMountainPoorCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 21.333 * oreFreq * rlcrMountainPoorCopperFreq ' range=':= 10.67 * oreFreq * rlcrMountainPoorCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 244 ' range=':= 9 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1624,8 +1624,8 @@
               <OreBlock block='Railcraft:ore:10' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 1.333 * rlcrPoorTinSize ' range=':= 0.67 * rlcrPoorTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 21.333 * rlcrPoorTinFreq ' range=':= 10.67 * rlcrPoorTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 1.333 * oreSize * rlcrPoorTinSize ' range=':= 0.67 * oreSize * rlcrPoorTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 21.333 * oreFreq * rlcrPoorTinFreq ' range=':= 10.67 * oreFreq * rlcrPoorTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 50 ' range=':= 2 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1743,8 +1743,8 @@
               <OreBlock block='Railcraft:ore:10' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 1.333 * rlcrMountainPoorTinSize ' range=':= 0.67 * rlcrMountainPoorTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 21.333 * rlcrMountainPoorTinFreq ' range=':= 10.67 * rlcrMountainPoorTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 1.333 * oreSize * rlcrMountainPoorTinSize ' range=':= 0.67 * oreSize * rlcrMountainPoorTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 21.333 * oreFreq * rlcrMountainPoorTinFreq ' range=':= 10.67 * oreFreq * rlcrMountainPoorTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 214 ' range=':= 6 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1861,8 +1861,8 @@
               <OreBlock block='Railcraft:ore:11' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * rlcrPoorLeadSize ' range=':= 2.0 * rlcrPoorLeadSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 21.333 * rlcrPoorLeadFreq ' range=':= 10.67 * rlcrPoorLeadFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * rlcrPoorLeadSize ' range=':= 2.0 * oreSize * rlcrPoorLeadSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 21.333 * oreFreq * rlcrPoorLeadFreq ' range=':= 10.67 * oreFreq * rlcrPoorLeadFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 30 ' range=':= 3 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1980,8 +1980,8 @@
               <OreBlock block='Railcraft:ore:11' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.0 * rlcrMountainPoorLeadSize ' range=':= 2.0 * rlcrMountainPoorLeadSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 21.333 * rlcrMountainPoorLeadFreq ' range=':= 10.67 * rlcrMountainPoorLeadFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * rlcrMountainPoorLeadSize ' range=':= 2.0 * oreSize * rlcrMountainPoorLeadSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 21.333 * oreFreq * rlcrMountainPoorLeadFreq ' range=':= 10.67 * oreFreq * rlcrMountainPoorLeadFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 154 ' range=':= 9 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2103,8 +2103,8 @@
               <OreBlock block='Railcraft:ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 6.667 * rlcrSulfurSize ' range=':= 3.33 * rlcrSulfurSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * rlcrSulfurFreq ' range=':= 1.33 * rlcrSulfurFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 6.667 * oreSize * rlcrSulfurSize ' range=':= 3.33 * oreSize * rlcrSulfurSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * rlcrSulfurFreq ' range=':= 1.33 * oreFreq * rlcrSulfurFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 11 ' range=':= 5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2224,8 +2224,8 @@
               <ReplacesOre block='sand' weight='1.0' />
               <Replaces block='minecraft:sandstone' weight='1.0' />
               <BiomeType name='Sandy'  minRainfall='0' maxRainfall='0.1' minTemperature='1.5' maxTemperature='2.0' />
-              <Setting name='Size' avg=':= 0.667 * rlcrSaltpeterSize ' range=':= 0.33 * rlcrSaltpeterSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 42.667 * rlcrSaltpeterFreq ' range=':= 21.33 * rlcrSaltpeterFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 0.667 * oreSize * rlcrSaltpeterSize ' range=':= 0.33 * oreSize * rlcrSaltpeterSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 42.667 * oreFreq * rlcrSaltpeterFreq ' range=':= 21.33 * oreFreq * rlcrSaltpeterFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64 ' range=':= 5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2370,8 +2370,8 @@
               <OreBlock block='Railcraft:ore:5' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 0.667 * rlcrFirestoneSize ' range=':= 0.33 * rlcrFirestoneSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 0.167 * rlcrFirestoneFreq ' range=':= 0.08 * rlcrFirestoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 0.667 * oreSize * rlcrFirestoneSize ' range=':= 0.33 * oreSize * rlcrFirestoneSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 0.167 * oreFreq * rlcrFirestoneFreq ' range=':= 0.08 * oreFreq * rlcrFirestoneFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 16 ' range=':= 15 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>

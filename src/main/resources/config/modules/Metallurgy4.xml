@@ -37,7 +37,7 @@
       <OptionChoice name='enableMetallurgy4' displayName='Handle Metallurgy 4 Setup?' default='true' displayState='shown_dynamic' displayGroup='groupMetallurgy4'>
         <Description> Should Custom Ore Generation handle Metallurgy 4 ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Metallurgy 4 ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='Metallurgy 4 ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='Metallurgy 4 ores will be handled by Minecraft directly.'/>
       </OptionChoice>
       <OptionChoice name='cleanUpMetallurgy4' displayName='Use Metallurgy 4 Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupMetallurgy4'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Metallurgy 4 ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
@@ -1815,8 +1815,8 @@
               <OreBlock block='Metallurgy:utility.ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * mtlgSulfurSize ' range=':= 1.33 * mtlgSulfurSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * mtlgSulfurFreq ' range=':= 1.33 * mtlgSulfurFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * mtlgSulfurSize ' range=':= 1.33 * oreSize * mtlgSulfurSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * mtlgSulfurFreq ' range=':= 1.33 * oreFreq * mtlgSulfurFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1933,8 +1933,8 @@
               <OreBlock block='Metallurgy:utility.ore:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * mtlgPhosphoriteSize ' range=':= 1.33 * mtlgPhosphoriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * mtlgPhosphoriteFreq ' range=':= 1.33 * mtlgPhosphoriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * mtlgPhosphoriteSize ' range=':= 1.33 * oreSize * mtlgPhosphoriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * mtlgPhosphoriteFreq ' range=':= 1.33 * oreFreq * mtlgPhosphoriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2051,8 +2051,8 @@
               <OreBlock block='Metallurgy:utility.ore:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * mtlgSaltpeterSize ' range=':= 1.33 * mtlgSaltpeterSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * mtlgSaltpeterFreq ' range=':= 1.33 * mtlgSaltpeterFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * mtlgSaltpeterSize ' range=':= 1.33 * oreSize * mtlgSaltpeterSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * mtlgSaltpeterFreq ' range=':= 1.33 * oreFreq * mtlgSaltpeterFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2169,8 +2169,8 @@
               <OreBlock block='Metallurgy:utility.ore:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * mtlgMagnesiumSize ' range=':= 1.33 * mtlgMagnesiumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * mtlgMagnesiumFreq ' range=':= 1.33 * mtlgMagnesiumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * mtlgMagnesiumSize ' range=':= 1.33 * oreSize * mtlgMagnesiumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * mtlgMagnesiumFreq ' range=':= 1.33 * oreFreq * mtlgMagnesiumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2287,8 +2287,8 @@
               <OreBlock block='Metallurgy:utility.ore:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * mtlgBitumenSize ' range=':= 1.33 * mtlgBitumenSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * mtlgBitumenFreq ' range=':= 1.33 * mtlgBitumenFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * mtlgBitumenSize ' range=':= 1.33 * oreSize * mtlgBitumenSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * mtlgBitumenFreq ' range=':= 1.33 * oreFreq * mtlgBitumenFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2405,8 +2405,8 @@
               <OreBlock block='Metallurgy:utility.ore:5' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * mtlgPotashSize ' range=':= 1.33 * mtlgPotashSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * mtlgPotashFreq ' range=':= 1.33 * mtlgPotashFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * mtlgPotashSize ' range=':= 1.33 * oreSize * mtlgPotashSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * mtlgPotashFreq ' range=':= 1.33 * oreFreq * mtlgPotashFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2518,8 +2518,8 @@
               <OreBlock block='Metallurgy:base.ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * mtlgCopperSize ' range=':= 2.0 * mtlgCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 8.0 * mtlgCopperFreq ' range=':= 4.0 * mtlgCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * mtlgCopperSize ' range=':= 2.0 * oreSize * mtlgCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 8.0 * oreFreq * mtlgCopperFreq ' range=':= 4.0 * oreFreq * mtlgCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2631,8 +2631,8 @@
               <OreBlock block='Metallurgy:base.ore:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 6.667 * mtlgTinSize ' range=':= 3.33 * mtlgTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.667 * mtlgTinFreq ' range=':= 2.33 * mtlgTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 6.667 * oreSize * mtlgTinSize ' range=':= 3.33 * oreSize * mtlgTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.667 * oreFreq * mtlgTinFreq ' range=':= 2.33 * oreFreq * mtlgTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2744,8 +2744,8 @@
               <OreBlock block='Metallurgy:base.ore:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * mtlgManganeseSize ' range=':= 1.33 * mtlgManganeseSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 3.333 * mtlgManganeseFreq ' range=':= 1.67 * mtlgManganeseFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * mtlgManganeseSize ' range=':= 1.33 * oreSize * mtlgManganeseSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 3.333 * oreFreq * mtlgManganeseFreq ' range=':= 1.67 * oreFreq * mtlgManganeseFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2857,8 +2857,8 @@
               <OreBlock block='Metallurgy:precious.ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 3.333 * mtlgZincSize ' range=':= 1.67 * mtlgZincSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * mtlgZincFreq ' range=':= 2.0 * mtlgZincFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 3.333 * oreSize * mtlgZincSize ' range=':= 1.67 * oreSize * mtlgZincSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * mtlgZincFreq ' range=':= 2.0 * oreFreq * mtlgZincFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2970,8 +2970,8 @@
               <OreBlock block='Metallurgy:precious.ore:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 3.333 * mtlgSilverSize ' range=':= 1.67 * mtlgSilverSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * mtlgSilverFreq ' range=':= 2.0 * mtlgSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 3.333 * oreSize * mtlgSilverSize ' range=':= 1.67 * oreSize * mtlgSilverSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * mtlgSilverFreq ' range=':= 2.0 * oreFreq * mtlgSilverFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3083,8 +3083,8 @@
               <OreBlock block='Metallurgy:precious.ore:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * mtlgPlatinumSize ' range=':= 1.0 * mtlgPlatinumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * mtlgPlatinumFreq ' range=':= 1.0 * mtlgPlatinumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * mtlgPlatinumSize ' range=':= 1.0 * oreSize * mtlgPlatinumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * mtlgPlatinumFreq ' range=':= 1.0 * oreFreq * mtlgPlatinumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3196,8 +3196,8 @@
               <OreBlock block='Metallurgy:fantasy.ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * mtlgPrometheumSize ' range=':= 2.0 * mtlgPrometheumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 3.333 * mtlgPrometheumFreq ' range=':= 1.67 * mtlgPrometheumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * mtlgPrometheumSize ' range=':= 2.0 * oreSize * mtlgPrometheumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 3.333 * oreFreq * mtlgPrometheumFreq ' range=':= 1.67 * oreFreq * mtlgPrometheumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3309,8 +3309,8 @@
               <OreBlock block='Metallurgy:fantasy.ore:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * mtlgDeepIronSize ' range=':= 1.33 * mtlgDeepIronSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 3.333 * mtlgDeepIronFreq ' range=':= 1.67 * mtlgDeepIronFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * mtlgDeepIronSize ' range=':= 1.33 * oreSize * mtlgDeepIronSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 3.333 * oreFreq * mtlgDeepIronFreq ' range=':= 1.67 * oreFreq * mtlgDeepIronFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3422,8 +3422,8 @@
               <OreBlock block='Metallurgy:fantasy.ore:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * mtlgInfuscoliumSize ' range=':= 1.33 * mtlgInfuscoliumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 3.333 * mtlgInfuscoliumFreq ' range=':= 1.67 * mtlgInfuscoliumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * mtlgInfuscoliumSize ' range=':= 1.33 * oreSize * mtlgInfuscoliumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 3.333 * oreFreq * mtlgInfuscoliumFreq ' range=':= 1.67 * oreFreq * mtlgInfuscoliumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3535,8 +3535,8 @@
               <OreBlock block='Metallurgy:fantasy.ore:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * mtlgOureclaseSize ' range=':= 1.0 * mtlgOureclaseSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * mtlgOureclaseFreq ' range=':= 1.33 * mtlgOureclaseFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * mtlgOureclaseSize ' range=':= 1.0 * oreSize * mtlgOureclaseSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * mtlgOureclaseFreq ' range=':= 1.33 * oreFreq * mtlgOureclaseFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3648,8 +3648,8 @@
               <OreBlock block='Metallurgy:fantasy.ore:5' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * mtlgAstralSilverSize ' range=':= 1.0 * mtlgAstralSilverSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * mtlgAstralSilverFreq ' range=':= 1.33 * mtlgAstralSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * mtlgAstralSilverSize ' range=':= 1.0 * oreSize * mtlgAstralSilverSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * mtlgAstralSilverFreq ' range=':= 1.33 * oreFreq * mtlgAstralSilverFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3761,8 +3761,8 @@
               <OreBlock block='Metallurgy:fantasy.ore:6' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * mtlgCarmotSize ' range=':= 1.0 * mtlgCarmotSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * mtlgCarmotFreq ' range=':= 1.0 * mtlgCarmotFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * mtlgCarmotSize ' range=':= 1.0 * oreSize * mtlgCarmotSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * mtlgCarmotFreq ' range=':= 1.0 * oreFreq * mtlgCarmotFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3874,8 +3874,8 @@
               <OreBlock block='Metallurgy:fantasy.ore:7' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * mtlgMithrilSize ' range=':= 1.0 * mtlgMithrilSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * mtlgMithrilFreq ' range=':= 1.0 * mtlgMithrilFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * mtlgMithrilSize ' range=':= 1.0 * oreSize * mtlgMithrilSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * mtlgMithrilFreq ' range=':= 1.0 * oreFreq * mtlgMithrilFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3987,8 +3987,8 @@
               <OreBlock block='Metallurgy:fantasy.ore:8' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * mtlgRubraciumSize ' range=':= 1.0 * mtlgRubraciumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * mtlgRubraciumFreq ' range=':= 0.67 * mtlgRubraciumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * mtlgRubraciumSize ' range=':= 1.0 * oreSize * mtlgRubraciumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * mtlgRubraciumFreq ' range=':= 0.67 * oreFreq * mtlgRubraciumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4100,8 +4100,8 @@
               <OreBlock block='Metallurgy:fantasy.ore:11' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * mtlgOrichalcumSize ' range=':= 1.33 * mtlgOrichalcumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * mtlgOrichalcumFreq ' range=':= 0.67 * mtlgOrichalcumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * mtlgOrichalcumSize ' range=':= 1.33 * oreSize * mtlgOrichalcumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * mtlgOrichalcumFreq ' range=':= 0.67 * oreFreq * mtlgOrichalcumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4213,8 +4213,8 @@
               <OreBlock block='Metallurgy:fantasy.ore:13' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * mtlgAdamantineSize ' range=':= 1.0 * mtlgAdamantineSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * mtlgAdamantineFreq ' range=':= 0.67 * mtlgAdamantineFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * mtlgAdamantineSize ' range=':= 1.0 * oreSize * mtlgAdamantineSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * mtlgAdamantineFreq ' range=':= 0.67 * oreFreq * mtlgAdamantineFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4326,8 +4326,8 @@
               <OreBlock block='Metallurgy:fantasy.ore:14' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * mtlgAtlarusSize ' range=':= 1.0 * mtlgAtlarusSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * mtlgAtlarusFreq ' range=':= 0.67 * mtlgAtlarusFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * mtlgAtlarusSize ' range=':= 1.0 * oreSize * mtlgAtlarusSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * mtlgAtlarusFreq ' range=':= 0.67 * oreFreq * mtlgAtlarusFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4481,8 +4481,8 @@
               <OreBlock block='Metallurgy:nether.ore' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * mtlgIgnatiusSize ' range=':= 2.0 * mtlgIgnatiusSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 6.0 * mtlgIgnatiusFreq ' range=':= 3.0 * mtlgIgnatiusFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * mtlgIgnatiusSize ' range=':= 2.0 * oreSize * mtlgIgnatiusSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 6.0 * oreFreq * mtlgIgnatiusFreq ' range=':= 3.0 * oreFreq * mtlgIgnatiusFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4594,8 +4594,8 @@
               <OreBlock block='Metallurgy:nether.ore:1' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * mtlgShadowIronSize ' range=':= 2.0 * mtlgShadowIronSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.667 * mtlgShadowIronFreq ' range=':= 2.33 * mtlgShadowIronFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * mtlgShadowIronSize ' range=':= 2.0 * oreSize * mtlgShadowIronSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.667 * oreFreq * mtlgShadowIronFreq ' range=':= 2.33 * oreFreq * mtlgShadowIronFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4707,8 +4707,8 @@
               <OreBlock block='Metallurgy:nether.ore:2' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * mtlgLemuriteSize ' range=':= 2.0 * mtlgLemuriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * mtlgLemuriteFreq ' range=':= 2.0 * mtlgLemuriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * mtlgLemuriteSize ' range=':= 2.0 * oreSize * mtlgLemuriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * mtlgLemuriteFreq ' range=':= 2.0 * oreFreq * mtlgLemuriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4820,8 +4820,8 @@
               <OreBlock block='Metallurgy:nether.ore:3' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * mtlgMidasiumSize ' range=':= 2.0 * mtlgMidasiumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 3.333 * mtlgMidasiumFreq ' range=':= 1.67 * mtlgMidasiumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * mtlgMidasiumSize ' range=':= 2.0 * oreSize * mtlgMidasiumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 3.333 * oreFreq * mtlgMidasiumFreq ' range=':= 1.67 * oreFreq * mtlgMidasiumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4933,8 +4933,8 @@
               <OreBlock block='Metallurgy:nether.ore:4' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.667 * mtlgVyroxeresSize ' range=':= 2.33 * mtlgVyroxeresSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * mtlgVyroxeresFreq ' range=':= 1.33 * mtlgVyroxeresFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * mtlgVyroxeresSize ' range=':= 2.33 * oreSize * mtlgVyroxeresSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * mtlgVyroxeresFreq ' range=':= 1.33 * oreFreq * mtlgVyroxeresFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -5046,8 +5046,8 @@
               <OreBlock block='Metallurgy:nether.ore:5' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * mtlgCeruclaseSize ' range=':= 1.33 * mtlgCeruclaseSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * mtlgCeruclaseFreq ' range=':= 1.33 * mtlgCeruclaseFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * mtlgCeruclaseSize ' range=':= 1.33 * oreSize * mtlgCeruclaseSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * mtlgCeruclaseFreq ' range=':= 1.33 * oreFreq * mtlgCeruclaseFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -5159,8 +5159,8 @@
               <OreBlock block='Metallurgy:nether.ore:6' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * mtlgAlduoriteSize ' range=':= 1.33 * mtlgAlduoriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * mtlgAlduoriteFreq ' range=':= 1.0 * mtlgAlduoriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * mtlgAlduoriteSize ' range=':= 1.33 * oreSize * mtlgAlduoriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * mtlgAlduoriteFreq ' range=':= 1.0 * oreFreq * mtlgAlduoriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -5272,8 +5272,8 @@
               <OreBlock block='Metallurgy:nether.ore:7' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * mtlgKalendriteSize ' range=':= 1.33 * mtlgKalendriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * mtlgKalendriteFreq ' range=':= 1.0 * mtlgKalendriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * mtlgKalendriteSize ' range=':= 1.33 * oreSize * mtlgKalendriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * mtlgKalendriteFreq ' range=':= 1.0 * oreFreq * mtlgKalendriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -5385,8 +5385,8 @@
               <OreBlock block='Metallurgy:nether.ore:8' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * mtlgVulcaniteSize ' range=':= 1.0 * mtlgVulcaniteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * mtlgVulcaniteFreq ' range=':= 0.67 * mtlgVulcaniteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * mtlgVulcaniteSize ' range=':= 1.0 * oreSize * mtlgVulcaniteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * mtlgVulcaniteFreq ' range=':= 0.67 * oreFreq * mtlgVulcaniteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -5498,8 +5498,8 @@
               <OreBlock block='Metallurgy:nether.ore:9' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * mtlgSanguiniteSize ' range=':= 1.0 * mtlgSanguiniteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * mtlgSanguiniteFreq ' range=':= 0.67 * mtlgSanguiniteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * mtlgSanguiniteSize ' range=':= 1.0 * oreSize * mtlgSanguiniteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * mtlgSanguiniteFreq ' range=':= 0.67 * oreFreq * mtlgSanguiniteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -5645,8 +5645,8 @@
               <OreBlock block='Metallurgy:ender.ore' weight='1.0' />
               <Replaces block='minecraft:end_stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * mtlgEximiteSize ' range=':= 1.33 * mtlgEximiteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * mtlgEximiteFreq ' range=':= 2.0 * mtlgEximiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * mtlgEximiteSize ' range=':= 1.33 * oreSize * mtlgEximiteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * mtlgEximiteFreq ' range=':= 2.0 * oreFreq * mtlgEximiteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 35 ' range=':= 29 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -5758,8 +5758,8 @@
               <OreBlock block='Metallurgy:ender.ore:1' weight='1.0' />
               <Replaces block='minecraft:end_stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * mtlgMeutoiteSize ' range=':= 1.0 * mtlgMeutoiteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * mtlgMeutoiteFreq ' range=':= 1.0 * mtlgMeutoiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * mtlgMeutoiteSize ' range=':= 1.0 * oreSize * mtlgMeutoiteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * mtlgMeutoiteFreq ' range=':= 1.0 * oreFreq * mtlgMeutoiteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 35 ' range=':= 29 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>

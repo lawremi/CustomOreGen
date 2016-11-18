@@ -32,7 +32,7 @@
       <OptionChoice name='enableImmersiveEngineering' displayName='Handle Immersive Engineering Setup?' default='true' displayState='shown_dynamic' displayGroup='groupImmersiveEngineering'>
         <Description> Should Custom Ore Generation handle Immersive Engineering ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Immersive Engineering ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='Immersive Engineering ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='Immersive Engineering ores will be handled by Minecraft directly.'/>
       </OptionChoice>
       <OptionChoice name='cleanUpImmersiveEngineering' displayName='Use Immersive Engineering Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupImmersiveEngineering'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Immersive Engineering ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
@@ -637,8 +637,8 @@
               <OreBlock block='ImmersiveEngineering:ore:0' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * iengCopperSize ' range=':= 2.67 * iengCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * iengCopperFreq ' range=':= 2.67 * iengCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * iengCopperSize ' range=':= 2.67 * oreSize * iengCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * iengCopperFreq ' range=':= 2.67 * oreFreq * iengCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 56 ' range=':= 16 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -750,8 +750,8 @@
               <OreBlock block='ImmersiveEngineering:ore:0' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * iengMountainCopperSize ' range=':= 2.67 * iengMountainCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * iengMountainCopperFreq ' range=':= 2.67 * iengMountainCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * iengMountainCopperSize ' range=':= 2.67 * oreSize * iengMountainCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * iengMountainCopperFreq ' range=':= 2.67 * oreFreq * iengMountainCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 232 ' range=':= 48 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -863,8 +863,8 @@
               <OreBlock block='ImmersiveEngineering:ore:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * iengBauxiteSize ' range=':= 1.33 * iengBauxiteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * iengBauxiteFreq ' range=':= 2.67 * iengBauxiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * iengBauxiteSize ' range=':= 1.33 * oreSize * iengBauxiteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * iengBauxiteFreq ' range=':= 2.67 * oreFreq * iengBauxiteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 62.5 ' range=':= 22.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -976,8 +976,8 @@
               <OreBlock block='ImmersiveEngineering:ore:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 2.667 * iengMountainBauxiteSize ' range=':= 1.33 * iengMountainBauxiteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * iengMountainBauxiteFreq ' range=':= 2.67 * iengMountainBauxiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * iengMountainBauxiteSize ' range=':= 1.33 * oreSize * iengMountainBauxiteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * iengMountainBauxiteFreq ' range=':= 2.67 * oreFreq * iengMountainBauxiteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 251.5 ' range=':= 67.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1089,8 +1089,8 @@
               <OreBlock block='ImmersiveEngineering:ore:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * iengLeadSize ' range=':= 2.0 * iengLeadSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * iengLeadFreq ' range=':= 1.33 * iengLeadFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * iengLeadSize ' range=':= 2.0 * oreSize * iengLeadSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * iengLeadFreq ' range=':= 1.33 * oreFreq * iengLeadFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 22 ' range=':= 14 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1202,8 +1202,8 @@
               <OreBlock block='ImmersiveEngineering:ore:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.0 * iengMountainLeadSize ' range=':= 2.0 * iengMountainLeadSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * iengMountainLeadFreq ' range=':= 1.33 * iengMountainLeadFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * iengMountainLeadSize ' range=':= 2.0 * oreSize * iengMountainLeadSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * iengMountainLeadFreq ' range=':= 1.33 * oreFreq * iengMountainLeadFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 130 ' range=':= 42 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1315,8 +1315,8 @@
               <OreBlock block='ImmersiveEngineering:ore:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * iengSilverSize ' range=':= 2.67 * iengSilverSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * iengSilverFreq ' range=':= 1.33 * iengSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * iengSilverSize ' range=':= 2.67 * oreSize * iengSilverSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * iengSilverFreq ' range=':= 1.33 * oreFreq * iengSilverFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 24 ' range=':= 16 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1428,8 +1428,8 @@
               <OreBlock block='ImmersiveEngineering:ore:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * iengMountainSilverSize ' range=':= 2.67 * iengMountainSilverSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * iengMountainSilverFreq ' range=':= 1.33 * iengMountainSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * iengMountainSilverSize ' range=':= 2.67 * oreSize * iengMountainSilverSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * iengMountainSilverFreq ' range=':= 1.33 * oreFreq * iengMountainSilverFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 136 ' range=':= 48 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1541,8 +1541,8 @@
               <OreBlock block='ImmersiveEngineering:ore:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * iengNickelSize ' range=':= 2.0 * iengNickelSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * iengNickelFreq ' range=':= 0.67 * iengNickelFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * iengNickelSize ' range=':= 2.0 * oreSize * iengNickelSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * iengNickelFreq ' range=':= 0.67 * oreFreq * iengNickelFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 16 ' range=':= 8 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1654,8 +1654,8 @@
               <OreBlock block='ImmersiveEngineering:ore:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.0 * iengMountainNickelSize ' range=':= 2.0 * iengMountainNickelSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * iengMountainNickelFreq ' range=':= 0.67 * iengMountainNickelFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * iengMountainNickelSize ' range=':= 2.0 * oreSize * iengMountainNickelSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * iengMountainNickelFreq ' range=':= 0.67 * oreFreq * iengMountainNickelFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 112 ' range=':= 24 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>

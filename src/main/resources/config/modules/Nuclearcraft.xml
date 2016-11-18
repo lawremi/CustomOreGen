@@ -32,7 +32,7 @@
       <OptionChoice name='enableNuclearcraft' displayName='Handle Nuclearcraft Setup?' default='true' displayState='shown_dynamic' displayGroup='groupNuclearcraft'>
         <Description> Should Custom Ore Generation handle Nuclearcraft ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Nuclearcraft ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='Nuclearcraft ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='Nuclearcraft ores will be handled by Minecraft directly.'/>
       </OptionChoice>
       <OptionChoice name='cleanUpNuclearcraft' displayName='Use Nuclearcraft Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupNuclearcraft'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Nuclearcraft ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
@@ -967,8 +967,8 @@
               <OreBlock block='NuclearCraft:blockOre:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 3.333 * nclcUraniumSize ' range=':= 1.67 * nclcUraniumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * nclcUraniumFreq ' range=':= 1.33 * nclcUraniumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 3.333 * oreSize * nclcUraniumSize ' range=':= 1.67 * oreSize * nclcUraniumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * nclcUraniumFreq ' range=':= 1.33 * oreFreq * nclcUraniumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 20 ' range=':= 20 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1085,8 +1085,8 @@
               <OreBlock block='NuclearCraft:blockOre:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 3.333 * nclcMountainUraniumSize ' range=':= 1.67 * nclcMountainUraniumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * nclcMountainUraniumFreq ' range=':= 1.33 * nclcMountainUraniumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 3.333 * oreSize * nclcMountainUraniumSize ' range=':= 1.67 * oreSize * nclcMountainUraniumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * nclcMountainUraniumFreq ' range=':= 1.33 * oreFreq * nclcMountainUraniumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 124 ' range=':= 60 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1198,8 +1198,8 @@
               <OreBlock block='NuclearCraft:blockOre' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * nclcCopperSize ' range=':= 2.67 * nclcCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.667 * nclcCopperFreq ' range=':= 2.33 * nclcCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * nclcCopperSize ' range=':= 2.67 * oreSize * nclcCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.667 * oreFreq * nclcCopperFreq ' range=':= 2.33 * oreFreq * nclcCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 30 ' range=':= 30 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1311,8 +1311,8 @@
               <OreBlock block='NuclearCraft:blockOre' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * nclcMountainCopperSize ' range=':= 2.67 * nclcMountainCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.667 * nclcMountainCopperFreq ' range=':= 2.33 * nclcMountainCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * nclcMountainCopperSize ' range=':= 2.67 * oreSize * nclcMountainCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.667 * oreFreq * nclcMountainCopperFreq ' range=':= 2.33 * oreFreq * nclcMountainCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 154 ' range=':= 90 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1424,8 +1424,8 @@
               <OreBlock block='NuclearCraft:blockOre:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * nclcTinSize ' range=':= 2.67 * nclcTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nclcTinFreq ' range=':= 2.0 * nclcTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * nclcTinSize ' range=':= 2.67 * oreSize * nclcTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nclcTinFreq ' range=':= 2.0 * oreFreq * nclcTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 30 ' range=':= 30 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1537,8 +1537,8 @@
               <OreBlock block='NuclearCraft:blockOre:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * nclcMountainTinSize ' range=':= 2.67 * nclcMountainTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nclcMountainTinFreq ' range=':= 2.0 * nclcMountainTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * nclcMountainTinSize ' range=':= 2.67 * oreSize * nclcMountainTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nclcMountainTinFreq ' range=':= 2.0 * oreFreq * nclcMountainTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 154 ' range=':= 90 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1650,8 +1650,8 @@
               <OreBlock block='NuclearCraft:blockOre:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 3.333 * nclcLeadSize ' range=':= 1.67 * nclcLeadSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nclcLeadFreq ' range=':= 2.0 * nclcLeadFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 3.333 * oreSize * nclcLeadSize ' range=':= 1.67 * oreSize * nclcLeadSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nclcLeadFreq ' range=':= 2.0 * oreFreq * nclcLeadFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 20 ' range=':= 20 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1763,8 +1763,8 @@
               <OreBlock block='NuclearCraft:blockOre:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 3.333 * nclcMountainLeadSize ' range=':= 1.67 * nclcMountainLeadSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nclcMountainLeadFreq ' range=':= 2.0 * nclcMountainLeadFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 3.333 * oreSize * nclcMountainLeadSize ' range=':= 1.67 * oreSize * nclcMountainLeadSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nclcMountainLeadFreq ' range=':= 2.0 * oreFreq * nclcMountainLeadFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 124 ' range=':= 60 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1876,8 +1876,8 @@
               <OreBlock block='NuclearCraft:blockOre:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 3.333 * nclcSilverSize ' range=':= 1.67 * nclcSilverSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 3.333 * nclcSilverFreq ' range=':= 1.67 * nclcSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 3.333 * oreSize * nclcSilverSize ' range=':= 1.67 * oreSize * nclcSilverSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 3.333 * oreFreq * nclcSilverFreq ' range=':= 1.67 * oreFreq * nclcSilverFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 20 ' range=':= 20 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1989,8 +1989,8 @@
               <OreBlock block='NuclearCraft:blockOre:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 3.333 * nclcMountainSilverSize ' range=':= 1.67 * nclcMountainSilverSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 3.333 * nclcMountainSilverFreq ' range=':= 1.67 * nclcMountainSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 3.333 * oreSize * nclcMountainSilverSize ' range=':= 1.67 * oreSize * nclcMountainSilverSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 3.333 * oreFreq * nclcMountainSilverFreq ' range=':= 1.67 * oreFreq * nclcMountainSilverFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 124 ' range=':= 60 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2107,8 +2107,8 @@
               <OreBlock block='NuclearCraft:blockOre:7' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * nclcLithiumSize ' range=':= 1.33 * nclcLithiumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * nclcLithiumFreq ' range=':= 1.0 * nclcLithiumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * nclcLithiumSize ' range=':= 1.33 * oreSize * nclcLithiumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * nclcLithiumFreq ' range=':= 1.0 * oreFreq * nclcLithiumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 12.5 ' range=':= 12.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2225,8 +2225,8 @@
               <OreBlock block='NuclearCraft:blockOre:7' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 2.667 * nclcMountainLithiumSize ' range=':= 1.33 * nclcMountainLithiumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * nclcMountainLithiumFreq ' range=':= 1.0 * nclcMountainLithiumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * nclcMountainLithiumSize ' range=':= 1.33 * oreSize * nclcMountainLithiumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * nclcMountainLithiumFreq ' range=':= 1.0 * oreFreq * nclcMountainLithiumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 101.5 ' range=':= 37.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2343,8 +2343,8 @@
               <OreBlock block='NuclearCraft:blockOre:8' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * nclcBoronSize ' range=':= 1.33 * nclcBoronSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * nclcBoronFreq ' range=':= 1.0 * nclcBoronFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * nclcBoronSize ' range=':= 1.33 * oreSize * nclcBoronSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * nclcBoronFreq ' range=':= 1.0 * oreFreq * nclcBoronFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 10 ' range=':= 10 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2461,8 +2461,8 @@
               <OreBlock block='NuclearCraft:blockOre:8' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 2.667 * nclcMountainBoronSize ' range=':= 1.33 * nclcMountainBoronSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * nclcMountainBoronFreq ' range=':= 1.0 * nclcMountainBoronFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * nclcMountainBoronSize ' range=':= 1.33 * oreSize * nclcMountainBoronSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * nclcMountainBoronFreq ' range=':= 1.0 * oreFreq * nclcMountainBoronFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 94 ' range=':= 30 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2579,8 +2579,8 @@
               <OreBlock block='NuclearCraft:blockOre:5' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 3.333 * nclcThoriumSize ' range=':= 1.67 * nclcThoriumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * nclcThoriumFreq ' range=':= 1.33 * nclcThoriumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 3.333 * oreSize * nclcThoriumSize ' range=':= 1.67 * oreSize * nclcThoriumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * nclcThoriumFreq ' range=':= 1.33 * oreFreq * nclcThoriumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 20 ' range=':= 20 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2697,8 +2697,8 @@
               <OreBlock block='NuclearCraft:blockOre:5' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 3.333 * nclcMountainThoriumSize ' range=':= 1.67 * nclcMountainThoriumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * nclcMountainThoriumFreq ' range=':= 1.33 * nclcMountainThoriumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 3.333 * oreSize * nclcMountainThoriumSize ' range=':= 1.67 * oreSize * nclcMountainThoriumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * nclcMountainThoriumFreq ' range=':= 1.33 * oreFreq * nclcMountainThoriumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 124 ' range=':= 60 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2848,8 +2848,8 @@
               <OreBlock block='NuclearCraft:blockOre:6' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 3.333 * nclcPlutoniumSize ' range=':= 1.67 * nclcPlutoniumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * nclcPlutoniumFreq ' range=':= 1.0 * nclcPlutoniumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 3.333 * oreSize * nclcPlutoniumSize ' range=':= 1.67 * oreSize * nclcPlutoniumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * nclcPlutoniumFreq ' range=':= 1.0 * oreFreq * nclcPlutoniumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64 ' range=':= 64 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
