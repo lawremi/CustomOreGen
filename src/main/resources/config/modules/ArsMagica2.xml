@@ -31,7 +31,7 @@
       <OptionChoice name='enableArsMagica2' displayName='Handle Ars Magica 2 Setup?' default='true' displayState='shown_dynamic' displayGroup='groupArsMagica2'>
         <Description> Should Custom Ore Generation handle Ars Magica 2 ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Ars Magica 2 ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='Ars Magica 2 ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='Ars Magica 2 ores will be handled by Minecraft directly.'/>
       </OptionChoice>
       <OptionChoice name='cleanUpArsMagica2' displayName='Use Ars Magica 2 Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupArsMagica2'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Ars Magica 2 ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
@@ -455,8 +455,8 @@
               <OreBlock block='arsmagica2:vinteumOre' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * arsmVinteumSize ' range=':= 1.33 * arsmVinteumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * arsmVinteumFreq ' range=':= 2.0 * arsmVinteumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * arsmVinteumSize ' range=':= 1.33 * oreSize * arsmVinteumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * arsmVinteumFreq ' range=':= 2.0 * oreFreq * arsmVinteumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 27.5 ' range=':= 17.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -573,8 +573,8 @@
               <OreBlock block='arsmagica2:vinteumOre' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 2.667 * arsmMountainVinteumSize ' range=':= 1.33 * arsmMountainVinteumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * arsmMountainVinteumFreq ' range=':= 2.0 * arsmMountainVinteumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * arsmMountainVinteumSize ' range=':= 1.33 * oreSize * arsmMountainVinteumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * arsmMountainVinteumFreq ' range=':= 2.0 * oreFreq * arsmMountainVinteumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 146.5 ' range=':= 52.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -691,8 +691,8 @@
               <OreBlock block='arsmagica2:vinteumOre:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * arsmChimeriteSize ' range=':= 2.0 * arsmChimeriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * arsmChimeriteFreq ' range=':= 2.67 * arsmChimeriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * arsmChimeriteSize ' range=':= 2.0 * oreSize * arsmChimeriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * arsmChimeriteFreq ' range=':= 2.67 * oreFreq * arsmChimeriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 45 ' range=':= 35 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -810,8 +810,8 @@
               <OreBlock block='arsmagica2:vinteumOre:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.0 * arsmMountainChimeriteSize ' range=':= 2.0 * arsmMountainChimeriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * arsmMountainChimeriteFreq ' range=':= 2.67 * arsmMountainChimeriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * arsmMountainChimeriteSize ' range=':= 2.0 * oreSize * arsmMountainChimeriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * arsmMountainChimeriteFreq ' range=':= 2.67 * oreFreq * arsmMountainChimeriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 199 ' range=':= 105 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -928,8 +928,8 @@
               <OreBlock block='arsmagica2:vinteumOre:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * arsmBlueTopazSize ' range=':= 2.0 * arsmBlueTopazSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * arsmBlueTopazFreq ' range=':= 2.67 * arsmBlueTopazFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * arsmBlueTopazSize ' range=':= 2.0 * oreSize * arsmBlueTopazSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * arsmBlueTopazFreq ' range=':= 2.67 * oreFreq * arsmBlueTopazFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 45 ' range=':= 35 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1047,8 +1047,8 @@
               <OreBlock block='arsmagica2:vinteumOre:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.0 * arsmMountainBlueTopazSize ' range=':= 2.0 * arsmMountainBlueTopazSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * arsmMountainBlueTopazFreq ' range=':= 2.67 * arsmMountainBlueTopazFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * arsmMountainBlueTopazSize ' range=':= 2.0 * oreSize * arsmMountainBlueTopazSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * arsmMountainBlueTopazFreq ' range=':= 2.67 * oreFreq * arsmMountainBlueTopazFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 199 ' range=':= 105 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>

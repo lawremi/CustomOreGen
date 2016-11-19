@@ -31,7 +31,7 @@
       <OptionChoice name='enableNetherrocks' displayName='Handle Netherrocks Setup?' default='true' displayState='shown_dynamic' displayGroup='groupNetherrocks'>
         <Description> Should Custom Ore Generation handle Netherrocks ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Netherrocks ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='Netherrocks ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='Netherrocks ores will be handled by Minecraft directly.'/>
       </OptionChoice>
       <OptionChoice name='cleanUpNetherrocks' displayName='Use Netherrocks Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupNetherrocks'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Netherrocks ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
@@ -450,8 +450,8 @@
               <OreBlock block='netherrocks:fyrite_ore' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * nthrFyriteSize ' range=':= 2.0 * nthrFyriteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 6.667 * nthrFyriteFreq ' range=':= 3.33 * nthrFyriteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * nthrFyriteSize ' range=':= 2.0 * oreSize * nthrFyriteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 6.667 * oreFreq * nthrFyriteFreq ' range=':= 3.33 * oreFreq * nthrFyriteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 128 ' range=':= 128 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -563,8 +563,8 @@
               <OreBlock block='netherrocks:malachite_ore' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.667 * nthrMalachiteSize ' range=':= 2.33 * nthrMalachiteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 6.667 * nthrMalachiteFreq ' range=':= 3.33 * nthrMalachiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * nthrMalachiteSize ' range=':= 2.33 * oreSize * nthrMalachiteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 6.667 * oreFreq * nthrMalachiteFreq ' range=':= 3.33 * oreFreq * nthrMalachiteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 128 ' range=':= 128 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -676,8 +676,8 @@
               <OreBlock block='netherrocks:ashstone_ore' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 3.333 * nthrAshStoneSize ' range=':= 1.67 * nthrAshStoneSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 6.667 * nthrAshStoneFreq ' range=':= 3.33 * nthrAshStoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 3.333 * oreSize * nthrAshStoneSize ' range=':= 1.67 * oreSize * nthrAshStoneSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 6.667 * oreFreq * nthrAshStoneFreq ' range=':= 3.33 * oreFreq * nthrAshStoneFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 128 ' range=':= 128 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -813,8 +813,8 @@
               <OreBlock block='netherrocks:dragonstone_ore' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 3.333 * nthrDragonstoneSize ' range=':= 1.67 * nthrDragonstoneSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nthrDragonstoneFreq ' range=':= 2.0 * nthrDragonstoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 3.333 * oreSize * nthrDragonstoneSize ' range=':= 1.67 * oreSize * nthrDragonstoneSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nthrDragonstoneFreq ' range=':= 2.0 * oreFreq * nthrDragonstoneFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 128 ' range=':= 128 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -926,8 +926,8 @@
               <OreBlock block='netherrocks:argonite_ore' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * nthrArgoniteSize ' range=':= 2.0 * nthrArgoniteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 6.667 * nthrArgoniteFreq ' range=':= 3.33 * nthrArgoniteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * nthrArgoniteSize ' range=':= 2.0 * oreSize * nthrArgoniteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 6.667 * oreFreq * nthrArgoniteFreq ' range=':= 3.33 * oreFreq * nthrArgoniteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 128 ' range=':= 128 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>

@@ -31,7 +31,7 @@
       <OptionChoice name='enableSimpleOres' displayName='Handle Simple Ores Setup?' default='true' displayState='shown_dynamic' displayGroup='groupSimpleOres'>
         <Description> Should Custom Ore Generation handle Simple Ores ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Simple Ores ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='Simple Ores ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='Simple Ores ores will be handled by Minecraft directly.'/>
       </OptionChoice>
       <OptionChoice name='cleanUpSimpleOres' displayName='Use Simple Ores Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupSimpleOres'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Simple Ores ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
@@ -589,8 +589,8 @@
               <OreBlock block='simpleores:copper_ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.667 * smpoCopperSize ' range=':= 2.33 * smpoCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 23.333 * smpoCopperFreq ' range=':= 11.67 * smpoCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * smpoCopperSize ' range=':= 2.33 * oreSize * smpoCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 23.333 * oreFreq * smpoCopperFreq ' range=':= 11.67 * oreFreq * smpoCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 48 ' range=':= 42 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -702,8 +702,8 @@
               <OreBlock block='simpleores:copper_ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.667 * smpoMountainCopperSize ' range=':= 2.33 * smpoMountainCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 23.333 * smpoMountainCopperFreq ' range=':= 11.67 * smpoMountainCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * smpoMountainCopperSize ' range=':= 2.33 * oreSize * smpoMountainCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 23.333 * oreFreq * smpoMountainCopperFreq ' range=':= 11.67 * oreFreq * smpoMountainCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 208 ' range=':= 126 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -815,8 +815,8 @@
               <OreBlock block='simpleores:tin_ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.667 * smpoTinSize ' range=':= 2.33 * smpoTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 20.0 * smpoTinFreq ' range=':= 10.0 * smpoTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * smpoTinSize ' range=':= 2.33 * oreSize * smpoTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 20.0 * oreFreq * smpoTinFreq ' range=':= 10.0 * oreFreq * smpoTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 48 ' range=':= 42 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -928,8 +928,8 @@
               <OreBlock block='simpleores:tin_ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.667 * smpoMountainTinSize ' range=':= 2.33 * smpoMountainTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 20.0 * smpoMountainTinFreq ' range=':= 10.0 * smpoMountainTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * smpoMountainTinSize ' range=':= 2.33 * oreSize * smpoMountainTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 20.0 * oreFreq * smpoMountainTinFreq ' range=':= 10.0 * oreFreq * smpoMountainTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 208 ' range=':= 126 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1041,8 +1041,8 @@
               <OreBlock block='simpleores:mythril_ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * smpoMythrilSize ' range=':= 1.33 * smpoMythrilSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * smpoMythrilFreq ' range=':= 2.67 * smpoMythrilFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * smpoMythrilSize ' range=':= 1.33 * oreSize * smpoMythrilSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * smpoMythrilFreq ' range=':= 2.67 * oreFreq * smpoMythrilFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 20 ' range=':= 15 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1154,8 +1154,8 @@
               <OreBlock block='simpleores:mythril_ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 2.667 * smpoMountainMythrilSize ' range=':= 1.33 * smpoMountainMythrilSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * smpoMountainMythrilFreq ' range=':= 2.67 * smpoMountainMythrilFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * smpoMountainMythrilSize ' range=':= 1.33 * oreSize * smpoMountainMythrilSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * smpoMountainMythrilFreq ' range=':= 2.67 * oreFreq * smpoMountainMythrilFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 124 ' range=':= 45 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1267,8 +1267,8 @@
               <OreBlock block='simpleores:adamantium_ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * smpoAdamantiumSize ' range=':= 1.33 * smpoAdamantiumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * smpoAdamantiumFreq ' range=':= 1.33 * smpoAdamantiumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * smpoAdamantiumSize ' range=':= 1.33 * oreSize * smpoAdamantiumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * smpoAdamantiumFreq ' range=':= 1.33 * oreFreq * smpoAdamantiumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 13 ' range=':= 7 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1381,8 +1381,8 @@
               <OreBlock block='simpleores:adamantium_ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 2.667 * smpoMountainAdamantiumSize ' range=':= 1.33 * smpoMountainAdamantiumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * smpoMountainAdamantiumFreq ' range=':= 1.33 * smpoMountainAdamantiumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * smpoMountainAdamantiumSize ' range=':= 1.33 * oreSize * smpoMountainAdamantiumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * smpoMountainAdamantiumFreq ' range=':= 1.33 * oreFreq * smpoMountainAdamantiumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 103 ' range=':= 21 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1537,8 +1537,8 @@
               <OreBlock block='simpleores:onyx_ore' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.667 * smpoOnyxSize ' range=':= 2.33 * smpoOnyxSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 3.333 * smpoOnyxFreq ' range=':= 1.67 * smpoOnyxFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * smpoOnyxSize ' range=':= 2.33 * oreSize * smpoOnyxSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 3.333 * oreFreq * smpoOnyxFreq ' range=':= 1.67 * oreFreq * smpoOnyxFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 72 ' range=':= 56 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>

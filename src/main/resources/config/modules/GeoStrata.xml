@@ -36,7 +36,7 @@
       <OptionChoice name='enableGeoStrata' displayName='Handle GeoStrata Setup?' default='true' displayState='shown_dynamic' displayGroup='groupGeoStrata'>
         <Description> Should Custom Ore Generation handle GeoStrata ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle GeoStrata ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='GeoStrata ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='GeoStrata ores will be handled by Minecraft directly.'/>
       </OptionChoice>
       <OptionChoice name='cleanUpGeoStrata' displayName='Use GeoStrata Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupGeoStrata'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of GeoStrata ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
@@ -1591,8 +1591,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_shale_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 21.333 * gstaShaleSize ' range=':= 10.67 * gstaShaleSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 16.0 * gstaShaleFreq ' range=':= 8.0 * gstaShaleFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaShaleSize ' range=':= 10.67 * oreSize * gstaShaleSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 16.0 * oreFreq * gstaShaleFreq ' range=':= 8.0 * oreFreq * gstaShaleFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 56 ' range=':= 8 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1676,8 +1676,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_shale_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 21.333 * gstaMountainShaleSize ' range=':= 10.67 * gstaMountainShaleSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 16.0 * gstaMountainShaleFreq ' range=':= 8.0 * gstaMountainShaleFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaMountainShaleSize ' range=':= 10.67 * oreSize * gstaMountainShaleSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 16.0 * oreFreq * gstaMountainShaleFreq ' range=':= 8.0 * oreFreq * gstaMountainShaleFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 232 ' range=':= 24 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1761,8 +1761,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_sandstone_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 21.333 * gstaSandstoneSize ' range=':= 10.67 * gstaSandstoneSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 16.0 * gstaSandstoneFreq ' range=':= 8.0 * gstaSandstoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaSandstoneSize ' range=':= 10.67 * oreSize * gstaSandstoneSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 16.0 * oreFreq * gstaSandstoneFreq ' range=':= 8.0 * oreFreq * gstaSandstoneFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 88 ' range=':= 40 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1846,8 +1846,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_limestone_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 21.333 * gstaLimestoneSize ' range=':= 10.67 * gstaLimestoneSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 16.0 * gstaLimestoneFreq ' range=':= 8.0 * gstaLimestoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaLimestoneSize ' range=':= 10.67 * oreSize * gstaLimestoneSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 16.0 * oreFreq * gstaLimestoneFreq ' range=':= 8.0 * oreFreq * gstaLimestoneFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 88 ' range=':= 40 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1931,8 +1931,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_pumice_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 21.333 * gstaPumiceSize ' range=':= 10.67 * gstaPumiceSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 9.6 * gstaPumiceFreq ' range=':= 4.8 * gstaPumiceFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaPumiceSize ' range=':= 10.67 * oreSize * gstaPumiceSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 9.6 * oreFreq * gstaPumiceFreq ' range=':= 4.8 * oreFreq * gstaPumiceFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 11 ' range=':= 5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2016,8 +2016,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_pumice_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 21.333 * gstaMountainPumiceSize ' range=':= 10.67 * gstaMountainPumiceSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 9.6 * gstaMountainPumiceFreq ' range=':= 4.8 * gstaMountainPumiceFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaMountainPumiceSize ' range=':= 10.67 * oreSize * gstaMountainPumiceSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 9.6 * oreFreq * gstaMountainPumiceFreq ' range=':= 4.8 * oreFreq * gstaMountainPumiceFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 97 ' range=':= 15 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2101,8 +2101,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_opal_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 21.333 * gstaOpalSize ' range=':= 10.67 * gstaOpalSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * gstaOpalFreq ' range=':= 1.0 * gstaOpalFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaOpalSize ' range=':= 10.67 * oreSize * gstaOpalSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * gstaOpalFreq ' range=':= 1.0 * oreFreq * gstaOpalFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 46 ' range=':= 14 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2186,8 +2186,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_opal_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 21.333 * gstaMountainOpalSize ' range=':= 10.67 * gstaMountainOpalSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * gstaMountainOpalFreq ' range=':= 1.0 * gstaMountainOpalFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaMountainOpalSize ' range=':= 10.67 * oreSize * gstaMountainOpalSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * gstaMountainOpalFreq ' range=':= 1.0 * oreFreq * gstaMountainOpalFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 202 ' range=':= 42 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2271,8 +2271,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_slate_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 21.333 * gstaSlateSize ' range=':= 10.67 * gstaSlateSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 16.0 * gstaSlateFreq ' range=':= 8.0 * gstaSlateFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaSlateSize ' range=':= 10.67 * oreSize * gstaSlateSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 16.0 * oreFreq * gstaSlateFreq ' range=':= 8.0 * oreFreq * gstaSlateFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 40 ' range=':= 8 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2356,8 +2356,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_slate_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 21.333 * gstaMountainSlateSize ' range=':= 10.67 * gstaMountainSlateSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 16.0 * gstaMountainSlateFreq ' range=':= 8.0 * gstaMountainSlateFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaMountainSlateSize ' range=':= 10.67 * oreSize * gstaMountainSlateSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 16.0 * oreFreq * gstaMountainSlateFreq ' range=':= 8.0 * oreFreq * gstaMountainSlateFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 184 ' range=':= 24 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2441,8 +2441,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_gneiss_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 21.333 * gstaGneissSize ' range=':= 10.67 * gstaGneissSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 12.8 * gstaGneissFreq ' range=':= 6.4 * gstaGneissFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaGneissSize ' range=':= 10.67 * oreSize * gstaGneissSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 12.8 * oreFreq * gstaGneissFreq ' range=':= 6.4 * oreFreq * gstaGneissFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 24 ' range=':= 8 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2526,8 +2526,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_gneiss_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 21.333 * gstaMountainGneissSize ' range=':= 10.67 * gstaMountainGneissSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 12.8 * gstaMountainGneissFreq ' range=':= 6.4 * gstaMountainGneissFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaMountainGneissSize ' range=':= 10.67 * oreSize * gstaMountainGneissSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 12.8 * oreFreq * gstaMountainGneissFreq ' range=':= 6.4 * oreFreq * gstaMountainGneissFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 136 ' range=':= 24 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2611,8 +2611,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_peridotite_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 21.333 * gstaPeridotiteSize ' range=':= 10.67 * gstaPeridotiteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 9.6 * gstaPeridotiteFreq ' range=':= 4.8 * gstaPeridotiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaPeridotiteSize ' range=':= 10.67 * oreSize * gstaPeridotiteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 9.6 * oreFreq * gstaPeridotiteFreq ' range=':= 4.8 * oreFreq * gstaPeridotiteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 15 ' range=':= 9 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2697,8 +2697,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_peridotite_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 21.333 * gstaMountainPeridotiteSize ' range=':= 10.67 * gstaMountainPeridotiteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 9.6 * gstaMountainPeridotiteFreq ' range=':= 4.8 * gstaMountainPeridotiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaMountainPeridotiteSize ' range=':= 10.67 * oreSize * gstaMountainPeridotiteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 9.6 * oreFreq * gstaMountainPeridotiteFreq ' range=':= 4.8 * oreFreq * gstaMountainPeridotiteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 109 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2782,8 +2782,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_granulite_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 21.333 * gstaGranuliteSize ' range=':= 10.67 * gstaGranuliteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 11.2 * gstaGranuliteFreq ' range=':= 5.6 * gstaGranuliteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaGranuliteSize ' range=':= 10.67 * oreSize * gstaGranuliteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 11.2 * oreFreq * gstaGranuliteFreq ' range=':= 5.6 * oreFreq * gstaGranuliteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 24 ' range=':= 8 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2867,8 +2867,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_granulite_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 21.333 * gstaMountainGranuliteSize ' range=':= 10.67 * gstaMountainGranuliteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 11.2 * gstaMountainGranuliteFreq ' range=':= 5.6 * gstaMountainGranuliteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaMountainGranuliteSize ' range=':= 10.67 * oreSize * gstaMountainGranuliteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 11.2 * oreFreq * gstaMountainGranuliteFreq ' range=':= 5.6 * oreFreq * gstaMountainGranuliteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 136 ' range=':= 24 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2952,8 +2952,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_migmatite_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 21.333 * gstaMigmatiteSize ' range=':= 10.67 * gstaMigmatiteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 9.6 * gstaMigmatiteFreq ' range=':= 4.8 * gstaMigmatiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaMigmatiteSize ' range=':= 10.67 * oreSize * gstaMigmatiteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 9.6 * oreFreq * gstaMigmatiteFreq ' range=':= 4.8 * oreFreq * gstaMigmatiteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 11 ' range=':= 5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3037,8 +3037,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_migmatite_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 21.333 * gstaMountainMigmatiteSize ' range=':= 10.67 * gstaMountainMigmatiteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 9.6 * gstaMountainMigmatiteFreq ' range=':= 4.8 * gstaMountainMigmatiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaMountainMigmatiteSize ' range=':= 10.67 * oreSize * gstaMountainMigmatiteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 9.6 * oreFreq * gstaMountainMigmatiteFreq ' range=':= 4.8 * oreFreq * gstaMountainMigmatiteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 97 ' range=':= 15 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3122,8 +3122,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_schist_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 21.333 * gstaSchistSize ' range=':= 10.67 * gstaSchistSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 12.8 * gstaSchistFreq ' range=':= 6.4 * gstaSchistFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaSchistSize ' range=':= 10.67 * oreSize * gstaSchistSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 12.8 * oreFreq * gstaSchistFreq ' range=':= 6.4 * oreFreq * gstaSchistFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 32 ' range=':= 16 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3207,8 +3207,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_schist_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 21.333 * gstaMountainSchistSize ' range=':= 10.67 * gstaMountainSchistSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 12.8 * gstaMountainSchistFreq ' range=':= 6.4 * gstaMountainSchistFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaMountainSchistSize ' range=':= 10.67 * oreSize * gstaMountainSchistSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 12.8 * oreFreq * gstaMountainSchistFreq ' range=':= 6.4 * oreFreq * gstaMountainSchistFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 160 ' range=':= 48 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3292,8 +3292,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_basalt_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 21.333 * gstaBasaltSize ' range=':= 10.67 * gstaBasaltSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 16.0 * gstaBasaltFreq ' range=':= 8.0 * gstaBasaltFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaBasaltSize ' range=':= 10.67 * oreSize * gstaBasaltSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 16.0 * oreFreq * gstaBasaltFreq ' range=':= 8.0 * oreFreq * gstaBasaltFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 88 ' range=':= 40 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3377,8 +3377,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_onyx_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 21.333 * gstaOnyxSize ' range=':= 10.67 * gstaOnyxSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 16.0 * gstaOnyxFreq ' range=':= 8.0 * gstaOnyxFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaOnyxSize ' range=':= 10.67 * oreSize * gstaOnyxSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 16.0 * oreFreq * gstaOnyxFreq ' range=':= 8.0 * oreFreq * gstaOnyxFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 15 ' range=':= 9 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3462,8 +3462,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_onyx_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 21.333 * gstaMountainOnyxSize ' range=':= 10.67 * gstaMountainOnyxSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 16.0 * gstaMountainOnyxFreq ' range=':= 8.0 * gstaMountainOnyxFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaMountainOnyxSize ' range=':= 10.67 * oreSize * gstaMountainOnyxSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 16.0 * oreFreq * gstaMountainOnyxFreq ' range=':= 8.0 * oreFreq * gstaMountainOnyxFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 109 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3547,8 +3547,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_quartz_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 21.333 * gstaQuartzSize ' range=':= 10.67 * gstaQuartzSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 8.0 * gstaQuartzFreq ' range=':= 4.0 * gstaQuartzFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaQuartzSize ' range=':= 10.67 * oreSize * gstaQuartzSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 8.0 * oreFreq * gstaQuartzFreq ' range=':= 4.0 * oreFreq * gstaQuartzFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 35 ' range=':= 29 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3632,8 +3632,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_quartz_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 21.333 * gstaMountainQuartzSize ' range=':= 10.67 * gstaMountainQuartzSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 8.0 * gstaMountainQuartzFreq ' range=':= 4.0 * gstaMountainQuartzFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaMountainQuartzSize ' range=':= 10.67 * oreSize * gstaMountainQuartzSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 8.0 * oreFreq * gstaMountainQuartzFreq ' range=':= 4.0 * oreFreq * gstaMountainQuartzFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 169 ' range=':= 87 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3717,8 +3717,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_marble_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 21.333 * gstaMarbleSize ' range=':= 10.67 * gstaMarbleSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 16.0 * gstaMarbleFreq ' range=':= 8.0 * gstaMarbleFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaMarbleSize ' range=':= 10.67 * oreSize * gstaMarbleSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 16.0 * oreFreq * gstaMarbleFreq ' range=':= 8.0 * oreFreq * gstaMarbleFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 40 ' range=':= 24 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3802,8 +3802,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_marble_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 21.333 * gstaMountainMarbleSize ' range=':= 10.67 * gstaMountainMarbleSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 16.0 * gstaMountainMarbleFreq ' range=':= 8.0 * gstaMountainMarbleFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaMountainMarbleSize ' range=':= 10.67 * oreSize * gstaMountainMarbleSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 16.0 * oreFreq * gstaMountainMarbleFreq ' range=':= 8.0 * oreFreq * gstaMountainMarbleFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 184 ' range=':= 72 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3887,8 +3887,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_granite_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 21.333 * gstaGraniteSize ' range=':= 10.67 * gstaGraniteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 16.0 * gstaGraniteFreq ' range=':= 8.0 * gstaGraniteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaGraniteSize ' range=':= 10.67 * oreSize * gstaGraniteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 16.0 * oreFreq * gstaGraniteFreq ' range=':= 8.0 * oreFreq * gstaGraniteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 32 ' range=':= 16 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3972,8 +3972,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_granite_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 21.333 * gstaMountainGraniteSize ' range=':= 10.67 * gstaMountainGraniteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 16.0 * gstaMountainGraniteFreq ' range=':= 8.0 * gstaMountainGraniteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaMountainGraniteSize ' range=':= 10.67 * oreSize * gstaMountainGraniteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 16.0 * oreFreq * gstaMountainGraniteFreq ' range=':= 8.0 * oreFreq * gstaMountainGraniteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 160 ' range=':= 48 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4057,8 +4057,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_hornfel_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 21.333 * gstaHornfelSize ' range=':= 10.67 * gstaHornfelSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 12.8 * gstaHornfelFreq ' range=':= 6.4 * gstaHornfelFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaHornfelSize ' range=':= 10.67 * oreSize * gstaHornfelSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 12.8 * oreFreq * gstaHornfelFreq ' range=':= 6.4 * oreFreq * gstaHornfelFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 35 ' range=':= 29 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4142,8 +4142,8 @@
               <OreBlock block='GeoStrata:geostrata_rock_hornfel_smooth' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 21.333 * gstaMountainHornfelSize ' range=':= 10.67 * gstaMountainHornfelSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 12.8 * gstaMountainHornfelFreq ' range=':= 6.4 * gstaMountainHornfelFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * gstaMountainHornfelSize ' range=':= 10.67 * oreSize * gstaMountainHornfelSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 12.8 * oreFreq * gstaMountainHornfelFreq ' range=':= 6.4 * oreFreq * gstaMountainHornfelFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 169 ' range=':= 87 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>

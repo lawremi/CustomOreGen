@@ -30,7 +30,7 @@
       <OptionChoice name='enableMekanism' displayName='Handle Mekanism Setup?' default='true' displayState='shown_dynamic' displayGroup='groupMekanism'>
         <Description> Should Custom Ore Generation handle Mekanism ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Mekanism ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='Mekanism ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='Mekanism ores will be handled by Minecraft directly.'/>
       </OptionChoice>
       <OptionChoice name='cleanUpMekanism' displayName='Use Mekanism Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupMekanism'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Mekanism ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
@@ -449,8 +449,8 @@
               <OreBlock block='Mekanism:OreBlock' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * mknsOsmiumSize ' range=':= 2.67 * mknsOsmiumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 8.0 * mknsOsmiumFreq ' range=':= 4.0 * mknsOsmiumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * mknsOsmiumSize ' range=':= 2.67 * oreSize * mknsOsmiumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 8.0 * oreFreq * mknsOsmiumFreq ' range=':= 4.0 * oreFreq * mknsOsmiumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 33 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -562,8 +562,8 @@
               <OreBlock block='Mekanism:OreBlock' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * mknsMountainOsmiumSize ' range=':= 2.67 * mknsMountainOsmiumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 8.0 * mknsMountainOsmiumFreq ' range=':= 4.0 * mknsMountainOsmiumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * mknsMountainOsmiumSize ' range=':= 2.67 * oreSize * mknsMountainOsmiumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 8.0 * oreFreq * mknsMountainOsmiumFreq ' range=':= 4.0 * oreFreq * mknsMountainOsmiumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 163 ' range=':= 81 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -675,8 +675,8 @@
               <OreBlock block='Mekanism:OreBlock:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * mknsCopperSize ' range=':= 2.67 * mknsCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 10.667 * mknsCopperFreq ' range=':= 5.33 * mknsCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * mknsCopperSize ' range=':= 2.67 * oreSize * mknsCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 10.667 * oreFreq * mknsCopperFreq ' range=':= 5.33 * oreFreq * mknsCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 33 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -788,8 +788,8 @@
               <OreBlock block='Mekanism:OreBlock:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * mknsMountainCopperSize ' range=':= 2.67 * mknsMountainCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 10.667 * mknsMountainCopperFreq ' range=':= 5.33 * mknsMountainCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * mknsMountainCopperSize ' range=':= 2.67 * oreSize * mknsMountainCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 10.667 * oreFreq * mknsMountainCopperFreq ' range=':= 5.33 * oreFreq * mknsMountainCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 163 ' range=':= 81 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -901,8 +901,8 @@
               <OreBlock block='Mekanism:OreBlock:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * mknsTinSize ' range=':= 2.67 * mknsTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 9.333 * mknsTinFreq ' range=':= 4.67 * mknsTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * mknsTinSize ' range=':= 2.67 * oreSize * mknsTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 9.333 * oreFreq * mknsTinFreq ' range=':= 4.67 * oreFreq * mknsTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 33 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1014,8 +1014,8 @@
               <OreBlock block='Mekanism:OreBlock:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * mknsMountainTinSize ' range=':= 2.67 * mknsMountainTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 9.333 * mknsMountainTinFreq ' range=':= 4.67 * mknsMountainTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * mknsMountainTinSize ' range=':= 2.67 * oreSize * mknsMountainTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 9.333 * oreFreq * mknsMountainTinFreq ' range=':= 4.67 * oreFreq * mknsMountainTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 163 ' range=':= 81 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>

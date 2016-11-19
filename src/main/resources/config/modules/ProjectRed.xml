@@ -32,7 +32,7 @@
       <OptionChoice name='enableProjectRed' displayName='Handle Project Red Setup?' default='true' displayState='shown_dynamic' displayGroup='groupProjectRed'>
         <Description> Should Custom Ore Generation handle Project Red ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Project Red ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='Project Red ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='Project Red ores will be handled by Minecraft directly.'/>
       </OptionChoice>
       <OptionChoice name='cleanUpProjectRed' displayName='Use Project Red Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupProjectRed'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Project Red ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
@@ -788,8 +788,8 @@
               <OreBlock block='ProjRed|Exploration:projectred.exploration.ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 0.667 * predRubySize ' range=':= 0.33 * predRubySize ' type='normal' />
-              <Setting name='Frequency' avg=':= 0.667 * predRubyFreq ' range=':= 0.33 * predRubyFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 0.667 * oreSize * predRubySize ' range=':= 0.33 * oreSize * predRubySize ' type='normal' />
+              <Setting name='Frequency' avg=':= 0.667 * oreFreq * predRubyFreq ' range=':= 0.33 * oreFreq * predRubyFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 16 ' range=':= 4 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -911,8 +911,8 @@
               <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 0.667 * predSapphireSize ' range=':= 0.33 * predSapphireSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 0.667 * predSapphireFreq ' range=':= 0.33 * predSapphireFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 0.667 * oreSize * predSapphireSize ' range=':= 0.33 * oreSize * predSapphireSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 0.667 * oreFreq * predSapphireFreq ' range=':= 0.33 * oreFreq * predSapphireFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 16 ' range=':= 4 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1034,8 +1034,8 @@
               <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 0.667 * predPeridotSize ' range=':= 0.33 * predPeridotSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 0.667 * predPeridotFreq ' range=':= 0.33 * predPeridotFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 0.667 * oreSize * predPeridotSize ' range=':= 0.33 * oreSize * predPeridotSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 0.667 * oreFreq * predPeridotFreq ' range=':= 0.33 * oreFreq * predPeridotFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 22 ' range=':= 6 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1147,8 +1147,8 @@
               <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * predCopperSize ' range=':= 2.67 * predCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * predCopperFreq ' range=':= 2.67 * predCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * predCopperSize ' range=':= 2.67 * oreSize * predCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * predCopperFreq ' range=':= 2.67 * oreFreq * predCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 35 ' range=':= 29 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1260,8 +1260,8 @@
               <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * predMountainCopperSize ' range=':= 2.67 * predMountainCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * predMountainCopperFreq ' range=':= 2.67 * predMountainCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * predMountainCopperSize ' range=':= 2.67 * oreSize * predMountainCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * predMountainCopperFreq ' range=':= 2.67 * oreFreq * predMountainCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 169 ' range=':= 87 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1373,8 +1373,8 @@
               <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * predTinSize ' range=':= 2.67 * predTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 3.333 * predTinFreq ' range=':= 1.67 * predTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * predTinSize ' range=':= 2.67 * oreSize * predTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 3.333 * oreFreq * predTinFreq ' range=':= 1.67 * oreFreq * predTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 27 ' range=':= 21 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1486,8 +1486,8 @@
               <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * predMountainTinSize ' range=':= 2.67 * predMountainTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 3.333 * predMountainTinFreq ' range=':= 1.67 * predMountainTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * predMountainTinSize ' range=':= 2.67 * oreSize * predMountainTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 3.333 * oreFreq * predMountainTinFreq ' range=':= 1.67 * oreFreq * predMountainTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 145 ' range=':= 63 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1599,8 +1599,8 @@
               <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:5' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * predSilverSize ' range=':= 1.33 * predSilverSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 0.667 * predSilverFreq ' range=':= 0.33 * predSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * predSilverSize ' range=':= 1.33 * oreSize * predSilverSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 0.667 * oreFreq * predSilverFreq ' range=':= 0.33 * oreFreq * predSilverFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 19 ' range=':= 13 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1712,8 +1712,8 @@
               <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:5' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 2.667 * predMountainSilverSize ' range=':= 1.33 * predMountainSilverSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 0.667 * predMountainSilverFreq ' range=':= 0.33 * predMountainSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * predMountainSilverSize ' range=':= 1.33 * oreSize * predMountainSilverSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 0.667 * oreFreq * predMountainSilverFreq ' range=':= 0.33 * oreFreq * predMountainSilverFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 121 ' range=':= 39 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1824,8 +1824,8 @@
               <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:6' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * predElectrotineSize ' range=':= 2.67 * predElectrotineSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * predElectrotineFreq ' range=':= 0.67 * predElectrotineFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * predElectrotineSize ' range=':= 2.67 * oreSize * predElectrotineSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * predElectrotineFreq ' range=':= 0.67 * oreFreq * predElectrotineFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 11 ' range=':= 5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1939,8 +1939,8 @@
               <OreBlock block='ProjRed|Exploration:projectred.exploration.ore:6' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * predMountainElectrotineSize ' range=':= 2.67 * predMountainElectrotineSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * predMountainElectrotineFreq ' range=':= 0.67 * predMountainElectrotineFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * predMountainElectrotineSize ' range=':= 2.67 * oreSize * predMountainElectrotineSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * predMountainElectrotineFreq ' range=':= 0.67 * oreFreq * predMountainElectrotineFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 97 ' range=':= 15 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2024,8 +2024,8 @@
               <OreBlock block='ProjRed|Exploration:projectred.exploration.stone' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 10.667 * predMarbleSize ' range=':= 5.33 * predMarbleSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 0.667 * predMarbleFreq ' range=':= 0.33 * predMarbleFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 10.667 * oreSize * predMarbleSize ' range=':= 5.33 * oreSize * predMarbleSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 0.667 * oreFreq * predMarbleFreq ' range=':= 0.33 * oreFreq * predMarbleFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 48 ' range=':= 16 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2109,8 +2109,8 @@
               <OreBlock block='ProjRed|Exploration:projectred.exploration.stone' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 10.667 * predMountainMarbleSize ' range=':= 5.33 * predMountainMarbleSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 0.667 * predMountainMarbleFreq ' range=':= 0.33 * predMountainMarbleFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 10.667 * oreSize * predMountainMarbleSize ' range=':= 5.33 * oreSize * predMountainMarbleSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 0.667 * oreFreq * predMountainMarbleFreq ' range=':= 0.33 * oreFreq * predMountainMarbleFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 208 ' range=':= 48 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>

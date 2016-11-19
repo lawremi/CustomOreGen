@@ -32,7 +32,7 @@
       <OptionChoice name='enableCommonOres' displayName='Handle Common Ores Setup?' default='true' displayState='shown_dynamic' displayGroup='groupCommonOres'>
         <Description> Should Custom Ore Generation handle Common Ores ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Common Ores ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='Common Ores ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='Common Ores ores will be handled by Minecraft directly.'/>
       </OptionChoice>
       <OptionChoice name='cleanUpCommonOres' displayName='Use Common Ores Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupCommonOres'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Common Ores ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
@@ -823,8 +823,8 @@
               <OreBlock block='CommonOres:oreSilver' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * cmorSilverSize ' range=':= 2.67 * cmorSilverSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * cmorSilverFreq ' range=':= 1.33 * cmorSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * cmorSilverSize ' range=':= 2.67 * oreSize * cmorSilverSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * cmorSilverFreq ' range=':= 1.33 * oreFreq * cmorSilverFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 20 ' range=':= 12 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -936,8 +936,8 @@
               <OreBlock block='CommonOres:oreSilver' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * cmorMountainSilverSize ' range=':= 2.67 * cmorMountainSilverSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * cmorMountainSilverFreq ' range=':= 1.33 * cmorMountainSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * cmorMountainSilverSize ' range=':= 2.67 * oreSize * cmorMountainSilverSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * cmorMountainSilverFreq ' range=':= 1.33 * oreFreq * cmorMountainSilverFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 124 ' range=':= 36 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1049,8 +1049,8 @@
               <OreBlock block='CommonOres:oreCopper' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.667 * cmorCopperSize ' range=':= 2.33 * cmorCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 16.0 * cmorCopperFreq ' range=':= 8.0 * cmorCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * cmorCopperSize ' range=':= 2.33 * oreSize * cmorCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 16.0 * oreFreq * cmorCopperFreq ' range=':= 8.0 * oreFreq * cmorCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 34.5 ' range=':= 29.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1162,8 +1162,8 @@
               <OreBlock block='CommonOres:oreCopper' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.667 * cmorMountainCopperSize ' range=':= 2.33 * cmorMountainCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 16.0 * cmorMountainCopperFreq ' range=':= 8.0 * cmorMountainCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * cmorMountainCopperSize ' range=':= 2.33 * oreSize * cmorMountainCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 16.0 * oreFreq * cmorMountainCopperFreq ' range=':= 8.0 * oreFreq * cmorMountainCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 167.5 ' range=':= 88.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1275,8 +1275,8 @@
               <OreBlock block='CommonOres:oreTin' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.667 * cmorTinSize ' range=':= 2.33 * cmorTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 14.667 * cmorTinFreq ' range=':= 7.33 * cmorTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * cmorTinSize ' range=':= 2.33 * oreSize * cmorTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 14.667 * oreFreq * cmorTinFreq ' range=':= 7.33 * oreFreq * cmorTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 34.5 ' range=':= 29.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1388,8 +1388,8 @@
               <OreBlock block='CommonOres:oreTin' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.667 * cmorMountainTinSize ' range=':= 2.33 * cmorMountainTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 14.667 * cmorMountainTinFreq ' range=':= 7.33 * cmorMountainTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * cmorMountainTinSize ' range=':= 2.33 * oreSize * cmorMountainTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 14.667 * oreFreq * cmorMountainTinFreq ' range=':= 7.33 * oreFreq * cmorMountainTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 167.5 ' range=':= 88.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1501,8 +1501,8 @@
               <OreBlock block='CommonOres:orePlatinum' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * cmorPlatinumSize ' range=':= 1.33 * cmorPlatinumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * cmorPlatinumFreq ' range=':= 0.67 * cmorPlatinumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * cmorPlatinumSize ' range=':= 1.33 * oreSize * cmorPlatinumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * cmorPlatinumFreq ' range=':= 0.67 * oreFreq * cmorPlatinumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 10.5 ' range=':= 5.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1615,8 +1615,8 @@
               <OreBlock block='CommonOres:orePlatinum' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 2.667 * cmorMountainPlatinumSize ' range=':= 1.33 * cmorMountainPlatinumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * cmorMountainPlatinumFreq ' range=':= 0.67 * cmorMountainPlatinumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * cmorMountainPlatinumSize ' range=':= 1.33 * oreSize * cmorMountainPlatinumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * cmorMountainPlatinumFreq ' range=':= 0.67 * oreFreq * cmorMountainPlatinumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 95.5 ' range=':= 16.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1728,8 +1728,8 @@
               <OreBlock block='CommonOres:oreAluminum' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.667 * cmorAluminumSize ' range=':= 2.33 * cmorAluminumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 16.0 * cmorAluminumFreq ' range=':= 8.0 * cmorAluminumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * cmorAluminumSize ' range=':= 2.33 * oreSize * cmorAluminumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 16.0 * oreFreq * cmorAluminumFreq ' range=':= 8.0 * oreFreq * cmorAluminumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 34.5 ' range=':= 29.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1842,8 +1842,8 @@
               <OreBlock block='CommonOres:oreAluminum' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.667 * cmorMountainAluminumSize ' range=':= 2.33 * cmorMountainAluminumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 16.0 * cmorMountainAluminumFreq ' range=':= 8.0 * cmorMountainAluminumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * cmorMountainAluminumSize ' range=':= 2.33 * oreSize * cmorMountainAluminumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 16.0 * oreFreq * cmorMountainAluminumFreq ' range=':= 8.0 * oreFreq * cmorMountainAluminumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 167.5 ' range=':= 88.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1955,8 +1955,8 @@
               <OreBlock block='CommonOres:oreLead' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * cmorLeadSize ' range=':= 2.67 * cmorLeadSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * cmorLeadFreq ' range=':= 2.67 * cmorLeadFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * cmorLeadSize ' range=':= 2.67 * oreSize * cmorLeadSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * cmorLeadFreq ' range=':= 2.67 * oreFreq * cmorLeadFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 20 ' range=':= 12 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2068,8 +2068,8 @@
               <OreBlock block='CommonOres:oreLead' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * cmorMountainLeadSize ' range=':= 2.67 * cmorMountainLeadSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * cmorMountainLeadFreq ' range=':= 2.67 * cmorMountainLeadFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * cmorMountainLeadSize ' range=':= 2.67 * oreSize * cmorMountainLeadSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * cmorMountainLeadFreq ' range=':= 2.67 * oreFreq * cmorMountainLeadFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 124 ' range=':= 36 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2181,8 +2181,8 @@
               <OreBlock block='CommonOres:oreNickel' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * cmorNickelSize ' range=':= 2.67 * cmorNickelSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 8.0 * cmorNickelFreq ' range=':= 4.0 * cmorNickelFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * cmorNickelSize ' range=':= 2.67 * oreSize * cmorNickelSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 8.0 * oreFreq * cmorNickelFreq ' range=':= 4.0 * oreFreq * cmorNickelFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 32 ' range=':= 16 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2294,8 +2294,8 @@
               <OreBlock block='CommonOres:oreNickel' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * cmorMountainNickelSize ' range=':= 2.67 * cmorMountainNickelSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 8.0 * cmorMountainNickelFreq ' range=':= 4.0 * cmorMountainNickelFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * cmorMountainNickelSize ' range=':= 2.67 * oreSize * cmorMountainNickelSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 8.0 * oreFreq * cmorMountainNickelFreq ' range=':= 4.0 * oreFreq * cmorMountainNickelFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 160 ' range=':= 48 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
