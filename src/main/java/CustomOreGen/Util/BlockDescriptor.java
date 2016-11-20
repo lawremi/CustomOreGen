@@ -10,8 +10,11 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.regex.Pattern;
 
+import com.google.common.collect.ImmutableList;
+
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -261,13 +264,15 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
                     		break;
                     	}
                     	boolean matched = false;
-                    	for (int m = 0; m < Short.SIZE && !matched; ++m)
-                    	{
-                    		this.add(block, m, desc.nbt, weights[m]);
-                    		if (weights[m] > 0 && desc.matchFirst) {
+                    	BlockStateContainer bsc = block.getBlockState();
+                		ImmutableList<IBlockState> values = bsc.getValidStates();
+                		for(IBlockState state : values) {
+                			int m = block.getMetaFromState(state);
+                			this.add(new BlockInfo(state, desc.nbt, false), weights[m]);
+                			if (weights[m] > 0 && desc.matchFirst) {
                     			matched = true;
                     		}
-                    	}
+                		}
                     	if (matched) {
                     		break;
                     	}
