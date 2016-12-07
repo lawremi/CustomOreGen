@@ -245,7 +245,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         this._settingMap.set(this, settingName, value);
     }
 
-    public void generate(World world, int chunkX, int chunkZ)
+    public synchronized void generate(World world, int chunkX, int chunkZ)
     {
         if (this._canGenerate && this._valid)
         {
