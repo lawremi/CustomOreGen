@@ -32,7 +32,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@Mod(modid="customoregen", useMetadata=true, version="@VERSION@", acceptedMinecraftVersions="[1.10]")
+@Mod(modid="customoregen", name="Custom Ore Generation", useMetadata=true, version="1.11-1.4.2", acceptedMinecraftVersions="[1.11]")
 public class FMLInterface implements IWorldGenerator
 {
     @Instance("customoregen")

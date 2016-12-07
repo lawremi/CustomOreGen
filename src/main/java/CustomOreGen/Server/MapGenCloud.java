@@ -11,6 +11,7 @@ import CustomOreGen.Util.PDist;
 import CustomOreGen.Util.PDist.Type;
 import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.WireframeShapes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
@@ -330,4 +331,10 @@ public class MapGenCloud extends MapGenOreDistribution
 		double aboveNoiseCutoff = (1 - simplex.cdf(this.orVolumeNoiseCutoff.mean));
 		return v * this.orDensity.pdist.mean * aboveNoiseCutoff;
 	}
+
+	//@Override
+	public BlockPos getClosestStrongholdPos(World worldIn, BlockPos pos, boolean p_180706_3_) {
+		return null;
+	}
+
 }

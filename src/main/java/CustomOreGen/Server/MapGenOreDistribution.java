@@ -31,6 +31,7 @@ import net.minecraft.world.gen.structure.MapGenStructure;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraft.world.gen.structure.StructureStart;
+import net.minecraft.world.gen.structure.template.TemplateManager;
 
 public abstract class MapGenOreDistribution extends MapGenStructure implements IOreDistribution
 {
@@ -569,7 +570,11 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                 	for (StructureComponent vc : (List<StructureComponent>)vs.getComponents()) {
                 		if (vc.getComponentType() == 0)
                         {
-                            BlockPos center = vc.getBoundingBoxCenter();
+                			StructureBoundingBox bb = vc.getBoundingBox();
+                			int xIn = bb.minX + (bb.maxX - bb.minX + 1) / 2;
+                			int yIn = bb.minY + (bb.maxY - bb.minY + 1) / 2;
+                			int zIn = bb.minZ + (bb.maxZ - bb.minZ + 1) / 2;
+                			BlockPos center = new BlockPos(xIn, yIn, zIn);
                             int dist2 = (center.getX() - pos.getX()) * (center.getX() - pos.getX()) + 
                             		(center.getZ() - pos.getZ()) * (center.getZ() - pos.getZ());
 
@@ -728,8 +733,12 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
             for (StructureComponent comp : this.getComponents()) {
             	StructureBoundingBox bb = comp.getBoundingBox();
-                int cX = bb.getCenter().getX() / 16;
-                int cZ = bb.getCenter().getZ() / 16;
+            	int xIn = bb.minX + (bb.maxX - bb.minX + 1) / 2;
+            	int yIn = bb.minY + (bb.maxY - bb.minY + 1) / 2;
+            	int zIn = bb.minZ + (bb.maxZ - bb.minZ + 1) / 2;
+            	BlockPos center = new BlockPos(xIn, yIn, zIn);
+                int cX = center.getX() / 16;
+                int cZ = center.getZ() / 16;
                 long key = (long)cX << 32 | (long)cZ & 4294967295L;
                 builder = debuggingGeometryMap.get(key);
 
@@ -881,7 +890,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 		}
 
 		@Override
-		protected void readStructureFromNBT(NBTTagCompound tagCompound) {
+		protected void readStructureFromNBT(NBTTagCompound tagCompound, TemplateManager p_143011_2_) {
 			// TODO Auto-generated method stub
 			
 		}
