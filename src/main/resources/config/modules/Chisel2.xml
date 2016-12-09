@@ -33,7 +33,7 @@
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Chisel 2 ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Chisel 2 ores will be handled by Minecraft directly.'/>
       </OptionChoice>
-      <OptionChoice name='cleanUpChisel2' displayName='Use Chisel 2 Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupChisel2'>
+      <OptionChoice name='cleanUpChisel2' displayName='Use Chisel 2 Cleanup?' default='true' displayState=':= if(?enableChisel2, "shown", "hidden")' displayGroup='groupChisel2'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Chisel 2 ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Chisel 2 ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Chisel 2 ores do not need to be cleaned up by a substitution pass.'/>
@@ -310,7 +310,7 @@
         <!-- Starting StratumClouds Preset for Andesite. -->
         <ConfigSection>
           <IfCondition condition=':= chslAndesiteDist = "StratumClouds"'>
-            <Cloud name='chslAndesiteCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60CECABE' drawBoundBox='false' boundBoxColor='0x60CECABE'>
+            <Cloud name='chslAndesiteCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60CECABE' drawBoundBox='false' boundBoxColor='0x60CECABE'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -338,7 +338,7 @@
         <!-- Starting LayeredVeins Preset for Andesite. -->
         <ConfigSection>
           <IfCondition condition=':= chslAndesiteDist = "LayeredVeins"'>
-            <Veins name='chslAndesiteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60CECABE' drawBoundBox='false' boundBoxColor='0x60CECABE'>
+            <Veins name='chslAndesiteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60CECABE' drawBoundBox='false' boundBoxColor='0x60CECABE'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -371,7 +371,7 @@
         <!-- Starting Vanilla Preset for Andesite. -->
         <ConfigSection>
           <IfCondition condition=':= chslAndesiteDist = "Vanilla"'>
-            <StandardGen name='chslAndesiteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60CECABE' drawBoundBox='false' boundBoxColor='0x60CECABE'>
+            <StandardGen name='chslAndesiteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60CECABE' drawBoundBox='false' boundBoxColor='0x60CECABE'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -395,7 +395,7 @@
         <!-- Starting StratumClouds Preset for Diorite. -->
         <ConfigSection>
           <IfCondition condition=':= chslDioriteDist = "StratumClouds"'>
-            <Cloud name='chslDioriteCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60E6E5D3' drawBoundBox='false' boundBoxColor='0x60E6E5D3'>
+            <Cloud name='chslDioriteCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60E6E5D3' drawBoundBox='false' boundBoxColor='0x60E6E5D3'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -423,7 +423,7 @@
         <!-- Starting LayeredVeins Preset for Diorite. -->
         <ConfigSection>
           <IfCondition condition=':= chslDioriteDist = "LayeredVeins"'>
-            <Veins name='chslDioriteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E6E5D3' drawBoundBox='false' boundBoxColor='0x60E6E5D3'>
+            <Veins name='chslDioriteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E6E5D3' drawBoundBox='false' boundBoxColor='0x60E6E5D3'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -456,7 +456,7 @@
         <!-- Starting Vanilla Preset for Diorite. -->
         <ConfigSection>
           <IfCondition condition=':= chslDioriteDist = "Vanilla"'>
-            <StandardGen name='chslDioriteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E6E5D3' drawBoundBox='false' boundBoxColor='0x60E6E5D3'>
+            <StandardGen name='chslDioriteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E6E5D3' drawBoundBox='false' boundBoxColor='0x60E6E5D3'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -480,7 +480,7 @@
         <!-- Starting StratumClouds Preset for Granite. -->
         <ConfigSection>
           <IfCondition condition=':= chslGraniteDist = "StratumClouds"'>
-            <Cloud name='chslGraniteCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60F2D9C3' drawBoundBox='false' boundBoxColor='0x60F2D9C3'>
+            <Cloud name='chslGraniteCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60F2D9C3' drawBoundBox='false' boundBoxColor='0x60F2D9C3'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -508,7 +508,7 @@
         <!-- Starting LayeredVeins Preset for Granite. -->
         <ConfigSection>
           <IfCondition condition=':= chslGraniteDist = "LayeredVeins"'>
-            <Veins name='chslGraniteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60F2D9C3' drawBoundBox='false' boundBoxColor='0x60F2D9C3'>
+            <Veins name='chslGraniteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60F2D9C3' drawBoundBox='false' boundBoxColor='0x60F2D9C3'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -541,7 +541,7 @@
         <!-- Starting Vanilla Preset for Granite. -->
         <ConfigSection>
           <IfCondition condition=':= chslGraniteDist = "Vanilla"'>
-            <StandardGen name='chslGraniteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60F2D9C3' drawBoundBox='false' boundBoxColor='0x60F2D9C3'>
+            <StandardGen name='chslGraniteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60F2D9C3' drawBoundBox='false' boundBoxColor='0x60F2D9C3'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -565,7 +565,7 @@
         <!-- Starting StratumClouds Preset for Limestone. -->
         <ConfigSection>
           <IfCondition condition=':= chslLimestoneDist = "StratumClouds"'>
-            <Cloud name='chslLimestoneCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60A5A28F' drawBoundBox='false' boundBoxColor='0x60A5A28F'>
+            <Cloud name='chslLimestoneCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60A5A28F' drawBoundBox='false' boundBoxColor='0x60A5A28F'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -593,7 +593,7 @@
         <!-- Starting LayeredVeins Preset for Limestone. -->
         <ConfigSection>
           <IfCondition condition=':= chslLimestoneDist = "LayeredVeins"'>
-            <Veins name='chslLimestoneVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60A5A28F' drawBoundBox='false' boundBoxColor='0x60A5A28F'>
+            <Veins name='chslLimestoneVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60A5A28F' drawBoundBox='false' boundBoxColor='0x60A5A28F'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -626,7 +626,7 @@
         <!-- Starting Vanilla Preset for Limestone. -->
         <ConfigSection>
           <IfCondition condition=':= chslLimestoneDist = "Vanilla"'>
-            <StandardGen name='chslLimestoneStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60A5A28F' drawBoundBox='false' boundBoxColor='0x60A5A28F'>
+            <StandardGen name='chslLimestoneStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60A5A28F' drawBoundBox='false' boundBoxColor='0x60A5A28F'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -650,7 +650,7 @@
         <!-- Starting StratumClouds Preset for Marble. -->
         <ConfigSection>
           <IfCondition condition=':= chslMarbleDist = "StratumClouds"'>
-            <Cloud name='chslMarbleCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60CECECE' drawBoundBox='false' boundBoxColor='0x60CECECE'>
+            <Cloud name='chslMarbleCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60CECECE' drawBoundBox='false' boundBoxColor='0x60CECECE'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -678,7 +678,7 @@
         <!-- Starting LayeredVeins Preset for Marble. -->
         <ConfigSection>
           <IfCondition condition=':= chslMarbleDist = "LayeredVeins"'>
-            <Veins name='chslMarbleVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60CECECE' drawBoundBox='false' boundBoxColor='0x60CECECE'>
+            <Veins name='chslMarbleVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60CECECE' drawBoundBox='false' boundBoxColor='0x60CECECE'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -711,7 +711,7 @@
         <!-- Starting Vanilla Preset for Marble. -->
         <ConfigSection>
           <IfCondition condition=':= chslMarbleDist = "Vanilla"'>
-            <StandardGen name='chslMarbleStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60CECECE' drawBoundBox='false' boundBoxColor='0x60CECECE'>
+            <StandardGen name='chslMarbleStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60CECECE' drawBoundBox='false' boundBoxColor='0x60CECECE'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
