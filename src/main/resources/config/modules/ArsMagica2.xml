@@ -33,7 +33,7 @@
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Ars Magica 2 ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Ars Magica 2 ores will be handled by Minecraft directly.'/>
       </OptionChoice>
-      <OptionChoice name='cleanUpArsMagica2' displayName='Use Ars Magica 2 Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupArsMagica2'>
+      <OptionChoice name='cleanUpArsMagica2' displayName='Use Ars Magica 2 Cleanup?' default='true' displayState=':= if(?enableArsMagica2, "shown", "hidden")' displayGroup='groupArsMagica2'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Ars Magica 2 ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Ars Magica 2 ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Ars Magica 2 ores do not need to be cleaned up by a substitution pass.'/>
@@ -354,7 +354,7 @@
         <!-- Starting SparseVeins Preset for Vinteum. -->
         <ConfigSection>
           <IfCondition condition=':= arsmVinteumDist = "SparseVeins"'>
-            <Veins name='arsmVinteumVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x605364EE' drawBoundBox='false' boundBoxColor='0x605364EE'>
+            <Veins name='arsmVinteumVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x605364EE' drawBoundBox='false' boundBoxColor='0x605364EE'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -392,7 +392,7 @@
         <!-- Starting StrategicClouds Preset for Vinteum. -->
         <ConfigSection>
           <IfCondition condition=':= arsmVinteumDist = "StrategicClouds"'>
-            <Cloud name='arsmVinteumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x605364EE' drawBoundBox='false' boundBoxColor='0x605364EE'>
+            <Cloud name='arsmVinteumCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x605364EE' drawBoundBox='false' boundBoxColor='0x605364EE'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -417,7 +417,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='arsmVinteumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x605364EE' drawBoundBox='false' boundBoxColor='0x605364EE'>
+              <Veins name='arsmVinteumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x605364EE' drawBoundBox='false' boundBoxColor='0x605364EE'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -448,7 +448,7 @@
         <!-- Starting Vanilla Preset for Vinteum. -->
         <ConfigSection>
           <IfCondition condition=':= arsmVinteumDist = "Vanilla"'>
-            <StandardGen name='arsmVinteumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x605364EE' drawBoundBox='false' boundBoxColor='0x605364EE'>
+            <StandardGen name='arsmVinteumStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x605364EE' drawBoundBox='false' boundBoxColor='0x605364EE'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -472,7 +472,7 @@
         <!-- Starting SparseVeins Preset for Mountain Vinteum. -->
         <ConfigSection>
           <IfCondition condition=':= arsmMountainVinteumDist = "SparseVeins"'>
-            <Veins name='arsmMountainVinteumVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x605364EE' drawBoundBox='false' boundBoxColor='0x605364EE'>
+            <Veins name='arsmMountainVinteumVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x605364EE' drawBoundBox='false' boundBoxColor='0x605364EE'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -510,7 +510,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Vinteum. -->
         <ConfigSection>
           <IfCondition condition=':= arsmMountainVinteumDist = "StrategicClouds"'>
-            <Cloud name='arsmMountainVinteumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x605364EE' drawBoundBox='false' boundBoxColor='0x605364EE'>
+            <Cloud name='arsmMountainVinteumCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x605364EE' drawBoundBox='false' boundBoxColor='0x605364EE'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -535,7 +535,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='arsmMountainVinteumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x605364EE' drawBoundBox='false' boundBoxColor='0x605364EE'>
+              <Veins name='arsmMountainVinteumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x605364EE' drawBoundBox='false' boundBoxColor='0x605364EE'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -566,7 +566,7 @@
         <!-- Starting Vanilla Preset for Mountain Vinteum. -->
         <ConfigSection>
           <IfCondition condition=':= arsmMountainVinteumDist = "Vanilla"'>
-            <StandardGen name='arsmMountainVinteumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x605364EE' drawBoundBox='false' boundBoxColor='0x605364EE'>
+            <StandardGen name='arsmMountainVinteumStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x605364EE' drawBoundBox='false' boundBoxColor='0x605364EE'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -590,7 +590,7 @@
         <!-- Starting SparseVeins Preset for Chimerite. -->
         <ConfigSection>
           <IfCondition condition=':= arsmChimeriteDist = "SparseVeins"'>
-            <Veins name='arsmChimeriteVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60B8E6C6' drawBoundBox='false' boundBoxColor='0x60B8E6C6'>
+            <Veins name='arsmChimeriteVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60B8E6C6' drawBoundBox='false' boundBoxColor='0x60B8E6C6'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -628,7 +628,7 @@
         <!-- Starting StrategicClouds Preset for Chimerite. -->
         <ConfigSection>
           <IfCondition condition=':= arsmChimeriteDist = "StrategicClouds"'>
-            <Cloud name='arsmChimeriteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60B8E6C6' drawBoundBox='false' boundBoxColor='0x60B8E6C6'>
+            <Cloud name='arsmChimeriteCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60B8E6C6' drawBoundBox='false' boundBoxColor='0x60B8E6C6'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -653,7 +653,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='arsmChimeriteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60B8E6C6' drawBoundBox='false' boundBoxColor='0x60B8E6C6'>
+              <Veins name='arsmChimeriteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60B8E6C6' drawBoundBox='false' boundBoxColor='0x60B8E6C6'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -684,7 +684,7 @@
         <!-- Starting Vanilla Preset for Chimerite. -->
         <ConfigSection>
           <IfCondition condition=':= arsmChimeriteDist = "Vanilla"'>
-            <StandardGen name='arsmChimeriteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60B8E6C6' drawBoundBox='false' boundBoxColor='0x60B8E6C6'>
+            <StandardGen name='arsmChimeriteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60B8E6C6' drawBoundBox='false' boundBoxColor='0x60B8E6C6'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -708,7 +708,7 @@
         <!-- Starting SparseVeins Preset for Mountain  Chimerite. -->
         <ConfigSection>
           <IfCondition condition=':= arsmMountainChimeriteDist = "SparseVeins"'>
-            <Veins name='arsmMountainChimeriteVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60B8E6C6' drawBoundBox='false' boundBoxColor='0x60B8E6C6'>
+            <Veins name='arsmMountainChimeriteVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60B8E6C6' drawBoundBox='false' boundBoxColor='0x60B8E6C6'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -746,7 +746,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Chimerite. -->
         <ConfigSection>
           <IfCondition condition=':= arsmMountainChimeriteDist = "StrategicClouds"'>
-            <Cloud name='arsmMountainChimeriteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60B8E6C6' drawBoundBox='false' boundBoxColor='0x60B8E6C6'>
+            <Cloud name='arsmMountainChimeriteCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60B8E6C6' drawBoundBox='false' boundBoxColor='0x60B8E6C6'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -771,7 +771,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='arsmMountainChimeriteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60B8E6C6' drawBoundBox='false' boundBoxColor='0x60B8E6C6'>
+              <Veins name='arsmMountainChimeriteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60B8E6C6' drawBoundBox='false' boundBoxColor='0x60B8E6C6'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -803,7 +803,7 @@
         <!-- Starting Vanilla Preset for Mountain Chimerite. -->
         <ConfigSection>
           <IfCondition condition=':= arsmMountainChimeriteDist = "Vanilla"'>
-            <StandardGen name='arsmMountainChimeriteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60B8E6C6' drawBoundBox='false' boundBoxColor='0x60B8E6C6'>
+            <StandardGen name='arsmMountainChimeriteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60B8E6C6' drawBoundBox='false' boundBoxColor='0x60B8E6C6'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -827,7 +827,7 @@
         <!-- Starting SparseVeins Preset for Blue Topaz. -->
         <ConfigSection>
           <IfCondition condition=':= arsmBlueTopazDist = "SparseVeins"'>
-            <Veins name='arsmBlueTopazVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x607EE5F4' drawBoundBox='false' boundBoxColor='0x607EE5F4'>
+            <Veins name='arsmBlueTopazVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x607EE5F4' drawBoundBox='false' boundBoxColor='0x607EE5F4'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -865,7 +865,7 @@
         <!-- Starting StrategicClouds Preset for Blue Topaz. -->
         <ConfigSection>
           <IfCondition condition=':= arsmBlueTopazDist = "StrategicClouds"'>
-            <Cloud name='arsmBlueTopazCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x607EE5F4' drawBoundBox='false' boundBoxColor='0x607EE5F4'>
+            <Cloud name='arsmBlueTopazCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x607EE5F4' drawBoundBox='false' boundBoxColor='0x607EE5F4'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -890,7 +890,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='arsmBlueTopazHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x607EE5F4' drawBoundBox='false' boundBoxColor='0x607EE5F4'>
+              <Veins name='arsmBlueTopazHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x607EE5F4' drawBoundBox='false' boundBoxColor='0x607EE5F4'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -921,7 +921,7 @@
         <!-- Starting Vanilla Preset for Blue Topaz. -->
         <ConfigSection>
           <IfCondition condition=':= arsmBlueTopazDist = "Vanilla"'>
-            <StandardGen name='arsmBlueTopazStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x607EE5F4' drawBoundBox='false' boundBoxColor='0x607EE5F4'>
+            <StandardGen name='arsmBlueTopazStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x607EE5F4' drawBoundBox='false' boundBoxColor='0x607EE5F4'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -945,7 +945,7 @@
         <!-- Starting SparseVeins Preset for Mountain Blue  Topaz. -->
         <ConfigSection>
           <IfCondition condition=':= arsmMountainBlueTopazDist = "SparseVeins"'>
-            <Veins name='arsmMountainBlueTopazVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x607EE5F4' drawBoundBox='false' boundBoxColor='0x607EE5F4'>
+            <Veins name='arsmMountainBlueTopazVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x607EE5F4' drawBoundBox='false' boundBoxColor='0x607EE5F4'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -983,7 +983,7 @@
         <!-- Starting StrategicClouds Preset for Mountain Blue  Topaz. -->
         <ConfigSection>
           <IfCondition condition=':= arsmMountainBlueTopazDist = "StrategicClouds"'>
-            <Cloud name='arsmMountainBlueTopazCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x607EE5F4' drawBoundBox='false' boundBoxColor='0x607EE5F4'>
+            <Cloud name='arsmMountainBlueTopazCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x607EE5F4' drawBoundBox='false' boundBoxColor='0x607EE5F4'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1008,7 +1008,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='arsmMountainBlueTopazHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x607EE5F4' drawBoundBox='false' boundBoxColor='0x607EE5F4'>
+              <Veins name='arsmMountainBlueTopazHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x607EE5F4' drawBoundBox='false' boundBoxColor='0x607EE5F4'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1040,7 +1040,7 @@
         <!-- Starting Vanilla Preset for Mountain Blue Topaz. -->
         <ConfigSection>
           <IfCondition condition=':= arsmMountainBlueTopazDist = "Vanilla"'>
-            <StandardGen name='arsmMountainBlueTopazStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x607EE5F4' drawBoundBox='false' boundBoxColor='0x607EE5F4'>
+            <StandardGen name='arsmMountainBlueTopazStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x607EE5F4' drawBoundBox='false' boundBoxColor='0x607EE5F4'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
