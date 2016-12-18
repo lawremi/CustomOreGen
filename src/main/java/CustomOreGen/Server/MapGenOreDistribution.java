@@ -732,7 +732,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             GeometryStream builder;
 
             for (StructureComponent comp : this.getComponents()) {
-            	StructureBoundingBox bb = comp.getBoundingBox();
+                StructureBoundingBox bb = comp.getBoundingBox();
             	int xIn = bb.minX + (bb.maxX - bb.minX + 1) / 2;
             	int yIn = bb.minY + (bb.maxY - bb.minY + 1) / 2;
             	int zIn = bb.minZ + (bb.maxZ - bb.minZ + 1) / 2;

@@ -137,16 +137,12 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
             	//BiomeDictionary.Type type = BiomeDictionary.Type.valueOf(desc.description.toUpperCase());
             	// The above no longer works, because Type is no longer an enum, and so we are stuck 
             	// with the following:
-            	Set<Type> types = BiomeDictionary.getTypes(biome);
-            	Iterator<Type> it = types.iterator();
-            	while (it.hasNext()) {
-            		BiomeDictionary.Type nextType = it.next();
-            		if (nextType.getName() == desc.description.toUpperCase()) {
-            			// Adding the weight calculation to the loop as this makes testing
-            			// for BiomeDictionary.hasType() redundant
-            			totalWeight += desc.weight;
-            		}
-            	}
+                if (BiomeDictionary.getTypes(biome).stream()
+                        .filter(type -> type.getName().contains(desc.description.toUpperCase())).findFirst()
+                        .isPresent())
+                {
+                    totalWeight += desc.weight;
+                }
             } else {
             	if (name != null)
             	{
