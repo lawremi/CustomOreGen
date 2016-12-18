@@ -328,7 +328,7 @@ public class WorldConfig
         properties.put("world.hasCheats", worldInfo == null ? false : worldInfo.areCommandsAllowed());
         properties.put("world.gameMode", worldInfo == null ? "" : worldInfo.getGameType().getName());
         properties.put("world.gameMode.id", worldInfo == null ? 0 : worldInfo.getGameType().getID());
-        properties.put("world.type", worldInfo == null ? "" : worldInfo.getTerrainType().getWorldTypeName());
+        properties.put("world.type", worldInfo == null ? "" : worldInfo.getTerrainType().getName());
         properties.put("world.type.version", worldInfo == null ? 0 : worldInfo.getTerrainType().getGeneratorVersion());
         String genName = "RandomLevelSource";
         String genClass = "ChunkProviderOverworld";
@@ -363,7 +363,7 @@ public class WorldConfig
         properties.put("dimension", world == null ? "" : world.provider.getDimensionType().getName());
         properties.put("dimension.id", world == null ? 0 : world.provider.getDimension());
         properties.put("dimension.isSurface", world == null ? false : world.provider.isSurfaceWorld());
-        properties.put("dimension.hasNoSky", world == null ? false : world.provider.getHasNoSky());
+        properties.put("dimension.hasNoSky", world == null ? false : world.provider.hasNoSky());
         properties.put("dimension.groundLevel", world == null ? 0 : world.provider.getAverageGroundLevel());
         properties.put("dimension.actualHeight", world == null ? 0 : world.getActualHeight());
         properties.put("dimension.height", world == null ? 0 : world.getHeight());

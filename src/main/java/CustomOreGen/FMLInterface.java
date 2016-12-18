@@ -32,7 +32,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@Mod(modid="customoregen", name="Custom Ore Generation", useMetadata=true, version="1.11-1.4.2", acceptedMinecraftVersions="[1.11]")
+@Mod(modid="customoregen", name="Custom Ore Generation", useMetadata=true, version="@VERSION@", acceptedMinecraftVersions="[1.11]")
 public class FMLInterface implements IWorldGenerator
 {
     @Instance("customoregen")
@@ -97,16 +97,16 @@ public class FMLInterface implements IWorldGenerator
     	}
         Minecraft mc = Minecraft.getMinecraft();
 
-        if (mc.theWorld != null && ClientState.hasWorldChanged(mc.theWorld))
+        if (mc.world != null && ClientState.hasWorldChanged(mc.world))
         {
-            ClientState.onWorldChanged(mc.theWorld);
+            ClientState.onWorldChanged(mc.world);
         }
     }
 
     @SubscribeEvent
     public void onClientLogin(PlayerLoggedInEvent event)
     {
-        World handlerWorld = event.player.worldObj;
+        World handlerWorld = event.player.world;
         ServerState.checkIfServerChanged(handlerWorld.getMinecraftServer(), 
         		handlerWorld.getWorldInfo());
     }

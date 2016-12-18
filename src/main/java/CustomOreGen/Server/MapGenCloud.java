@@ -85,7 +85,7 @@ public class MapGenCloud extends MapGenOreDistribution
     {
         float clX = (random.nextFloat() + (float)structureGroup.chunkX) * 16.0F;
         float clZ = (random.nextFloat() + (float)structureGroup.chunkZ) * 16.0F;
-        float clY = this.clHeight.getValue(random, this.worldObj, clX, clZ) + this.heightOffset.getValue(random);
+        float clY = this.clHeight.getValue(random, this.world, clX, clZ) + this.heightOffset.getValue(random);
         
         if (!structureGroup.canPlaceComponentAt(0, clX, clY, clZ, random))
         {
@@ -98,7 +98,7 @@ public class MapGenCloud extends MapGenOreDistribution
             clMat.rotateZInto(0.0F, 1.0F, 0.0F);
             clMat.rotateZ(random.nextFloat() * ((float)Math.PI * 2F));
             clMat.rotateY(this.clInclination.getValue(random));
-            float thickness = this.clThickness.getValue(random, this.worldObj, clX, clZ);
+            float thickness = this.clThickness.getValue(random, this.world, clX, clZ);
             clMat.scale(this.clRadius.getValue(random), this.clRadius.getValue(random), thickness);
             DiffuseCloudComponent cloud = new DiffuseCloudComponent(structureGroup, clMat, random);
             structureGroup.addComponent(cloud, (Component)null);
@@ -128,7 +128,7 @@ public class MapGenCloud extends MapGenOreDistribution
 
             float[] bb = new float[] { -rMax, -rMax, -rMax, rMax, rMax, rMax};
             transform.transformBB(bb);
-            super.boundingBox = new StructureBoundingBox(MathHelper.floor_float(bb[0]), MathHelper.floor_float(bb[1]), MathHelper.floor_float(bb[2]), MathHelper.floor_float(bb[3]) + 1, MathHelper.floor_float(bb[4]) + 1, MathHelper.floor_float(bb[5]) + 1);
+            super.boundingBox = new StructureBoundingBox(MathHelper.floor(bb[0]), MathHelper.floor(bb[1]), MathHelper.floor(bb[2]), MathHelper.floor(bb[3]) + 1, MathHelper.floor(bb[4]) + 1, MathHelper.floor(bb[5]) + 1);
             float maxSize = (float)Math.max(super.boundingBox.getXSize(), Math.max(super.boundingBox.getYSize(), super.boundingBox.getZSize())) * 0.2F;
             this.noiseLevels = maxSize <= 1.0F ? 0 : (int)(Math.log((double)maxSize) / Math.log(2.0D) + 0.5D);
             this.mat = transform.clone();
@@ -188,7 +188,7 @@ public class MapGenCloud extends MapGenOreDistribution
                             {
                                 if (r2 > minNoisyR2)
                                 {
-                                    float r = MathHelper.sqrt_float(r2);
+                                    float r = MathHelper.sqrt(r2);
                                     float mult = 1.0F;
 
                                     if (r > 0.0F)

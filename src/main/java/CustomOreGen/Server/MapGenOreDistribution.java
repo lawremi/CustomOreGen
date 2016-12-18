@@ -250,7 +250,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
     {
         if (this._canGenerate && this._valid)
         {
-            if (world != super.worldObj)
+            if (world != super.world)
             {
                 this.clear();
             }
@@ -333,7 +333,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
     {
         if (this._canGenerate && this._valid)
         {
-            if (world != super.worldObj)
+            if (world != super.world)
             {
                 return null;
             }
@@ -442,7 +442,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
     public void generate(World par2World, int par3, int par4, ChunkPrimer primer)
     {
         int k = this.range;
-        this.worldObj = par2World;
+        this.world = par2World;
         this.rand.setSeed(par2World.getSeed());
         long l = this.rand.nextLong();
         long i1 = this.rand.nextLong();
@@ -492,10 +492,10 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
     	int blockZ = chunkZ << 4;
     	boolean canSpawn = false;
         if (this._canGenerate && this._valid) {
-        	if (this.frequency.getMax(this.worldObj, blockX, blockZ) >= 1.0F) {
+        	if (this.frequency.getMax(this.world, blockX, blockZ) >= 1.0F) {
         		canSpawn = true; 
         	} else {
-        		canSpawn = this.frequency.getIntValue(super.rand, this.worldObj, blockX, blockZ) == 1;
+        		canSpawn = this.frequency.getIntValue(super.rand, this.world, blockX, blockZ) == 1;
         	}
         }
         return canSpawn;
@@ -505,8 +505,8 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
     {
     	int blockX = chunkX << 4;
     	int blockZ = chunkZ << 4;
-        int count = this.frequency.getMax(this.worldObj, blockX, blockZ) >= 1.0F ? 
-        		this.frequency.getIntValue(super.rand, this.worldObj, blockX, blockZ) : 1;
+        int count = this.frequency.getMax(this.world, blockX, blockZ) >= 1.0F ? 
+        		this.frequency.getIntValue(super.rand, this.world, blockX, blockZ) : 1;
         StructureGroup group = new StructureGroup(chunkX, chunkZ, count);
         group.newerGroup = null;
         group.olderGroup = this.newestGroup;
@@ -637,7 +637,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             this.structureCount = trueStructureCount;
             this.updateBoundingBox();
 
-            if (ServerState.getWorldConfig(worldObj).debuggingMode && (wfHasBB || wfHasWireframe))
+            if (ServerState.getWorldConfig(world).debuggingMode && (wfHasBB || wfHasWireframe))
             {
                 this.buildWireframes();
             }
@@ -661,15 +661,15 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
         public boolean canPlaceComponentAt(int componentType, float x, float y, float z, Random random)
         {
-            int iX = MathHelper.floor_float(x);
-            int iY = MathHelper.floor_float(y);
-            int iZ = MathHelper.floor_float(z);
+            int iX = MathHelper.floor(x);
+            int iY = MathHelper.floor(y);
+            int iZ = MathHelper.floor(z);
 
             BlockPos pos = new BlockPos(iX, iY, iZ);
             
             if (componentType == 0)
             {
-                Biome dist = worldObj.getBiome(pos);
+                Biome dist = world.getBiome(pos);
 
                 if (dist != null && !biomes.matchesBiome(dist, random))
                 {
@@ -695,7 +695,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                         return false;
                     }
 
-                    BlockPos parentPos = parent.getNearestStructure(worldObj, pos);
+                    BlockPos parentPos = parent.getNearestStructure(world, pos);
 
                     if (parentPos == null)
                     {

@@ -26,10 +26,10 @@ public class CustomPacketPayloadHandler {
     public void clientCustomPayload(ClientCustomPacketEvent event)
     {
     	Minecraft mc = Minecraft.getMinecraft();
-    	EntityPlayerSP player = mc.thePlayer;
-        if (mc.theWorld != null && ClientState.hasWorldChanged(mc.theWorld))
+    	EntityPlayerSP player = mc.player;
+        if (mc.world != null && ClientState.hasWorldChanged(mc.world))
         {
-            ClientState.onWorldChanged(mc.theWorld);
+            ClientState.onWorldChanged(mc.world);
         }
 
         CustomPacketPayload payload = CustomPacketPayload.decodePacket(event.getPacket());
@@ -68,7 +68,7 @@ public class CustomPacketPayloadHandler {
                         }
                         else
                         {
-                            player.addChatMessage(new TextComponentString("\u00a7cError: Invalid wireframe mode '" + strMode + "'"));
+                            player.sendMessage(new TextComponentString("\u00a7cError: Invalid wireframe mode '" + strMode + "'"));
                         }
                     }
                     else
@@ -78,7 +78,7 @@ public class CustomPacketPayloadHandler {
                         ClientState.dgRenderingMode = WireframeRenderMode.values()[mode];
                     }
 
-                    player.addChatMessage(new TextComponentString("COG Client wireframe mode: " + ClientState.dgRenderingMode.name()));
+                    player.sendMessage(new TextComponentString("COG Client wireframe mode: " + ClientState.dgRenderingMode.name()));
                     break;
 
                 case DebuggingGeometryReset:
@@ -86,7 +86,7 @@ public class CustomPacketPayloadHandler {
                     break;
 
                 case CommandResponse:
-                    player.addChatMessage(new TextComponentString((String)payload.data));
+                    player.sendMessage(new TextComponentString((String)payload.data));
                     break;
 
                 default:
@@ -99,7 +99,7 @@ public class CustomPacketPayloadHandler {
     public void serverCustomPayload(ServerCustomPacketEvent event)
     {
     	EntityPlayerMP player = ((NetHandlerPlayServer)event.getHandler()).playerEntity;
-    	World handlerWorld = player.worldObj;
+    	World handlerWorld = player.world;
         ServerState.checkIfServerChanged(handlerWorld.getMinecraftServer(), handlerWorld.getWorldInfo());
         CustomPacketPayload payload = CustomPacketPayload.decodePacket(event.getPacket());
 

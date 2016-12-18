@@ -56,7 +56,7 @@ public class MapGenClusters extends MapGenOreDistribution
     {
         float clX = (random.nextFloat() + (float)structureGroup.chunkX) * 16.0F;
         float clZ = (random.nextFloat() + (float)structureGroup.chunkZ) * 16.0F;
-        float clY = this.clHeight.getValue(random, this.worldObj, clX, clZ) + this.heightOffset.getValue(random);
+        float clY = this.clHeight.getValue(random, this.world, clX, clZ) + this.heightOffset.getValue(random);
         
         if (!structureGroup.canPlaceComponentAt(0, clX, clY, clZ, random))
         {
@@ -103,12 +103,12 @@ public class MapGenClusters extends MapGenOreDistribution
                 float xCenter = this.ptA[0] + (this.ptB[0] - this.ptA[0]) * ns;
                 float yCenter = this.ptA[1] + (this.ptB[1] - this.ptA[1]) * ns;
                 float zCenter = this.ptA[2] + (this.ptB[2] - this.ptA[2]) * ns;
-                super.boundingBox.minX = Math.min(super.boundingBox.minX, MathHelper.floor_float(xCenter - this.rad[s]));
-                super.boundingBox.minY = Math.min(super.boundingBox.minY, MathHelper.floor_float(yCenter - this.rad[s]));
-                super.boundingBox.minZ = Math.min(super.boundingBox.minZ, MathHelper.floor_float(zCenter - this.rad[s]));
-                super.boundingBox.maxX = Math.max(super.boundingBox.maxX, MathHelper.ceiling_float_int(xCenter + this.rad[s]));
-                super.boundingBox.maxY = Math.max(super.boundingBox.maxY, MathHelper.ceiling_float_int(yCenter + this.rad[s]));
-                super.boundingBox.maxZ = Math.max(super.boundingBox.maxZ, MathHelper.ceiling_float_int(zCenter + this.rad[s]));
+                super.boundingBox.minX = Math.min(super.boundingBox.minX, MathHelper.floor(xCenter - this.rad[s]));
+                super.boundingBox.minY = Math.min(super.boundingBox.minY, MathHelper.floor(yCenter - this.rad[s]));
+                super.boundingBox.minZ = Math.min(super.boundingBox.minZ, MathHelper.floor(zCenter - this.rad[s]));
+                super.boundingBox.maxX = Math.max(super.boundingBox.maxX, MathHelper.ceil(xCenter + this.rad[s]));
+                super.boundingBox.maxY = Math.max(super.boundingBox.maxY, MathHelper.ceil(yCenter + this.rad[s]));
+                super.boundingBox.maxZ = Math.max(super.boundingBox.maxZ, MathHelper.ceil(zCenter + this.rad[s]));
             }
         }
 
@@ -120,12 +120,12 @@ public class MapGenClusters extends MapGenOreDistribution
                 float xCenter = this.ptA[0] + (this.ptB[0] - this.ptA[0]) * ns;
                 float yCenter = this.ptA[1] + (this.ptB[1] - this.ptA[1]) * ns;
                 float zCenter = this.ptA[2] + (this.ptB[2] - this.ptA[2]) * ns;
-                int xMin = Math.max(MathHelper.floor_float(xCenter - this.rad[s]), bounds.minX);
-                int xMax = Math.min(MathHelper.floor_float(xCenter + this.rad[s]), bounds.maxX);
-                int yMin = Math.max(MathHelper.floor_float(yCenter - this.rad[s]), bounds.minY);
-                int yMax = Math.min(MathHelper.ceiling_float_int(yCenter + this.rad[s]), bounds.maxY);
-                int zMin = Math.max(MathHelper.ceiling_float_int(zCenter - this.rad[s]), bounds.minZ);
-                int zMax = Math.min(MathHelper.ceiling_float_int(zCenter + this.rad[s]), bounds.maxZ);
+                int xMin = Math.max(MathHelper.floor(xCenter - this.rad[s]), bounds.minX);
+                int xMax = Math.min(MathHelper.floor(xCenter + this.rad[s]), bounds.maxX);
+                int yMin = Math.max(MathHelper.floor(yCenter - this.rad[s]), bounds.minY);
+                int yMax = Math.min(MathHelper.ceil(yCenter + this.rad[s]), bounds.maxY);
+                int zMin = Math.max(MathHelper.ceil(zCenter - this.rad[s]), bounds.minZ);
+                int zMax = Math.min(MathHelper.ceil(zCenter + this.rad[s]), bounds.maxZ);
 
                 for (int tgtX = xMin; tgtX <= xMax; ++tgtX)
                 {
@@ -175,7 +175,7 @@ public class MapGenClusters extends MapGenOreDistribution
                 if (segLen == 0.0F) {
                 	return;
                 }
-                int stepCount = MathHelper.ceiling_float_int(segLen);
+                int stepCount = MathHelper.ceil(segLen);
                 byte circleSides = 8;
                 float[][] pts = WireframeShapes.getCirclePoints(circleSides, (float[][])null);
                 float[] pos = new float[3];
@@ -222,7 +222,7 @@ public class MapGenClusters extends MapGenOreDistribution
 	
 	@Override
 	public double getAverageOreCount() {
-		int segLen = MathHelper.ceiling_float_int(this.clSize.mean / 8.0F) * 2;
+		int segLen = MathHelper.ceil(this.clSize.mean / 8.0F) * 2;
 		double volume = 0;
 		for (int s = 0; s < segLen; s++) {
 			float rad = adjustRadius(this.clSize.mean / 64.0F, (double)s / (double)segLen);
