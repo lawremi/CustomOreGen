@@ -264,9 +264,11 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
                     	boolean matched = false;
                     	for (int m = 0; m < Short.SIZE && !matched; ++m)
                     	{
-                    		this.add(block, m, desc.nbt, weights[m]);
-                    		if (weights[m] > 0 && desc.matchFirst) {
-                    			matched = true;
+                    		if (weights[m] > 0) {
+                    			this.add(block, m, desc.nbt, weights[m]);
+                    			if (desc.matchFirst) {
+                    				matched = true;
+                    			}
                     		}
                     	}
                     	if (matched) {
