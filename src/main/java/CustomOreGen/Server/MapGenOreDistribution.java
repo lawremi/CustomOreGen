@@ -393,7 +393,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
     protected StructureGroup getCachedStructureGroup(int chunkX, int chunkZ)
     {
-        Long key = Long.valueOf(ChunkPos.asLong(chunkX, chunkZ));
+        long key = ChunkPos.asLong(chunkX, chunkZ);
         StructureGroup group = (StructureGroup)super.structureMap.get(key);
 
         if (group != null)
