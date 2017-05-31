@@ -43,6 +43,7 @@ public interface IOreDistribution
         PlacesAbove,
         PlacesBelow,
         PlacesBeside,
+        Touches,
         TargetBiome,
         Parent;
     }

@@ -17,6 +17,7 @@ import CustomOreGen.Util.IGeometryBuilder;
 import CustomOreGen.Util.PDist;
 import CustomOreGen.Util.PDist.Type;
 import CustomOreGen.Util.TileEntityHelper;
+import CustomOreGen.Util.TouchingDescriptorList;
 import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.WireframeShapes;
 import net.minecraft.init.Blocks;
@@ -84,6 +85,12 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             info = "List of blocks allowed beside generated block"
     )
     public final BlockDescriptor besideBlocks;
+    
+    @DistributionSetting(
+            name = "Touches",
+            info = "List of blocks allowed to neighbor the generated block"
+    )
+    public final TouchingDescriptorList touchingBlocks;
     
     @DistributionSetting(
             name = "TargetBiome",
@@ -193,6 +200,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         this.aboveBlocks = new BlockDescriptor();
         this.belowBlocks = new BlockDescriptor();
         this.besideBlocks = new BlockDescriptor();
+        this.touchingBlocks = new TouchingDescriptorList();
         this.biomes = new BiomeDescriptor(".*");
         this.frequency = new HeightScaledPDist(0.025F, 0.0F);
         this.parent = null;
@@ -796,7 +804,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             }
             else
             {
-                BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks, besideBlocks);
+                BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks, besideBlocks, touchingBlocks);
                 boolean matched = arrangement.matchesAt(world, random, pos);
                 if (matched)
                 {
