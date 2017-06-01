@@ -5,7 +5,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,7 +23,6 @@ import net.minecraft.block.BlockSand;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiCreateWorld;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -69,7 +67,7 @@ public class ServerState
     public static WorldConfig getWorldConfig(World world)
     {
         WorldConfig cfg = _worldConfigs.get(world);
-        
+
         while (cfg == null)
         {
             try
@@ -218,10 +216,11 @@ public class ServerState
     public static void onPopulateChunk(World world, int chunkX, int chunkZ, Random rand) {
     	WorldConfig cfg = getWorldConfig(world);
     	int range = (cfg.deferredPopulationRange + 15) / 16;
-    	
+
     	for (int iX = chunkX - range; iX <= chunkX + range; ++iX)
         {
-            for (int iZ = chunkZ - range; iZ <= chunkZ + range; ++iZ) {
+            for (int iZ = chunkZ - range; iZ <= chunkZ + range; ++iZ)
+            {
                 ChunkPos chunkPosition = new ChunkPos(iX, iZ); 
 
                 if (allNeighborsPopulated(world, chunkPosition.chunkXPos, chunkPosition.chunkZPos, range)) {

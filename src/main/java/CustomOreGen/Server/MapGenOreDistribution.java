@@ -271,11 +271,11 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         if (this._canGenerate && this._valid)
         {
             Random random = new Random(world.getSeed());
-        
+
             long xSeed = random.nextLong() >> 3;
             long zSeed = random.nextLong() >> 3;
             random.setSeed(xSeed * (long)chunkX + zSeed * (long)chunkZ ^ world.getSeed() ^ this.seed);
-            
+
             this.generateStructuresInChunk(world, random, chunkX, chunkZ);
         }
     }
