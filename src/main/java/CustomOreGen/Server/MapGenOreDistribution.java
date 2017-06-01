@@ -17,6 +17,7 @@ import CustomOreGen.Util.IGeometryBuilder;
 import CustomOreGen.Util.PDist;
 import CustomOreGen.Util.PDist.Type;
 import CustomOreGen.Util.TileEntityHelper;
+import CustomOreGen.Util.TouchingDescriptorList;
 import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.WireframeShapes;
 import net.minecraft.init.Blocks;
@@ -84,6 +85,12 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             info = "List of blocks allowed beside generated block"
     )
     public final BlockDescriptor besideBlocks;
+    
+    @DistributionSetting(
+            name = "Touches",
+            info = "List of blocks allowed to neighbor the generated block"
+    )
+    public final TouchingDescriptorList touchingBlocks;
     
     @DistributionSetting(
             name = "TargetBiome",
@@ -193,6 +200,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         this.aboveBlocks = new BlockDescriptor();
         this.belowBlocks = new BlockDescriptor();
         this.besideBlocks = new BlockDescriptor();
+        this.touchingBlocks = new TouchingDescriptorList();
         this.biomes = new BiomeDescriptor(".*");
         this.frequency = new HeightScaledPDist(0.025F, 0.0F);
         this.parent = null;
@@ -263,9 +271,11 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         if (this._canGenerate && this._valid)
         {
             Random random = new Random(world.getSeed());
+
             long xSeed = random.nextLong() >> 3;
             long zSeed = random.nextLong() >> 3;
             random.setSeed(xSeed * (long)chunkX + zSeed * (long)chunkZ ^ world.getSeed() ^ this.seed);
+
             this.generateStructuresInChunk(world, random, chunkX, chunkZ);
         }
     }
@@ -787,6 +797,40 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             }
         }
 
+        public BlockInfo testPlaceBlock(World world, Random random, int x, int y, int z, StructureBoundingBox bounds)
+        {
+            BlockPos pos = new BlockPos(x, y, z);
+            if (!bounds.isVecInside(pos))
+            {
+                return null;
+            }
+            else
+            {
+                BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks, besideBlocks, touchingBlocks);
+                boolean matched = arrangement.matchesAt(world, random, pos);
+                if (matched)
+                {
+                    BlockInfo match = oreBlock.getMatchingBlock(random);
+                    return match;
+                }
+                return null;
+            }
+        }
+        
+        public boolean placeBlock(World world, int x, int y, int z, BlockInfo match) {
+            BlockPos pos = new BlockPos(x, y, z);
+            boolean placed = world.setBlockState(pos, match.getBlockState(), 2);
+
+            if (placed)
+            {
+                TileEntityHelper.readFromPartialNBT(world, x, y, z, match.getNBT());
+                ++this.placedBlocks;
+                ++MapGenOreDistribution.this.placedBlocks;
+            }
+
+            return placed;
+        }
+
         public boolean attemptPlaceBlock(World world, Random random, int x, int y, int z, StructureBoundingBox bounds)
         {
         	BlockPos pos = new BlockPos(x, y, z);
@@ -796,7 +840,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             }
             else
             {
-                BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks, besideBlocks);
+                BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks, besideBlocks, touchingBlocks);
                 boolean matched = arrangement.matchesAt(world, random, pos);
                 if (matched)
                 {
@@ -886,5 +930,17 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 			
 		}
     }
+    
+    @Override
+    public GenerationPass getGenerationPass() {
+        if (besideBlocks.getDescriptors().size() >= 1) {
+            return GenerationPass.PlacementRestriction;
+        }
+        
+        if (touchingBlocks.size() >= 1) {
+            return GenerationPass.PlacementRestriction;
+        }
 
+        return GenerationPass.Normal;
+    }
 }

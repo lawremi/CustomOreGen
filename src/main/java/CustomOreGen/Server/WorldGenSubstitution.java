@@ -4,12 +4,14 @@ import java.util.Map;
 import java.util.Random;
 
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
+import CustomOreGen.Server.IOreDistribution.GenerationPass;
 import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockArrangement;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.BlockDescriptor.BlockInfo;
 import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.TileEntityHelper;
+import CustomOreGen.Util.TouchingDescriptorList;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -73,6 +75,12 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
     public final BlockDescriptor besideBlocks;
     
     @DistributionSetting(
+            name = "Touches",
+            info = "List of blocks allowed to neighbor the generated block"
+    )
+    public final TouchingDescriptorList touchingBlocks;
+    
+    @DistributionSetting(
             name = "TargetBiome",
             info = "List of valid target biomes"
     )
@@ -131,6 +139,7 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
         this.aboveBlocks = new BlockDescriptor();
         this.belowBlocks = new BlockDescriptor();
         this.besideBlocks = new BlockDescriptor();
+        this.touchingBlocks = new TouchingDescriptorList();
         this.biomes = new BiomeDescriptor(".*");
         this.additionalRange = 0;
         this.minHeight = Integer.MIN_VALUE;
@@ -258,19 +267,19 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
     {
         if (this._canGenerate && this._valid && this.oreBlock != null)
         {
-        	int depositCX = position.getX() / 16;
+            int depositCX = position.getX() / 16;
             int depositCZ = position.getZ() / 16;
             int cRange = (this.additionalRange + 15) / 16;
             int hRange = (this.additionalRange + 7) / 8;
             int minh = Math.max(0, this.minHeight);
             int maxh = Math.min(world.getHeight() - 1, this.maxHeight);
-            BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks, besideBlocks);
+            BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks, besideBlocks, touchingBlocks);
 
             for (int dCX = -cRange; dCX <= cRange; ++dCX)
             {
                 for (int dCZ = -cRange; dCZ <= cRange; ++dCZ)
                 {
-                	int chunkZ = depositCZ + dCZ;
+                    int chunkZ = depositCZ + dCZ;
                     int chunkX = depositCX + dCX;
 
                     BlockPos pos = new BlockPos(chunkX * 16, 0, chunkZ * 16);
@@ -286,33 +295,34 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
                         {
                             for (int z = minZ; z < maxZ; ++z)
                             {
-                            	Biome biome = chunk.getBiome(new BlockPos(x, 0, z), world.provider.getBiomeProvider());
+                                Biome biome = chunk.getBiome(new BlockPos(x, 0, z), world.provider.getBiomeProvider());
 
                                 if (biome == null || this.biomes.getWeight(biome) > 0.5F)
                                 {
-                                	int xzminh = minh;
-                                	int xzmaxh = maxh;
-                                	if (this.minSurfRelHeight != Integer.MIN_VALUE || this.maxSurfRelHeight != Integer.MAX_VALUE) {
-                                		int surfh = findSurfaceHeight(chunk, x, z);
-	                                	xzminh = Math.max(xzminh, this.minSurfRelHeight + surfh);
-	                                	xzmaxh = Math.min(xzmaxh, this.maxSurfRelHeight + 
-	                                			                  Math.min(surfh, Integer.MAX_VALUE - this.maxSurfRelHeight));
-                                	}
+                                    int xzminh = minh;
+                                    int xzmaxh = maxh;
+                                    if (this.minSurfRelHeight != Integer.MIN_VALUE
+                                            || this.maxSurfRelHeight != Integer.MAX_VALUE) {
+                                        int surfh = findSurfaceHeight(chunk, x, z);
+                                        xzminh = Math.max(xzminh, this.minSurfRelHeight + surfh);
+                                        xzmaxh = Math.min(xzmaxh, this.maxSurfRelHeight
+                                                + Math.min(surfh, Integer.MAX_VALUE - this.maxSurfRelHeight));
+                                    }
                                     for (int y = xzminh; y <= xzmaxh; ++y)
                                     {
-                                    	int worldX = chunkX * 16 + x;
-                                    	int worldZ = chunkZ * 16 + z;
-                                    	BlockPos worldPos = new BlockPos(worldX, y, worldZ);
-                                    	if (arrangement.matchesAt(world, random, worldPos)) {	
+                                        int worldX = chunkX * 16 + x;
+                                        int worldZ = chunkZ * 16 + z;
+                                        BlockPos worldPos = new BlockPos(worldX, y, worldZ);
+                                        if (arrangement.matchesAt(world, random, worldPos)) {
                                             BlockInfo match = this.oreBlock.getMatchingBlock(random);
-                                            if (match == null)
-                                            {
+                                            if (match == null) {
                                                 return false;
                                             }
-                                            if (match != null && world.setBlockState(new BlockPos(worldX, y, worldZ), match.getBlockState(), 2))
-                                            {
+                                            if (match != null && world.setBlockState(new BlockPos(worldX, y, worldZ),
+                                                    match.getBlockState(), 2)) {
                                                 ++this.placedBlocks;
-                                                TileEntityHelper.readFromPartialNBT(world, worldX, y, worldZ, match.getNBT());
+                                                TileEntityHelper.readFromPartialNBT(world, worldX, y, worldZ,
+                                                        match.getNBT());
                                             }
                                         }
                                     }
@@ -333,32 +343,43 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
     }
 
     private boolean isSurfaceBlock(IBlockState state) {
-    	Material material = state.getMaterial();
-    	return 
-    	  material == Material.CLAY || 
-		  material == Material.GRASS || 
-		  material == Material.GROUND || 
-		  material == Material.ICE ||
-		  material == Material.ROCK ||
-		  material == Material.SAND;
+        Material material = state.getMaterial();
+        return 
+                material == Material.CLAY || 
+                material == Material.GRASS || 
+                material == Material.GROUND || 
+                material == Material.ICE ||
+                material == Material.ROCK ||
+                material == Material.SAND;
     }
     
     private int findSurfaceHeight(Chunk chunk, int x, int z) {
-    	int surfh = chunk.getHeightValue(x, z);
-		while (surfh > 0 && !isSurfaceBlock(chunk.getBlockState(x, surfh, z))) 
-		{
-			surfh--;
-		}
-		return surfh;
-	}
+        int surfh = chunk.getHeightValue(x, z);
+        while (surfh > 0 && !isSurfaceBlock(chunk.getBlockState(x, surfh, z))) {
+            surfh--;
+        }
+        return surfh;
+    }
 
-	public String toString()
-    {
+    public String toString() {
         return this.name;
     }
 
-	@Override
-	public double getOresPerChunk() {
-		return this.maxHeight - this.minHeight;
-	}
+    @Override
+    public double getOresPerChunk() {
+        return this.maxHeight - this.minHeight;
+    }
+
+    @Override
+    public GenerationPass getGenerationPass() {
+        if (besideBlocks.getDescriptors().size() >= 1) {
+            return GenerationPass.PlacementRestriction;
+        }
+        
+        if (touchingBlocks.size() >= 1) {
+            return GenerationPass.PlacementRestriction;
+        }
+
+        return GenerationPass.Normal;
+    }
 }

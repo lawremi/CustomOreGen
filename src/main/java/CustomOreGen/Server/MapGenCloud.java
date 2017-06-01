@@ -1,7 +1,9 @@
 package CustomOreGen.Server;
 
+import java.util.ArrayList;
 import java.util.Random;
 
+import CustomOreGen.Config.BlockAndPosition;
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
 import CustomOreGen.Util.HeightScaledPDist;
 import CustomOreGen.Util.IGeometryBuilder;
@@ -11,6 +13,8 @@ import CustomOreGen.Util.PDist;
 import CustomOreGen.Util.PDist.Type;
 import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.WireframeShapes;
+import CustomOreGen.Util.BlockDescriptor.BlockInfo;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
@@ -171,6 +175,8 @@ public class MapGenCloud extends MapGenOreDistribution
                 minNoisyR2 *= minNoisyR2;
                 float[] pos = new float[3];
 
+                ArrayList<BlockAndPosition> blockAndPositionList = new ArrayList();
+
                 for (int x = Math.max(super.boundingBox.minX, bounds.minX); x <= Math.min(super.boundingBox.maxX, bounds.maxX); ++x)
                 {
                     for (int y = Math.min(super.boundingBox.maxY, bounds.maxY); y >= Math.max(super.boundingBox.minY, bounds.minY); --y)
@@ -217,11 +223,24 @@ public class MapGenCloud extends MapGenOreDistribution
                                 	 (this.getNoise(pos[0], pos[1], pos[2]) + 1.0F) / 2.0F >= orVolumeNoiseCutoff.getValue(random)) && 
                                 	orDensity.getIntValue(random, world, x, z) >= 1)
                                 {
-                                    this.attemptPlaceBlock(world, random, x, y, z, bounds);
+                                    // Just check if block should be placed and do the actual place later after all these
+                                    // placement checks are done first.  That way you are not dealing with a dynamic
+                                    // block structure as you do the placement restriction checks.
+                                    BlockInfo match = this.testPlaceBlock(world, random, x, y, z, bounds);
+                                    if (match != null) {
+                                        blockAndPositionList.add(new BlockAndPosition(match, new BlockPos(x, y, z)));
+                                    }
                                 }
                             }
                         }
                     }
+                }
+
+                // do the actual block creation after all placement restrictions have been checked first 
+                for (BlockAndPosition blockAndPosition : blockAndPositionList) {
+                    this.placeBlock(world,
+                            blockAndPosition.position.getX(), blockAndPosition.position.getY(), blockAndPosition.position.getZ(),
+                            blockAndPosition.block);
                 }
 
                 super.addComponentParts(world, random, bounds);

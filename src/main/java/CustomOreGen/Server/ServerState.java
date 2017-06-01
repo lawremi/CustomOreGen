@@ -2,6 +2,7 @@ package CustomOreGen.Server;
 
 import java.awt.Frame;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -14,6 +15,7 @@ import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.GeometryData;
 import CustomOreGen.GeometryRequestData;
 import CustomOreGen.Server.GuiCustomOreGenSettings.GuiOpenMenuButton;
+import CustomOreGen.Server.IOreDistribution.GenerationPass;
 import CustomOreGen.Util.CogOreGenEvent;
 import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.SimpleProfiler;
@@ -21,7 +23,6 @@ import net.minecraft.block.BlockSand;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiCreateWorld;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -44,6 +45,24 @@ public class ServerState
     private static Map<World,WorldConfig> _worldConfigs = new HashMap<World, WorldConfig>();
     private static GuiOpenMenuButton _optionsGuiButton = null;
     private static boolean forcingChunk;
+
+    // all chunks that have had the first generation pass
+    private static ArrayList<ChunkPos> processedChunksNormal = new ArrayList<>();
+    // second generation pass
+    private static ArrayList<ChunkPos> processedChunksPlacementRestriction = new ArrayList<>();
+    
+    // hardcoded delta position of all 9 neighboring chunks including self 
+    private static final ChunkPos chunkNeighborMap[] = {
+            new ChunkPos(-1, -1),
+            new ChunkPos(-1, 0),
+            new ChunkPos(-1, 1),
+            new ChunkPos(0, -1),
+            new ChunkPos(0, 0),
+            new ChunkPos(0, 1),
+            new ChunkPos(1, -1),
+            new ChunkPos(1, 0),
+            new ChunkPos(1, 1),
+    };
 
     public static WorldConfig getWorldConfig(World world)
     {
@@ -130,16 +149,20 @@ public class ServerState
     }
 
     // TODO: add force option; if true then we will generate even when there is no version
-    public static void populateDistributions(Collection<IOreDistribution> distributions, World world, int chunkX, int chunkZ)
+    public static void populateDistributions(Collection<IOreDistribution> distributions, World world, int chunkX, int chunkZ, GenerationPass pass)
     {
         SimpleProfiler.globalProfiler.startSection("Populate");
         BlockSand.fallInstantly = true;
         ReflectionHelper.setPrivateValue(World.class, world, true, "scheduledUpdatesAreImmediate","field_72999_e");
         
         for (IOreDistribution dist : distributions) {
-        	dist.generate(world, chunkX, chunkZ);
-            dist.populate(world, chunkX, chunkZ);
-            dist.cull();
+            if (pass == GenerationPass.Normal)
+                dist.generate(world, chunkX, chunkZ);
+
+            if (dist.getGenerationPass() == pass) {
+                dist.populate(world, chunkX, chunkZ);
+                dist.cull();
+            }
         }
         
         ReflectionHelper.setPrivateValue(World.class, world, false, "scheduledUpdatesAreImmediate","field_72999_e");
@@ -193,14 +216,19 @@ public class ServerState
     public static void onPopulateChunk(World world, int chunkX, int chunkZ, Random rand) {
     	WorldConfig cfg = getWorldConfig(world);
     	int range = (cfg.deferredPopulationRange + 15) / 16;
+
     	for (int iX = chunkX - range; iX <= chunkX + range; ++iX)
         {
             for (int iZ = chunkZ - range; iZ <= chunkZ + range; ++iZ)
             {
-            	if (allNeighborsPopulated(world, iX, iZ, range)) {
-            		//CustomOreGenBase.log.info("[" + iX + "," + iZ + "]: POPULATING");
-            		populateDistributions(cfg.getOreDistributions(), world, iX, iZ);
-            		MinecraftForge.ORE_GEN_BUS.post(new CogOreGenEvent(world, rand, new BlockPos(iX*16, 0, iZ*16)));
+                ChunkPos chunkPosition = new ChunkPos(iX, iZ); 
+
+                if (allNeighborsPopulated(world, chunkPosition.chunkXPos, chunkPosition.chunkZPos, range)) {
+                    // do first generation pass
+                    chunkGenerateNormal(world, chunkPosition, cfg, rand);
+
+            		// now this chunk and its neighbors might be ready for second generation pass
+            		chunkAttemptPlacementAndForNeighbor(world, chunkPosition, cfg);
             	}
             }
         }
@@ -247,6 +275,64 @@ public class ServerState
 		return false;
 	}
 
+    // Tries to perform the placement restriction generation pass for the chunk.  All neighboring chunks must
+    // have had the normal generation pass otherwise this chunk is not ready.
+    //
+    // Also does the same attempt for all 8 neighbors in this method.  That is because now that the first pass
+    // has been performed on this chunk, it might mean neighbors are now ready because they were waiting for
+    // this chunk.
+    private static void chunkAttemptPlacementAndForNeighbor(World world, ChunkPos position, WorldConfig cfg) {
+        for (ChunkPos deltaPosition : chunkNeighborMap) {
+            ChunkPos neighborPosition = new ChunkPos(position.chunkXPos + deltaPosition.chunkXPos,
+                    position.chunkZPos + deltaPosition.chunkZPos);
+
+            // ensure not done already
+            if (!processedChunksPlacementRestriction.contains(neighborPosition)) {
+                // check if it's ready (all surrounding chunks have ore generated)
+                if (canChunkGeneratePlacementRestriction(neighborPosition)) {
+                    chunkGeneratePlacementRestriction(world, neighborPosition, cfg);
+                }
+            }
+        }
+    }
+
+    // do all generation that doesn't require placement restrictions
+    private static void chunkGenerateNormal(World world, ChunkPos position, WorldConfig cfg, Random rand) {
+        populateDistributions(cfg.getOreDistributions(), world, position.chunkXPos, position.chunkZPos, GenerationPass.Normal);
+        MinecraftForge.ORE_GEN_BUS.post(new CogOreGenEvent(world, rand, position.getBlock(0,  0,  0)));
+
+        processedChunksNormal.add(position);
+    }
+
+    // Generate just for distributions that have placement restrictions.  This is necessary because the restrictions
+    // may refer to other blocks that are generated by other distributions.  If the placement tries to 'reach' into
+    // a chunk that hasn't been populated ('normal pass') then it will appear to have zero distribution blocks inside it.
+    //
+    // This is only an issue for distributions.  Normal minecraft world blocks don't cause a problem because there is
+    // logic in this class that prevents distribution generation until all neighbors have been loaded for terrain.  Similar to
+    // what this is doing.
+    private static void chunkGeneratePlacementRestriction(World world, ChunkPos position, WorldConfig cfg) {
+        populateDistributions(cfg.getOreDistributions(), world, position.chunkXPos, position.chunkZPos, GenerationPass.PlacementRestriction);
+        
+        processedChunksPlacementRestriction.add(position);
+    }
+    
+    private static boolean canChunkGeneratePlacementRestriction(ChunkPos position) {
+        // all neighbors must have ore generated
+        for (ChunkPos deltaPosition : chunkNeighborMap) {
+            ChunkPos neighborPosition = new ChunkPos(position.chunkXPos + deltaPosition.chunkXPos,
+                    position.chunkZPos + deltaPosition.chunkZPos);
+            
+            if (!processedChunksNormal.contains(neighborPosition)) {
+                // Neighbor hasn't done the normal generation pass yet so wait until that's done.  This code get called again when this
+                // neighbor performs the normal pass.
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
 	public static boolean checkIfServerChanged(MinecraftServer currentServer, WorldInfo worldInfo)
     {
         if (_server == currentServer)
@@ -290,6 +376,9 @@ public class ServerState
     {
         _worldConfigs.clear();
         WorldConfig.loadedOptionOverrides[1] = WorldConfig.loadedOptionOverrides[2] = null;
+        
+        processedChunksNormal.clear();
+        processedChunksPlacementRestriction.clear();
 
         _server = server;
         CustomOreGenBase.log.debug("Server world changed to " + worldInfo.getWorldName());
