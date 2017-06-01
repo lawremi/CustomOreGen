@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Random;
 
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
+import CustomOreGen.Server.IOreDistribution.GenerationPass;
 import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockArrangement;
 import CustomOreGen.Util.BlockDescriptor;
@@ -367,5 +368,14 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
     @Override
     public double getOresPerChunk() {
         return this.maxHeight - this.minHeight;
+    }
+
+    @Override
+    public GenerationPass getGenerationPass() {
+        if (besideBlocks.getDescriptors().size() >= 1) {
+            return GenerationPass.PlacementRestriction;
+        }
+        
+        return GenerationPass.Normal;
     }
 }

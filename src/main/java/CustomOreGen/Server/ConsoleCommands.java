@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.CustomPacketPayload;
 import CustomOreGen.CustomPacketPayload.PayloadType;
+import CustomOreGen.Server.IOreDistribution.GenerationPass;
 import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.ConsoleCommand;
@@ -237,12 +238,22 @@ public class ConsoleCommands
         int cX = centerX == null ? senderPos.getX() : centerX.intValue();
         int cZ = centerZ == null ? senderPos.getZ() : centerZ.intValue();
 
+        // normal generation pass
         for (int chunkX = (cX >> 4) - chunkRange; chunkX <= (cX >> 4) + chunkRange; ++chunkX)
         {
             for (int chunkZ = (cZ >> 4) - chunkRange; chunkZ <= (cZ >> 4) + chunkRange; ++chunkZ)
             {
                 cfg.world.getChunkFromChunkCoords(chunkX, chunkZ);
-                ServerState.populateDistributions(list, cfg.world, chunkX, chunkZ);
+                ServerState.populateDistributions(list, cfg.world, chunkX, chunkZ, GenerationPass.Normal);
+            }
+        }
+
+        // placement restriction generation pass
+        for (int chunkX = (cX >> 4) - chunkRange; chunkX <= (cX >> 4) + chunkRange; ++chunkX)
+        {
+            for (int chunkZ = (cZ >> 4) - chunkRange; chunkZ <= (cZ >> 4) + chunkRange; ++chunkZ)
+            {
+                ServerState.populateDistributions(list, cfg.world, chunkX, chunkZ, GenerationPass.PlacementRestriction);
             }
         }
 

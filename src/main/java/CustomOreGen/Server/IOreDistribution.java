@@ -28,6 +28,8 @@ public interface IOreDistribution
     
     double getOresPerChunk();
     
+    GenerationPass getGenerationPass();
+    
     public static interface IDistributionFactory
     {
         IOreDistribution createDistribution(int id);
@@ -47,5 +49,9 @@ public interface IOreDistribution
         TargetBiome,
         Parent;
     }
-
+    
+    public enum GenerationPass {
+        Normal,
+        PlacementRestriction,
+    }
 }

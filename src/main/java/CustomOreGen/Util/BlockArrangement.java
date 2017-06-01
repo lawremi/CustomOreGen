@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 
 public class BlockArrangement {
@@ -21,6 +22,22 @@ public class BlockArrangement {
     }
 
     public boolean matchesAt(World world, Random rand, BlockPos pos) {
+        if (pos.equals(new BlockPos(239, 90, 156))) {
+            int ii = 6;
+        }
+
+        if (pos.equals(new BlockPos(239, 90, 155))) {
+            int ii = 6;
+        }
+
+        if (pos.equals(new BlockPos(247, 90, 241))) {
+            int ii = 6;
+        }
+
+        if (pos.equals(new BlockPos(246, 90, 241))) {
+            int ii = 6;
+        }
+        
         return this.descriptorMatchesAt(center, world, rand, pos)
                 && this.descriptorMatchesAt(above, world, rand, pos.up())
                 && this.descriptorMatchesAt(below, world, rand, pos.down())
