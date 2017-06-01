@@ -376,6 +376,10 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
             return GenerationPass.PlacementRestriction;
         }
         
+        if (touchingBlocks.size() >= 1) {
+            return GenerationPass.PlacementRestriction;
+        }
+
         return GenerationPass.Normal;
     }
 }

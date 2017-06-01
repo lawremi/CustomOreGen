@@ -1,8 +1,11 @@
 package CustomOreGen.Server;
 
+import java.util.ArrayList;
 import java.util.Random;
 
+import CustomOreGen.Config.BlockAndPosition;
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
+import CustomOreGen.Util.BlockDescriptor.BlockInfo;
 import CustomOreGen.Util.HeightScaledPDist;
 import CustomOreGen.Util.IGeometryBuilder;
 import CustomOreGen.Util.IGeometryBuilder.PrimitiveType;
@@ -11,6 +14,7 @@ import CustomOreGen.Util.PDist.Type;
 import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.VolumeHelper;
 import CustomOreGen.Util.WireframeShapes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
@@ -401,6 +405,8 @@ public class MapGenVeins extends MapGenOreDistribution
             this.context.init(0.0F, true);
             int height;
 
+            ArrayList<BlockAndPosition> blockAndPositionList = new ArrayList();
+            
             do
             {
                 height = (int)this.context.radius / 4 + 1;
@@ -461,7 +467,13 @@ public class MapGenVeins extends MapGenOreDistribution
                                                 {
                                                     if (orDensity.getIntValue(random) >= 1)
                                                     {
-                                                        this.attemptPlaceBlock(world, random, blockX, blockY, blockZ, bounds);
+                                                        // Just check if block should be placed and do the actual place later after all these
+                                                        // placement checks are done first.  That way you are not dealing with a dynamic
+                                                        // block structure as you do the placement restriction checks.
+                                                        BlockInfo match = this.testPlaceBlock(world, random, blockX, blockY, blockZ, bounds);
+                                                        if (match != null) {
+                                                            blockAndPositionList.add(new BlockAndPosition(match, new BlockPos(blockX, blockY, blockZ)));
+                                                        }
                                                     }
                                                 }
                                             }
@@ -475,6 +487,13 @@ public class MapGenVeins extends MapGenOreDistribution
             }
             while (height > 0 && this.context.advance(0.7F * (float)height));
 
+            // do the actual block creation after all placement restrictions have been checked first 
+            for (BlockAndPosition blockAndPosition : blockAndPositionList) {
+                this.placeBlock(world,
+                        blockAndPosition.position.getX(), blockAndPosition.position.getY(), blockAndPosition.position.getZ(),
+                        blockAndPosition.block);
+            }
+            
             super.addComponentParts(world, random, bounds);
             return true;
         }
@@ -690,6 +709,8 @@ public class MapGenVeins extends MapGenOreDistribution
                 minR2 *= minR2;
                 float[] pos = new float[3];
 
+                ArrayList<BlockAndPosition> blockAndPositionList = new ArrayList();
+                
                 for (int x = Math.max(super.boundingBox.minX, bounds.minX); x <= Math.min(super.boundingBox.maxX, bounds.maxX); ++x)
                 {
                     for (int y = Math.max(super.boundingBox.minY, bounds.minY); y <= Math.min(super.boundingBox.maxY, bounds.maxY); ++y)
@@ -716,13 +737,26 @@ public class MapGenVeins extends MapGenOreDistribution
 
                                 if (orDensity.getIntValue(random) >= 1)
                                 {
-                                    this.attemptPlaceBlock(world, random, x, y, z, bounds);
+                                    // Just check if block should be placed and do the actual place later after all these
+                                    // placement checks are done first.  That way you are not dealing with a dynamic
+                                    // block structure as you do the placement restriction checks.
+                                    BlockInfo match = this.testPlaceBlock(world, random, x, y, z, bounds);
+                                    if (match != null) {
+                                        blockAndPositionList.add(new BlockAndPosition(match, new BlockPos(x, y, z)));
+                                    }
                                 }
                             }
                         }
                     }
                 }
 
+                // do the actual block creation after all placement restrictions have been checked first 
+                for (BlockAndPosition blockAndPosition : blockAndPositionList) {
+                    this.placeBlock(world,
+                            blockAndPosition.position.getX(), blockAndPosition.position.getY(), blockAndPosition.position.getZ(),
+                            blockAndPosition.block);
+                }
+                
                 super.addComponentParts(world, random, bounds);
                 return true;
             }

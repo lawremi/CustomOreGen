@@ -33,6 +33,9 @@ public class TouchingDescriptor {
     private static HashSet<BlockPos> positionMapDirectionEastWest;
     private static HashSet<BlockPos> positionMapDirectionVertical;
     private static HashSet<BlockPos> positionMapDirectionHorizontal;
+    private static HashSet<BlockPos> positionMapDirectionPlaneXY;
+    private static HashSet<BlockPos> positionMapDirectionPlaneXZ;
+    private static HashSet<BlockPos> positionMapDirectionPlaneYZ;
 
     static {
         createPositionMapConstant();
@@ -93,6 +96,10 @@ public class TouchingDescriptor {
         positionMapDirectionHorizontal.addAll(createPositionMapConstant(EnumFacing.EAST));
         positionMapDirectionHorizontal.addAll(createPositionMapConstant(EnumFacing.SOUTH));
         positionMapDirectionHorizontal.addAll(createPositionMapConstant(EnumFacing.WEST));
+        
+        positionMapDirectionPlaneXY = createPositionMapConstantPlane(TouchingDirection.PlaneXY);
+        positionMapDirectionPlaneXZ = createPositionMapConstantPlane(TouchingDirection.PlaneXZ);
+        positionMapDirectionPlaneYZ = createPositionMapConstantPlane(TouchingDirection.PlaneYZ);
     }
 
     // hardcoded delta positions for the different search area types
@@ -262,6 +269,48 @@ public class TouchingDescriptor {
         }
     }
 
+    private static HashSet<BlockPos> createPositionMapConstantPlane(TouchingDirection plane) {
+        switch (plane) {
+        default: return null;
+        
+        case PlaneXY: {
+            HashSet<BlockPos> returnValue = new HashSet<>();
+            returnValue.add(new BlockPos(-1, -1, 0));
+            returnValue.add(new BlockPos(-1, 0, 0));
+            returnValue.add(new BlockPos(-1, 1, 0));
+            returnValue.add(new BlockPos(0, -1, 0));
+            returnValue.add(new BlockPos(0, 1, 0));
+            returnValue.add(new BlockPos(1, -1, 0));
+            returnValue.add(new BlockPos(1, 0, 0));
+            returnValue.add(new BlockPos(1, 1, 0));
+            return returnValue;
+        }
+        case PlaneXZ: {
+            HashSet<BlockPos> returnValue = new HashSet<>();
+            returnValue.add(new BlockPos(-1, 0, -1));
+            returnValue.add(new BlockPos(-1, 0, 0));
+            returnValue.add(new BlockPos(-1, 0, 1));
+            returnValue.add(new BlockPos(0, 0, -1));
+            returnValue.add(new BlockPos(0, 0, 1));
+            returnValue.add(new BlockPos(1, 0, -1));
+            returnValue.add(new BlockPos(1, 0, 0));
+            returnValue.add(new BlockPos(1, 0, 1));
+            return returnValue;
+        }
+        case PlaneYZ: {
+            HashSet<BlockPos> returnValue = new HashSet<>();
+            returnValue.add(new BlockPos(0, -1, -1));
+            returnValue.add(new BlockPos(0, -1, 0));
+            returnValue.add(new BlockPos(0, -1, 1));
+            returnValue.add(new BlockPos(0, 0, -1));
+            returnValue.add(new BlockPos(0, 0, 1));
+            returnValue.add(new BlockPos(0, 1, -1));
+            returnValue.add(new BlockPos(0, 1, 0));
+            returnValue.add(new BlockPos(0, 1, 1));
+            return returnValue;
+        }
+        }
+    }
     private static HashSet<BlockPos> getPositionMapConstant(TouchingDirection direction) {
         switch (direction) {
         default:
@@ -287,6 +336,12 @@ public class TouchingDescriptor {
             return positionMapDirectionVertical;
         case Horizontal:
             return positionMapDirectionHorizontal;
+        case PlaneXY:
+            return positionMapDirectionPlaneXY;
+        case PlaneXZ:
+            return positionMapDirectionPlaneXZ;
+        case PlaneYZ:
+            return positionMapDirectionPlaneYZ;
         }
     }
 
@@ -310,5 +365,8 @@ public class TouchingDescriptor {
         EastWest,
         Vertical,
         Horizontal,
+        PlaneXY,
+        PlaneXZ,
+        PlaneYZ,
     }
 }

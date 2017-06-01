@@ -48,12 +48,12 @@ public class ValidatorTouchingDescriptor extends ValidatorBlockDescriptor {
                     this.getNode());
         }
 
-        this.contactType = this.validateNamedAttribute(TouchingContactType.class, "contactType", this.contactType,
+        this.contactType = this.validateNamedAttribute(TouchingContactType.class, "contactType", DEFAULT_CONTACT_TYPE,
                 true);
-        this.direction = this.validateNamedAttribute(TouchingDirection.class, "direction", this.direction, true);
+        this.direction = this.validateNamedAttribute(TouchingDirection.class, "direction", DEFAULT_DIRECTION, true);
 
-        this.mandatory = this.validateRequiredAttribute(Boolean.class, "mandatory", true);
-        this.negate = this.validateRequiredAttribute(Boolean.class, "negate", true);
+        this.mandatory = this.validateNamedAttribute(Boolean.class, "mandatory", this.mandatory, true);
+        this.negate = this.validateNamedAttribute(Boolean.class, "negate", this.negate, true);
 
         return super.validateChildren();
     }

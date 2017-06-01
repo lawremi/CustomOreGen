@@ -797,6 +797,40 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             }
         }
 
+        public BlockInfo testPlaceBlock(World world, Random random, int x, int y, int z, StructureBoundingBox bounds)
+        {
+            BlockPos pos = new BlockPos(x, y, z);
+            if (!bounds.isVecInside(pos))
+            {
+                return null;
+            }
+            else
+            {
+                BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks, besideBlocks, touchingBlocks);
+                boolean matched = arrangement.matchesAt(world, random, pos);
+                if (matched)
+                {
+                    BlockInfo match = oreBlock.getMatchingBlock(random);
+                    return match;
+                }
+                return null;
+            }
+        }
+        
+        public boolean placeBlock(World world, int x, int y, int z, BlockInfo match) {
+            BlockPos pos = new BlockPos(x, y, z);
+            boolean placed = world.setBlockState(pos, match.getBlockState(), 2);
+
+            if (placed)
+            {
+                TileEntityHelper.readFromPartialNBT(world, x, y, z, match.getNBT());
+                ++this.placedBlocks;
+                ++MapGenOreDistribution.this.placedBlocks;
+            }
+
+            return placed;
+        }
+
         public boolean attemptPlaceBlock(World world, Random random, int x, int y, int z, StructureBoundingBox bounds)
         {
         	BlockPos pos = new BlockPos(x, y, z);
@@ -903,6 +937,10 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             return GenerationPass.PlacementRestriction;
         }
         
+        if (touchingBlocks.size() >= 1) {
+            return GenerationPass.PlacementRestriction;
+        }
+
         return GenerationPass.Normal;
     }
 }
