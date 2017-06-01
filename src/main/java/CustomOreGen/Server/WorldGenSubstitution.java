@@ -72,13 +72,13 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
             info = "List of blocks allowed beside generated block"
     )
     public final BlockDescriptor besideBlocks;
-
+    
     @DistributionSetting(
             name = "Touches",
             info = "List of blocks allowed to neighbor the generated block"
     )
     public final TouchingDescriptorList touchingBlocks;
-
+    
     @DistributionSetting(
             name = "TargetBiome",
             info = "List of valid target biomes"
@@ -266,7 +266,7 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
     {
         if (this._canGenerate && this._valid && this.oreBlock != null)
         {
-        	int depositCX = position.getX() / 16;
+            int depositCX = position.getX() / 16;
             int depositCZ = position.getZ() / 16;
             int cRange = (this.additionalRange + 15) / 16;
             int hRange = (this.additionalRange + 7) / 8;
@@ -278,7 +278,7 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
             {
                 for (int dCZ = -cRange; dCZ <= cRange; ++dCZ)
                 {
-                	int chunkZ = depositCZ + dCZ;
+                    int chunkZ = depositCZ + dCZ;
                     int chunkX = depositCX + dCX;
 
                     BlockPos pos = new BlockPos(chunkX * 16, 0, chunkZ * 16);
@@ -294,33 +294,34 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
                         {
                             for (int z = minZ; z < maxZ; ++z)
                             {
-                            	Biome biome = chunk.getBiome(new BlockPos(x, 0, z), world.provider.getBiomeProvider());
+                                Biome biome = chunk.getBiome(new BlockPos(x, 0, z), world.provider.getBiomeProvider());
 
                                 if (biome == null || this.biomes.getWeight(biome) > 0.5F)
                                 {
-                                	int xzminh = minh;
-                                	int xzmaxh = maxh;
-                                	if (this.minSurfRelHeight != Integer.MIN_VALUE || this.maxSurfRelHeight != Integer.MAX_VALUE) {
-                                		int surfh = findSurfaceHeight(chunk, x, z);
-	                                	xzminh = Math.max(xzminh, this.minSurfRelHeight + surfh);
-	                                	xzmaxh = Math.min(xzmaxh, this.maxSurfRelHeight + 
-	                                			                  Math.min(surfh, Integer.MAX_VALUE - this.maxSurfRelHeight));
-                                	}
+                                    int xzminh = minh;
+                                    int xzmaxh = maxh;
+                                    if (this.minSurfRelHeight != Integer.MIN_VALUE
+                                            || this.maxSurfRelHeight != Integer.MAX_VALUE) {
+                                        int surfh = findSurfaceHeight(chunk, x, z);
+                                        xzminh = Math.max(xzminh, this.minSurfRelHeight + surfh);
+                                        xzmaxh = Math.min(xzmaxh, this.maxSurfRelHeight
+                                                + Math.min(surfh, Integer.MAX_VALUE - this.maxSurfRelHeight));
+                                    }
                                     for (int y = xzminh; y <= xzmaxh; ++y)
                                     {
-                                    	int worldX = chunkX * 16 + x;
-                                    	int worldZ = chunkZ * 16 + z;
-                                    	BlockPos worldPos = new BlockPos(worldX, y, worldZ);
-                                    	if (arrangement.matchesAt(world, random, worldPos)) {	
+                                        int worldX = chunkX * 16 + x;
+                                        int worldZ = chunkZ * 16 + z;
+                                        BlockPos worldPos = new BlockPos(worldX, y, worldZ);
+                                        if (arrangement.matchesAt(world, random, worldPos)) {
                                             BlockInfo match = this.oreBlock.getMatchingBlock(random);
-                                            if (match == null)
-                                            {
+                                            if (match == null) {
                                                 return false;
                                             }
-                                            if (match != null && world.setBlockState(new BlockPos(worldX, y, worldZ), match.getBlockState(), 2))
-                                            {
+                                            if (match != null && world.setBlockState(new BlockPos(worldX, y, worldZ),
+                                                    match.getBlockState(), 2)) {
                                                 ++this.placedBlocks;
-                                                TileEntityHelper.readFromPartialNBT(world, worldX, y, worldZ, match.getNBT());
+                                                TileEntityHelper.readFromPartialNBT(world, worldX, y, worldZ,
+                                                        match.getNBT());
                                             }
                                         }
                                     }
@@ -341,32 +342,30 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
     }
 
     private boolean isSurfaceBlock(IBlockState state) {
-    	Material material = state.getMaterial();
-    	return 
-    	  material == Material.CLAY || 
-		  material == Material.GRASS || 
-		  material == Material.GROUND || 
-		  material == Material.ICE ||
-		  material == Material.ROCK ||
-		  material == Material.SAND;
+        Material material = state.getMaterial();
+        return 
+                material == Material.CLAY || 
+                material == Material.GRASS || 
+                material == Material.GROUND || 
+                material == Material.ICE ||
+                material == Material.ROCK ||
+                material == Material.SAND;
     }
     
     private int findSurfaceHeight(Chunk chunk, int x, int z) {
-    	int surfh = chunk.getHeightValue(x, z);
-		while (surfh > 0 && !isSurfaceBlock(chunk.getBlockState(x, surfh, z))) 
-		{
-			surfh--;
-		}
-		return surfh;
-	}
+        int surfh = chunk.getHeightValue(x, z);
+        while (surfh > 0 && !isSurfaceBlock(chunk.getBlockState(x, surfh, z))) {
+            surfh--;
+        }
+        return surfh;
+    }
 
-	public String toString()
-    {
+    public String toString() {
         return this.name;
     }
 
-	@Override
-	public double getOresPerChunk() {
-		return this.maxHeight - this.minHeight;
-	}
+    @Override
+    public double getOresPerChunk() {
+        return this.maxHeight - this.minHeight;
+    }
 }

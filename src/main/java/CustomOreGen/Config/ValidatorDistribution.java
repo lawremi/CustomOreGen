@@ -278,60 +278,60 @@ public class ValidatorDistribution extends ValidatorNode
         }
     }
 
-	private void validateTouchingRestriction(Set<String> settings, StandardSettings setting) throws ParserException {
-		String settingKey = setting.name();
+    private void validateTouchingRestriction(Set<String> settings, StandardSettings setting) throws ParserException {
+        String settingKey = setting.name();
 
-		if (settings.contains(settingKey))
-        {
-			TouchingDescriptorList touching = new TouchingDescriptorList();
+        if (settings.contains(settingKey)) {
+            TouchingDescriptorList touching = new TouchingDescriptorList();
 
-			// normal
-	        for (ValidatorTouchingDescriptor touchingValidator : validateNamedChildren(2, settingKey, new ValidatorTouchingDescriptor.Factory())) {
-	        	BlockDescriptor blockDescriptor = new BlockDescriptor();
-	        	blockDescriptor.add(touchingValidator.blocks, touchingValidator.weight, false, false, false, null);
+            // normal
+            for (ValidatorTouchingDescriptor touchingValidator : validateNamedChildren(2, settingKey,
+                    new ValidatorTouchingDescriptor.Factory())) {
+                BlockDescriptor blockDescriptor = new BlockDescriptor();
+                blockDescriptor.add(touchingValidator.blocks, touchingValidator.weight, false, false, false, null);
 
-	        	touching.add(new TouchingDescriptor(blockDescriptor, touchingValidator.minimumTouches, touchingValidator.maximumTouches,
-	        				touchingValidator.contactType, touchingValidator.direction, touchingValidator.mandatory, touchingValidator.negate)); 
-	        }
+                touching.add(new TouchingDescriptor(blockDescriptor, touchingValidator.minimumTouches,
+                        touchingValidator.maximumTouches, touchingValidator.contactType, touchingValidator.direction,
+                        touchingValidator.mandatory, touchingValidator.negate));
+            }
 
-	        // ore
-	        for (ValidatorTouchingDescriptor touchingValidator : validateNamedChildren(2, settingKey + "Ore", new ValidatorTouchingDescriptor.Factory())) {
-	        	BlockDescriptor blockDescriptor = new BlockDescriptor();
-	        	blockDescriptor.add(touchingValidator.blocks, touchingValidator.weight, true, false, false, null);
-	        	
-	        	touching.add(new TouchingDescriptor(blockDescriptor, touchingValidator.minimumTouches, touchingValidator.maximumTouches,
-        				touchingValidator.contactType, touchingValidator.direction, touchingValidator.mandatory, touchingValidator.negate)); 
-	        }
+            // ore
+            for (ValidatorTouchingDescriptor touchingValidator : validateNamedChildren(2, settingKey + "Ore",
+                    new ValidatorTouchingDescriptor.Factory())) {
+                BlockDescriptor blockDescriptor = new BlockDescriptor();
+                blockDescriptor.add(touchingValidator.blocks, touchingValidator.weight, true, false, false, null);
 
-	        // regexp
-	        for (ValidatorTouchingDescriptor touchingValidator : validateNamedChildren(2, settingKey + "Regexp", new ValidatorTouchingDescriptor.Factory())) {
-	        	BlockDescriptor blockDescriptor = new BlockDescriptor();
-	        	blockDescriptor.add(touchingValidator.blocks, touchingValidator.weight, false, false, true, null);
-	        	
-	        	touching.add(new TouchingDescriptor(blockDescriptor, touchingValidator.minimumTouches, touchingValidator.maximumTouches,
-        				touchingValidator.contactType, touchingValidator.direction, touchingValidator.mandatory, touchingValidator.negate)); 
-	        }
+                touching.add(new TouchingDescriptor(blockDescriptor, touchingValidator.minimumTouches,
+                        touchingValidator.maximumTouches, touchingValidator.contactType, touchingValidator.direction,
+                        touchingValidator.mandatory, touchingValidator.negate));
+            }
 
-	        if (!touching.isEmpty())
-            {
-                try
-                {
+            // regexp
+            for (ValidatorTouchingDescriptor touchingValidator : validateNamedChildren(2, settingKey + "Regexp",
+                    new ValidatorTouchingDescriptor.Factory())) {
+                BlockDescriptor blockDescriptor = new BlockDescriptor();
+                blockDescriptor.add(touchingValidator.blocks, touchingValidator.weight, false, false, true, null);
+
+                touching.add(new TouchingDescriptor(blockDescriptor, touchingValidator.minimumTouches,
+                        touchingValidator.maximumTouches, touchingValidator.contactType, touchingValidator.direction,
+                        touchingValidator.mandatory, touchingValidator.negate));
+            }
+
+            if (!touching.isEmpty()) {
+                try {
                     this.distribution.setDistributionSetting(settingKey, touching);
-                }
-                catch (IllegalAccessException var14)
-                {
+                } catch (IllegalAccessException var14) {
                     throw new ParserException("'" + settingKey + "' not configurable.", this.getNode(), var14);
-                }
-                catch (IllegalArgumentException var15)
-                {
-                    throw new ParserException("'" + settingKey + "' not supported by this distribution.", this.getNode(), var15);
+                } catch (IllegalArgumentException var15) {
+                    throw new ParserException("'" + settingKey + "' not supported by this distribution.",
+                            this.getNode(), var15);
                 }
             }
 
             settings.remove(settingKey);
         }
-	}
-	
+    }
+
 	private void validatePlacementRestriction(Set<String> settings, StandardSettings setting) throws ParserException {
 		String settingKey = setting.name();
 		
