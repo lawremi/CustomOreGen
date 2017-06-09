@@ -10,6 +10,8 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.regex.Pattern;
 
+import com.google.common.collect.ImmutableList;
+
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -254,8 +256,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             		}            		
             	} else if (desc.regexp) {
             		for (Block block : Block.REGISTRY) {
-                    	String name = Block.REGISTRY.getNameForObject(block).toString();
-                    	float[] weights = desc.regexMatch(name);
+                    	float[] weights = desc.regexMatch(block);
                     	this.add(block, desc.nbt, weights[Short.SIZE]);
                     	if (weights[Short.SIZE] > 0 && desc.matchFirst) {
                     		break;
@@ -263,9 +264,11 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
                     	boolean matched = false;
                     	for (int m = 0; m < Short.SIZE && !matched; ++m)
                     	{
-                    		this.add(block, m, desc.nbt, weights[m]);
-                    		if (weights[m] > 0 && desc.matchFirst) {
-                    			matched = true;
+                    		if (weights[m] > 0) {
+                    			this.add(block, m, desc.nbt, weights[m]);
+                    			if (desc.matchFirst) {
+                    				matched = true;
+                    			}
                     		}
                     	}
                     	if (matched) {
@@ -493,14 +496,17 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         	}
         }
 
-        public float[] regexMatch(String name)
+        public float[] regexMatch(Block block)
         {
             float[] weights = new float[Short.SIZE + 1];
-            
+            String name = Block.REGISTRY.getNameForObject(block).toString();
+        	
             if (!this.getPattern().matcher(name).matches())
             {
-            	for (int m = 0; m < Short.SIZE; ++m)
+            	ImmutableList<IBlockState> states = block.getBlockState().getValidStates();
+            	for (IBlockState state : states)
             	{
+            		int m = block.getMetaFromState(state);
             		if (this.getPattern().matcher(name + ":" + m).matches())
             		{
             			weights[m] += this.weight;

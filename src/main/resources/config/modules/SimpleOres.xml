@@ -31,9 +31,9 @@
       <OptionChoice name='enableSimpleOres' displayName='Handle Simple Ores Setup?' default='true' displayState='shown_dynamic' displayGroup='groupSimpleOres'>
         <Description> Should Custom Ore Generation handle Simple Ores ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Simple Ores ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='Simple Ores ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='Simple Ores ores will be handled by Minecraft directly.'/>
       </OptionChoice>
-      <OptionChoice name='cleanUpSimpleOres' displayName='Use Simple Ores Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupSimpleOres'>
+      <OptionChoice name='cleanUpSimpleOres' displayName='Use Simple Ores Cleanup?' default='true' displayState=':= if(?enableSimpleOres, "shown", "hidden")' displayGroup='groupSimpleOres'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Simple Ores ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Simple Ores ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Simple Ores ores do not need to be cleaned up by a substitution pass.'/>
@@ -493,7 +493,7 @@
         <!-- Starting LayeredVeins Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= smpoCopperDist = "LayeredVeins"'>
-            <Veins name='smpoCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <Veins name='smpoCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -526,7 +526,7 @@
         <!-- Starting StrategicClouds Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= smpoCopperDist = "StrategicClouds"'>
-            <Cloud name='smpoCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <Cloud name='smpoCopperCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -551,7 +551,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='smpoCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+              <Veins name='smpoCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -582,15 +582,15 @@
         <!-- Starting Vanilla Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= smpoCopperDist = "Vanilla"'>
-            <StandardGen name='smpoCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <StandardGen name='smpoCopperStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='simpleores:copper_ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.667 * smpoCopperSize ' range=':= 2.33 * smpoCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 23.333 * smpoCopperFreq ' range=':= 11.67 * smpoCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * smpoCopperSize ' range=':= 2.33 * oreSize * smpoCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 23.333 * oreFreq * smpoCopperFreq ' range=':= 11.67 * oreFreq * smpoCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 48 ' range=':= 42 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -606,7 +606,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Copper. -->
         <ConfigSection>
           <IfCondition condition=':= smpoMountainCopperDist = "LayeredVeins"'>
-            <Veins name='smpoMountainCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <Veins name='smpoMountainCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -639,7 +639,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Copper. -->
         <ConfigSection>
           <IfCondition condition=':= smpoMountainCopperDist = "StrategicClouds"'>
-            <Cloud name='smpoMountainCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <Cloud name='smpoMountainCopperCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -664,7 +664,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='smpoMountainCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+              <Veins name='smpoMountainCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -695,15 +695,15 @@
         <!-- Starting Vanilla Preset for Mountain Copper. -->
         <ConfigSection>
           <IfCondition condition=':= smpoMountainCopperDist = "Vanilla"'>
-            <StandardGen name='smpoMountainCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <StandardGen name='smpoMountainCopperStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='simpleores:copper_ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.667 * smpoMountainCopperSize ' range=':= 2.33 * smpoMountainCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 23.333 * smpoMountainCopperFreq ' range=':= 11.67 * smpoMountainCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * smpoMountainCopperSize ' range=':= 2.33 * oreSize * smpoMountainCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 23.333 * oreFreq * smpoMountainCopperFreq ' range=':= 11.67 * oreFreq * smpoMountainCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 208 ' range=':= 126 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -719,7 +719,7 @@
         <!-- Starting LayeredVeins Preset for Tin. -->
         <ConfigSection>
           <IfCondition condition=':= smpoTinDist = "LayeredVeins"'>
-            <Veins name='smpoTinVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <Veins name='smpoTinVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -752,7 +752,7 @@
         <!-- Starting StrategicClouds Preset for Tin. -->
         <ConfigSection>
           <IfCondition condition=':= smpoTinDist = "StrategicClouds"'>
-            <Cloud name='smpoTinCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <Cloud name='smpoTinCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -777,7 +777,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='smpoTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+              <Veins name='smpoTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -808,15 +808,15 @@
         <!-- Starting Vanilla Preset for Tin. -->
         <ConfigSection>
           <IfCondition condition=':= smpoTinDist = "Vanilla"'>
-            <StandardGen name='smpoTinStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <StandardGen name='smpoTinStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='simpleores:tin_ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.667 * smpoTinSize ' range=':= 2.33 * smpoTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 20.0 * smpoTinFreq ' range=':= 10.0 * smpoTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * smpoTinSize ' range=':= 2.33 * oreSize * smpoTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 20.0 * oreFreq * smpoTinFreq ' range=':= 10.0 * oreFreq * smpoTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 48 ' range=':= 42 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -832,7 +832,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Tin. -->
         <ConfigSection>
           <IfCondition condition=':= smpoMountainTinDist = "LayeredVeins"'>
-            <Veins name='smpoMountainTinVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <Veins name='smpoMountainTinVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -865,7 +865,7 @@
         <!-- Starting StrategicClouds Preset for Mountain Tin. -->
         <ConfigSection>
           <IfCondition condition=':= smpoMountainTinDist = "StrategicClouds"'>
-            <Cloud name='smpoMountainTinCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <Cloud name='smpoMountainTinCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -890,7 +890,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='smpoMountainTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+              <Veins name='smpoMountainTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -921,15 +921,15 @@
         <!-- Starting Vanilla Preset for Mountain Tin. -->
         <ConfigSection>
           <IfCondition condition=':= smpoMountainTinDist = "Vanilla"'>
-            <StandardGen name='smpoMountainTinStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <StandardGen name='smpoMountainTinStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='simpleores:tin_ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.667 * smpoMountainTinSize ' range=':= 2.33 * smpoMountainTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 20.0 * smpoMountainTinFreq ' range=':= 10.0 * smpoMountainTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * smpoMountainTinSize ' range=':= 2.33 * oreSize * smpoMountainTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 20.0 * oreFreq * smpoMountainTinFreq ' range=':= 10.0 * oreFreq * smpoMountainTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 208 ' range=':= 126 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -945,7 +945,7 @@
         <!-- Starting LayeredVeins Preset for Mythril. -->
         <ConfigSection>
           <IfCondition condition=':= smpoMythrilDist = "LayeredVeins"'>
-            <Veins name='smpoMythrilVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x6079AFD2' drawBoundBox='false' boundBoxColor='0x6079AFD2'>
+            <Veins name='smpoMythrilVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x6079AFD2' drawBoundBox='false' boundBoxColor='0x6079AFD2'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -978,7 +978,7 @@
         <!-- Starting StrategicClouds Preset for Mythril. -->
         <ConfigSection>
           <IfCondition condition=':= smpoMythrilDist = "StrategicClouds"'>
-            <Cloud name='smpoMythrilCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x6079AFD2' drawBoundBox='false' boundBoxColor='0x6079AFD2'>
+            <Cloud name='smpoMythrilCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x6079AFD2' drawBoundBox='false' boundBoxColor='0x6079AFD2'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1003,7 +1003,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='smpoMythrilHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x6079AFD2' drawBoundBox='false' boundBoxColor='0x6079AFD2'>
+              <Veins name='smpoMythrilHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x6079AFD2' drawBoundBox='false' boundBoxColor='0x6079AFD2'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1034,15 +1034,15 @@
         <!-- Starting Vanilla Preset for Mythril. -->
         <ConfigSection>
           <IfCondition condition=':= smpoMythrilDist = "Vanilla"'>
-            <StandardGen name='smpoMythrilStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x6079AFD2' drawBoundBox='false' boundBoxColor='0x6079AFD2'>
+            <StandardGen name='smpoMythrilStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x6079AFD2' drawBoundBox='false' boundBoxColor='0x6079AFD2'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='simpleores:mythril_ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * smpoMythrilSize ' range=':= 1.33 * smpoMythrilSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * smpoMythrilFreq ' range=':= 2.67 * smpoMythrilFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * smpoMythrilSize ' range=':= 1.33 * oreSize * smpoMythrilSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * smpoMythrilFreq ' range=':= 2.67 * oreFreq * smpoMythrilFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 20 ' range=':= 15 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1058,7 +1058,7 @@
         <!-- Starting LayeredVeins Preset for Mountain  Mythril. -->
         <ConfigSection>
           <IfCondition condition=':= smpoMountainMythrilDist = "LayeredVeins"'>
-            <Veins name='smpoMountainMythrilVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x6079AFD2' drawBoundBox='false' boundBoxColor='0x6079AFD2'>
+            <Veins name='smpoMountainMythrilVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x6079AFD2' drawBoundBox='false' boundBoxColor='0x6079AFD2'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1091,7 +1091,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Mythril. -->
         <ConfigSection>
           <IfCondition condition=':= smpoMountainMythrilDist = "StrategicClouds"'>
-            <Cloud name='smpoMountainMythrilCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x6079AFD2' drawBoundBox='false' boundBoxColor='0x6079AFD2'>
+            <Cloud name='smpoMountainMythrilCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x6079AFD2' drawBoundBox='false' boundBoxColor='0x6079AFD2'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1116,7 +1116,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='smpoMountainMythrilHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x6079AFD2' drawBoundBox='false' boundBoxColor='0x6079AFD2'>
+              <Veins name='smpoMountainMythrilHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x6079AFD2' drawBoundBox='false' boundBoxColor='0x6079AFD2'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1147,15 +1147,15 @@
         <!-- Starting Vanilla Preset for Mountain Mythril. -->
         <ConfigSection>
           <IfCondition condition=':= smpoMountainMythrilDist = "Vanilla"'>
-            <StandardGen name='smpoMountainMythrilStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x6079AFD2' drawBoundBox='false' boundBoxColor='0x6079AFD2'>
+            <StandardGen name='smpoMountainMythrilStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x6079AFD2' drawBoundBox='false' boundBoxColor='0x6079AFD2'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='simpleores:mythril_ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 2.667 * smpoMountainMythrilSize ' range=':= 1.33 * smpoMountainMythrilSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * smpoMountainMythrilFreq ' range=':= 2.67 * smpoMountainMythrilFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * smpoMountainMythrilSize ' range=':= 1.33 * oreSize * smpoMountainMythrilSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * smpoMountainMythrilFreq ' range=':= 2.67 * oreFreq * smpoMountainMythrilFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 124 ' range=':= 45 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1171,7 +1171,7 @@
         <!-- Starting LayeredVeins Preset for Adamantium. -->
         <ConfigSection>
           <IfCondition condition=':= smpoAdamantiumDist = "LayeredVeins"'>
-            <Veins name='smpoAdamantiumVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60159800' drawBoundBox='false' boundBoxColor='0x60159800'>
+            <Veins name='smpoAdamantiumVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60159800' drawBoundBox='false' boundBoxColor='0x60159800'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1204,7 +1204,7 @@
         <!-- Starting StrategicClouds Preset for Adamantium. -->
         <ConfigSection>
           <IfCondition condition=':= smpoAdamantiumDist = "StrategicClouds"'>
-            <Cloud name='smpoAdamantiumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60159800' drawBoundBox='false' boundBoxColor='0x60159800'>
+            <Cloud name='smpoAdamantiumCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60159800' drawBoundBox='false' boundBoxColor='0x60159800'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1229,7 +1229,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='smpoAdamantiumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60159800' drawBoundBox='false' boundBoxColor='0x60159800'>
+              <Veins name='smpoAdamantiumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60159800' drawBoundBox='false' boundBoxColor='0x60159800'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1260,15 +1260,15 @@
         <!-- Starting Vanilla Preset for Adamantium. -->
         <ConfigSection>
           <IfCondition condition=':= smpoAdamantiumDist = "Vanilla"'>
-            <StandardGen name='smpoAdamantiumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60159800' drawBoundBox='false' boundBoxColor='0x60159800'>
+            <StandardGen name='smpoAdamantiumStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60159800' drawBoundBox='false' boundBoxColor='0x60159800'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='simpleores:adamantium_ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * smpoAdamantiumSize ' range=':= 1.33 * smpoAdamantiumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * smpoAdamantiumFreq ' range=':= 1.33 * smpoAdamantiumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * smpoAdamantiumSize ' range=':= 1.33 * oreSize * smpoAdamantiumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * smpoAdamantiumFreq ' range=':= 1.33 * oreFreq * smpoAdamantiumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 13 ' range=':= 7 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1284,7 +1284,7 @@
         <!-- Starting LayeredVeins Preset for Mountain  Adamantium. -->
         <ConfigSection>
           <IfCondition condition=':= smpoMountainAdamantiumDist = "LayeredVeins"'>
-            <Veins name='smpoMountainAdamantiumVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60159800' drawBoundBox='false' boundBoxColor='0x60159800'>
+            <Veins name='smpoMountainAdamantiumVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60159800' drawBoundBox='false' boundBoxColor='0x60159800'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1317,7 +1317,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Adamantium. -->
         <ConfigSection>
           <IfCondition condition=':= smpoMountainAdamantiumDist = "StrategicClouds"'>
-            <Cloud name='smpoMountainAdamantiumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60159800' drawBoundBox='false' boundBoxColor='0x60159800'>
+            <Cloud name='smpoMountainAdamantiumCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60159800' drawBoundBox='false' boundBoxColor='0x60159800'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1342,7 +1342,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='smpoMountainAdamantiumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60159800' drawBoundBox='false' boundBoxColor='0x60159800'>
+              <Veins name='smpoMountainAdamantiumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60159800' drawBoundBox='false' boundBoxColor='0x60159800'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1374,15 +1374,15 @@
         <!-- Starting Vanilla Preset for Mountain Adamantium. -->
         <ConfigSection>
           <IfCondition condition=':= smpoMountainAdamantiumDist = "Vanilla"'>
-            <StandardGen name='smpoMountainAdamantiumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60159800' drawBoundBox='false' boundBoxColor='0x60159800'>
+            <StandardGen name='smpoMountainAdamantiumStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60159800' drawBoundBox='false' boundBoxColor='0x60159800'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='simpleores:adamantium_ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 2.667 * smpoMountainAdamantiumSize ' range=':= 1.33 * smpoMountainAdamantiumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * smpoMountainAdamantiumFreq ' range=':= 1.33 * smpoMountainAdamantiumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * smpoMountainAdamantiumSize ' range=':= 1.33 * oreSize * smpoMountainAdamantiumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * smpoMountainAdamantiumFreq ' range=':= 1.33 * oreFreq * smpoMountainAdamantiumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 103 ' range=':= 21 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1403,7 +1403,7 @@
 
       <!-- Nether Setup Beginning -->
 
-      <IfCondition condition=':= dimension.generator.class = "ChunkProviderHell"'>
+      <IfCondition condition=':= dimension = "Nether"'>
 
         <!-- Starting Original "Nether" Block Removal -->
 
@@ -1431,7 +1431,7 @@
         <!-- Starting PipeVeins Preset for Onyx. -->
         <ConfigSection>
           <IfCondition condition=':= smpoOnyxDist = "PipeVeins"'>
-            <Veins name='smpoOnyxVeins'  inherits='PresetPipeVeins' branchType='Bezier' seed='0x1523' drawWireframe='true' wireframeColor='0x60232323' drawBoundBox='false' boundBoxColor='0x60232323'>
+            <Veins name='smpoOnyxVeins'  inherits='PresetPipeVeins' branchType='Bezier' seed='0x1523' drawWireframe=':= drawWireframes' wireframeColor='0x60232323' drawBoundBox='false' boundBoxColor='0x60232323'>
               <Description>
                 Short sparsely filled veins  sloping up from near the
                 bottom  of the map.
@@ -1458,7 +1458,7 @@
             </Veins>
 
             <!-- Configuring contained material. -->
-            <Veins name='smpoOnyxVeinsPipe'  inherits='smpoOnyxVeins' branchType='Bezier' seed='0x1523' drawWireframe='true' wireframeColor='0x60232323' drawBoundBox='false' boundBoxColor='0x60232323'>
+            <Veins name='smpoOnyxVeinsPipe'  inherits='smpoOnyxVeins' branchType='Bezier' seed='0x1523' drawWireframe=':= drawWireframes' wireframeColor='0x60232323' drawBoundBox='false' boundBoxColor='0x60232323'>
               <OreBlock block='minecraft:lava' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Replaces block='simpleores:onyx_ore' weight='1.0' />
@@ -1474,7 +1474,7 @@
         <!-- Starting StrategicClouds Preset for Onyx. -->
         <ConfigSection>
           <IfCondition condition=':= smpoOnyxDist = "StrategicClouds"'>
-            <Cloud name='smpoOnyxCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60232323' drawBoundBox='false' boundBoxColor='0x60232323'>
+            <Cloud name='smpoOnyxCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60232323' drawBoundBox='false' boundBoxColor='0x60232323'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1499,7 +1499,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='smpoOnyxHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60232323' drawBoundBox='false' boundBoxColor='0x60232323'>
+              <Veins name='smpoOnyxHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60232323' drawBoundBox='false' boundBoxColor='0x60232323'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1530,15 +1530,15 @@
         <!-- Starting Vanilla Preset for Onyx. -->
         <ConfigSection>
           <IfCondition condition=':= smpoOnyxDist = "Vanilla"'>
-            <StandardGen name='smpoOnyxStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60232323' drawBoundBox='false' boundBoxColor='0x60232323'>
+            <StandardGen name='smpoOnyxStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60232323' drawBoundBox='false' boundBoxColor='0x60232323'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='simpleores:onyx_ore' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.667 * smpoOnyxSize ' range=':= 2.33 * smpoOnyxSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 3.333 * smpoOnyxFreq ' range=':= 1.67 * smpoOnyxFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * smpoOnyxSize ' range=':= 2.33 * oreSize * smpoOnyxSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 3.333 * oreFreq * smpoOnyxFreq ' range=':= 1.67 * oreFreq * smpoOnyxFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 72 ' range=':= 56 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>

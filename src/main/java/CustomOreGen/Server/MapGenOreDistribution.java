@@ -245,7 +245,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         this._settingMap.set(this, settingName, value);
     }
 
-    public void generate(World world, int chunkX, int chunkZ)
+    public synchronized void generate(World world, int chunkX, int chunkZ)
     {
         if (this._canGenerate && this._valid)
         {
@@ -258,7 +258,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
 
-    public void populate(World world, int chunkX, int chunkZ)
+    public synchronized void populate(World world, int chunkX, int chunkZ)
     {
         if (this._canGenerate && this._valid)
         {
@@ -270,7 +270,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
 
-    public void cull()
+    public synchronized void cull()
     {
         if (this._canGenerate)
         {
@@ -309,7 +309,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
 
-    public void clear()
+    public synchronized void clear()
     {
         if (this._canGenerate)
         {
@@ -391,9 +391,9 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         return this._valid && this._canGenerate;
     }
 
-    protected StructureGroup getCachedStructureGroup(int chunkX, int chunkZ)
+    private StructureGroup getCachedStructureGroup(int chunkX, int chunkZ)
     {
-        Long key = Long.valueOf(ChunkPos.asLong(chunkX, chunkZ));
+        long key = ChunkPos.asLong(chunkX, chunkZ);
         StructureGroup group = (StructureGroup)super.structureMap.get(key);
 
         if (group != null)
@@ -438,7 +438,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
     // FIXME: copy-and-pasted this from MapGenBase, because MapGenStructure now declares recursiveGenerate as 'final'. 
     // We worked around this by renaming to recursiveGenerate2, which is called by this method. 
     @Override
-    public void generate(World par2World, int par3, int par4, ChunkPrimer primer)
+    public synchronized void generate(World par2World, int par3, int par4, ChunkPrimer primer)
     {
         int k = this.range;
         this.worldObj = par2World;
@@ -458,7 +458,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
     
-    protected void recursiveGenerate2(World world, int chunkX, int chunkZ, int rootX, int rootZ, ChunkPrimer primer)
+    private void recursiveGenerate2(World world, int chunkX, int chunkZ, int rootX, int rootZ, ChunkPrimer primer)
     {
         if (this.parent != null)
         {
@@ -524,7 +524,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
     public abstract Component generateStructure(StructureGroup structureGroup, Random rand);
 
-    public boolean generateStructuresInChunk(World world, Random random, int chunkX, int chunkZ)
+    private boolean generateStructuresInChunk(World world, Random random, int chunkX, int chunkZ)
     {
         if (this._canGenerate && this._valid)
         {
@@ -556,7 +556,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
 
-    public BlockPos getNearestStructure(World world, BlockPos pos)
+    private BlockPos getNearestStructure(World world, BlockPos pos)
     {
         if (this._canGenerate && this._valid)
         {

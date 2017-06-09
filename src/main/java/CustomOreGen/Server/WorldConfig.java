@@ -201,7 +201,6 @@ public class WorldConfig
             	if (!optionsFileList[1].exists()) {
             		loadOptions(optionsFileList[0], loadedOptionOverrides[0], saveLevelOptions);
             		saveOptions(optionsFileList[1], saveLevelOptions);
-            		loadedOptionOverrides[0] = null;
             	} else {
             		loadOptions(optionsFileList[1], null, saveLevelOptions);
             	}

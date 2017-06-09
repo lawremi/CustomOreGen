@@ -33,9 +33,9 @@
       <OptionChoice name='enableThermalFoundation' displayName='Handle Thermal Foundation Setup?' default='true' displayState='shown_dynamic' displayGroup='groupThermalFoundation'>
         <Description> Should Custom Ore Generation handle Thermal Foundation ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Thermal Foundation ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='Thermal Foundation ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='Thermal Foundation ores will be handled by Minecraft directly.'/>
       </OptionChoice>
-      <OptionChoice name='cleanUpThermalFoundation' displayName='Use Thermal Foundation Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupThermalFoundation'>
+      <OptionChoice name='cleanUpThermalFoundation' displayName='Use Thermal Foundation Cleanup?' default='true' displayState=':= if(?enableThermalFoundation, "shown", "hidden")' displayGroup='groupThermalFoundation'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Thermal Foundation ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Thermal Foundation ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Thermal Foundation ores do not need to be cleaned up by a substitution pass.'/>
@@ -589,7 +589,7 @@
         <!-- Starting LayeredVeins Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= thfoCopperDist = "LayeredVeins"'>
-            <Veins name='thfoCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <Veins name='thfoCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -622,7 +622,7 @@
         <!-- Starting StrategicClouds Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= thfoCopperDist = "StrategicClouds"'>
-            <Cloud name='thfoCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <Cloud name='thfoCopperCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -647,7 +647,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thfoCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+              <Veins name='thfoCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -678,15 +678,15 @@
         <!-- Starting Vanilla Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= thfoCopperDist = "Vanilla"'>
-            <StandardGen name='thfoCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <StandardGen name='thfoCopperStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='ThermalFoundation:Ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * thfoCopperSize ' range=':= 2.67 * thfoCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 6.667 * thfoCopperFreq ' range=':= 3.33 * thfoCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * thfoCopperSize ' range=':= 2.67 * oreSize * thfoCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 6.667 * oreFreq * thfoCopperFreq ' range=':= 3.33 * oreFreq * thfoCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 68 ' range=':= 28 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -702,7 +702,7 @@
         <!-- Starting LayeredVeins Preset for Tin. -->
         <ConfigSection>
           <IfCondition condition=':= thfoTinDist = "LayeredVeins"'>
-            <Veins name='thfoTinVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <Veins name='thfoTinVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -735,7 +735,7 @@
         <!-- Starting StrategicClouds Preset for Tin. -->
         <ConfigSection>
           <IfCondition condition=':= thfoTinDist = "StrategicClouds"'>
-            <Cloud name='thfoTinCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <Cloud name='thfoTinCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -760,7 +760,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thfoTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+              <Veins name='thfoTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -791,15 +791,15 @@
         <!-- Starting Vanilla Preset for Tin. -->
         <ConfigSection>
           <IfCondition condition=':= thfoTinDist = "Vanilla"'>
-            <StandardGen name='thfoTinStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <StandardGen name='thfoTinStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='ThermalFoundation:Ore:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * thfoTinSize ' range=':= 2.67 * thfoTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * thfoTinFreq ' range=':= 2.67 * thfoTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * thfoTinSize ' range=':= 2.67 * oreSize * thfoTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * thfoTinFreq ' range=':= 2.67 * oreFreq * thfoTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 38 ' range=':= 17 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -815,7 +815,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Tin. -->
         <ConfigSection>
           <IfCondition condition=':= thfoMountainTinDist = "LayeredVeins"'>
-            <Veins name='thfoMountainTinVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <Veins name='thfoMountainTinVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -848,7 +848,7 @@
         <!-- Starting StrategicClouds Preset for Mountain Tin. -->
         <ConfigSection>
           <IfCondition condition=':= thfoMountainTinDist = "StrategicClouds"'>
-            <Cloud name='thfoMountainTinCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <Cloud name='thfoMountainTinCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -873,7 +873,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thfoMountainTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+              <Veins name='thfoMountainTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -904,15 +904,15 @@
         <!-- Starting Vanilla Preset for Mountain Tin. -->
         <ConfigSection>
           <IfCondition condition=':= thfoMountainTinDist = "Vanilla"'>
-            <StandardGen name='thfoMountainTinStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <StandardGen name='thfoMountainTinStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='ThermalFoundation:Ore:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * thfoMountainTinSize ' range=':= 2.67 * thfoMountainTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * thfoMountainTinFreq ' range=':= 2.67 * thfoMountainTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * thfoMountainTinSize ' range=':= 2.67 * oreSize * thfoMountainTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * thfoMountainTinFreq ' range=':= 2.67 * oreFreq * thfoMountainTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 178 ' range=':= 51 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -928,7 +928,7 @@
         <!-- Starting LayeredVeins Preset for Silver. -->
         <ConfigSection>
           <IfCondition condition=':= thfoSilverDist = "LayeredVeins"'>
-            <Veins name='thfoSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+            <Veins name='thfoSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -961,7 +961,7 @@
         <!-- Starting StrategicClouds Preset for Silver. -->
         <ConfigSection>
           <IfCondition condition=':= thfoSilverDist = "StrategicClouds"'>
-            <Cloud name='thfoSilverCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+            <Cloud name='thfoSilverCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -986,7 +986,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thfoSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+              <Veins name='thfoSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1017,15 +1017,15 @@
         <!-- Starting Vanilla Preset for Silver. -->
         <ConfigSection>
           <IfCondition condition=':= thfoSilverDist = "Vanilla"'>
-            <StandardGen name='thfoSilverStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+            <StandardGen name='thfoSilverStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='ThermalFoundation:Ore:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * thfoSilverSize ' range=':= 2.67 * thfoSilverSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * thfoSilverFreq ' range=':= 2.0 * thfoSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * thfoSilverSize ' range=':= 2.67 * oreSize * thfoSilverSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * thfoSilverFreq ' range=':= 2.0 * oreFreq * thfoSilverFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 17.5 ' range=':= 12.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1041,7 +1041,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Silver. -->
         <ConfigSection>
           <IfCondition condition=':= thfoMountainSilverDist = "LayeredVeins"'>
-            <Veins name='thfoMountainSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+            <Veins name='thfoMountainSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1074,7 +1074,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Silver. -->
         <ConfigSection>
           <IfCondition condition=':= thfoMountainSilverDist = "StrategicClouds"'>
-            <Cloud name='thfoMountainSilverCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+            <Cloud name='thfoMountainSilverCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1099,7 +1099,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thfoMountainSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+              <Veins name='thfoMountainSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1130,15 +1130,15 @@
         <!-- Starting Vanilla Preset for Mountain Silver. -->
         <ConfigSection>
           <IfCondition condition=':= thfoMountainSilverDist = "Vanilla"'>
-            <StandardGen name='thfoMountainSilverStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+            <StandardGen name='thfoMountainSilverStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='ThermalFoundation:Ore:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * thfoMountainSilverSize ' range=':= 2.67 * thfoMountainSilverSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * thfoMountainSilverFreq ' range=':= 2.0 * thfoMountainSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * thfoMountainSilverSize ' range=':= 2.67 * oreSize * thfoMountainSilverSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * thfoMountainSilverFreq ' range=':= 2.0 * oreFreq * thfoMountainSilverFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 116.5 ' range=':= 37.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1154,7 +1154,7 @@
         <!-- Starting LayeredVeins Preset for Lead. -->
         <ConfigSection>
           <IfCondition condition=':= thfoLeadDist = "LayeredVeins"'>
-            <Veins name='thfoLeadVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+            <Veins name='thfoLeadVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1187,7 +1187,7 @@
         <!-- Starting StrategicClouds Preset for Lead. -->
         <ConfigSection>
           <IfCondition condition=':= thfoLeadDist = "StrategicClouds"'>
-            <Cloud name='thfoLeadCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+            <Cloud name='thfoLeadCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1212,7 +1212,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thfoLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+              <Veins name='thfoLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1243,15 +1243,15 @@
         <!-- Starting Vanilla Preset for Lead. -->
         <ConfigSection>
           <IfCondition condition=':= thfoLeadDist = "Vanilla"'>
-            <StandardGen name='thfoLeadStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+            <StandardGen name='thfoLeadStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='ThermalFoundation:Ore:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * thfoLeadSize ' range=':= 2.67 * thfoLeadSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * thfoLeadFreq ' range=':= 2.67 * thfoLeadFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * thfoLeadSize ' range=':= 2.67 * oreSize * thfoLeadSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * thfoLeadFreq ' range=':= 2.67 * oreFreq * thfoLeadFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 23 ' range=':= 12 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1267,7 +1267,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Lead. -->
         <ConfigSection>
           <IfCondition condition=':= thfoMountainLeadDist = "LayeredVeins"'>
-            <Veins name='thfoMountainLeadVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+            <Veins name='thfoMountainLeadVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1300,7 +1300,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Lead. -->
         <ConfigSection>
           <IfCondition condition=':= thfoMountainLeadDist = "StrategicClouds"'>
-            <Cloud name='thfoMountainLeadCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+            <Cloud name='thfoMountainLeadCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1325,7 +1325,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thfoMountainLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+              <Veins name='thfoMountainLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1356,15 +1356,15 @@
         <!-- Starting Vanilla Preset for Mountain Lead. -->
         <ConfigSection>
           <IfCondition condition=':= thfoMountainLeadDist = "Vanilla"'>
-            <StandardGen name='thfoMountainLeadStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+            <StandardGen name='thfoMountainLeadStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='ThermalFoundation:Ore:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * thfoMountainLeadSize ' range=':= 2.67 * thfoMountainLeadSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * thfoMountainLeadFreq ' range=':= 2.67 * thfoMountainLeadFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * thfoMountainLeadSize ' range=':= 2.67 * oreSize * thfoMountainLeadSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * thfoMountainLeadFreq ' range=':= 2.67 * oreFreq * thfoMountainLeadFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 133 ' range=':= 36 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1380,7 +1380,7 @@
         <!-- Starting LayeredVeins Preset for Ferrous. -->
         <ConfigSection>
           <IfCondition condition=':= thfoFerrousDist = "LayeredVeins"'>
-            <Veins name='thfoFerrousVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
+            <Veins name='thfoFerrousVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1413,7 +1413,7 @@
         <!-- Starting StrategicClouds Preset for Ferrous. -->
         <ConfigSection>
           <IfCondition condition=':= thfoFerrousDist = "StrategicClouds"'>
-            <Cloud name='thfoFerrousCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
+            <Cloud name='thfoFerrousCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1438,7 +1438,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thfoFerrousHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
+              <Veins name='thfoFerrousHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1469,15 +1469,15 @@
         <!-- Starting Vanilla Preset for Ferrous. -->
         <ConfigSection>
           <IfCondition condition=':= thfoFerrousDist = "Vanilla"'>
-            <StandardGen name='thfoFerrousStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
+            <StandardGen name='thfoFerrousStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='ThermalFoundation:Ore:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * thfoFerrousSize ' range=':= 1.33 * thfoFerrousSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * thfoFerrousFreq ' range=':= 1.0 * thfoFerrousFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * thfoFerrousSize ' range=':= 1.33 * oreSize * thfoFerrousSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * thfoFerrousFreq ' range=':= 1.0 * oreFreq * thfoFerrousFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 12.5 ' range=':= 7.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1493,7 +1493,7 @@
         <!-- Starting LayeredVeins Preset for Mountain  Ferrous. -->
         <ConfigSection>
           <IfCondition condition=':= thfoMountainFerrousDist = "LayeredVeins"'>
-            <Veins name='thfoMountainFerrousVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
+            <Veins name='thfoMountainFerrousVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1526,7 +1526,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Ferrous. -->
         <ConfigSection>
           <IfCondition condition=':= thfoMountainFerrousDist = "StrategicClouds"'>
-            <Cloud name='thfoMountainFerrousCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
+            <Cloud name='thfoMountainFerrousCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1551,7 +1551,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thfoMountainFerrousHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
+              <Veins name='thfoMountainFerrousHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1582,15 +1582,15 @@
         <!-- Starting Vanilla Preset for Mountain Ferrous. -->
         <ConfigSection>
           <IfCondition condition=':= thfoMountainFerrousDist = "Vanilla"'>
-            <StandardGen name='thfoMountainFerrousStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
+            <StandardGen name='thfoMountainFerrousStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60BCBDAB' drawBoundBox='false' boundBoxColor='0x60BCBDAB'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='ThermalFoundation:Ore:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 2.667 * thfoMountainFerrousSize ' range=':= 1.33 * thfoMountainFerrousSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * thfoMountainFerrousFreq ' range=':= 1.0 * thfoMountainFerrousFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * thfoMountainFerrousSize ' range=':= 1.33 * oreSize * thfoMountainFerrousSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * thfoMountainFerrousFreq ' range=':= 1.0 * oreFreq * thfoMountainFerrousFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 101.5 ' range=':= 22.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1606,7 +1606,7 @@
         <!-- Starting LayeredVeins Preset for Shiny. -->
         <ConfigSection>
           <IfCondition condition=':= thfoShinyDist = "LayeredVeins"'>
-            <Veins name='thfoShinyVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
+            <Veins name='thfoShinyVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1639,7 +1639,7 @@
         <!-- Starting StrategicClouds Preset for Shiny. -->
         <ConfigSection>
           <IfCondition condition=':= thfoShinyDist = "StrategicClouds"'>
-            <Cloud name='thfoShinyCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
+            <Cloud name='thfoShinyCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1664,7 +1664,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thfoShinyHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
+              <Veins name='thfoShinyHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1695,15 +1695,15 @@
         <!-- Starting Vanilla Preset for Shiny. -->
         <ConfigSection>
           <IfCondition condition=':= thfoShinyDist = "Vanilla"'>
-            <StandardGen name='thfoShinyStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
+            <StandardGen name='thfoShinyStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='ThermalFoundation:Ore:5' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * thfoShinySize ' range=':= 1.0 * thfoShinySize ' type='normal' />
-              <Setting name='Frequency' avg=':= 0.667 * thfoShinyFreq ' range=':= 0.33 * thfoShinyFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * thfoShinySize ' range=':= 1.0 * oreSize * thfoShinySize ' type='normal' />
+              <Setting name='Frequency' avg=':= 0.667 * oreFreq * thfoShinyFreq ' range=':= 0.33 * oreFreq * thfoShinyFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 17.5 ' range=':= 12.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1719,7 +1719,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Shiny. -->
         <ConfigSection>
           <IfCondition condition=':= thfoMountainShinyDist = "LayeredVeins"'>
-            <Veins name='thfoMountainShinyVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
+            <Veins name='thfoMountainShinyVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1752,7 +1752,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Shiny. -->
         <ConfigSection>
           <IfCondition condition=':= thfoMountainShinyDist = "StrategicClouds"'>
-            <Cloud name='thfoMountainShinyCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
+            <Cloud name='thfoMountainShinyCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1777,7 +1777,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thfoMountainShinyHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
+              <Veins name='thfoMountainShinyHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1808,15 +1808,15 @@
         <!-- Starting Vanilla Preset for Mountain Shiny. -->
         <ConfigSection>
           <IfCondition condition=':= thfoMountainShinyDist = "Vanilla"'>
-            <StandardGen name='thfoMountainShinyStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
+            <StandardGen name='thfoMountainShinyStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x606FE5F3' drawBoundBox='false' boundBoxColor='0x606FE5F3'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='ThermalFoundation:Ore:5' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 2.0 * thfoMountainShinySize ' range=':= 1.0 * thfoMountainShinySize ' type='normal' />
-              <Setting name='Frequency' avg=':= 0.667 * thfoMountainShinyFreq ' range=':= 0.33 * thfoMountainShinyFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * thfoMountainShinySize ' range=':= 1.0 * oreSize * thfoMountainShinySize ' type='normal' />
+              <Setting name='Frequency' avg=':= 0.667 * oreFreq * thfoMountainShinyFreq ' range=':= 0.33 * oreFreq * thfoMountainShinyFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 116.5 ' range=':= 37.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>

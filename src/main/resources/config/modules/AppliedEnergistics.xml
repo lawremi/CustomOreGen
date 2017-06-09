@@ -32,9 +32,9 @@
       <OptionChoice name='enableAppliedEnergistics' displayName='Handle Applied Energistics Setup?' default='true' displayState='shown_dynamic' displayGroup='groupAppliedEnergistics'>
         <Description> Should Custom Ore Generation handle Applied Energistics ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Applied Energistics ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='Applied Energistics ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='Applied Energistics ores will be handled by Minecraft directly.'/>
       </OptionChoice>
-      <OptionChoice name='cleanUpAppliedEnergistics' displayName='Use Applied Energistics Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupAppliedEnergistics'>
+      <OptionChoice name='cleanUpAppliedEnergistics' displayName='Use Applied Energistics Cleanup?' default='true' displayState=':= if(?enableAppliedEnergistics, "shown", "hidden")' displayGroup='groupAppliedEnergistics'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Applied Energistics ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Applied Energistics ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Applied Energistics ores do not need to be cleaned up by a substitution pass.'/>
@@ -45,7 +45,7 @@
         <OptionChoice name='apenCertusQuartzDist'  displayState=':= if(?enableAppliedEnergistics, "shown", "hidden")' displayGroup='groupAppliedEnergistics'>
           <Description> Controls how Certus Quartz is generated </Description>
           <DisplayName>Applied Energistics Certus Quartz</DisplayName>
-          <IfCondition condition=':= (?blockExists("appliedenergistics2:tile.OreQuartz")  &amp; ?blockExists("appliedenergistics2:tile.OreQuartzCharged")) '>
+          <IfCondition condition=':= (?blockExists("appliedenergistics2:quartz_ore")  &amp; ?blockExists("appliedenergistics2:charged_quartz_ore")) '>
 
           <Choice value='SparseVeins' displayValue='Sparse Veins'>
             <Description>
@@ -54,7 +54,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("appliedenergistics2:tile.OreQuartz")  &amp; ?blockExists("appliedenergistics2:tile.OreQuartzCharged")) '>
+          <IfCondition condition=':= (?blockExists("appliedenergistics2:quartz_ore")  &amp; ?blockExists("appliedenergistics2:charged_quartz_ore")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -63,7 +63,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("appliedenergistics2:tile.OreQuartz")  &amp; ?blockExists("appliedenergistics2:tile.OreQuartzCharged")) '>
+          <IfCondition condition=':= (?blockExists("appliedenergistics2:quartz_ore")  &amp; ?blockExists("appliedenergistics2:charged_quartz_ore")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -91,7 +91,7 @@
         <OptionChoice name='apenMountainCertusQuartzDist'  displayState=':= if(?enableAppliedEnergistics, "shown", "hidden")' displayGroup='groupAppliedEnergistics'>
           <Description> Controls how Mountain Certus Quartz is generated </Description>
           <DisplayName>Applied Energistics Mountain Certus Quartz</DisplayName>
-          <IfCondition condition=':= (?blockExists("appliedenergistics2:tile.OreQuartz")  &amp; ?blockExists("appliedenergistics2:tile.OreQuartzCharged")) '>
+          <IfCondition condition=':= (?blockExists("appliedenergistics2:quartz_ore")  &amp; ?blockExists("appliedenergistics2:charged_quartz_ore")) '>
 
           <Choice value='SparseVeins' displayValue='Sparse Veins'>
             <Description>
@@ -100,7 +100,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("appliedenergistics2:tile.OreQuartz")  &amp; ?blockExists("appliedenergistics2:tile.OreQuartzCharged")) '>
+          <IfCondition condition=':= (?blockExists("appliedenergistics2:quartz_ore")  &amp; ?blockExists("appliedenergistics2:charged_quartz_ore")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -109,7 +109,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("appliedenergistics2:tile.OreQuartz")  &amp; ?blockExists("appliedenergistics2:tile.OreQuartzCharged")) '>
+          <IfCondition condition=':= (?blockExists("appliedenergistics2:quartz_ore")  &amp; ?blockExists("appliedenergistics2:charged_quartz_ore")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -155,8 +155,8 @@
                 The global option  deferredPopulationRange must be
                 large enough to catch all ore  clusters (>= 32).
               </Comment>
-              <Replaces block='appliedenergistics2:tile.OreQuartz' weight='1.0' />
-              <Replaces block='appliedenergistics2:tile.OreQuartzCharged' weight='1.0' />
+              <Replaces block='appliedenergistics2:charged_quartz_ore' weight='1.0' />
+              <Replaces block='appliedenergistics2:quartz_ore' weight='1.0' />
             </Substitute>
           </IfCondition>
         </IfCondition>
@@ -170,7 +170,7 @@
         <!-- Starting SparseVeins Preset for Certus Quartz. -->
         <ConfigSection>
           <IfCondition condition=':= apenCertusQuartzDist = "SparseVeins"'>
-            <Veins name='apenCertusQuartzVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
+            <Veins name='apenCertusQuartzVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -180,8 +180,8 @@
                 harder to get an idea of their  direction while
                 mining.
               </Description>
-              <OreBlock block='appliedenergistics2:tile.OreQuartz' weight='0.90' />
-              <OreBlock block='appliedenergistics2:tile.OreQuartzCharged' weight='0.10' />
+              <OreBlock block='appliedenergistics2:quartz_ore' weight='0.90' />
+              <OreBlock block='appliedenergistics2:charged_quartz_ore' weight='0.10' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 3.355 * _default_ * apenCertusQuartzFreq ' range=':= 3.355 * _default_ * apenCertusQuartzFreq ' type='normal' scaleTo='base' />
@@ -209,7 +209,7 @@
         <!-- Starting StrategicClouds Preset for Certus  Quartz. -->
         <ConfigSection>
           <IfCondition condition=':= apenCertusQuartzDist = "StrategicClouds"'>
-            <Cloud name='apenCertusQuartzCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
+            <Cloud name='apenCertusQuartzCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -221,8 +221,8 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='appliedenergistics2:tile.OreQuartz' weight='0.90' />
-              <OreBlock block='appliedenergistics2:tile.OreQuartzCharged' weight='0.10' />
+              <OreBlock block='appliedenergistics2:quartz_ore' weight='0.90' />
+              <OreBlock block='appliedenergistics2:charged_quartz_ore' weight='0.10' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='CloudRadius' avg=':= 1.251 * _default_ * apenCertusQuartzSize ' range=':= 1.251 * _default_ * apenCertusQuartzSize ' type='normal' />
@@ -235,7 +235,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='apenCertusQuartzHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
+              <Veins name='apenCertusQuartzHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -250,8 +250,8 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='appliedenergistics2:tile.OreQuartz' weight='0.90' />
-                <OreBlock block='appliedenergistics2:tile.OreQuartzCharged' weight='0.10' />
+                <OreBlock block='appliedenergistics2:quartz_ore' weight='0.90' />
+                <OreBlock block='appliedenergistics2:charged_quartz_ore' weight='0.10' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -267,16 +267,16 @@
         <!-- Starting Vanilla Preset for Certus Quartz. -->
         <ConfigSection>
           <IfCondition condition=':= apenCertusQuartzDist = "Vanilla"'>
-            <StandardGen name='apenCertusQuartzStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
+            <StandardGen name='apenCertusQuartzStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='appliedenergistics2:tile.OreQuartz' weight='0.90' />
-              <OreBlock block='appliedenergistics2:tile.OreQuartzCharged' weight='0.10' />
+              <OreBlock block='appliedenergistics2:quartz_ore' weight='0.90' />
+              <OreBlock block='appliedenergistics2:charged_quartz_ore' weight='0.10' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * apenCertusQuartzSize ' range=':= 1.33 * apenCertusQuartzSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 10.0 * apenCertusQuartzFreq ' range=':= 5.0 * apenCertusQuartzFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * apenCertusQuartzSize ' range=':= 1.33 * oreSize * apenCertusQuartzSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 10.0 * oreFreq * apenCertusQuartzFreq ' range=':= 5.0 * oreFreq * apenCertusQuartzFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 43 ' range=':= 26 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -292,7 +292,7 @@
         <!-- Starting SparseVeins Preset for Mountain Certus  Quartz. -->
         <ConfigSection>
           <IfCondition condition=':= apenMountainCertusQuartzDist = "SparseVeins"'>
-            <Veins name='apenMountainCertusQuartzVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
+            <Veins name='apenMountainCertusQuartzVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -302,8 +302,8 @@
                 harder to get an idea of their  direction while
                 mining.
               </Description>
-              <OreBlock block='appliedenergistics2:tile.OreQuartz' weight='0.90' />
-              <OreBlock block='appliedenergistics2:tile.OreQuartzCharged' weight='0.10' />
+              <OreBlock block='appliedenergistics2:quartz_ore' weight='0.90' />
+              <OreBlock block='appliedenergistics2:charged_quartz_ore' weight='0.10' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='MotherlodeFrequency' avg=':= 3.355 * _default_ * apenMountainCertusQuartzFreq ' range=':= 3.355 * _default_ * apenMountainCertusQuartzFreq ' type='normal' scaleTo='base' />
@@ -333,7 +333,7 @@
              Quartz. -->
         <ConfigSection>
           <IfCondition condition=':= apenMountainCertusQuartzDist = "StrategicClouds"'>
-            <Cloud name='apenMountainCertusQuartzCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
+            <Cloud name='apenMountainCertusQuartzCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -345,8 +345,8 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='appliedenergistics2:tile.OreQuartz' weight='0.90' />
-              <OreBlock block='appliedenergistics2:tile.OreQuartzCharged' weight='0.10' />
+              <OreBlock block='appliedenergistics2:quartz_ore' weight='0.90' />
+              <OreBlock block='appliedenergistics2:charged_quartz_ore' weight='0.10' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='CloudRadius' avg=':= 1.251 * _default_ * apenMountainCertusQuartzSize ' range=':= 1.251 * _default_ * apenMountainCertusQuartzSize ' type='normal' />
@@ -359,7 +359,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='apenMountainCertusQuartzHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
+              <Veins name='apenMountainCertusQuartzHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -374,8 +374,8 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='appliedenergistics2:tile.OreQuartz' weight='0.90' />
-                <OreBlock block='appliedenergistics2:tile.OreQuartzCharged' weight='0.10' />
+                <OreBlock block='appliedenergistics2:quartz_ore' weight='0.90' />
+                <OreBlock block='appliedenergistics2:charged_quartz_ore' weight='0.10' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -392,16 +392,16 @@
         <!-- Starting Vanilla Preset for Mountain Certus  Quartz. -->
         <ConfigSection>
           <IfCondition condition=':= apenMountainCertusQuartzDist = "Vanilla"'>
-            <StandardGen name='apenMountainCertusQuartzStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
+            <StandardGen name='apenMountainCertusQuartzStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x609BBEC2' drawBoundBox='false' boundBoxColor='0x609BBEC2'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='appliedenergistics2:tile.OreQuartz' weight='0.90' />
-              <OreBlock block='appliedenergistics2:tile.OreQuartzCharged' weight='0.10' />
+              <OreBlock block='appliedenergistics2:quartz_ore' weight='0.90' />
+              <OreBlock block='appliedenergistics2:charged_quartz_ore' weight='0.10' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 2.667 * apenMountainCertusQuartzSize ' range=':= 1.33 * apenMountainCertusQuartzSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 10.0 * apenMountainCertusQuartzFreq ' range=':= 5.0 * apenMountainCertusQuartzFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * apenMountainCertusQuartzSize ' range=':= 1.33 * oreSize * apenMountainCertusQuartzSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 10.0 * oreFreq * apenMountainCertusQuartzFreq ' range=':= 5.0 * oreFreq * apenMountainCertusQuartzFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 193 ' range=':= 78 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>

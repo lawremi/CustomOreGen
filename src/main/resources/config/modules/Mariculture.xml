@@ -29,9 +29,9 @@
       <OptionChoice name='enableMariculture' displayName='Handle Mariculture Setup?' default='true' displayState='shown_dynamic' displayGroup='groupMariculture'>
         <Description> Should Custom Ore Generation handle Mariculture ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Mariculture ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='Mariculture ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='Mariculture ores will be handled by Minecraft directly.'/>
       </OptionChoice>
-      <OptionChoice name='cleanUpMariculture' displayName='Use Mariculture Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupMariculture'>
+      <OptionChoice name='cleanUpMariculture' displayName='Use Mariculture Cleanup?' default='true' displayState=':= if(?enableMariculture, "shown", "hidden")' displayGroup='groupMariculture'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Mariculture ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Mariculture ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Mariculture ores do not need to be cleaned up by a substitution pass.'/>
@@ -213,7 +213,7 @@
         <!-- Starting LayeredVeins Preset for Bauxite. -->
         <ConfigSection>
           <IfCondition condition=':= mrclBauxiteDist = "LayeredVeins"'>
-            <Veins name='mrclBauxiteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60A3744B' drawBoundBox='false' boundBoxColor='0x60A3744B'>
+            <Veins name='mrclBauxiteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60A3744B' drawBoundBox='false' boundBoxColor='0x60A3744B'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -246,7 +246,7 @@
         <!-- Starting StrategicClouds Preset for Bauxite. -->
         <ConfigSection>
           <IfCondition condition=':= mrclBauxiteDist = "StrategicClouds"'>
-            <Cloud name='mrclBauxiteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60A3744B' drawBoundBox='false' boundBoxColor='0x60A3744B'>
+            <Cloud name='mrclBauxiteCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60A3744B' drawBoundBox='false' boundBoxColor='0x60A3744B'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -271,7 +271,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='mrclBauxiteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60A3744B' drawBoundBox='false' boundBoxColor='0x60A3744B'>
+              <Veins name='mrclBauxiteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60A3744B' drawBoundBox='false' boundBoxColor='0x60A3744B'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -302,15 +302,15 @@
         <!-- Starting Vanilla Preset for Bauxite. -->
         <ConfigSection>
           <IfCondition condition=':= mrclBauxiteDist = "Vanilla"'>
-            <StandardGen name='mrclBauxiteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60A3744B' drawBoundBox='false' boundBoxColor='0x60A3744B'>
+            <StandardGen name='mrclBauxiteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60A3744B' drawBoundBox='false' boundBoxColor='0x60A3744B'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='Mariculture:rocks:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * mrclBauxiteSize ' range=':= 2.67 * mrclBauxiteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 10.667 * mrclBauxiteFreq ' range=':= 5.33 * mrclBauxiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * mrclBauxiteSize ' range=':= 2.67 * oreSize * mrclBauxiteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 10.667 * oreFreq * mrclBauxiteFreq ' range=':= 5.33 * oreFreq * mrclBauxiteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 96 ' range=':= 32 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -326,7 +326,7 @@
         <!-- Starting LayeredVeins Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= mrclCopperDist = "LayeredVeins"'>
-            <Veins name='mrclCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60C85432' drawBoundBox='false' boundBoxColor='0x60C85432'>
+            <Veins name='mrclCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60C85432' drawBoundBox='false' boundBoxColor='0x60C85432'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -359,7 +359,7 @@
         <!-- Starting StrategicClouds Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= mrclCopperDist = "StrategicClouds"'>
-            <Cloud name='mrclCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60C85432' drawBoundBox='false' boundBoxColor='0x60C85432'>
+            <Cloud name='mrclCopperCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60C85432' drawBoundBox='false' boundBoxColor='0x60C85432'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -384,7 +384,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='mrclCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60C85432' drawBoundBox='false' boundBoxColor='0x60C85432'>
+              <Veins name='mrclCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60C85432' drawBoundBox='false' boundBoxColor='0x60C85432'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -415,15 +415,15 @@
         <!-- Starting Vanilla Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= mrclCopperDist = "Vanilla"'>
-            <StandardGen name='mrclCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60C85432' drawBoundBox='false' boundBoxColor='0x60C85432'>
+            <StandardGen name='mrclCopperStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C85432' drawBoundBox='false' boundBoxColor='0x60C85432'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='Mariculture:rocks:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 3.333 * mrclCopperSize ' range=':= 1.67 * mrclCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 8.0 * mrclCopperFreq ' range=':= 4.0 * mrclCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 3.333 * oreSize * mrclCopperSize ' range=':= 1.67 * oreSize * mrclCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 8.0 * oreFreq * mrclCopperFreq ' range=':= 4.0 * oreFreq * mrclCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 32.5 ' range=':= 31.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -439,7 +439,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Copper. -->
         <ConfigSection>
           <IfCondition condition=':= mrclMountainCopperDist = "LayeredVeins"'>
-            <Veins name='mrclMountainCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60C85432' drawBoundBox='false' boundBoxColor='0x60C85432'>
+            <Veins name='mrclMountainCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60C85432' drawBoundBox='false' boundBoxColor='0x60C85432'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -472,7 +472,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Copper. -->
         <ConfigSection>
           <IfCondition condition=':= mrclMountainCopperDist = "StrategicClouds"'>
-            <Cloud name='mrclMountainCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60C85432' drawBoundBox='false' boundBoxColor='0x60C85432'>
+            <Cloud name='mrclMountainCopperCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60C85432' drawBoundBox='false' boundBoxColor='0x60C85432'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -497,7 +497,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='mrclMountainCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60C85432' drawBoundBox='false' boundBoxColor='0x60C85432'>
+              <Veins name='mrclMountainCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60C85432' drawBoundBox='false' boundBoxColor='0x60C85432'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -528,15 +528,15 @@
         <!-- Starting Vanilla Preset for Mountain Copper. -->
         <ConfigSection>
           <IfCondition condition=':= mrclMountainCopperDist = "Vanilla"'>
-            <StandardGen name='mrclMountainCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60C85432' drawBoundBox='false' boundBoxColor='0x60C85432'>
+            <StandardGen name='mrclMountainCopperStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C85432' drawBoundBox='false' boundBoxColor='0x60C85432'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='Mariculture:rocks:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 3.333 * mrclMountainCopperSize ' range=':= 1.67 * mrclMountainCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 8.0 * mrclMountainCopperFreq ' range=':= 4.0 * mrclMountainCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 3.333 * oreSize * mrclMountainCopperSize ' range=':= 1.67 * oreSize * mrclMountainCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 8.0 * oreFreq * mrclMountainCopperFreq ' range=':= 4.0 * oreFreq * mrclMountainCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 161.5 ' range=':= 94.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>

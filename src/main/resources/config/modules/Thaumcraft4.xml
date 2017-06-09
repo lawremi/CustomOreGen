@@ -34,9 +34,9 @@
       <OptionChoice name='enableThaumcraft4' displayName='Handle Thaumcraft 4 Setup?' default='true' displayState='shown_dynamic' displayGroup='groupThaumcraft4'>
         <Description> Should Custom Ore Generation handle Thaumcraft 4 ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Thaumcraft 4 ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='Thaumcraft 4 ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='Thaumcraft 4 ores will be handled by Minecraft directly.'/>
       </OptionChoice>
-      <OptionChoice name='cleanUpThaumcraft4' displayName='Use Thaumcraft 4 Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupThaumcraft4'>
+      <OptionChoice name='cleanUpThaumcraft4' displayName='Use Thaumcraft 4 Cleanup?' default='true' displayState=':= if(?enableThaumcraft4, "shown", "hidden")' displayGroup='groupThaumcraft4'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Thaumcraft 4 ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Thaumcraft 4 ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Thaumcraft 4 ores do not need to be cleaned up by a substitution pass.'/>
@@ -546,7 +546,7 @@
         <!-- Starting SparseVeins Preset for Amber Bearing  Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4AmberBearingStoneDist = "SparseVeins"'>
-            <Veins name='thm4AmberBearingStoneVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60FE9D1B' drawBoundBox='false' boundBoxColor='0x60FE9D1B'>
+            <Veins name='thm4AmberBearingStoneVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60FE9D1B' drawBoundBox='false' boundBoxColor='0x60FE9D1B'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -584,7 +584,7 @@
         <!-- Starting StrategicClouds Preset for Amber Bearing  Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4AmberBearingStoneDist = "StrategicClouds"'>
-            <Cloud name='thm4AmberBearingStoneCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FE9D1B' drawBoundBox='false' boundBoxColor='0x60FE9D1B'>
+            <Cloud name='thm4AmberBearingStoneCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60FE9D1B' drawBoundBox='false' boundBoxColor='0x60FE9D1B'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -609,7 +609,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thm4AmberBearingStoneHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FE9D1B' drawBoundBox='false' boundBoxColor='0x60FE9D1B'>
+              <Veins name='thm4AmberBearingStoneHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60FE9D1B' drawBoundBox='false' boundBoxColor='0x60FE9D1B'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -641,15 +641,15 @@
         <!-- Starting Vanilla Preset for Amber Bearing Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4AmberBearingStoneDist = "Vanilla"'>
-            <StandardGen name='thm4AmberBearingStoneStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FE9D1B' drawBoundBox='false' boundBoxColor='0x60FE9D1B'>
+            <StandardGen name='thm4AmberBearingStoneStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60FE9D1B' drawBoundBox='false' boundBoxColor='0x60FE9D1B'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='Thaumcraft:blockCustomOre:7' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 0.667 * thm4AmberBearingStoneSize ' range=':= 0.33 * thm4AmberBearingStoneSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 13.333 * thm4AmberBearingStoneFreq ' range=':= 6.67 * thm4AmberBearingStoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 0.667 * oreSize * thm4AmberBearingStoneSize ' range=':= 0.33 * oreSize * thm4AmberBearingStoneSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 13.333 * oreFreq * thm4AmberBearingStoneFreq ' range=':= 6.67 * oreFreq * thm4AmberBearingStoneFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 51.5 ' range=':= 12.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -666,7 +666,7 @@
              Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4MountainAmberBearingStoneDist = "SparseVeins"'>
-            <Veins name='thm4MountainAmberBearingStoneVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60FE9D1B' drawBoundBox='false' boundBoxColor='0x60FE9D1B'>
+            <Veins name='thm4MountainAmberBearingStoneVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60FE9D1B' drawBoundBox='false' boundBoxColor='0x60FE9D1B'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -706,7 +706,7 @@
              Bearing Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4MountainAmberBearingStoneDist = "StrategicClouds"'>
-            <Cloud name='thm4MountainAmberBearingStoneCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FE9D1B' drawBoundBox='false' boundBoxColor='0x60FE9D1B'>
+            <Cloud name='thm4MountainAmberBearingStoneCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60FE9D1B' drawBoundBox='false' boundBoxColor='0x60FE9D1B'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -731,7 +731,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thm4MountainAmberBearingStoneHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FE9D1B' drawBoundBox='false' boundBoxColor='0x60FE9D1B'>
+              <Veins name='thm4MountainAmberBearingStoneHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60FE9D1B' drawBoundBox='false' boundBoxColor='0x60FE9D1B'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -764,15 +764,15 @@
              Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4MountainAmberBearingStoneDist = "Vanilla"'>
-            <StandardGen name='thm4MountainAmberBearingStoneStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FE9D1B' drawBoundBox='false' boundBoxColor='0x60FE9D1B'>
+            <StandardGen name='thm4MountainAmberBearingStoneStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60FE9D1B' drawBoundBox='false' boundBoxColor='0x60FE9D1B'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='Thaumcraft:blockCustomOre:7' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 0.667 * thm4MountainAmberBearingStoneSize ' range=':= 0.33 * thm4MountainAmberBearingStoneSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 13.333 * thm4MountainAmberBearingStoneFreq ' range=':= 6.67 * thm4MountainAmberBearingStoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 0.667 * oreSize * thm4MountainAmberBearingStoneSize ' range=':= 0.33 * oreSize * thm4MountainAmberBearingStoneSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 13.333 * oreFreq * thm4MountainAmberBearingStoneFreq ' range=':= 6.67 * oreFreq * thm4MountainAmberBearingStoneFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 218.5 ' range=':= 37.5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -789,7 +789,7 @@
         <!-- Starting SparseVeins Preset for Cinnabar. -->
         <ConfigSection>
           <IfCondition condition=':= thm4CinnabarDist = "SparseVeins"'>
-            <Veins name='thm4CinnabarVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60831C20' drawBoundBox='false' boundBoxColor='0x60831C20'>
+            <Veins name='thm4CinnabarVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60831C20' drawBoundBox='false' boundBoxColor='0x60831C20'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -827,7 +827,7 @@
         <!-- Starting StrategicClouds Preset for Cinnabar. -->
         <ConfigSection>
           <IfCondition condition=':= thm4CinnabarDist = "StrategicClouds"'>
-            <Cloud name='thm4CinnabarCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60831C20' drawBoundBox='false' boundBoxColor='0x60831C20'>
+            <Cloud name='thm4CinnabarCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60831C20' drawBoundBox='false' boundBoxColor='0x60831C20'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -852,7 +852,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thm4CinnabarHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60831C20' drawBoundBox='false' boundBoxColor='0x60831C20'>
+              <Veins name='thm4CinnabarHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60831C20' drawBoundBox='false' boundBoxColor='0x60831C20'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -883,15 +883,15 @@
         <!-- Starting Vanilla Preset for Cinnabar. -->
         <ConfigSection>
           <IfCondition condition=':= thm4CinnabarDist = "Vanilla"'>
-            <StandardGen name='thm4CinnabarStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60831C20' drawBoundBox='false' boundBoxColor='0x60831C20'>
+            <StandardGen name='thm4CinnabarStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60831C20' drawBoundBox='false' boundBoxColor='0x60831C20'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='Thaumcraft:blockCustomOre' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 0.667 * thm4CinnabarSize ' range=':= 0.33 * thm4CinnabarSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 12.0 * thm4CinnabarFreq ' range=':= 6.0 * thm4CinnabarFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 0.667 * oreSize * thm4CinnabarSize ' range=':= 0.33 * oreSize * thm4CinnabarSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 12.0 * oreFreq * thm4CinnabarFreq ' range=':= 6.0 * oreFreq * thm4CinnabarFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 26 ' range=':= 26 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -907,7 +907,7 @@
         <!-- Starting SparseVeins Preset for Mountain  Cinnabar. -->
         <ConfigSection>
           <IfCondition condition=':= thm4MountainCinnabarDist = "SparseVeins"'>
-            <Veins name='thm4MountainCinnabarVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60831C20' drawBoundBox='false' boundBoxColor='0x60831C20'>
+            <Veins name='thm4MountainCinnabarVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60831C20' drawBoundBox='false' boundBoxColor='0x60831C20'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -945,7 +945,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Cinnabar. -->
         <ConfigSection>
           <IfCondition condition=':= thm4MountainCinnabarDist = "StrategicClouds"'>
-            <Cloud name='thm4MountainCinnabarCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60831C20' drawBoundBox='false' boundBoxColor='0x60831C20'>
+            <Cloud name='thm4MountainCinnabarCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60831C20' drawBoundBox='false' boundBoxColor='0x60831C20'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -970,7 +970,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thm4MountainCinnabarHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60831C20' drawBoundBox='false' boundBoxColor='0x60831C20'>
+              <Veins name='thm4MountainCinnabarHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60831C20' drawBoundBox='false' boundBoxColor='0x60831C20'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1002,15 +1002,15 @@
         <!-- Starting Vanilla Preset for Mountain Cinnabar. -->
         <ConfigSection>
           <IfCondition condition=':= thm4MountainCinnabarDist = "Vanilla"'>
-            <StandardGen name='thm4MountainCinnabarStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60831C20' drawBoundBox='false' boundBoxColor='0x60831C20'>
+            <StandardGen name='thm4MountainCinnabarStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60831C20' drawBoundBox='false' boundBoxColor='0x60831C20'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='Thaumcraft:blockCustomOre' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 0.667 * thm4MountainCinnabarSize ' range=':= 0.33 * thm4MountainCinnabarSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 12.0 * thm4MountainCinnabarFreq ' range=':= 6.0 * thm4MountainCinnabarFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 0.667 * oreSize * thm4MountainCinnabarSize ' range=':= 0.33 * oreSize * thm4MountainCinnabarSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 12.0 * oreFreq * thm4MountainCinnabarFreq ' range=':= 6.0 * oreFreq * thm4MountainCinnabarFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 142 ' range=':= 78 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1026,7 +1026,7 @@
         <!-- Starting SparseVeins Preset for Air Infused  Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4AirInfusedStoneDist = "SparseVeins"'>
-            <Veins name='thm4AirInfusedStoneVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60FEFEAB' drawBoundBox='false' boundBoxColor='0x60FEFEAB'>
+            <Veins name='thm4AirInfusedStoneVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60FEFEAB' drawBoundBox='false' boundBoxColor='0x60FEFEAB'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -1058,7 +1058,7 @@
             </Veins>
 
             <!-- Beginning "Preferred" configuration. -->
-            <Veins name='thm4AirInfusedStonePreferredVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60FEFEAB' drawBoundBox='false' boundBoxColor='0x60FEFEAB'>
+            <Veins name='thm4AirInfusedStonePreferredVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60FEFEAB' drawBoundBox='false' boundBoxColor='0x60FEFEAB'>
               <Description>
                 Ore generation is doubled in  preferred biomes.
               </Description>
@@ -1095,7 +1095,7 @@
         <!-- Starting StrategicClouds Preset for Air Infused  Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4AirInfusedStoneDist = "StrategicClouds"'>
-            <Cloud name='thm4AirInfusedStoneCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FEFEAB' drawBoundBox='false' boundBoxColor='0x60FEFEAB'>
+            <Cloud name='thm4AirInfusedStoneCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60FEFEAB' drawBoundBox='false' boundBoxColor='0x60FEFEAB'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1120,7 +1120,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thm4AirInfusedStoneHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FEFEAB' drawBoundBox='false' boundBoxColor='0x60FEFEAB'>
+              <Veins name='thm4AirInfusedStoneHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60FEFEAB' drawBoundBox='false' boundBoxColor='0x60FEFEAB'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1145,7 +1145,7 @@
             </Cloud>
 
             <!-- Beginning "Preferred" configuration. -->
-            <Cloud name='thm4AirInfusedStonePreferredCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FEFEAB' drawBoundBox='false' boundBoxColor='0x60FEFEAB'>
+            <Cloud name='thm4AirInfusedStonePreferredCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60FEFEAB' drawBoundBox='false' boundBoxColor='0x60FEFEAB'>
               <Description>
                 Ore generation is doubled in  preferred biomes.
               </Description>
@@ -1165,7 +1165,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thm4AirInfusedStonePreferredHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FEFEAB' drawBoundBox='false' boundBoxColor='0x60FEFEAB'>
+              <Veins name='thm4AirInfusedStonePreferredHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60FEFEAB' drawBoundBox='false' boundBoxColor='0x60FEFEAB'>
                 <Description>
                   Ore generation is doubled in  preferred biomes.
                 </Description>
@@ -1188,15 +1188,15 @@
         <!-- Starting Vanilla Preset for Air Infused Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4AirInfusedStoneDist = "Vanilla"'>
-            <StandardGen name='thm4AirInfusedStoneStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FEFEAB' drawBoundBox='false' boundBoxColor='0x60FEFEAB'>
+            <StandardGen name='thm4AirInfusedStoneStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60FEFEAB' drawBoundBox='false' boundBoxColor='0x60FEFEAB'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='Thaumcraft:blockCustomOre:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * thm4AirInfusedStoneSize ' range=':= 2.0 * thm4AirInfusedStoneSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * thm4AirInfusedStoneFreq ' range=':= 2.67 * thm4AirInfusedStoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * thm4AirInfusedStoneSize ' range=':= 2.0 * oreSize * thm4AirInfusedStoneSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * thm4AirInfusedStoneFreq ' range=':= 2.67 * oreFreq * thm4AirInfusedStoneFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1212,7 +1212,7 @@
         <!-- Starting SparseVeins Preset for Fire Infused  Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4FireInfusedStoneDist = "SparseVeins"'>
-            <Veins name='thm4FireInfusedStoneVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60FC5100' drawBoundBox='false' boundBoxColor='0x60FC5100'>
+            <Veins name='thm4FireInfusedStoneVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60FC5100' drawBoundBox='false' boundBoxColor='0x60FC5100'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -1244,7 +1244,7 @@
             </Veins>
 
             <!-- Beginning "Preferred" configuration. -->
-            <Veins name='thm4FireInfusedStonePreferredVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60FC5100' drawBoundBox='false' boundBoxColor='0x60FC5100'>
+            <Veins name='thm4FireInfusedStonePreferredVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60FC5100' drawBoundBox='false' boundBoxColor='0x60FC5100'>
               <Description>
                 Ore generation is doubled in  preferred biomes.
               </Description>
@@ -1281,7 +1281,7 @@
         <!-- Starting StrategicClouds Preset for Fire Infused  Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4FireInfusedStoneDist = "StrategicClouds"'>
-            <Cloud name='thm4FireInfusedStoneCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FC5100' drawBoundBox='false' boundBoxColor='0x60FC5100'>
+            <Cloud name='thm4FireInfusedStoneCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60FC5100' drawBoundBox='false' boundBoxColor='0x60FC5100'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1306,7 +1306,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thm4FireInfusedStoneHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FC5100' drawBoundBox='false' boundBoxColor='0x60FC5100'>
+              <Veins name='thm4FireInfusedStoneHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60FC5100' drawBoundBox='false' boundBoxColor='0x60FC5100'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1331,7 +1331,7 @@
             </Cloud>
 
             <!-- Beginning "Preferred" configuration. -->
-            <Cloud name='thm4FireInfusedStonePreferredCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FC5100' drawBoundBox='false' boundBoxColor='0x60FC5100'>
+            <Cloud name='thm4FireInfusedStonePreferredCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60FC5100' drawBoundBox='false' boundBoxColor='0x60FC5100'>
               <Description>
                 Ore generation is doubled in  preferred biomes.
               </Description>
@@ -1351,7 +1351,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thm4FireInfusedStonePreferredHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FC5100' drawBoundBox='false' boundBoxColor='0x60FC5100'>
+              <Veins name='thm4FireInfusedStonePreferredHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60FC5100' drawBoundBox='false' boundBoxColor='0x60FC5100'>
                 <Description>
                   Ore generation is doubled in  preferred biomes.
                 </Description>
@@ -1374,15 +1374,15 @@
         <!-- Starting Vanilla Preset for Fire Infused Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4FireInfusedStoneDist = "Vanilla"'>
-            <StandardGen name='thm4FireInfusedStoneStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FC5100' drawBoundBox='false' boundBoxColor='0x60FC5100'>
+            <StandardGen name='thm4FireInfusedStoneStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60FC5100' drawBoundBox='false' boundBoxColor='0x60FC5100'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='Thaumcraft:blockCustomOre:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * thm4FireInfusedStoneSize ' range=':= 2.0 * thm4FireInfusedStoneSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * thm4FireInfusedStoneFreq ' range=':= 2.67 * thm4FireInfusedStoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * thm4FireInfusedStoneSize ' range=':= 2.0 * oreSize * thm4FireInfusedStoneSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * thm4FireInfusedStoneFreq ' range=':= 2.67 * oreFreq * thm4FireInfusedStoneFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1398,7 +1398,7 @@
         <!-- Starting SparseVeins Preset for Water Infused  Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4WaterInfusedStoneDist = "SparseVeins"'>
-            <Veins name='thm4WaterInfusedStoneVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x6000C0FA' drawBoundBox='false' boundBoxColor='0x6000C0FA'>
+            <Veins name='thm4WaterInfusedStoneVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x6000C0FA' drawBoundBox='false' boundBoxColor='0x6000C0FA'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -1430,7 +1430,7 @@
             </Veins>
 
             <!-- Beginning "Preferred" configuration. -->
-            <Veins name='thm4WaterInfusedStonePreferredVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x6000C0FA' drawBoundBox='false' boundBoxColor='0x6000C0FA'>
+            <Veins name='thm4WaterInfusedStonePreferredVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x6000C0FA' drawBoundBox='false' boundBoxColor='0x6000C0FA'>
               <Description>
                 Ore generation is doubled in  preferred biomes.
               </Description>
@@ -1467,7 +1467,7 @@
         <!-- Starting StrategicClouds Preset for Water Infused  Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4WaterInfusedStoneDist = "StrategicClouds"'>
-            <Cloud name='thm4WaterInfusedStoneCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x6000C0FA' drawBoundBox='false' boundBoxColor='0x6000C0FA'>
+            <Cloud name='thm4WaterInfusedStoneCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x6000C0FA' drawBoundBox='false' boundBoxColor='0x6000C0FA'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1492,7 +1492,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thm4WaterInfusedStoneHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x6000C0FA' drawBoundBox='false' boundBoxColor='0x6000C0FA'>
+              <Veins name='thm4WaterInfusedStoneHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x6000C0FA' drawBoundBox='false' boundBoxColor='0x6000C0FA'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1517,7 +1517,7 @@
             </Cloud>
 
             <!-- Beginning "Preferred" configuration. -->
-            <Cloud name='thm4WaterInfusedStonePreferredCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x6000C0FA' drawBoundBox='false' boundBoxColor='0x6000C0FA'>
+            <Cloud name='thm4WaterInfusedStonePreferredCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x6000C0FA' drawBoundBox='false' boundBoxColor='0x6000C0FA'>
               <Description>
                 Ore generation is doubled in  preferred biomes.
               </Description>
@@ -1537,7 +1537,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thm4WaterInfusedStonePreferredHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x6000C0FA' drawBoundBox='false' boundBoxColor='0x6000C0FA'>
+              <Veins name='thm4WaterInfusedStonePreferredHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x6000C0FA' drawBoundBox='false' boundBoxColor='0x6000C0FA'>
                 <Description>
                   Ore generation is doubled in  preferred biomes.
                 </Description>
@@ -1560,15 +1560,15 @@
         <!-- Starting Vanilla Preset for Water Infused Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4WaterInfusedStoneDist = "Vanilla"'>
-            <StandardGen name='thm4WaterInfusedStoneStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x6000C0FA' drawBoundBox='false' boundBoxColor='0x6000C0FA'>
+            <StandardGen name='thm4WaterInfusedStoneStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x6000C0FA' drawBoundBox='false' boundBoxColor='0x6000C0FA'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='Thaumcraft:blockCustomOre:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * thm4WaterInfusedStoneSize ' range=':= 2.0 * thm4WaterInfusedStoneSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * thm4WaterInfusedStoneFreq ' range=':= 2.67 * thm4WaterInfusedStoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * thm4WaterInfusedStoneSize ' range=':= 2.0 * oreSize * thm4WaterInfusedStoneSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * thm4WaterInfusedStoneFreq ' range=':= 2.67 * oreFreq * thm4WaterInfusedStoneFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1584,7 +1584,7 @@
         <!-- Starting SparseVeins Preset for Earth Infused  Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4EarthInfusedStoneDist = "SparseVeins"'>
-            <Veins name='thm4EarthInfusedStoneVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x6000D900' drawBoundBox='false' boundBoxColor='0x6000D900'>
+            <Veins name='thm4EarthInfusedStoneVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x6000D900' drawBoundBox='false' boundBoxColor='0x6000D900'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -1616,7 +1616,7 @@
             </Veins>
 
             <!-- Beginning "Preferred" configuration. -->
-            <Veins name='thm4EarthInfusedStonePreferredVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x6000D900' drawBoundBox='false' boundBoxColor='0x6000D900'>
+            <Veins name='thm4EarthInfusedStonePreferredVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x6000D900' drawBoundBox='false' boundBoxColor='0x6000D900'>
               <Description>
                 Ore generation is doubled in  preferred biomes.
               </Description>
@@ -1653,7 +1653,7 @@
         <!-- Starting StrategicClouds Preset for Earth Infused  Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4EarthInfusedStoneDist = "StrategicClouds"'>
-            <Cloud name='thm4EarthInfusedStoneCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x6000D900' drawBoundBox='false' boundBoxColor='0x6000D900'>
+            <Cloud name='thm4EarthInfusedStoneCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x6000D900' drawBoundBox='false' boundBoxColor='0x6000D900'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1678,7 +1678,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thm4EarthInfusedStoneHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x6000D900' drawBoundBox='false' boundBoxColor='0x6000D900'>
+              <Veins name='thm4EarthInfusedStoneHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x6000D900' drawBoundBox='false' boundBoxColor='0x6000D900'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1703,7 +1703,7 @@
             </Cloud>
 
             <!-- Beginning "Preferred" configuration. -->
-            <Cloud name='thm4EarthInfusedStonePreferredCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x6000D900' drawBoundBox='false' boundBoxColor='0x6000D900'>
+            <Cloud name='thm4EarthInfusedStonePreferredCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x6000D900' drawBoundBox='false' boundBoxColor='0x6000D900'>
               <Description>
                 Ore generation is doubled in  preferred biomes.
               </Description>
@@ -1723,7 +1723,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thm4EarthInfusedStonePreferredHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x6000D900' drawBoundBox='false' boundBoxColor='0x6000D900'>
+              <Veins name='thm4EarthInfusedStonePreferredHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x6000D900' drawBoundBox='false' boundBoxColor='0x6000D900'>
                 <Description>
                   Ore generation is doubled in  preferred biomes.
                 </Description>
@@ -1746,15 +1746,15 @@
         <!-- Starting Vanilla Preset for Earth Infused Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4EarthInfusedStoneDist = "Vanilla"'>
-            <StandardGen name='thm4EarthInfusedStoneStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x6000D900' drawBoundBox='false' boundBoxColor='0x6000D900'>
+            <StandardGen name='thm4EarthInfusedStoneStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x6000D900' drawBoundBox='false' boundBoxColor='0x6000D900'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='Thaumcraft:blockCustomOre:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * thm4EarthInfusedStoneSize ' range=':= 2.0 * thm4EarthInfusedStoneSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * thm4EarthInfusedStoneFreq ' range=':= 2.67 * thm4EarthInfusedStoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * thm4EarthInfusedStoneSize ' range=':= 2.0 * oreSize * thm4EarthInfusedStoneSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * thm4EarthInfusedStoneFreq ' range=':= 2.67 * oreFreq * thm4EarthInfusedStoneFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1770,7 +1770,7 @@
         <!-- Starting SparseVeins Preset for Order Infused  Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4OrderInfusedStoneDist = "SparseVeins"'>
-            <Veins name='thm4OrderInfusedStoneVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60EBEBF9' drawBoundBox='false' boundBoxColor='0x60EBEBF9'>
+            <Veins name='thm4OrderInfusedStoneVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60EBEBF9' drawBoundBox='false' boundBoxColor='0x60EBEBF9'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -1802,7 +1802,7 @@
             </Veins>
 
             <!-- Beginning "Preferred" configuration. -->
-            <Veins name='thm4OrderInfusedStonePreferredVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60EBEBF9' drawBoundBox='false' boundBoxColor='0x60EBEBF9'>
+            <Veins name='thm4OrderInfusedStonePreferredVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60EBEBF9' drawBoundBox='false' boundBoxColor='0x60EBEBF9'>
               <Description>
                 Ore generation is doubled in  preferred biomes.
               </Description>
@@ -1839,7 +1839,7 @@
         <!-- Starting StrategicClouds Preset for Order Infused  Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4OrderInfusedStoneDist = "StrategicClouds"'>
-            <Cloud name='thm4OrderInfusedStoneCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60EBEBF9' drawBoundBox='false' boundBoxColor='0x60EBEBF9'>
+            <Cloud name='thm4OrderInfusedStoneCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60EBEBF9' drawBoundBox='false' boundBoxColor='0x60EBEBF9'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1864,7 +1864,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thm4OrderInfusedStoneHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60EBEBF9' drawBoundBox='false' boundBoxColor='0x60EBEBF9'>
+              <Veins name='thm4OrderInfusedStoneHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60EBEBF9' drawBoundBox='false' boundBoxColor='0x60EBEBF9'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1889,7 +1889,7 @@
             </Cloud>
 
             <!-- Beginning "Preferred" configuration. -->
-            <Cloud name='thm4OrderInfusedStonePreferredCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60EBEBF9' drawBoundBox='false' boundBoxColor='0x60EBEBF9'>
+            <Cloud name='thm4OrderInfusedStonePreferredCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60EBEBF9' drawBoundBox='false' boundBoxColor='0x60EBEBF9'>
               <Description>
                 Ore generation is doubled in  preferred biomes.
               </Description>
@@ -1909,7 +1909,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thm4OrderInfusedStonePreferredHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60EBEBF9' drawBoundBox='false' boundBoxColor='0x60EBEBF9'>
+              <Veins name='thm4OrderInfusedStonePreferredHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60EBEBF9' drawBoundBox='false' boundBoxColor='0x60EBEBF9'>
                 <Description>
                   Ore generation is doubled in  preferred biomes.
                 </Description>
@@ -1932,15 +1932,15 @@
         <!-- Starting Vanilla Preset for Order Infused Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4OrderInfusedStoneDist = "Vanilla"'>
-            <StandardGen name='thm4OrderInfusedStoneStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60EBEBF9' drawBoundBox='false' boundBoxColor='0x60EBEBF9'>
+            <StandardGen name='thm4OrderInfusedStoneStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60EBEBF9' drawBoundBox='false' boundBoxColor='0x60EBEBF9'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='Thaumcraft:blockCustomOre:5' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * thm4OrderInfusedStoneSize ' range=':= 2.0 * thm4OrderInfusedStoneSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * thm4OrderInfusedStoneFreq ' range=':= 2.67 * thm4OrderInfusedStoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * thm4OrderInfusedStoneSize ' range=':= 2.0 * oreSize * thm4OrderInfusedStoneSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * thm4OrderInfusedStoneFreq ' range=':= 2.67 * oreFreq * thm4OrderInfusedStoneFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1956,7 +1956,7 @@
         <!-- Starting SparseVeins Preset for Entropy Infused  Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4EntropyInfusedStoneDist = "SparseVeins"'>
-            <Veins name='thm4EntropyInfusedStoneVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60260920' drawBoundBox='false' boundBoxColor='0x60260920'>
+            <Veins name='thm4EntropyInfusedStoneVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60260920' drawBoundBox='false' boundBoxColor='0x60260920'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -1988,7 +1988,7 @@
             </Veins>
 
             <!-- Beginning "Preferred" configuration. -->
-            <Veins name='thm4EntropyInfusedStonePreferredVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60260920' drawBoundBox='false' boundBoxColor='0x60260920'>
+            <Veins name='thm4EntropyInfusedStonePreferredVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60260920' drawBoundBox='false' boundBoxColor='0x60260920'>
               <Description>
                 Ore generation is doubled in  preferred biomes.
               </Description>
@@ -2027,7 +2027,7 @@
              Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4EntropyInfusedStoneDist = "StrategicClouds"'>
-            <Cloud name='thm4EntropyInfusedStoneCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60260920' drawBoundBox='false' boundBoxColor='0x60260920'>
+            <Cloud name='thm4EntropyInfusedStoneCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60260920' drawBoundBox='false' boundBoxColor='0x60260920'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -2052,7 +2052,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thm4EntropyInfusedStoneHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60260920' drawBoundBox='false' boundBoxColor='0x60260920'>
+              <Veins name='thm4EntropyInfusedStoneHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60260920' drawBoundBox='false' boundBoxColor='0x60260920'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2077,7 +2077,7 @@
             </Cloud>
 
             <!-- Beginning "Preferred" configuration. -->
-            <Cloud name='thm4EntropyInfusedStonePreferredCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60260920' drawBoundBox='false' boundBoxColor='0x60260920'>
+            <Cloud name='thm4EntropyInfusedStonePreferredCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60260920' drawBoundBox='false' boundBoxColor='0x60260920'>
               <Description>
                 Ore generation is doubled in  preferred biomes.
               </Description>
@@ -2097,7 +2097,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='thm4EntropyInfusedStonePreferredHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60260920' drawBoundBox='false' boundBoxColor='0x60260920'>
+              <Veins name='thm4EntropyInfusedStonePreferredHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60260920' drawBoundBox='false' boundBoxColor='0x60260920'>
                 <Description>
                   Ore generation is doubled in  preferred biomes.
                 </Description>
@@ -2120,15 +2120,15 @@
         <!-- Starting Vanilla Preset for Entropy Infused  Stone. -->
         <ConfigSection>
           <IfCondition condition=':= thm4EntropyInfusedStoneDist = "Vanilla"'>
-            <StandardGen name='thm4EntropyInfusedStoneStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60260920' drawBoundBox='false' boundBoxColor='0x60260920'>
+            <StandardGen name='thm4EntropyInfusedStoneStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60260920' drawBoundBox='false' boundBoxColor='0x60260920'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='Thaumcraft:blockCustomOre:6' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * thm4EntropyInfusedStoneSize ' range=':= 2.0 * thm4EntropyInfusedStoneSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * thm4EntropyInfusedStoneFreq ' range=':= 2.67 * thm4EntropyInfusedStoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * thm4EntropyInfusedStoneSize ' range=':= 2.0 * oreSize * thm4EntropyInfusedStoneSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * thm4EntropyInfusedStoneFreq ' range=':= 2.67 * oreFreq * thm4EntropyInfusedStoneFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 32 ' range=':= 27 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>

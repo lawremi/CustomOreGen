@@ -45,7 +45,7 @@
         </OptionDisplayGroup>
 
         <OptionChoice name='COGActive'
-                      default=':= dimension.generator.class = "ChunkProviderOverworld" | dimension.generator.class = "ATGChunkProvider" | dimension.generator.class = "ChunkProviderRTG"'
+                      default=':= dimension="Overworld"'
                       displayGroup='groupInternal'>
             <Choice value='true' displayValue='On'/>
             <Choice value='false' displayValue='Off'/>
@@ -103,22 +103,7 @@
             <DisplayIncrement>16</DisplayIncrement>
         </OptionNumeric> 
 
-        <OptionChoice name='vanillaOreGen' default=':=!?COGActive' displayGroup='groupGeneral'>
-            <Description> 
-                Enable/disable the vanilla ore generators for coal, iron, gold, redstone, lapis lazuli, and diamond.  
-            </Description>
-            <Comment>     
-                This is a "magic" option - it has meaning outside of this file in the COG engine itelf. You can change the value, but do not remove the option itself.  Recommended values are True/On for new worlds and False/Off for pre-1.4.2 worlds (for compatibility).
-            </Comment>
-            <Comment>
-                This option completely prevents these ores from being spawned by the vanilla terrain generator. It is more efficient than a Substitute distribution, which lets the generator place an ore and then removes it.  However, for technical reasons this option cannot disable vanilla emerald generation. It also has mixed results with mod generation - mods that recycle the vanilla generator get disabled, while those that use their own do not.  Finally, it is an "all-or-nothing" approach that doesn't distinguish between ore types or world properties.  For these reasons this option defaults to "true", and a Substitute distribution is used below to selectively remove the vanilla ore deposits as needed.
-            </Comment>
-            <DisplayState>:= if(?debugMode,"shown","hidden")</DisplayState>
-            <DisplayName>Vanilla Ore Gen.</DisplayName>
-            <Choice value='true' displayValue='On'/>
-            <Choice value='false' displayValue='Off'/>
-        </OptionChoice> 
-
+        
         <OptionChoice name='drawWireframes' default='true' displayGroup='groupGeneral'>
             <Description> 
                 Default wireframe state for distributions.  

@@ -30,9 +30,9 @@
       <OptionChoice name='enableTinkersSteelworks' displayName='Handle Tinkers Steelworks Setup?' default='true' displayState='shown_dynamic' displayGroup='groupTinkersSteelworks'>
         <Description> Should Custom Ore Generation handle Tinkers Steelworks ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Tinkers Steelworks ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='Tinkers Steelworks ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='Tinkers Steelworks ores will be handled by Minecraft directly.'/>
       </OptionChoice>
-      <OptionChoice name='cleanUpTinkersSteelworks' displayName='Use Tinkers Steelworks Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupTinkersSteelworks'>
+      <OptionChoice name='cleanUpTinkersSteelworks' displayName='Use Tinkers Steelworks Cleanup?' default='true' displayState=':= if(?enableTinkersSteelworks, "shown", "hidden")' displayGroup='groupTinkersSteelworks'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Tinkers Steelworks ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Tinkers Steelworks ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Tinkers Steelworks ores do not need to be cleaned up by a substitution pass.'/>
@@ -167,7 +167,7 @@
         <!-- Starting StratumClouds Preset for Limestone. -->
         <ConfigSection>
           <IfCondition condition=':= tiswLimestoneDist = "StratumClouds"'>
-            <Cloud name='tiswLimestoneCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60C5CCA9' drawBoundBox='false' boundBoxColor='0x60C5CCA9'>
+            <Cloud name='tiswLimestoneCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60C5CCA9' drawBoundBox='false' boundBoxColor='0x60C5CCA9'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -195,7 +195,7 @@
         <!-- Starting LayeredVeins Preset for Limestone. -->
         <ConfigSection>
           <IfCondition condition=':= tiswLimestoneDist = "LayeredVeins"'>
-            <Veins name='tiswLimestoneVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60C5CCA9' drawBoundBox='false' boundBoxColor='0x60C5CCA9'>
+            <Veins name='tiswLimestoneVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60C5CCA9' drawBoundBox='false' boundBoxColor='0x60C5CCA9'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -228,15 +228,15 @@
         <!-- Starting Vanilla Preset for Limestone. -->
         <ConfigSection>
           <IfCondition condition=':= tiswLimestoneDist = "Vanilla"'>
-            <StandardGen name='tiswLimestoneStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60C5CCA9' drawBoundBox='false' boundBoxColor='0x60C5CCA9'>
+            <StandardGen name='tiswLimestoneStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C5CCA9' drawBoundBox='false' boundBoxColor='0x60C5CCA9'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='TSteelworks:Limestone' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 21.333 * tiswLimestoneSize ' range=':= 10.67 * tiswLimestoneSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * tiswLimestoneFreq ' range=':= 0.67 * tiswLimestoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * tiswLimestoneSize ' range=':= 10.67 * oreSize * tiswLimestoneSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * tiswLimestoneFreq ' range=':= 0.67 * oreFreq * tiswLimestoneFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 38 ' range=':= 26 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -252,7 +252,7 @@
         <!-- Starting StratumClouds Preset for Mountain  Limestone. -->
         <ConfigSection>
           <IfCondition condition=':= tiswMountainLimestoneDist = "StratumClouds"'>
-            <Cloud name='tiswMountainLimestoneCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60C5CCA9' drawBoundBox='false' boundBoxColor='0x60C5CCA9'>
+            <Cloud name='tiswMountainLimestoneCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60C5CCA9' drawBoundBox='false' boundBoxColor='0x60C5CCA9'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -280,7 +280,7 @@
         <!-- Starting LayeredVeins Preset for Mountain  Limestone. -->
         <ConfigSection>
           <IfCondition condition=':= tiswMountainLimestoneDist = "LayeredVeins"'>
-            <Veins name='tiswMountainLimestoneVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60C5CCA9' drawBoundBox='false' boundBoxColor='0x60C5CCA9'>
+            <Veins name='tiswMountainLimestoneVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60C5CCA9' drawBoundBox='false' boundBoxColor='0x60C5CCA9'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -313,15 +313,15 @@
         <!-- Starting Vanilla Preset for Mountain Limestone. -->
         <ConfigSection>
           <IfCondition condition=':= tiswMountainLimestoneDist = "Vanilla"'>
-            <StandardGen name='tiswMountainLimestoneStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60C5CCA9' drawBoundBox='false' boundBoxColor='0x60C5CCA9'>
+            <StandardGen name='tiswMountainLimestoneStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C5CCA9' drawBoundBox='false' boundBoxColor='0x60C5CCA9'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='TSteelworks:Limestone' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 21.333 * tiswMountainLimestoneSize ' range=':= 10.67 * tiswMountainLimestoneSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 1.333 * tiswMountainLimestoneFreq ' range=':= 0.67 * tiswMountainLimestoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 21.333 * oreSize * tiswMountainLimestoneSize ' range=':= 10.67 * oreSize * tiswMountainLimestoneSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 1.333 * oreFreq * tiswMountainLimestoneFreq ' range=':= 0.67 * oreFreq * tiswMountainLimestoneFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 178 ' range=':= 78 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>

@@ -34,9 +34,9 @@
       <OptionChoice name='enableNetherOres' displayName='Handle Nether Ores Setup?' default='true' displayState='shown_dynamic' displayGroup='groupNetherOres'>
         <Description> Should Custom Ore Generation handle Nether Ores ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Nether Ores ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='Nether Ores ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='Nether Ores ores will be handled by Minecraft directly.'/>
       </OptionChoice>
-      <OptionChoice name='cleanUpNetherOres' displayName='Use Nether Ores Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupNetherOres'>
+      <OptionChoice name='cleanUpNetherOres' displayName='Use Nether Ores Cleanup?' default='true' displayState=':= if(?enableNetherOres, "shown", "hidden")' displayGroup='groupNetherOres'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Nether Ores ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Nether Ores ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Nether Ores ores do not need to be cleaned up by a substitution pass.'/>
@@ -1523,7 +1523,7 @@
 
       <!-- Nether Setup Beginning -->
 
-      <IfCondition condition=':= dimension.generator.class = "ChunkProviderHell"'>
+      <IfCondition condition=':= dimension = "Nether"'>
 
         <!-- Starting Original "Nether" Block Removal -->
 
@@ -1582,7 +1582,7 @@
         <!-- Starting SparseVeins Preset for Coal. -->
         <ConfigSection>
           <IfCondition condition=':= nthoCoalDist = "SparseVeins"'>
-            <Veins name='nthoCoalVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x602D2D2D' drawBoundBox='false' boundBoxColor='0x602D2D2D'>
+            <Veins name='nthoCoalVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x602D2D2D' drawBoundBox='false' boundBoxColor='0x602D2D2D'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -1620,7 +1620,7 @@
         <!-- Starting StrategicClouds Preset for Coal. -->
         <ConfigSection>
           <IfCondition condition=':= nthoCoalDist = "StrategicClouds"'>
-            <Cloud name='nthoCoalCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x602D2D2D' drawBoundBox='false' boundBoxColor='0x602D2D2D'>
+            <Cloud name='nthoCoalCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x602D2D2D' drawBoundBox='false' boundBoxColor='0x602D2D2D'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1645,7 +1645,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoCoalHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x602D2D2D' drawBoundBox='false' boundBoxColor='0x602D2D2D'>
+              <Veins name='nthoCoalHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x602D2D2D' drawBoundBox='false' boundBoxColor='0x602D2D2D'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1676,15 +1676,15 @@
         <!-- Starting Vanilla Preset for Coal. -->
         <ConfigSection>
           <IfCondition condition=':= nthoCoalDist = "Vanilla"'>
-            <StandardGen name='nthoCoalStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x602D2D2D' drawBoundBox='false' boundBoxColor='0x602D2D2D'>
+            <StandardGen name='nthoCoalStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x602D2D2D' drawBoundBox='false' boundBoxColor='0x602D2D2D'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.0' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 10.667 * nthoCoalSize ' range=':= 5.33 * nthoCoalSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * nthoCoalFreq ' range=':= 2.67 * nthoCoalFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 10.667 * oreSize * nthoCoalSize ' range=':= 5.33 * oreSize * nthoCoalSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * nthoCoalFreq ' range=':= 2.67 * oreFreq * nthoCoalFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1700,7 +1700,7 @@
         <!-- Starting PipeVeins Preset for Diamond. -->
         <ConfigSection>
           <IfCondition condition=':= nthoDiamondDist = "PipeVeins"'>
-            <Veins name='nthoDiamondVeins'  inherits='PresetPipeVeins' branchType='Bezier' seed='0xAA9C' drawWireframe='true' wireframeColor='0x608BF4E3' drawBoundBox='false' boundBoxColor='0x608BF4E3'>
+            <Veins name='nthoDiamondVeins'  inherits='PresetPipeVeins' branchType='Bezier' seed='0xAA9C' drawWireframe=':= drawWireframes' wireframeColor='0x608BF4E3' drawBoundBox='false' boundBoxColor='0x608BF4E3'>
               <Description>
                 Short sparsely filled veins  sloping up from near the
                 bottom  of the map.
@@ -1727,7 +1727,7 @@
             </Veins>
 
             <!-- Configuring contained material. -->
-            <Veins name='nthoDiamondVeinsPipe'  inherits='nthoDiamondVeins' branchType='Bezier' seed='0xAA9C' drawWireframe='true' wireframeColor='0x608BF4E3' drawBoundBox='false' boundBoxColor='0x608BF4E3'>
+            <Veins name='nthoDiamondVeinsPipe'  inherits='nthoDiamondVeins' branchType='Bezier' seed='0xAA9C' drawWireframe=':= drawWireframes' wireframeColor='0x608BF4E3' drawBoundBox='false' boundBoxColor='0x608BF4E3'>
               <OreBlock block='minecraft:lava' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Replaces block='NetherOres:tile.netherores.ore.0:1' weight='1.0' />
@@ -1743,7 +1743,7 @@
         <!-- Starting StrategicClouds Preset for Diamond. -->
         <ConfigSection>
           <IfCondition condition=':= nthoDiamondDist = "StrategicClouds"'>
-            <Cloud name='nthoDiamondCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x608BF4E3' drawBoundBox='false' boundBoxColor='0x608BF4E3'>
+            <Cloud name='nthoDiamondCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x608BF4E3' drawBoundBox='false' boundBoxColor='0x608BF4E3'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1768,7 +1768,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoDiamondHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x608BF4E3' drawBoundBox='false' boundBoxColor='0x608BF4E3'>
+              <Veins name='nthoDiamondHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x608BF4E3' drawBoundBox='false' boundBoxColor='0x608BF4E3'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1799,15 +1799,15 @@
         <!-- Starting Vanilla Preset for Diamond. -->
         <ConfigSection>
           <IfCondition condition=':= nthoDiamondDist = "Vanilla"'>
-            <StandardGen name='nthoDiamondStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x608BF4E3' drawBoundBox='false' boundBoxColor='0x608BF4E3'>
+            <StandardGen name='nthoDiamondStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x608BF4E3' drawBoundBox='false' boundBoxColor='0x608BF4E3'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.0:1' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * nthoDiamondSize ' range=':= 1.0 * nthoDiamondSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * nthoDiamondFreq ' range=':= 1.33 * nthoDiamondFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * nthoDiamondSize ' range=':= 1.0 * oreSize * nthoDiamondSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * nthoDiamondFreq ' range=':= 1.33 * oreFreq * nthoDiamondFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1823,7 +1823,7 @@
         <!-- Starting LayeredVeins Preset for Gold. -->
         <ConfigSection>
           <IfCondition condition=':= nthoGoldDist = "LayeredVeins"'>
-            <Veins name='nthoGoldVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
+            <Veins name='nthoGoldVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1856,7 +1856,7 @@
         <!-- Starting StrategicClouds Preset for Gold. -->
         <ConfigSection>
           <IfCondition condition=':= nthoGoldDist = "StrategicClouds"'>
-            <Cloud name='nthoGoldCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
+            <Cloud name='nthoGoldCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1881,7 +1881,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoGoldHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
+              <Veins name='nthoGoldHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1912,15 +1912,15 @@
         <!-- Starting Vanilla Preset for Gold. -->
         <ConfigSection>
           <IfCondition condition=':= nthoGoldDist = "Vanilla"'>
-            <StandardGen name='nthoGoldStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
+            <StandardGen name='nthoGoldStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.0:2' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * nthoGoldSize ' range=':= 2.0 * nthoGoldSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * nthoGoldFreq ' range=':= 2.67 * nthoGoldFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * nthoGoldSize ' range=':= 2.0 * oreSize * nthoGoldSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * nthoGoldFreq ' range=':= 2.67 * oreFreq * nthoGoldFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1936,7 +1936,7 @@
         <!-- Starting LayeredVeins Preset for Iron. -->
         <ConfigSection>
           <IfCondition condition=':= nthoIronDist = "LayeredVeins"'>
-            <Veins name='nthoIronVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
+            <Veins name='nthoIronVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1969,7 +1969,7 @@
         <!-- Starting StrategicClouds Preset for Iron. -->
         <ConfigSection>
           <IfCondition condition=':= nthoIronDist = "StrategicClouds"'>
-            <Cloud name='nthoIronCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
+            <Cloud name='nthoIronCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1994,7 +1994,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoIronHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
+              <Veins name='nthoIronHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2025,15 +2025,15 @@
         <!-- Starting Vanilla Preset for Iron. -->
         <ConfigSection>
           <IfCondition condition=':= nthoIronDist = "Vanilla"'>
-            <StandardGen name='nthoIronStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
+            <StandardGen name='nthoIronStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.0:3' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * nthoIronSize ' range=':= 2.67 * nthoIronSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * nthoIronFreq ' range=':= 2.67 * nthoIronFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * nthoIronSize ' range=':= 2.67 * oreSize * nthoIronSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * nthoIronFreq ' range=':= 2.67 * oreFreq * nthoIronFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2049,7 +2049,7 @@
         <!-- Starting VerticalVeins Preset for Lapis Lazuli. -->
         <ConfigSection>
           <IfCondition condition=':= nthoLapisLazuliDist = "VerticalVeins"'>
-            <Veins name='nthoLapisLazuliVeins'  inherits='PresetVerticalVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x601442BA' drawBoundBox='false' boundBoxColor='0x601442BA'>
+            <Veins name='nthoLapisLazuliVeins'  inherits='PresetVerticalVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x601442BA' drawBoundBox='false' boundBoxColor='0x601442BA'>
               <Description>
                 Single vertical veins that occur  with no motherlodes.
               </Description>
@@ -2081,7 +2081,7 @@
         <!-- Starting StrategicClouds Preset for Lapis Lazuli. -->
         <ConfigSection>
           <IfCondition condition=':= nthoLapisLazuliDist = "StrategicClouds"'>
-            <Cloud name='nthoLapisLazuliCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x601442BA' drawBoundBox='false' boundBoxColor='0x601442BA'>
+            <Cloud name='nthoLapisLazuliCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x601442BA' drawBoundBox='false' boundBoxColor='0x601442BA'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -2106,7 +2106,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoLapisLazuliHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x601442BA' drawBoundBox='false' boundBoxColor='0x601442BA'>
+              <Veins name='nthoLapisLazuliHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x601442BA' drawBoundBox='false' boundBoxColor='0x601442BA'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2137,15 +2137,15 @@
         <!-- Starting Vanilla Preset for Lapis Lazuli. -->
         <ConfigSection>
           <IfCondition condition=':= nthoLapisLazuliDist = "Vanilla"'>
-            <StandardGen name='nthoLapisLazuliStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x601442BA' drawBoundBox='false' boundBoxColor='0x601442BA'>
+            <StandardGen name='nthoLapisLazuliStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x601442BA' drawBoundBox='false' boundBoxColor='0x601442BA'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.0:4' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * nthoLapisLazuliSize ' range=':= 2.0 * nthoLapisLazuliSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nthoLapisLazuliFreq ' range=':= 2.0 * nthoLapisLazuliFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * nthoLapisLazuliSize ' range=':= 2.0 * oreSize * nthoLapisLazuliSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nthoLapisLazuliFreq ' range=':= 2.0 * oreFreq * nthoLapisLazuliFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2161,7 +2161,7 @@
         <!-- Starting VerticalVeins Preset for Redstone. -->
         <ConfigSection>
           <IfCondition condition=':= nthoRedstoneDist = "VerticalVeins"'>
-            <Veins name='nthoRedstoneVeins'  inherits='PresetVerticalVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60A80002' drawBoundBox='false' boundBoxColor='0x60A80002'>
+            <Veins name='nthoRedstoneVeins'  inherits='PresetVerticalVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60A80002' drawBoundBox='false' boundBoxColor='0x60A80002'>
               <Description>
                 Single vertical veins that occur  with no motherlodes.
               </Description>
@@ -2193,7 +2193,7 @@
         <!-- Starting StrategicClouds Preset for Redstone. -->
         <ConfigSection>
           <IfCondition condition=':= nthoRedstoneDist = "StrategicClouds"'>
-            <Cloud name='nthoRedstoneCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60A80002' drawBoundBox='false' boundBoxColor='0x60A80002'>
+            <Cloud name='nthoRedstoneCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60A80002' drawBoundBox='false' boundBoxColor='0x60A80002'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -2218,7 +2218,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoRedstoneHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60A80002' drawBoundBox='false' boundBoxColor='0x60A80002'>
+              <Veins name='nthoRedstoneHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60A80002' drawBoundBox='false' boundBoxColor='0x60A80002'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2249,15 +2249,15 @@
         <!-- Starting Vanilla Preset for Redstone. -->
         <ConfigSection>
           <IfCondition condition=':= nthoRedstoneDist = "Vanilla"'>
-            <StandardGen name='nthoRedstoneStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60A80002' drawBoundBox='false' boundBoxColor='0x60A80002'>
+            <StandardGen name='nthoRedstoneStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60A80002' drawBoundBox='false' boundBoxColor='0x60A80002'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.0:5' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * nthoRedstoneSize ' range=':= 2.67 * nthoRedstoneSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nthoRedstoneFreq ' range=':= 2.0 * nthoRedstoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * nthoRedstoneSize ' range=':= 2.67 * oreSize * nthoRedstoneSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nthoRedstoneFreq ' range=':= 2.0 * oreFreq * nthoRedstoneFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2273,7 +2273,7 @@
         <!-- Starting LayeredVeins Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= nthoCopperDist = "LayeredVeins"'>
-            <Veins name='nthoCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <Veins name='nthoCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -2306,7 +2306,7 @@
         <!-- Starting StrategicClouds Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= nthoCopperDist = "StrategicClouds"'>
-            <Cloud name='nthoCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <Cloud name='nthoCopperCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -2331,7 +2331,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+              <Veins name='nthoCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2362,15 +2362,15 @@
         <!-- Starting Vanilla Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= nthoCopperDist = "Vanilla"'>
-            <StandardGen name='nthoCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <StandardGen name='nthoCopperStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.0:6' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * nthoCopperSize ' range=':= 2.67 * nthoCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * nthoCopperFreq ' range=':= 2.67 * nthoCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * nthoCopperSize ' range=':= 2.67 * oreSize * nthoCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * nthoCopperFreq ' range=':= 2.67 * oreFreq * nthoCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2386,7 +2386,7 @@
         <!-- Starting LayeredVeins Preset for Tin. -->
         <ConfigSection>
           <IfCondition condition=':= nthoTinDist = "LayeredVeins"'>
-            <Veins name='nthoTinVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <Veins name='nthoTinVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -2419,7 +2419,7 @@
         <!-- Starting StrategicClouds Preset for Tin. -->
         <ConfigSection>
           <IfCondition condition=':= nthoTinDist = "StrategicClouds"'>
-            <Cloud name='nthoTinCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <Cloud name='nthoTinCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -2444,7 +2444,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+              <Veins name='nthoTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2475,15 +2475,15 @@
         <!-- Starting Vanilla Preset for Tin. -->
         <ConfigSection>
           <IfCondition condition=':= nthoTinDist = "Vanilla"'>
-            <StandardGen name='nthoTinStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <StandardGen name='nthoTinStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.0:7' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * nthoTinSize ' range=':= 2.67 * nthoTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * nthoTinFreq ' range=':= 2.67 * nthoTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * nthoTinSize ' range=':= 2.67 * oreSize * nthoTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * nthoTinFreq ' range=':= 2.67 * oreFreq * nthoTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2499,7 +2499,7 @@
         <!-- Starting PipeVeins Preset for Emerald. -->
         <ConfigSection>
           <IfCondition condition=':= nthoEmeraldDist = "PipeVeins"'>
-            <Veins name='nthoEmeraldVeins'  inherits='PresetPipeVeins' branchType='Bezier' seed='0x907F' drawWireframe='true' wireframeColor='0x606CE391' drawBoundBox='false' boundBoxColor='0x606CE391'>
+            <Veins name='nthoEmeraldVeins'  inherits='PresetPipeVeins' branchType='Bezier' seed='0x907F' drawWireframe=':= drawWireframes' wireframeColor='0x606CE391' drawBoundBox='false' boundBoxColor='0x606CE391'>
               <Description>
                 Short sparsely filled veins  sloping up from near the
                 bottom  of the map.
@@ -2526,7 +2526,7 @@
             </Veins>
 
             <!-- Configuring contained material. -->
-            <Veins name='nthoEmeraldVeinsPipe'  inherits='nthoEmeraldVeins' branchType='Bezier' seed='0x907F' drawWireframe='true' wireframeColor='0x606CE391' drawBoundBox='false' boundBoxColor='0x606CE391'>
+            <Veins name='nthoEmeraldVeinsPipe'  inherits='nthoEmeraldVeins' branchType='Bezier' seed='0x907F' drawWireframe=':= drawWireframes' wireframeColor='0x606CE391' drawBoundBox='false' boundBoxColor='0x606CE391'>
               <OreBlock block='minecraft:lava' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Replaces block='NetherOres:tile.netherores.ore.0:8' weight='1.0' />
@@ -2542,7 +2542,7 @@
         <!-- Starting StrategicClouds Preset for Emerald. -->
         <ConfigSection>
           <IfCondition condition=':= nthoEmeraldDist = "StrategicClouds"'>
-            <Cloud name='nthoEmeraldCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x606CE391' drawBoundBox='false' boundBoxColor='0x606CE391'>
+            <Cloud name='nthoEmeraldCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x606CE391' drawBoundBox='false' boundBoxColor='0x606CE391'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -2567,7 +2567,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoEmeraldHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x606CE391' drawBoundBox='false' boundBoxColor='0x606CE391'>
+              <Veins name='nthoEmeraldHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x606CE391' drawBoundBox='false' boundBoxColor='0x606CE391'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2598,15 +2598,15 @@
         <!-- Starting Vanilla Preset for Emerald. -->
         <ConfigSection>
           <IfCondition condition=':= nthoEmeraldDist = "Vanilla"'>
-            <StandardGen name='nthoEmeraldStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x606CE391' drawBoundBox='false' boundBoxColor='0x606CE391'>
+            <StandardGen name='nthoEmeraldStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x606CE391' drawBoundBox='false' boundBoxColor='0x606CE391'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.0:8' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 1.333 * nthoEmeraldSize ' range=':= 0.67 * nthoEmeraldSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * nthoEmeraldFreq ' range=':= 1.0 * nthoEmeraldFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 1.333 * oreSize * nthoEmeraldSize ' range=':= 0.67 * oreSize * nthoEmeraldSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * nthoEmeraldFreq ' range=':= 1.0 * oreFreq * nthoEmeraldFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2622,7 +2622,7 @@
         <!-- Starting LayeredVeins Preset for Silver. -->
         <ConfigSection>
           <IfCondition condition=':= nthoSilverDist = "LayeredVeins"'>
-            <Veins name='nthoSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+            <Veins name='nthoSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -2655,7 +2655,7 @@
         <!-- Starting StrategicClouds Preset for Silver. -->
         <ConfigSection>
           <IfCondition condition=':= nthoSilverDist = "StrategicClouds"'>
-            <Cloud name='nthoSilverCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+            <Cloud name='nthoSilverCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -2680,7 +2680,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+              <Veins name='nthoSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2711,15 +2711,15 @@
         <!-- Starting Vanilla Preset for Silver. -->
         <ConfigSection>
           <IfCondition condition=':= nthoSilverDist = "Vanilla"'>
-            <StandardGen name='nthoSilverStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+            <StandardGen name='nthoSilverStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.0:9' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * nthoSilverSize ' range=':= 1.33 * nthoSilverSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nthoSilverFreq ' range=':= 2.0 * nthoSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * nthoSilverSize ' range=':= 1.33 * oreSize * nthoSilverSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nthoSilverFreq ' range=':= 2.0 * oreFreq * nthoSilverFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2735,7 +2735,7 @@
         <!-- Starting LayeredVeins Preset for Lead. -->
         <ConfigSection>
           <IfCondition condition=':= nthoLeadDist = "LayeredVeins"'>
-            <Veins name='nthoLeadVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+            <Veins name='nthoLeadVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -2768,7 +2768,7 @@
         <!-- Starting StrategicClouds Preset for Lead. -->
         <ConfigSection>
           <IfCondition condition=':= nthoLeadDist = "StrategicClouds"'>
-            <Cloud name='nthoLeadCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+            <Cloud name='nthoLeadCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -2793,7 +2793,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+              <Veins name='nthoLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2824,15 +2824,15 @@
         <!-- Starting Vanilla Preset for Lead. -->
         <ConfigSection>
           <IfCondition condition=':= nthoLeadDist = "Vanilla"'>
-            <StandardGen name='nthoLeadStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+            <StandardGen name='nthoLeadStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.0:10' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * nthoLeadSize ' range=':= 2.0 * nthoLeadSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nthoLeadFreq ' range=':= 2.0 * nthoLeadFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * nthoLeadSize ' range=':= 2.0 * oreSize * nthoLeadSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nthoLeadFreq ' range=':= 2.0 * oreFreq * nthoLeadFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2848,7 +2848,7 @@
         <!-- Starting SparseVeins Preset for Uranium. -->
         <ConfigSection>
           <IfCondition condition=':= nthoUraniumDist = "SparseVeins"'>
-            <Veins name='nthoUraniumVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60ACFE91' drawBoundBox='false' boundBoxColor='0x60ACFE91'>
+            <Veins name='nthoUraniumVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60ACFE91' drawBoundBox='false' boundBoxColor='0x60ACFE91'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -2886,7 +2886,7 @@
         <!-- Starting StrategicClouds Preset for Uranium. -->
         <ConfigSection>
           <IfCondition condition=':= nthoUraniumDist = "StrategicClouds"'>
-            <Cloud name='nthoUraniumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60ACFE91' drawBoundBox='false' boundBoxColor='0x60ACFE91'>
+            <Cloud name='nthoUraniumCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60ACFE91' drawBoundBox='false' boundBoxColor='0x60ACFE91'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -2911,7 +2911,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoUraniumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60ACFE91' drawBoundBox='false' boundBoxColor='0x60ACFE91'>
+              <Veins name='nthoUraniumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60ACFE91' drawBoundBox='false' boundBoxColor='0x60ACFE91'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2942,15 +2942,15 @@
         <!-- Starting Vanilla Preset for Uranium. -->
         <ConfigSection>
           <IfCondition condition=':= nthoUraniumDist = "Vanilla"'>
-            <StandardGen name='nthoUraniumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60ACFE91' drawBoundBox='false' boundBoxColor='0x60ACFE91'>
+            <StandardGen name='nthoUraniumStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60ACFE91' drawBoundBox='false' boundBoxColor='0x60ACFE91'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.0:11' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 1.333 * nthoUraniumSize ' range=':= 0.67 * nthoUraniumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * nthoUraniumFreq ' range=':= 1.0 * nthoUraniumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 1.333 * oreSize * nthoUraniumSize ' range=':= 0.67 * oreSize * nthoUraniumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * nthoUraniumFreq ' range=':= 1.0 * oreFreq * nthoUraniumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2966,7 +2966,7 @@
         <!-- Starting VerticalVeins Preset for Nikolite. -->
         <ConfigSection>
           <IfCondition condition=':= nthoNikoliteDist = "VerticalVeins"'>
-            <Veins name='nthoNikoliteVeins'  inherits='PresetVerticalVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x6001FFFC' drawBoundBox='false' boundBoxColor='0x6001FFFC'>
+            <Veins name='nthoNikoliteVeins'  inherits='PresetVerticalVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x6001FFFC' drawBoundBox='false' boundBoxColor='0x6001FFFC'>
               <Description>
                 Single vertical veins that occur  with no motherlodes.
               </Description>
@@ -2998,7 +2998,7 @@
         <!-- Starting StrategicClouds Preset for Nikolite. -->
         <ConfigSection>
           <IfCondition condition=':= nthoNikoliteDist = "StrategicClouds"'>
-            <Cloud name='nthoNikoliteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x6001FFFC' drawBoundBox='false' boundBoxColor='0x6001FFFC'>
+            <Cloud name='nthoNikoliteCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x6001FFFC' drawBoundBox='false' boundBoxColor='0x6001FFFC'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -3023,7 +3023,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoNikoliteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x6001FFFC' drawBoundBox='false' boundBoxColor='0x6001FFFC'>
+              <Veins name='nthoNikoliteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x6001FFFC' drawBoundBox='false' boundBoxColor='0x6001FFFC'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -3054,15 +3054,15 @@
         <!-- Starting Vanilla Preset for Nikolite. -->
         <ConfigSection>
           <IfCondition condition=':= nthoNikoliteDist = "Vanilla"'>
-            <StandardGen name='nthoNikoliteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x6001FFFC' drawBoundBox='false' boundBoxColor='0x6001FFFC'>
+            <StandardGen name='nthoNikoliteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x6001FFFC' drawBoundBox='false' boundBoxColor='0x6001FFFC'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.0:12' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * nthoNikoliteSize ' range=':= 1.33 * nthoNikoliteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * nthoNikoliteFreq ' range=':= 2.67 * nthoNikoliteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * nthoNikoliteSize ' range=':= 1.33 * oreSize * nthoNikoliteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * nthoNikoliteFreq ' range=':= 2.67 * oreFreq * nthoNikoliteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3078,7 +3078,7 @@
         <!-- Starting PipeVeins Preset for Ruby. -->
         <ConfigSection>
           <IfCondition condition=':= nthoRubyDist = "PipeVeins"'>
-            <Veins name='nthoRubyVeins'  inherits='PresetPipeVeins' branchType='Bezier' seed='0xD0DC' drawWireframe='true' wireframeColor='0x60D10415' drawBoundBox='false' boundBoxColor='0x60D10415'>
+            <Veins name='nthoRubyVeins'  inherits='PresetPipeVeins' branchType='Bezier' seed='0xD0DC' drawWireframe=':= drawWireframes' wireframeColor='0x60D10415' drawBoundBox='false' boundBoxColor='0x60D10415'>
               <Description>
                 Short sparsely filled veins  sloping up from near the
                 bottom  of the map.
@@ -3105,7 +3105,7 @@
             </Veins>
 
             <!-- Configuring contained material. -->
-            <Veins name='nthoRubyVeinsPipe'  inherits='nthoRubyVeins' branchType='Bezier' seed='0xD0DC' drawWireframe='true' wireframeColor='0x60D10415' drawBoundBox='false' boundBoxColor='0x60D10415'>
+            <Veins name='nthoRubyVeinsPipe'  inherits='nthoRubyVeins' branchType='Bezier' seed='0xD0DC' drawWireframe=':= drawWireframes' wireframeColor='0x60D10415' drawBoundBox='false' boundBoxColor='0x60D10415'>
               <OreBlock block='minecraft:lava' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Replaces block='NetherOres:tile.netherores.ore.0:13' weight='1.0' />
@@ -3121,7 +3121,7 @@
         <!-- Starting StrategicClouds Preset for Ruby. -->
         <ConfigSection>
           <IfCondition condition=':= nthoRubyDist = "StrategicClouds"'>
-            <Cloud name='nthoRubyCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60D10415' drawBoundBox='false' boundBoxColor='0x60D10415'>
+            <Cloud name='nthoRubyCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60D10415' drawBoundBox='false' boundBoxColor='0x60D10415'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -3146,7 +3146,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoRubyHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60D10415' drawBoundBox='false' boundBoxColor='0x60D10415'>
+              <Veins name='nthoRubyHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60D10415' drawBoundBox='false' boundBoxColor='0x60D10415'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -3177,15 +3177,15 @@
         <!-- Starting Vanilla Preset for Ruby. -->
         <ConfigSection>
           <IfCondition condition=':= nthoRubyDist = "Vanilla"'>
-            <StandardGen name='nthoRubyStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60D10415' drawBoundBox='false' boundBoxColor='0x60D10415'>
+            <StandardGen name='nthoRubyStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60D10415' drawBoundBox='false' boundBoxColor='0x60D10415'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.0:13' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * nthoRubySize ' range=':= 1.0 * nthoRubySize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nthoRubyFreq ' range=':= 2.0 * nthoRubyFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * nthoRubySize ' range=':= 1.0 * oreSize * nthoRubySize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nthoRubyFreq ' range=':= 2.0 * oreFreq * nthoRubyFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3201,7 +3201,7 @@
         <!-- Starting PipeVeins Preset for Peridot. -->
         <ConfigSection>
           <IfCondition condition=':= nthoPeridotDist = "PipeVeins"'>
-            <Veins name='nthoPeridotVeins'  inherits='PresetPipeVeins' branchType='Bezier' seed='0x6CA7' drawWireframe='true' wireframeColor='0x6054A228' drawBoundBox='false' boundBoxColor='0x6054A228'>
+            <Veins name='nthoPeridotVeins'  inherits='PresetPipeVeins' branchType='Bezier' seed='0x6CA7' drawWireframe=':= drawWireframes' wireframeColor='0x6054A228' drawBoundBox='false' boundBoxColor='0x6054A228'>
               <Description>
                 Short sparsely filled veins  sloping up from near the
                 bottom  of the map.
@@ -3228,7 +3228,7 @@
             </Veins>
 
             <!-- Configuring contained material. -->
-            <Veins name='nthoPeridotVeinsPipe'  inherits='nthoPeridotVeins' branchType='Bezier' seed='0x6CA7' drawWireframe='true' wireframeColor='0x6054A228' drawBoundBox='false' boundBoxColor='0x6054A228'>
+            <Veins name='nthoPeridotVeinsPipe'  inherits='nthoPeridotVeins' branchType='Bezier' seed='0x6CA7' drawWireframe=':= drawWireframes' wireframeColor='0x6054A228' drawBoundBox='false' boundBoxColor='0x6054A228'>
               <OreBlock block='minecraft:lava' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Replaces block='NetherOres:tile.netherores.ore.0:14' weight='1.0' />
@@ -3244,7 +3244,7 @@
         <!-- Starting StrategicClouds Preset for Peridot. -->
         <ConfigSection>
           <IfCondition condition=':= nthoPeridotDist = "StrategicClouds"'>
-            <Cloud name='nthoPeridotCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x6054A228' drawBoundBox='false' boundBoxColor='0x6054A228'>
+            <Cloud name='nthoPeridotCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x6054A228' drawBoundBox='false' boundBoxColor='0x6054A228'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -3269,7 +3269,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoPeridotHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x6054A228' drawBoundBox='false' boundBoxColor='0x6054A228'>
+              <Veins name='nthoPeridotHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x6054A228' drawBoundBox='false' boundBoxColor='0x6054A228'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -3300,15 +3300,15 @@
         <!-- Starting Vanilla Preset for Peridot. -->
         <ConfigSection>
           <IfCondition condition=':= nthoPeridotDist = "Vanilla"'>
-            <StandardGen name='nthoPeridotStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x6054A228' drawBoundBox='false' boundBoxColor='0x6054A228'>
+            <StandardGen name='nthoPeridotStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x6054A228' drawBoundBox='false' boundBoxColor='0x6054A228'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.0:14' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * nthoPeridotSize ' range=':= 1.0 * nthoPeridotSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nthoPeridotFreq ' range=':= 2.0 * nthoPeridotFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * nthoPeridotSize ' range=':= 1.0 * oreSize * nthoPeridotSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nthoPeridotFreq ' range=':= 2.0 * oreFreq * nthoPeridotFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3324,7 +3324,7 @@
         <!-- Starting PipeVeins Preset for Sapphire. -->
         <ConfigSection>
           <IfCondition condition=':= nthoSapphireDist = "PipeVeins"'>
-            <Veins name='nthoSapphireVeins'  inherits='PresetPipeVeins' branchType='Bezier' seed='0x83DD' drawWireframe='true' wireframeColor='0x60554DB4' drawBoundBox='false' boundBoxColor='0x60554DB4'>
+            <Veins name='nthoSapphireVeins'  inherits='PresetPipeVeins' branchType='Bezier' seed='0x83DD' drawWireframe=':= drawWireframes' wireframeColor='0x60554DB4' drawBoundBox='false' boundBoxColor='0x60554DB4'>
               <Description>
                 Short sparsely filled veins  sloping up from near the
                 bottom  of the map.
@@ -3351,7 +3351,7 @@
             </Veins>
 
             <!-- Configuring contained material. -->
-            <Veins name='nthoSapphireVeinsPipe'  inherits='nthoSapphireVeins' branchType='Bezier' seed='0x83DD' drawWireframe='true' wireframeColor='0x60554DB4' drawBoundBox='false' boundBoxColor='0x60554DB4'>
+            <Veins name='nthoSapphireVeinsPipe'  inherits='nthoSapphireVeins' branchType='Bezier' seed='0x83DD' drawWireframe=':= drawWireframes' wireframeColor='0x60554DB4' drawBoundBox='false' boundBoxColor='0x60554DB4'>
               <OreBlock block='minecraft:lava' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Replaces block='NetherOres:tile.netherores.ore.0:15' weight='1.0' />
@@ -3367,7 +3367,7 @@
         <!-- Starting StrategicClouds Preset for Sapphire. -->
         <ConfigSection>
           <IfCondition condition=':= nthoSapphireDist = "StrategicClouds"'>
-            <Cloud name='nthoSapphireCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60554DB4' drawBoundBox='false' boundBoxColor='0x60554DB4'>
+            <Cloud name='nthoSapphireCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60554DB4' drawBoundBox='false' boundBoxColor='0x60554DB4'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -3392,7 +3392,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoSapphireHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60554DB4' drawBoundBox='false' boundBoxColor='0x60554DB4'>
+              <Veins name='nthoSapphireHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60554DB4' drawBoundBox='false' boundBoxColor='0x60554DB4'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -3423,15 +3423,15 @@
         <!-- Starting Vanilla Preset for Sapphire. -->
         <ConfigSection>
           <IfCondition condition=':= nthoSapphireDist = "Vanilla"'>
-            <StandardGen name='nthoSapphireStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60554DB4' drawBoundBox='false' boundBoxColor='0x60554DB4'>
+            <StandardGen name='nthoSapphireStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60554DB4' drawBoundBox='false' boundBoxColor='0x60554DB4'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.0:15' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * nthoSapphireSize ' range=':= 1.0 * nthoSapphireSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nthoSapphireFreq ' range=':= 2.0 * nthoSapphireFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * nthoSapphireSize ' range=':= 1.0 * oreSize * nthoSapphireSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nthoSapphireFreq ' range=':= 2.0 * oreFreq * nthoSapphireFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3447,7 +3447,7 @@
         <!-- Starting LayeredVeins Preset for Platinum. -->
         <ConfigSection>
           <IfCondition condition=':= nthoPlatinumDist = "LayeredVeins"'>
-            <Veins name='nthoPlatinumVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x6072A0D2' drawBoundBox='false' boundBoxColor='0x6072A0D2'>
+            <Veins name='nthoPlatinumVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x6072A0D2' drawBoundBox='false' boundBoxColor='0x6072A0D2'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -3480,7 +3480,7 @@
         <!-- Starting StrategicClouds Preset for Platinum. -->
         <ConfigSection>
           <IfCondition condition=':= nthoPlatinumDist = "StrategicClouds"'>
-            <Cloud name='nthoPlatinumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x6072A0D2' drawBoundBox='false' boundBoxColor='0x6072A0D2'>
+            <Cloud name='nthoPlatinumCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x6072A0D2' drawBoundBox='false' boundBoxColor='0x6072A0D2'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -3505,7 +3505,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoPlatinumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x6072A0D2' drawBoundBox='false' boundBoxColor='0x6072A0D2'>
+              <Veins name='nthoPlatinumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x6072A0D2' drawBoundBox='false' boundBoxColor='0x6072A0D2'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -3536,15 +3536,15 @@
         <!-- Starting Vanilla Preset for Platinum. -->
         <ConfigSection>
           <IfCondition condition=':= nthoPlatinumDist = "Vanilla"'>
-            <StandardGen name='nthoPlatinumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x6072A0D2' drawBoundBox='false' boundBoxColor='0x6072A0D2'>
+            <StandardGen name='nthoPlatinumStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x6072A0D2' drawBoundBox='false' boundBoxColor='0x6072A0D2'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.1' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.0 * nthoPlatinumSize ' range=':= 1.0 * nthoPlatinumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 0.667 * nthoPlatinumFreq ' range=':= 0.33 * nthoPlatinumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.0 * oreSize * nthoPlatinumSize ' range=':= 1.0 * oreSize * nthoPlatinumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 0.667 * oreFreq * nthoPlatinumFreq ' range=':= 0.33 * oreFreq * nthoPlatinumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3560,7 +3560,7 @@
         <!-- Starting LayeredVeins Preset for Nickel. -->
         <ConfigSection>
           <IfCondition condition=':= nthoNickelDist = "LayeredVeins"'>
-            <Veins name='nthoNickelVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60DDD396' drawBoundBox='false' boundBoxColor='0x60DDD396'>
+            <Veins name='nthoNickelVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60DDD396' drawBoundBox='false' boundBoxColor='0x60DDD396'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -3593,7 +3593,7 @@
         <!-- Starting StrategicClouds Preset for Nickel. -->
         <ConfigSection>
           <IfCondition condition=':= nthoNickelDist = "StrategicClouds"'>
-            <Cloud name='nthoNickelCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60DDD396' drawBoundBox='false' boundBoxColor='0x60DDD396'>
+            <Cloud name='nthoNickelCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60DDD396' drawBoundBox='false' boundBoxColor='0x60DDD396'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -3618,7 +3618,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoNickelHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60DDD396' drawBoundBox='false' boundBoxColor='0x60DDD396'>
+              <Veins name='nthoNickelHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60DDD396' drawBoundBox='false' boundBoxColor='0x60DDD396'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -3649,15 +3649,15 @@
         <!-- Starting Vanilla Preset for Nickel. -->
         <ConfigSection>
           <IfCondition condition=':= nthoNickelDist = "Vanilla"'>
-            <StandardGen name='nthoNickelStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60DDD396' drawBoundBox='false' boundBoxColor='0x60DDD396'>
+            <StandardGen name='nthoNickelStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60DDD396' drawBoundBox='false' boundBoxColor='0x60DDD396'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.1:1' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * nthoNickelSize ' range=':= 2.0 * nthoNickelSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * nthoNickelFreq ' range=':= 1.33 * nthoNickelFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * nthoNickelSize ' range=':= 2.0 * oreSize * nthoNickelSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * nthoNickelFreq ' range=':= 1.33 * oreFreq * nthoNickelFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3673,7 +3673,7 @@
         <!-- Starting LayeredVeins Preset for Steel. -->
         <ConfigSection>
           <IfCondition condition=':= nthoSteelDist = "LayeredVeins"'>
-            <Veins name='nthoSteelVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E89D97' drawBoundBox='false' boundBoxColor='0x60E89D97'>
+            <Veins name='nthoSteelVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E89D97' drawBoundBox='false' boundBoxColor='0x60E89D97'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -3706,7 +3706,7 @@
         <!-- Starting StrategicClouds Preset for Steel. -->
         <ConfigSection>
           <IfCondition condition=':= nthoSteelDist = "StrategicClouds"'>
-            <Cloud name='nthoSteelCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E89D97' drawBoundBox='false' boundBoxColor='0x60E89D97'>
+            <Cloud name='nthoSteelCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E89D97' drawBoundBox='false' boundBoxColor='0x60E89D97'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -3731,7 +3731,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoSteelHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E89D97' drawBoundBox='false' boundBoxColor='0x60E89D97'>
+              <Veins name='nthoSteelHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E89D97' drawBoundBox='false' boundBoxColor='0x60E89D97'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -3762,15 +3762,15 @@
         <!-- Starting Vanilla Preset for Steel. -->
         <ConfigSection>
           <IfCondition condition=':= nthoSteelDist = "Vanilla"'>
-            <StandardGen name='nthoSteelStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E89D97' drawBoundBox='false' boundBoxColor='0x60E89D97'>
+            <StandardGen name='nthoSteelStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E89D97' drawBoundBox='false' boundBoxColor='0x60E89D97'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.1:2' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * nthoSteelSize ' range=':= 1.33 * nthoSteelSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * nthoSteelFreq ' range=':= 1.0 * nthoSteelFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * nthoSteelSize ' range=':= 1.33 * oreSize * nthoSteelSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * nthoSteelFreq ' range=':= 1.0 * oreFreq * nthoSteelFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3786,7 +3786,7 @@
         <!-- Starting SmallDeposits Preset for Iridium. -->
         <ConfigSection>
           <IfCondition condition=':= nthoIridiumDist = "SmallDeposits"'>
-            <Veins name='nthoIridiumVeins'  inherits='PresetSmallDeposits' branchType='Bezier' drawWireframe='true' wireframeColor='0x60CECECE' drawBoundBox='false' boundBoxColor='0x60CECECE'>
+            <Veins name='nthoIridiumVeins'  inherits='PresetSmallDeposits' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60CECECE' drawBoundBox='false' boundBoxColor='0x60CECECE'>
               <Description>
                 Small motherlodes without any  branches.  Similar to
                 the  deposits produced by StandardGen  distributions.
@@ -3819,7 +3819,7 @@
         <!-- Starting StrategicClouds Preset for Iridium. -->
         <ConfigSection>
           <IfCondition condition=':= nthoIridiumDist = "StrategicClouds"'>
-            <Cloud name='nthoIridiumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60CECECE' drawBoundBox='false' boundBoxColor='0x60CECECE'>
+            <Cloud name='nthoIridiumCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60CECECE' drawBoundBox='false' boundBoxColor='0x60CECECE'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -3844,7 +3844,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoIridiumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60CECECE' drawBoundBox='false' boundBoxColor='0x60CECECE'>
+              <Veins name='nthoIridiumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60CECECE' drawBoundBox='false' boundBoxColor='0x60CECECE'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -3875,15 +3875,15 @@
         <!-- Starting Vanilla Preset for Iridium. -->
         <ConfigSection>
           <IfCondition condition=':= nthoIridiumDist = "Vanilla"'>
-            <StandardGen name='nthoIridiumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60CECECE' drawBoundBox='false' boundBoxColor='0x60CECECE'>
+            <StandardGen name='nthoIridiumStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60CECECE' drawBoundBox='false' boundBoxColor='0x60CECECE'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.1:3' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 1.333 * nthoIridiumSize ' range=':= 0.67 * nthoIridiumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 0.667 * nthoIridiumFreq ' range=':= 0.33 * nthoIridiumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 1.333 * oreSize * nthoIridiumSize ' range=':= 0.67 * oreSize * nthoIridiumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 0.667 * oreFreq * nthoIridiumFreq ' range=':= 0.33 * oreFreq * nthoIridiumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -3899,7 +3899,7 @@
         <!-- Starting LayeredVeins Preset for Osmium. -->
         <ConfigSection>
           <IfCondition condition=':= nthoOsmiumDist = "LayeredVeins"'>
-            <Veins name='nthoOsmiumVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x6043638A' drawBoundBox='false' boundBoxColor='0x6043638A'>
+            <Veins name='nthoOsmiumVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x6043638A' drawBoundBox='false' boundBoxColor='0x6043638A'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -3932,7 +3932,7 @@
         <!-- Starting StrategicClouds Preset for Osmium. -->
         <ConfigSection>
           <IfCondition condition=':= nthoOsmiumDist = "StrategicClouds"'>
-            <Cloud name='nthoOsmiumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x6043638A' drawBoundBox='false' boundBoxColor='0x6043638A'>
+            <Cloud name='nthoOsmiumCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x6043638A' drawBoundBox='false' boundBoxColor='0x6043638A'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -3957,7 +3957,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoOsmiumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x6043638A' drawBoundBox='false' boundBoxColor='0x6043638A'>
+              <Veins name='nthoOsmiumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x6043638A' drawBoundBox='false' boundBoxColor='0x6043638A'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -3988,15 +3988,15 @@
         <!-- Starting Vanilla Preset for Osmium. -->
         <ConfigSection>
           <IfCondition condition=':= nthoOsmiumDist = "Vanilla"'>
-            <StandardGen name='nthoOsmiumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x6043638A' drawBoundBox='false' boundBoxColor='0x6043638A'>
+            <StandardGen name='nthoOsmiumStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x6043638A' drawBoundBox='false' boundBoxColor='0x6043638A'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.1:4' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.667 * nthoOsmiumSize ' range=':= 2.33 * nthoOsmiumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * nthoOsmiumFreq ' range=':= 2.67 * nthoOsmiumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.667 * oreSize * nthoOsmiumSize ' range=':= 2.33 * oreSize * nthoOsmiumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * nthoOsmiumFreq ' range=':= 2.67 * oreFreq * nthoOsmiumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4012,7 +4012,7 @@
         <!-- Starting PipeVeins Preset for Sulfur. -->
         <ConfigSection>
           <IfCondition condition=':= nthoSulfurDist = "PipeVeins"'>
-            <Veins name='nthoSulfurVeins'  inherits='PresetPipeVeins' branchType='Bezier' seed='0xCB5E' drawWireframe='true' wireframeColor='0x60FDFD11' drawBoundBox='false' boundBoxColor='0x60FDFD11'>
+            <Veins name='nthoSulfurVeins'  inherits='PresetPipeVeins' branchType='Bezier' seed='0xCB5E' drawWireframe=':= drawWireframes' wireframeColor='0x60FDFD11' drawBoundBox='false' boundBoxColor='0x60FDFD11'>
               <Description>
                 Short sparsely filled veins  sloping up from near the
                 bottom  of the map.
@@ -4039,7 +4039,7 @@
             </Veins>
 
             <!-- Configuring contained material. -->
-            <Veins name='nthoSulfurVeinsPipe'  inherits='nthoSulfurVeins' branchType='Bezier' seed='0xCB5E' drawWireframe='true' wireframeColor='0x60FDFD11' drawBoundBox='false' boundBoxColor='0x60FDFD11'>
+            <Veins name='nthoSulfurVeinsPipe'  inherits='nthoSulfurVeins' branchType='Bezier' seed='0xCB5E' drawWireframe=':= drawWireframes' wireframeColor='0x60FDFD11' drawBoundBox='false' boundBoxColor='0x60FDFD11'>
               <OreBlock block='minecraft:lava' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Replaces block='NetherOres:tile.netherores.ore.1:5' weight='1.0' />
@@ -4055,7 +4055,7 @@
         <!-- Starting StrategicClouds Preset for Sulfur. -->
         <ConfigSection>
           <IfCondition condition=':= nthoSulfurDist = "StrategicClouds"'>
-            <Cloud name='nthoSulfurCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FDFD11' drawBoundBox='false' boundBoxColor='0x60FDFD11'>
+            <Cloud name='nthoSulfurCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60FDFD11' drawBoundBox='false' boundBoxColor='0x60FDFD11'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -4080,7 +4080,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoSulfurHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FDFD11' drawBoundBox='false' boundBoxColor='0x60FDFD11'>
+              <Veins name='nthoSulfurHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60FDFD11' drawBoundBox='false' boundBoxColor='0x60FDFD11'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -4111,15 +4111,15 @@
         <!-- Starting Vanilla Preset for Sulfur. -->
         <ConfigSection>
           <IfCondition condition=':= nthoSulfurDist = "Vanilla"'>
-            <StandardGen name='nthoSulfurStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FDFD11' drawBoundBox='false' boundBoxColor='0x60FDFD11'>
+            <StandardGen name='nthoSulfurStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60FDFD11' drawBoundBox='false' boundBoxColor='0x60FDFD11'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.1:5' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 8.0 * nthoSulfurSize ' range=':= 4.0 * nthoSulfurSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 8.0 * nthoSulfurFreq ' range=':= 4.0 * nthoSulfurFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 8.0 * oreSize * nthoSulfurSize ' range=':= 4.0 * oreSize * nthoSulfurSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 8.0 * oreFreq * nthoSulfurFreq ' range=':= 4.0 * oreFreq * nthoSulfurFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4135,7 +4135,7 @@
         <!-- Starting LayeredVeins Preset for Titanium. -->
         <ConfigSection>
           <IfCondition condition=':= nthoTitaniumDist = "LayeredVeins"'>
-            <Veins name='nthoTitaniumVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60686868' drawBoundBox='false' boundBoxColor='0x60686868'>
+            <Veins name='nthoTitaniumVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60686868' drawBoundBox='false' boundBoxColor='0x60686868'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -4168,7 +4168,7 @@
         <!-- Starting StrategicClouds Preset for Titanium. -->
         <ConfigSection>
           <IfCondition condition=':= nthoTitaniumDist = "StrategicClouds"'>
-            <Cloud name='nthoTitaniumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60686868' drawBoundBox='false' boundBoxColor='0x60686868'>
+            <Cloud name='nthoTitaniumCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60686868' drawBoundBox='false' boundBoxColor='0x60686868'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -4193,7 +4193,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoTitaniumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60686868' drawBoundBox='false' boundBoxColor='0x60686868'>
+              <Veins name='nthoTitaniumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60686868' drawBoundBox='false' boundBoxColor='0x60686868'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -4224,15 +4224,15 @@
         <!-- Starting Vanilla Preset for Titanium. -->
         <ConfigSection>
           <IfCondition condition=':= nthoTitaniumDist = "Vanilla"'>
-            <StandardGen name='nthoTitaniumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60686868' drawBoundBox='false' boundBoxColor='0x60686868'>
+            <StandardGen name='nthoTitaniumStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60686868' drawBoundBox='false' boundBoxColor='0x60686868'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.1:6' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 1.333 * nthoTitaniumSize ' range=':= 0.67 * nthoTitaniumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * nthoTitaniumFreq ' range=':= 1.0 * nthoTitaniumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 1.333 * oreSize * nthoTitaniumSize ' range=':= 0.67 * oreSize * nthoTitaniumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * nthoTitaniumFreq ' range=':= 1.0 * oreFreq * nthoTitaniumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4248,7 +4248,7 @@
         <!-- Starting LayeredVeins Preset for Mithril. -->
         <ConfigSection>
           <IfCondition condition=':= nthoMithrilDist = "LayeredVeins"'>
-            <Veins name='nthoMithrilVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x6075E0F6' drawBoundBox='false' boundBoxColor='0x6075E0F6'>
+            <Veins name='nthoMithrilVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x6075E0F6' drawBoundBox='false' boundBoxColor='0x6075E0F6'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -4281,7 +4281,7 @@
         <!-- Starting StrategicClouds Preset for Mithril. -->
         <ConfigSection>
           <IfCondition condition=':= nthoMithrilDist = "StrategicClouds"'>
-            <Cloud name='nthoMithrilCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x6075E0F6' drawBoundBox='false' boundBoxColor='0x6075E0F6'>
+            <Cloud name='nthoMithrilCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x6075E0F6' drawBoundBox='false' boundBoxColor='0x6075E0F6'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -4306,7 +4306,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoMithrilHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x6075E0F6' drawBoundBox='false' boundBoxColor='0x6075E0F6'>
+              <Veins name='nthoMithrilHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x6075E0F6' drawBoundBox='false' boundBoxColor='0x6075E0F6'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -4337,15 +4337,15 @@
         <!-- Starting Vanilla Preset for Mithril. -->
         <ConfigSection>
           <IfCondition condition=':= nthoMithrilDist = "Vanilla"'>
-            <StandardGen name='nthoMithrilStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x6075E0F6' drawBoundBox='false' boundBoxColor='0x6075E0F6'>
+            <StandardGen name='nthoMithrilStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x6075E0F6' drawBoundBox='false' boundBoxColor='0x6075E0F6'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.1:7' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * nthoMithrilSize ' range=':= 2.0 * nthoMithrilSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nthoMithrilFreq ' range=':= 2.0 * nthoMithrilFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * nthoMithrilSize ' range=':= 2.0 * oreSize * nthoMithrilSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nthoMithrilFreq ' range=':= 2.0 * oreFreq * nthoMithrilFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4361,7 +4361,7 @@
         <!-- Starting LayeredVeins Preset for Adamantium. -->
         <ConfigSection>
           <IfCondition condition=':= nthoAdamantiumDist = "LayeredVeins"'>
-            <Veins name='nthoAdamantiumVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x609CA6B0' drawBoundBox='false' boundBoxColor='0x609CA6B0'>
+            <Veins name='nthoAdamantiumVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x609CA6B0' drawBoundBox='false' boundBoxColor='0x609CA6B0'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -4394,7 +4394,7 @@
         <!-- Starting StrategicClouds Preset for Adamantium. -->
         <ConfigSection>
           <IfCondition condition=':= nthoAdamantiumDist = "StrategicClouds"'>
-            <Cloud name='nthoAdamantiumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x609CA6B0' drawBoundBox='false' boundBoxColor='0x609CA6B0'>
+            <Cloud name='nthoAdamantiumCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x609CA6B0' drawBoundBox='false' boundBoxColor='0x609CA6B0'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -4419,7 +4419,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoAdamantiumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x609CA6B0' drawBoundBox='false' boundBoxColor='0x609CA6B0'>
+              <Veins name='nthoAdamantiumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x609CA6B0' drawBoundBox='false' boundBoxColor='0x609CA6B0'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -4450,15 +4450,15 @@
         <!-- Starting Vanilla Preset for Adamantium. -->
         <ConfigSection>
           <IfCondition condition=':= nthoAdamantiumDist = "Vanilla"'>
-            <StandardGen name='nthoAdamantiumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x609CA6B0' drawBoundBox='false' boundBoxColor='0x609CA6B0'>
+            <StandardGen name='nthoAdamantiumStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x609CA6B0' drawBoundBox='false' boundBoxColor='0x609CA6B0'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.1:8' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * nthoAdamantiumSize ' range=':= 1.33 * nthoAdamantiumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 3.333 * nthoAdamantiumFreq ' range=':= 1.67 * nthoAdamantiumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * nthoAdamantiumSize ' range=':= 1.33 * oreSize * nthoAdamantiumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 3.333 * oreFreq * nthoAdamantiumFreq ' range=':= 1.67 * oreFreq * nthoAdamantiumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4474,7 +4474,7 @@
         <!-- Starting LayeredVeins Preset for Rutile. -->
         <ConfigSection>
           <IfCondition condition=':= nthoRutileDist = "LayeredVeins"'>
-            <Veins name='nthoRutileVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60D2C7A9' drawBoundBox='false' boundBoxColor='0x60D2C7A9'>
+            <Veins name='nthoRutileVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60D2C7A9' drawBoundBox='false' boundBoxColor='0x60D2C7A9'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -4507,7 +4507,7 @@
         <!-- Starting StrategicClouds Preset for Rutile. -->
         <ConfigSection>
           <IfCondition condition=':= nthoRutileDist = "StrategicClouds"'>
-            <Cloud name='nthoRutileCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60D2C7A9' drawBoundBox='false' boundBoxColor='0x60D2C7A9'>
+            <Cloud name='nthoRutileCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60D2C7A9' drawBoundBox='false' boundBoxColor='0x60D2C7A9'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -4532,7 +4532,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoRutileHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60D2C7A9' drawBoundBox='false' boundBoxColor='0x60D2C7A9'>
+              <Veins name='nthoRutileHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60D2C7A9' drawBoundBox='false' boundBoxColor='0x60D2C7A9'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -4563,15 +4563,15 @@
         <!-- Starting Vanilla Preset for Rutile. -->
         <ConfigSection>
           <IfCondition condition=':= nthoRutileDist = "Vanilla"'>
-            <StandardGen name='nthoRutileStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60D2C7A9' drawBoundBox='false' boundBoxColor='0x60D2C7A9'>
+            <StandardGen name='nthoRutileStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60D2C7A9' drawBoundBox='false' boundBoxColor='0x60D2C7A9'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.1:9' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * nthoRutileSize ' range=':= 1.33 * nthoRutileSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.0 * nthoRutileFreq ' range=':= 1.0 * nthoRutileFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * nthoRutileSize ' range=':= 1.33 * oreSize * nthoRutileSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.0 * oreFreq * nthoRutileFreq ' range=':= 1.0 * oreFreq * nthoRutileFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4587,7 +4587,7 @@
         <!-- Starting LayeredVeins Preset for Tungsten. -->
         <ConfigSection>
           <IfCondition condition=':= nthoTungstenDist = "LayeredVeins"'>
-            <Veins name='nthoTungstenVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60212121' drawBoundBox='false' boundBoxColor='0x60212121'>
+            <Veins name='nthoTungstenVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60212121' drawBoundBox='false' boundBoxColor='0x60212121'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -4620,7 +4620,7 @@
         <!-- Starting StrategicClouds Preset for Tungsten. -->
         <ConfigSection>
           <IfCondition condition=':= nthoTungstenDist = "StrategicClouds"'>
-            <Cloud name='nthoTungstenCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60212121' drawBoundBox='false' boundBoxColor='0x60212121'>
+            <Cloud name='nthoTungstenCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60212121' drawBoundBox='false' boundBoxColor='0x60212121'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -4645,7 +4645,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoTungstenHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60212121' drawBoundBox='false' boundBoxColor='0x60212121'>
+              <Veins name='nthoTungstenHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60212121' drawBoundBox='false' boundBoxColor='0x60212121'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -4676,15 +4676,15 @@
         <!-- Starting Vanilla Preset for Tungsten. -->
         <ConfigSection>
           <IfCondition condition=':= nthoTungstenDist = "Vanilla"'>
-            <StandardGen name='nthoTungstenStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60212121' drawBoundBox='false' boundBoxColor='0x60212121'>
+            <StandardGen name='nthoTungstenStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60212121' drawBoundBox='false' boundBoxColor='0x60212121'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.1:10' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * nthoTungstenSize ' range=':= 2.67 * nthoTungstenSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * nthoTungstenFreq ' range=':= 2.67 * nthoTungstenFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * nthoTungstenSize ' range=':= 2.67 * oreSize * nthoTungstenSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * nthoTungstenFreq ' range=':= 2.67 * oreFreq * nthoTungstenFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4700,7 +4700,7 @@
         <!-- Starting SparseVeins Preset for Amber. -->
         <ConfigSection>
           <IfCondition condition=':= nthoAmberDist = "SparseVeins"'>
-            <Veins name='nthoAmberVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60FEA219' drawBoundBox='false' boundBoxColor='0x60FEA219'>
+            <Veins name='nthoAmberVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60FEA219' drawBoundBox='false' boundBoxColor='0x60FEA219'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -4738,7 +4738,7 @@
         <!-- Starting StrategicClouds Preset for Amber. -->
         <ConfigSection>
           <IfCondition condition=':= nthoAmberDist = "StrategicClouds"'>
-            <Cloud name='nthoAmberCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FEA219' drawBoundBox='false' boundBoxColor='0x60FEA219'>
+            <Cloud name='nthoAmberCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60FEA219' drawBoundBox='false' boundBoxColor='0x60FEA219'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -4763,7 +4763,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoAmberHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FEA219' drawBoundBox='false' boundBoxColor='0x60FEA219'>
+              <Veins name='nthoAmberHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60FEA219' drawBoundBox='false' boundBoxColor='0x60FEA219'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -4794,15 +4794,15 @@
         <!-- Starting Vanilla Preset for Amber. -->
         <ConfigSection>
           <IfCondition condition=':= nthoAmberDist = "Vanilla"'>
-            <StandardGen name='nthoAmberStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FEA219' drawBoundBox='false' boundBoxColor='0x60FEA219'>
+            <StandardGen name='nthoAmberStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60FEA219' drawBoundBox='false' boundBoxColor='0x60FEA219'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.1:11' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * nthoAmberSize ' range=':= 2.0 * nthoAmberSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 3.333 * nthoAmberFreq ' range=':= 1.67 * nthoAmberFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * nthoAmberSize ' range=':= 2.0 * oreSize * nthoAmberSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 3.333 * oreFreq * nthoAmberFreq ' range=':= 1.67 * oreFreq * nthoAmberFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4818,7 +4818,7 @@
         <!-- Starting LayeredVeins Preset for Tennantite. -->
         <ConfigSection>
           <IfCondition condition=':= nthoTennantiteDist = "LayeredVeins"'>
-            <Veins name='nthoTennantiteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x609EE2B1' drawBoundBox='false' boundBoxColor='0x609EE2B1'>
+            <Veins name='nthoTennantiteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x609EE2B1' drawBoundBox='false' boundBoxColor='0x609EE2B1'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -4851,7 +4851,7 @@
         <!-- Starting StrategicClouds Preset for Tennantite. -->
         <ConfigSection>
           <IfCondition condition=':= nthoTennantiteDist = "StrategicClouds"'>
-            <Cloud name='nthoTennantiteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x609EE2B1' drawBoundBox='false' boundBoxColor='0x609EE2B1'>
+            <Cloud name='nthoTennantiteCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x609EE2B1' drawBoundBox='false' boundBoxColor='0x609EE2B1'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -4876,7 +4876,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoTennantiteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x609EE2B1' drawBoundBox='false' boundBoxColor='0x609EE2B1'>
+              <Veins name='nthoTennantiteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x609EE2B1' drawBoundBox='false' boundBoxColor='0x609EE2B1'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -4907,15 +4907,15 @@
         <!-- Starting Vanilla Preset for Tennantite. -->
         <ConfigSection>
           <IfCondition condition=':= nthoTennantiteDist = "Vanilla"'>
-            <StandardGen name='nthoTennantiteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x609EE2B1' drawBoundBox='false' boundBoxColor='0x609EE2B1'>
+            <StandardGen name='nthoTennantiteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x609EE2B1' drawBoundBox='false' boundBoxColor='0x609EE2B1'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.1:12' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * nthoTennantiteSize ' range=':= 2.67 * nthoTennantiteSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 5.333 * nthoTennantiteFreq ' range=':= 2.67 * nthoTennantiteFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * nthoTennantiteSize ' range=':= 2.67 * oreSize * nthoTennantiteSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 5.333 * oreFreq * nthoTennantiteFreq ' range=':= 2.67 * oreFreq * nthoTennantiteFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -4931,7 +4931,7 @@
         <!-- Starting SparseVeins Preset for Salt. -->
         <ConfigSection>
           <IfCondition condition=':= nthoSaltDist = "SparseVeins"'>
-            <Veins name='nthoSaltVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60FFFFFF' drawBoundBox='false' boundBoxColor='0x60FFFFFF'>
+            <Veins name='nthoSaltVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60FFFFFF' drawBoundBox='false' boundBoxColor='0x60FFFFFF'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -4969,7 +4969,7 @@
         <!-- Starting StrategicClouds Preset for Salt. -->
         <ConfigSection>
           <IfCondition condition=':= nthoSaltDist = "StrategicClouds"'>
-            <Cloud name='nthoSaltCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FFFFFF' drawBoundBox='false' boundBoxColor='0x60FFFFFF'>
+            <Cloud name='nthoSaltCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60FFFFFF' drawBoundBox='false' boundBoxColor='0x60FFFFFF'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -4994,7 +4994,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoSaltHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FFFFFF' drawBoundBox='false' boundBoxColor='0x60FFFFFF'>
+              <Veins name='nthoSaltHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60FFFFFF' drawBoundBox='false' boundBoxColor='0x60FFFFFF'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -5025,15 +5025,15 @@
         <!-- Starting Vanilla Preset for Salt. -->
         <ConfigSection>
           <IfCondition condition=':= nthoSaltDist = "Vanilla"'>
-            <StandardGen name='nthoSaltStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FFFFFF' drawBoundBox='false' boundBoxColor='0x60FFFFFF'>
+            <StandardGen name='nthoSaltStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60FFFFFF' drawBoundBox='false' boundBoxColor='0x60FFFFFF'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.1:13' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 3.333 * nthoSaltSize ' range=':= 1.67 * nthoSaltSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 3.333 * nthoSaltFreq ' range=':= 1.67 * nthoSaltFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 3.333 * oreSize * nthoSaltSize ' range=':= 1.67 * oreSize * nthoSaltSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 3.333 * oreFreq * nthoSaltFreq ' range=':= 1.67 * oreFreq * nthoSaltFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -5049,7 +5049,7 @@
         <!-- Starting SparseVeins Preset for Saltpeter. -->
         <ConfigSection>
           <IfCondition condition=':= nthoSaltpeterDist = "SparseVeins"'>
-            <Veins name='nthoSaltpeterVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60F4F6F9' drawBoundBox='false' boundBoxColor='0x60F4F6F9'>
+            <Veins name='nthoSaltpeterVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60F4F6F9' drawBoundBox='false' boundBoxColor='0x60F4F6F9'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -5087,7 +5087,7 @@
         <!-- Starting StrategicClouds Preset for Saltpeter. -->
         <ConfigSection>
           <IfCondition condition=':= nthoSaltpeterDist = "StrategicClouds"'>
-            <Cloud name='nthoSaltpeterCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60F4F6F9' drawBoundBox='false' boundBoxColor='0x60F4F6F9'>
+            <Cloud name='nthoSaltpeterCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60F4F6F9' drawBoundBox='false' boundBoxColor='0x60F4F6F9'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -5112,7 +5112,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoSaltpeterHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60F4F6F9' drawBoundBox='false' boundBoxColor='0x60F4F6F9'>
+              <Veins name='nthoSaltpeterHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60F4F6F9' drawBoundBox='false' boundBoxColor='0x60F4F6F9'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -5143,15 +5143,15 @@
         <!-- Starting Vanilla Preset for Saltpeter. -->
         <ConfigSection>
           <IfCondition condition=':= nthoSaltpeterDist = "Vanilla"'>
-            <StandardGen name='nthoSaltpeterStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60F4F6F9' drawBoundBox='false' boundBoxColor='0x60F4F6F9'>
+            <StandardGen name='nthoSaltpeterStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60F4F6F9' drawBoundBox='false' boundBoxColor='0x60F4F6F9'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.1:14' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 2.667 * nthoSaltpeterSize ' range=':= 1.33 * nthoSaltpeterSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4.0 * nthoSaltpeterFreq ' range=':= 2.0 * nthoSaltpeterFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 2.667 * oreSize * nthoSaltpeterSize ' range=':= 1.33 * oreSize * nthoSaltpeterSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 4.0 * oreFreq * nthoSaltpeterFreq ' range=':= 2.0 * oreFreq * nthoSaltpeterFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -5167,7 +5167,7 @@
         <!-- Starting SparseVeins Preset for Magnesium. -->
         <ConfigSection>
           <IfCondition condition=':= nthoMagnesiumDist = "SparseVeins"'>
-            <Veins name='nthoMagnesiumVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60827066' drawBoundBox='false' boundBoxColor='0x60827066'>
+            <Veins name='nthoMagnesiumVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60827066' drawBoundBox='false' boundBoxColor='0x60827066'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -5205,7 +5205,7 @@
         <!-- Starting StrategicClouds Preset for Magnesium. -->
         <ConfigSection>
           <IfCondition condition=':= nthoMagnesiumDist = "StrategicClouds"'>
-            <Cloud name='nthoMagnesiumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60827066' drawBoundBox='false' boundBoxColor='0x60827066'>
+            <Cloud name='nthoMagnesiumCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60827066' drawBoundBox='false' boundBoxColor='0x60827066'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -5230,7 +5230,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nthoMagnesiumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60827066' drawBoundBox='false' boundBoxColor='0x60827066'>
+              <Veins name='nthoMagnesiumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60827066' drawBoundBox='false' boundBoxColor='0x60827066'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -5261,15 +5261,15 @@
         <!-- Starting Vanilla Preset for Magnesium. -->
         <ConfigSection>
           <IfCondition condition=':= nthoMagnesiumDist = "Vanilla"'>
-            <StandardGen name='nthoMagnesiumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60827066' drawBoundBox='false' boundBoxColor='0x60827066'>
+            <StandardGen name='nthoMagnesiumStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60827066' drawBoundBox='false' boundBoxColor='0x60827066'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
               <OreBlock block='NetherOres:tile.netherores.ore.1:15' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 3.333 * nthoMagnesiumSize ' range=':= 1.67 * nthoMagnesiumSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * nthoMagnesiumFreq ' range=':= 1.33 * nthoMagnesiumFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 3.333 * oreSize * nthoMagnesiumSize ' range=':= 1.67 * oreSize * nthoMagnesiumSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * nthoMagnesiumFreq ' range=':= 1.33 * oreFreq * nthoMagnesiumFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64.5 ' range=':= 63.5 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>

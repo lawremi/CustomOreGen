@@ -14,7 +14,7 @@
 
 
 <!-- Is the "RailCraft" mod on the system?  Let's find out! -->
-<IfModInstalled name="Railcraft">
+<IfModInstalled name="railcraft">
 
   <!-- Starting Configuration for Custom Ore Generation. -->
   <ConfigSection>
@@ -33,9 +33,9 @@
       <OptionChoice name='enableRailCraft' displayName='Handle RailCraft Setup?' default='true' displayState='shown_dynamic' displayGroup='groupRailCraft'>
         <Description> Should Custom Ore Generation handle RailCraft ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle RailCraft ores.'/>
-        <Choice value=':= ?false' displayValue='No' description='RailCraft ores will be handled by the mod itself.'/>
+        <Choice value=':= ?false' displayValue='No' description='RailCraft ores will be handled by Minecraft directly.'/>
       </OptionChoice>
-      <OptionChoice name='cleanUpRailCraft' displayName='Use RailCraft Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupRailCraft'>
+      <OptionChoice name='cleanUpRailCraft' displayName='Use RailCraft Cleanup?' default='true' displayState=':= if(?enableRailCraft, "shown", "hidden")' displayGroup='groupRailCraft'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of RailCraft ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up RailCraft ores.'/>
         <Choice value=':= ?false' displayValue='No' description='RailCraft ores do not need to be cleaned up by a substitution pass.'/>
@@ -46,7 +46,7 @@
         <OptionChoice name='rlcrAbyssalOresDist'  displayState=':= if(?enableRailCraft, "shown", "hidden")' displayGroup='groupRailCraft'>
           <Description> Controls how Abyssal Ores is generated </Description>
           <DisplayName>RailCraft Abyssal Ores</DisplayName>
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:2")  &amp; ?blockExists("Railcraft:ore:3")  &amp; ?blockExists("Railcraft:ore:4")) &amp; (?blockExists("Railcraft:cube:6")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:2")  &amp; ?blockExists("railcraft:ore:3")  &amp; ?blockExists("railcraft:ore:4")) &amp; (?blockExists("railcraft:generic:8")) '>
 
           <Choice value='Geode' displayValue='Geode'>
             <Description>
@@ -74,7 +74,7 @@
         <OptionChoice name='rlcrPoorIronDist'  displayState=':= if(?enableRailCraft, "shown", "hidden")' displayGroup='groupRailCraft'>
           <Description> Controls how Poor Iron is generated </Description>
           <DisplayName>RailCraft Poor Iron</DisplayName>
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:7")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:7")) '>
 
           <Choice value='SparseVeins' displayValue='Sparse Veins'>
             <Description>
@@ -83,7 +83,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:7")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:7")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -92,7 +92,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:7")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:7")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -120,7 +120,7 @@
         <OptionChoice name='rlcrMountainPoorIronDist'  displayState=':= if(?enableRailCraft, "shown", "hidden")' displayGroup='groupRailCraft'>
           <Description> Controls how Mountain Poor Iron is generated </Description>
           <DisplayName>RailCraft Mountain Poor Iron</DisplayName>
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:7")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:7")) '>
 
           <Choice value='SparseVeins' displayValue='Sparse Veins'>
             <Description>
@@ -129,7 +129,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:7")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:7")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -138,7 +138,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:7")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:7")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -166,7 +166,7 @@
         <OptionChoice name='rlcrPoorGoldDist'  displayState=':= if(?enableRailCraft, "shown", "hidden")' displayGroup='groupRailCraft'>
           <Description> Controls how Poor Gold is generated </Description>
           <DisplayName>RailCraft Poor Gold</DisplayName>
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:8")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:8")) '>
 
           <Choice value='SparseVeins' displayValue='Sparse Veins'>
             <Description>
@@ -175,7 +175,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:8")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:8")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -184,7 +184,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:8")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:8")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -212,7 +212,7 @@
         <OptionChoice name='rlcrMountainPoorGoldDist'  displayState=':= if(?enableRailCraft, "shown", "hidden")' displayGroup='groupRailCraft'>
           <Description> Controls how Mountain Poor Gold is generated </Description>
           <DisplayName>RailCraft Mountain Poor Gold</DisplayName>
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:8")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:8")) '>
 
           <Choice value='SparseVeins' displayValue='Sparse Veins'>
             <Description>
@@ -221,7 +221,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:8")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:8")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -230,7 +230,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:8")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:8")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -258,7 +258,7 @@
         <OptionChoice name='rlcrPoorCopperDist'  displayState=':= if(?enableRailCraft, "shown", "hidden")' displayGroup='groupRailCraft'>
           <Description> Controls how Poor Copper is generated </Description>
           <DisplayName>RailCraft Poor Copper</DisplayName>
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:9")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:9")) '>
 
           <Choice value='SparseVeins' displayValue='Sparse Veins'>
             <Description>
@@ -267,7 +267,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:9")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:9")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -276,7 +276,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:9")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:9")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -304,7 +304,7 @@
         <OptionChoice name='rlcrMountainPoorCopperDist'  displayState=':= if(?enableRailCraft, "shown", "hidden")' displayGroup='groupRailCraft'>
           <Description> Controls how Mountain Poor Copper is generated </Description>
           <DisplayName>RailCraft Mountain Poor Copper</DisplayName>
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:9")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:9")) '>
 
           <Choice value='SparseVeins' displayValue='Sparse Veins'>
             <Description>
@@ -313,7 +313,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:9")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:9")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -322,7 +322,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:9")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:9")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -350,7 +350,7 @@
         <OptionChoice name='rlcrPoorTinDist'  displayState=':= if(?enableRailCraft, "shown", "hidden")' displayGroup='groupRailCraft'>
           <Description> Controls how Poor Tin is generated </Description>
           <DisplayName>RailCraft Poor Tin</DisplayName>
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:10")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:10")) '>
 
           <Choice value='SparseVeins' displayValue='Sparse Veins'>
             <Description>
@@ -359,7 +359,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:10")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:10")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -368,7 +368,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:10")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:10")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -396,7 +396,7 @@
         <OptionChoice name='rlcrMountainPoorTinDist'  displayState=':= if(?enableRailCraft, "shown", "hidden")' displayGroup='groupRailCraft'>
           <Description> Controls how Mountain Poor Tin is generated </Description>
           <DisplayName>RailCraft Mountain Poor Tin</DisplayName>
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:10")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:10")) '>
 
           <Choice value='SparseVeins' displayValue='Sparse Veins'>
             <Description>
@@ -405,7 +405,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:10")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:10")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -414,7 +414,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:10")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:10")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -442,7 +442,7 @@
         <OptionChoice name='rlcrPoorLeadDist'  displayState=':= if(?enableRailCraft, "shown", "hidden")' displayGroup='groupRailCraft'>
           <Description> Controls how Poor Lead is generated </Description>
           <DisplayName>RailCraft Poor Lead</DisplayName>
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:11")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:11")) '>
 
           <Choice value='SparseVeins' displayValue='Sparse Veins'>
             <Description>
@@ -451,7 +451,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:11")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:11")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -460,7 +460,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:11")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:11")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -488,7 +488,7 @@
         <OptionChoice name='rlcrMountainPoorLeadDist'  displayState=':= if(?enableRailCraft, "shown", "hidden")' displayGroup='groupRailCraft'>
           <Description> Controls how Mountain Poor Lead is generated </Description>
           <DisplayName>RailCraft Mountain Poor Lead</DisplayName>
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:11")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:11")) '>
 
           <Choice value='SparseVeins' displayValue='Sparse Veins'>
             <Description>
@@ -497,7 +497,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:11")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:11")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -506,7 +506,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:11")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:11")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -534,7 +534,7 @@
         <OptionChoice name='rlcrSulfurDist'  displayState=':= if(?enableRailCraft, "shown", "hidden")' displayGroup='groupRailCraft'>
           <Description> Controls how Sulfur is generated </Description>
           <DisplayName>RailCraft Sulfur</DisplayName>
-          <IfCondition condition=':= (?blockExists("Railcraft:ore")) &amp; (?blockExists("minecraft:lava")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore")) &amp; (?blockExists("minecraft:lava")) '>
 
           <Choice value='PipeVeins' displayValue='Pipe Veins'>
             <Description>
@@ -543,7 +543,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore")) &amp; (?blockExists("minecraft:lava")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore")) &amp; (?blockExists("minecraft:lava")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -552,7 +552,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore")) &amp; (?blockExists("minecraft:lava")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore")) &amp; (?blockExists("minecraft:lava")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -580,7 +580,7 @@
         <OptionChoice name='rlcrSaltpeterDist'  displayState=':= if(?enableRailCraft, "shown", "hidden")' displayGroup='groupRailCraft'>
           <Description> Controls how Saltpeter is generated </Description>
           <DisplayName>RailCraft Saltpeter</DisplayName>
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:1")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:1")) '>
 
           <Choice value='SparseVeins' displayValue='Sparse Veins'>
             <Description>
@@ -589,7 +589,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:1")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:1")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -598,7 +598,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:1")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:1")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -626,7 +626,7 @@
         <OptionChoice name='rlcrFirestoneDist'  displayState=':= if(?enableRailCraft, "shown", "hidden")' displayGroup='groupRailCraft'>
           <Description> Controls how Firestone is generated </Description>
           <DisplayName>RailCraft Firestone</DisplayName>
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:5")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:5")) '>
 
           <Choice value='SmallDeposits' displayValue='Small Deposits'>
             <Description>
@@ -635,7 +635,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:5")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:5")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -644,7 +644,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("Railcraft:ore:5")) '>
+          <IfCondition condition=':= (?blockExists("railcraft:ore:5")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -690,7 +690,7 @@
                 The global option  deferredPopulationRange must be
                 large enough to catch all ore  clusters (>= 32).
               </Comment>
-              <Replaces block='Railcraft:ore:1' weight='1.0' />
+              <Replaces block='railcraft:ore:1' weight='1.0' />
             </Substitute>
           </IfCondition>
         </IfCondition>
@@ -706,16 +706,16 @@
                 The global option  deferredPopulationRange must be
                 large enough to catch all ore  clusters (>= 32).
               </Comment>
-              <Replaces block='Railcraft:cube:6' weight='1.0' />
-              <Replaces block='Railcraft:ore' weight='1.0' />
-              <Replaces block='Railcraft:ore:10' weight='1.0' />
-              <Replaces block='Railcraft:ore:11' weight='1.0' />
-              <Replaces block='Railcraft:ore:2' weight='1.0' />
-              <Replaces block='Railcraft:ore:3' weight='1.0' />
-              <Replaces block='Railcraft:ore:4' weight='1.0' />
-              <Replaces block='Railcraft:ore:7' weight='1.0' />
-              <Replaces block='Railcraft:ore:8' weight='1.0' />
-              <Replaces block='Railcraft:ore:9' weight='1.0' />
+              <Replaces block='railcraft:generic:8' weight='1.0' />
+              <Replaces block='railcraft:ore' weight='1.0' />
+              <Replaces block='railcraft:ore:10' weight='1.0' />
+              <Replaces block='railcraft:ore:11' weight='1.0' />
+              <Replaces block='railcraft:ore:2' weight='1.0' />
+              <Replaces block='railcraft:ore:3' weight='1.0' />
+              <Replaces block='railcraft:ore:4' weight='1.0' />
+              <Replaces block='railcraft:ore:7' weight='1.0' />
+              <Replaces block='railcraft:ore:8' weight='1.0' />
+              <Replaces block='railcraft:ore:9' weight='1.0' />
             </Substitute>
           </IfCondition>
         </IfCondition>
@@ -729,7 +729,7 @@
         <!-- Starting Geode Preset for Abyssal Ores. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrAbyssalOresDist = "Geode"'>
-            <Veins name='rlcrAbyssalOresGeodeShell'  inherits='PresetSmallDeposits' seed='0x9668' branchType='Bezier' drawWireframe='true' wireframeColor='0x60000000' drawBoundBox='false' boundBoxColor='0x60000000'>
+            <Veins name='rlcrAbyssalOresGeodeShell'  inherits='PresetSmallDeposits' seed='0x9668' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60000000' drawBoundBox='false' boundBoxColor='0x60000000'>
               <Description>
                 Multi-layered deposit.  On the  outside is a shell,
                 usually made  of some form of stone.  Within  this
@@ -737,7 +737,7 @@
                 from  which the enterprising miner can  look for the
                 contained ores.
               </Description>
-              <OreBlock block='Railcraft:cube:6' weight='1.0' />
+              <OreBlock block='railcraft:generic:8' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Replaces block='minecraft:dirt' weight='1.0' />
               <Replaces block='minecraft:gravel' weight='1.0' />
@@ -754,7 +754,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </Veins>
-            <Veins name='rlcrAbyssalOresGeodeOre'  inherits='rlcrAbyssalOresGeodeShell' branchType='Bezier' seed='0x9668' drawWireframe='true' wireframeColor='0x60000000' drawBoundBox='false' boundBoxColor='0x60000000'>
+            <Veins name='rlcrAbyssalOresGeodeOre'  inherits='rlcrAbyssalOresGeodeShell' branchType='Bezier' seed='0x9668' drawWireframe=':= drawWireframes' wireframeColor='0x60000000' drawBoundBox='false' boundBoxColor='0x60000000'>
               <Description>
                 Multi-layered deposit.  On the  outside is a shell,
                 usually made  of some form of stone.  Within  this
@@ -762,9 +762,9 @@
                 from  which the enterprising miner can  look for the
                 contained ores.
               </Description>
-              <OreBlock block='Railcraft:ore:2' weight='0.0167' />
-              <OreBlock block='Railcraft:ore:3' weight='0.0167' />
-              <OreBlock block='Railcraft:ore:4' weight='0.05' />
+              <OreBlock block='railcraft:ore:2' weight='0.0167' />
+              <OreBlock block='railcraft:ore:3' weight='0.0167' />
+              <OreBlock block='railcraft:ore:4' weight='0.05' />
               <ReplacesOre block='stone' weight='1.0' />
               <Replaces block='minecraft:dirt' weight='1.0' />
               <Replaces block='minecraft:gravel' weight='1.0' />
@@ -772,10 +772,10 @@
               <Replaces block='minecraft:lava' weight='1.0' />
               <Replaces block='minecraft:water' weight='1.0' />
               <Replaces block='minecraft:air' weight='1.0' />
-              <Replaces block='Railcraft:cube:6' weight='1.0' />
+              <Replaces block='railcraft:generic:8' weight='1.0' />
               <Setting name='MotherlodeSize' avg=':= _default_ * 0.5' range=':= _default_ * 0.5' type='uniform' />
             </Veins>
-            <Veins name='rlcrAbyssalOresGeodeBubble'  inherits='rlcrAbyssalOresGeodeOre' branchType='Bezier' seed='0x9668' drawWireframe='true' wireframeColor='0x60000000' drawBoundBox='false' boundBoxColor='0x60000000'>
+            <Veins name='rlcrAbyssalOresGeodeBubble'  inherits='rlcrAbyssalOresGeodeOre' branchType='Bezier' seed='0x9668' drawWireframe=':= drawWireframes' wireframeColor='0x60000000' drawBoundBox='false' boundBoxColor='0x60000000'>
               <Description>
                 Multi-layered deposit.  On the  outside is a shell,
                 usually made  of some form of stone.  Within  this
@@ -784,10 +784,10 @@
                 contained ores.
               </Description>
               <OreBlock block='minecraft:air' weight='1.0' />
-              <Replaces block='Railcraft:cube:6' weight='1.0' />
-              <Replaces block='Railcraft:ore:2' weight='1.0' />
-              <Replaces block='Railcraft:ore:3' weight='1.0' />
-              <Replaces block='Railcraft:ore:4' weight='1.0' />
+              <Replaces block='railcraft:generic:8' weight='1.0' />
+              <Replaces block='railcraft:ore:2' weight='1.0' />
+              <Replaces block='railcraft:ore:3' weight='1.0' />
+              <Replaces block='railcraft:ore:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Replaces block='minecraft:dirt' weight='1.0' />
               <Replaces block='minecraft:gravel' weight='1.0' />
@@ -811,7 +811,7 @@
         <!-- Starting SparseVeins Preset for Poor Iron. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrPoorIronDist = "SparseVeins"'>
-            <Veins name='rlcrPoorIronVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
+            <Veins name='rlcrPoorIronVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -821,7 +821,7 @@
                 harder to get an idea of their  direction while
                 mining.
               </Description>
-              <OreBlock block='Railcraft:ore:7' weight='1.0' />
+              <OreBlock block='railcraft:ore:7' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 9.801 * _default_ * rlcrPoorIronFreq ' range=':= 9.801 * _default_ * rlcrPoorIronFreq ' type='normal' scaleTo='base' />
@@ -849,7 +849,7 @@
         <!-- Starting StrategicClouds Preset for Poor Iron. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrPoorIronDist = "StrategicClouds"'>
-            <Cloud name='rlcrPoorIronCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
+            <Cloud name='rlcrPoorIronCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -861,7 +861,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='Railcraft:ore:7' weight='1.0' />
+              <OreBlock block='railcraft:ore:7' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='CloudRadius' avg=':= 2.138 * _default_ * rlcrPoorIronSize ' range=':= 2.138 * _default_ * rlcrPoorIronSize ' type='normal' />
@@ -874,7 +874,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='rlcrPoorIronHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
+              <Veins name='rlcrPoorIronHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -889,7 +889,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='Railcraft:ore:7' weight='1.0' />
+                <OreBlock block='railcraft:ore:7' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -905,15 +905,15 @@
         <!-- Starting Vanilla Preset for Poor Iron. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrPoorIronDist = "Vanilla"'>
-            <StandardGen name='rlcrPoorIronStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
+            <StandardGen name='rlcrPoorIronStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='Railcraft:ore:7' weight='1.0' />
+              <OreBlock block='railcraft:ore:7' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 10.667 * rlcrPoorIronSize ' range=':= 5.33 * rlcrPoorIronSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 21.333 * rlcrPoorIronFreq ' range=':= 10.67 * rlcrPoorIronFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 10.667 * oreSize * rlcrPoorIronSize ' range=':= 5.33 * oreSize * rlcrPoorIronSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 21.333 * oreFreq * rlcrPoorIronFreq ' range=':= 10.67 * oreFreq * rlcrPoorIronFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 40 ' range=':= 4 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -929,7 +929,7 @@
         <!-- Starting SparseVeins Preset for Mountain Poor  Iron. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrMountainPoorIronDist = "SparseVeins"'>
-            <Veins name='rlcrMountainPoorIronVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
+            <Veins name='rlcrMountainPoorIronVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -939,7 +939,7 @@
                 harder to get an idea of their  direction while
                 mining.
               </Description>
-              <OreBlock block='Railcraft:ore:7' weight='1.0' />
+              <OreBlock block='railcraft:ore:7' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='MotherlodeFrequency' avg=':= 9.801 * _default_ * rlcrMountainPoorIronFreq ' range=':= 9.801 * _default_ * rlcrMountainPoorIronFreq ' type='normal' scaleTo='base' />
@@ -967,7 +967,7 @@
         <!-- Starting StrategicClouds Preset for Mountain Poor  Iron. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrMountainPoorIronDist = "StrategicClouds"'>
-            <Cloud name='rlcrMountainPoorIronCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
+            <Cloud name='rlcrMountainPoorIronCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -979,7 +979,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='Railcraft:ore:7' weight='1.0' />
+              <OreBlock block='railcraft:ore:7' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='CloudRadius' avg=':= 2.138 * _default_ * rlcrMountainPoorIronSize ' range=':= 2.138 * _default_ * rlcrMountainPoorIronSize ' type='normal' />
@@ -992,7 +992,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='rlcrMountainPoorIronHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
+              <Veins name='rlcrMountainPoorIronHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1007,7 +1007,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='Railcraft:ore:7' weight='1.0' />
+                <OreBlock block='railcraft:ore:7' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -1024,15 +1024,15 @@
         <!-- Starting Vanilla Preset for Mountain Poor Iron. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrMountainPoorIronDist = "Vanilla"'>
-            <StandardGen name='rlcrMountainPoorIronStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
+            <StandardGen name='rlcrMountainPoorIronStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60DDC2AF' drawBoundBox='false' boundBoxColor='0x60DDC2AF'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='Railcraft:ore:7' weight='1.0' />
+              <OreBlock block='railcraft:ore:7' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 10.667 * rlcrMountainPoorIronSize ' range=':= 5.33 * rlcrMountainPoorIronSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 21.333 * rlcrMountainPoorIronFreq ' range=':= 10.67 * rlcrMountainPoorIronFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 10.667 * oreSize * rlcrMountainPoorIronSize ' range=':= 5.33 * oreSize * rlcrMountainPoorIronSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 21.333 * oreFreq * rlcrMountainPoorIronFreq ' range=':= 10.67 * oreFreq * rlcrMountainPoorIronFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 184 ' range=':= 12 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1048,7 +1048,7 @@
         <!-- Starting SparseVeins Preset for Poor Gold. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrPoorGoldDist = "SparseVeins"'>
-            <Veins name='rlcrPoorGoldVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
+            <Veins name='rlcrPoorGoldVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -1058,7 +1058,7 @@
                 harder to get an idea of their  direction while
                 mining.
               </Description>
-              <OreBlock block='Railcraft:ore:8' weight='1.0' />
+              <OreBlock block='railcraft:ore:8' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 2.450 * _default_ * rlcrPoorGoldFreq ' range=':= 2.450 * _default_ * rlcrPoorGoldFreq ' type='normal' scaleTo='base' />
@@ -1086,7 +1086,7 @@
         <!-- Starting StrategicClouds Preset for Poor Gold. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrPoorGoldDist = "StrategicClouds"'>
-            <Cloud name='rlcrPoorGoldCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
+            <Cloud name='rlcrPoorGoldCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1098,7 +1098,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='Railcraft:ore:8' weight='1.0' />
+              <OreBlock block='railcraft:ore:8' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='CloudRadius' avg=':= 1.069 * _default_ * rlcrPoorGoldSize ' range=':= 1.069 * _default_ * rlcrPoorGoldSize ' type='normal' />
@@ -1111,7 +1111,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='rlcrPoorGoldHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
+              <Veins name='rlcrPoorGoldHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1126,7 +1126,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='Railcraft:ore:8' weight='1.0' />
+                <OreBlock block='railcraft:ore:8' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -1142,15 +1142,15 @@
         <!-- Starting Vanilla Preset for Poor Gold. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrPoorGoldDist = "Vanilla"'>
-            <StandardGen name='rlcrPoorGoldStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
+            <StandardGen name='rlcrPoorGoldStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='Railcraft:ore:8' weight='1.0' />
+              <OreBlock block='railcraft:ore:8' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 0.667 * rlcrPoorGoldSize ' range=':= 0.33 * rlcrPoorGoldSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 21.333 * rlcrPoorGoldFreq ' range=':= 10.67 * rlcrPoorGoldFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 0.667 * oreSize * rlcrPoorGoldSize ' range=':= 0.33 * oreSize * rlcrPoorGoldSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 21.333 * oreFreq * rlcrPoorGoldFreq ' range=':= 10.67 * oreFreq * rlcrPoorGoldFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 15 ' range=':= 1 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1166,7 +1166,7 @@
         <!-- Starting SparseVeins Preset for Mountain Poor  Gold. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrMountainPoorGoldDist = "SparseVeins"'>
-            <Veins name='rlcrMountainPoorGoldVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
+            <Veins name='rlcrMountainPoorGoldVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -1176,7 +1176,7 @@
                 harder to get an idea of their  direction while
                 mining.
               </Description>
-              <OreBlock block='Railcraft:ore:8' weight='1.0' />
+              <OreBlock block='railcraft:ore:8' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='MotherlodeFrequency' avg=':= 2.450 * _default_ * rlcrMountainPoorGoldFreq ' range=':= 2.450 * _default_ * rlcrMountainPoorGoldFreq ' type='normal' scaleTo='base' />
@@ -1204,7 +1204,7 @@
         <!-- Starting StrategicClouds Preset for Mountain Poor  Gold. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrMountainPoorGoldDist = "StrategicClouds"'>
-            <Cloud name='rlcrMountainPoorGoldCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
+            <Cloud name='rlcrMountainPoorGoldCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1216,7 +1216,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='Railcraft:ore:8' weight='1.0' />
+              <OreBlock block='railcraft:ore:8' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='CloudRadius' avg=':= 1.069 * _default_ * rlcrMountainPoorGoldSize ' range=':= 1.069 * _default_ * rlcrMountainPoorGoldSize ' type='normal' />
@@ -1229,7 +1229,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='rlcrMountainPoorGoldHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
+              <Veins name='rlcrMountainPoorGoldHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1244,7 +1244,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='Railcraft:ore:8' weight='1.0' />
+                <OreBlock block='railcraft:ore:8' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -1261,15 +1261,15 @@
         <!-- Starting Vanilla Preset for Mountain Poor Gold. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrMountainPoorGoldDist = "Vanilla"'>
-            <StandardGen name='rlcrMountainPoorGoldStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
+            <StandardGen name='rlcrMountainPoorGoldStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='Railcraft:ore:8' weight='1.0' />
+              <OreBlock block='railcraft:ore:8' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 0.667 * rlcrMountainPoorGoldSize ' range=':= 0.33 * rlcrMountainPoorGoldSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 21.333 * rlcrMountainPoorGoldFreq ' range=':= 10.67 * rlcrMountainPoorGoldFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 0.667 * oreSize * rlcrMountainPoorGoldSize ' range=':= 0.33 * oreSize * rlcrMountainPoorGoldSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 21.333 * oreFreq * rlcrMountainPoorGoldFreq ' range=':= 10.67 * oreFreq * rlcrMountainPoorGoldFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 109 ' range=':= 3 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1285,7 +1285,7 @@
         <!-- Starting SparseVeins Preset for Poor Copper. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrPoorCopperDist = "SparseVeins"'>
-            <Veins name='rlcrPoorCopperVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <Veins name='rlcrPoorCopperVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -1295,7 +1295,7 @@
                 harder to get an idea of their  direction while
                 mining.
               </Description>
-              <OreBlock block='Railcraft:ore:9' weight='1.0' />
+              <OreBlock block='railcraft:ore:9' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 6.930 * _default_ * rlcrPoorCopperFreq ' range=':= 6.930 * _default_ * rlcrPoorCopperFreq ' type='normal' scaleTo='base' />
@@ -1323,7 +1323,7 @@
         <!-- Starting StrategicClouds Preset for Poor Copper. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrPoorCopperDist = "StrategicClouds"'>
-            <Cloud name='rlcrPoorCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <Cloud name='rlcrPoorCopperCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1335,7 +1335,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='Railcraft:ore:9' weight='1.0' />
+              <OreBlock block='railcraft:ore:9' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='CloudRadius' avg=':= 1.798 * _default_ * rlcrPoorCopperSize ' range=':= 1.798 * _default_ * rlcrPoorCopperSize ' type='normal' />
@@ -1348,7 +1348,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='rlcrPoorCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+              <Veins name='rlcrPoorCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1363,7 +1363,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='Railcraft:ore:9' weight='1.0' />
+                <OreBlock block='railcraft:ore:9' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -1379,15 +1379,15 @@
         <!-- Starting Vanilla Preset for Poor Copper. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrPoorCopperDist = "Vanilla"'>
-            <StandardGen name='rlcrPoorCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <StandardGen name='rlcrPoorCopperStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='Railcraft:ore:9' weight='1.0' />
+              <OreBlock block='railcraft:ore:9' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 5.333 * rlcrPoorCopperSize ' range=':= 2.67 * rlcrPoorCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 21.333 * rlcrPoorCopperFreq ' range=':= 10.67 * rlcrPoorCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * rlcrPoorCopperSize ' range=':= 2.67 * oreSize * rlcrPoorCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 21.333 * oreFreq * rlcrPoorCopperFreq ' range=':= 10.67 * oreFreq * rlcrPoorCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 60 ' range=':= 3 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1403,7 +1403,7 @@
         <!-- Starting SparseVeins Preset for Mountain Poor  Copper. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrMountainPoorCopperDist = "SparseVeins"'>
-            <Veins name='rlcrMountainPoorCopperVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <Veins name='rlcrMountainPoorCopperVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -1413,7 +1413,7 @@
                 harder to get an idea of their  direction while
                 mining.
               </Description>
-              <OreBlock block='Railcraft:ore:9' weight='1.0' />
+              <OreBlock block='railcraft:ore:9' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='MotherlodeFrequency' avg=':= 6.930 * _default_ * rlcrMountainPoorCopperFreq ' range=':= 6.930 * _default_ * rlcrMountainPoorCopperFreq ' type='normal' scaleTo='base' />
@@ -1442,7 +1442,7 @@
              Copper. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrMountainPoorCopperDist = "StrategicClouds"'>
-            <Cloud name='rlcrMountainPoorCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <Cloud name='rlcrMountainPoorCopperCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1454,7 +1454,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='Railcraft:ore:9' weight='1.0' />
+              <OreBlock block='railcraft:ore:9' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='CloudRadius' avg=':= 1.798 * _default_ * rlcrMountainPoorCopperSize ' range=':= 1.798 * _default_ * rlcrMountainPoorCopperSize ' type='normal' />
@@ -1467,7 +1467,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='rlcrMountainPoorCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+              <Veins name='rlcrMountainPoorCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1482,7 +1482,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='Railcraft:ore:9' weight='1.0' />
+                <OreBlock block='railcraft:ore:9' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -1499,15 +1499,15 @@
         <!-- Starting Vanilla Preset for Mountain Poor Copper. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrMountainPoorCopperDist = "Vanilla"'>
-            <StandardGen name='rlcrMountainPoorCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <StandardGen name='rlcrMountainPoorCopperStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='Railcraft:ore:9' weight='1.0' />
+              <OreBlock block='railcraft:ore:9' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 5.333 * rlcrMountainPoorCopperSize ' range=':= 2.67 * rlcrMountainPoorCopperSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 21.333 * rlcrMountainPoorCopperFreq ' range=':= 10.67 * rlcrMountainPoorCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 5.333 * oreSize * rlcrMountainPoorCopperSize ' range=':= 2.67 * oreSize * rlcrMountainPoorCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 21.333 * oreFreq * rlcrMountainPoorCopperFreq ' range=':= 10.67 * oreFreq * rlcrMountainPoorCopperFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 244 ' range=':= 9 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1523,7 +1523,7 @@
         <!-- Starting SparseVeins Preset for Poor Tin. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrPoorTinDist = "SparseVeins"'>
-            <Veins name='rlcrPoorTinVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <Veins name='rlcrPoorTinVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -1533,7 +1533,7 @@
                 harder to get an idea of their  direction while
                 mining.
               </Description>
-              <OreBlock block='Railcraft:ore:10' weight='1.0' />
+              <OreBlock block='railcraft:ore:10' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 3.465 * _default_ * rlcrPoorTinFreq ' range=':= 3.465 * _default_ * rlcrPoorTinFreq ' type='normal' scaleTo='base' />
@@ -1561,7 +1561,7 @@
         <!-- Starting StrategicClouds Preset for Poor Tin. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrPoorTinDist = "StrategicClouds"'>
-            <Cloud name='rlcrPoorTinCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <Cloud name='rlcrPoorTinCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1573,7 +1573,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='Railcraft:ore:10' weight='1.0' />
+              <OreBlock block='railcraft:ore:10' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='CloudRadius' avg=':= 1.271 * _default_ * rlcrPoorTinSize ' range=':= 1.271 * _default_ * rlcrPoorTinSize ' type='normal' />
@@ -1586,7 +1586,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='rlcrPoorTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+              <Veins name='rlcrPoorTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1601,7 +1601,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='Railcraft:ore:10' weight='1.0' />
+                <OreBlock block='railcraft:ore:10' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -1617,15 +1617,15 @@
         <!-- Starting Vanilla Preset for Poor Tin. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrPoorTinDist = "Vanilla"'>
-            <StandardGen name='rlcrPoorTinStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <StandardGen name='rlcrPoorTinStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='Railcraft:ore:10' weight='1.0' />
+              <OreBlock block='railcraft:ore:10' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 1.333 * rlcrPoorTinSize ' range=':= 0.67 * rlcrPoorTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 21.333 * rlcrPoorTinFreq ' range=':= 10.67 * rlcrPoorTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 1.333 * oreSize * rlcrPoorTinSize ' range=':= 0.67 * oreSize * rlcrPoorTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 21.333 * oreFreq * rlcrPoorTinFreq ' range=':= 10.67 * oreFreq * rlcrPoorTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 50 ' range=':= 2 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1641,7 +1641,7 @@
         <!-- Starting SparseVeins Preset for Mountain Poor  Tin. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrMountainPoorTinDist = "SparseVeins"'>
-            <Veins name='rlcrMountainPoorTinVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <Veins name='rlcrMountainPoorTinVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -1651,7 +1651,7 @@
                 harder to get an idea of their  direction while
                 mining.
               </Description>
-              <OreBlock block='Railcraft:ore:10' weight='1.0' />
+              <OreBlock block='railcraft:ore:10' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='MotherlodeFrequency' avg=':= 3.465 * _default_ * rlcrMountainPoorTinFreq ' range=':= 3.465 * _default_ * rlcrMountainPoorTinFreq ' type='normal' scaleTo='base' />
@@ -1679,7 +1679,7 @@
         <!-- Starting StrategicClouds Preset for Mountain Poor  Tin. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrMountainPoorTinDist = "StrategicClouds"'>
-            <Cloud name='rlcrMountainPoorTinCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <Cloud name='rlcrMountainPoorTinCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1691,7 +1691,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='Railcraft:ore:10' weight='1.0' />
+              <OreBlock block='railcraft:ore:10' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='CloudRadius' avg=':= 1.271 * _default_ * rlcrMountainPoorTinSize ' range=':= 1.271 * _default_ * rlcrMountainPoorTinSize ' type='normal' />
@@ -1704,7 +1704,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='rlcrMountainPoorTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+              <Veins name='rlcrMountainPoorTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1719,7 +1719,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='Railcraft:ore:10' weight='1.0' />
+                <OreBlock block='railcraft:ore:10' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -1736,15 +1736,15 @@
         <!-- Starting Vanilla Preset for Mountain Poor Tin. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrMountainPoorTinDist = "Vanilla"'>
-            <StandardGen name='rlcrMountainPoorTinStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <StandardGen name='rlcrMountainPoorTinStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='Railcraft:ore:10' weight='1.0' />
+              <OreBlock block='railcraft:ore:10' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 1.333 * rlcrMountainPoorTinSize ' range=':= 0.67 * rlcrMountainPoorTinSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 21.333 * rlcrMountainPoorTinFreq ' range=':= 10.67 * rlcrMountainPoorTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 1.333 * oreSize * rlcrMountainPoorTinSize ' range=':= 0.67 * oreSize * rlcrMountainPoorTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 21.333 * oreFreq * rlcrMountainPoorTinFreq ' range=':= 10.67 * oreFreq * rlcrMountainPoorTinFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 214 ' range=':= 6 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1760,7 +1760,7 @@
         <!-- Starting SparseVeins Preset for Poor Lead. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrPoorLeadDist = "SparseVeins"'>
-            <Veins name='rlcrPoorLeadVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+            <Veins name='rlcrPoorLeadVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -1770,7 +1770,7 @@
                 harder to get an idea of their  direction while
                 mining.
               </Description>
-              <OreBlock block='Railcraft:ore:11' weight='1.0' />
+              <OreBlock block='railcraft:ore:11' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 6.002 * _default_ * rlcrPoorLeadFreq ' range=':= 6.002 * _default_ * rlcrPoorLeadFreq ' type='normal' scaleTo='base' />
@@ -1798,7 +1798,7 @@
         <!-- Starting StrategicClouds Preset for Poor Lead. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrPoorLeadDist = "StrategicClouds"'>
-            <Cloud name='rlcrPoorLeadCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+            <Cloud name='rlcrPoorLeadCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1810,7 +1810,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='Railcraft:ore:11' weight='1.0' />
+              <OreBlock block='railcraft:ore:11' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='CloudRadius' avg=':= 1.673 * _default_ * rlcrPoorLeadSize ' range=':= 1.673 * _default_ * rlcrPoorLeadSize ' type='normal' />
@@ -1823,7 +1823,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='rlcrPoorLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+              <Veins name='rlcrPoorLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1838,7 +1838,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='Railcraft:ore:11' weight='1.0' />
+                <OreBlock block='railcraft:ore:11' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -1854,15 +1854,15 @@
         <!-- Starting Vanilla Preset for Poor Lead. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrPoorLeadDist = "Vanilla"'>
-            <StandardGen name='rlcrPoorLeadStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+            <StandardGen name='rlcrPoorLeadStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='Railcraft:ore:11' weight='1.0' />
+              <OreBlock block='railcraft:ore:11' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 4.0 * rlcrPoorLeadSize ' range=':= 2.0 * rlcrPoorLeadSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 21.333 * rlcrPoorLeadFreq ' range=':= 10.67 * rlcrPoorLeadFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * rlcrPoorLeadSize ' range=':= 2.0 * oreSize * rlcrPoorLeadSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 21.333 * oreFreq * rlcrPoorLeadFreq ' range=':= 10.67 * oreFreq * rlcrPoorLeadFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 30 ' range=':= 3 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1878,7 +1878,7 @@
         <!-- Starting SparseVeins Preset for Mountain Poor  Lead. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrMountainPoorLeadDist = "SparseVeins"'>
-            <Veins name='rlcrMountainPoorLeadVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+            <Veins name='rlcrMountainPoorLeadVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -1888,7 +1888,7 @@
                 harder to get an idea of their  direction while
                 mining.
               </Description>
-              <OreBlock block='Railcraft:ore:11' weight='1.0' />
+              <OreBlock block='railcraft:ore:11' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='MotherlodeFrequency' avg=':= 6.002 * _default_ * rlcrMountainPoorLeadFreq ' range=':= 6.002 * _default_ * rlcrMountainPoorLeadFreq ' type='normal' scaleTo='base' />
@@ -1916,7 +1916,7 @@
         <!-- Starting StrategicClouds Preset for Mountain Poor  Lead. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrMountainPoorLeadDist = "StrategicClouds"'>
-            <Cloud name='rlcrMountainPoorLeadCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+            <Cloud name='rlcrMountainPoorLeadCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1928,7 +1928,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='Railcraft:ore:11' weight='1.0' />
+              <OreBlock block='railcraft:ore:11' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='CloudRadius' avg=':= 1.673 * _default_ * rlcrMountainPoorLeadSize ' range=':= 1.673 * _default_ * rlcrMountainPoorLeadSize ' type='normal' />
@@ -1941,7 +1941,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='rlcrMountainPoorLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+              <Veins name='rlcrMountainPoorLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1956,7 +1956,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='Railcraft:ore:11' weight='1.0' />
+                <OreBlock block='railcraft:ore:11' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -1973,15 +1973,15 @@
         <!-- Starting Vanilla Preset for Mountain Poor Lead. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrMountainPoorLeadDist = "Vanilla"'>
-            <StandardGen name='rlcrMountainPoorLeadStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+            <StandardGen name='rlcrMountainPoorLeadStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='Railcraft:ore:11' weight='1.0' />
+              <OreBlock block='railcraft:ore:11' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
-              <Setting name='Size' avg=':= 4.0 * rlcrMountainPoorLeadSize ' range=':= 2.0 * rlcrMountainPoorLeadSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 21.333 * rlcrMountainPoorLeadFreq ' range=':= 10.67 * rlcrMountainPoorLeadFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 4.0 * oreSize * rlcrMountainPoorLeadSize ' range=':= 2.0 * oreSize * rlcrMountainPoorLeadSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 21.333 * oreFreq * rlcrMountainPoorLeadFreq ' range=':= 10.67 * oreFreq * rlcrMountainPoorLeadFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 154 ' range=':= 9 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -1997,12 +1997,12 @@
         <!-- Starting PipeVeins Preset for Sulfur. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrSulfurDist = "PipeVeins"'>
-            <Veins name='rlcrSulfurVeins'  inherits='PresetPipeVeins' branchType='Bezier' seed='0xEE54' drawWireframe='true' wireframeColor='0x60FFE25C' drawBoundBox='false' boundBoxColor='0x60FFE25C'>
+            <Veins name='rlcrSulfurVeins'  inherits='PresetPipeVeins' branchType='Bezier' seed='0xEE54' drawWireframe=':= drawWireframes' wireframeColor='0x60FFE25C' drawBoundBox='false' boundBoxColor='0x60FFE25C'>
               <Description>
                 Short sparsely filled veins  sloping up from near the
                 bottom  of the map.
               </Description>
-              <OreBlock block='Railcraft:ore' weight='1.0' />
+              <OreBlock block='railcraft:ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 1.707 * _default_ * rlcrSulfurFreq ' range=':= 1.707 * _default_ * rlcrSulfurFreq ' type='normal' scaleTo='base' />
@@ -2024,10 +2024,10 @@
             </Veins>
 
             <!-- Configuring contained material. -->
-            <Veins name='rlcrSulfurVeinsPipe'  inherits='rlcrSulfurVeins' branchType='Bezier' seed='0xEE54' drawWireframe='true' wireframeColor='0x60FFE25C' drawBoundBox='false' boundBoxColor='0x60FFE25C'>
+            <Veins name='rlcrSulfurVeinsPipe'  inherits='rlcrSulfurVeins' branchType='Bezier' seed='0xEE54' drawWireframe=':= drawWireframes' wireframeColor='0x60FFE25C' drawBoundBox='false' boundBoxColor='0x60FFE25C'>
               <OreBlock block='minecraft:lava' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
-              <Replaces block='Railcraft:ore' weight='1.0' />
+              <Replaces block='railcraft:ore' weight='1.0' />
               <Setting name='MotherlodeSize' avg=':= 0 * _default_ * rlcrSulfurSize  * 0.5 ' range=':= 0 * _default_ * rlcrSulfurSize  * 0.5 ' type='normal' />
               <Setting name='SegmentRadius' avg=':= 1.143 * _default_ * rlcrSulfurSize  * 0.5 ' range=':= 1.143 * _default_ * rlcrSulfurSize  * 0.5 ' type='normal' />
               <Setting name='OreDensity' avg=':= 1.0 ' range=':= 0 ' type='normal' />
@@ -2040,7 +2040,7 @@
         <!-- Starting StrategicClouds Preset for Sulfur. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrSulfurDist = "StrategicClouds"'>
-            <Cloud name='rlcrSulfurCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FFE25C' drawBoundBox='false' boundBoxColor='0x60FFE25C'>
+            <Cloud name='rlcrSulfurCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60FFE25C' drawBoundBox='false' boundBoxColor='0x60FFE25C'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -2052,7 +2052,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='Railcraft:ore' weight='1.0' />
+              <OreBlock block='railcraft:ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='CloudRadius' avg=':= 1.130 * _default_ * rlcrSulfurSize ' range=':= 1.130 * _default_ * rlcrSulfurSize ' type='normal' />
@@ -2065,7 +2065,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='rlcrSulfurHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FFE25C' drawBoundBox='false' boundBoxColor='0x60FFE25C'>
+              <Veins name='rlcrSulfurHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60FFE25C' drawBoundBox='false' boundBoxColor='0x60FFE25C'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2080,7 +2080,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='Railcraft:ore' weight='1.0' />
+                <OreBlock block='railcraft:ore' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -2096,15 +2096,15 @@
         <!-- Starting Vanilla Preset for Sulfur. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrSulfurDist = "Vanilla"'>
-            <StandardGen name='rlcrSulfurStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FFE25C' drawBoundBox='false' boundBoxColor='0x60FFE25C'>
+            <StandardGen name='rlcrSulfurStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60FFE25C' drawBoundBox='false' boundBoxColor='0x60FFE25C'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='Railcraft:ore' weight='1.0' />
+              <OreBlock block='railcraft:ore' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 6.667 * rlcrSulfurSize ' range=':= 3.33 * rlcrSulfurSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 2.667 * rlcrSulfurFreq ' range=':= 1.33 * rlcrSulfurFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 6.667 * oreSize * rlcrSulfurSize ' range=':= 3.33 * oreSize * rlcrSulfurSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 2.667 * oreFreq * rlcrSulfurFreq ' range=':= 1.33 * oreFreq * rlcrSulfurFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 11 ' range=':= 5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2120,7 +2120,7 @@
         <!-- Starting SparseVeins Preset for Saltpeter. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrSaltpeterDist = "SparseVeins"'>
-            <Veins name='rlcrSaltpeterVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60CED0BA' drawBoundBox='false' boundBoxColor='0x60CED0BA'>
+            <Veins name='rlcrSaltpeterVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60CED0BA' drawBoundBox='false' boundBoxColor='0x60CED0BA'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -2130,7 +2130,7 @@
                 harder to get an idea of their  direction while
                 mining.
               </Description>
-              <OreBlock block='Railcraft:ore:1' weight='1.0' />
+              <OreBlock block='railcraft:ore:1' weight='1.0' />
               <ReplacesOre block='sand' weight='1.0' />
               <Replaces block='minecraft:sandstone' weight='1.0' />
               <BiomeType name='Sandy'  minRainfall='0' maxRainfall='0.1' minTemperature='1.5' maxTemperature='2.0' />
@@ -2159,7 +2159,7 @@
         <!-- Starting StrategicClouds Preset for Saltpeter. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrSaltpeterDist = "StrategicClouds"'>
-            <Cloud name='rlcrSaltpeterCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60CED0BA' drawBoundBox='false' boundBoxColor='0x60CED0BA'>
+            <Cloud name='rlcrSaltpeterCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60CED0BA' drawBoundBox='false' boundBoxColor='0x60CED0BA'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -2171,7 +2171,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='Railcraft:ore:1' weight='1.0' />
+              <OreBlock block='railcraft:ore:1' weight='1.0' />
               <ReplacesOre block='sand' weight='1.0' />
               <Replaces block='minecraft:sandstone' weight='1.0' />
               <BiomeType name='Sandy'  minRainfall='0' maxRainfall='0.1' minTemperature='1.5' maxTemperature='2.0' />
@@ -2185,7 +2185,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='rlcrSaltpeterHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60CED0BA' drawBoundBox='false' boundBoxColor='0x60CED0BA'>
+              <Veins name='rlcrSaltpeterHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60CED0BA' drawBoundBox='false' boundBoxColor='0x60CED0BA'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2200,7 +2200,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='Railcraft:ore:1' weight='1.0' />
+                <OreBlock block='railcraft:ore:1' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -2216,16 +2216,16 @@
         <!-- Starting Vanilla Preset for Saltpeter. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrSaltpeterDist = "Vanilla"'>
-            <StandardGen name='rlcrSaltpeterStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60CED0BA' drawBoundBox='false' boundBoxColor='0x60CED0BA'>
+            <StandardGen name='rlcrSaltpeterStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60CED0BA' drawBoundBox='false' boundBoxColor='0x60CED0BA'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='Railcraft:ore:1' weight='1.0' />
+              <OreBlock block='railcraft:ore:1' weight='1.0' />
               <ReplacesOre block='sand' weight='1.0' />
               <Replaces block='minecraft:sandstone' weight='1.0' />
               <BiomeType name='Sandy'  minRainfall='0' maxRainfall='0.1' minTemperature='1.5' maxTemperature='2.0' />
-              <Setting name='Size' avg=':= 0.667 * rlcrSaltpeterSize ' range=':= 0.33 * rlcrSaltpeterSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 42.667 * rlcrSaltpeterFreq ' range=':= 21.33 * rlcrSaltpeterFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 0.667 * oreSize * rlcrSaltpeterSize ' range=':= 0.33 * oreSize * rlcrSaltpeterSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 42.667 * oreFreq * rlcrSaltpeterFreq ' range=':= 21.33 * oreFreq * rlcrSaltpeterFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 64 ' range=':= 5 ' type='normal' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
@@ -2246,7 +2246,7 @@
 
       <!-- Nether Setup Beginning -->
 
-      <IfCondition condition=':= dimension.generator.class = "ChunkProviderHell"'>
+      <IfCondition condition=':= dimension = "Nether"'>
 
         <!-- Starting Original "Nether" Block Removal -->
 
@@ -2260,7 +2260,7 @@
                 The global option  deferredPopulationRange must be
                 large enough to catch all ore  clusters (>= 32).
               </Comment>
-              <Replaces block='Railcraft:ore:5' weight='1.0' />
+              <Replaces block='railcraft:ore:5' weight='1.0' />
             </Substitute>
           </IfCondition>
         </IfCondition>
@@ -2274,12 +2274,12 @@
         <!-- Starting SmallDeposits Preset for Firestone. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrFirestoneDist = "SmallDeposits"'>
-            <Veins name='rlcrFirestoneVeins'  inherits='PresetSmallDeposits' branchType='Bezier' drawWireframe='true' wireframeColor='0x60C64E0D' drawBoundBox='false' boundBoxColor='0x60C64E0D'>
+            <Veins name='rlcrFirestoneVeins'  inherits='PresetSmallDeposits' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60C64E0D' drawBoundBox='false' boundBoxColor='0x60C64E0D'>
               <Description>
                 Small motherlodes without any  branches.  Similar to
                 the  deposits produced by StandardGen  distributions.
               </Description>
-              <OreBlock block='Railcraft:ore:5' weight='1.0' />
+              <OreBlock block='railcraft:ore:5' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 0.111 * _default_ * rlcrFirestoneFreq ' range=':= 0.111 * _default_ * rlcrFirestoneFreq ' type='normal' scaleTo='base' />
@@ -2307,7 +2307,7 @@
         <!-- Starting StrategicClouds Preset for Firestone. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrFirestoneDist = "StrategicClouds"'>
-            <Cloud name='rlcrFirestoneCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60C64E0D' drawBoundBox='false' boundBoxColor='0x60C64E0D'>
+            <Cloud name='rlcrFirestoneCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60C64E0D' drawBoundBox='false' boundBoxColor='0x60C64E0D'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -2319,7 +2319,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='Railcraft:ore:5' weight='1.0' />
+              <OreBlock block='railcraft:ore:5' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='CloudRadius' avg=':= 0.318 * _default_ * rlcrFirestoneSize ' range=':= 0.318 * _default_ * rlcrFirestoneSize ' type='normal' />
@@ -2332,7 +2332,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='rlcrFirestoneHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60C64E0D' drawBoundBox='false' boundBoxColor='0x60C64E0D'>
+              <Veins name='rlcrFirestoneHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60C64E0D' drawBoundBox='false' boundBoxColor='0x60C64E0D'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2347,7 +2347,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='Railcraft:ore:5' weight='1.0' />
+                <OreBlock block='railcraft:ore:5' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -2363,15 +2363,15 @@
         <!-- Starting Vanilla Preset for Firestone. -->
         <ConfigSection>
           <IfCondition condition=':= rlcrFirestoneDist = "Vanilla"'>
-            <StandardGen name='rlcrFirestoneStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60C64E0D' drawBoundBox='false' boundBoxColor='0x60C64E0D'>
+            <StandardGen name='rlcrFirestoneStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C64E0D' drawBoundBox='false' boundBoxColor='0x60C64E0D'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='Railcraft:ore:5' weight='1.0' />
+              <OreBlock block='railcraft:ore:5' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
-              <Setting name='Size' avg=':= 0.667 * rlcrFirestoneSize ' range=':= 0.33 * rlcrFirestoneSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 0.167 * rlcrFirestoneFreq ' range=':= 0.08 * rlcrFirestoneFreq ' type='normal' scaleTo='base' />
+              <Setting name='Size' avg=':= 0.667 * oreSize * rlcrFirestoneSize ' range=':= 0.33 * oreSize * rlcrFirestoneSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 0.167 * oreFreq * rlcrFirestoneFreq ' range=':= 0.08 * oreFreq * rlcrFirestoneFreq ' type='normal' scaleTo='base' />
               <Setting name='Height' avg=':= 16 ' range=':= 15 ' type='uniform' scaleTo='base' />
               <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
             </StandardGen>
