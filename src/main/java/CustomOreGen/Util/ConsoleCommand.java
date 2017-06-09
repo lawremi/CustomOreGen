@@ -71,7 +71,7 @@ public class ConsoleCommand extends CommandBase
         		}
 	            else
 	            {
-	            	recipient.addChatMessage(new TextComponentString(line));
+	            	recipient.sendMessage(new TextComponentString(line));
 	            }
         	}
         }
@@ -83,7 +83,7 @@ public class ConsoleCommand extends CommandBase
 
         if (sender instanceof Entity)
         {
-            entityWorld = ((Entity)sender).worldObj;
+            entityWorld = ((Entity)sender).world;
         }
         else
         {
@@ -125,28 +125,28 @@ public class ConsoleCommand extends CommandBase
     }
 
     @Override
-    public String getCommandName()
+    public String getName()
     {
         CommandDelegate cmdDef = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
         return cmdDef != null && cmdDef.names() != null && cmdDef.names().length > 0 ? cmdDef.names()[0] : this._method.getName();
     }
 
     @Override
-    public List<String> getCommandAliases()
+    public List<String> getAliases()
     {
         CommandDelegate cmdDef = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
         return cmdDef != null && cmdDef.names() != null && cmdDef.names().length > 1 ? Arrays.asList(Arrays.copyOfRange(cmdDef.names(), 1, cmdDef.names().length)) : Collections.<String>emptyList();
     }
 
     @Override
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return this.getCommandHelp(sender, false);
     }
 
     public String getCommandHelp(ICommandSender sender, boolean verbose)
     {
-        StringBuilder out = new StringBuilder("/" + this.getCommandName());
+        StringBuilder out = new StringBuilder("/" + this.getName());
         Class<?>[] ptypes = this._method.getParameterTypes();
         Annotation[][] pantns = this._method.getParameterAnnotations();
 
@@ -356,4 +356,5 @@ public class ConsoleCommand extends CommandBase
         CommandDelegate cmdDef = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
         return cmdDef != null && cmdDef.isCheat() ? 2 : 0;
     }
+
 }

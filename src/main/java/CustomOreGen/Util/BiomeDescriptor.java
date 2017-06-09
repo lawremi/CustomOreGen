@@ -2,17 +2,20 @@ package CustomOreGen.Util;
 
 import java.util.Collections;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
 
 public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 {
@@ -131,13 +134,15 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
             	continue;
             
             if (desc.describesType) {
-            	BiomeDictionary.Type type = BiomeDictionary.Type.valueOf(desc.description.toUpperCase());
-            	// instead of this, because we do not want to add a new type if it does not exist:
-            	//BiomeDictionary.Type type = BiomeDictionary.Type.getType(desc.description);
-            	if (BiomeDictionary.isBiomeOfType(biome, type))
-            	{
-            		totalWeight += desc.weight;
-            	}
+            	//BiomeDictionary.Type type = BiomeDictionary.Type.valueOf(desc.description.toUpperCase());
+            	// The above no longer works, because Type is no longer an enum, and so we are stuck 
+            	// with the following:
+                if (BiomeDictionary.getTypes(biome).stream()
+                        .filter(type -> type.getName().contains(desc.description.toUpperCase())).findFirst()
+                        .isPresent())
+                {
+                    totalWeight += desc.weight;
+                }
             } else {
             	if (name != null)
             	{
@@ -364,6 +369,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 				   biome.getHeightVariation() >= minHeightVariation &&
 				   biome.getHeightVariation() <= maxHeightVariation;
 		}
+        
     }
 
 }

@@ -6,7 +6,7 @@ public class WorldHeightScale implements HeightScale {
 
 	@Override
 	public int getHeight(World world, int x, int z) {
-		if (world.provider.getHasNoSky()) {
+		if (world.provider.hasNoSky()) {
 			return world.provider.getActualHeight();
 		}
 		return world.provider.getAverageGroundLevel();

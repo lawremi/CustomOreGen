@@ -257,12 +257,12 @@ public class ServerState
         {
             if (currentServer != null && worldInfo == null)
             {
-                if (currentServer.worldServers == null)
+                if (currentServer.worlds == null)
                 {
                     return false;
                 }
 
-                for (WorldServer world : currentServer.worldServers) {
+                for (WorldServer world : currentServer.worlds) {
                     if (world != null)
                     {
                         worldInfo = world.getWorldInfo();
