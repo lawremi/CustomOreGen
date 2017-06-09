@@ -1,6 +1,6 @@
 <!-- =================================================================
      Custom Ore Generation "Chisel 2" Module: This configuration
-     covers limestone, marble, and basalt.
+     covers limestone and marble.
      ================================================================= -->
 
 
@@ -130,52 +130,6 @@
       </ConfigSection>
       <!-- Marble Configuration UI Complete -->
 
-
-      <!-- Basalt Configuration UI Starting -->
-      <ConfigSection>
-        <OptionChoice name='chslBasaltDist' default='none'  displayState=':= if(?enableChisel2, "shown", "hidden")' displayGroup='groupChisel2'>
-          <Description> Controls how Basalt is generated </Description>
-          <DisplayName>Chisel 2 Basalt</DisplayName>
-          <IfCondition condition=':= (?blockExists("chisel:basaltextra:7")) '>
-
-          <Choice value='StratumClouds' displayValue='Strata'>
-            <Description>
-              Wide, thin, and flat disks of ore.
-            </Description>
-          </Choice>
-          </IfCondition>
-
-          <IfCondition condition=':= (?blockExists("chisel:basaltextra:7")) '>
-
-          <Choice value='LayeredVeins' displayValue='Layered Veins'>
-            <Description>
-              Small, fairly rare motherlodes with 2-4 horizontal veins each.
-            </Description>
-          </Choice>
-          </IfCondition>
-
-          <IfCondition condition=':= (?blockExists("chisel:basaltextra:7")) '>
-
-          <Choice value='Vanilla' displayValue='Vanilla'>
-            <Description>
-              Simulates Vanilla Minecraft.
-            </Description>
-          </Choice>
-          </IfCondition>
-
-          <Choice value='none' displayValue='None' description='Basalt is not generated in the world.'/>
-        </OptionChoice>
-        <OptionNumeric name='chslBasaltFreq' default='1'  min='0' max='5' displayState=':= if(?enableChisel2, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupChisel2'>
-          <Description> Frequency multiplier for Chisel 2 Basalt distributions </Description>
-          <DisplayName>Chisel 2 Basalt Freq.</DisplayName>
-        </OptionNumeric>
-        <OptionNumeric name='chslBasaltSize' default='1'  min='0' max='5' displayState=':= if(?enableChisel2, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupChisel2'>
-          <Description> Size multiplier for Chisel 2 Basalt distributions </Description>
-          <DisplayName>Chisel 2 Basalt Size</DisplayName>
-        </OptionNumeric>
-      </ConfigSection>
-      <!-- Basalt Configuration UI Complete -->
-
     </ConfigSection>
     <!-- Setup Screen Complete -->
 
@@ -200,7 +154,6 @@
                 The global option  deferredPopulationRange must be
                 large enough to catch all ore  clusters (>= 32).
               </Comment>
-              <Replaces block='chisel:basaltextra:7' weight='1.0' />
               <Replaces block='chisel:limestoneextra:7' weight='1.0' />
               <Replaces block='chisel:marbleextra:7' weight='1.0' />
             </Substitute>
@@ -379,91 +332,6 @@
         <!-- Vanilla Preset for Marble is complete. -->
 
         <!-- End Marble Generation -->
-
-
-        <!-- Begin Basalt Generation -->
-
-        <!-- Starting StratumClouds Preset for Basalt. -->
-        <ConfigSection>
-          <IfCondition condition=':= chslBasaltDist = "StratumClouds"'>
-            <Cloud name='chslBasaltCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60310402' drawBoundBox='false' boundBoxColor='0x60310402'>
-              <Description>
-                Wide, thin, and flat disks of  ore.  Primarily, this
-                distribution is meant to provide  realistic
-                distribution of stone  in a strata formation.
-              </Description>
-              <OreBlock block='chisel:basaltextra:7' weight='1.0' />
-              <ReplacesOre block='stone' weight='1.0' />
-              <Biome name='.*'  />
-              <Setting name='CloudRadius' avg=':= 1.17 * _default_ * chslBasaltSize ' range=':= 1.17 * _default_ * chslBasaltSize ' type='normal' />
-              <Setting name='CloudThickness' avg=':= 1.17 * _default_ * chslBasaltSize ' range=':= 1.17 * _default_ * chslBasaltSize ' type='normal' scaleTo='base' />
-              <Setting name='DistributionFrequency' avg=':= 1.367 * _default_ * chslBasaltFreq ' range=':= 1.367 * _default_ * chslBasaltFreq ' type='normal' scaleTo='base' />
-              <Setting name='CloudHeight' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
-              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
-              <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-            </Cloud>
-          </IfCondition>
-        </ConfigSection>
-        <!-- StratumClouds Preset for Basalt is complete. -->
-
-
-        <!-- Starting LayeredVeins Preset for Basalt. -->
-        <ConfigSection>
-          <IfCondition condition=':= chslBasaltDist = "LayeredVeins"'>
-            <Veins name='chslBasaltVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60310402' drawBoundBox='false' boundBoxColor='0x60310402'>
-              <Description>
-                Small, fairly rare motherlodes  with 2-4 horizontal
-                veins each.
-              </Description>
-              <OreBlock block='chisel:basaltextra:7' weight='1.0' />
-              <ReplacesOre block='stone' weight='1.0' />
-              <Biome name='.*'  />
-              <Setting name='MotherlodeFrequency' avg=':= 2 * _default_ * chslBasaltFreq ' range=':= 2 * _default_ * chslBasaltFreq ' type='normal' scaleTo='base' />
-              <Setting name='MotherlodeSize' avg=':= 1.133 * _default_ * chslBasaltSize ' range=':= 1.133 * _default_ * chslBasaltSize ' type='normal' />
-              <Setting name='MotherlodeHeight' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
-              <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Setting name='BranchLength' avg=':= 1.42 * _default_ ' range=':= 1.42 * _default_ ' type='normal' />
-              <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
-              <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Setting name='SegmentLength' avg=':= _default_ * chslBasaltSize ' range=':= _default_ * chslBasaltSize ' type='normal' />
-              <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Setting name='SegmentRadius' avg=':= 1.19 * _default_ * chslBasaltSize ' range=':= 1.19 * _default_ * chslBasaltSize ' type='normal' />
-              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-            </Veins>
-          </IfCondition>
-        </ConfigSection>
-        <!-- LayeredVeins Preset for Basalt is complete. -->
-
-
-        <!-- Starting Vanilla Preset for Basalt. -->
-        <ConfigSection>
-          <IfCondition condition=':= chslBasaltDist = "Vanilla"'>
-            <StandardGen name='chslBasaltStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60310402' drawBoundBox='false' boundBoxColor='0x60310402'>
-              <Description>
-                A master preset for standardgen  ore distributions.
-              </Description>
-              <OreBlock block='chisel:basaltextra:7' weight='1.0' />
-              <ReplacesOre block='stone' weight='1.0' />
-              <Biome name='.*'  />
-              <Setting name='Size' avg=':= 14.667 * oreSize * chslBasaltSize ' range=':= 7.33 * oreSize * chslBasaltSize ' type='normal' />
-              <Setting name='Frequency' avg=':= 4 * oreFreq * chslBasaltFreq ' range=':= 2 * oreFreq * chslBasaltFreq ' type='normal' scaleTo='base' />
-              <Setting name='Height' avg=':= 67 ' range=':= 61 ' type='uniform' scaleTo='base' />
-              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-            </StandardGen>
-          </IfCondition>
-        </ConfigSection>
-        <!-- Vanilla Preset for Basalt is complete. -->
-
-        <!-- End Basalt Generation -->
 
         <!-- Finished adding blocks -->
 
