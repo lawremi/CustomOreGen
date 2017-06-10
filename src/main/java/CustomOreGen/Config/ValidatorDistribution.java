@@ -13,6 +13,8 @@ import CustomOreGen.Server.IOreDistribution.StandardSettings;
 import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.PDist;
+import CustomOreGen.Util.TouchingDescriptor;
+import CustomOreGen.Util.TouchingDescriptorList;
 
 public class ValidatorDistribution extends ValidatorNode
 {
@@ -200,6 +202,7 @@ public class ValidatorDistribution extends ValidatorNode
         validatePlacementRestriction(settings, IOreDistribution.StandardSettings.PlacesAbove);
         validatePlacementRestriction(settings, IOreDistribution.StandardSettings.PlacesBelow);
         validatePlacementRestriction(settings, IOreDistribution.StandardSettings.PlacesBeside);
+        validateTouchingRestriction(settings, IOreDistribution.StandardSettings.Touches);
 
         String biomeKey = IOreDistribution.StandardSettings.TargetBiome.name();
 
@@ -309,8 +312,62 @@ public class ValidatorDistribution extends ValidatorNode
 
             settings.remove(settingKey);
         }
-	}
-    
+    }
+
+    private void validateTouchingRestriction(Set<String> settings, StandardSettings setting) throws ParserException {
+        String settingKey = setting.name();
+
+        if (settings.contains(settingKey)) {
+            TouchingDescriptorList touching = new TouchingDescriptorList();
+
+            // normal
+            for (ValidatorTouchingDescriptor touchingValidator : validateNamedChildren(2, settingKey,
+                    new ValidatorTouchingDescriptor.Factory())) {
+                BlockDescriptor blockDescriptor = new BlockDescriptor();
+                blockDescriptor.add(touchingValidator.blocks, touchingValidator.weight, false, false, false, null);
+
+                touching.add(new TouchingDescriptor(blockDescriptor, touchingValidator.minimumTouches,
+                        touchingValidator.maximumTouches, touchingValidator.volume, touchingValidator.contactType,
+                        touchingValidator.direction, touchingValidator.mandatory, touchingValidator.negate));
+            }
+
+            // ore
+            for (ValidatorTouchingDescriptor touchingValidator : validateNamedChildren(2, settingKey + "Ore",
+                    new ValidatorTouchingDescriptor.Factory())) {
+                BlockDescriptor blockDescriptor = new BlockDescriptor();
+                blockDescriptor.add(touchingValidator.blocks, touchingValidator.weight, true, false, false, null);
+
+                touching.add(new TouchingDescriptor(blockDescriptor, touchingValidator.minimumTouches,
+                        touchingValidator.maximumTouches, touchingValidator.volume, touchingValidator.contactType,
+                        touchingValidator.direction, touchingValidator.mandatory, touchingValidator.negate));
+            }
+
+            // regexp
+            for (ValidatorTouchingDescriptor touchingValidator : validateNamedChildren(2, settingKey + "Regexp",
+                    new ValidatorTouchingDescriptor.Factory())) {
+                BlockDescriptor blockDescriptor = new BlockDescriptor();
+                blockDescriptor.add(touchingValidator.blocks, touchingValidator.weight, false, false, true, null);
+
+                touching.add(new TouchingDescriptor(blockDescriptor, touchingValidator.minimumTouches,
+                        touchingValidator.maximumTouches, touchingValidator.volume, touchingValidator.contactType,
+                        touchingValidator.direction, touchingValidator.mandatory, touchingValidator.negate));
+            }
+
+            if (!touching.isEmpty()) {
+                try {
+                    this.distribution.setDistributionSetting(settingKey, touching);
+                } catch (IllegalAccessException var14) {
+                    throw new ParserException("'" + settingKey + "' not configurable.", this.getNode(), var14);
+                } catch (IllegalArgumentException var15) {
+                    throw new ParserException("'" + settingKey + "' not supported by this distribution.",
+                            this.getNode(), var15);
+                }
+            }
+
+            settings.remove(settingKey);
+        }
+    }
+
     public static class Factory implements IValidatorFactory<ValidatorDistribution>
     {
         private final IDistributionFactory _distributionFactory;
