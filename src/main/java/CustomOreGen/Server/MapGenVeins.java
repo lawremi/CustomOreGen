@@ -5,6 +5,8 @@ import java.util.Random;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
+
+import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
 import CustomOreGen.Util.HeightScaledPDist;
 import CustomOreGen.Util.IGeometryBuilder;
@@ -526,7 +528,7 @@ public class MapGenVeins extends MapGenOreDistribution
             public float t;
             public float dt;
             public boolean calcDer;
-
+    
             public interpolationContext()
             {
                 this.pos = new float[3];
@@ -567,61 +569,93 @@ public class MapGenVeins extends MapGenOreDistribution
 
             public boolean advance(float tolerance)
             {
-                float pX = this.pos[0];
-                float pY = this.pos[1];
-                float pZ = this.pos[2];
-                float dX = this.der[0];
-                float dY = this.der[1];
-                float dZ = this.der[2];
-                float r = this.radius;
+                final float pX = this.pos[0];
+                final float pY = this.pos[1];
+                final float pZ = this.pos[2];
+                final float dX = this.der[0];
+                final float dY = this.der[1];
+                final float dZ = this.der[2];
+                final float r = this.radius;
 
+                int countDeadlock = 10;
                 do
                 {
-                    float nt = this.t + this.dt;
+                    final float nt = this.t + this.dt;
                     interpolatePosition(this.pos, nt);
-                    float deltaX = pX - this.pos[0];
-                    float deltaY = pY - this.pos[1];
-                    float deltaZ = pZ - this.pos[2];
-                    float d2 = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+                    final float deltaX = pX - this.pos[0];
+                    final float deltaY = pY - this.pos[1];
+                    final float deltaZ = pZ - this.pos[2];
+                    final float d2 = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
                     this.err = d2;
                     this.radius = interpolateRadius(nt);
-                    float avg2R = r + this.radius;
-                    float maxErr;
+                    final float avg2R = r + this.radius;
+                    
+                    float derErr = 666.0F;
+                    float der_deltaX = 666.0F;
+                    float der_deltaY = 666.0F;
+                    float der_deltaZ = 666.0F;
 
                     if (this.calcDer)
                     {
                         interpolateDerivative(this.der, nt);
                         this.derLen = MathHelper.sqrt_float(this.der[0] * this.der[0] + this.der[1] * this.der[1] + this.der[2] * this.der[2]);
-                        this.der[0] /= this.derLen;
-                        this.der[1] /= this.derLen;
-                        this.der[2] /= this.derLen;
-                        deltaX = -dZ * this.der[1] + dY * this.der[2];
-                        deltaY = dZ * this.der[0] - dX * this.der[2];
-                        deltaZ = -dY * this.der[0] + dX * this.der[1];
-                        maxErr = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
-                        this.err += avg2R * avg2R * maxErr;
+                        if (derLen > 0.0F) {
+                            this.der[0] /= this.derLen;
+                            this.der[1] /= this.derLen;
+                            this.der[2] /= this.derLen;
+                        } else {
+                            radius = 0.0F;
+                        }
+                        der_deltaX = -dZ * this.der[1] + dY * this.der[2];
+                        der_deltaY = dZ * this.der[0] - dX * this.der[2];
+                        der_deltaZ = -dY * this.der[0] + dX * this.der[1];
+                        derErr = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+                        this.err += avg2R * avg2R * derErr;
                     }
 
-                    maxErr = tolerance * tolerance;
+                    final float maxErr = tolerance * tolerance;
 
-                    if (this.err > maxErr)
+                    if (this.err > maxErr && radius != 0.0F)
                     {
                         this.dt = (float)((double)this.dt * 0.6D);
                     }
+                    else if (this.err >= maxErr / 5.0F || radius == 0.0F)
+                    {
+                        this.t += this.dt;
+                        return this.t < 0.5F;
+                    }
                     else
                     {
-                        if (this.err >= maxErr / 5.0F)
-                        {
-                            this.t += this.dt;
-                            return this.t < 0.5F;
-                        }
-
                         this.dt = (float)((double)this.dt * 1.8D);
+                    }
+                    countDeadlock--;
+                    if (countDeadlock == 0) {
+                        CustomOreGenBase.log.info(String.format("Deadlock at pos (%f %f %f) der (%f %f %f) radius %f with tolerance %f",
+                                                                pX, pY, pZ, dX, dY, dZ, r,
+                                                                tolerance));
+                    }
+                    if (countDeadlock <= 0) {
+                        CustomOreGenBase.log.info(String.format("Deadlock count is %d, in %s, maxErr %f, nt %f, delta(%f %f %f), d2 %f, der_delta(%f %f %f), derErr %f",
+                                                                countDeadlock, this,
+                                                                maxErr,
+                                                                nt,
+                                                                deltaX, deltaY, deltaZ, d2,
+                                                                der_deltaX, der_deltaY, der_deltaZ, derErr));
                     }
                 }
                 while (this.dt >= Math.ulp(this.t) * 2.0F);
 
                 throw new RuntimeException("CustomOreGen: Detected a possible infinite loop during bezier interpolation.  Please report this error.");
+            }
+    
+            @Override
+            public String toString() {
+                return String.format("BezierTubeComponent.interpolationContext[pos(%f %f %f) der(%f %f %f) derLen %f radius %f err %f t %f dt %f calcDer %s]",
+                                     pos[0], pos[1], pos[2],
+                                     der[0], der[1], der[2],
+                                     derLen, radius, err,
+                                     t, dt,
+                                     calcDer);
             }
         }
 

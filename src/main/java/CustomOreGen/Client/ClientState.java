@@ -206,10 +206,10 @@ public class ClientState
                         renderer.draw();
                         GL11.glEndList();
                         long key = (long)geometryData.chunkX << 32 | (long)geometryData.chunkZ & 4294967295L;
-                        int curValue = _dgListMap.get(key);
+                        final Integer curValue = _dgListMap.get(key);
                         int limit;
 
-                        if (curValue != 0)
+                        if (curValue != null && curValue != 0)
                         {
                             for (limit = 0; limit < _chunkDGListBuffer.limit(); ++limit)
                             {
