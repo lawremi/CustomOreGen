@@ -2,9 +2,6 @@ package CustomOreGen.Server;
 
 import java.util.Random;
 
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
 import CustomOreGen.Util.HeightScaledPDist;
 import CustomOreGen.Util.IGeometryBuilder;
@@ -14,6 +11,9 @@ import CustomOreGen.Util.PDist.Type;
 import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.VolumeHelper;
 import CustomOreGen.Util.WireframeShapes;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
+import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class MapGenVeins extends MapGenOreDistribution
 {
@@ -145,7 +145,7 @@ public class MapGenVeins extends MapGenOreDistribution
     {
         float mlX = (random.nextFloat() + (float)structureGroup.chunkX) * 16.0F;
         float mlZ = (random.nextFloat() + (float)structureGroup.chunkZ) * 16.0F;
-        float mlY = this.mlHeight.getValue(random, this.worldObj, mlX, mlZ) + this.heightOffset.getValue(random);
+        float mlY = this.mlHeight.getValue(random, this.world, mlX, mlZ) + this.heightOffset.getValue(random);
         
         if (!structureGroup.canPlaceComponentAt(0, mlX, mlY, mlZ, random))
         {
@@ -168,8 +168,8 @@ public class MapGenVeins extends MapGenOreDistribution
                 segMat.translate(mlX, mlY, mlZ);
                 segMat.rotateY(brRandom.nextFloat() * ((float)Math.PI * 2F));
                 segMat.rotateX(-this.brInclination.getValue(brRandom));
-                float maxHeight = mlY + this.brHeightLimit.getValue(brRandom, this.worldObj, mlX, mlZ);
-                float minHeight = mlY - this.brHeightLimit.getValue(brRandom, this.worldObj, mlX, mlZ);
+                float maxHeight = mlY + this.brHeightLimit.getValue(brRandom, this.world, mlX, mlZ);
+                float minHeight = mlY - this.brHeightLimit.getValue(brRandom, this.world, mlX, mlZ);
                 this.generateBranch(structureGroup, this.brLength.getValue(brRandom), maxHeight, minHeight, segMat, motherlode, brRandom);
             }
 
@@ -266,7 +266,7 @@ public class MapGenVeins extends MapGenOreDistribution
             transform.transformVector(this.end);
             float[] xunit = new float[] {1.0F, 0.0F, 0.0F, 0.0F};
             transform.transformVector(xunit);
-            this.rad = MathHelper.sqrt_float(xunit[0] * xunit[0] + xunit[1] * xunit[1] + xunit[2] * xunit[2]);
+            this.rad = MathHelper.sqrt(xunit[0] * xunit[0] + xunit[1] * xunit[1] + xunit[2] * xunit[2]);
             float rMax = this.rad * orRadiusMult.getMax();
 
             if (rMax < 0.0F)
@@ -276,7 +276,7 @@ public class MapGenVeins extends MapGenOreDistribution
 
             float[] bb = new float[] { -rMax, -rMax, -1.0F, rMax, rMax, 1.0F};
             transform.transformBB(bb);
-            super.boundingBox = new StructureBoundingBox(MathHelper.floor_float(bb[0]), MathHelper.floor_float(bb[1]), MathHelper.floor_float(bb[2]), MathHelper.floor_float(bb[3]) + 1, MathHelper.floor_float(bb[4]) + 1, MathHelper.floor_float(bb[5]) + 1);
+            super.boundingBox = new StructureBoundingBox(MathHelper.floor(bb[0]), MathHelper.floor(bb[1]), MathHelper.floor(bb[2]), MathHelper.floor(bb[3]) + 1, MathHelper.floor(bb[4]) + 1, MathHelper.floor(bb[5]) + 1);
             this.context = new interpolationContext();
             this.mat = transform.identity();
         }
@@ -297,7 +297,7 @@ public class MapGenVeins extends MapGenOreDistribution
 
                 float[] pos = new float[3];
                 this.interpolatePosition(pos, 0.5F);
-                StructureBoundingBox bb = new StructureBoundingBox(MathHelper.floor_float(pos[0] - rMax), MathHelper.floor_float(pos[1] - rMax), MathHelper.floor_float(pos[2] - rMax), MathHelper.floor_float(pos[0] + rMax) + 1, MathHelper.floor_float(pos[1] + rMax) + 1, MathHelper.floor_float(pos[2] + rMax) + 1);
+                StructureBoundingBox bb = new StructureBoundingBox(MathHelper.floor(pos[0] - rMax), MathHelper.floor(pos[1] - rMax), MathHelper.floor(pos[2] - rMax), MathHelper.floor(pos[0] + rMax) + 1, MathHelper.floor(pos[1] + rMax) + 1, MathHelper.floor(pos[2] + rMax) + 1);
                 super.boundingBox.expandTo(bb);
             }
         }
@@ -319,7 +319,7 @@ public class MapGenVeins extends MapGenOreDistribution
 
                 float[] pos = new float[3];
                 this.interpolatePosition(pos, t);
-                StructureBoundingBox bb = new StructureBoundingBox(MathHelper.floor_float(pos[0] - rMax), MathHelper.floor_float(pos[1] - rMax), MathHelper.floor_float(pos[2] - rMax), MathHelper.floor_float(pos[0] + rMax) + 1, MathHelper.floor_float(pos[1] + rMax) + 1, MathHelper.floor_float(pos[2] + rMax) + 1);
+                StructureBoundingBox bb = new StructureBoundingBox(MathHelper.floor(pos[0] - rMax), MathHelper.floor(pos[1] - rMax), MathHelper.floor(pos[2] - rMax), MathHelper.floor(pos[0] + rMax) + 1, MathHelper.floor(pos[1] + rMax) + 1, MathHelper.floor(pos[2] + rMax) + 1);
                 super.boundingBox.expandTo(bb);
             }
         }
@@ -375,7 +375,7 @@ public class MapGenVeins extends MapGenOreDistribution
 
         public float interpolateRadius(float t)
         {
-            return t > 0.0F && this.next != null ? (1.0F - t) * this.rad + t * this.next.rad : (t < 0.0F && this.prev != null ? (1.0F + t) * this.rad - t * this.prev.rad : (t <= 0.0F && t > -1.0F ? this.rad : (t > 0.0F && t < 0.5F ? this.rad * MathHelper.sqrt_float(1.0F - 4.0F * t * t) : 0.0F)));
+            return t > 0.0F && this.next != null ? (1.0F - t) * this.rad + t * this.next.rad : (t < 0.0F && this.prev != null ? (1.0F + t) * this.rad - t * this.prev.rad : (t <= 0.0F && t > -1.0F ? this.rad : (t > 0.0F && t < 0.5F ? this.rad * MathHelper.sqrt(1.0F - 4.0F * t * t) : 0.0F)));
         }
 
         public boolean addComponentParts(World world, Random random, StructureBoundingBox bounds)
@@ -449,9 +449,9 @@ public class MapGenVeins extends MapGenOreDistribution
                                     if (!oneBlockThreshold || this.context.radius * maxR * 4.0F >= random.nextFloat())
                                     {
                                         this.mat.transformVector(pos);
-                                        int baseX = MathHelper.floor_float(pos[0]) - height / 2;
-                                        int baseY = MathHelper.floor_float(pos[1]) - height / 2;
-                                        int baseZ = MathHelper.floor_float(pos[2]) - height / 2;
+                                        int baseX = MathHelper.floor(pos[0]) - height / 2;
+                                        int baseY = MathHelper.floor(pos[1]) - height / 2;
+                                        int baseZ = MathHelper.floor(pos[2]) - height / 2;
 
                                         for (int blockX = baseX; blockX < height + baseX; ++blockX)
                                         {
@@ -551,7 +551,7 @@ public class MapGenVeins extends MapGenOreDistribution
                 if (this.calcDer)
                 {
                     interpolateDerivative(this.der, this.t);
-                    this.derLen = MathHelper.sqrt_float(this.der[0] * this.der[0] + this.der[1] * this.der[1] + this.der[2] * this.der[2]);
+                    this.derLen = MathHelper.sqrt(this.der[0] * this.der[0] + this.der[1] * this.der[1] + this.der[2] * this.der[2]);
                     this.der[0] /= this.derLen;
                     this.der[1] /= this.derLen;
                     this.der[2] /= this.derLen;
@@ -591,7 +591,7 @@ public class MapGenVeins extends MapGenOreDistribution
                     if (this.calcDer)
                     {
                         interpolateDerivative(this.der, nt);
-                        this.derLen = MathHelper.sqrt_float(this.der[0] * this.der[0] + this.der[1] * this.der[1] + this.der[2] * this.der[2]);
+                        this.derLen = MathHelper.sqrt(this.der[0] * this.der[0] + this.der[1] * this.der[1] + this.der[2] * this.der[2]);
                         this.der[0] /= this.derLen;
                         this.der[1] /= this.derLen;
                         this.der[2] /= this.derLen;
@@ -651,7 +651,7 @@ public class MapGenVeins extends MapGenOreDistribution
 
             float[] bb = new float[] { -rMax, -rMax, -rMax, rMax, rMax, rMax};
             transform.transformBB(bb);
-            super.boundingBox = new StructureBoundingBox(MathHelper.floor_float(bb[0]), MathHelper.floor_float(bb[1]), MathHelper.floor_float(bb[2]), MathHelper.floor_float(bb[3]) + 1, MathHelper.floor_float(bb[4]) + 1, MathHelper.floor_float(bb[5]) + 1);
+            super.boundingBox = new StructureBoundingBox(MathHelper.floor(bb[0]), MathHelper.floor(bb[1]), MathHelper.floor(bb[2]), MathHelper.floor(bb[3]) + 1, MathHelper.floor(bb[4]) + 1, MathHelper.floor(bb[5]) + 1);
             this.mat = transform.clone();
 
             if (transform.determinant() != 0.0F)
@@ -744,7 +744,7 @@ public class MapGenVeins extends MapGenOreDistribution
     }
 
 	@Override
-	public String func_143025_a() {
+	public String getStructureName() {
 		return "COG:Veins";
 	}
 

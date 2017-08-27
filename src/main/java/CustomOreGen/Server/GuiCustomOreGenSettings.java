@@ -1,30 +1,31 @@
 package CustomOreGen.Server;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import org.lwjgl.input.Mouse;
+
+import CustomOreGen.Server.ConfigOption.DisplayGroup;
+import CustomOreGen.Util.Localization;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptionSlider;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSlot;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
-import CustomOreGen.Server.ConfigOption.DisplayGroup;
-import CustomOreGen.Util.Localization;
-import cpw.mods.fml.relauncher.ReflectionHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.init.SoundEvents;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiCustomOreGenSettings extends GuiScreen
@@ -42,7 +43,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
         this._parentGui = parentGui;
     }
 
-    @SuppressWarnings("unchecked")
+    @Override
 	public void initGui()
     {
         super.initGui();
@@ -130,7 +131,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
         }
 
         this._groupPanel = new GuiGroupPanel(0, 20, super.width, 20, currentGroup, visibleGroups1);
-        this._optionPanel = new GuiOptionSlot(visibleGroups1.isEmpty() ? 16 : 40, super.height - 30, 25, visibleOptions1);
+        this._optionPanel = new GuiOptionSlot(Minecraft.getMinecraft(), visibleGroups1.isEmpty() ? 16 : 40, super.height - 30, 25, visibleOptions1);
         this._optionPanel.registerScrollButtons(1, 2);
         this._doneButton = new GuiButton(0, super.width / 2 - 155, super.height - 24, 150, 20, "Done");
         this._resetButton = new GuiButton(0, super.width / 2 + 5, super.height - 24, 150, 20, "Defaults");
@@ -138,7 +139,8 @@ public class GuiCustomOreGenSettings extends GuiScreen
         super.buttonList.add(this._resetButton);
     }
 
-    protected void actionPerformed(GuiButton button)
+    @Override
+    protected void actionPerformed(GuiButton button) throws IOException
     {
         super.actionPerformed(button);
 
@@ -156,33 +158,42 @@ public class GuiCustomOreGenSettings extends GuiScreen
         }
     }
 
-    protected void mouseClicked(int mouseX, int mouseY, int buttonID)
+    
+    @Override
+    public void handleMouseInput() throws IOException {
+    	super.handleMouseInput();
+    	this._optionPanel.handleMouseInput();
+    }
+
+    @Override
+    protected void mouseClicked(int mouseX, int mouseY, int buttonID) throws IOException
     {
         super.mouseClicked(mouseX, mouseY, buttonID);
         this._groupPanel.mouseClicked(mouseX, mouseY, buttonID);
+        this._optionPanel.handleMouseInput();
     }
 
+    @Override
     public void drawScreen(int mouseX, int mouseY, float partialTick)
     {
         this.drawDefaultBackground();
         this._optionPanel.drawScreen(mouseX, mouseY, partialTick);
         this._groupPanel.drawScreen(mouseX, mouseY, partialTick);
-        this.drawCenteredString(super.fontRendererObj, "CustomOreGen Options", super.width / 2, 4, 16777215);
+        this.drawCenteredString(super.fontRenderer, "CustomOreGen Options", super.width / 2, 4, 16777215);
         super.drawScreen(mouseX, mouseY, partialTick);
 
         if (this._toolTip != null)
         {
-            @SuppressWarnings("unchecked")
-			List<String> lines = super.fontRendererObj.listFormattedStringToWidth(this._toolTip, 2 * super.width / 5 - 8);
+			List<String> lines = super.fontRenderer.listFormattedStringToWidth(this._toolTip, 2 * super.width / 5 - 8);
             int[] lineWidths = new int[lines.size()];
             int tipW = 0;
-            int tipH = 8 + super.fontRendererObj.FONT_HEIGHT * lines.size();
+            int tipH = 8 + super.fontRenderer.FONT_HEIGHT * lines.size();
             int l = 0;
 
             for (Iterator<String> tipX = lines.iterator(); tipX.hasNext(); ++l)
             {
                 String tipY = tipX.next();
-                lineWidths[l] = super.fontRendererObj.getStringWidth(tipY) + 8;
+                lineWidths[l] = super.fontRenderer.getStringWidth(tipY) + 8;
 
                 if (tipW < lineWidths[l])
                 {
@@ -207,7 +218,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
             l = 0;
 
             for (String line : lines) {
-            	super.fontRendererObj.drawString(line, tipX + (tipW - lineWidths[l]) / 2 + 4, tipY + 4 + l * super.fontRendererObj.FONT_HEIGHT, 16777215);
+            	super.fontRenderer.drawString(line, tipX + (tipW - lineWidths[l]) / 2 + 4, tipY + 4 + l * super.fontRenderer.FONT_HEIGHT, 16777215);
             	++l;
             }
 
@@ -265,7 +276,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 ConfigOption.DisplayGroup group = c < 0 ? null : groups.get(c);
                 String ALL = Localization.maybeLocalize("ALL.displayName", "ALL");
                 String text = c < 0 ? "[ " + ALL + " ]" : group.getLocalizedDisplayName();
-                int btnWidth = fontRendererObj.getStringWidth(text) + 10;
+                int btnWidth = fontRenderer.getStringWidth(text) + 10;
                 GuiGroupButton control = new GuiGroupButton(c + 1, scrollWidth, 0, btnWidth, height, text, group);
                 this._groupButtons.add(control);
 
@@ -321,29 +332,29 @@ public class GuiCustomOreGenSettings extends GuiScreen
             while (tess.hasNext())
             {
                 IOptionControl texSize = tess.next();
-                texSize.getControl().drawButton(mc, mouseX, mouseY);
+                texSize.getControl().drawButton(mc, mouseX, mouseY, partialTick);
             }
 
-            Tessellator tess1 = Tessellator.instance;
-            GL11.glDisable(2929);
-            mc.getTextureManager().bindTexture(Gui.optionsBackground);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             double texSize1 = 32.0D;
-            tess1.startDrawingQuads();
-            tess1.setColorRGBA_I(4473924, 255);
-            tess1.addVertexWithUV((double)this.posX, (double)(this.posY + this.height), 0.0D, 0.0D, (double)this.height / texSize1);
-            tess1.addVertexWithUV((double)(this.posX + this._scrollHInset), (double)(this.posY + this.height), 0.0D, (double)this._scrollHInset / texSize1, (double)this.height / texSize1);
-            tess1.addVertexWithUV((double)(this.posX + this._scrollHInset), (double)this.posY, 0.0D, (double)this._scrollHInset / texSize1, 0.0D);
-            tess1.addVertexWithUV((double)this.posX, (double)this.posY, 0.0D, 0.0D, 0.0D);
-            tess1.addVertexWithUV((double)(this.posX + this.width - this._scrollHInset), (double)(this.posY + this.height), 0.0D, 0.0D, (double)this.height / texSize1);
-            tess1.addVertexWithUV((double)(this.posX + this.width), (double)(this.posY + this.height), 0.0D, (double)this._scrollHInset / texSize1, (double)this.height / texSize1);
-            tess1.addVertexWithUV((double)(this.posX + this.width), (double)this.posY, 0.0D, (double)this._scrollHInset / texSize1, 0.0D);
-            tess1.addVertexWithUV((double)(this.posX + this.width - this._scrollHInset), (double)this.posY, 0.0D, 0.0D, 0.0D);
-            tess1.draw();
+            GlStateManager.disableDepth();
+            Tessellator tessellator = Tessellator.getInstance();
+            BufferBuilder vertexbuffer = tessellator.getBuffer();
+            mc.getTextureManager().bindTexture(OPTIONS_BACKGROUND);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+            vertexbuffer.pos((double)this.posX, (double)(this.posY + this.height), 0.0D).tex(0.0D, (double)this.height / texSize1);
+            vertexbuffer.pos((double)(this.posX + this._scrollHInset), (double)(this.posY + this.height), 0.0D).tex((double)this._scrollHInset / texSize1, (double)this.height / texSize1);
+            vertexbuffer.pos((double)(this.posX + this._scrollHInset), (double)this.posY, 0.0D).tex((double)this._scrollHInset / texSize1, 0.0D);
+            vertexbuffer.pos((double)this.posX, (double)this.posY, 0.0D).tex(0.0D, 0.0D);
+            vertexbuffer.pos((double)(this.posX + this.width - this._scrollHInset), (double)(this.posY + this.height), 0.0D).tex(0.0D, (double)this.height / texSize1);
+            vertexbuffer.pos((double)(this.posX + this.width), (double)(this.posY + this.height), 0.0D).tex((double)this._scrollHInset / texSize1, (double)this.height / texSize1);
+            vertexbuffer.pos((double)(this.posX + this.width), (double)this.posY, 0.0D).tex((double)this._scrollHInset / texSize1, 0.0D);
+            vertexbuffer.pos((double)(this.posX + this.width - this._scrollHInset), (double)this.posY, 0.0D).tex(0.0D, 0.0D);
+            tessellator.draw();
 
             if (this._groupScrollLButton != null)
             {
-                this._groupScrollLButton.drawButton(mc, mouseX, mouseY);
+                this._groupScrollLButton.drawButton(mc, mouseX, mouseY, partialTick);
 
                 if (this._groupScrollLButton == this._currentButton)
                 {
@@ -353,7 +364,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
             if (this._groupScrollRButton != null)
             {
-                this._groupScrollRButton.drawButton(mc, mouseX, mouseY);
+                this._groupScrollRButton.drawButton(mc, mouseX, mouseY, partialTick);
 
                 if (this._groupScrollRButton == this._currentButton)
                 {
@@ -380,7 +391,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
                     if (control.getControl().mousePressed(mc, mouseX, mouseY))
                     {
                         this._currentButton = control.getControl();
-                        mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+                        mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
                         break;
                     }
                 }
@@ -422,14 +433,15 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
             private boolean isButtonVisible()
             {
-                super.xPosition = posX + _scrollHInset + _scrollOffsetX + this._relX;
-                super.yPosition = posY + this._relY;
-                return !isInScrollArea(super.xPosition, super.yPosition) && !isInScrollArea(super.xPosition + super.width, super.yPosition + super.height);
+                super.x = posX + _scrollHInset + _scrollOffsetX + this._relX;
+                super.y = posY + this._relY;
+                return !isInScrollArea(super.x, super.y) && !isInScrollArea(super.x + super.width, super.y + super.height);
             }
 
+            @Override
             public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
             {
-                if (this.isButtonVisible() && this.func_146115_a() && super.mousePressed(mc, mouseX, mouseY))
+                if (this.isButtonVisible() && this.isMouseOver() && super.mousePressed(mc, mouseX, mouseY))
                 {
                     _currentGroup = this;
                     refreshGui = 1;
@@ -441,6 +453,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 }
             }
 
+            @Override
             public int getHoverState(boolean mouseOver)
             {
                 if (isInScrollArea(mouseX, mouseY))
@@ -449,38 +462,39 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 }
                 else
                 {
-                    super.field_146123_n = false;
+                    super.hovered = false;
                     return 1;
                 }
             }
 
-            public void drawButton(Minecraft mc, int mouseX, int mouseY)
+            @Override
+            public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTick)
             {
                 if (this.isButtonVisible() && super.visible)
                 {
-                    super.field_146123_n = mouseX >= super.xPosition && mouseY >= super.yPosition && mouseX < super.xPosition + super.width && mouseY < super.yPosition + super.height;
+                    super.hovered = mouseX >= super.x && mouseY >= super.y && mouseX < super.x + super.width && mouseY < super.y + super.height;
                     this.mouseDragged(mc, mouseX, mouseY);
 
                     if (_currentGroup == this)
                     {
-                        drawRect(super.xPosition, super.yPosition, super.xPosition + super.width, super.yPosition + super.height, -1610612736);
+                        drawRect(super.x, super.y, super.x + super.width, super.y + super.height, -1610612736);
                     }
                     else
                     {
                         if (this._group == null)
                         {
-                            drawRect(super.xPosition, super.yPosition, super.xPosition + 1, super.yPosition + super.height, -16777216);
+                            drawRect(super.x, super.y, super.x + 1, super.y + super.height, -16777216);
                         }
 
-                        drawRect(super.xPosition, super.yPosition, super.xPosition + super.width, super.yPosition + 1, -16777216);
-                        drawRect(super.xPosition + super.width - 1, super.yPosition, super.xPosition + super.width, super.yPosition + super.height, -16777216);
+                        drawRect(super.x, super.y, super.x + super.width, super.y + 1, -16777216);
+                        drawRect(super.x + super.width - 1, super.y, super.x + super.width, super.y + super.height, -16777216);
                     }
 
                     FontRenderer fontRendererObj = mc.fontRenderer;
-                    int textColor = super.enabled ? (super.field_146123_n ? 16777120 : 14737632) : 10526880;
-                    this.drawCenteredString(fontRendererObj, super.displayString, super.xPosition + super.width / 2, super.yPosition + (super.height - 8) / 2, textColor);
+                    int textColor = super.enabled ? (super.hovered ? 16777120 : 14737632) : 10526880;
+                    this.drawCenteredString(fontRendererObj, super.displayString, super.x + super.width / 2, super.y + (super.height - 8) / 2, textColor);
 
-                    if (this.func_146115_a() && this._group != null)
+                    if (this.isMouseOver() && this._group != null)
                     {
                         _toolTip = this._group.getLocalizedDescription();
                     }
@@ -495,7 +509,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
         protected final Vector<IOptionControl> _optionControls;
         protected IOptionControl _clickTarget;
 
-        public GuiOptionSlot(int top, int bottom, int slotHeight, Vector<ConfigOption> options)
+        public GuiOptionSlot(Minecraft mc, int top, int bottom, int slotHeight, Vector<ConfigOption> options)
         {
             super(mc, GuiCustomOreGenSettings.this.width, GuiCustomOreGenSettings.this.height, top, bottom, slotHeight);
             this._optionControls = new Vector<IOptionControl>();
@@ -540,7 +554,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
             if (control.getControl().mousePressed(mc, mouseX, mouseY))
             {
-            	mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+            	mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
                 this._clickTarget = control;
             }
         }
@@ -556,29 +570,30 @@ public class GuiCustomOreGenSettings extends GuiScreen
         }
 
         protected void drawBackground() {}
-
-		@Override
-        protected void drawSlot(int index, int slotX, int slotY, int slotH, Tessellator tess, int mouseX, int mouseY)
+        
+        @Override
+        protected void drawSlot(int index, int slotX, int slotY, int slotH, int mouseX, int mouseY, float partialTick)
         {
             IOptionControl optCtrl = (IOptionControl)this._optionControls.get(index);
             ConfigOption option = optCtrl.getOption();
             GuiButton control = optCtrl.getControl();
             String optionName = option.getLocalizedDisplayName();
-            int nameW = fontRendererObj.getStringWidth(optionName);
+            int nameW = fontRenderer.getStringWidth(optionName);
             int nameX = 2 * width / 5 - 15 - nameW;
-            int nameH = fontRendererObj.FONT_HEIGHT;
+            int nameH = fontRenderer.FONT_HEIGHT;
             int nameY = slotY + 8;
-            drawString(fontRendererObj, optionName, nameX, nameY, 16777215);
+            drawString(fontRenderer, optionName, nameX, nameY, 16777215);
 
             if (super.mouseX >= nameX && super.mouseX <= nameX + nameW && super.mouseY >= nameY && super.mouseY <= nameY + nameH && this.isInBounds(super.mouseX, super.mouseY))
             {
                 _toolTip = option.getLocalizedDescription();
             }
 
-            control.yPosition = slotY + 3;
-            control.drawButton(mc, super.mouseX, super.mouseY);
+            control.y = slotY + 3;
+            control.drawButton(mc, super.mouseX, super.mouseY, partialTick);
         }
 
+        @Override
         public void drawScreen(int mouseX, int mouseY, float partialTick)
         {
             super.drawScreen(mouseX, mouseY, partialTick);
@@ -626,10 +641,11 @@ public class GuiCustomOreGenSettings extends GuiScreen
             protected void onValueChanged()
             {
                 super.displayString = this._choice.getLocalizedDisplayValue();
-                int strWidth = super.displayString == null ? 0 : fontRendererObj.getStringWidth(super.displayString);
+                int strWidth = super.displayString == null ? 0 : fontRenderer.getStringWidth(super.displayString);
                 super.width = Math.min(this._maxWidth, strWidth + 10);
             }
 
+            @Override
             public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
             {
                 if (super.mousePressed(mc, mouseX, mouseY))
@@ -644,6 +660,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 }
             }
 
+            @Override
             public int getHoverState(boolean mouseOver)
             {
                 if (GuiOptionSlot.this.isInBounds(this.mouseX, this.mouseY))
@@ -652,16 +669,17 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 }
                 else
                 {
-                    super.field_146123_n = false;
+                    super.hovered = false;
                     return 1;
                 }
             }
 
-            public void drawButton(Minecraft mc, int mouseX, int mouseY)
+            @Override
+            public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTick)
             {
-                super.drawButton(mc, mouseX, mouseY);
+                super.drawButton(mc, mouseX, mouseY, partialTick);
 
-                if (this.func_146115_a())
+                if (this.isMouseOver())
                 {
                     _toolTip = this._choice.getLocalizedValueDescription();
                 }
@@ -707,7 +725,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
             }
             
             private void updateSliderValue(int mouseX) {
-            	double sliderValue = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
+            	double sliderValue = (float)(mouseX - (this.x + 4)) / (float)(this.width - 8);
 
                 if (sliderValue < 0.0F)
                 {
@@ -723,6 +741,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
             	this.onValueChanged();
             }
 
+            @Override
             public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
             {
                 if (super.mousePressed(mc, mouseX, mouseY))
@@ -736,10 +755,11 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 }
             }
 
+            @Override
             protected void mouseDragged(Minecraft mc, int mouseX, int mouseY)
             {
                 super.mouseDragged(mc, mouseX, mouseY);
-                if (super.field_146135_o) {
+                if (super.dragging) {
                 	this.updateSliderValue(mouseX);
                 }
             }
@@ -763,6 +783,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
             return super.width;
         }
 
+        @Override
         public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
         {
             if (super.mousePressed(mc, mouseX, mouseY))

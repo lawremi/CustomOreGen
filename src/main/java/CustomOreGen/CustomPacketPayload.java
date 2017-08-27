@@ -19,9 +19,10 @@ import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
 import net.minecraft.entity.player.EntityPlayerMP;
-import cpw.mods.fml.common.network.FMLEventChannel;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.internal.FMLProxyPacket;
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.common.network.FMLEventChannel;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
 public class CustomPacketPayload
 {
@@ -84,7 +85,7 @@ public class CustomPacketPayload
 
         if (!compressed)
         {
-            return new FMLProxyPacket[] {new FMLProxyPacket(wrappedBuffer(bytes), CHANNEL_NAME)};
+            return new FMLProxyPacket[] {new FMLProxyPacket(new PacketBuffer(wrappedBuffer(bytes)), CHANNEL_NAME)};
         }
         else
         {
@@ -107,7 +108,7 @@ public class CustomPacketPayload
                 piece[7] = (byte)(i >> 8);
                 System.arraycopy(bytes, offset, piece, 8, dataLen);
                 offset += dataLen;
-                packets[i - 1] = new FMLProxyPacket(wrappedBuffer(piece), XCHANNEL_NAME);
+                packets[i - 1] = new FMLProxyPacket(new PacketBuffer(wrappedBuffer(piece)), XCHANNEL_NAME);
             }
 
             return packets;

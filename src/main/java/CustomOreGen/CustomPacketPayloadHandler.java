@@ -1,21 +1,20 @@
 package CustomOreGen;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.network.NetHandlerPlayServer;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.world.World;
 import CustomOreGen.CustomPacketPayload.PayloadType;
 import CustomOreGen.Client.ClientState;
 import CustomOreGen.Client.ClientState.WireframeRenderMode;
 import CustomOreGen.Server.ServerState;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class CustomPacketPayloadHandler {
 	public CustomPacketPayloadHandler() {
@@ -27,13 +26,13 @@ public class CustomPacketPayloadHandler {
     public void clientCustomPayload(ClientCustomPacketEvent event)
     {
     	Minecraft mc = Minecraft.getMinecraft();
-    	EntityClientPlayerMP player = mc.thePlayer;
-        if (mc.theWorld != null && ClientState.hasWorldChanged(mc.theWorld))
+    	EntityPlayerSP player = mc.player;
+        if (mc.world != null && ClientState.hasWorldChanged(mc.world))
         {
-            ClientState.onWorldChanged(mc.theWorld);
+            ClientState.onWorldChanged(mc.world);
         }
 
-        CustomPacketPayload payload = CustomPacketPayload.decodePacket(event.packet);
+        CustomPacketPayload payload = CustomPacketPayload.decodePacket(event.getPacket());
 
         if (payload != null)
         {
@@ -69,7 +68,7 @@ public class CustomPacketPayloadHandler {
                         }
                         else
                         {
-                            player.addChatMessage(new ChatComponentText("\u00a7cError: Invalid wireframe mode '" + strMode + "'"));
+                            player.sendMessage(new TextComponentString("\u00a7cError: Invalid wireframe mode '" + strMode + "'"));
                         }
                     }
                     else
@@ -79,7 +78,7 @@ public class CustomPacketPayloadHandler {
                         ClientState.dgRenderingMode = WireframeRenderMode.values()[mode];
                     }
 
-                    player.addChatMessage(new ChatComponentText("COG Client wireframe mode: " + ClientState.dgRenderingMode.name()));
+                    player.sendMessage(new TextComponentString("COG Client wireframe mode: " + ClientState.dgRenderingMode.name()));
                     break;
 
                 case DebuggingGeometryReset:
@@ -87,7 +86,7 @@ public class CustomPacketPayloadHandler {
                     break;
 
                 case CommandResponse:
-                    player.addChatMessage(new ChatComponentText((String)payload.data));
+                    player.sendMessage(new TextComponentString((String)payload.data));
                     break;
 
                 default:
@@ -99,10 +98,10 @@ public class CustomPacketPayloadHandler {
 	@SubscribeEvent
     public void serverCustomPayload(ServerCustomPacketEvent event)
     {
-    	EntityPlayerMP player = ((NetHandlerPlayServer)event.handler).playerEntity;
-    	World handlerWorld = player == null ? null : player.worldObj;
-        ServerState.checkIfServerChanged(MinecraftServer.getServer(), handlerWorld == null ? null : handlerWorld.getWorldInfo());
-        CustomPacketPayload payload = CustomPacketPayload.decodePacket(event.packet);
+    	EntityPlayerMP player = ((NetHandlerPlayServer)event.getHandler()).player;
+    	World handlerWorld = player.world;
+        ServerState.checkIfServerChanged(handlerWorld.getMinecraftServer(), handlerWorld.getWorldInfo());
+        CustomPacketPayload payload = CustomPacketPayload.decodePacket(event.getPacket());
 
         if (payload != null)
         {
@@ -111,7 +110,7 @@ public class CustomPacketPayloadHandler {
                 case DebuggingGeometryRequest:
                     GeometryData geometryData = null;
 
-                    if (player.mcServer.getConfigurationManager().func_152596_g(player.getGameProfile()));
+                    if (player.mcServer.getPlayerList().canSendCommands(player.getGameProfile()));
                     {
                         geometryData = ServerState.getDebuggingGeometryData((GeometryRequestData)payload.data);
                     }

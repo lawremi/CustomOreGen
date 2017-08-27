@@ -8,13 +8,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
-import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.world.WorldServer;
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.CustomPacketPayload;
 import CustomOreGen.CustomPacketPayload.PayloadType;
@@ -26,6 +19,13 @@ import CustomOreGen.Util.ConsoleCommand.ArgOptional;
 import CustomOreGen.Util.ConsoleCommand.CommandDelegate;
 import CustomOreGen.Util.PDist;
 import CustomOreGen.Util.PDist.Type;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.WorldServer;
 
 public class ConsoleCommands
 {
@@ -114,7 +114,7 @@ public class ConsoleCommands
 
         if (config.world != null)
         {
-            msg.append("Dim " + config.world.provider.dimensionId + ", ");
+            msg.append("Dim " + config.world.provider.getDimension() + ", ");
         }
 
         if (dists != null)
@@ -233,9 +233,9 @@ public class ConsoleCommands
     {
         WorldConfig cfg = ServerState.getWorldConfig(world);
         Collection<IOreDistribution> list = cfg.getOreDistributions(distribution);
-        ChunkCoordinates senderPos = sender.getPlayerCoordinates();
-        int cX = centerX == null ? senderPos.posX : centerX.intValue();
-        int cZ = centerZ == null ? senderPos.posZ : centerZ.intValue();
+        BlockPos senderPos = sender.getPosition();
+        int cX = centerX == null ? senderPos.getX() : centerX.intValue();
+        int cZ = centerZ == null ? senderPos.getZ() : centerZ.intValue();
 
         for (int chunkX = (cX >> 4) - chunkRange; chunkX <= (cX >> 4) + chunkRange; ++chunkX)
         {
@@ -372,7 +372,7 @@ public class ConsoleCommands
                         desc.clear();
                     }
 
-                    NBTBase nbtBase = JsonToNBT.func_150315_a(nbt);
+                    NBTBase nbtBase = JsonToNBT.getTagFromJson(nbt);
                     if (!(nbtBase instanceof NBTTagCompound)) {
                     	throw new IllegalArgumentException("NBT is not a compound tag");
                     }
@@ -688,7 +688,7 @@ public class ConsoleCommands
 
         if (config.world != null)
         {
-            msg.append("Dim " + config.world.provider.dimensionId + ", ");
+            msg.append("Dim " + config.world.provider.getDimension() + ", ");
         }
 
         if (options != null)

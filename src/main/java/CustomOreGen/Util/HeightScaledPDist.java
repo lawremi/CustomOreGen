@@ -2,10 +2,10 @@ package CustomOreGen.Util;
 
 import java.util.Random;
 
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
 import CustomOreGen.Util.PDist.Type;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 
 /* Conceptually, HeightScaledPDist could be an extension of PDist, or a decorator. 
  * It requires the world location to calculate some version of the height, or
@@ -57,7 +57,7 @@ public class HeightScaledPDist implements Copyable<HeightScaledPDist> {
 	}
 
 	public float getValue(Random rand, World world, float x, float z) {
-		return scale(pdist.getValue(rand), world, MathHelper.floor_float(x), MathHelper.floor_float(z)); 
+		return scale(pdist.getValue(rand), world, MathHelper.floor(x), MathHelper.floor(z)); 
 	}
 	
 	public float getMax(World world, int x, int z) {

@@ -3,8 +3,10 @@ package CustomOreGen;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class MystcraftSymbolData implements Serializable
 {
@@ -25,7 +27,7 @@ public class MystcraftSymbolData implements Serializable
 
         if (world != null)
         {
-            this.dimensionID = world.provider.dimensionId;
+            this.dimensionID = world.provider.getDimension();
         }
 
         this.symbolName = this.displayName = symbolName;
@@ -34,11 +36,11 @@ public class MystcraftSymbolData implements Serializable
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
     {
         in.defaultReadObject();
-        MinecraftServer ms = MinecraftServer.getServer();
+        MinecraftServer ms = FMLCommonHandler.instance().getMinecraftServerInstance();
 
         if (ms != null && ms.isServerRunning())
         {
-            this.world = ms.worldServerForDimension(this.dimensionID);
+            this.world = ms.getWorld(dimensionID);
         }
     }
 }

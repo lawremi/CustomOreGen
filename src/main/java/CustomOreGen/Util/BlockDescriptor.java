@@ -10,34 +10,48 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.regex.Pattern;
 
+import com.google.common.collect.ImmutableList;
+
+import CustomOreGen.Server.DistributionSettingMap.Copyable;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
-import CustomOreGen.Server.DistributionSettingMap.Copyable;
-import cpw.mods.fml.common.registry.GameData;
 
 public class BlockDescriptor implements Copyable<BlockDescriptor>
 {
 	public static class BlockInfo
     {
-        private Block block;
-        private int metadata;
+        private IBlockState blockState;
+        private boolean wildcard;
         private NBTTagCompound nbt;
         
-        public BlockInfo(Block block, int metadata, NBTTagCompound nbt) {
-			super();
-			this.block = block;
-			this.metadata = metadata;
-			this.nbt = nbt;
-		}
+        private BlockInfo(IBlockState blockState, NBTTagCompound nbt, boolean wildcard) {
+        	this.blockState = blockState;
+        	this.nbt = nbt;
+        	this.wildcard = wildcard;
+        }
         
-		@Override
+        public BlockInfo(IBlockState blockState, NBTTagCompound nbt) {
+	        this(blockState, nbt, false);
+        }
+        
+        public BlockInfo(Block block, int metadata, NBTTagCompound nbt) {
+        	this(metadata == OreDictionary.WILDCARD_VALUE ? block.getDefaultState() : block.getStateFromMeta(metadata),
+         	     nbt, metadata == OreDictionary.WILDCARD_VALUE);
+        }
+        
+        public BlockInfo(Block block, NBTTagCompound nbt) {
+        	this(block.getDefaultState(), nbt, true);
+        }
+        
+        @Override
         public int hashCode()
         {
-            int code = Block.getIdFromBlock(this.block) << Short.SIZE | this.metadata & Short.MAX_VALUE;
+			int code = this.wildcard ? Block.getIdFromBlock(this.blockState.getBlock()) : this.blockState.hashCode();
             if (this.nbt != null)
             	code ^= nbt.hashCode();
             return code;
@@ -48,20 +62,25 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         {
             if (!(o instanceof BlockInfo)) return false;
             BlockInfo ok = (BlockInfo)o;
-            if (this.block != ok.block) return false;
-            if (this.metadata != ok.metadata) return false;
+            if (!this.blockState.equals(ok.blockState)) return false;
             if ((this.nbt != null || ok.nbt != null) && (this.nbt == null || !this.nbt.equals(ok.nbt))) return false;
             return true;
         }
-        public int getMetadata() {
-        	return this.metadata;
+        public IBlockState getBlockState() {
+        	return this.blockState;
         }
-        public Block getBlock() {
-        	return this.block;
-        }
-		public NBTTagCompound getNBT() {
+        public NBTTagCompound getNBT() {
 			return this.nbt;
 		}
+        public boolean isWildcard() {
+        	return this.wildcard;
+        }
+        public Block getBlock() {
+        	return this.blockState.getBlock();
+        }
+        public int getMetadata() {
+        	return this.getBlock().getMetaFromState(this.blockState);
+        }
     }
 	
 	private static class Match
@@ -102,7 +121,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
     }
 
 	public BlockDescriptor set(Block block) {
-		return this.set(Block.blockRegistry.getNameForObject(block));
+		return this.set(Block.REGISTRY.getNameForObject(block).toString());
 	}
 	
     public BlockDescriptor set(String descriptor)
@@ -149,16 +168,28 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         return Collections.unmodifiableList(this._descriptors);
     }
 
+    private void add(Block block, NBTTagCompound nbt, float weight)
+    {
+    	this.add(new BlockInfo(block, nbt), weight);
+    }
+    
     private void add(Block block, int metadata, NBTTagCompound nbt, float weight)
     {
-    	if (nbt != null && !block.hasTileEntity(metadata)) {
+    	this.add(new BlockInfo(block, metadata, nbt), weight);
+    }
+    
+    private void add(BlockInfo blockInfo, float weight)
+    {
+    	IBlockState blockState = blockInfo.getBlockState();
+    	Block block = blockState.getBlock();
+    	NBTTagCompound nbt = blockInfo.getNBT();
+    	if (nbt != null && !block.hasTileEntity(blockState)) {
     		throw new IllegalArgumentException("NBT specified, but matching block " + 
-    				block.getUnlocalizedName() + ":" + metadata + " lacks tile entity");
+    				block.getUnlocalizedName() + " lacks tile entity");
     	}
         if (weight != 0.0F)
         {
-            BlockInfo key = new BlockInfo(block, metadata, nbt);
-            Match match = this._matches.get(key);
+            Match match = this._matches.get(blockInfo);
 
             if (match != null)
             {
@@ -168,12 +199,12 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             	match = new Match(weight);
             }
 
-            this._matches.put(key, match);
+            this._matches.put(blockInfo, match);
 
             int blockID = Block.getIdFromBlock(block);
             if (blockID >= 0 && blockID < this._fastMatch.length)
             {
-                if (metadata == OreDictionary.WILDCARD_VALUE && !Float.isNaN(this._fastMatch[blockID]))
+                if (blockInfo.isWildcard() && !Float.isNaN(this._fastMatch[blockID]))
                 {
                     this._fastMatch[blockID] += weight;
                 }
@@ -204,32 +235,29 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             		for (ItemStack ore : OreDictionary.getOres(desc.description)) {
             			Item oreItem = ore.getItem();
             			if (oreItem instanceof ItemBlock) {
-            				Block oreBlock = ((ItemBlock)oreItem).field_150939_a;
-            				int meta = ore.getItemDamage();
-            				NBTTagCompound nbt = ore.stackTagCompound;
+            				Block block = ((ItemBlock)oreItem).getBlock();
+            				int damage = ore.getItemDamage();
+            				NBTTagCompound nbt = ore.getTagCompound();
             				if (nbt == null) {
             					nbt = TileEntityHelper.tryToCreateGTPrefixBlockNBT(ore);
             					if (nbt != null) {
-            						oreBlock = Block.getBlockFromName("gregtech:gt.meta.ore.normal.default");
-            						meta = 2; // mining level stone
+            						block = Block.getBlockFromName("gregtech:gt.meta.ore.normal.default");
+            						damage = 2; // mining level stone
             					}
             				}
             				// FIXME: Blocks tend to be registered as meta 0, even when the meta is irrelevant,
             				// so we are unable to take advantage of the fast ID hash. 
             				// This is particularly true of vanilla 'stone'.
-            				this.add(oreBlock, meta, nbt, desc.weight);
+            				this.add(block, damage, nbt, desc.weight);
             			}
             			if (desc.matchFirst) {
             				break;
             			}
             		}            		
             	} else if (desc.regexp) {
-            		@SuppressWarnings("unchecked")
-					Iterable<Block> blocks = (Iterable<Block>)GameData.getBlockRegistry();
-            		for (Block block : blocks) {
-                    	String name = Block.blockRegistry.getNameForObject(block);
-                    	float[] weights = desc.regexMatch(name);
-                    	this.add(block, OreDictionary.WILDCARD_VALUE, desc.nbt, weights[Short.SIZE]);
+            		for (Block block : Block.REGISTRY) {
+                    	float[] weights = desc.regexMatch(block);
+                    	this.add(block, desc.nbt, weights[Short.SIZE]);
                     	if (weights[Short.SIZE] > 0 && desc.matchFirst) {
                     		break;
                     	}
@@ -260,46 +288,43 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         return Collections.unmodifiableMap(this._matches);
     }
 
-    public float getWeight_fast(Block block)
+    public float getWeight_fast(IBlockState blockState)
     {
         this.compileMatches();
-        int blockID = Block.getIdFromBlock(block);
+        int blockID = Block.getIdFromBlock(blockState.getBlock());
         return blockID >= 0 && blockID < this._fastMatch.length ? this._fastMatch[blockID] : Float.NaN;
     }
 
-    public float getWeight(Block block, int metaData, NBTTagCompound nbt)
+    public float getWeight(IBlockState blockState, NBTTagCompound nbt)
     {
         this.compileMatches();
         float value = 0.0F;
-        Match noMetaValue = this._matches.get(new BlockInfo(block, OreDictionary.WILDCARD_VALUE, nbt));
+        Match noStateValue = this._matches.get(new BlockInfo(blockState.getBlock(), nbt));
 
-        if (noMetaValue != null)
+        if (noStateValue != null)
         {
-            value = noMetaValue.weight;
+            value = noStateValue.weight;
         }
 
-        if (metaData != OreDictionary.WILDCARD_VALUE)
-        {
-            Match metaValue = this._matches.get(new BlockInfo(block, metaData, nbt));
+        Match stateValue = this._matches.get(new BlockInfo(blockState, nbt));
 
-            if (metaValue != null)
-            {
-                value += metaValue.weight;
-            }
+        if (stateValue != null)
+        {
+        	value += stateValue.weight;
         }
 
         return value;
     }
 
-    public int matchesBlock_fast(Block block)
+    public int matchesBlock_fast(IBlockState block)
     {
         float weight = this.getWeight_fast(block);
         return Float.isNaN(weight) ? -1 : (weight <= 0.0F ? 0 : (weight < 1.0F ? -1 : 1));
     }
-
-    public boolean matchesBlock(Block block, int metaData, Random rand)
+    
+    public boolean matchesBlock(IBlockState blockState, Random rand)
     {
-        float weight = this.getWeight(block, metaData, null);
+        float weight = this.getWeight(blockState, null);
 
         if (weight <= 0.0F)
         {
@@ -329,11 +354,6 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         	float weight = entry.getValue().weight;
             BlockInfo info = entry.getKey();
             
-            if (info.getMetadata() == OreDictionary.WILDCARD_VALUE)
-            {
-                info = new BlockInfo(info.getBlock(), 0, info.getNBT());
-            }
-			
             if (weight > 0.0F)
             {
                 if (weight >= 1.0F)
@@ -411,7 +431,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             int metaData = entry.getKey().getMetadata();
             Block block = entry.getKey().getBlock();
             
-            breakdown[i] = Block.blockRegistry.getNameForObject(block);
+            breakdown[i] = Block.REGISTRY.getNameForObject(block).toString();
             
             if (metaData != OreDictionary.WILDCARD_VALUE)
             {
@@ -474,14 +494,17 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         	}
         }
 
-        public float[] regexMatch(String name)
+        public float[] regexMatch(Block block)
         {
             float[] weights = new float[Short.SIZE + 1];
-            
+            String name = Block.REGISTRY.getNameForObject(block).toString();
+        	
             if (!this.getPattern().matcher(name).matches())
             {
-            	for (int m = 0; m < Short.SIZE; ++m)
+            	ImmutableList<IBlockState> states = block.getBlockState().getValidStates();
+            	for (IBlockState state : states)
             	{
+            		int m = block.getMetaFromState(state);
             		if (this.getPattern().matcher(name + ":" + m).matches())
             		{
             			weights[m] += this.weight;

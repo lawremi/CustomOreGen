@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import CustomOreGen.Server.ServerState;
 import CustomOreGen.Server.WorldConfig;
-import cpw.mods.fml.common.Loader;
+import net.minecraftforge.fml.common.Loader;
 
 public class CustomOreGenBase
 {

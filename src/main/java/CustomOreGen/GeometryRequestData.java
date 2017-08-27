@@ -3,8 +3,10 @@ package CustomOreGen;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class GeometryRequestData implements Serializable
 {
@@ -20,7 +22,7 @@ public class GeometryRequestData implements Serializable
     public GeometryRequestData(World world, int chunkX, int chunkZ, int batchID)
     {
         this.world = world;
-        this.dimensionID = world == null ? 0 : world.provider.dimensionId;
+        this.dimensionID = world == null ? 0 : world.provider.getDimension();
         this.chunkX = chunkX;
         this.chunkZ = chunkZ;
         this.batchID = batchID;
@@ -29,11 +31,11 @@ public class GeometryRequestData implements Serializable
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
     {
         in.defaultReadObject();
-        MinecraftServer ms = MinecraftServer.getServer();
+        MinecraftServer ms = FMLCommonHandler.instance().getMinecraftServerInstance();
 
         if (ms != null && ms.isServerRunning())
         {
-            this.world = MinecraftServer.getServer().worldServerForDimension(this.dimensionID);
+            this.world = ms.getWorld(dimensionID);
         }
     }
 }

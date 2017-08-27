@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -16,17 +17,12 @@ import CustomOreGen.Server.GuiCustomOreGenSettings.GuiOpenMenuButton;
 import CustomOreGen.Util.CogOreGenEvent;
 import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.SimpleProfiler;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.relauncher.ReflectionHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import exterminatorJeff.undergroundBiomes.api.UBAPIHook;
 import net.minecraft.block.BlockSand;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiCreateWorld;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.storage.AnvilChunkLoader;
@@ -36,12 +32,17 @@ import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.SaveFormatOld;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ServerState
 {
     private static MinecraftServer _server = null;
     private static Map<World,WorldConfig> _worldConfigs = new HashMap<World, WorldConfig>();
-    private static Object _optionsGuiButton = null;
+    private static GuiOpenMenuButton _optionsGuiButton = null;
     private static boolean forcingChunk;
 
     public static WorldConfig getWorldConfig(World world)
@@ -133,7 +134,7 @@ public class ServerState
     {
         SimpleProfiler.globalProfiler.startSection("Populate");
         BlockSand.fallInstantly = true;
-        world.scheduledUpdatesAreImmediate = true;
+        ReflectionHelper.setPrivateValue(World.class, world, true, "scheduledUpdatesAreImmediate","field_72999_e");
         
         for (IOreDistribution dist : distributions) {
         	dist.generate(world, chunkX, chunkZ);
@@ -141,10 +142,11 @@ public class ServerState
             dist.cull();
         }
         
-        world.scheduledUpdatesAreImmediate = false;
+        ReflectionHelper.setPrivateValue(World.class, world, false, "scheduledUpdatesAreImmediate","field_72999_e");
         BlockSand.fallInstantly = false;
         if (Loader.isModLoaded("UndergroundBiomes")) {
-        	UBAPIHook.ubAPIHook.ubOreTexturizer.redoOres(chunkX*16, chunkZ*16, world);
+        	// FIXME: API not yet available for 1.8.x
+        	// UBAPIHook.ubAPIHook.ubOreTexturizer.redoOres(chunkX*16, chunkZ*16, world);
         }
         SimpleProfiler.globalProfiler.endSection();
     }
@@ -198,7 +200,7 @@ public class ServerState
             	if (allNeighborsPopulated(world, iX, iZ, range)) {
             		//CustomOreGenBase.log.info("[" + iX + "," + iZ + "]: POPULATING");
             		populateDistributions(cfg.getOreDistributions(), world, iX, iZ);
-            		MinecraftForge.ORE_GEN_BUS.post(new CogOreGenEvent(world, rand, iX*16, iZ*16));
+            		MinecraftForge.ORE_GEN_BUS.post(new CogOreGenEvent(world, rand, new BlockPos(iX*16, 0, iZ*16)));
             	}
             }
         }
@@ -225,17 +227,17 @@ public class ServerState
 		// NOTE: We assume the chunk has been populated if it is only on disk, 
 		//       because if we load it to check, it will be populated automatically.
 		return chunkIsLoaded(world, chunkX, chunkZ) ? 
-				world.getChunkFromChunkCoords(chunkX, chunkZ).isTerrainPopulated : 
+				world.getChunkFromChunkCoords(chunkX, chunkZ).isTerrainPopulated() : 
 					chunkIsSaved(world, chunkX, chunkZ);
 	}
 
 	private static boolean chunkIsLoaded(World world, int chunkX, int chunkZ) {
-		return world.getChunkProvider().chunkExists(chunkX, chunkZ);
+		return world.getChunkProvider().getLoadedChunk(chunkX, chunkZ) != null;
 	}
 	
 	private static boolean chunkIsSaved(World world, int chunkX, int chunkZ) {
 		if (world.getChunkProvider() instanceof ChunkProviderServer) {
-			IChunkLoader loader = ((ChunkProviderServer)world.getChunkProvider()).currentChunkLoader;
+			IChunkLoader loader = ((ChunkProviderServer)world.getChunkProvider()).chunkLoader;
 			if (loader instanceof AnvilChunkLoader) {
 				//if (((AnvilChunkLoader) loader).chunkExists(world, chunkX, chunkZ))
 				//	CustomOreGenBase.log.info("[" + chunkX + "," + chunkZ + "]: saved on disk");
@@ -255,12 +257,12 @@ public class ServerState
         {
             if (currentServer != null && worldInfo == null)
             {
-                if (currentServer.worldServers == null)
+                if (currentServer.worlds == null)
                 {
                     return false;
                 }
 
-                for (WorldServer world : currentServer.worldServers) {
+                for (WorldServer world : currentServer.worlds) {
                     if (world != null)
                     {
                         worldInfo = world.getWorldInfo();
@@ -272,10 +274,11 @@ public class ServerState
                     }                	
                 }
                 
-                if (worldInfo == null)
-                {
-                    return false;
-                }
+            }
+
+            if (worldInfo == null)
+            {
+                return false;
             }
 
             onServerChanged(currentServer, worldInfo);
@@ -322,7 +325,7 @@ public class ServerState
     }
 
     @SideOnly(Side.CLIENT)
-    public static void onWorldCreationMenuTick(GuiCreateWorld gui)
+    public static void addOptionsButtonToGui(GuiCreateWorld gui, List<GuiButton> buttonList)
     {
         if (gui == null)
         {
@@ -337,22 +340,23 @@ public class ServerState
                 _optionsGuiButton = new GuiOpenMenuButton(gui, 99, 0, 0, 150, 20, "Custom Ore Generation...", button);
             }
 
-            GuiOpenMenuButton button1 = (GuiOpenMenuButton)_optionsGuiButton;
-            @SuppressWarnings("unchecked")
-			Collection<GuiButton> controlList = (Collection<GuiButton>)ReflectionHelper.getPrivateValue(GuiScreen.class, gui, 4);
-
-            if (!controlList.contains(button1))
+            GuiOpenMenuButton button1 = _optionsGuiButton;
+            
+            if (!buttonList.contains(button1))
             {
-                button1.xPosition = (gui.width - button1.getWidth()) / 2;
-                button1.yPosition = 165;
-                controlList.add(button1);
+                button1.x = (gui.width - button1.getWidth()) / 2;
+                button1.y = 165;
+                buttonList.add(button1);
             }
-
-            button1.visible = !((Boolean)ReflectionHelper.getPrivateValue(GuiCreateWorld.class, gui, 11)).booleanValue();
         }
     }
     
-	public static void chunkForced(World world, ChunkCoordIntPair location) {
+    @SideOnly(Side.CLIENT)
+    public static void updateOptionsButtonVisibility(GuiCreateWorld gui) {
+    	_optionsGuiButton.visible = !(Boolean)ObfuscationReflectionHelper.getPrivateValue(GuiCreateWorld.class, gui, 12);
+    }
+    
+	public static void chunkForced(World world, ChunkPos location) {
 		if (forcingChunk) { // prevent infinite recursion when there are multiple chunk loaders
 			return;
 		}
@@ -361,11 +365,11 @@ public class ServerState
 		WorldConfig cfg = getWorldConfig(world);
 		int radius = (cfg.deferredPopulationRange + 15) / 16;
         
-        for (int cX = location.chunkXPos - radius; cX <= location.chunkXPos + radius; ++cX)
+        for (int cX = location.x - radius; cX <= location.x + radius; ++cX)
         {
-            for (int cZ = location.chunkZPos - radius; cZ <= location.chunkZPos + radius; ++cZ)
+            for (int cZ = location.z - radius; cZ <= location.z + radius; ++cZ)
             {
-            	if (cX != location.chunkXPos && cZ != location.chunkZPos) {
+            	if (cX != location.x && cZ != location.z) {
             		world.getChunkFromChunkCoords(cX, cZ);
             	}
             }

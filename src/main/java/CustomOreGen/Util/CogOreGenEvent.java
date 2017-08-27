@@ -2,10 +2,11 @@ package CustomOreGen.Util;
 
 import java.util.Random;
 
+import net.minecraftforge.fml.common.eventhandler.Cancelable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.OreGenEvent;
-import cpw.mods.fml.common.eventhandler.Cancelable;
 
 public class CogOreGenEvent extends OreGenEvent {
 	/**
@@ -19,7 +20,7 @@ public class CogOreGenEvent extends OreGenEvent {
      * <br>
      * This event is fired on the {@link MinecraftForge#ORE_GEN_BUS}.<br>
      **/ 
-    public CogOreGenEvent(World world, Random rand, int worldX, int worldZ) {
-        super(world, rand, worldX, worldZ);
+    public CogOreGenEvent(World world, Random rand, BlockPos pos) {
+        super(world, rand, pos);
     }
 }

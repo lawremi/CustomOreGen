@@ -9,8 +9,13 @@ import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+import CustomOreGen.CustomPacketPayload;
+import CustomOreGen.CustomPacketPayload.PayloadType;
+import CustomOreGen.Config.ConfigParser;
+import CustomOreGen.Server.ServerState;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -19,13 +24,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import CustomOreGen.CustomPacketPayload;
-import CustomOreGen.CustomPacketPayload.PayloadType;
-import CustomOreGen.Config.ConfigParser;
-import CustomOreGen.Server.ServerState;
 
 public class ConsoleCommand extends CommandBase
 {
@@ -70,19 +71,19 @@ public class ConsoleCommand extends CommandBase
         		}
 	            else
 	            {
-	            	recipient.addChatMessage(new ChatComponentText(line));
+	            	recipient.sendMessage(new TextComponentString(line));
 	            }
         	}
         }
     }
 
-    public static WorldServer getSenderWorld(ICommandSender sender)
+    public static WorldServer getSenderWorldServer(ICommandSender sender)
     {
         World entityWorld = null;
 
         if (sender instanceof Entity)
         {
-            entityWorld = ((Entity)sender).worldObj;
+            entityWorld = ((Entity)sender).world;
         }
         else
         {
@@ -91,7 +92,7 @@ public class ConsoleCommand extends CommandBase
                 return null;
             }
 
-            entityWorld = ((TileEntity)sender).getWorldObj();
+            entityWorld = ((TileEntity)sender).getWorld();
         }
 
         if (entityWorld == null)
@@ -100,8 +101,8 @@ public class ConsoleCommand extends CommandBase
         }
         else
         {
-            int dim = entityWorld.provider.dimensionId;
-            return MinecraftServer.getServer().worldServerForDimension(dim);
+        	int dim = entityWorld.provider.getDimension();
+            return sender.getServer().getWorld(dim);
         }
     }
 
@@ -123,26 +124,29 @@ public class ConsoleCommand extends CommandBase
         this((Object)null, method);
     }
 
-    public String getCommandName()
+    @Override
+    public String getName()
     {
         CommandDelegate cmdDef = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
         return cmdDef != null && cmdDef.names() != null && cmdDef.names().length > 0 ? cmdDef.names()[0] : this._method.getName();
     }
 
-    public List<String> getCommandAliases()
+    @Override
+    public List<String> getAliases()
     {
         CommandDelegate cmdDef = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
-        return cmdDef != null && cmdDef.names() != null && cmdDef.names().length > 1 ? Arrays.asList(Arrays.copyOfRange(cmdDef.names(), 1, cmdDef.names().length)) : null;
+        return cmdDef != null && cmdDef.names() != null && cmdDef.names().length > 1 ? Arrays.asList(Arrays.copyOfRange(cmdDef.names(), 1, cmdDef.names().length)) : Collections.<String>emptyList();
     }
 
-    public String getCommandUsage(ICommandSender sender)
+    @Override
+    public String getUsage(ICommandSender sender)
     {
         return this.getCommandHelp(sender, false);
     }
 
     public String getCommandHelp(ICommandSender sender, boolean verbose)
     {
-        StringBuilder out = new StringBuilder("/" + this.getCommandName());
+        StringBuilder out = new StringBuilder("/" + this.getName());
         Class<?>[] ptypes = this._method.getParameterTypes();
         Annotation[][] pantns = this._method.getParameterAnnotations();
 
@@ -171,7 +175,7 @@ public class ConsoleCommand extends CommandBase
             {
                 if (clazz.isAssignableFrom(WorldServer.class))
                 {
-                    if (getSenderWorld(sender) != null)
+                    if (getSenderWorldServer(sender) != null)
                     	continue;
                     
                     clazz = Integer.class;
@@ -217,8 +221,8 @@ public class ConsoleCommand extends CommandBase
         return out.toString();
     }
 
-    public void processCommand(ICommandSender sender, String[] args)
-    {
+    @Override
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         Class<?>[] ptypes = this._method.getParameterTypes();
         Annotation[][] pantns = this._method.getParameterAnnotations();
         Object[] pvalues = new Object[ptypes.length];
@@ -261,12 +265,12 @@ public class ConsoleCommand extends CommandBase
                 }
                 else if (clazz.isAssignableFrom(WorldServer.class))
                 {
-                    pvalues[pidx] = getSenderWorld(sender);
+                    pvalues[pidx] = getSenderWorldServer(sender);
 
                     if (pvalues[pidx] == null)
                     {
-                        Integer dimId = ConfigParser.parseString(Integer.class, ex < args.length ? args[ex++] : defValue);
-                        pvalues[pidx] = dimId == null ? null : MinecraftServer.getServer().worldServerForDimension(dimId.intValue());
+                    	Integer dimId = ConfigParser.parseString(Integer.class, ex < args.length ? args[ex++] : defValue);
+                        pvalues[pidx] = dimId == null ? null : sender.getServer().getWorld(dimId.intValue());
 
                         if (pvalues[pidx] == null && required)
                         {
@@ -323,18 +327,18 @@ public class ConsoleCommand extends CommandBase
             throw new CommandException("Unkown Error: " + var17.getMessage(), new Object[0]);
         }
     }
-
-    public boolean canCommandSenderUseCommand(ICommandSender sender)
-    {
-        CommandDelegate cmdDef = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
+    
+	@Override
+	public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
+		CommandDelegate cmdDef = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
 
         if (cmdDef == null || cmdDef.isDebugging())
         {
-            WorldServer senderWorld = getSenderWorld(sender);
+            WorldServer senderWorld = getSenderWorldServer(sender);
 
             if (senderWorld != null)
             {
-                ServerState.checkIfServerChanged(MinecraftServer.getServer(), senderWorld.getWorldInfo());
+                ServerState.checkIfServerChanged(server, senderWorld.getWorldInfo());
 
                 if (!ServerState.getWorldConfig(senderWorld).debuggingMode)
                 {
@@ -343,9 +347,10 @@ public class ConsoleCommand extends CommandBase
             }
         }
 
-        return super.canCommandSenderUseCommand(sender);
+        return super.checkPermission(server, sender);
     }
 
+    @Override
     public int getRequiredPermissionLevel()
     {
         CommandDelegate cmdDef = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);

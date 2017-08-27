@@ -6,19 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.ChunkCoordIntPair;
-import net.minecraft.world.ChunkPosition;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.structure.MapGenStructure;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
-import net.minecraft.world.gen.structure.StructureComponent;
-import net.minecraft.world.gen.structure.StructureStart;
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
 import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockArrangement;
@@ -32,6 +19,19 @@ import CustomOreGen.Util.PDist.Type;
 import CustomOreGen.Util.TileEntityHelper;
 import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.WireframeShapes;
+import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.world.gen.structure.MapGenStructure;
+import net.minecraft.world.gen.structure.StructureBoundingBox;
+import net.minecraft.world.gen.structure.StructureComponent;
+import net.minecraft.world.gen.structure.StructureStart;
+import net.minecraft.world.gen.structure.template.TemplateManager;
 
 public abstract class MapGenOreDistribution extends MapGenStructure implements IOreDistribution
 {
@@ -190,7 +190,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
     public MapGenOreDistribution(DistributionSettingMap settingMap, int distributionID, boolean canGenerate)
     {
-        this.replaceableBlocks = new BlockDescriptor(Blocks.stone);
+        this.replaceableBlocks = new BlockDescriptor(Blocks.STONE);
         this.aboveBlocks = new BlockDescriptor();
         this.belowBlocks = new BlockDescriptor();
         this.besideBlocks = new BlockDescriptor();
@@ -246,16 +246,16 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         this._settingMap.set(this, settingName, value);
     }
 
-    public void generate(World world, int chunkX, int chunkZ)
+    public synchronized void generate(World world, int chunkX, int chunkZ)
     {
         if (this._canGenerate && this._valid)
         {
-            if (world != super.worldObj)
+            if (world != super.world)
             {
                 this.clear();
             }
 
-            this.func_151539_a(world.getChunkProvider(), world, chunkX, chunkZ, (Block[])null);
+            this.generate(world, chunkX, chunkZ, new ChunkPrimer());
         }
     }
 
@@ -301,7 +301,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
                     while (group != null)
                     {
-                        Long key = Long.valueOf(ChunkCoordIntPair.chunkXZ2Int(group.chunkX, group.chunkZ));
+                        Long key = Long.valueOf(ChunkPos.asLong(group.chunkX, group.chunkZ));
                         super.structureMap.remove(key);
                         group = group.olderGroup;
                     }
@@ -333,7 +333,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
     {
         if (this._canGenerate && this._valid)
         {
-            if (world != super.worldObj)
+            if (world != super.world)
             {
                 return null;
             }
@@ -394,7 +394,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
     protected StructureGroup getCachedStructureGroup(int chunkX, int chunkZ)
     {
-        Long key = Long.valueOf(ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ));
+        Long key = Long.valueOf(ChunkPos.asLong(chunkX, chunkZ));
         StructureGroup group = (StructureGroup)super.structureMap.get(key);
 
         if (group != null)
@@ -439,10 +439,10 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
     // FIXME: copy-and-pasted this from MapGenBase, because MapGenStructure now declares recursiveGenerate as 'final'. 
     // We worked around this by renaming to recursiveGenerate2, which is called by this method. 
     @Override
-    public void func_151539_a(IChunkProvider par1IChunkProvider, World par2World, int par3, int par4, Block[] chunkBlocks)
+    public void generate(World par2World, int par3, int par4, ChunkPrimer primer)
     {
         int k = this.range;
-        this.worldObj = par2World;
+        this.world = par2World;
         this.rand.setSeed(par2World.getSeed());
         long l = this.rand.nextLong();
         long i1 = this.rand.nextLong();
@@ -454,13 +454,12 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                 long l1 = (long)j1 * l;
                 long i2 = (long)k1 * i1;
                 this.rand.setSeed(l1 ^ i2 ^ par2World.getSeed());
-                this.recursiveGenerate2(par2World, j1, k1, par3, par4, chunkBlocks);
+                this.recursiveGenerate2(par2World, j1, k1, par3, par4, primer);
             }
         }
     }
     
-    @SuppressWarnings("unchecked")
-	protected void recursiveGenerate2(World world, int chunkX, int chunkZ, int rootX, int rootZ, Block[] chunkBlocks)
+    protected void recursiveGenerate2(World world, int chunkX, int chunkZ, int rootX, int rootZ, ChunkPrimer primer)
     {
         if (this.parent != null)
         {
@@ -481,7 +480,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             if (this.canSpawnStructureAtCoords(chunkX, chunkZ))
             {
                 group1 = (StructureGroup)this.getStructureStart(chunkX, chunkZ);
-                long key = ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ);
+                long key = ChunkPos.asLong(chunkX, chunkZ);
                 super.structureMap.put(key, group1);
             }
         }
@@ -493,10 +492,10 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
     	int blockZ = chunkZ << 4;
     	boolean canSpawn = false;
         if (this._canGenerate && this._valid) {
-        	if (this.frequency.getMax(this.worldObj, blockX, blockZ) >= 1.0F) {
+        	if (this.frequency.getMax(this.world, blockX, blockZ) >= 1.0F) {
         		canSpawn = true; 
         	} else {
-        		canSpawn = this.frequency.getIntValue(super.rand, this.worldObj, blockX, blockZ) == 1;
+        		canSpawn = this.frequency.getIntValue(super.rand, this.world, blockX, blockZ) == 1;
         	}
         }
         return canSpawn;
@@ -506,8 +505,8 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
     {
     	int blockX = chunkX << 4;
     	int blockZ = chunkZ << 4;
-        int count = this.frequency.getMax(this.worldObj, blockX, blockZ) >= 1.0F ? 
-        		this.frequency.getIntValue(super.rand, this.worldObj, blockX, blockZ) : 1;
+        int count = this.frequency.getMax(this.world, blockX, blockZ) >= 1.0F ? 
+        		this.frequency.getIntValue(super.rand, this.world, blockX, blockZ) : 1;
         StructureGroup group = new StructureGroup(chunkX, chunkZ, count);
         group.newerGroup = null;
         group.olderGroup = this.newestGroup;
@@ -558,32 +557,32 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
 
-    @SuppressWarnings("unchecked")
-	public ChunkPosition getNearestStructure(World world, int x, int y, int z)
+    public BlockPos getNearestStructure(World world, BlockPos pos)
     {
         if (this._canGenerate && this._valid)
         {
-            ChunkPosition minPos = null;
+            BlockPos minPos = null;
             int minDist2 = Integer.MAX_VALUE;
             StructureBoundingBox searchBounds = new StructureBoundingBox(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
-            for (StructureGroup vs : (Collection<StructureGroup>)super.structureMap.values()) {
+            for (StructureStart vs : (Collection<StructureStart>)super.structureMap.values()) {
             	if (vs.getBoundingBox().intersectsWith(searchBounds))
                 {
-                	for (Component vc : (List<Component>)vs.getComponents()) {
+                	for (StructureComponent vc : (List<StructureComponent>)vs.getComponents()) {
                 		if (vc.getComponentType() == 0)
                         {
-                            ChunkPosition center = vc.func_151553_a();
-                            int dist2 = (center.chunkPosX - x) * (center.chunkPosX - x) + (center.chunkPosZ - z) * (center.chunkPosZ - z);
+                            BlockPos center = getBoundingBoxCenter(vc.getBoundingBox());
+                            int dist2 = (center.getX() - pos.getX()) * (center.getX() - pos.getX()) + 
+                            		(center.getZ() - pos.getZ()) * (center.getZ() - pos.getZ());
 
                             if (dist2 < minDist2)
                             {
                                 minPos = center;
                                 minDist2 = dist2;
                                 int dist = (int)Math.sqrt((double)dist2) + 1;
-                                searchBounds.minX = x - dist;
-                                searchBounds.minZ = z - dist;
-                                searchBounds.maxX = x + dist;
-                                searchBounds.maxZ = z + dist;
+                                searchBounds.minX = pos.getX() - dist;
+                                searchBounds.minZ = pos.getZ() - dist;
+                                searchBounds.maxX = pos.getX() + dist;
+                                searchBounds.maxZ = pos.getZ() + dist;
                             }
                         }
                     }
@@ -598,7 +597,11 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
 
-    public String toString()
+    private BlockPos getBoundingBoxCenter(StructureBoundingBox box) {
+		return new BlockPos((box.maxX - box.minX)/2 + box.minX, (box.maxY - box.minY)/2 + box.minY, (box.maxZ - box.minZ)/2 + box.minZ);
+	}
+
+	public String toString()
     {
         return this.name;
     }
@@ -634,7 +637,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             this.structureCount = trueStructureCount;
             this.updateBoundingBox();
 
-            if (ServerState.getWorldConfig(worldObj).debuggingMode && (wfHasBB || wfHasWireframe))
+            if (ServerState.getWorldConfig(world).debuggingMode && (wfHasBB || wfHasWireframe))
             {
                 this.buildWireframes();
             }
@@ -645,8 +648,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             return true;
         }
 
-        @SuppressWarnings("unchecked")
-		public void addComponent(Component component, Component parent)
+        public void addComponent(Component component, Component parent)
         {
             super.components.add(component);
             component.setParent(parent);
@@ -659,13 +661,15 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
         public boolean canPlaceComponentAt(int componentType, float x, float y, float z, Random random)
         {
-            int iX = MathHelper.floor_float(x);
-            int iY = MathHelper.floor_float(y);
-            int iZ = MathHelper.floor_float(z);
+            int iX = MathHelper.floor(x);
+            int iY = MathHelper.floor(y);
+            int iZ = MathHelper.floor(z);
 
+            BlockPos pos = new BlockPos(iX, iY, iZ);
+            
             if (componentType == 0)
             {
-                BiomeGenBase dist = worldObj.getBiomeGenForCoords(iX, iZ);
+                Biome dist = world.getBiome(pos);
 
                 if (dist != null && !biomes.matchesBiome(dist, random))
                 {
@@ -691,15 +695,15 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                         return false;
                     }
 
-                    ChunkPosition parentPos = parent.getNearestStructure(worldObj, iX, 0, iZ);
+                    BlockPos parentPos = parent.getNearestStructure(world, pos);
 
                     if (parentPos == null)
                     {
                         return false;
                     }
 
-                    float dx = (float)(parentPos.chunkPosX - iX);
-                    float dz = (float)(parentPos.chunkPosZ - iZ);
+                    float dx = (float)(parentPos.getX() - iX);
+                    float dz = (float)(parentPos.getZ() - iZ);
 
                     if (dx * dx + dz * dz > dist1 * dist1)
                     {
@@ -723,15 +727,14 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             }
         }
 
-        @SuppressWarnings("unchecked")
-		public void buildWireframes()
+        public void buildWireframes()
         {
             GeometryStream builder;
 
-            for (Component comp : (List<Component>)this.getComponents()) {
+            for (StructureComponent comp : this.getComponents()) {
             	StructureBoundingBox bb = comp.getBoundingBox();
-                int cX = bb.getCenterX() / 16;
-                int cZ = bb.getCenterZ() / 16;
+                int cX = getBoundingBoxCenter(bb).getX() / 16;
+                int cZ = getBoundingBoxCenter(bb).getZ() / 16;
                 long key = (long)cX << 32 | (long)cZ & 4294967295L;
                 builder = debuggingGeometryMap.get(key);
 
@@ -740,7 +743,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                     builder = new GeometryStream();
                     debuggingGeometryMap.put(key, builder);
                 }
-                comp.buildWireframe(builder);
+                ((Component)comp).buildWireframe(builder);
             }
         }
     }
@@ -791,14 +794,15 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
         public boolean attemptPlaceBlock(World world, Random random, int x, int y, int z, StructureBoundingBox bounds)
         {
-            if (!bounds.isVecInside(x, y, z))
+        	BlockPos pos = new BlockPos(x, y, z);
+            if (!bounds.isVecInside(pos))
             {
                 return false;
             }
             else
             {
                 BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks, besideBlocks);
-                boolean matched = arrangement.matchesAt(world, random, x, y, z);
+                boolean matched = arrangement.matchesAt(world, random, pos);
                 if (matched)
                 {
                     BlockInfo match = oreBlock.getMatchingBlock(random);
@@ -809,16 +813,13 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                     }
                     else
                     {
-                    	Block oreBlock = match.getBlock();
-                    	int metadata = match.getMetadata();
-                        boolean placed = world.setBlock(x, y, z, oreBlock, metadata, 2);
+                    	boolean placed = world.setBlockState(pos, match.getBlockState(), 2);
 
                         if (placed)
                         {
                         	TileEntityHelper.readFromPartialNBT(world, x, y, z, match.getNBT());
                             ++this.placedBlocks;
                             ++MapGenOreDistribution.this.placedBlocks;
-                            world.markBlockForUpdate(x, y, z);
                         }
 
                         return placed;
@@ -878,19 +879,55 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             }
         }
 
-        /* For constructing/populating an NBT tag representing this component */
-		@Override
-		protected void func_143012_a(NBTTagCompound nbttagcompound) {
+        @Override
+		protected void writeStructureToNBT(NBTTagCompound tagCompound) {
 			// TODO Auto-generated method stub
 			
 		}
 
-		/* For parsing an NBT tag representing this component */
 		@Override
-		protected void func_143011_b(NBTTagCompound nbttagcompound) {
+		protected void readStructureFromNBT(NBTTagCompound tagCompound, TemplateManager template) {
 			// TODO Auto-generated method stub
 			
 		}
     }
 
+	@Override
+	public BlockPos getNearestStructurePos(World worldIn, BlockPos pos, boolean findUnexplored) {
+		this.world = worldIn;
+        this.initializeStructureData(worldIn);
+        this.rand.setSeed(worldIn.getSeed());
+        long i = this.rand.nextLong();
+        long j = this.rand.nextLong();
+        long k = (long)(pos.getX() >> 4) * i;
+        long l = (long)(pos.getZ() >> 4) * j;
+        this.rand.setSeed(k ^ l ^ worldIn.getSeed());
+        this.recursiveGenerate(worldIn, pos.getX() >> 4, pos.getZ() >> 4, 0, 0, (ChunkPrimer)null);
+        double d0 = Double.MAX_VALUE;
+        BlockPos blockpos = null;
+        
+		for (StructureStart structurestart : this.structureMap.values())
+        {
+            if (structurestart.isSizeableStructure())
+            {
+                StructureComponent structurecomponent = (StructureComponent)structurestart.getComponents().get(0);
+                BlockPos blockpos1 = getBoundingBoxCenter(structurecomponent.getBoundingBox());
+                double d1 = blockpos1.distanceSq(pos);
+
+                if (d1 < d0)
+                {
+                    d0 = d1;
+                    blockpos = blockpos1;
+                }
+            }
+        }
+		if (blockpos != null)
+        {
+            return blockpos;
+        }
+        else
+        {
+            return null;
+        }
+	}
 }
