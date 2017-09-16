@@ -124,7 +124,9 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
     {
         float totalWeight = 0.0F;
         
-        String name = biome.getBiomeName();
+        //String name = biome.getBiomeName();
+        //TODO
+        String name = biome.getRegistryName().getResourcePath();
         
         for (Descriptor desc : this._descriptors) {
             Matcher matcher;
