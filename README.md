@@ -10,4 +10,4 @@ this code. Anyone who distributes this code needs to give clear credit
 to JRoush.
 
 Most features are documented on the (still current)
-[wiki](http://customoregen.shoutwiki.com/wiki/Main_Page).
+[wiki](http//custom-ore-generation.wikia.com/wiki/).
