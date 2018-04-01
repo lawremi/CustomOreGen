@@ -231,8 +231,8 @@ public class MapGenClusters extends MapGenOreDistribution
 		return volume;
 	}
 
-	//@Override
-	public BlockPos getClosestStrongholdPos(World worldIn, BlockPos pos, boolean p_180706_3_) {
+	@Override
+	public BlockPos getNearestStructurePos(World worldIn, BlockPos pos, boolean findUnexplored) {
 		return null;
 	}
 

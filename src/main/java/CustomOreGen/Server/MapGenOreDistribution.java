@@ -447,7 +447,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
     // FIXME: copy-and-pasted this from MapGenBase, because MapGenStructure now declares recursiveGenerate as 'final'. 
     // We worked around this by renaming to recursiveGenerate2, which is called by this method. 
     @Override
-    public synchronized void generate(World par2World, int par3, int par4, ChunkPrimer primer)
+    public void generate(World par2World, int par3, int par4, ChunkPrimer primer)
     {
         int k = this.range;
         this.world = par2World;
@@ -467,7 +467,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
     
-    private void recursiveGenerate2(World world, int chunkX, int chunkZ, int rootX, int rootZ, ChunkPrimer primer)
+    protected void recursiveGenerate2(World world, int chunkX, int chunkZ, int rootX, int rootZ, ChunkPrimer primer)
     {
         if (this.parent != null)
         {
@@ -565,7 +565,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
 
-    private BlockPos getNearestStructure(World world, BlockPos pos)
+    public BlockPos getNearestStructure(World world, BlockPos pos)
     {
         if (this._canGenerate && this._valid)
         {
@@ -578,11 +578,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                 	for (StructureComponent vc : (List<StructureComponent>)vs.getComponents()) {
                 		if (vc.getComponentType() == 0)
                         {
-                			StructureBoundingBox bb = vc.getBoundingBox();
-                			int xIn = bb.minX + (bb.maxX - bb.minX + 1) / 2;
-                			int yIn = bb.minY + (bb.maxY - bb.minY + 1) / 2;
-                			int zIn = bb.minZ + (bb.maxZ - bb.minZ + 1) / 2;
-                			BlockPos center = new BlockPos(xIn, yIn, zIn);
+                            BlockPos center = getBoundingBoxCenter(vc.getBoundingBox());
                             int dist2 = (center.getX() - pos.getX()) * (center.getX() - pos.getX()) + 
                             		(center.getZ() - pos.getZ()) * (center.getZ() - pos.getZ());
 
@@ -609,7 +605,11 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
 
-    public String toString()
+    private BlockPos getBoundingBoxCenter(StructureBoundingBox box) {
+		return new BlockPos((box.maxX - box.minX)/2 + box.minX, (box.maxY - box.minY)/2 + box.minY, (box.maxZ - box.minZ)/2 + box.minZ);
+	}
+
+	public String toString()
     {
         return this.name;
     }
@@ -740,13 +740,9 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             GeometryStream builder;
 
             for (StructureComponent comp : this.getComponents()) {
-                StructureBoundingBox bb = comp.getBoundingBox();
-            	int xIn = bb.minX + (bb.maxX - bb.minX + 1) / 2;
-            	int yIn = bb.minY + (bb.maxY - bb.minY + 1) / 2;
-            	int zIn = bb.minZ + (bb.maxZ - bb.minZ + 1) / 2;
-            	BlockPos center = new BlockPos(xIn, yIn, zIn);
-                int cX = center.getX() / 16;
-                int cZ = center.getZ() / 16;
+            	StructureBoundingBox bb = comp.getBoundingBox();
+                int cX = getBoundingBoxCenter(bb).getX() / 16;
+                int cZ = getBoundingBoxCenter(bb).getZ() / 16;
                 long key = (long)cX << 32 | (long)cZ & 4294967295L;
                 builder = debuggingGeometryMap.get(key);
 
@@ -813,8 +809,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             }
             else
             {
-                BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks,
-                        besideBlocks, touchingBlocks);
+                BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks, besideBlocks);
                 boolean matched = arrangement.matchesAt(world, random, pos);
                 if (matched)
                 {
@@ -899,10 +894,48 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 		}
 
 		@Override
-		protected void readStructureFromNBT(NBTTagCompound tagCompound, TemplateManager p_143011_2_) {
+		protected void readStructureFromNBT(NBTTagCompound tagCompound, TemplateManager template) {
 			// TODO Auto-generated method stub
 			
 		}
     }
 
+	@Override
+	public BlockPos getNearestStructurePos(World worldIn, BlockPos pos, boolean findUnexplored) {
+		this.world = worldIn;
+        this.initializeStructureData(worldIn);
+        this.rand.setSeed(worldIn.getSeed());
+        long i = this.rand.nextLong();
+        long j = this.rand.nextLong();
+        long k = (long)(pos.getX() >> 4) * i;
+        long l = (long)(pos.getZ() >> 4) * j;
+        this.rand.setSeed(k ^ l ^ worldIn.getSeed());
+        this.recursiveGenerate(worldIn, pos.getX() >> 4, pos.getZ() >> 4, 0, 0, (ChunkPrimer)null);
+        double d0 = Double.MAX_VALUE;
+        BlockPos blockpos = null;
+        
+		for (StructureStart structurestart : this.structureMap.values())
+        {
+            if (structurestart.isSizeableStructure())
+            {
+                StructureComponent structurecomponent = (StructureComponent)structurestart.getComponents().get(0);
+                BlockPos blockpos1 = getBoundingBoxCenter(structurecomponent.getBoundingBox());
+                double d1 = blockpos1.distanceSq(pos);
+
+                if (d1 < d0)
+                {
+                    d0 = d1;
+                    blockpos = blockpos1;
+                }
+            }
+        }
+		if (blockpos != null)
+        {
+            return blockpos;
+        }
+        else
+        {
+            return null;
+        }
+	}
 }

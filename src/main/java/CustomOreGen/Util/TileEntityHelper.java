@@ -52,7 +52,7 @@ public class TileEntityHelper {
 	}
 	
 	public static NBTTagCompound tryToCreateGTPrefixBlockNBT(ItemStack ore) {
-		Block block = ((ItemBlock)ore.getItem()).block;
+		Block block = ((ItemBlock)ore.getItem()).getBlock();
 		NBTTagCompound nbt = null;
 		if (isGTPrefixBlock(block)) {
 			nbt = new NBTTagCompound();

@@ -102,7 +102,7 @@ public class ConsoleCommand extends CommandBase
         else
         {
         	int dim = entityWorld.provider.getDimension();
-            return sender.getServer().worldServerForDimension(dim);
+            return sender.getServer().getWorld(dim);
         }
     }
 
@@ -270,7 +270,7 @@ public class ConsoleCommand extends CommandBase
                     if (pvalues[pidx] == null)
                     {
                     	Integer dimId = ConfigParser.parseString(Integer.class, ex < args.length ? args[ex++] : defValue);
-                        pvalues[pidx] = dimId == null ? null : sender.getServer().worldServerForDimension(dimId.intValue());
+                        pvalues[pidx] = dimId == null ? null : sender.getServer().getWorld(dimId.intValue());
 
                         if (pvalues[pidx] == null && required)
                         {

@@ -344,8 +344,8 @@ public class ServerState
             
             if (!buttonList.contains(button1))
             {
-                button1.xPosition = (gui.width - button1.getWidth()) / 2;
-                button1.yPosition = 165;
+                button1.x = (gui.width - button1.getWidth()) / 2;
+                button1.y = 165;
                 buttonList.add(button1);
             }
         }
@@ -365,11 +365,11 @@ public class ServerState
 		WorldConfig cfg = getWorldConfig(world);
 		int radius = (cfg.deferredPopulationRange + 15) / 16;
         
-        for (int cX = location.chunkXPos - radius; cX <= location.chunkXPos + radius; ++cX)
+        for (int cX = location.x - radius; cX <= location.x + radius; ++cX)
         {
-            for (int cZ = location.chunkZPos - radius; cZ <= location.chunkZPos + radius; ++cZ)
+            for (int cZ = location.z - radius; cZ <= location.z + radius; ++cZ)
             {
-            	if (cX != location.chunkXPos && cZ != location.chunkZPos) {
+            	if (cX != location.x && cZ != location.z) {
             		world.getChunkFromChunkCoords(cX, cZ);
             	}
             }

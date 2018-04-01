@@ -17,9 +17,9 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptionSlider;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSlot;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.init.SoundEvents;
@@ -179,21 +179,21 @@ public class GuiCustomOreGenSettings extends GuiScreen
         this.drawDefaultBackground();
         this._optionPanel.drawScreen(mouseX, mouseY, partialTick);
         this._groupPanel.drawScreen(mouseX, mouseY, partialTick);
-        this.drawCenteredString(super.fontRendererObj, "CustomOreGen Options", super.width / 2, 4, 16777215);
+        this.drawCenteredString(super.fontRenderer, "CustomOreGen Options", super.width / 2, 4, 16777215);
         super.drawScreen(mouseX, mouseY, partialTick);
 
         if (this._toolTip != null)
         {
-			List<String> lines = super.fontRendererObj.listFormattedStringToWidth(this._toolTip, 2 * super.width / 5 - 8);
+      			List<String> lines = super.fontRenderer.listFormattedStringToWidth(this._toolTip, 2 * super.width / 5 - 8);
             int[] lineWidths = new int[lines.size()];
             int tipW = 0;
-            int tipH = 8 + super.fontRendererObj.FONT_HEIGHT * lines.size();
+            int tipH = 8 + super.fontRenderer.FONT_HEIGHT * lines.size();
             int l = 0;
 
             for (Iterator<String> tipX = lines.iterator(); tipX.hasNext(); ++l)
             {
                 String tipY = tipX.next();
-                lineWidths[l] = super.fontRendererObj.getStringWidth(tipY) + 8;
+                lineWidths[l] = super.fontRenderer.getStringWidth(tipY) + 8;
 
                 if (tipW < lineWidths[l])
                 {
@@ -218,7 +218,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
             l = 0;
 
             for (String line : lines) {
-            	super.fontRendererObj.drawString(line, tipX + (tipW - lineWidths[l]) / 2 + 4, tipY + 4 + l * super.fontRendererObj.FONT_HEIGHT, 16777215);
+            	super.fontRenderer.drawString(line, tipX + (tipW - lineWidths[l]) / 2 + 4, tipY + 4 + l * super.fontRenderer.FONT_HEIGHT, 16777215);
             	++l;
             }
 
@@ -276,7 +276,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 ConfigOption.DisplayGroup group = c < 0 ? null : groups.get(c);
                 String ALL = Localization.maybeLocalize("ALL.displayName", "ALL");
                 String text = c < 0 ? "[ " + ALL + " ]" : group.getLocalizedDisplayName();
-                int btnWidth = fontRendererObj.getStringWidth(text) + 10;
+                int btnWidth = fontRenderer.getStringWidth(text) + 10;
                 GuiGroupButton control = new GuiGroupButton(c + 1, scrollWidth, 0, btnWidth, height, text, group);
                 this._groupButtons.add(control);
 
@@ -332,13 +332,13 @@ public class GuiCustomOreGenSettings extends GuiScreen
             while (tess.hasNext())
             {
                 IOptionControl texSize = tess.next();
-                texSize.getControl().drawButton(mc, mouseX, mouseY);
+                texSize.getControl().drawButton(mc, mouseX, mouseY, partialTick);
             }
 
             double texSize1 = 32.0D;
             GlStateManager.disableDepth();
             Tessellator tessellator = Tessellator.getInstance();
-            VertexBuffer vertexbuffer = tessellator.getBuffer();
+            BufferBuilder vertexbuffer = tessellator.getBuffer();
             mc.getTextureManager().bindTexture(OPTIONS_BACKGROUND);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
@@ -354,7 +354,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
             if (this._groupScrollLButton != null)
             {
-                this._groupScrollLButton.drawButton(mc, mouseX, mouseY);
+                this._groupScrollLButton.drawButton(mc, mouseX, mouseY, partialTick);
 
                 if (this._groupScrollLButton == this._currentButton)
                 {
@@ -364,7 +364,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
             if (this._groupScrollRButton != null)
             {
-                this._groupScrollRButton.drawButton(mc, mouseX, mouseY);
+                this._groupScrollRButton.drawButton(mc, mouseX, mouseY, partialTick);
 
                 if (this._groupScrollRButton == this._currentButton)
                 {
@@ -433,9 +433,9 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
             private boolean isButtonVisible()
             {
-                super.xPosition = posX + _scrollHInset + _scrollOffsetX + this._relX;
-                super.yPosition = posY + this._relY;
-                return !isInScrollArea(super.xPosition, super.yPosition) && !isInScrollArea(super.xPosition + super.width, super.yPosition + super.height);
+                super.x = posX + _scrollHInset + _scrollOffsetX + this._relX;
+                super.y = posY + this._relY;
+                return !isInScrollArea(super.x, super.y) && !isInScrollArea(super.x + super.width, super.y + super.height);
             }
 
             @Override
@@ -468,31 +468,31 @@ public class GuiCustomOreGenSettings extends GuiScreen
             }
 
             @Override
-            public void drawButton(Minecraft mc, int mouseX, int mouseY)
+            public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTick)
             {
                 if (this.isButtonVisible() && super.visible)
                 {
-                    super.hovered = mouseX >= super.xPosition && mouseY >= super.yPosition && mouseX < super.xPosition + super.width && mouseY < super.yPosition + super.height;
+                    super.hovered = mouseX >= super.x && mouseY >= super.y && mouseX < super.x + super.width && mouseY < super.y + super.height;
                     this.mouseDragged(mc, mouseX, mouseY);
 
                     if (_currentGroup == this)
                     {
-                        drawRect(super.xPosition, super.yPosition, super.xPosition + super.width, super.yPosition + super.height, -1610612736);
+                        drawRect(super.x, super.y, super.x + super.width, super.y + super.height, -1610612736);
                     }
                     else
                     {
                         if (this._group == null)
                         {
-                            drawRect(super.xPosition, super.yPosition, super.xPosition + 1, super.yPosition + super.height, -16777216);
+                            drawRect(super.x, super.y, super.x + 1, super.y + super.height, -16777216);
                         }
 
-                        drawRect(super.xPosition, super.yPosition, super.xPosition + super.width, super.yPosition + 1, -16777216);
-                        drawRect(super.xPosition + super.width - 1, super.yPosition, super.xPosition + super.width, super.yPosition + super.height, -16777216);
+                        drawRect(super.x, super.y, super.x + super.width, super.y + 1, -16777216);
+                        drawRect(super.x + super.width - 1, super.y, super.x + super.width, super.y + super.height, -16777216);
                     }
 
-                    FontRenderer fontRendererObj = mc.fontRendererObj;
+                    FontRenderer fontRendererObj = mc.fontRenderer;
                     int textColor = super.enabled ? (super.hovered ? 16777120 : 14737632) : 10526880;
-                    this.drawCenteredString(fontRendererObj, super.displayString, super.xPosition + super.width / 2, super.yPosition + (super.height - 8) / 2, textColor);
+                    this.drawCenteredString(fontRendererObj, super.displayString, super.x + super.width / 2, super.y + (super.height - 8) / 2, textColor);
 
                     if (this.isMouseOver() && this._group != null)
                     {
@@ -572,25 +572,25 @@ public class GuiCustomOreGenSettings extends GuiScreen
         protected void drawBackground() {}
         
         @Override
-        protected void drawSlot(int index, int slotX, int slotY, int slotH, int mouseX, int mouseY)
+        protected void drawSlot(int index, int slotX, int slotY, int slotH, int mouseX, int mouseY, float partialTick)
         {
             IOptionControl optCtrl = (IOptionControl)this._optionControls.get(index);
             ConfigOption option = optCtrl.getOption();
             GuiButton control = optCtrl.getControl();
             String optionName = option.getLocalizedDisplayName();
-            int nameW = fontRendererObj.getStringWidth(optionName);
+            int nameW = fontRenderer.getStringWidth(optionName);
             int nameX = 2 * width / 5 - 15 - nameW;
-            int nameH = fontRendererObj.FONT_HEIGHT;
+            int nameH = fontRenderer.FONT_HEIGHT;
             int nameY = slotY + 8;
-            drawString(fontRendererObj, optionName, nameX, nameY, 16777215);
+            drawString(fontRenderer, optionName, nameX, nameY, 16777215);
 
             if (super.mouseX >= nameX && super.mouseX <= nameX + nameW && super.mouseY >= nameY && super.mouseY <= nameY + nameH && this.isInBounds(super.mouseX, super.mouseY))
             {
                 _toolTip = option.getLocalizedDescription();
             }
 
-            control.yPosition = slotY + 3;
-            control.drawButton(mc, super.mouseX, super.mouseY);
+            control.y = slotY + 3;
+            control.drawButton(mc, super.mouseX, super.mouseY, partialTick);
         }
 
         @Override
@@ -641,7 +641,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
             protected void onValueChanged()
             {
                 super.displayString = this._choice.getLocalizedDisplayValue();
-                int strWidth = super.displayString == null ? 0 : fontRendererObj.getStringWidth(super.displayString);
+                int strWidth = super.displayString == null ? 0 : fontRenderer.getStringWidth(super.displayString);
                 super.width = Math.min(this._maxWidth, strWidth + 10);
             }
 
@@ -675,9 +675,9 @@ public class GuiCustomOreGenSettings extends GuiScreen
             }
 
             @Override
-            public void drawButton(Minecraft mc, int mouseX, int mouseY)
+            public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTick)
             {
-                super.drawButton(mc, mouseX, mouseY);
+                super.drawButton(mc, mouseX, mouseY, partialTick);
 
                 if (this.isMouseOver())
                 {
@@ -725,7 +725,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
             }
             
             private void updateSliderValue(int mouseX) {
-            	double sliderValue = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
+            	double sliderValue = (float)(mouseX - (this.x + 4)) / (float)(this.width - 8);
 
                 if (sliderValue < 0.0F)
                 {

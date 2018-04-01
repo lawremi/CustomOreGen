@@ -126,7 +126,9 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
     {
         float totalWeight = 0.0F;
         
-        String name = biome.getBiomeName();
+        //String name = biome.getBiomeName();
+        //TODO
+        String name = biome.getRegistryName().getResourcePath();
         
         for (Descriptor desc : this._descriptors) {
             Matcher matcher;
@@ -134,15 +136,13 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
             	continue;
             
             if (desc.describesType) {
-            	//BiomeDictionary.Type type = BiomeDictionary.Type.valueOf(desc.description.toUpperCase());
-            	// The above no longer works, because Type is no longer an enum, and so we are stuck 
-            	// with the following:
-                if (BiomeDictionary.getTypes(biome).stream()
-                        .filter(type -> type.getName().contains(desc.description.toUpperCase())).findFirst()
-                        .isPresent())
-                {
-                    totalWeight += desc.weight;
-                }
+				BiomeDictionary.Type type = BiomeDictionary.Type.getType(desc.description.toUpperCase());
+            	// instead of this, because we do not want to add a new type if it does not exist:
+            	//BiomeDictionary.Type type = BiomeDictionary.Type.getType(desc.description);
+            	if (BiomeDictionary.hasType(biome, type))
+            	{
+            		totalWeight += desc.weight;
+            	}
             } else {
             	if (name != null)
             	{
@@ -364,8 +364,8 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
         public boolean isCompatible(Biome biome) {
 			return biome.getTemperature() >= minTemperature && biome.getTemperature() <= maxTemperature &&
 				   biome.getRainfall() >= minRainfall && biome.getRainfall() <= maxRainfall &&
-				   biome.theBiomeDecorator.treesPerChunk >= minTreesPerChunk &&
-				   biome.theBiomeDecorator.treesPerChunk <= maxTreesPerChunk &&
+				   biome.decorator.treesPerChunk >= minTreesPerChunk &&
+				   biome.decorator.treesPerChunk <= maxTreesPerChunk &&
 				   biome.getHeightVariation() >= minHeightVariation &&
 				   biome.getHeightVariation() <= maxHeightVariation;
 		}

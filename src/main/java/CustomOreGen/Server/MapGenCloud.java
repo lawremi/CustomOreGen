@@ -332,9 +332,8 @@ public class MapGenCloud extends MapGenOreDistribution
 		return v * this.orDensity.pdist.mean * aboveNoiseCutoff;
 	}
 
-	//@Override
-	public BlockPos getClosestStrongholdPos(World worldIn, BlockPos pos, boolean p_180706_3_) {
+	@Override
+	public BlockPos getNearestStructurePos(World worldIn, BlockPos pos, boolean findUnexplored) {
 		return null;
 	}
-
 }

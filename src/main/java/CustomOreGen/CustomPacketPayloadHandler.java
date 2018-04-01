@@ -98,7 +98,7 @@ public class CustomPacketPayloadHandler {
 	@SubscribeEvent
     public void serverCustomPayload(ServerCustomPacketEvent event)
     {
-    	EntityPlayerMP player = ((NetHandlerPlayServer)event.getHandler()).playerEntity;
+    	EntityPlayerMP player = ((NetHandlerPlayServer)event.getHandler()).player;
     	World handlerWorld = player.world;
         ServerState.checkIfServerChanged(handlerWorld.getMinecraftServer(), handlerWorld.getWorldInfo());
         CustomPacketPayload payload = CustomPacketPayload.decodePacket(event.getPacket());

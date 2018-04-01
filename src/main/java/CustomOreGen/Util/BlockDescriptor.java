@@ -235,7 +235,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             		for (ItemStack ore : OreDictionary.getOres(desc.description)) {
             			Item oreItem = ore.getItem();
             			if (oreItem instanceof ItemBlock) {
-            				Block block = ((ItemBlock)oreItem).block;
+            				Block block = ((ItemBlock)oreItem).getBlock();
             				int damage = ore.getItemDamage();
             				NBTTagCompound nbt = ore.getTagCompound();
             				if (nbt == null) {

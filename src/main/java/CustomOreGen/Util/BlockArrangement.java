@@ -123,5 +123,4 @@ public class BlockArrangement {
     public TouchingDescriptorList getTouching() {
         return touching;
     }
-
 }

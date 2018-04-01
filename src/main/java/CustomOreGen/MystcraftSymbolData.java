@@ -40,7 +40,7 @@ public class MystcraftSymbolData implements Serializable
 
         if (ms != null && ms.isServerRunning())
         {
-            this.world = ms.worldServerForDimension(this.dimensionID);
+            this.world = ms.getWorld(dimensionID);
         }
     }
 }

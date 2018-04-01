@@ -28,11 +28,11 @@ import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.CIStringMap;
 import CustomOreGen.Util.MapCollection;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunkGenerator;
-import net.minecraft.world.gen.ChunkProviderEnd;
-import net.minecraft.world.gen.ChunkProviderFlat;
-import net.minecraft.world.gen.ChunkProviderHell;
-import net.minecraft.world.gen.ChunkProviderOverworld;
+import net.minecraft.world.gen.ChunkGeneratorEnd;
+import net.minecraft.world.gen.ChunkGeneratorFlat;
+import net.minecraft.world.gen.ChunkGeneratorHell;
+import net.minecraft.world.gen.ChunkGeneratorOverworld;
+import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.storage.SaveHandler;
 import net.minecraft.world.storage.WorldInfo;
 
@@ -329,7 +329,7 @@ public class WorldConfig
         properties.put("world.gameMode", worldInfo == null ? "" : worldInfo.getGameType().getName());
         properties.put("world.gameMode.id", worldInfo == null ? 0 : worldInfo.getGameType().getID());
         properties.put("world.type", worldInfo == null ? "" : worldInfo.getTerrainType().getName());
-        properties.put("world.type.version", worldInfo == null ? 0 : worldInfo.getTerrainType().getGeneratorVersion());
+        properties.put("world.type.version", worldInfo == null ? 0 : worldInfo.getTerrainType().getVersion());
         String genName = "RandomLevelSource";
         String genClass = "ChunkProviderOverworld";
 
@@ -339,19 +339,19 @@ public class WorldConfig
             genName = chunkGenerator.toString();
             genClass = chunkGenerator.getClass().getSimpleName();
 
-            if (chunkGenerator instanceof ChunkProviderOverworld)
+            if (chunkGenerator instanceof ChunkGeneratorOverworld)
             {
                 genClass = "ChunkProviderOverworld";
             }
-            else if (chunkGenerator instanceof ChunkProviderFlat)
+            else if (chunkGenerator instanceof ChunkGeneratorFlat)
             {
                 genClass = "ChunkProviderFlat";
             }
-            else if (chunkGenerator instanceof ChunkProviderHell)
+            else if (chunkGenerator instanceof ChunkGeneratorHell)
             {
                 genClass = "ChunkProviderHell";
             }
-            else if (chunkGenerator instanceof ChunkProviderEnd)
+            else if (chunkGenerator instanceof ChunkGeneratorEnd)
             {
                 genName = "EndRandomLevelSource";
                 genClass = "ChunkProviderEnd";
@@ -363,7 +363,7 @@ public class WorldConfig
         properties.put("dimension", world == null ? "" : world.provider.getDimensionType().getName());
         properties.put("dimension.id", world == null ? 0 : world.provider.getDimension());
         properties.put("dimension.isSurface", world == null ? false : world.provider.isSurfaceWorld());
-        properties.put("dimension.hasNoSky", world == null ? false : world.provider.hasNoSky());
+        properties.put("dimension.hasNoSky", world == null ? false : world.provider.hasSkyLight());
         properties.put("dimension.groundLevel", world == null ? 0 : world.provider.getAverageGroundLevel());
         properties.put("dimension.actualHeight", world == null ? 0 : world.getActualHeight());
         properties.put("dimension.height", world == null ? 0 : world.getHeight());

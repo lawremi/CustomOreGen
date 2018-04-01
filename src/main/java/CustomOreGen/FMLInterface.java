@@ -10,8 +10,8 @@ import CustomOreGen.Util.ConsoleCommand;
 import CustomOreGen.Util.ConsoleCommand.CommandDelegate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -32,7 +32,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@Mod(modid="customoregen", name="Custom Ore Generation", useMetadata=true, version="@VERSION@", acceptedMinecraftVersions="[1.11]")
+@Mod(modid="customoregen", useMetadata=true, version="@VERSION@", acceptedMinecraftVersions="[1.12,1.12.1]")
 public class FMLInterface implements IWorldGenerator
 {
     @Instance("customoregen")
