@@ -784,4 +784,9 @@ public class MapGenVeins extends MapGenOreDistribution
 		return this.orDensity.mean * totalVolume;
 	}
 
+	//@Override
+	public BlockPos getClosestStrongholdPos(World worldIn, BlockPos pos, boolean p_180706_3_) {
+		return null;
+	}
+
 }

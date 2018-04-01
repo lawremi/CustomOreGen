@@ -28,12 +28,12 @@
           Distribution options for Pams HarvestCraft Ores.
         </Description>
       </OptionDisplayGroup>
-      <OptionChoice name='enablePamsHarvestCraft' displayName='Handle Pams HarvestCraft Setup?' default='true' displayState='shown_dynamic' displayGroup='groupPamsHarvestCraft'>
+      <OptionChoice name='enablePamsHarvestCraft' displayName='Handle Pams HarvestCraft Gen?' default='true' displayState='shown_dynamic' displayGroup='groupPamsHarvestCraft'>
         <Description> Should Custom Ore Generation handle Pams HarvestCraft ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Pams HarvestCraft ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Pams HarvestCraft ores will be handled by Minecraft directly.'/>
       </OptionChoice>
-      <OptionChoice name='cleanUpPamsHarvestCraft' displayName='Use Pams HarvestCraft Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupPamsHarvestCraft'>
+      <OptionChoice name='cleanUpPamsHarvestCraft' displayName='Use Pams HarvestCraft Cleanup?' default='true' displayState=':= if(?enablePamsHarvestCraft, "shown", "hidden")' displayGroup='groupPamsHarvestCraft'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Pams HarvestCraft ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Pams HarvestCraft ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Pams HarvestCraft ores do not need to be cleaned up by a substitution pass.'/>
@@ -122,7 +122,7 @@
         <!-- Starting SparseVeins Preset for Salt. -->
         <ConfigSection>
           <IfCondition condition=':= hvstSaltDist = "SparseVeins"'>
-            <Veins name='hvstSaltVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x6090927C' drawBoundBox='false' boundBoxColor='0x6090927C'>
+            <Veins name='hvstSaltVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x6090927C' drawBoundBox='false' boundBoxColor='0x6090927C'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -160,7 +160,7 @@
         <!-- Starting StrategicClouds Preset for Salt. -->
         <ConfigSection>
           <IfCondition condition=':= hvstSaltDist = "StrategicClouds"'>
-            <Cloud name='hvstSaltCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x6090927C' drawBoundBox='false' boundBoxColor='0x6090927C'>
+            <Cloud name='hvstSaltCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x6090927C' drawBoundBox='false' boundBoxColor='0x6090927C'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -185,7 +185,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='hvstSaltHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x6090927C' drawBoundBox='false' boundBoxColor='0x6090927C'>
+              <Veins name='hvstSaltHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x6090927C' drawBoundBox='false' boundBoxColor='0x6090927C'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -216,7 +216,7 @@
         <!-- Starting Vanilla Preset for Salt. -->
         <ConfigSection>
           <IfCondition condition=':= hvstSaltDist = "Vanilla"'>
-            <StandardGen name='hvstSaltStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x6090927C' drawBoundBox='false' boundBoxColor='0x6090927C'>
+            <StandardGen name='hvstSaltStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x6090927C' drawBoundBox='false' boundBoxColor='0x6090927C'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>

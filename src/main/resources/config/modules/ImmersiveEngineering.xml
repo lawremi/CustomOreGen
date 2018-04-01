@@ -13,7 +13,7 @@
 
 <!-- Is the "Immersive Engineering" mod on the system?  Let's find
      out! -->
-<IfModInstalled name="ImmersiveEngineering">
+<IfModInstalled name="immersiveengineering">
 
   <!-- Starting Configuration for Custom Ore Generation. -->
   <ConfigSection>
@@ -29,12 +29,12 @@
           Distribution options for Immersive Engineering Ores.
         </Description>
       </OptionDisplayGroup>
-      <OptionChoice name='enableImmersiveEngineering' displayName='Handle Immersive Engineering Setup?' default='true' displayState='shown_dynamic' displayGroup='groupImmersiveEngineering'>
+      <OptionChoice name='enableImmersiveEngineering' displayName='Handle Immersive Engineering Gen?' default='true' displayState='shown_dynamic' displayGroup='groupImmersiveEngineering'>
         <Description> Should Custom Ore Generation handle Immersive Engineering ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Immersive Engineering ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Immersive Engineering ores will be handled by Minecraft directly.'/>
       </OptionChoice>
-      <OptionChoice name='cleanUpImmersiveEngineering' displayName='Use Immersive Engineering Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupImmersiveEngineering'>
+      <OptionChoice name='cleanUpImmersiveEngineering' displayName='Use Immersive Engineering Cleanup?' default='true' displayState=':= if(?enableImmersiveEngineering, "shown", "hidden")' displayGroup='groupImmersiveEngineering'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Immersive Engineering ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Immersive Engineering ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Immersive Engineering ores do not need to be cleaned up by a substitution pass.'/>
@@ -45,7 +45,7 @@
         <OptionChoice name='iengCopperDist'  displayState=':= if(?enableImmersiveEngineering, "shown", "hidden")' displayGroup='groupImmersiveEngineering'>
           <Description> Controls how Copper is generated </Description>
           <DisplayName>Immersive Engineering Copper</DisplayName>
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:0")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:0")) '>
 
           <Choice value='LayeredVeins' displayValue='Layered Veins'>
             <Description>
@@ -54,7 +54,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:0")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:0")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -63,7 +63,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:0")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:0")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -91,7 +91,7 @@
         <OptionChoice name='iengMountainCopperDist'  displayState=':= if(?enableImmersiveEngineering, "shown", "hidden")' displayGroup='groupImmersiveEngineering'>
           <Description> Controls how Mountain Copper is generated </Description>
           <DisplayName>Immersive Engineering Mountain Copper</DisplayName>
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:0")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:0")) '>
 
           <Choice value='LayeredVeins' displayValue='Layered Veins'>
             <Description>
@@ -100,7 +100,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:0")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:0")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -109,7 +109,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:0")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:0")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -137,7 +137,7 @@
         <OptionChoice name='iengBauxiteDist'  displayState=':= if(?enableImmersiveEngineering, "shown", "hidden")' displayGroup='groupImmersiveEngineering'>
           <Description> Controls how Bauxite is generated </Description>
           <DisplayName>Immersive Engineering Bauxite</DisplayName>
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:1")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:1")) '>
 
           <Choice value='LayeredVeins' displayValue='Layered Veins'>
             <Description>
@@ -146,7 +146,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:1")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:1")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -155,7 +155,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:1")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:1")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -183,7 +183,7 @@
         <OptionChoice name='iengMountainBauxiteDist'  displayState=':= if(?enableImmersiveEngineering, "shown", "hidden")' displayGroup='groupImmersiveEngineering'>
           <Description> Controls how Mountain Bauxite is generated </Description>
           <DisplayName>Immersive Engineering Mountain Bauxite</DisplayName>
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:1")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:1")) '>
 
           <Choice value='LayeredVeins' displayValue='Layered Veins'>
             <Description>
@@ -192,7 +192,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:1")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:1")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -201,7 +201,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:1")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:1")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -229,7 +229,7 @@
         <OptionChoice name='iengLeadDist'  displayState=':= if(?enableImmersiveEngineering, "shown", "hidden")' displayGroup='groupImmersiveEngineering'>
           <Description> Controls how Lead is generated </Description>
           <DisplayName>Immersive Engineering Lead</DisplayName>
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:2")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:2")) '>
 
           <Choice value='LayeredVeins' displayValue='Layered Veins'>
             <Description>
@@ -238,7 +238,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:2")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:2")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -247,7 +247,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:2")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:2")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -275,7 +275,7 @@
         <OptionChoice name='iengMountainLeadDist'  displayState=':= if(?enableImmersiveEngineering, "shown", "hidden")' displayGroup='groupImmersiveEngineering'>
           <Description> Controls how Mountain Lead is generated </Description>
           <DisplayName>Immersive Engineering Mountain Lead</DisplayName>
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:2")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:2")) '>
 
           <Choice value='LayeredVeins' displayValue='Layered Veins'>
             <Description>
@@ -284,7 +284,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:2")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:2")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -293,7 +293,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:2")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:2")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -321,7 +321,7 @@
         <OptionChoice name='iengSilverDist'  displayState=':= if(?enableImmersiveEngineering, "shown", "hidden")' displayGroup='groupImmersiveEngineering'>
           <Description> Controls how Silver is generated </Description>
           <DisplayName>Immersive Engineering Silver</DisplayName>
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:3")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:3")) '>
 
           <Choice value='LayeredVeins' displayValue='Layered Veins'>
             <Description>
@@ -330,7 +330,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:3")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:3")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -339,7 +339,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:3")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:3")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -367,7 +367,7 @@
         <OptionChoice name='iengMountainSilverDist'  displayState=':= if(?enableImmersiveEngineering, "shown", "hidden")' displayGroup='groupImmersiveEngineering'>
           <Description> Controls how Mountain Silver is generated </Description>
           <DisplayName>Immersive Engineering Mountain Silver</DisplayName>
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:3")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:3")) '>
 
           <Choice value='LayeredVeins' displayValue='Layered Veins'>
             <Description>
@@ -376,7 +376,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:3")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:3")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -385,7 +385,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:3")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:3")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -413,7 +413,7 @@
         <OptionChoice name='iengNickelDist'  displayState=':= if(?enableImmersiveEngineering, "shown", "hidden")' displayGroup='groupImmersiveEngineering'>
           <Description> Controls how Nickel is generated </Description>
           <DisplayName>Immersive Engineering Nickel</DisplayName>
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:4")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:4")) '>
 
           <Choice value='LayeredVeins' displayValue='Layered Veins'>
             <Description>
@@ -422,7 +422,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:4")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:4")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -431,7 +431,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:4")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:4")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -459,7 +459,7 @@
         <OptionChoice name='iengMountainNickelDist'  displayState=':= if(?enableImmersiveEngineering, "shown", "hidden")' displayGroup='groupImmersiveEngineering'>
           <Description> Controls how Mountain Nickel is generated </Description>
           <DisplayName>Immersive Engineering Mountain Nickel</DisplayName>
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:4")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:4")) '>
 
           <Choice value='LayeredVeins' displayValue='Layered Veins'>
             <Description>
@@ -468,7 +468,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:4")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:4")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -477,7 +477,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("ImmersiveEngineering:ore:4")) '>
+          <IfCondition condition=':= (?blockExists("immersiveengineering:ore:4")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -523,11 +523,11 @@
                 The global option  deferredPopulationRange must be
                 large enough to catch all ore  clusters (>= 32).
               </Comment>
-              <Replaces block='ImmersiveEngineering:ore:0' weight='1.0' />
-              <Replaces block='ImmersiveEngineering:ore:1' weight='1.0' />
-              <Replaces block='ImmersiveEngineering:ore:2' weight='1.0' />
-              <Replaces block='ImmersiveEngineering:ore:3' weight='1.0' />
-              <Replaces block='ImmersiveEngineering:ore:4' weight='1.0' />
+              <Replaces block='immersiveengineering:ore:0' weight='1.0' />
+              <Replaces block='immersiveengineering:ore:1' weight='1.0' />
+              <Replaces block='immersiveengineering:ore:2' weight='1.0' />
+              <Replaces block='immersiveengineering:ore:3' weight='1.0' />
+              <Replaces block='immersiveengineering:ore:4' weight='1.0' />
             </Substitute>
           </IfCondition>
         </IfCondition>
@@ -541,12 +541,12 @@
         <!-- Starting LayeredVeins Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= iengCopperDist = "LayeredVeins"'>
-            <Veins name='iengCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E78125' drawBoundBox='false' boundBoxColor='0x60E78125'>
+            <Veins name='iengCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E78125' drawBoundBox='false' boundBoxColor='0x60E78125'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:0' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:0' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 1.416 * _default_ * iengCopperFreq ' range=':= 1.416 * _default_ * iengCopperFreq ' type='normal' scaleTo='base' />
@@ -574,7 +574,7 @@
         <!-- Starting StrategicClouds Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= iengCopperDist = "StrategicClouds"'>
-            <Cloud name='iengCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E78125' drawBoundBox='false' boundBoxColor='0x60E78125'>
+            <Cloud name='iengCopperCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E78125' drawBoundBox='false' boundBoxColor='0x60E78125'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -586,7 +586,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:0' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:0' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='CloudRadius' avg=':= 1.271 * _default_ * iengCopperSize ' range=':= 1.271 * _default_ * iengCopperSize ' type='normal' />
@@ -599,7 +599,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='iengCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E78125' drawBoundBox='false' boundBoxColor='0x60E78125'>
+              <Veins name='iengCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E78125' drawBoundBox='false' boundBoxColor='0x60E78125'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -614,7 +614,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='ImmersiveEngineering:ore:0' weight='1.0' />
+                <OreBlock block='immersiveengineering:ore:0' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -630,11 +630,11 @@
         <!-- Starting Vanilla Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= iengCopperDist = "Vanilla"'>
-            <StandardGen name='iengCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E78125' drawBoundBox='false' boundBoxColor='0x60E78125'>
+            <StandardGen name='iengCopperStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E78125' drawBoundBox='false' boundBoxColor='0x60E78125'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:0' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:0' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='Size' avg=':= 5.333 * oreSize * iengCopperSize ' range=':= 2.67 * oreSize * iengCopperSize ' type='normal' />
@@ -654,12 +654,12 @@
         <!-- Starting LayeredVeins Preset for Mountain Copper. -->
         <ConfigSection>
           <IfCondition condition=':= iengMountainCopperDist = "LayeredVeins"'>
-            <Veins name='iengMountainCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E78125' drawBoundBox='false' boundBoxColor='0x60E78125'>
+            <Veins name='iengMountainCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E78125' drawBoundBox='false' boundBoxColor='0x60E78125'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:0' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:0' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='MotherlodeFrequency' avg=':= 1.416 * _default_ * iengMountainCopperFreq ' range=':= 1.416 * _default_ * iengMountainCopperFreq ' type='normal' scaleTo='base' />
@@ -687,7 +687,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Copper. -->
         <ConfigSection>
           <IfCondition condition=':= iengMountainCopperDist = "StrategicClouds"'>
-            <Cloud name='iengMountainCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E78125' drawBoundBox='false' boundBoxColor='0x60E78125'>
+            <Cloud name='iengMountainCopperCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E78125' drawBoundBox='false' boundBoxColor='0x60E78125'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -699,7 +699,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:0' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:0' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='CloudRadius' avg=':= 1.271 * _default_ * iengMountainCopperSize ' range=':= 1.271 * _default_ * iengMountainCopperSize ' type='normal' />
@@ -712,7 +712,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='iengMountainCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E78125' drawBoundBox='false' boundBoxColor='0x60E78125'>
+              <Veins name='iengMountainCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E78125' drawBoundBox='false' boundBoxColor='0x60E78125'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -727,7 +727,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='ImmersiveEngineering:ore:0' weight='1.0' />
+                <OreBlock block='immersiveengineering:ore:0' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -743,11 +743,11 @@
         <!-- Starting Vanilla Preset for Mountain Copper. -->
         <ConfigSection>
           <IfCondition condition=':= iengMountainCopperDist = "Vanilla"'>
-            <StandardGen name='iengMountainCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E78125' drawBoundBox='false' boundBoxColor='0x60E78125'>
+            <StandardGen name='iengMountainCopperStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E78125' drawBoundBox='false' boundBoxColor='0x60E78125'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:0' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:0' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='Size' avg=':= 5.333 * oreSize * iengMountainCopperSize ' range=':= 2.67 * oreSize * iengMountainCopperSize ' type='normal' />
@@ -767,12 +767,12 @@
         <!-- Starting LayeredVeins Preset for Bauxite. -->
         <ConfigSection>
           <IfCondition condition=':= iengBauxiteDist = "LayeredVeins"'>
-            <Veins name='iengBauxiteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60C0C7CA' drawBoundBox='false' boundBoxColor='0x60C0C7CA'>
+            <Veins name='iengBauxiteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60C0C7CA' drawBoundBox='false' boundBoxColor='0x60C0C7CA'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:1' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 1.001 * _default_ * iengBauxiteFreq ' range=':= 1.001 * _default_ * iengBauxiteFreq ' type='normal' scaleTo='base' />
@@ -800,7 +800,7 @@
         <!-- Starting StrategicClouds Preset for Bauxite. -->
         <ConfigSection>
           <IfCondition condition=':= iengBauxiteDist = "StrategicClouds"'>
-            <Cloud name='iengBauxiteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60C0C7CA' drawBoundBox='false' boundBoxColor='0x60C0C7CA'>
+            <Cloud name='iengBauxiteCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60C0C7CA' drawBoundBox='false' boundBoxColor='0x60C0C7CA'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -812,7 +812,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:1' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='CloudRadius' avg=':= 1.069 * _default_ * iengBauxiteSize ' range=':= 1.069 * _default_ * iengBauxiteSize ' type='normal' />
@@ -825,7 +825,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='iengBauxiteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60C0C7CA' drawBoundBox='false' boundBoxColor='0x60C0C7CA'>
+              <Veins name='iengBauxiteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60C0C7CA' drawBoundBox='false' boundBoxColor='0x60C0C7CA'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -840,7 +840,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='ImmersiveEngineering:ore:1' weight='1.0' />
+                <OreBlock block='immersiveengineering:ore:1' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -856,11 +856,11 @@
         <!-- Starting Vanilla Preset for Bauxite. -->
         <ConfigSection>
           <IfCondition condition=':= iengBauxiteDist = "Vanilla"'>
-            <StandardGen name='iengBauxiteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60C0C7CA' drawBoundBox='false' boundBoxColor='0x60C0C7CA'>
+            <StandardGen name='iengBauxiteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C0C7CA' drawBoundBox='false' boundBoxColor='0x60C0C7CA'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:1' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='Size' avg=':= 2.667 * oreSize * iengBauxiteSize ' range=':= 1.33 * oreSize * iengBauxiteSize ' type='normal' />
@@ -880,12 +880,12 @@
         <!-- Starting LayeredVeins Preset for Mountain  Bauxite. -->
         <ConfigSection>
           <IfCondition condition=':= iengMountainBauxiteDist = "LayeredVeins"'>
-            <Veins name='iengMountainBauxiteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60C0C7CA' drawBoundBox='false' boundBoxColor='0x60C0C7CA'>
+            <Veins name='iengMountainBauxiteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60C0C7CA' drawBoundBox='false' boundBoxColor='0x60C0C7CA'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:1' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='MotherlodeFrequency' avg=':= 1.001 * _default_ * iengMountainBauxiteFreq ' range=':= 1.001 * _default_ * iengMountainBauxiteFreq ' type='normal' scaleTo='base' />
@@ -913,7 +913,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Bauxite. -->
         <ConfigSection>
           <IfCondition condition=':= iengMountainBauxiteDist = "StrategicClouds"'>
-            <Cloud name='iengMountainBauxiteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60C0C7CA' drawBoundBox='false' boundBoxColor='0x60C0C7CA'>
+            <Cloud name='iengMountainBauxiteCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60C0C7CA' drawBoundBox='false' boundBoxColor='0x60C0C7CA'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -925,7 +925,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:1' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='CloudRadius' avg=':= 1.069 * _default_ * iengMountainBauxiteSize ' range=':= 1.069 * _default_ * iengMountainBauxiteSize ' type='normal' />
@@ -938,7 +938,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='iengMountainBauxiteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60C0C7CA' drawBoundBox='false' boundBoxColor='0x60C0C7CA'>
+              <Veins name='iengMountainBauxiteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60C0C7CA' drawBoundBox='false' boundBoxColor='0x60C0C7CA'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -953,7 +953,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='ImmersiveEngineering:ore:1' weight='1.0' />
+                <OreBlock block='immersiveengineering:ore:1' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -969,11 +969,11 @@
         <!-- Starting Vanilla Preset for Mountain Bauxite. -->
         <ConfigSection>
           <IfCondition condition=':= iengMountainBauxiteDist = "Vanilla"'>
-            <StandardGen name='iengMountainBauxiteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60C0C7CA' drawBoundBox='false' boundBoxColor='0x60C0C7CA'>
+            <StandardGen name='iengMountainBauxiteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C0C7CA' drawBoundBox='false' boundBoxColor='0x60C0C7CA'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:1' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:1' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='Size' avg=':= 2.667 * oreSize * iengMountainBauxiteSize ' range=':= 1.33 * oreSize * iengMountainBauxiteSize ' type='normal' />
@@ -993,12 +993,12 @@
         <!-- Starting LayeredVeins Preset for Lead. -->
         <ConfigSection>
           <IfCondition condition=':= iengLeadDist = "LayeredVeins"'>
-            <Veins name='iengLeadVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60636A81' drawBoundBox='false' boundBoxColor='0x60636A81'>
+            <Veins name='iengLeadVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60636A81' drawBoundBox='false' boundBoxColor='0x60636A81'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:2' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 0.867 * _default_ * iengLeadFreq ' range=':= 0.867 * _default_ * iengLeadFreq ' type='normal' scaleTo='base' />
@@ -1026,7 +1026,7 @@
         <!-- Starting StrategicClouds Preset for Lead. -->
         <ConfigSection>
           <IfCondition condition=':= iengLeadDist = "StrategicClouds"'>
-            <Cloud name='iengLeadCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60636A81' drawBoundBox='false' boundBoxColor='0x60636A81'>
+            <Cloud name='iengLeadCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60636A81' drawBoundBox='false' boundBoxColor='0x60636A81'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1038,7 +1038,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:2' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='CloudRadius' avg=':= 0.995 * _default_ * iengLeadSize ' range=':= 0.995 * _default_ * iengLeadSize ' type='normal' />
@@ -1051,7 +1051,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='iengLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60636A81' drawBoundBox='false' boundBoxColor='0x60636A81'>
+              <Veins name='iengLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60636A81' drawBoundBox='false' boundBoxColor='0x60636A81'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1066,7 +1066,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='ImmersiveEngineering:ore:2' weight='1.0' />
+                <OreBlock block='immersiveengineering:ore:2' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -1082,11 +1082,11 @@
         <!-- Starting Vanilla Preset for Lead. -->
         <ConfigSection>
           <IfCondition condition=':= iengLeadDist = "Vanilla"'>
-            <StandardGen name='iengLeadStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60636A81' drawBoundBox='false' boundBoxColor='0x60636A81'>
+            <StandardGen name='iengLeadStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60636A81' drawBoundBox='false' boundBoxColor='0x60636A81'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:2' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='Size' avg=':= 4.0 * oreSize * iengLeadSize ' range=':= 2.0 * oreSize * iengLeadSize ' type='normal' />
@@ -1106,12 +1106,12 @@
         <!-- Starting LayeredVeins Preset for Mountain Lead. -->
         <ConfigSection>
           <IfCondition condition=':= iengMountainLeadDist = "LayeredVeins"'>
-            <Veins name='iengMountainLeadVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60636A81' drawBoundBox='false' boundBoxColor='0x60636A81'>
+            <Veins name='iengMountainLeadVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60636A81' drawBoundBox='false' boundBoxColor='0x60636A81'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:2' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='MotherlodeFrequency' avg=':= 0.867 * _default_ * iengMountainLeadFreq ' range=':= 0.867 * _default_ * iengMountainLeadFreq ' type='normal' scaleTo='base' />
@@ -1139,7 +1139,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Lead. -->
         <ConfigSection>
           <IfCondition condition=':= iengMountainLeadDist = "StrategicClouds"'>
-            <Cloud name='iengMountainLeadCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60636A81' drawBoundBox='false' boundBoxColor='0x60636A81'>
+            <Cloud name='iengMountainLeadCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60636A81' drawBoundBox='false' boundBoxColor='0x60636A81'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1151,7 +1151,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:2' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='CloudRadius' avg=':= 0.995 * _default_ * iengMountainLeadSize ' range=':= 0.995 * _default_ * iengMountainLeadSize ' type='normal' />
@@ -1164,7 +1164,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='iengMountainLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60636A81' drawBoundBox='false' boundBoxColor='0x60636A81'>
+              <Veins name='iengMountainLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60636A81' drawBoundBox='false' boundBoxColor='0x60636A81'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1179,7 +1179,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='ImmersiveEngineering:ore:2' weight='1.0' />
+                <OreBlock block='immersiveengineering:ore:2' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -1195,11 +1195,11 @@
         <!-- Starting Vanilla Preset for Mountain Lead. -->
         <ConfigSection>
           <IfCondition condition=':= iengMountainLeadDist = "Vanilla"'>
-            <StandardGen name='iengMountainLeadStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60636A81' drawBoundBox='false' boundBoxColor='0x60636A81'>
+            <StandardGen name='iengMountainLeadStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60636A81' drawBoundBox='false' boundBoxColor='0x60636A81'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:2' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:2' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='Size' avg=':= 4.0 * oreSize * iengMountainLeadSize ' range=':= 2.0 * oreSize * iengMountainLeadSize ' type='normal' />
@@ -1219,12 +1219,12 @@
         <!-- Starting LayeredVeins Preset for Silver. -->
         <ConfigSection>
           <IfCondition condition=':= iengSilverDist = "LayeredVeins"'>
-            <Veins name='iengSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E8F6FF' drawBoundBox='false' boundBoxColor='0x60E8F6FF'>
+            <Veins name='iengSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E8F6FF' drawBoundBox='false' boundBoxColor='0x60E8F6FF'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:3' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 1.001 * _default_ * iengSilverFreq ' range=':= 1.001 * _default_ * iengSilverFreq ' type='normal' scaleTo='base' />
@@ -1252,7 +1252,7 @@
         <!-- Starting StrategicClouds Preset for Silver. -->
         <ConfigSection>
           <IfCondition condition=':= iengSilverDist = "StrategicClouds"'>
-            <Cloud name='iengSilverCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E8F6FF' drawBoundBox='false' boundBoxColor='0x60E8F6FF'>
+            <Cloud name='iengSilverCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E8F6FF' drawBoundBox='false' boundBoxColor='0x60E8F6FF'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1264,7 +1264,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:3' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='CloudRadius' avg=':= 1.069 * _default_ * iengSilverSize ' range=':= 1.069 * _default_ * iengSilverSize ' type='normal' />
@@ -1277,7 +1277,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='iengSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E8F6FF' drawBoundBox='false' boundBoxColor='0x60E8F6FF'>
+              <Veins name='iengSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E8F6FF' drawBoundBox='false' boundBoxColor='0x60E8F6FF'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1292,7 +1292,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='ImmersiveEngineering:ore:3' weight='1.0' />
+                <OreBlock block='immersiveengineering:ore:3' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -1308,11 +1308,11 @@
         <!-- Starting Vanilla Preset for Silver. -->
         <ConfigSection>
           <IfCondition condition=':= iengSilverDist = "Vanilla"'>
-            <StandardGen name='iengSilverStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E8F6FF' drawBoundBox='false' boundBoxColor='0x60E8F6FF'>
+            <StandardGen name='iengSilverStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E8F6FF' drawBoundBox='false' boundBoxColor='0x60E8F6FF'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:3' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='Size' avg=':= 5.333 * oreSize * iengSilverSize ' range=':= 2.67 * oreSize * iengSilverSize ' type='normal' />
@@ -1332,12 +1332,12 @@
         <!-- Starting LayeredVeins Preset for Mountain Silver. -->
         <ConfigSection>
           <IfCondition condition=':= iengMountainSilverDist = "LayeredVeins"'>
-            <Veins name='iengMountainSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E8F6FF' drawBoundBox='false' boundBoxColor='0x60E8F6FF'>
+            <Veins name='iengMountainSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E8F6FF' drawBoundBox='false' boundBoxColor='0x60E8F6FF'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:3' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='MotherlodeFrequency' avg=':= 1.001 * _default_ * iengMountainSilverFreq ' range=':= 1.001 * _default_ * iengMountainSilverFreq ' type='normal' scaleTo='base' />
@@ -1365,7 +1365,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Silver. -->
         <ConfigSection>
           <IfCondition condition=':= iengMountainSilverDist = "StrategicClouds"'>
-            <Cloud name='iengMountainSilverCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E8F6FF' drawBoundBox='false' boundBoxColor='0x60E8F6FF'>
+            <Cloud name='iengMountainSilverCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E8F6FF' drawBoundBox='false' boundBoxColor='0x60E8F6FF'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1377,7 +1377,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:3' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='CloudRadius' avg=':= 1.069 * _default_ * iengMountainSilverSize ' range=':= 1.069 * _default_ * iengMountainSilverSize ' type='normal' />
@@ -1390,7 +1390,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='iengMountainSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E8F6FF' drawBoundBox='false' boundBoxColor='0x60E8F6FF'>
+              <Veins name='iengMountainSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E8F6FF' drawBoundBox='false' boundBoxColor='0x60E8F6FF'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1405,7 +1405,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='ImmersiveEngineering:ore:3' weight='1.0' />
+                <OreBlock block='immersiveengineering:ore:3' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -1421,11 +1421,11 @@
         <!-- Starting Vanilla Preset for Mountain Silver. -->
         <ConfigSection>
           <IfCondition condition=':= iengMountainSilverDist = "Vanilla"'>
-            <StandardGen name='iengMountainSilverStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E8F6FF' drawBoundBox='false' boundBoxColor='0x60E8F6FF'>
+            <StandardGen name='iengMountainSilverStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E8F6FF' drawBoundBox='false' boundBoxColor='0x60E8F6FF'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:3' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:3' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='Size' avg=':= 5.333 * oreSize * iengMountainSilverSize ' range=':= 2.67 * oreSize * iengMountainSilverSize ' type='normal' />
@@ -1445,12 +1445,12 @@
         <!-- Starting LayeredVeins Preset for Nickel. -->
         <ConfigSection>
           <IfCondition condition=':= iengNickelDist = "LayeredVeins"'>
-            <Veins name='iengNickelVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60D3D9C8' drawBoundBox='false' boundBoxColor='0x60D3D9C8'>
+            <Veins name='iengNickelVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60D3D9C8' drawBoundBox='false' boundBoxColor='0x60D3D9C8'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:4' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 0.613 * _default_ * iengNickelFreq ' range=':= 0.613 * _default_ * iengNickelFreq ' type='normal' scaleTo='base' />
@@ -1478,7 +1478,7 @@
         <!-- Starting StrategicClouds Preset for Nickel. -->
         <ConfigSection>
           <IfCondition condition=':= iengNickelDist = "StrategicClouds"'>
-            <Cloud name='iengNickelCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60D3D9C8' drawBoundBox='false' boundBoxColor='0x60D3D9C8'>
+            <Cloud name='iengNickelCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60D3D9C8' drawBoundBox='false' boundBoxColor='0x60D3D9C8'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1490,7 +1490,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:4' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='CloudRadius' avg=':= 0.837 * _default_ * iengNickelSize ' range=':= 0.837 * _default_ * iengNickelSize ' type='normal' />
@@ -1503,7 +1503,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='iengNickelHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60D3D9C8' drawBoundBox='false' boundBoxColor='0x60D3D9C8'>
+              <Veins name='iengNickelHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60D3D9C8' drawBoundBox='false' boundBoxColor='0x60D3D9C8'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1518,7 +1518,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='ImmersiveEngineering:ore:4' weight='1.0' />
+                <OreBlock block='immersiveengineering:ore:4' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -1534,11 +1534,11 @@
         <!-- Starting Vanilla Preset for Nickel. -->
         <ConfigSection>
           <IfCondition condition=':= iengNickelDist = "Vanilla"'>
-            <StandardGen name='iengNickelStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60D3D9C8' drawBoundBox='false' boundBoxColor='0x60D3D9C8'>
+            <StandardGen name='iengNickelStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60D3D9C8' drawBoundBox='false' boundBoxColor='0x60D3D9C8'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:4' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='Size' avg=':= 4.0 * oreSize * iengNickelSize ' range=':= 2.0 * oreSize * iengNickelSize ' type='normal' />
@@ -1558,12 +1558,12 @@
         <!-- Starting LayeredVeins Preset for Mountain Nickel. -->
         <ConfigSection>
           <IfCondition condition=':= iengMountainNickelDist = "LayeredVeins"'>
-            <Veins name='iengMountainNickelVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60D3D9C8' drawBoundBox='false' boundBoxColor='0x60D3D9C8'>
+            <Veins name='iengMountainNickelVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60D3D9C8' drawBoundBox='false' boundBoxColor='0x60D3D9C8'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:4' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='MotherlodeFrequency' avg=':= 0.613 * _default_ * iengMountainNickelFreq ' range=':= 0.613 * _default_ * iengMountainNickelFreq ' type='normal' scaleTo='base' />
@@ -1591,7 +1591,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Nickel. -->
         <ConfigSection>
           <IfCondition condition=':= iengMountainNickelDist = "StrategicClouds"'>
-            <Cloud name='iengMountainNickelCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60D3D9C8' drawBoundBox='false' boundBoxColor='0x60D3D9C8'>
+            <Cloud name='iengMountainNickelCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60D3D9C8' drawBoundBox='false' boundBoxColor='0x60D3D9C8'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1603,7 +1603,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:4' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='CloudRadius' avg=':= 0.837 * _default_ * iengMountainNickelSize ' range=':= 0.837 * _default_ * iengMountainNickelSize ' type='normal' />
@@ -1616,7 +1616,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='iengMountainNickelHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60D3D9C8' drawBoundBox='false' boundBoxColor='0x60D3D9C8'>
+              <Veins name='iengMountainNickelHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60D3D9C8' drawBoundBox='false' boundBoxColor='0x60D3D9C8'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1631,7 +1631,7 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='ImmersiveEngineering:ore:4' weight='1.0' />
+                <OreBlock block='immersiveengineering:ore:4' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
                 <ReplacesOre block='stone' weight='1.0' />
@@ -1647,11 +1647,11 @@
         <!-- Starting Vanilla Preset for Mountain Nickel. -->
         <ConfigSection>
           <IfCondition condition=':= iengMountainNickelDist = "Vanilla"'>
-            <StandardGen name='iengMountainNickelStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60D3D9C8' drawBoundBox='false' boundBoxColor='0x60D3D9C8'>
+            <StandardGen name='iengMountainNickelStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60D3D9C8' drawBoundBox='false' boundBoxColor='0x60D3D9C8'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='ImmersiveEngineering:ore:4' weight='1.0' />
+              <OreBlock block='immersiveengineering:ore:4' weight='1.0' />
               <ReplacesOre block='stone' weight='1.0' />
               <BiomeType name='Mountain'  />
               <Setting name='Size' avg=':= 4.0 * oreSize * iengMountainNickelSize ' range=':= 2.0 * oreSize * iengMountainNickelSize ' type='normal' />

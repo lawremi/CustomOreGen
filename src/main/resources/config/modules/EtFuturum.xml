@@ -28,12 +28,12 @@
           Distribution options for Et Futurum Ores.
         </Description>
       </OptionDisplayGroup>
-      <OptionChoice name='enableEtFuturum' displayName='Handle Et Futurum Setup?' default='true' displayState='shown_dynamic' displayGroup='groupEtFuturum'>
+      <OptionChoice name='enableEtFuturum' displayName='Handle Et Futurum Gen?' default='true' displayState='shown_dynamic' displayGroup='groupEtFuturum'>
         <Description> Should Custom Ore Generation handle Et Futurum ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Et Futurum ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Et Futurum ores will be handled by Minecraft directly.'/>
       </OptionChoice>
-      <OptionChoice name='cleanUpEtFuturum' displayName='Use Et Futurum Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupEtFuturum'>
+      <OptionChoice name='cleanUpEtFuturum' displayName='Use Et Futurum Cleanup?' default='true' displayState=':= if(?enableEtFuturum, "shown", "hidden")' displayGroup='groupEtFuturum'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Et Futurum ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Et Futurum ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Et Futurum ores do not need to be cleaned up by a substitution pass.'/>
@@ -354,7 +354,7 @@
         <!-- Starting StratumClouds Preset for Granite. -->
         <ConfigSection>
           <IfCondition condition=':= etftGraniteDist = "StratumClouds"'>
-            <Cloud name='etftGraniteCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60DAAE99' drawBoundBox='false' boundBoxColor='0x60DAAE99'>
+            <Cloud name='etftGraniteCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60DAAE99' drawBoundBox='false' boundBoxColor='0x60DAAE99'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -382,7 +382,7 @@
         <!-- Starting LayeredVeins Preset for Granite. -->
         <ConfigSection>
           <IfCondition condition=':= etftGraniteDist = "LayeredVeins"'>
-            <Veins name='etftGraniteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60DAAE99' drawBoundBox='false' boundBoxColor='0x60DAAE99'>
+            <Veins name='etftGraniteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60DAAE99' drawBoundBox='false' boundBoxColor='0x60DAAE99'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -415,7 +415,7 @@
         <!-- Starting Vanilla Preset for Granite. -->
         <ConfigSection>
           <IfCondition condition=':= etftGraniteDist = "Vanilla"'>
-            <StandardGen name='etftGraniteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60DAAE99' drawBoundBox='false' boundBoxColor='0x60DAAE99'>
+            <StandardGen name='etftGraniteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60DAAE99' drawBoundBox='false' boundBoxColor='0x60DAAE99'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -439,7 +439,7 @@
         <!-- Starting StratumClouds Preset for Mountain  Granite. -->
         <ConfigSection>
           <IfCondition condition=':= etftMountainGraniteDist = "StratumClouds"'>
-            <Cloud name='etftMountainGraniteCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60DAAE99' drawBoundBox='false' boundBoxColor='0x60DAAE99'>
+            <Cloud name='etftMountainGraniteCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60DAAE99' drawBoundBox='false' boundBoxColor='0x60DAAE99'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -467,7 +467,7 @@
         <!-- Starting LayeredVeins Preset for Mountain  Granite. -->
         <ConfigSection>
           <IfCondition condition=':= etftMountainGraniteDist = "LayeredVeins"'>
-            <Veins name='etftMountainGraniteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60DAAE99' drawBoundBox='false' boundBoxColor='0x60DAAE99'>
+            <Veins name='etftMountainGraniteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60DAAE99' drawBoundBox='false' boundBoxColor='0x60DAAE99'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -500,7 +500,7 @@
         <!-- Starting Vanilla Preset for Mountain Granite. -->
         <ConfigSection>
           <IfCondition condition=':= etftMountainGraniteDist = "Vanilla"'>
-            <StandardGen name='etftMountainGraniteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60DAAE99' drawBoundBox='false' boundBoxColor='0x60DAAE99'>
+            <StandardGen name='etftMountainGraniteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60DAAE99' drawBoundBox='false' boundBoxColor='0x60DAAE99'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -524,7 +524,7 @@
         <!-- Starting StratumClouds Preset for Diorite. -->
         <ConfigSection>
           <IfCondition condition=':= etftDioriteDist = "StratumClouds"'>
-            <Cloud name='etftDioriteCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60CBCBCF' drawBoundBox='false' boundBoxColor='0x60CBCBCF'>
+            <Cloud name='etftDioriteCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60CBCBCF' drawBoundBox='false' boundBoxColor='0x60CBCBCF'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -552,7 +552,7 @@
         <!-- Starting LayeredVeins Preset for Diorite. -->
         <ConfigSection>
           <IfCondition condition=':= etftDioriteDist = "LayeredVeins"'>
-            <Veins name='etftDioriteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60CBCBCF' drawBoundBox='false' boundBoxColor='0x60CBCBCF'>
+            <Veins name='etftDioriteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60CBCBCF' drawBoundBox='false' boundBoxColor='0x60CBCBCF'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -585,7 +585,7 @@
         <!-- Starting Vanilla Preset for Diorite. -->
         <ConfigSection>
           <IfCondition condition=':= etftDioriteDist = "Vanilla"'>
-            <StandardGen name='etftDioriteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60CBCBCF' drawBoundBox='false' boundBoxColor='0x60CBCBCF'>
+            <StandardGen name='etftDioriteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60CBCBCF' drawBoundBox='false' boundBoxColor='0x60CBCBCF'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -609,7 +609,7 @@
         <!-- Starting StratumClouds Preset for Mountain  Diorite. -->
         <ConfigSection>
           <IfCondition condition=':= etftMountainDioriteDist = "StratumClouds"'>
-            <Cloud name='etftMountainDioriteCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60CBCBCF' drawBoundBox='false' boundBoxColor='0x60CBCBCF'>
+            <Cloud name='etftMountainDioriteCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60CBCBCF' drawBoundBox='false' boundBoxColor='0x60CBCBCF'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -637,7 +637,7 @@
         <!-- Starting LayeredVeins Preset for Mountain  Diorite. -->
         <ConfigSection>
           <IfCondition condition=':= etftMountainDioriteDist = "LayeredVeins"'>
-            <Veins name='etftMountainDioriteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60CBCBCF' drawBoundBox='false' boundBoxColor='0x60CBCBCF'>
+            <Veins name='etftMountainDioriteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60CBCBCF' drawBoundBox='false' boundBoxColor='0x60CBCBCF'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -670,7 +670,7 @@
         <!-- Starting Vanilla Preset for Mountain Diorite. -->
         <ConfigSection>
           <IfCondition condition=':= etftMountainDioriteDist = "Vanilla"'>
-            <StandardGen name='etftMountainDioriteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60CBCBCF' drawBoundBox='false' boundBoxColor='0x60CBCBCF'>
+            <StandardGen name='etftMountainDioriteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60CBCBCF' drawBoundBox='false' boundBoxColor='0x60CBCBCF'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -694,7 +694,7 @@
         <!-- Starting StratumClouds Preset for Andesite. -->
         <ConfigSection>
           <IfCondition condition=':= etftAndesiteDist = "StratumClouds"'>
-            <Cloud name='etftAndesiteCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x6085858B' drawBoundBox='false' boundBoxColor='0x6085858B'>
+            <Cloud name='etftAndesiteCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x6085858B' drawBoundBox='false' boundBoxColor='0x6085858B'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -722,7 +722,7 @@
         <!-- Starting LayeredVeins Preset for Andesite. -->
         <ConfigSection>
           <IfCondition condition=':= etftAndesiteDist = "LayeredVeins"'>
-            <Veins name='etftAndesiteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x6085858B' drawBoundBox='false' boundBoxColor='0x6085858B'>
+            <Veins name='etftAndesiteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x6085858B' drawBoundBox='false' boundBoxColor='0x6085858B'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -755,7 +755,7 @@
         <!-- Starting Vanilla Preset for Andesite. -->
         <ConfigSection>
           <IfCondition condition=':= etftAndesiteDist = "Vanilla"'>
-            <StandardGen name='etftAndesiteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x6085858B' drawBoundBox='false' boundBoxColor='0x6085858B'>
+            <StandardGen name='etftAndesiteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x6085858B' drawBoundBox='false' boundBoxColor='0x6085858B'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -779,7 +779,7 @@
         <!-- Starting StratumClouds Preset for Mountain  Andesite. -->
         <ConfigSection>
           <IfCondition condition=':= etftMountainAndesiteDist = "StratumClouds"'>
-            <Cloud name='etftMountainAndesiteCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x6085858B' drawBoundBox='false' boundBoxColor='0x6085858B'>
+            <Cloud name='etftMountainAndesiteCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x6085858B' drawBoundBox='false' boundBoxColor='0x6085858B'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -807,7 +807,7 @@
         <!-- Starting LayeredVeins Preset for Mountain  Andesite. -->
         <ConfigSection>
           <IfCondition condition=':= etftMountainAndesiteDist = "LayeredVeins"'>
-            <Veins name='etftMountainAndesiteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x6085858B' drawBoundBox='false' boundBoxColor='0x6085858B'>
+            <Veins name='etftMountainAndesiteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x6085858B' drawBoundBox='false' boundBoxColor='0x6085858B'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -840,7 +840,7 @@
         <!-- Starting Vanilla Preset for Mountain Andesite. -->
         <ConfigSection>
           <IfCondition condition=':= etftMountainAndesiteDist = "Vanilla"'>
-            <StandardGen name='etftMountainAndesiteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x6085858B' drawBoundBox='false' boundBoxColor='0x6085858B'>
+            <StandardGen name='etftMountainAndesiteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x6085858B' drawBoundBox='false' boundBoxColor='0x6085858B'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>

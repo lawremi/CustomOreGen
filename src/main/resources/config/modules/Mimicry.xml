@@ -27,12 +27,12 @@
           Distribution options for Mimicry Ores.
         </Description>
       </OptionDisplayGroup>
-      <OptionChoice name='enableMimicry' displayName='Handle Mimicry Setup?' default='true' displayState='shown_dynamic' displayGroup='groupMimicry'>
+      <OptionChoice name='enableMimicry' displayName='Handle Mimicry Gen?' default='true' displayState='shown_dynamic' displayGroup='groupMimicry'>
         <Description> Should Custom Ore Generation handle Mimicry ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Mimicry ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Mimicry ores will be handled by Minecraft directly.'/>
       </OptionChoice>
-      <OptionChoice name='cleanUpMimicry' displayName='Use Mimicry Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupMimicry'>
+      <OptionChoice name='cleanUpMimicry' displayName='Use Mimicry Cleanup?' default='true' displayState=':= if(?enableMimicry, "shown", "hidden")' displayGroup='groupMimicry'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Mimicry ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Mimicry ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Mimicry ores do not need to be cleaned up by a substitution pass.'/>
@@ -259,7 +259,7 @@
         <!-- Starting SparseVeins Preset for Mimichite. -->
         <ConfigSection>
           <IfCondition condition=':= mcryMimichiteDist = "SparseVeins"'>
-            <Veins name='mcryMimichiteVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
+            <Veins name='mcryMimichiteVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -297,7 +297,7 @@
         <!-- Starting StrategicClouds Preset for Mimichite. -->
         <ConfigSection>
           <IfCondition condition=':= mcryMimichiteDist = "StrategicClouds"'>
-            <Cloud name='mcryMimichiteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
+            <Cloud name='mcryMimichiteCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -322,7 +322,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='mcryMimichiteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
+              <Veins name='mcryMimichiteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -353,7 +353,7 @@
         <!-- Starting Vanilla Preset for Mimichite. -->
         <ConfigSection>
           <IfCondition condition=':= mcryMimichiteDist = "Vanilla"'>
-            <StandardGen name='mcryMimichiteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
+            <StandardGen name='mcryMimichiteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -377,7 +377,7 @@
         <!-- Starting SparseVeins Preset for Mountain  Mimichite. -->
         <ConfigSection>
           <IfCondition condition=':= mcryMountainMimichiteDist = "SparseVeins"'>
-            <Veins name='mcryMountainMimichiteVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
+            <Veins name='mcryMountainMimichiteVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -415,7 +415,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Mimichite. -->
         <ConfigSection>
           <IfCondition condition=':= mcryMountainMimichiteDist = "StrategicClouds"'>
-            <Cloud name='mcryMountainMimichiteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
+            <Cloud name='mcryMountainMimichiteCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -440,7 +440,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='mcryMountainMimichiteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
+              <Veins name='mcryMountainMimichiteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -472,7 +472,7 @@
         <!-- Starting Vanilla Preset for Mountain Mimichite. -->
         <ConfigSection>
           <IfCondition condition=':= mcryMountainMimichiteDist = "Vanilla"'>
-            <StandardGen name='mcryMountainMimichiteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
+            <StandardGen name='mcryMountainMimichiteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -501,7 +501,7 @@
 
       <!-- Nether Setup Beginning -->
 
-      <IfCondition condition=':= dimension.generator.class = "ChunkProviderHell"'>
+      <IfCondition condition=':= dimension = "Nether"'>
 
         <!-- Starting Original "Nether" Block Removal -->
 
@@ -529,7 +529,7 @@
         <!-- Starting SparseVeins Preset for Nether Mimichite. -->
         <ConfigSection>
           <IfCondition condition=':= mcryNetherMimichiteDist = "SparseVeins"'>
-            <Veins name='mcryNetherMimichiteVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
+            <Veins name='mcryNetherMimichiteVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -567,7 +567,7 @@
         <!-- Starting StrategicClouds Preset for Nether  Mimichite. -->
         <ConfigSection>
           <IfCondition condition=':= mcryNetherMimichiteDist = "StrategicClouds"'>
-            <Cloud name='mcryNetherMimichiteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
+            <Cloud name='mcryNetherMimichiteCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -592,7 +592,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='mcryNetherMimichiteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
+              <Veins name='mcryNetherMimichiteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -623,7 +623,7 @@
         <!-- Starting Vanilla Preset for Nether Mimichite. -->
         <ConfigSection>
           <IfCondition condition=':= mcryNetherMimichiteDist = "Vanilla"'>
-            <StandardGen name='mcryNetherMimichiteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
+            <StandardGen name='mcryNetherMimichiteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -652,7 +652,7 @@
 
       <!-- End Setup Beginning -->
 
-      <IfCondition condition=':= dimension.generator.class = "ChunkProviderEnd"'>
+      <IfCondition condition=':= dimension = "End"'>
 
         <!-- Starting Original "End" Block Removal -->
 
@@ -680,7 +680,7 @@
         <!-- Starting SparseVeins Preset for End Mimichite. -->
         <ConfigSection>
           <IfCondition condition=':= mcryEndMimichiteDist = "SparseVeins"'>
-            <Veins name='mcryEndMimichiteVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
+            <Veins name='mcryEndMimichiteVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -718,7 +718,7 @@
         <!-- Starting StrategicClouds Preset for End  Mimichite. -->
         <ConfigSection>
           <IfCondition condition=':= mcryEndMimichiteDist = "StrategicClouds"'>
-            <Cloud name='mcryEndMimichiteCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
+            <Cloud name='mcryEndMimichiteCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -743,7 +743,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='mcryEndMimichiteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
+              <Veins name='mcryEndMimichiteHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -774,7 +774,7 @@
         <!-- Starting Vanilla Preset for End Mimichite. -->
         <ConfigSection>
           <IfCondition condition=':= mcryEndMimichiteDist = "Vanilla"'>
-            <StandardGen name='mcryEndMimichiteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
+            <StandardGen name='mcryEndMimichiteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x608800FF' drawBoundBox='false' boundBoxColor='0x608800FF'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>

@@ -27,12 +27,12 @@
           Distribution options for Factorization Ores.
         </Description>
       </OptionDisplayGroup>
-      <OptionChoice name='enableFactorization' displayName='Handle Factorization Setup?' default='true' displayState='shown_dynamic' displayGroup='groupFactorization'>
+      <OptionChoice name='enableFactorization' displayName='Handle Factorization Gen?' default='true' displayState='shown_dynamic' displayGroup='groupFactorization'>
         <Description> Should Custom Ore Generation handle Factorization ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Factorization ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Factorization ores will be handled by Minecraft directly.'/>
       </OptionChoice>
-      <OptionChoice name='cleanUpFactorization' displayName='Use Factorization Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupFactorization'>
+      <OptionChoice name='cleanUpFactorization' displayName='Use Factorization Cleanup?' default='true' displayState=':= if(?enableFactorization, "shown", "hidden")' displayGroup='groupFactorization'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Factorization ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Factorization ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Factorization ores do not need to be cleaned up by a substitution pass.'/>
@@ -214,7 +214,7 @@
         <!-- Starting LayeredVeins Preset for Silver. -->
         <ConfigSection>
           <IfCondition condition=':= fctrSilverDist = "LayeredVeins"'>
-            <Veins name='fctrSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
+            <Veins name='fctrSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -247,7 +247,7 @@
         <!-- Starting StrategicClouds Preset for Silver. -->
         <ConfigSection>
           <IfCondition condition=':= fctrSilverDist = "StrategicClouds"'>
-            <Cloud name='fctrSilverCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
+            <Cloud name='fctrSilverCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -272,7 +272,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='fctrSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
+              <Veins name='fctrSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -303,7 +303,7 @@
         <!-- Starting Vanilla Preset for Silver. -->
         <ConfigSection>
           <IfCondition condition=':= fctrSilverDist = "Vanilla"'>
-            <StandardGen name='fctrSilverStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
+            <StandardGen name='fctrSilverStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -327,7 +327,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Silver. -->
         <ConfigSection>
           <IfCondition condition=':= fctrMountainSilverDist = "LayeredVeins"'>
-            <Veins name='fctrMountainSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
+            <Veins name='fctrMountainSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -360,7 +360,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Silver. -->
         <ConfigSection>
           <IfCondition condition=':= fctrMountainSilverDist = "StrategicClouds"'>
-            <Cloud name='fctrMountainSilverCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
+            <Cloud name='fctrMountainSilverCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -385,7 +385,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='fctrMountainSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
+              <Veins name='fctrMountainSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -416,7 +416,7 @@
         <!-- Starting Vanilla Preset for Mountain Silver. -->
         <ConfigSection>
           <IfCondition condition=':= fctrMountainSilverDist = "Vanilla"'>
-            <StandardGen name='fctrMountainSilverStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
+            <StandardGen name='fctrMountainSilverStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x608C9EBE' drawBoundBox='false' boundBoxColor='0x608C9EBE'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -440,7 +440,7 @@
         <!-- Starting VerticalVeins Preset for Dark Iron. -->
         <ConfigSection>
           <IfCondition condition=':= fctrDarkIronDist = "VerticalVeins"'>
-            <Veins name='fctrDarkIronVeins'  inherits='PresetVerticalVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60781CCB' drawBoundBox='false' boundBoxColor='0x60781CCB'>
+            <Veins name='fctrDarkIronVeins'  inherits='PresetVerticalVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60781CCB' drawBoundBox='false' boundBoxColor='0x60781CCB'>
               <Description>
                 Single vertical veins that occur  with no motherlodes.
               </Description>
@@ -474,7 +474,7 @@
         <!-- Starting StrategicClouds Preset for Dark Iron. -->
         <ConfigSection>
           <IfCondition condition=':= fctrDarkIronDist = "StrategicClouds"'>
-            <Cloud name='fctrDarkIronCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60781CCB' drawBoundBox='false' boundBoxColor='0x60781CCB'>
+            <Cloud name='fctrDarkIronCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60781CCB' drawBoundBox='false' boundBoxColor='0x60781CCB'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -501,7 +501,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='fctrDarkIronHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60781CCB' drawBoundBox='false' boundBoxColor='0x60781CCB'>
+              <Veins name='fctrDarkIronHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60781CCB' drawBoundBox='false' boundBoxColor='0x60781CCB'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -532,7 +532,7 @@
         <!-- Starting Vanilla Preset for Dark Iron. -->
         <ConfigSection>
           <IfCondition condition=':= fctrDarkIronDist = "Vanilla"'>
-            <StandardGen name='fctrDarkIronStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60781CCB' drawBoundBox='false' boundBoxColor='0x60781CCB'>
+            <StandardGen name='fctrDarkIronStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60781CCB' drawBoundBox='false' boundBoxColor='0x60781CCB'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>

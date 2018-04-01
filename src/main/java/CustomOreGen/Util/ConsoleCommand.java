@@ -356,4 +356,5 @@ public class ConsoleCommand extends CommandBase
         CommandDelegate cmdDef = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
         return cmdDef != null && cmdDef.isCheat() ? 2 : 0;
     }
+
 }

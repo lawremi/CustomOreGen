@@ -33,15 +33,18 @@ public class LineAwareSAXHandler extends DefaultHandler
         Node current = this.nodeStack.peek();
         Document doc = current.getNodeType() == 9 ? (Document)current : current.getOwnerDocument();
         int lineNumber = this.locator.getLineNumber();
+        String filename = this.locator.getSystemId();
         Element newElement = doc.createElementNS(uri, qName);
-        newElement.setUserData("line-number", Integer.valueOf(lineNumber), (UserDataHandler)null);
+        newElement.setUserData("line-number", lineNumber, (UserDataHandler)null);
+        newElement.setUserData("filename", filename, (UserDataHandler)null);
         current.appendChild(newElement);
 
         for (int c = 0; c < attributes.getLength(); ++c)
         {
             Attr attr = doc.createAttributeNS(attributes.getURI(c), attributes.getQName(c));
             attr.setValue(attributes.getValue(c));
-            attr.setUserData("line-number", Integer.valueOf(lineNumber), (UserDataHandler)null);
+            attr.setUserData("line-number", lineNumber, (UserDataHandler)null);
+            attr.setUserData("filename", filename, (UserDataHandler)null);
             newElement.setAttributeNodeNS(attr);
         }
 
@@ -58,7 +61,8 @@ public class LineAwareSAXHandler extends DefaultHandler
         Node current = this.nodeStack.peek();
         Document doc = current.getNodeType() == 9 ? (Document)current : current.getOwnerDocument();
         Text textNode = doc.createTextNode(new String(ch, start, length));
-        textNode.setUserData("line-number", Integer.valueOf(this.locator.getLineNumber()), (UserDataHandler)null);
+        textNode.setUserData("line-number", this.locator.getLineNumber(), (UserDataHandler)null);
+        textNode.setUserData("filename", this.locator.getSystemId(), (UserDataHandler)null);
         current.appendChild(textNode);
     }
 

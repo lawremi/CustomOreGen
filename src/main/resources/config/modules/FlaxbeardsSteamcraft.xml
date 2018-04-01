@@ -28,12 +28,12 @@
           Distribution options for Flaxbeards Steamcraft Ores.
         </Description>
       </OptionDisplayGroup>
-      <OptionChoice name='enableFlaxbeardsSteamcraft' displayName='Handle Flaxbeards Steamcraft Setup?' default='true' displayState='shown_dynamic' displayGroup='groupFlaxbeardsSteamcraft'>
+      <OptionChoice name='enableFlaxbeardsSteamcraft' displayName='Handle Flaxbeards Steamcraft Gen?' default='true' displayState='shown_dynamic' displayGroup='groupFlaxbeardsSteamcraft'>
         <Description> Should Custom Ore Generation handle Flaxbeards Steamcraft ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Flaxbeards Steamcraft ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Flaxbeards Steamcraft ores will be handled by Minecraft directly.'/>
       </OptionChoice>
-      <OptionChoice name='cleanUpFlaxbeardsSteamcraft' displayName='Use Flaxbeards Steamcraft Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupFlaxbeardsSteamcraft'>
+      <OptionChoice name='cleanUpFlaxbeardsSteamcraft' displayName='Use Flaxbeards Steamcraft Cleanup?' default='true' displayState=':= if(?enableFlaxbeardsSteamcraft, "shown", "hidden")' displayGroup='groupFlaxbeardsSteamcraft'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Flaxbeards Steamcraft ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Flaxbeards Steamcraft ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Flaxbeards Steamcraft ores do not need to be cleaned up by a substitution pass.'/>
@@ -261,7 +261,7 @@
         <!-- Starting LayeredVeins Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= flxbCopperDist = "LayeredVeins"'>
-            <Veins name='flxbCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60D26B2F' drawBoundBox='false' boundBoxColor='0x60D26B2F'>
+            <Veins name='flxbCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60D26B2F' drawBoundBox='false' boundBoxColor='0x60D26B2F'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -294,7 +294,7 @@
         <!-- Starting StrategicClouds Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= flxbCopperDist = "StrategicClouds"'>
-            <Cloud name='flxbCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60D26B2F' drawBoundBox='false' boundBoxColor='0x60D26B2F'>
+            <Cloud name='flxbCopperCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60D26B2F' drawBoundBox='false' boundBoxColor='0x60D26B2F'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -319,7 +319,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='flxbCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60D26B2F' drawBoundBox='false' boundBoxColor='0x60D26B2F'>
+              <Veins name='flxbCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60D26B2F' drawBoundBox='false' boundBoxColor='0x60D26B2F'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -350,7 +350,7 @@
         <!-- Starting Vanilla Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= flxbCopperDist = "Vanilla"'>
-            <StandardGen name='flxbCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60D26B2F' drawBoundBox='false' boundBoxColor='0x60D26B2F'>
+            <StandardGen name='flxbCopperStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60D26B2F' drawBoundBox='false' boundBoxColor='0x60D26B2F'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -374,7 +374,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Copper. -->
         <ConfigSection>
           <IfCondition condition=':= flxbMountainCopperDist = "LayeredVeins"'>
-            <Veins name='flxbMountainCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60D26B2F' drawBoundBox='false' boundBoxColor='0x60D26B2F'>
+            <Veins name='flxbMountainCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60D26B2F' drawBoundBox='false' boundBoxColor='0x60D26B2F'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -407,7 +407,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Copper. -->
         <ConfigSection>
           <IfCondition condition=':= flxbMountainCopperDist = "StrategicClouds"'>
-            <Cloud name='flxbMountainCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60D26B2F' drawBoundBox='false' boundBoxColor='0x60D26B2F'>
+            <Cloud name='flxbMountainCopperCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60D26B2F' drawBoundBox='false' boundBoxColor='0x60D26B2F'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -432,7 +432,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='flxbMountainCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60D26B2F' drawBoundBox='false' boundBoxColor='0x60D26B2F'>
+              <Veins name='flxbMountainCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60D26B2F' drawBoundBox='false' boundBoxColor='0x60D26B2F'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -463,7 +463,7 @@
         <!-- Starting Vanilla Preset for Mountain Copper. -->
         <ConfigSection>
           <IfCondition condition=':= flxbMountainCopperDist = "Vanilla"'>
-            <StandardGen name='flxbMountainCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60D26B2F' drawBoundBox='false' boundBoxColor='0x60D26B2F'>
+            <StandardGen name='flxbMountainCopperStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60D26B2F' drawBoundBox='false' boundBoxColor='0x60D26B2F'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -487,7 +487,7 @@
         <!-- Starting LayeredVeins Preset for Zinc. -->
         <ConfigSection>
           <IfCondition condition=':= flxbZincDist = "LayeredVeins"'>
-            <Veins name='flxbZincVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60EAEAEA' drawBoundBox='false' boundBoxColor='0x60EAEAEA'>
+            <Veins name='flxbZincVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEAEA' drawBoundBox='false' boundBoxColor='0x60EAEAEA'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -520,7 +520,7 @@
         <!-- Starting StrategicClouds Preset for Zinc. -->
         <ConfigSection>
           <IfCondition condition=':= flxbZincDist = "StrategicClouds"'>
-            <Cloud name='flxbZincCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60EAEAEA' drawBoundBox='false' boundBoxColor='0x60EAEAEA'>
+            <Cloud name='flxbZincCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEAEA' drawBoundBox='false' boundBoxColor='0x60EAEAEA'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -545,7 +545,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='flxbZincHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60EAEAEA' drawBoundBox='false' boundBoxColor='0x60EAEAEA'>
+              <Veins name='flxbZincHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEAEA' drawBoundBox='false' boundBoxColor='0x60EAEAEA'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -576,7 +576,7 @@
         <!-- Starting Vanilla Preset for Zinc. -->
         <ConfigSection>
           <IfCondition condition=':= flxbZincDist = "Vanilla"'>
-            <StandardGen name='flxbZincStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60EAEAEA' drawBoundBox='false' boundBoxColor='0x60EAEAEA'>
+            <StandardGen name='flxbZincStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEAEA' drawBoundBox='false' boundBoxColor='0x60EAEAEA'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -600,7 +600,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Zinc. -->
         <ConfigSection>
           <IfCondition condition=':= flxbMountainZincDist = "LayeredVeins"'>
-            <Veins name='flxbMountainZincVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60EAEAEA' drawBoundBox='false' boundBoxColor='0x60EAEAEA'>
+            <Veins name='flxbMountainZincVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEAEA' drawBoundBox='false' boundBoxColor='0x60EAEAEA'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -633,7 +633,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Zinc. -->
         <ConfigSection>
           <IfCondition condition=':= flxbMountainZincDist = "StrategicClouds"'>
-            <Cloud name='flxbMountainZincCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60EAEAEA' drawBoundBox='false' boundBoxColor='0x60EAEAEA'>
+            <Cloud name='flxbMountainZincCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEAEA' drawBoundBox='false' boundBoxColor='0x60EAEAEA'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -658,7 +658,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='flxbMountainZincHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60EAEAEA' drawBoundBox='false' boundBoxColor='0x60EAEAEA'>
+              <Veins name='flxbMountainZincHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEAEA' drawBoundBox='false' boundBoxColor='0x60EAEAEA'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -689,7 +689,7 @@
         <!-- Starting Vanilla Preset for Mountain Zinc. -->
         <ConfigSection>
           <IfCondition condition=':= flxbMountainZincDist = "Vanilla"'>
-            <StandardGen name='flxbMountainZincStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60EAEAEA' drawBoundBox='false' boundBoxColor='0x60EAEAEA'>
+            <StandardGen name='flxbMountainZincStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEAEA' drawBoundBox='false' boundBoxColor='0x60EAEAEA'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>

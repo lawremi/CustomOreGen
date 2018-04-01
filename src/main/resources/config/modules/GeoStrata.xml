@@ -33,12 +33,12 @@
           Distribution options for GeoStrata Ores.
         </Description>
       </OptionDisplayGroup>
-      <OptionChoice name='enableGeoStrata' displayName='Handle GeoStrata Setup?' default='true' displayState='shown_dynamic' displayGroup='groupGeoStrata'>
+      <OptionChoice name='enableGeoStrata' displayName='Handle GeoStrata Gen?' default='true' displayState='shown_dynamic' displayGroup='groupGeoStrata'>
         <Description> Should Custom Ore Generation handle GeoStrata ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle GeoStrata ores.'/>
         <Choice value=':= ?false' displayValue='No' description='GeoStrata ores will be handled by Minecraft directly.'/>
       </OptionChoice>
-      <OptionChoice name='cleanUpGeoStrata' displayName='Use GeoStrata Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupGeoStrata'>
+      <OptionChoice name='cleanUpGeoStrata' displayName='Use GeoStrata Cleanup?' default='true' displayState=':= if(?enableGeoStrata, "shown", "hidden")' displayGroup='groupGeoStrata'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of GeoStrata ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up GeoStrata ores.'/>
         <Choice value=':= ?false' displayValue='No' description='GeoStrata ores do not need to be cleaned up by a substitution pass.'/>
@@ -1523,7 +1523,7 @@
         <!-- Starting StratumClouds Preset for Shale. -->
         <ConfigSection>
           <IfCondition condition=':= gstaShaleDist = "StratumClouds"'>
-            <Cloud name='gstaShaleCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60676970' drawBoundBox='false' boundBoxColor='0x60676970'>
+            <Cloud name='gstaShaleCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60676970' drawBoundBox='false' boundBoxColor='0x60676970'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -1551,7 +1551,7 @@
         <!-- Starting LayeredVeins Preset for Shale. -->
         <ConfigSection>
           <IfCondition condition=':= gstaShaleDist = "LayeredVeins"'>
-            <Veins name='gstaShaleVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60676970' drawBoundBox='false' boundBoxColor='0x60676970'>
+            <Veins name='gstaShaleVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60676970' drawBoundBox='false' boundBoxColor='0x60676970'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1584,7 +1584,7 @@
         <!-- Starting Vanilla Preset for Shale. -->
         <ConfigSection>
           <IfCondition condition=':= gstaShaleDist = "Vanilla"'>
-            <StandardGen name='gstaShaleStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60676970' drawBoundBox='false' boundBoxColor='0x60676970'>
+            <StandardGen name='gstaShaleStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60676970' drawBoundBox='false' boundBoxColor='0x60676970'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -1608,7 +1608,7 @@
         <!-- Starting StratumClouds Preset for Mountain Shale. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainShaleDist = "StratumClouds"'>
-            <Cloud name='gstaMountainShaleCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60676970' drawBoundBox='false' boundBoxColor='0x60676970'>
+            <Cloud name='gstaMountainShaleCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60676970' drawBoundBox='false' boundBoxColor='0x60676970'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -1636,7 +1636,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Shale. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainShaleDist = "LayeredVeins"'>
-            <Veins name='gstaMountainShaleVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60676970' drawBoundBox='false' boundBoxColor='0x60676970'>
+            <Veins name='gstaMountainShaleVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60676970' drawBoundBox='false' boundBoxColor='0x60676970'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1669,7 +1669,7 @@
         <!-- Starting Vanilla Preset for Mountain Shale. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainShaleDist = "Vanilla"'>
-            <StandardGen name='gstaMountainShaleStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60676970' drawBoundBox='false' boundBoxColor='0x60676970'>
+            <StandardGen name='gstaMountainShaleStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60676970' drawBoundBox='false' boundBoxColor='0x60676970'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -1693,7 +1693,7 @@
         <!-- Starting StratumClouds Preset for Sandstone. -->
         <ConfigSection>
           <IfCondition condition=':= gstaSandstoneDist = "StratumClouds"'>
-            <Cloud name='gstaSandstoneCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60BA9D80' drawBoundBox='false' boundBoxColor='0x60BA9D80'>
+            <Cloud name='gstaSandstoneCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60BA9D80' drawBoundBox='false' boundBoxColor='0x60BA9D80'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -1721,7 +1721,7 @@
         <!-- Starting LayeredVeins Preset for Sandstone. -->
         <ConfigSection>
           <IfCondition condition=':= gstaSandstoneDist = "LayeredVeins"'>
-            <Veins name='gstaSandstoneVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60BA9D80' drawBoundBox='false' boundBoxColor='0x60BA9D80'>
+            <Veins name='gstaSandstoneVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60BA9D80' drawBoundBox='false' boundBoxColor='0x60BA9D80'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1754,7 +1754,7 @@
         <!-- Starting Vanilla Preset for Sandstone. -->
         <ConfigSection>
           <IfCondition condition=':= gstaSandstoneDist = "Vanilla"'>
-            <StandardGen name='gstaSandstoneStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60BA9D80' drawBoundBox='false' boundBoxColor='0x60BA9D80'>
+            <StandardGen name='gstaSandstoneStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60BA9D80' drawBoundBox='false' boundBoxColor='0x60BA9D80'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -1778,7 +1778,7 @@
         <!-- Starting StratumClouds Preset for Limestone. -->
         <ConfigSection>
           <IfCondition condition=':= gstaLimestoneDist = "StratumClouds"'>
-            <Cloud name='gstaLimestoneCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60CBBFAD' drawBoundBox='false' boundBoxColor='0x60CBBFAD'>
+            <Cloud name='gstaLimestoneCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60CBBFAD' drawBoundBox='false' boundBoxColor='0x60CBBFAD'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -1806,7 +1806,7 @@
         <!-- Starting LayeredVeins Preset for Limestone. -->
         <ConfigSection>
           <IfCondition condition=':= gstaLimestoneDist = "LayeredVeins"'>
-            <Veins name='gstaLimestoneVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60CBBFAD' drawBoundBox='false' boundBoxColor='0x60CBBFAD'>
+            <Veins name='gstaLimestoneVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60CBBFAD' drawBoundBox='false' boundBoxColor='0x60CBBFAD'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1839,7 +1839,7 @@
         <!-- Starting Vanilla Preset for Limestone. -->
         <ConfigSection>
           <IfCondition condition=':= gstaLimestoneDist = "Vanilla"'>
-            <StandardGen name='gstaLimestoneStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60CBBFAD' drawBoundBox='false' boundBoxColor='0x60CBBFAD'>
+            <StandardGen name='gstaLimestoneStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60CBBFAD' drawBoundBox='false' boundBoxColor='0x60CBBFAD'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -1863,7 +1863,7 @@
         <!-- Starting StratumClouds Preset for Pumice. -->
         <ConfigSection>
           <IfCondition condition=':= gstaPumiceDist = "StratumClouds"'>
-            <Cloud name='gstaPumiceCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60C4C1BA' drawBoundBox='false' boundBoxColor='0x60C4C1BA'>
+            <Cloud name='gstaPumiceCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60C4C1BA' drawBoundBox='false' boundBoxColor='0x60C4C1BA'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -1891,7 +1891,7 @@
         <!-- Starting LayeredVeins Preset for Pumice. -->
         <ConfigSection>
           <IfCondition condition=':= gstaPumiceDist = "LayeredVeins"'>
-            <Veins name='gstaPumiceVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60C4C1BA' drawBoundBox='false' boundBoxColor='0x60C4C1BA'>
+            <Veins name='gstaPumiceVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60C4C1BA' drawBoundBox='false' boundBoxColor='0x60C4C1BA'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1924,7 +1924,7 @@
         <!-- Starting Vanilla Preset for Pumice. -->
         <ConfigSection>
           <IfCondition condition=':= gstaPumiceDist = "Vanilla"'>
-            <StandardGen name='gstaPumiceStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60C4C1BA' drawBoundBox='false' boundBoxColor='0x60C4C1BA'>
+            <StandardGen name='gstaPumiceStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C4C1BA' drawBoundBox='false' boundBoxColor='0x60C4C1BA'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -1948,7 +1948,7 @@
         <!-- Starting StratumClouds Preset for Mountain  Pumice. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainPumiceDist = "StratumClouds"'>
-            <Cloud name='gstaMountainPumiceCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60C4C1BA' drawBoundBox='false' boundBoxColor='0x60C4C1BA'>
+            <Cloud name='gstaMountainPumiceCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60C4C1BA' drawBoundBox='false' boundBoxColor='0x60C4C1BA'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -1976,7 +1976,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Pumice. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainPumiceDist = "LayeredVeins"'>
-            <Veins name='gstaMountainPumiceVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60C4C1BA' drawBoundBox='false' boundBoxColor='0x60C4C1BA'>
+            <Veins name='gstaMountainPumiceVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60C4C1BA' drawBoundBox='false' boundBoxColor='0x60C4C1BA'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -2009,7 +2009,7 @@
         <!-- Starting Vanilla Preset for Mountain Pumice. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainPumiceDist = "Vanilla"'>
-            <StandardGen name='gstaMountainPumiceStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60C4C1BA' drawBoundBox='false' boundBoxColor='0x60C4C1BA'>
+            <StandardGen name='gstaMountainPumiceStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C4C1BA' drawBoundBox='false' boundBoxColor='0x60C4C1BA'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -2033,7 +2033,7 @@
         <!-- Starting StratumClouds Preset for Opal. -->
         <ConfigSection>
           <IfCondition condition=':= gstaOpalDist = "StratumClouds"'>
-            <Cloud name='gstaOpalCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60CAFFFF' drawBoundBox='false' boundBoxColor='0x60CAFFFF'>
+            <Cloud name='gstaOpalCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60CAFFFF' drawBoundBox='false' boundBoxColor='0x60CAFFFF'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -2061,7 +2061,7 @@
         <!-- Starting LayeredVeins Preset for Opal. -->
         <ConfigSection>
           <IfCondition condition=':= gstaOpalDist = "LayeredVeins"'>
-            <Veins name='gstaOpalVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60CAFFFF' drawBoundBox='false' boundBoxColor='0x60CAFFFF'>
+            <Veins name='gstaOpalVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60CAFFFF' drawBoundBox='false' boundBoxColor='0x60CAFFFF'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -2094,7 +2094,7 @@
         <!-- Starting Vanilla Preset for Opal. -->
         <ConfigSection>
           <IfCondition condition=':= gstaOpalDist = "Vanilla"'>
-            <StandardGen name='gstaOpalStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60CAFFFF' drawBoundBox='false' boundBoxColor='0x60CAFFFF'>
+            <StandardGen name='gstaOpalStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60CAFFFF' drawBoundBox='false' boundBoxColor='0x60CAFFFF'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -2118,7 +2118,7 @@
         <!-- Starting StratumClouds Preset for Mountain Opal. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainOpalDist = "StratumClouds"'>
-            <Cloud name='gstaMountainOpalCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60CAFFFF' drawBoundBox='false' boundBoxColor='0x60CAFFFF'>
+            <Cloud name='gstaMountainOpalCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60CAFFFF' drawBoundBox='false' boundBoxColor='0x60CAFFFF'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -2146,7 +2146,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Opal. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainOpalDist = "LayeredVeins"'>
-            <Veins name='gstaMountainOpalVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60CAFFFF' drawBoundBox='false' boundBoxColor='0x60CAFFFF'>
+            <Veins name='gstaMountainOpalVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60CAFFFF' drawBoundBox='false' boundBoxColor='0x60CAFFFF'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -2179,7 +2179,7 @@
         <!-- Starting Vanilla Preset for Mountain Opal. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainOpalDist = "Vanilla"'>
-            <StandardGen name='gstaMountainOpalStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60CAFFFF' drawBoundBox='false' boundBoxColor='0x60CAFFFF'>
+            <StandardGen name='gstaMountainOpalStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60CAFFFF' drawBoundBox='false' boundBoxColor='0x60CAFFFF'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -2203,7 +2203,7 @@
         <!-- Starting StratumClouds Preset for Slate. -->
         <ConfigSection>
           <IfCondition condition=':= gstaSlateDist = "StratumClouds"'>
-            <Cloud name='gstaSlateCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60494B53' drawBoundBox='false' boundBoxColor='0x60494B53'>
+            <Cloud name='gstaSlateCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60494B53' drawBoundBox='false' boundBoxColor='0x60494B53'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -2231,7 +2231,7 @@
         <!-- Starting LayeredVeins Preset for Slate. -->
         <ConfigSection>
           <IfCondition condition=':= gstaSlateDist = "LayeredVeins"'>
-            <Veins name='gstaSlateVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60494B53' drawBoundBox='false' boundBoxColor='0x60494B53'>
+            <Veins name='gstaSlateVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60494B53' drawBoundBox='false' boundBoxColor='0x60494B53'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -2264,7 +2264,7 @@
         <!-- Starting Vanilla Preset for Slate. -->
         <ConfigSection>
           <IfCondition condition=':= gstaSlateDist = "Vanilla"'>
-            <StandardGen name='gstaSlateStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60494B53' drawBoundBox='false' boundBoxColor='0x60494B53'>
+            <StandardGen name='gstaSlateStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60494B53' drawBoundBox='false' boundBoxColor='0x60494B53'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -2288,7 +2288,7 @@
         <!-- Starting StratumClouds Preset for Mountain Slate. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainSlateDist = "StratumClouds"'>
-            <Cloud name='gstaMountainSlateCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60494B53' drawBoundBox='false' boundBoxColor='0x60494B53'>
+            <Cloud name='gstaMountainSlateCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60494B53' drawBoundBox='false' boundBoxColor='0x60494B53'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -2316,7 +2316,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Slate. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainSlateDist = "LayeredVeins"'>
-            <Veins name='gstaMountainSlateVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60494B53' drawBoundBox='false' boundBoxColor='0x60494B53'>
+            <Veins name='gstaMountainSlateVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60494B53' drawBoundBox='false' boundBoxColor='0x60494B53'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -2349,7 +2349,7 @@
         <!-- Starting Vanilla Preset for Mountain Slate. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainSlateDist = "Vanilla"'>
-            <StandardGen name='gstaMountainSlateStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60494B53' drawBoundBox='false' boundBoxColor='0x60494B53'>
+            <StandardGen name='gstaMountainSlateStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60494B53' drawBoundBox='false' boundBoxColor='0x60494B53'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -2373,7 +2373,7 @@
         <!-- Starting StratumClouds Preset for Gneiss. -->
         <ConfigSection>
           <IfCondition condition=':= gstaGneissDist = "StratumClouds"'>
-            <Cloud name='gstaGneissCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60BFBDBC' drawBoundBox='false' boundBoxColor='0x60BFBDBC'>
+            <Cloud name='gstaGneissCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60BFBDBC' drawBoundBox='false' boundBoxColor='0x60BFBDBC'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -2401,7 +2401,7 @@
         <!-- Starting LayeredVeins Preset for Gneiss. -->
         <ConfigSection>
           <IfCondition condition=':= gstaGneissDist = "LayeredVeins"'>
-            <Veins name='gstaGneissVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60BFBDBC' drawBoundBox='false' boundBoxColor='0x60BFBDBC'>
+            <Veins name='gstaGneissVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60BFBDBC' drawBoundBox='false' boundBoxColor='0x60BFBDBC'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -2434,7 +2434,7 @@
         <!-- Starting Vanilla Preset for Gneiss. -->
         <ConfigSection>
           <IfCondition condition=':= gstaGneissDist = "Vanilla"'>
-            <StandardGen name='gstaGneissStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60BFBDBC' drawBoundBox='false' boundBoxColor='0x60BFBDBC'>
+            <StandardGen name='gstaGneissStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60BFBDBC' drawBoundBox='false' boundBoxColor='0x60BFBDBC'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -2458,7 +2458,7 @@
         <!-- Starting StratumClouds Preset for Mountain  Gneiss. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainGneissDist = "StratumClouds"'>
-            <Cloud name='gstaMountainGneissCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60BFBDBC' drawBoundBox='false' boundBoxColor='0x60BFBDBC'>
+            <Cloud name='gstaMountainGneissCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60BFBDBC' drawBoundBox='false' boundBoxColor='0x60BFBDBC'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -2486,7 +2486,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Gneiss. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainGneissDist = "LayeredVeins"'>
-            <Veins name='gstaMountainGneissVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60BFBDBC' drawBoundBox='false' boundBoxColor='0x60BFBDBC'>
+            <Veins name='gstaMountainGneissVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60BFBDBC' drawBoundBox='false' boundBoxColor='0x60BFBDBC'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -2519,7 +2519,7 @@
         <!-- Starting Vanilla Preset for Mountain Gneiss. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainGneissDist = "Vanilla"'>
-            <StandardGen name='gstaMountainGneissStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60BFBDBC' drawBoundBox='false' boundBoxColor='0x60BFBDBC'>
+            <StandardGen name='gstaMountainGneissStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60BFBDBC' drawBoundBox='false' boundBoxColor='0x60BFBDBC'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -2543,7 +2543,7 @@
         <!-- Starting StratumClouds Preset for Peridotite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaPeridotiteDist = "StratumClouds"'>
-            <Cloud name='gstaPeridotiteCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60617361' drawBoundBox='false' boundBoxColor='0x60617361'>
+            <Cloud name='gstaPeridotiteCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60617361' drawBoundBox='false' boundBoxColor='0x60617361'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -2571,7 +2571,7 @@
         <!-- Starting LayeredVeins Preset for Peridotite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaPeridotiteDist = "LayeredVeins"'>
-            <Veins name='gstaPeridotiteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60617361' drawBoundBox='false' boundBoxColor='0x60617361'>
+            <Veins name='gstaPeridotiteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60617361' drawBoundBox='false' boundBoxColor='0x60617361'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -2604,7 +2604,7 @@
         <!-- Starting Vanilla Preset for Peridotite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaPeridotiteDist = "Vanilla"'>
-            <StandardGen name='gstaPeridotiteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60617361' drawBoundBox='false' boundBoxColor='0x60617361'>
+            <StandardGen name='gstaPeridotiteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60617361' drawBoundBox='false' boundBoxColor='0x60617361'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -2628,7 +2628,7 @@
         <!-- Starting StratumClouds Preset for Mountain  Peridotite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainPeridotiteDist = "StratumClouds"'>
-            <Cloud name='gstaMountainPeridotiteCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60617361' drawBoundBox='false' boundBoxColor='0x60617361'>
+            <Cloud name='gstaMountainPeridotiteCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60617361' drawBoundBox='false' boundBoxColor='0x60617361'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -2657,7 +2657,7 @@
         <!-- Starting LayeredVeins Preset for Mountain  Peridotite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainPeridotiteDist = "LayeredVeins"'>
-            <Veins name='gstaMountainPeridotiteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60617361' drawBoundBox='false' boundBoxColor='0x60617361'>
+            <Veins name='gstaMountainPeridotiteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60617361' drawBoundBox='false' boundBoxColor='0x60617361'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -2690,7 +2690,7 @@
         <!-- Starting Vanilla Preset for Mountain Peridotite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainPeridotiteDist = "Vanilla"'>
-            <StandardGen name='gstaMountainPeridotiteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60617361' drawBoundBox='false' boundBoxColor='0x60617361'>
+            <StandardGen name='gstaMountainPeridotiteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60617361' drawBoundBox='false' boundBoxColor='0x60617361'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -2714,7 +2714,7 @@
         <!-- Starting StratumClouds Preset for Granulite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaGranuliteDist = "StratumClouds"'>
-            <Cloud name='gstaGranuliteCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60AEB3AB' drawBoundBox='false' boundBoxColor='0x60AEB3AB'>
+            <Cloud name='gstaGranuliteCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60AEB3AB' drawBoundBox='false' boundBoxColor='0x60AEB3AB'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -2742,7 +2742,7 @@
         <!-- Starting LayeredVeins Preset for Granulite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaGranuliteDist = "LayeredVeins"'>
-            <Veins name='gstaGranuliteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60AEB3AB' drawBoundBox='false' boundBoxColor='0x60AEB3AB'>
+            <Veins name='gstaGranuliteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60AEB3AB' drawBoundBox='false' boundBoxColor='0x60AEB3AB'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -2775,7 +2775,7 @@
         <!-- Starting Vanilla Preset for Granulite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaGranuliteDist = "Vanilla"'>
-            <StandardGen name='gstaGranuliteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60AEB3AB' drawBoundBox='false' boundBoxColor='0x60AEB3AB'>
+            <StandardGen name='gstaGranuliteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60AEB3AB' drawBoundBox='false' boundBoxColor='0x60AEB3AB'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -2799,7 +2799,7 @@
         <!-- Starting StratumClouds Preset for Mountain  Granulite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainGranuliteDist = "StratumClouds"'>
-            <Cloud name='gstaMountainGranuliteCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60AEB3AB' drawBoundBox='false' boundBoxColor='0x60AEB3AB'>
+            <Cloud name='gstaMountainGranuliteCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60AEB3AB' drawBoundBox='false' boundBoxColor='0x60AEB3AB'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -2827,7 +2827,7 @@
         <!-- Starting LayeredVeins Preset for Mountain  Granulite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainGranuliteDist = "LayeredVeins"'>
-            <Veins name='gstaMountainGranuliteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60AEB3AB' drawBoundBox='false' boundBoxColor='0x60AEB3AB'>
+            <Veins name='gstaMountainGranuliteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60AEB3AB' drawBoundBox='false' boundBoxColor='0x60AEB3AB'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -2860,7 +2860,7 @@
         <!-- Starting Vanilla Preset for Mountain Granulite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainGranuliteDist = "Vanilla"'>
-            <StandardGen name='gstaMountainGranuliteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60AEB3AB' drawBoundBox='false' boundBoxColor='0x60AEB3AB'>
+            <StandardGen name='gstaMountainGranuliteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60AEB3AB' drawBoundBox='false' boundBoxColor='0x60AEB3AB'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -2884,7 +2884,7 @@
         <!-- Starting StratumClouds Preset for Migmatite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMigmatiteDist = "StratumClouds"'>
-            <Cloud name='gstaMigmatiteCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x6092958C' drawBoundBox='false' boundBoxColor='0x6092958C'>
+            <Cloud name='gstaMigmatiteCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x6092958C' drawBoundBox='false' boundBoxColor='0x6092958C'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -2912,7 +2912,7 @@
         <!-- Starting LayeredVeins Preset for Migmatite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMigmatiteDist = "LayeredVeins"'>
-            <Veins name='gstaMigmatiteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x6092958C' drawBoundBox='false' boundBoxColor='0x6092958C'>
+            <Veins name='gstaMigmatiteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x6092958C' drawBoundBox='false' boundBoxColor='0x6092958C'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -2945,7 +2945,7 @@
         <!-- Starting Vanilla Preset for Migmatite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMigmatiteDist = "Vanilla"'>
-            <StandardGen name='gstaMigmatiteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x6092958C' drawBoundBox='false' boundBoxColor='0x6092958C'>
+            <StandardGen name='gstaMigmatiteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x6092958C' drawBoundBox='false' boundBoxColor='0x6092958C'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -2969,7 +2969,7 @@
         <!-- Starting StratumClouds Preset for Mountain  Migmatite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainMigmatiteDist = "StratumClouds"'>
-            <Cloud name='gstaMountainMigmatiteCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x6092958C' drawBoundBox='false' boundBoxColor='0x6092958C'>
+            <Cloud name='gstaMountainMigmatiteCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x6092958C' drawBoundBox='false' boundBoxColor='0x6092958C'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -2997,7 +2997,7 @@
         <!-- Starting LayeredVeins Preset for Mountain  Migmatite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainMigmatiteDist = "LayeredVeins"'>
-            <Veins name='gstaMountainMigmatiteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x6092958C' drawBoundBox='false' boundBoxColor='0x6092958C'>
+            <Veins name='gstaMountainMigmatiteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x6092958C' drawBoundBox='false' boundBoxColor='0x6092958C'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -3030,7 +3030,7 @@
         <!-- Starting Vanilla Preset for Mountain Migmatite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainMigmatiteDist = "Vanilla"'>
-            <StandardGen name='gstaMountainMigmatiteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x6092958C' drawBoundBox='false' boundBoxColor='0x6092958C'>
+            <StandardGen name='gstaMountainMigmatiteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x6092958C' drawBoundBox='false' boundBoxColor='0x6092958C'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -3054,7 +3054,7 @@
         <!-- Starting StratumClouds Preset for Schist. -->
         <ConfigSection>
           <IfCondition condition=':= gstaSchistDist = "StratumClouds"'>
-            <Cloud name='gstaSchistCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x604B4C52' drawBoundBox='false' boundBoxColor='0x604B4C52'>
+            <Cloud name='gstaSchistCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x604B4C52' drawBoundBox='false' boundBoxColor='0x604B4C52'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -3082,7 +3082,7 @@
         <!-- Starting LayeredVeins Preset for Schist. -->
         <ConfigSection>
           <IfCondition condition=':= gstaSchistDist = "LayeredVeins"'>
-            <Veins name='gstaSchistVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x604B4C52' drawBoundBox='false' boundBoxColor='0x604B4C52'>
+            <Veins name='gstaSchistVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x604B4C52' drawBoundBox='false' boundBoxColor='0x604B4C52'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -3115,7 +3115,7 @@
         <!-- Starting Vanilla Preset for Schist. -->
         <ConfigSection>
           <IfCondition condition=':= gstaSchistDist = "Vanilla"'>
-            <StandardGen name='gstaSchistStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x604B4C52' drawBoundBox='false' boundBoxColor='0x604B4C52'>
+            <StandardGen name='gstaSchistStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x604B4C52' drawBoundBox='false' boundBoxColor='0x604B4C52'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -3139,7 +3139,7 @@
         <!-- Starting StratumClouds Preset for Mountain  Schist. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainSchistDist = "StratumClouds"'>
-            <Cloud name='gstaMountainSchistCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x604B4C52' drawBoundBox='false' boundBoxColor='0x604B4C52'>
+            <Cloud name='gstaMountainSchistCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x604B4C52' drawBoundBox='false' boundBoxColor='0x604B4C52'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -3167,7 +3167,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Schist. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainSchistDist = "LayeredVeins"'>
-            <Veins name='gstaMountainSchistVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x604B4C52' drawBoundBox='false' boundBoxColor='0x604B4C52'>
+            <Veins name='gstaMountainSchistVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x604B4C52' drawBoundBox='false' boundBoxColor='0x604B4C52'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -3200,7 +3200,7 @@
         <!-- Starting Vanilla Preset for Mountain Schist. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainSchistDist = "Vanilla"'>
-            <StandardGen name='gstaMountainSchistStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x604B4C52' drawBoundBox='false' boundBoxColor='0x604B4C52'>
+            <StandardGen name='gstaMountainSchistStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x604B4C52' drawBoundBox='false' boundBoxColor='0x604B4C52'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -3224,7 +3224,7 @@
         <!-- Starting StratumClouds Preset for Basalt. -->
         <ConfigSection>
           <IfCondition condition=':= gstaBasaltDist = "StratumClouds"'>
-            <Cloud name='gstaBasaltCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60383844' drawBoundBox='false' boundBoxColor='0x60383844'>
+            <Cloud name='gstaBasaltCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60383844' drawBoundBox='false' boundBoxColor='0x60383844'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -3252,7 +3252,7 @@
         <!-- Starting LayeredVeins Preset for Basalt. -->
         <ConfigSection>
           <IfCondition condition=':= gstaBasaltDist = "LayeredVeins"'>
-            <Veins name='gstaBasaltVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60383844' drawBoundBox='false' boundBoxColor='0x60383844'>
+            <Veins name='gstaBasaltVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60383844' drawBoundBox='false' boundBoxColor='0x60383844'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -3285,7 +3285,7 @@
         <!-- Starting Vanilla Preset for Basalt. -->
         <ConfigSection>
           <IfCondition condition=':= gstaBasaltDist = "Vanilla"'>
-            <StandardGen name='gstaBasaltStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60383844' drawBoundBox='false' boundBoxColor='0x60383844'>
+            <StandardGen name='gstaBasaltStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60383844' drawBoundBox='false' boundBoxColor='0x60383844'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -3309,7 +3309,7 @@
         <!-- Starting StratumClouds Preset for Onyx. -->
         <ConfigSection>
           <IfCondition condition=':= gstaOnyxDist = "StratumClouds"'>
-            <Cloud name='gstaOnyxCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60303030' drawBoundBox='false' boundBoxColor='0x60303030'>
+            <Cloud name='gstaOnyxCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60303030' drawBoundBox='false' boundBoxColor='0x60303030'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -3337,7 +3337,7 @@
         <!-- Starting LayeredVeins Preset for Onyx. -->
         <ConfigSection>
           <IfCondition condition=':= gstaOnyxDist = "LayeredVeins"'>
-            <Veins name='gstaOnyxVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60303030' drawBoundBox='false' boundBoxColor='0x60303030'>
+            <Veins name='gstaOnyxVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60303030' drawBoundBox='false' boundBoxColor='0x60303030'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -3370,7 +3370,7 @@
         <!-- Starting Vanilla Preset for Onyx. -->
         <ConfigSection>
           <IfCondition condition=':= gstaOnyxDist = "Vanilla"'>
-            <StandardGen name='gstaOnyxStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60303030' drawBoundBox='false' boundBoxColor='0x60303030'>
+            <StandardGen name='gstaOnyxStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60303030' drawBoundBox='false' boundBoxColor='0x60303030'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -3394,7 +3394,7 @@
         <!-- Starting StratumClouds Preset for Mountain Onyx. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainOnyxDist = "StratumClouds"'>
-            <Cloud name='gstaMountainOnyxCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60303030' drawBoundBox='false' boundBoxColor='0x60303030'>
+            <Cloud name='gstaMountainOnyxCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60303030' drawBoundBox='false' boundBoxColor='0x60303030'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -3422,7 +3422,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Onyx. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainOnyxDist = "LayeredVeins"'>
-            <Veins name='gstaMountainOnyxVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60303030' drawBoundBox='false' boundBoxColor='0x60303030'>
+            <Veins name='gstaMountainOnyxVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60303030' drawBoundBox='false' boundBoxColor='0x60303030'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -3455,7 +3455,7 @@
         <!-- Starting Vanilla Preset for Mountain Onyx. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainOnyxDist = "Vanilla"'>
-            <StandardGen name='gstaMountainOnyxStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60303030' drawBoundBox='false' boundBoxColor='0x60303030'>
+            <StandardGen name='gstaMountainOnyxStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60303030' drawBoundBox='false' boundBoxColor='0x60303030'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -3479,7 +3479,7 @@
         <!-- Starting StratumClouds Preset for Quartz. -->
         <ConfigSection>
           <IfCondition condition=':= gstaQuartzDist = "StratumClouds"'>
-            <Cloud name='gstaQuartzCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60C9D2D9' drawBoundBox='false' boundBoxColor='0x60C9D2D9'>
+            <Cloud name='gstaQuartzCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60C9D2D9' drawBoundBox='false' boundBoxColor='0x60C9D2D9'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -3507,7 +3507,7 @@
         <!-- Starting LayeredVeins Preset for Quartz. -->
         <ConfigSection>
           <IfCondition condition=':= gstaQuartzDist = "LayeredVeins"'>
-            <Veins name='gstaQuartzVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60C9D2D9' drawBoundBox='false' boundBoxColor='0x60C9D2D9'>
+            <Veins name='gstaQuartzVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60C9D2D9' drawBoundBox='false' boundBoxColor='0x60C9D2D9'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -3540,7 +3540,7 @@
         <!-- Starting Vanilla Preset for Quartz. -->
         <ConfigSection>
           <IfCondition condition=':= gstaQuartzDist = "Vanilla"'>
-            <StandardGen name='gstaQuartzStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60C9D2D9' drawBoundBox='false' boundBoxColor='0x60C9D2D9'>
+            <StandardGen name='gstaQuartzStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C9D2D9' drawBoundBox='false' boundBoxColor='0x60C9D2D9'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -3564,7 +3564,7 @@
         <!-- Starting StratumClouds Preset for Mountain  Quartz. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainQuartzDist = "StratumClouds"'>
-            <Cloud name='gstaMountainQuartzCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60C9D2D9' drawBoundBox='false' boundBoxColor='0x60C9D2D9'>
+            <Cloud name='gstaMountainQuartzCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60C9D2D9' drawBoundBox='false' boundBoxColor='0x60C9D2D9'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -3592,7 +3592,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Quartz. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainQuartzDist = "LayeredVeins"'>
-            <Veins name='gstaMountainQuartzVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60C9D2D9' drawBoundBox='false' boundBoxColor='0x60C9D2D9'>
+            <Veins name='gstaMountainQuartzVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60C9D2D9' drawBoundBox='false' boundBoxColor='0x60C9D2D9'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -3625,7 +3625,7 @@
         <!-- Starting Vanilla Preset for Mountain Quartz. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainQuartzDist = "Vanilla"'>
-            <StandardGen name='gstaMountainQuartzStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60C9D2D9' drawBoundBox='false' boundBoxColor='0x60C9D2D9'>
+            <StandardGen name='gstaMountainQuartzStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C9D2D9' drawBoundBox='false' boundBoxColor='0x60C9D2D9'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -3649,7 +3649,7 @@
         <!-- Starting StratumClouds Preset for Marble. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMarbleDist = "StratumClouds"'>
-            <Cloud name='gstaMarbleCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60B4B4BC' drawBoundBox='false' boundBoxColor='0x60B4B4BC'>
+            <Cloud name='gstaMarbleCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60B4B4BC' drawBoundBox='false' boundBoxColor='0x60B4B4BC'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -3677,7 +3677,7 @@
         <!-- Starting LayeredVeins Preset for Marble. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMarbleDist = "LayeredVeins"'>
-            <Veins name='gstaMarbleVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60B4B4BC' drawBoundBox='false' boundBoxColor='0x60B4B4BC'>
+            <Veins name='gstaMarbleVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60B4B4BC' drawBoundBox='false' boundBoxColor='0x60B4B4BC'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -3710,7 +3710,7 @@
         <!-- Starting Vanilla Preset for Marble. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMarbleDist = "Vanilla"'>
-            <StandardGen name='gstaMarbleStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60B4B4BC' drawBoundBox='false' boundBoxColor='0x60B4B4BC'>
+            <StandardGen name='gstaMarbleStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60B4B4BC' drawBoundBox='false' boundBoxColor='0x60B4B4BC'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -3734,7 +3734,7 @@
         <!-- Starting StratumClouds Preset for Mountain  Marble. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainMarbleDist = "StratumClouds"'>
-            <Cloud name='gstaMountainMarbleCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60B4B4BC' drawBoundBox='false' boundBoxColor='0x60B4B4BC'>
+            <Cloud name='gstaMountainMarbleCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60B4B4BC' drawBoundBox='false' boundBoxColor='0x60B4B4BC'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -3762,7 +3762,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Marble. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainMarbleDist = "LayeredVeins"'>
-            <Veins name='gstaMountainMarbleVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60B4B4BC' drawBoundBox='false' boundBoxColor='0x60B4B4BC'>
+            <Veins name='gstaMountainMarbleVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60B4B4BC' drawBoundBox='false' boundBoxColor='0x60B4B4BC'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -3795,7 +3795,7 @@
         <!-- Starting Vanilla Preset for Mountain Marble. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainMarbleDist = "Vanilla"'>
-            <StandardGen name='gstaMountainMarbleStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60B4B4BC' drawBoundBox='false' boundBoxColor='0x60B4B4BC'>
+            <StandardGen name='gstaMountainMarbleStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60B4B4BC' drawBoundBox='false' boundBoxColor='0x60B4B4BC'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -3819,7 +3819,7 @@
         <!-- Starting StratumClouds Preset for Granite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaGraniteDist = "StratumClouds"'>
-            <Cloud name='gstaGraniteCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60CA9C7F' drawBoundBox='false' boundBoxColor='0x60CA9C7F'>
+            <Cloud name='gstaGraniteCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60CA9C7F' drawBoundBox='false' boundBoxColor='0x60CA9C7F'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -3847,7 +3847,7 @@
         <!-- Starting LayeredVeins Preset for Granite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaGraniteDist = "LayeredVeins"'>
-            <Veins name='gstaGraniteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60CA9C7F' drawBoundBox='false' boundBoxColor='0x60CA9C7F'>
+            <Veins name='gstaGraniteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60CA9C7F' drawBoundBox='false' boundBoxColor='0x60CA9C7F'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -3880,7 +3880,7 @@
         <!-- Starting Vanilla Preset for Granite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaGraniteDist = "Vanilla"'>
-            <StandardGen name='gstaGraniteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60CA9C7F' drawBoundBox='false' boundBoxColor='0x60CA9C7F'>
+            <StandardGen name='gstaGraniteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60CA9C7F' drawBoundBox='false' boundBoxColor='0x60CA9C7F'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -3904,7 +3904,7 @@
         <!-- Starting StratumClouds Preset for Mountain  Granite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainGraniteDist = "StratumClouds"'>
-            <Cloud name='gstaMountainGraniteCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60CA9C7F' drawBoundBox='false' boundBoxColor='0x60CA9C7F'>
+            <Cloud name='gstaMountainGraniteCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60CA9C7F' drawBoundBox='false' boundBoxColor='0x60CA9C7F'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -3932,7 +3932,7 @@
         <!-- Starting LayeredVeins Preset for Mountain  Granite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainGraniteDist = "LayeredVeins"'>
-            <Veins name='gstaMountainGraniteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60CA9C7F' drawBoundBox='false' boundBoxColor='0x60CA9C7F'>
+            <Veins name='gstaMountainGraniteVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60CA9C7F' drawBoundBox='false' boundBoxColor='0x60CA9C7F'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -3965,7 +3965,7 @@
         <!-- Starting Vanilla Preset for Mountain Granite. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainGraniteDist = "Vanilla"'>
-            <StandardGen name='gstaMountainGraniteStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60CA9C7F' drawBoundBox='false' boundBoxColor='0x60CA9C7F'>
+            <StandardGen name='gstaMountainGraniteStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60CA9C7F' drawBoundBox='false' boundBoxColor='0x60CA9C7F'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -3989,7 +3989,7 @@
         <!-- Starting StratumClouds Preset for Hornfel. -->
         <ConfigSection>
           <IfCondition condition=':= gstaHornfelDist = "StratumClouds"'>
-            <Cloud name='gstaHornfelCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60A4A7B0' drawBoundBox='false' boundBoxColor='0x60A4A7B0'>
+            <Cloud name='gstaHornfelCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60A4A7B0' drawBoundBox='false' boundBoxColor='0x60A4A7B0'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -4017,7 +4017,7 @@
         <!-- Starting LayeredVeins Preset for Hornfel. -->
         <ConfigSection>
           <IfCondition condition=':= gstaHornfelDist = "LayeredVeins"'>
-            <Veins name='gstaHornfelVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60A4A7B0' drawBoundBox='false' boundBoxColor='0x60A4A7B0'>
+            <Veins name='gstaHornfelVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60A4A7B0' drawBoundBox='false' boundBoxColor='0x60A4A7B0'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -4050,7 +4050,7 @@
         <!-- Starting Vanilla Preset for Hornfel. -->
         <ConfigSection>
           <IfCondition condition=':= gstaHornfelDist = "Vanilla"'>
-            <StandardGen name='gstaHornfelStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60A4A7B0' drawBoundBox='false' boundBoxColor='0x60A4A7B0'>
+            <StandardGen name='gstaHornfelStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60A4A7B0' drawBoundBox='false' boundBoxColor='0x60A4A7B0'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -4074,7 +4074,7 @@
         <!-- Starting StratumClouds Preset for Mountain  Hornfel. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainHornfelDist = "StratumClouds"'>
-            <Cloud name='gstaMountainHornfelCloud'  inherits='PresetStratum' drawWireframe='true' wireframeColor='0x60A4A7B0' drawBoundBox='false' boundBoxColor='0x60A4A7B0'>
+            <Cloud name='gstaMountainHornfelCloud'  inherits='PresetStratum' drawWireframe=':= drawWireframes' wireframeColor='0x60A4A7B0' drawBoundBox='false' boundBoxColor='0x60A4A7B0'>
               <Description>
                 Wide, thin, and flat disks of  ore.  Primarily, this
                 distribution is meant to provide  realistic
@@ -4102,7 +4102,7 @@
         <!-- Starting LayeredVeins Preset for Mountain  Hornfel. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainHornfelDist = "LayeredVeins"'>
-            <Veins name='gstaMountainHornfelVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60A4A7B0' drawBoundBox='false' boundBoxColor='0x60A4A7B0'>
+            <Veins name='gstaMountainHornfelVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60A4A7B0' drawBoundBox='false' boundBoxColor='0x60A4A7B0'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -4135,7 +4135,7 @@
         <!-- Starting Vanilla Preset for Mountain Hornfel. -->
         <ConfigSection>
           <IfCondition condition=':= gstaMountainHornfelDist = "Vanilla"'>
-            <StandardGen name='gstaMountainHornfelStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60A4A7B0' drawBoundBox='false' boundBoxColor='0x60A4A7B0'>
+            <StandardGen name='gstaMountainHornfelStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60A4A7B0' drawBoundBox='false' boundBoxColor='0x60A4A7B0'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>

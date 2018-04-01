@@ -184,7 +184,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
 
         if (this._toolTip != null)
         {
-			List<String> lines = super.fontRenderer.listFormattedStringToWidth(this._toolTip, 2 * super.width / 5 - 8);
+      			List<String> lines = super.fontRenderer.listFormattedStringToWidth(this._toolTip, 2 * super.width / 5 - 8);
             int[] lineWidths = new int[lines.size()];
             int tipW = 0;
             int tipH = 8 + super.fontRenderer.FONT_HEIGHT * lines.size();

@@ -29,12 +29,12 @@
           Distribution options for Common Ores Ores.
         </Description>
       </OptionDisplayGroup>
-      <OptionChoice name='enableCommonOres' displayName='Handle Common Ores Setup?' default='true' displayState='shown_dynamic' displayGroup='groupCommonOres'>
+      <OptionChoice name='enableCommonOres' displayName='Handle Common Ores Gen?' default='true' displayState='shown_dynamic' displayGroup='groupCommonOres'>
         <Description> Should Custom Ore Generation handle Common Ores ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Common Ores ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Common Ores ores will be handled by Minecraft directly.'/>
       </OptionChoice>
-      <OptionChoice name='cleanUpCommonOres' displayName='Use Common Ores Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupCommonOres'>
+      <OptionChoice name='cleanUpCommonOres' displayName='Use Common Ores Cleanup?' default='true' displayState=':= if(?enableCommonOres, "shown", "hidden")' displayGroup='groupCommonOres'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Common Ores ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Common Ores ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Common Ores ores do not need to be cleaned up by a substitution pass.'/>
@@ -727,7 +727,7 @@
         <!-- Starting LayeredVeins Preset for Silver. -->
         <ConfigSection>
           <IfCondition condition=':= cmorSilverDist = "LayeredVeins"'>
-            <Veins name='cmorSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+            <Veins name='cmorSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -760,7 +760,7 @@
         <!-- Starting StrategicClouds Preset for Silver. -->
         <ConfigSection>
           <IfCondition condition=':= cmorSilverDist = "StrategicClouds"'>
-            <Cloud name='cmorSilverCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+            <Cloud name='cmorSilverCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -785,7 +785,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='cmorSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+              <Veins name='cmorSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -816,7 +816,7 @@
         <!-- Starting Vanilla Preset for Silver. -->
         <ConfigSection>
           <IfCondition condition=':= cmorSilverDist = "Vanilla"'>
-            <StandardGen name='cmorSilverStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+            <StandardGen name='cmorSilverStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -840,7 +840,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Silver. -->
         <ConfigSection>
           <IfCondition condition=':= cmorMountainSilverDist = "LayeredVeins"'>
-            <Veins name='cmorMountainSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+            <Veins name='cmorMountainSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -873,7 +873,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Silver. -->
         <ConfigSection>
           <IfCondition condition=':= cmorMountainSilverDist = "StrategicClouds"'>
-            <Cloud name='cmorMountainSilverCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+            <Cloud name='cmorMountainSilverCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -898,7 +898,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='cmorMountainSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+              <Veins name='cmorMountainSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -929,7 +929,7 @@
         <!-- Starting Vanilla Preset for Mountain Silver. -->
         <ConfigSection>
           <IfCondition condition=':= cmorMountainSilverDist = "Vanilla"'>
-            <StandardGen name='cmorMountainSilverStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+            <StandardGen name='cmorMountainSilverStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -953,7 +953,7 @@
         <!-- Starting LayeredVeins Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= cmorCopperDist = "LayeredVeins"'>
-            <Veins name='cmorCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <Veins name='cmorCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -986,7 +986,7 @@
         <!-- Starting StrategicClouds Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= cmorCopperDist = "StrategicClouds"'>
-            <Cloud name='cmorCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <Cloud name='cmorCopperCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1011,7 +1011,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='cmorCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+              <Veins name='cmorCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1042,7 +1042,7 @@
         <!-- Starting Vanilla Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= cmorCopperDist = "Vanilla"'>
-            <StandardGen name='cmorCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <StandardGen name='cmorCopperStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -1066,7 +1066,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Copper. -->
         <ConfigSection>
           <IfCondition condition=':= cmorMountainCopperDist = "LayeredVeins"'>
-            <Veins name='cmorMountainCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <Veins name='cmorMountainCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1099,7 +1099,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Copper. -->
         <ConfigSection>
           <IfCondition condition=':= cmorMountainCopperDist = "StrategicClouds"'>
-            <Cloud name='cmorMountainCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <Cloud name='cmorMountainCopperCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1124,7 +1124,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='cmorMountainCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+              <Veins name='cmorMountainCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1155,7 +1155,7 @@
         <!-- Starting Vanilla Preset for Mountain Copper. -->
         <ConfigSection>
           <IfCondition condition=':= cmorMountainCopperDist = "Vanilla"'>
-            <StandardGen name='cmorMountainCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
+            <StandardGen name='cmorMountainCopperStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60FF8E2B' drawBoundBox='false' boundBoxColor='0x60FF8E2B'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -1179,7 +1179,7 @@
         <!-- Starting LayeredVeins Preset for Tin. -->
         <ConfigSection>
           <IfCondition condition=':= cmorTinDist = "LayeredVeins"'>
-            <Veins name='cmorTinVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <Veins name='cmorTinVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1212,7 +1212,7 @@
         <!-- Starting StrategicClouds Preset for Tin. -->
         <ConfigSection>
           <IfCondition condition=':= cmorTinDist = "StrategicClouds"'>
-            <Cloud name='cmorTinCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <Cloud name='cmorTinCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1237,7 +1237,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='cmorTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+              <Veins name='cmorTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1268,7 +1268,7 @@
         <!-- Starting Vanilla Preset for Tin. -->
         <ConfigSection>
           <IfCondition condition=':= cmorTinDist = "Vanilla"'>
-            <StandardGen name='cmorTinStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <StandardGen name='cmorTinStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -1292,7 +1292,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Tin. -->
         <ConfigSection>
           <IfCondition condition=':= cmorMountainTinDist = "LayeredVeins"'>
-            <Veins name='cmorMountainTinVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <Veins name='cmorMountainTinVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1325,7 +1325,7 @@
         <!-- Starting StrategicClouds Preset for Mountain Tin. -->
         <ConfigSection>
           <IfCondition condition=':= cmorMountainTinDist = "StrategicClouds"'>
-            <Cloud name='cmorMountainTinCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <Cloud name='cmorMountainTinCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1350,7 +1350,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='cmorMountainTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+              <Veins name='cmorMountainTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1381,7 +1381,7 @@
         <!-- Starting Vanilla Preset for Mountain Tin. -->
         <ConfigSection>
           <IfCondition condition=':= cmorMountainTinDist = "Vanilla"'>
-            <StandardGen name='cmorMountainTinStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
+            <StandardGen name='cmorMountainTinStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E8E8E8' drawBoundBox='false' boundBoxColor='0x60E8E8E8'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -1405,7 +1405,7 @@
         <!-- Starting LayeredVeins Preset for Platinum. -->
         <ConfigSection>
           <IfCondition condition=':= cmorPlatinumDist = "LayeredVeins"'>
-            <Veins name='cmorPlatinumVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x602D84E7' drawBoundBox='false' boundBoxColor='0x602D84E7'>
+            <Veins name='cmorPlatinumVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x602D84E7' drawBoundBox='false' boundBoxColor='0x602D84E7'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1438,7 +1438,7 @@
         <!-- Starting StrategicClouds Preset for Platinum. -->
         <ConfigSection>
           <IfCondition condition=':= cmorPlatinumDist = "StrategicClouds"'>
-            <Cloud name='cmorPlatinumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x602D84E7' drawBoundBox='false' boundBoxColor='0x602D84E7'>
+            <Cloud name='cmorPlatinumCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x602D84E7' drawBoundBox='false' boundBoxColor='0x602D84E7'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1463,7 +1463,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='cmorPlatinumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x602D84E7' drawBoundBox='false' boundBoxColor='0x602D84E7'>
+              <Veins name='cmorPlatinumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x602D84E7' drawBoundBox='false' boundBoxColor='0x602D84E7'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1494,7 +1494,7 @@
         <!-- Starting Vanilla Preset for Platinum. -->
         <ConfigSection>
           <IfCondition condition=':= cmorPlatinumDist = "Vanilla"'>
-            <StandardGen name='cmorPlatinumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x602D84E7' drawBoundBox='false' boundBoxColor='0x602D84E7'>
+            <StandardGen name='cmorPlatinumStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x602D84E7' drawBoundBox='false' boundBoxColor='0x602D84E7'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -1518,7 +1518,7 @@
         <!-- Starting LayeredVeins Preset for Mountain  Platinum. -->
         <ConfigSection>
           <IfCondition condition=':= cmorMountainPlatinumDist = "LayeredVeins"'>
-            <Veins name='cmorMountainPlatinumVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x602D84E7' drawBoundBox='false' boundBoxColor='0x602D84E7'>
+            <Veins name='cmorMountainPlatinumVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x602D84E7' drawBoundBox='false' boundBoxColor='0x602D84E7'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1551,7 +1551,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Platinum. -->
         <ConfigSection>
           <IfCondition condition=':= cmorMountainPlatinumDist = "StrategicClouds"'>
-            <Cloud name='cmorMountainPlatinumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x602D84E7' drawBoundBox='false' boundBoxColor='0x602D84E7'>
+            <Cloud name='cmorMountainPlatinumCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x602D84E7' drawBoundBox='false' boundBoxColor='0x602D84E7'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1576,7 +1576,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='cmorMountainPlatinumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x602D84E7' drawBoundBox='false' boundBoxColor='0x602D84E7'>
+              <Veins name='cmorMountainPlatinumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x602D84E7' drawBoundBox='false' boundBoxColor='0x602D84E7'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1608,7 +1608,7 @@
         <!-- Starting Vanilla Preset for Mountain Platinum. -->
         <ConfigSection>
           <IfCondition condition=':= cmorMountainPlatinumDist = "Vanilla"'>
-            <StandardGen name='cmorMountainPlatinumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x602D84E7' drawBoundBox='false' boundBoxColor='0x602D84E7'>
+            <StandardGen name='cmorMountainPlatinumStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x602D84E7' drawBoundBox='false' boundBoxColor='0x602D84E7'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -1632,7 +1632,7 @@
         <!-- Starting LayeredVeins Preset for Aluminum. -->
         <ConfigSection>
           <IfCondition condition=':= cmorAluminumDist = "LayeredVeins"'>
-            <Veins name='cmorAluminumVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60EDEDED' drawBoundBox='false' boundBoxColor='0x60EDEDED'>
+            <Veins name='cmorAluminumVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60EDEDED' drawBoundBox='false' boundBoxColor='0x60EDEDED'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1665,7 +1665,7 @@
         <!-- Starting StrategicClouds Preset for Aluminum. -->
         <ConfigSection>
           <IfCondition condition=':= cmorAluminumDist = "StrategicClouds"'>
-            <Cloud name='cmorAluminumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60EDEDED' drawBoundBox='false' boundBoxColor='0x60EDEDED'>
+            <Cloud name='cmorAluminumCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60EDEDED' drawBoundBox='false' boundBoxColor='0x60EDEDED'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1690,7 +1690,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='cmorAluminumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60EDEDED' drawBoundBox='false' boundBoxColor='0x60EDEDED'>
+              <Veins name='cmorAluminumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60EDEDED' drawBoundBox='false' boundBoxColor='0x60EDEDED'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1721,7 +1721,7 @@
         <!-- Starting Vanilla Preset for Aluminum. -->
         <ConfigSection>
           <IfCondition condition=':= cmorAluminumDist = "Vanilla"'>
-            <StandardGen name='cmorAluminumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60EDEDED' drawBoundBox='false' boundBoxColor='0x60EDEDED'>
+            <StandardGen name='cmorAluminumStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60EDEDED' drawBoundBox='false' boundBoxColor='0x60EDEDED'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -1745,7 +1745,7 @@
         <!-- Starting LayeredVeins Preset for Mountain  Aluminum. -->
         <ConfigSection>
           <IfCondition condition=':= cmorMountainAluminumDist = "LayeredVeins"'>
-            <Veins name='cmorMountainAluminumVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60EDEDED' drawBoundBox='false' boundBoxColor='0x60EDEDED'>
+            <Veins name='cmorMountainAluminumVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60EDEDED' drawBoundBox='false' boundBoxColor='0x60EDEDED'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1778,7 +1778,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Aluminum. -->
         <ConfigSection>
           <IfCondition condition=':= cmorMountainAluminumDist = "StrategicClouds"'>
-            <Cloud name='cmorMountainAluminumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60EDEDED' drawBoundBox='false' boundBoxColor='0x60EDEDED'>
+            <Cloud name='cmorMountainAluminumCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60EDEDED' drawBoundBox='false' boundBoxColor='0x60EDEDED'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1803,7 +1803,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='cmorMountainAluminumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60EDEDED' drawBoundBox='false' boundBoxColor='0x60EDEDED'>
+              <Veins name='cmorMountainAluminumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60EDEDED' drawBoundBox='false' boundBoxColor='0x60EDEDED'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1835,7 +1835,7 @@
         <!-- Starting Vanilla Preset for Mountain Aluminum. -->
         <ConfigSection>
           <IfCondition condition=':= cmorMountainAluminumDist = "Vanilla"'>
-            <StandardGen name='cmorMountainAluminumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60EDEDED' drawBoundBox='false' boundBoxColor='0x60EDEDED'>
+            <StandardGen name='cmorMountainAluminumStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60EDEDED' drawBoundBox='false' boundBoxColor='0x60EDEDED'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -1859,7 +1859,7 @@
         <!-- Starting LayeredVeins Preset for Lead. -->
         <ConfigSection>
           <IfCondition condition=':= cmorLeadDist = "LayeredVeins"'>
-            <Veins name='cmorLeadVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+            <Veins name='cmorLeadVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1892,7 +1892,7 @@
         <!-- Starting StrategicClouds Preset for Lead. -->
         <ConfigSection>
           <IfCondition condition=':= cmorLeadDist = "StrategicClouds"'>
-            <Cloud name='cmorLeadCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+            <Cloud name='cmorLeadCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1917,7 +1917,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='cmorLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+              <Veins name='cmorLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1948,7 +1948,7 @@
         <!-- Starting Vanilla Preset for Lead. -->
         <ConfigSection>
           <IfCondition condition=':= cmorLeadDist = "Vanilla"'>
-            <StandardGen name='cmorLeadStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+            <StandardGen name='cmorLeadStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -1972,7 +1972,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Lead. -->
         <ConfigSection>
           <IfCondition condition=':= cmorMountainLeadDist = "LayeredVeins"'>
-            <Veins name='cmorMountainLeadVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+            <Veins name='cmorMountainLeadVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -2005,7 +2005,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Lead. -->
         <ConfigSection>
           <IfCondition condition=':= cmorMountainLeadDist = "StrategicClouds"'>
-            <Cloud name='cmorMountainLeadCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+            <Cloud name='cmorMountainLeadCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -2030,7 +2030,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='cmorMountainLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+              <Veins name='cmorMountainLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2061,7 +2061,7 @@
         <!-- Starting Vanilla Preset for Mountain Lead. -->
         <ConfigSection>
           <IfCondition condition=':= cmorMountainLeadDist = "Vanilla"'>
-            <StandardGen name='cmorMountainLeadStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
+            <StandardGen name='cmorMountainLeadStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60818EBE' drawBoundBox='false' boundBoxColor='0x60818EBE'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -2085,7 +2085,7 @@
         <!-- Starting LayeredVeins Preset for Nickel. -->
         <ConfigSection>
           <IfCondition condition=':= cmorNickelDist = "LayeredVeins"'>
-            <Veins name='cmorNickelVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60D2D1B6' drawBoundBox='false' boundBoxColor='0x60D2D1B6'>
+            <Veins name='cmorNickelVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60D2D1B6' drawBoundBox='false' boundBoxColor='0x60D2D1B6'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -2118,7 +2118,7 @@
         <!-- Starting StrategicClouds Preset for Nickel. -->
         <ConfigSection>
           <IfCondition condition=':= cmorNickelDist = "StrategicClouds"'>
-            <Cloud name='cmorNickelCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60D2D1B6' drawBoundBox='false' boundBoxColor='0x60D2D1B6'>
+            <Cloud name='cmorNickelCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60D2D1B6' drawBoundBox='false' boundBoxColor='0x60D2D1B6'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -2143,7 +2143,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='cmorNickelHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60D2D1B6' drawBoundBox='false' boundBoxColor='0x60D2D1B6'>
+              <Veins name='cmorNickelHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60D2D1B6' drawBoundBox='false' boundBoxColor='0x60D2D1B6'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2174,7 +2174,7 @@
         <!-- Starting Vanilla Preset for Nickel. -->
         <ConfigSection>
           <IfCondition condition=':= cmorNickelDist = "Vanilla"'>
-            <StandardGen name='cmorNickelStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60D2D1B6' drawBoundBox='false' boundBoxColor='0x60D2D1B6'>
+            <StandardGen name='cmorNickelStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60D2D1B6' drawBoundBox='false' boundBoxColor='0x60D2D1B6'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -2198,7 +2198,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Nickel. -->
         <ConfigSection>
           <IfCondition condition=':= cmorMountainNickelDist = "LayeredVeins"'>
-            <Veins name='cmorMountainNickelVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60D2D1B6' drawBoundBox='false' boundBoxColor='0x60D2D1B6'>
+            <Veins name='cmorMountainNickelVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60D2D1B6' drawBoundBox='false' boundBoxColor='0x60D2D1B6'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -2231,7 +2231,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Nickel. -->
         <ConfigSection>
           <IfCondition condition=':= cmorMountainNickelDist = "StrategicClouds"'>
-            <Cloud name='cmorMountainNickelCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60D2D1B6' drawBoundBox='false' boundBoxColor='0x60D2D1B6'>
+            <Cloud name='cmorMountainNickelCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60D2D1B6' drawBoundBox='false' boundBoxColor='0x60D2D1B6'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -2256,7 +2256,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='cmorMountainNickelHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60D2D1B6' drawBoundBox='false' boundBoxColor='0x60D2D1B6'>
+              <Veins name='cmorMountainNickelHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60D2D1B6' drawBoundBox='false' boundBoxColor='0x60D2D1B6'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2287,7 +2287,7 @@
         <!-- Starting Vanilla Preset for Mountain Nickel. -->
         <ConfigSection>
           <IfCondition condition=':= cmorMountainNickelDist = "Vanilla"'>
-            <StandardGen name='cmorMountainNickelStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60D2D1B6' drawBoundBox='false' boundBoxColor='0x60D2D1B6'>
+            <StandardGen name='cmorMountainNickelStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60D2D1B6' drawBoundBox='false' boundBoxColor='0x60D2D1B6'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>

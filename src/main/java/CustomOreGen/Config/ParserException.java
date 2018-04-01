@@ -100,7 +100,7 @@ public class ParserException extends SAXException
                         lastVisibleNode = null;
                     }
 
-                    if (((Node)cnode).getNodeType() == 2)
+                    if (((Node)cnode).getNodeType() == Node.ATTRIBUTE_NODE)
                     {
                         cnode = ((Attr)cnode).getOwnerElement();
                     }
@@ -230,6 +230,13 @@ public class ParserException extends SAXException
 
         if ((flags & 16) != 0)
         {
+        	attributes = node.getUserData("filename");
+        	
+        	if (attributes != null)
+            {
+        		buffer.append(" [file " + attributes + "]");
+            }
+        	
             attributes = node.getUserData("line-number");
 
             if (attributes != null)

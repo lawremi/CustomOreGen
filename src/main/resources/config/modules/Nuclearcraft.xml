@@ -29,12 +29,12 @@
           Distribution options for Nuclearcraft Ores.
         </Description>
       </OptionDisplayGroup>
-      <OptionChoice name='enableNuclearcraft' displayName='Handle Nuclearcraft Setup?' default='true' displayState='shown_dynamic' displayGroup='groupNuclearcraft'>
+      <OptionChoice name='enableNuclearcraft' displayName='Handle Nuclearcraft Gen?' default='true' displayState='shown_dynamic' displayGroup='groupNuclearcraft'>
         <Description> Should Custom Ore Generation handle Nuclearcraft ore generation? </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Nuclearcraft ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Nuclearcraft ores will be handled by Minecraft directly.'/>
       </OptionChoice>
-      <OptionChoice name='cleanUpNuclearcraft' displayName='Use Nuclearcraft Cleanup?' default='true' displayState='shown_dynamic' displayGroup='groupNuclearcraft'>
+      <OptionChoice name='cleanUpNuclearcraft' displayName='Use Nuclearcraft Cleanup?' default='true' displayState=':= if(?enableNuclearcraft, "shown", "hidden")' displayGroup='groupNuclearcraft'>
         <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Nuclearcraft ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
         <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Nuclearcraft ores.'/>
         <Choice value=':= ?false' displayValue='No' description='Nuclearcraft ores do not need to be cleaned up by a substitution pass.'/>
@@ -866,7 +866,7 @@
         <!-- Starting SparseVeins Preset for Uranium. -->
         <ConfigSection>
           <IfCondition condition=':= nclcUraniumDist = "SparseVeins"'>
-            <Veins name='nclcUraniumVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x603B402D' drawBoundBox='false' boundBoxColor='0x603B402D'>
+            <Veins name='nclcUraniumVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x603B402D' drawBoundBox='false' boundBoxColor='0x603B402D'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -904,7 +904,7 @@
         <!-- Starting StrategicClouds Preset for Uranium. -->
         <ConfigSection>
           <IfCondition condition=':= nclcUraniumDist = "StrategicClouds"'>
-            <Cloud name='nclcUraniumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x603B402D' drawBoundBox='false' boundBoxColor='0x603B402D'>
+            <Cloud name='nclcUraniumCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x603B402D' drawBoundBox='false' boundBoxColor='0x603B402D'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -929,7 +929,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nclcUraniumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x603B402D' drawBoundBox='false' boundBoxColor='0x603B402D'>
+              <Veins name='nclcUraniumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x603B402D' drawBoundBox='false' boundBoxColor='0x603B402D'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -960,7 +960,7 @@
         <!-- Starting Vanilla Preset for Uranium. -->
         <ConfigSection>
           <IfCondition condition=':= nclcUraniumDist = "Vanilla"'>
-            <StandardGen name='nclcUraniumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x603B402D' drawBoundBox='false' boundBoxColor='0x603B402D'>
+            <StandardGen name='nclcUraniumStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x603B402D' drawBoundBox='false' boundBoxColor='0x603B402D'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -984,7 +984,7 @@
         <!-- Starting SparseVeins Preset for Mountain Uranium. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainUraniumDist = "SparseVeins"'>
-            <Veins name='nclcMountainUraniumVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x603B402D' drawBoundBox='false' boundBoxColor='0x603B402D'>
+            <Veins name='nclcMountainUraniumVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x603B402D' drawBoundBox='false' boundBoxColor='0x603B402D'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -1022,7 +1022,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Uranium. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainUraniumDist = "StrategicClouds"'>
-            <Cloud name='nclcMountainUraniumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x603B402D' drawBoundBox='false' boundBoxColor='0x603B402D'>
+            <Cloud name='nclcMountainUraniumCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x603B402D' drawBoundBox='false' boundBoxColor='0x603B402D'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1047,7 +1047,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nclcMountainUraniumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x603B402D' drawBoundBox='false' boundBoxColor='0x603B402D'>
+              <Veins name='nclcMountainUraniumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x603B402D' drawBoundBox='false' boundBoxColor='0x603B402D'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1078,7 +1078,7 @@
         <!-- Starting Vanilla Preset for Mountain Uranium. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainUraniumDist = "Vanilla"'>
-            <StandardGen name='nclcMountainUraniumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x603B402D' drawBoundBox='false' boundBoxColor='0x603B402D'>
+            <StandardGen name='nclcMountainUraniumStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x603B402D' drawBoundBox='false' boundBoxColor='0x603B402D'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -1102,7 +1102,7 @@
         <!-- Starting LayeredVeins Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= nclcCopperDist = "LayeredVeins"'>
-            <Veins name='nclcCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x6072655A' drawBoundBox='false' boundBoxColor='0x6072655A'>
+            <Veins name='nclcCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x6072655A' drawBoundBox='false' boundBoxColor='0x6072655A'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1135,7 +1135,7 @@
         <!-- Starting StrategicClouds Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= nclcCopperDist = "StrategicClouds"'>
-            <Cloud name='nclcCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x6072655A' drawBoundBox='false' boundBoxColor='0x6072655A'>
+            <Cloud name='nclcCopperCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x6072655A' drawBoundBox='false' boundBoxColor='0x6072655A'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1160,7 +1160,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nclcCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x6072655A' drawBoundBox='false' boundBoxColor='0x6072655A'>
+              <Veins name='nclcCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x6072655A' drawBoundBox='false' boundBoxColor='0x6072655A'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1191,7 +1191,7 @@
         <!-- Starting Vanilla Preset for Copper. -->
         <ConfigSection>
           <IfCondition condition=':= nclcCopperDist = "Vanilla"'>
-            <StandardGen name='nclcCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x6072655A' drawBoundBox='false' boundBoxColor='0x6072655A'>
+            <StandardGen name='nclcCopperStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x6072655A' drawBoundBox='false' boundBoxColor='0x6072655A'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -1215,7 +1215,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Copper. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainCopperDist = "LayeredVeins"'>
-            <Veins name='nclcMountainCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x6072655A' drawBoundBox='false' boundBoxColor='0x6072655A'>
+            <Veins name='nclcMountainCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x6072655A' drawBoundBox='false' boundBoxColor='0x6072655A'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1248,7 +1248,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Copper. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainCopperDist = "StrategicClouds"'>
-            <Cloud name='nclcMountainCopperCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x6072655A' drawBoundBox='false' boundBoxColor='0x6072655A'>
+            <Cloud name='nclcMountainCopperCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x6072655A' drawBoundBox='false' boundBoxColor='0x6072655A'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1273,7 +1273,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nclcMountainCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x6072655A' drawBoundBox='false' boundBoxColor='0x6072655A'>
+              <Veins name='nclcMountainCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x6072655A' drawBoundBox='false' boundBoxColor='0x6072655A'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1304,7 +1304,7 @@
         <!-- Starting Vanilla Preset for Mountain Copper. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainCopperDist = "Vanilla"'>
-            <StandardGen name='nclcMountainCopperStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x6072655A' drawBoundBox='false' boundBoxColor='0x6072655A'>
+            <StandardGen name='nclcMountainCopperStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x6072655A' drawBoundBox='false' boundBoxColor='0x6072655A'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -1328,7 +1328,7 @@
         <!-- Starting LayeredVeins Preset for Tin. -->
         <ConfigSection>
           <IfCondition condition=':= nclcTinDist = "LayeredVeins"'>
-            <Veins name='nclcTinVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60C3C3D1' drawBoundBox='false' boundBoxColor='0x60C3C3D1'>
+            <Veins name='nclcTinVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60C3C3D1' drawBoundBox='false' boundBoxColor='0x60C3C3D1'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1361,7 +1361,7 @@
         <!-- Starting StrategicClouds Preset for Tin. -->
         <ConfigSection>
           <IfCondition condition=':= nclcTinDist = "StrategicClouds"'>
-            <Cloud name='nclcTinCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60C3C3D1' drawBoundBox='false' boundBoxColor='0x60C3C3D1'>
+            <Cloud name='nclcTinCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60C3C3D1' drawBoundBox='false' boundBoxColor='0x60C3C3D1'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1386,7 +1386,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nclcTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60C3C3D1' drawBoundBox='false' boundBoxColor='0x60C3C3D1'>
+              <Veins name='nclcTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60C3C3D1' drawBoundBox='false' boundBoxColor='0x60C3C3D1'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1417,7 +1417,7 @@
         <!-- Starting Vanilla Preset for Tin. -->
         <ConfigSection>
           <IfCondition condition=':= nclcTinDist = "Vanilla"'>
-            <StandardGen name='nclcTinStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60C3C3D1' drawBoundBox='false' boundBoxColor='0x60C3C3D1'>
+            <StandardGen name='nclcTinStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C3C3D1' drawBoundBox='false' boundBoxColor='0x60C3C3D1'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -1441,7 +1441,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Tin. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainTinDist = "LayeredVeins"'>
-            <Veins name='nclcMountainTinVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60C3C3D1' drawBoundBox='false' boundBoxColor='0x60C3C3D1'>
+            <Veins name='nclcMountainTinVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60C3C3D1' drawBoundBox='false' boundBoxColor='0x60C3C3D1'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1474,7 +1474,7 @@
         <!-- Starting StrategicClouds Preset for Mountain Tin. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainTinDist = "StrategicClouds"'>
-            <Cloud name='nclcMountainTinCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60C3C3D1' drawBoundBox='false' boundBoxColor='0x60C3C3D1'>
+            <Cloud name='nclcMountainTinCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60C3C3D1' drawBoundBox='false' boundBoxColor='0x60C3C3D1'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1499,7 +1499,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nclcMountainTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60C3C3D1' drawBoundBox='false' boundBoxColor='0x60C3C3D1'>
+              <Veins name='nclcMountainTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60C3C3D1' drawBoundBox='false' boundBoxColor='0x60C3C3D1'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1530,7 +1530,7 @@
         <!-- Starting Vanilla Preset for Mountain Tin. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainTinDist = "Vanilla"'>
-            <StandardGen name='nclcMountainTinStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60C3C3D1' drawBoundBox='false' boundBoxColor='0x60C3C3D1'>
+            <StandardGen name='nclcMountainTinStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C3C3D1' drawBoundBox='false' boundBoxColor='0x60C3C3D1'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -1554,7 +1554,7 @@
         <!-- Starting LayeredVeins Preset for Lead. -->
         <ConfigSection>
           <IfCondition condition=':= nclcLeadDist = "LayeredVeins"'>
-            <Veins name='nclcLeadVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60636B68' drawBoundBox='false' boundBoxColor='0x60636B68'>
+            <Veins name='nclcLeadVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60636B68' drawBoundBox='false' boundBoxColor='0x60636B68'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1587,7 +1587,7 @@
         <!-- Starting StrategicClouds Preset for Lead. -->
         <ConfigSection>
           <IfCondition condition=':= nclcLeadDist = "StrategicClouds"'>
-            <Cloud name='nclcLeadCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60636B68' drawBoundBox='false' boundBoxColor='0x60636B68'>
+            <Cloud name='nclcLeadCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60636B68' drawBoundBox='false' boundBoxColor='0x60636B68'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1612,7 +1612,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nclcLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60636B68' drawBoundBox='false' boundBoxColor='0x60636B68'>
+              <Veins name='nclcLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60636B68' drawBoundBox='false' boundBoxColor='0x60636B68'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1643,7 +1643,7 @@
         <!-- Starting Vanilla Preset for Lead. -->
         <ConfigSection>
           <IfCondition condition=':= nclcLeadDist = "Vanilla"'>
-            <StandardGen name='nclcLeadStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60636B68' drawBoundBox='false' boundBoxColor='0x60636B68'>
+            <StandardGen name='nclcLeadStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60636B68' drawBoundBox='false' boundBoxColor='0x60636B68'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -1667,7 +1667,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Lead. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainLeadDist = "LayeredVeins"'>
-            <Veins name='nclcMountainLeadVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60636B68' drawBoundBox='false' boundBoxColor='0x60636B68'>
+            <Veins name='nclcMountainLeadVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60636B68' drawBoundBox='false' boundBoxColor='0x60636B68'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1700,7 +1700,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Lead. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainLeadDist = "StrategicClouds"'>
-            <Cloud name='nclcMountainLeadCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60636B68' drawBoundBox='false' boundBoxColor='0x60636B68'>
+            <Cloud name='nclcMountainLeadCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60636B68' drawBoundBox='false' boundBoxColor='0x60636B68'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1725,7 +1725,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nclcMountainLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60636B68' drawBoundBox='false' boundBoxColor='0x60636B68'>
+              <Veins name='nclcMountainLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60636B68' drawBoundBox='false' boundBoxColor='0x60636B68'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1756,7 +1756,7 @@
         <!-- Starting Vanilla Preset for Mountain Lead. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainLeadDist = "Vanilla"'>
-            <StandardGen name='nclcMountainLeadStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60636B68' drawBoundBox='false' boundBoxColor='0x60636B68'>
+            <StandardGen name='nclcMountainLeadStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60636B68' drawBoundBox='false' boundBoxColor='0x60636B68'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -1780,7 +1780,7 @@
         <!-- Starting LayeredVeins Preset for Silver. -->
         <ConfigSection>
           <IfCondition condition=':= nclcSilverDist = "LayeredVeins"'>
-            <Veins name='nclcSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E2E2E2' drawBoundBox='false' boundBoxColor='0x60E2E2E2'>
+            <Veins name='nclcSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E2E2E2' drawBoundBox='false' boundBoxColor='0x60E2E2E2'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1813,7 +1813,7 @@
         <!-- Starting StrategicClouds Preset for Silver. -->
         <ConfigSection>
           <IfCondition condition=':= nclcSilverDist = "StrategicClouds"'>
-            <Cloud name='nclcSilverCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E2E2E2' drawBoundBox='false' boundBoxColor='0x60E2E2E2'>
+            <Cloud name='nclcSilverCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E2E2E2' drawBoundBox='false' boundBoxColor='0x60E2E2E2'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1838,7 +1838,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nclcSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E2E2E2' drawBoundBox='false' boundBoxColor='0x60E2E2E2'>
+              <Veins name='nclcSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E2E2E2' drawBoundBox='false' boundBoxColor='0x60E2E2E2'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1869,7 +1869,7 @@
         <!-- Starting Vanilla Preset for Silver. -->
         <ConfigSection>
           <IfCondition condition=':= nclcSilverDist = "Vanilla"'>
-            <StandardGen name='nclcSilverStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E2E2E2' drawBoundBox='false' boundBoxColor='0x60E2E2E2'>
+            <StandardGen name='nclcSilverStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E2E2E2' drawBoundBox='false' boundBoxColor='0x60E2E2E2'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -1893,7 +1893,7 @@
         <!-- Starting LayeredVeins Preset for Mountain Silver. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainSilverDist = "LayeredVeins"'>
-            <Veins name='nclcMountainSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60E2E2E2' drawBoundBox='false' boundBoxColor='0x60E2E2E2'>
+            <Veins name='nclcMountainSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E2E2E2' drawBoundBox='false' boundBoxColor='0x60E2E2E2'>
               <Description>
                 Small, fairly rare motherlodes  with 2-4 horizontal
                 veins each.
@@ -1926,7 +1926,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Silver. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainSilverDist = "StrategicClouds"'>
-            <Cloud name='nclcMountainSilverCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60E2E2E2' drawBoundBox='false' boundBoxColor='0x60E2E2E2'>
+            <Cloud name='nclcMountainSilverCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E2E2E2' drawBoundBox='false' boundBoxColor='0x60E2E2E2'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -1951,7 +1951,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nclcMountainSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60E2E2E2' drawBoundBox='false' boundBoxColor='0x60E2E2E2'>
+              <Veins name='nclcMountainSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E2E2E2' drawBoundBox='false' boundBoxColor='0x60E2E2E2'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -1982,7 +1982,7 @@
         <!-- Starting Vanilla Preset for Mountain Silver. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainSilverDist = "Vanilla"'>
-            <StandardGen name='nclcMountainSilverStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60E2E2E2' drawBoundBox='false' boundBoxColor='0x60E2E2E2'>
+            <StandardGen name='nclcMountainSilverStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E2E2E2' drawBoundBox='false' boundBoxColor='0x60E2E2E2'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -2006,7 +2006,7 @@
         <!-- Starting SparseVeins Preset for Lithium. -->
         <ConfigSection>
           <IfCondition condition=':= nclcLithiumDist = "SparseVeins"'>
-            <Veins name='nclcLithiumVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60B6B6B6' drawBoundBox='false' boundBoxColor='0x60B6B6B6'>
+            <Veins name='nclcLithiumVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60B6B6B6' drawBoundBox='false' boundBoxColor='0x60B6B6B6'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -2044,7 +2044,7 @@
         <!-- Starting StrategicClouds Preset for Lithium. -->
         <ConfigSection>
           <IfCondition condition=':= nclcLithiumDist = "StrategicClouds"'>
-            <Cloud name='nclcLithiumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60B6B6B6' drawBoundBox='false' boundBoxColor='0x60B6B6B6'>
+            <Cloud name='nclcLithiumCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60B6B6B6' drawBoundBox='false' boundBoxColor='0x60B6B6B6'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -2069,7 +2069,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nclcLithiumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60B6B6B6' drawBoundBox='false' boundBoxColor='0x60B6B6B6'>
+              <Veins name='nclcLithiumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60B6B6B6' drawBoundBox='false' boundBoxColor='0x60B6B6B6'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2100,7 +2100,7 @@
         <!-- Starting Vanilla Preset for Lithium. -->
         <ConfigSection>
           <IfCondition condition=':= nclcLithiumDist = "Vanilla"'>
-            <StandardGen name='nclcLithiumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60B6B6B6' drawBoundBox='false' boundBoxColor='0x60B6B6B6'>
+            <StandardGen name='nclcLithiumStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60B6B6B6' drawBoundBox='false' boundBoxColor='0x60B6B6B6'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -2124,7 +2124,7 @@
         <!-- Starting SparseVeins Preset for Mountain Lithium. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainLithiumDist = "SparseVeins"'>
-            <Veins name='nclcMountainLithiumVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60B6B6B6' drawBoundBox='false' boundBoxColor='0x60B6B6B6'>
+            <Veins name='nclcMountainLithiumVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60B6B6B6' drawBoundBox='false' boundBoxColor='0x60B6B6B6'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -2162,7 +2162,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Lithium. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainLithiumDist = "StrategicClouds"'>
-            <Cloud name='nclcMountainLithiumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60B6B6B6' drawBoundBox='false' boundBoxColor='0x60B6B6B6'>
+            <Cloud name='nclcMountainLithiumCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60B6B6B6' drawBoundBox='false' boundBoxColor='0x60B6B6B6'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -2187,7 +2187,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nclcMountainLithiumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60B6B6B6' drawBoundBox='false' boundBoxColor='0x60B6B6B6'>
+              <Veins name='nclcMountainLithiumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60B6B6B6' drawBoundBox='false' boundBoxColor='0x60B6B6B6'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2218,7 +2218,7 @@
         <!-- Starting Vanilla Preset for Mountain Lithium. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainLithiumDist = "Vanilla"'>
-            <StandardGen name='nclcMountainLithiumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60B6B6B6' drawBoundBox='false' boundBoxColor='0x60B6B6B6'>
+            <StandardGen name='nclcMountainLithiumStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60B6B6B6' drawBoundBox='false' boundBoxColor='0x60B6B6B6'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -2242,7 +2242,7 @@
         <!-- Starting SparseVeins Preset for Boron. -->
         <ConfigSection>
           <IfCondition condition=':= nclcBoronDist = "SparseVeins"'>
-            <Veins name='nclcBoronVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x605C5C5C' drawBoundBox='false' boundBoxColor='0x605C5C5C'>
+            <Veins name='nclcBoronVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x605C5C5C' drawBoundBox='false' boundBoxColor='0x605C5C5C'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -2280,7 +2280,7 @@
         <!-- Starting StrategicClouds Preset for Boron. -->
         <ConfigSection>
           <IfCondition condition=':= nclcBoronDist = "StrategicClouds"'>
-            <Cloud name='nclcBoronCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x605C5C5C' drawBoundBox='false' boundBoxColor='0x605C5C5C'>
+            <Cloud name='nclcBoronCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x605C5C5C' drawBoundBox='false' boundBoxColor='0x605C5C5C'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -2305,7 +2305,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nclcBoronHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x605C5C5C' drawBoundBox='false' boundBoxColor='0x605C5C5C'>
+              <Veins name='nclcBoronHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x605C5C5C' drawBoundBox='false' boundBoxColor='0x605C5C5C'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2336,7 +2336,7 @@
         <!-- Starting Vanilla Preset for Boron. -->
         <ConfigSection>
           <IfCondition condition=':= nclcBoronDist = "Vanilla"'>
-            <StandardGen name='nclcBoronStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x605C5C5C' drawBoundBox='false' boundBoxColor='0x605C5C5C'>
+            <StandardGen name='nclcBoronStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x605C5C5C' drawBoundBox='false' boundBoxColor='0x605C5C5C'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -2360,7 +2360,7 @@
         <!-- Starting SparseVeins Preset for Mountain Boron. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainBoronDist = "SparseVeins"'>
-            <Veins name='nclcMountainBoronVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x605C5C5C' drawBoundBox='false' boundBoxColor='0x605C5C5C'>
+            <Veins name='nclcMountainBoronVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x605C5C5C' drawBoundBox='false' boundBoxColor='0x605C5C5C'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -2398,7 +2398,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Boron. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainBoronDist = "StrategicClouds"'>
-            <Cloud name='nclcMountainBoronCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x605C5C5C' drawBoundBox='false' boundBoxColor='0x605C5C5C'>
+            <Cloud name='nclcMountainBoronCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x605C5C5C' drawBoundBox='false' boundBoxColor='0x605C5C5C'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -2423,7 +2423,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nclcMountainBoronHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x605C5C5C' drawBoundBox='false' boundBoxColor='0x605C5C5C'>
+              <Veins name='nclcMountainBoronHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x605C5C5C' drawBoundBox='false' boundBoxColor='0x605C5C5C'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2454,7 +2454,7 @@
         <!-- Starting Vanilla Preset for Mountain Boron. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainBoronDist = "Vanilla"'>
-            <StandardGen name='nclcMountainBoronStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x605C5C5C' drawBoundBox='false' boundBoxColor='0x605C5C5C'>
+            <StandardGen name='nclcMountainBoronStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x605C5C5C' drawBoundBox='false' boundBoxColor='0x605C5C5C'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -2478,7 +2478,7 @@
         <!-- Starting SparseVeins Preset for Thorium. -->
         <ConfigSection>
           <IfCondition condition=':= nclcThoriumDist = "SparseVeins"'>
-            <Veins name='nclcThoriumVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60646464' drawBoundBox='false' boundBoxColor='0x60646464'>
+            <Veins name='nclcThoriumVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60646464' drawBoundBox='false' boundBoxColor='0x60646464'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -2516,7 +2516,7 @@
         <!-- Starting StrategicClouds Preset for Thorium. -->
         <ConfigSection>
           <IfCondition condition=':= nclcThoriumDist = "StrategicClouds"'>
-            <Cloud name='nclcThoriumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60646464' drawBoundBox='false' boundBoxColor='0x60646464'>
+            <Cloud name='nclcThoriumCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60646464' drawBoundBox='false' boundBoxColor='0x60646464'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -2541,7 +2541,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nclcThoriumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60646464' drawBoundBox='false' boundBoxColor='0x60646464'>
+              <Veins name='nclcThoriumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60646464' drawBoundBox='false' boundBoxColor='0x60646464'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2572,7 +2572,7 @@
         <!-- Starting Vanilla Preset for Thorium. -->
         <ConfigSection>
           <IfCondition condition=':= nclcThoriumDist = "Vanilla"'>
-            <StandardGen name='nclcThoriumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60646464' drawBoundBox='false' boundBoxColor='0x60646464'>
+            <StandardGen name='nclcThoriumStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60646464' drawBoundBox='false' boundBoxColor='0x60646464'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -2596,7 +2596,7 @@
         <!-- Starting SparseVeins Preset for Mountain Thorium. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainThoriumDist = "SparseVeins"'>
-            <Veins name='nclcMountainThoriumVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60646464' drawBoundBox='false' boundBoxColor='0x60646464'>
+            <Veins name='nclcMountainThoriumVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60646464' drawBoundBox='false' boundBoxColor='0x60646464'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -2634,7 +2634,7 @@
         <!-- Starting StrategicClouds Preset for Mountain  Thorium. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainThoriumDist = "StrategicClouds"'>
-            <Cloud name='nclcMountainThoriumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60646464' drawBoundBox='false' boundBoxColor='0x60646464'>
+            <Cloud name='nclcMountainThoriumCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60646464' drawBoundBox='false' boundBoxColor='0x60646464'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -2659,7 +2659,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nclcMountainThoriumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60646464' drawBoundBox='false' boundBoxColor='0x60646464'>
+              <Veins name='nclcMountainThoriumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60646464' drawBoundBox='false' boundBoxColor='0x60646464'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2690,7 +2690,7 @@
         <!-- Starting Vanilla Preset for Mountain Thorium. -->
         <ConfigSection>
           <IfCondition condition=':= nclcMountainThoriumDist = "Vanilla"'>
-            <StandardGen name='nclcMountainThoriumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60646464' drawBoundBox='false' boundBoxColor='0x60646464'>
+            <StandardGen name='nclcMountainThoriumStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60646464' drawBoundBox='false' boundBoxColor='0x60646464'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
@@ -2719,7 +2719,7 @@
 
       <!-- Nether Setup Beginning -->
 
-      <IfCondition condition=':= dimension.generator.class = "ChunkProviderHell"'>
+      <IfCondition condition=':= dimension = "Nether"'>
 
         <!-- Starting Original "Nether" Block Removal -->
 
@@ -2747,7 +2747,7 @@
         <!-- Starting SparseVeins Preset for Plutonium. -->
         <ConfigSection>
           <IfCondition condition=':= nclcPlutoniumDist = "SparseVeins"'>
-            <Veins name='nclcPlutoniumVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe='true' wireframeColor='0x60A68F8F' drawBoundBox='false' boundBoxColor='0x60A68F8F'>
+            <Veins name='nclcPlutoniumVeins'  inherits='PresetSparseVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60A68F8F' drawBoundBox='false' boundBoxColor='0x60A68F8F'>
               <Description>
                 Large veins filled very lightly  with ore.  Because
                 they contain  less ore per volume, these veins  are
@@ -2785,7 +2785,7 @@
         <!-- Starting StrategicClouds Preset for Plutonium. -->
         <ConfigSection>
           <IfCondition condition=':= nclcPlutoniumDist = "StrategicClouds"'>
-            <Cloud name='nclcPlutoniumCloud'  inherits='PresetStrategicCloud' drawWireframe='true' wireframeColor='0x60A68F8F' drawBoundBox='false' boundBoxColor='0x60A68F8F'>
+            <Cloud name='nclcPlutoniumCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60A68F8F' drawBoundBox='false' boundBoxColor='0x60A68F8F'>
               <Description>
                 Large irregular clouds filled  lightly with ore.
                 These are  huge, spanning several adjacent  chunks,
@@ -2810,7 +2810,7 @@
               <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
               <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
               <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
-              <Veins name='nclcPlutoniumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe='true' wireframeColor='0x60A68F8F' drawBoundBox='false' boundBoxColor='0x60A68F8F'>
+              <Veins name='nclcPlutoniumHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60A68F8F' drawBoundBox='false' boundBoxColor='0x60A68F8F'>
                 <Description>
                   Single blocks, generously  scattered through all
                   heights  (density is about that of  vanilla iron
@@ -2841,7 +2841,7 @@
         <!-- Starting Vanilla Preset for Plutonium. -->
         <ConfigSection>
           <IfCondition condition=':= nclcPlutoniumDist = "Vanilla"'>
-            <StandardGen name='nclcPlutoniumStandard'  inherits='PresetStandardGen' drawWireframe='true' wireframeColor='0x60A68F8F' drawBoundBox='false' boundBoxColor='0x60A68F8F'>
+            <StandardGen name='nclcPlutoniumStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60A68F8F' drawBoundBox='false' boundBoxColor='0x60A68F8F'>
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>

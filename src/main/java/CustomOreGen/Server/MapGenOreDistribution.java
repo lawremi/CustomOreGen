@@ -17,6 +17,7 @@ import CustomOreGen.Util.IGeometryBuilder;
 import CustomOreGen.Util.PDist;
 import CustomOreGen.Util.PDist.Type;
 import CustomOreGen.Util.TileEntityHelper;
+import CustomOreGen.Util.TouchingDescriptorList;
 import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.WireframeShapes;
 import net.minecraft.init.Blocks;
@@ -85,7 +86,13 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             info = "List of blocks allowed beside generated block"
     )
     public final BlockDescriptor besideBlocks;
-    
+
+    @DistributionSetting(
+            name = "Touches",
+            info = "List of blocks allowed to neighbor the generated block"
+    )
+    public final TouchingDescriptorList touchingBlocks;
+
     @DistributionSetting(
             name = "TargetBiome",
             info = "List of valid target biomes"
@@ -194,6 +201,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         this.aboveBlocks = new BlockDescriptor();
         this.belowBlocks = new BlockDescriptor();
         this.besideBlocks = new BlockDescriptor();
+        this.touchingBlocks = new TouchingDescriptorList();
         this.biomes = new BiomeDescriptor(".*");
         this.frequency = new HeightScaledPDist(0.025F, 0.0F);
         this.parent = null;
@@ -259,7 +267,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
 
-    public void populate(World world, int chunkX, int chunkZ)
+    public synchronized void populate(World world, int chunkX, int chunkZ)
     {
         if (this._canGenerate && this._valid)
         {
@@ -271,7 +279,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
 
-    public void cull()
+    public synchronized void cull()
     {
         if (this._canGenerate)
         {
@@ -310,7 +318,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
 
-    public void clear()
+    public synchronized void clear()
     {
         if (this._canGenerate)
         {
@@ -392,9 +400,9 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         return this._valid && this._canGenerate;
     }
 
-    protected StructureGroup getCachedStructureGroup(int chunkX, int chunkZ)
+    private StructureGroup getCachedStructureGroup(int chunkX, int chunkZ)
     {
-        Long key = Long.valueOf(ChunkPos.asLong(chunkX, chunkZ));
+        long key = ChunkPos.asLong(chunkX, chunkZ);
         StructureGroup group = (StructureGroup)super.structureMap.get(key);
 
         if (group != null)
@@ -525,7 +533,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
     public abstract Component generateStructure(StructureGroup structureGroup, Random rand);
 
-    public boolean generateStructuresInChunk(World world, Random random, int chunkX, int chunkZ)
+    private boolean generateStructuresInChunk(World world, Random random, int chunkX, int chunkZ)
     {
         if (this._canGenerate && this._valid)
         {

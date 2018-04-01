@@ -71,7 +71,13 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
             info = "List of blocks allowed beside generated block"
     )
     public final BlockDescriptor besideBlocks;
-    
+
+    @DistributionSetting(
+            name = "Touches",
+            info = "List of blocks allowed to neighbor the generated block"
+    )
+    public final TouchingDescriptorList touchingBlocks;
+
     @DistributionSetting(
             name = "TargetBiome",
             info = "List of valid target biomes"
@@ -131,6 +137,7 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
         this.aboveBlocks = new BlockDescriptor();
         this.belowBlocks = new BlockDescriptor();
         this.besideBlocks = new BlockDescriptor();
+        this.touchingBlocks = new TouchingDescriptorList();
         this.biomes = new BiomeDescriptor(".*");
         this.additionalRange = 0;
         this.minHeight = Integer.MIN_VALUE;
@@ -264,7 +271,8 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
             int hRange = (this.additionalRange + 7) / 8;
             int minh = Math.max(0, this.minHeight);
             int maxh = Math.min(world.getHeight() - 1, this.maxHeight);
-            BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks, besideBlocks);
+            BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks,
+                    besideBlocks, touchingBlocks);
 
             for (int dCX = -cRange; dCX <= cRange; ++dCX)
             {
