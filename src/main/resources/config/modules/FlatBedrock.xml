@@ -1,0 +1,75 @@
+<!-- Starting Configuration for Custom Ore Generation. -->
+<ConfigSection>
+    <!-- Setup Screen Configuration -->
+    <ConfigSection>
+        <!-- Flat Bedrock Configuration UI Starting -->
+        <OptionChoice name='flatBedrock' default='true' displayState='shown' displayGroup='groupGeneral'>
+            <Description>Enables/disables flat Bedrock</Description>
+            <DisplayName>Flat Bedrock</DisplayName>
+            <IfCondition condition=':= (?blockExists("minecraft:bedrock")) '>
+                <Choice value=':= ?true' displayValue='Yes' description='Enable flat Bedrock generation'/>
+            </IfCondition>
+            <Choice value=':= ?false' displayValue='No' description='Disable flat Bedrock generation.'/>
+        </OptionChoice>
+        <!-- Flat Bedrock Configuration UI Complete -->
+    </ConfigSection>
+    <!-- Setup Screen Complete -->
+
+    <!-- Bedrock Flattening Beginning -->
+    <IfCondition condition=':= ?flatBedrock'>
+        <!-- Overworld Flat Bedrock start -->
+        <IfCondition condition=':= ?COGActive'>
+            <Substitute name='flatbedrockowerworld' minHeight='1' maxHeight='4'>
+                <OreBlock block='minecraft:stone' weight='1.0' />
+                <Replaces block='minecraft:bedrock' weight='1.0' />
+            </Substitute>
+        </IfCondition>
+        <!-- Overworld Flat Bedrock end -->
+
+        <!-- Nether Flat Bedrock start -->
+        <IfCondition condition=':= dimension = "the_nether"'>
+            <Substitute name='flatbedrocknetherbottom' minHeight='1' maxHeight='4'>
+                <OreBlock block='minecraft:netherrack' weight='1.0' />
+                <Replaces block='minecraft:bedrock' weight='1.0' />
+            </Substitute>
+            <Substitute name='flatbedrocknethertop' minHeight='123' maxHeight='126'>
+                <OreBlock block='minecraft:netherrack' weight='1.0' />
+                <Replaces block='minecraft:bedrock' weight='1.0' />
+            </Substitute>
+        </IfCondition>
+        <!-- Nether Flat Bedrock end -->
+
+        <!-- Galacticraft Moon Flat Bedrock start -->
+        <IfModInstalled name="galacticraftcore">
+            <IfCondition condition=':= dimension = "Moon"'>
+                <Substitute name='flatbedrockgcmoon' minHeight='1' maxHeight='4'>
+                    <OreBlock block='galacticraftcore:basic_block_moon:4' weight='1.0' />
+                    <Replaces block='minecraft:bedrock' weight='1.0' />
+                </Substitute>
+            </IfCondition>
+        </IfModInstalled>
+        <!-- Galacticraft Moon Flat Bedrock end -->
+
+        <IfModInstalled name="galacticraftplanets">
+            <!-- Galacticraft Mars Flat Bedrock start -->
+            <IfCondition condition=':= dimension = "Mars"'>
+                <Substitute name='flatbedrockgcmars' minHeight='1' maxHeight='4'>
+                    <OreBlock block='galacticraftplanets:mars:9' weight='1.0' />
+                    <Replaces block='minecraft:bedrock' weight='1.0' />
+                </Substitute>
+            </IfCondition>
+            <!-- Galacticraft Mars Flat Bedrock end -->
+
+            <!-- Galacticraft Venus Flat Bedrock start -->
+            <IfCondition condition=':= dimension = "Venus"'>
+                <Substitute name='flatbedrockgcvenus' minHeight='1' maxHeight='4'>
+                    <OreBlock block='galacticraftplanets:venus:1' weight='1.0' />
+                    <Replaces block='minecraft:bedrock' weight='1.0' />
+                </Substitute>
+            </IfCondition>
+            <!-- Galacticraft Venus Flat Bedrock end -->
+        </IfModInstalled>
+    </IfCondition>
+    <!-- Bedrock Flattening Complete -->
+</ConfigSection>
+<!-- Configuration for Custom Ore Generation Complete! -->
