@@ -1,0 +1,558 @@
+<!-- Custom Ore Generation "Vic's Modern Warfare" Module -->
+
+<!-- Is the "Vic's Modern Warfare" mod on the system?  Let's find out! -->
+<IfModInstalled name="mw">
+    <!-- Starting Configuration for Custom Ore Generation. -->
+    <ConfigSection>
+        <!-- Setup Screen Configuration -->
+        <ConfigSection>
+            <OptionDisplayGroup name='groupModernWarfare' displayName='Modern Warfare' displayState='shown'>
+                <Description>Distribution options for Modern Warfare Ores.</Description>
+            </OptionDisplayGroup>
+            <OptionChoice name='enableModernWarfare' displayName='Handle Modern Warfare Gen?' default='true' displayState='shown_dynamic' displayGroup='groupModernWarfare'>
+                <Description>Should Custom Ore Generation handle Modern Warfare ore generation?</Description>
+                <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Modern Warfare ores.'/>
+                <Choice value=':= ?false' displayValue='No' description='Modern Warfare ores will be handled by Minecraft directly.'/>
+            </OptionChoice>
+            <OptionChoice name='cleanUpModernWarfare' displayName='Use Modern Warfare Cleanup?' default='true' displayState=':= if(?enableModernWarfare, "shown", "hidden")' displayGroup='groupModernWarfare'>
+                <Description>Should Custom Ore Generation use the Substitution Pass to remove all instances of Modern Warfare ore from the world? If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly. If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore. Enabled by default to ensure the ores are completely removed.</Description>
+                <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Modern Warfare ores.'/>
+                <Choice value=':= ?false' displayValue='No' description='Modern Warfare ores do not need to be cleaned up by a substitution pass.'/>
+            </OptionChoice>
+
+            <!-- Copper Configuration UI Starting -->
+            <ConfigSection>
+                <OptionChoice name='mwCopperDist' displayState=':= if(?enableModernWarfare, "shown", "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Controls how Copper is generated</Description>
+                    <DisplayName>Modern Warfare Copper</DisplayName>
+                    <IfCondition condition=':= (?blockExists("mw:copperore")) '>
+                        <Choice value='Vanilla' displayValue='Vanilla' description='Simulates Vanilla Minecraft.' />
+                    </IfCondition>
+                    <Choice value='none' displayValue='None' description='Copper is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='mwCopperFreq' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Frequency multiplier for Modern Warfare Copper distributions</Description>
+                    <DisplayName>Modern Warfare Copper Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='mwCopperSize' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Size multiplier for Modern Warfare Copper distributions</Description>
+                    <DisplayName>Modern Warfare Copper Size</DisplayName>
+                </OptionNumeric>
+            </ConfigSection>
+            <!-- Copper Configuration UI Complete -->
+
+            <!-- Silicon Configuration UI Starting -->
+            <ConfigSection>
+                <OptionChoice name='mwSiliconDist' displayState=':= if(?enableModernWarfare, "shown", "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Controls how Silicon is generated</Description>
+                    <DisplayName>Modern Warfare Silicon</DisplayName>
+                    <IfCondition condition=':= (?blockExists("mw:siliconore")) '>
+                        <Choice value='Vanilla' displayValue='Vanilla' description='Simulates Vanilla Minecraft.' />
+                    </IfCondition>
+                    <Choice value='none' displayValue='None' description='Silicon is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='mwSiliconFreq' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Frequency multiplier for Modern Warfare Silicon distributions</Description>
+                    <DisplayName>Modern Warfare Silicon Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='mwSiliconSize' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Size multiplier for Modern Warfare Silicon distributions</Description>
+                    <DisplayName>Modern Warfare Silicon Size</DisplayName>
+                </OptionNumeric>
+            </ConfigSection>
+            <!-- Silicon Configuration UI Complete -->
+
+            <!-- Sulfur Configuration UI Starting -->
+            <ConfigSection>
+                <OptionChoice name='mwSulfurDist' displayState=':= if(?enableModernWarfare, "shown", "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Controls how Sulfur is generated</Description>
+                    <DisplayName>Modern Warfare Sulfur</DisplayName>
+                    <IfCondition condition=':= (?blockExists("mw:sulfurore")) '>
+                        <Choice value='Vanilla' displayValue='Vanilla' description='Simulates Vanilla Minecraft.' />
+                    </IfCondition>
+                    <Choice value='none' displayValue='None' description='Sulfur is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='mwSulfurFreq' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Frequency multiplier for Modern Warfare Sulfur distributions</Description>
+                    <DisplayName>Modern Warfare Sulfur Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='mwSulfurSize' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Size multiplier for Modern Warfare Sulfur distributions</Description>
+                    <DisplayName>Modern Warfare Sulfur Size</DisplayName>
+                </OptionNumeric>
+            </ConfigSection>
+            <!-- Sulfur Configuration UI Complete -->
+
+            <!-- Lead Configuration UI Starting -->
+            <ConfigSection>
+                <OptionChoice name='mwLeadDist' displayState=':= if(?enableModernWarfare, "shown", "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Controls how Lead is generated</Description>
+                    <DisplayName>Modern Warfare Lead</DisplayName>
+                    <IfCondition condition=':= (?blockExists("mw:Leadore")) '>
+                        <Choice value='Vanilla' displayValue='Vanilla' description='Simulates Vanilla Minecraft.' />
+                    </IfCondition>
+                    <Choice value='none' displayValue='None' description='Lead is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='mwLeadFreq' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Frequency multiplier for Modern Warfare Lead distributions</Description>
+                    <DisplayName>Modern Warfare Lead Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='mwLeadSize' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Size multiplier for Modern Warfare Lead distributions</Description>
+                    <DisplayName>Modern Warfare Lead Size</DisplayName>
+                </OptionNumeric>
+            </ConfigSection>
+            <!-- Lead Configuration UI Complete -->
+
+            <!-- Ruby Configuration UI Starting -->
+            <ConfigSection>
+                <OptionChoice name='mwRubyDist' displayState=':= if(?enableModernWarfare, "shown", "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Controls how Ruby is generated</Description>
+                    <DisplayName>Modern Warfare Ruby</DisplayName>
+                    <IfCondition condition=':= (?blockExists("mw:rubyore")) '>
+                        <Choice value='Vanilla' displayValue='Vanilla' description='Simulates Vanilla Minecraft.' />
+                    </IfCondition>
+                    <Choice value='none' displayValue='None' description='Ruby is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='mwRubyFreq' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Frequency multiplier for Modern Warfare Ruby distributions</Description>
+                    <DisplayName>Modern Warfare Ruby Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='mwRubySize' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Size multiplier for Modern Warfare Ruby distributions</Description>
+                    <DisplayName>Modern Warfare Ruby Size</DisplayName>
+                </OptionNumeric>
+            </ConfigSection>
+            <!-- Ruby Configuration UI Complete -->
+
+            <!-- Tin Configuration UI Starting -->
+            <ConfigSection>
+                <OptionChoice name='mwTinDist' displayState=':= if(?enableModernWarfare, "shown", "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Controls how Tin is generated</Description>
+                    <DisplayName>Modern Warfare Tin</DisplayName>
+                    <IfCondition condition=':= (?blockExists("mw:tinore")) '>
+                        <Choice value='Vanilla' displayValue='Vanilla' description='Simulates Vanilla Minecraft.' />
+                    </IfCondition>
+                    <Choice value='none' displayValue='None' description='Tin is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='mwTinFreq' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Frequency multiplier for Modern Warfare Tin distributions</Description>
+                    <DisplayName>Modern Warfare Tin Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='mwTinSize' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Size multiplier for Modern Warfare Tin distributions</Description>
+                    <DisplayName>Modern Warfare Tin Size</DisplayName>
+                </OptionNumeric>
+            </ConfigSection>
+            <!-- Tin Configuration UI Complete -->
+
+            <!-- Mountain Tin Configuration UI Starting -->
+            <ConfigSection>
+                <OptionChoice name='mwMountainTinDist' displayState=':= if(?enableModernWarfare, "shown", "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Controls how Mountain Tin is generated</Description>
+                    <DisplayName>Modern Warfare Mountain Tin</DisplayName>
+                    <IfCondition condition=':= (?blockExists("mw:tinore")) '>
+                        <Choice value='Vanilla' displayValue='Vanilla' description='Simulates Vanilla Minecraft.' />
+                    </IfCondition>
+                    <Choice value='none' displayValue='None' description='Mountain Tin is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='mwMountainTinFreq' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Frequency multiplier for Modern Warfare Mountain Tin distributions</Description>
+                    <DisplayName>Modern Warfare Mountain Tin Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='mwMountainTinSize' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Size multiplier for Modern Warfare Mountain Tin distributions</Description>
+                    <DisplayName>Modern Warfare Mountain Tin Size</DisplayName>
+                </OptionNumeric>
+            </ConfigSection>
+            <!-- Mountain Tin Configuration UI Complete -->
+
+            <!-- Bauxite Configuration UI Starting -->
+            <ConfigSection>
+                <OptionChoice name='mwBauxiteDist' displayState=':= if(?enableModernWarfare, "shown", "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Controls how Bauxite is generated</Description>
+                    <DisplayName>Modern Warfare Bauxite</DisplayName>
+                    <IfCondition condition=':= (?blockExists("mw:bauxiteore")) '>
+                        <Choice value='Vanilla' displayValue='Vanilla' description='Simulates Vanilla Minecraft.' />
+                    </IfCondition>
+                    <Choice value='none' displayValue='None' description='Bauxite is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='mwBauxiteFreq' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Frequency multiplier for Modern Warfare Bauxite distributions</Description>
+                    <DisplayName>Modern Warfare Bauxite Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='mwBauxiteSize' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Size multiplier for Modern Warfare Bauxite distributions</Description>
+                    <DisplayName>Modern Warfare Bauxite Size</DisplayName>
+                </OptionNumeric>
+            </ConfigSection>
+            <!-- Bauxite Configuration UI Complete -->
+
+            <!-- Mountain Bauxite Configuration UI Starting -->
+            <ConfigSection>
+                <OptionChoice name='mwMountainBauxiteDist' displayState=':= if(?enableModernWarfare, "shown", "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Controls how Mountain Bauxite is generated</Description>
+                    <DisplayName>Modern Warfare Mountain Bauxite</DisplayName>
+                    <IfCondition condition=':= (?blockExists("mw:bauxiteore")) '>
+                        <Choice value='Vanilla' displayValue='Vanilla' description='Simulates Vanilla Minecraft.' />
+                    </IfCondition>
+                    <Choice value='none' displayValue='None' description='Mountain Bauxite is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='mwMountainBauxiteFreq' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Frequency multiplier for Modern Warfare Mountain Bauxite distributions</Description>
+                    <DisplayName>Modern Warfare Mountain Bauxite Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='mwMountainBauxiteSize' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Size multiplier for Modern Warfare Mountain Bauxite distributions</Description>
+                    <DisplayName>Modern Warfare Mountain Bauxite Size</DisplayName>
+                </OptionNumeric>
+            </ConfigSection>
+            <!-- Mountain Bauxite Configuration UI Complete -->
+
+            <!-- Titanium Configuration UI Starting -->
+            <ConfigSection>
+                <OptionChoice name='mwTitaniumDist' displayState=':= if(?enableModernWarfare, "shown", "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Controls how Titanium is generated</Description>
+                    <DisplayName>Modern Warfare Titanium</DisplayName>
+                    <IfCondition condition=':= (?blockExists("mw:titaniumore")) '>
+                        <Choice value='Vanilla' displayValue='Vanilla' description='Simulates Vanilla Minecraft.' />
+                    </IfCondition>
+                    <Choice value='none' displayValue='None' description='Titanium is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='mwTitaniumFreq' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Frequency multiplier for Modern Warfare Titanium distributions</Description>
+                    <DisplayName>Modern Warfare Titanium Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='mwTitaniumSize' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Size multiplier for Modern Warfare Titanium distributions</Description>
+                    <DisplayName>Modern Warfare Titanium Size</DisplayName>
+                </OptionNumeric>
+            </ConfigSection>
+            <!-- Titanium Configuration UI Complete -->
+
+            <!-- Mountain Titanium Configuration UI Starting -->
+            <ConfigSection>
+                <OptionChoice name='mwMountainTitaniumDist' displayState=':= if(?enableModernWarfare, "shown", "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Controls how Mountain Titanium is generated</Description>
+                    <DisplayName>Modern Warfare Mountain Titanium</DisplayName>
+                    <IfCondition condition=':= (?blockExists("mw:titaniumore")) '>
+                        <Choice value='Vanilla' displayValue='Vanilla' description='Simulates Vanilla Minecraft.' />
+                    </IfCondition>
+                    <Choice value='none' displayValue='None' description='Mountain Titanium is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='mwMountainTitaniumFreq' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Frequency multiplier for Modern Warfare Mountain Titanium distributions</Description>
+                    <DisplayName>Modern Warfare Mountain Titanium Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='mwMountainTitaniumSize' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Size multiplier for Modern Warfare Mountain Titanium distributions</Description>
+                    <DisplayName>Modern Warfare Mountain Titanium Size</DisplayName>
+                </OptionNumeric>
+            </ConfigSection>
+            <!-- Mountain Titanium Configuration UI Complete -->
+
+            <!-- Tantalum Configuration UI Starting -->
+            <ConfigSection>
+                <OptionChoice name='mwTantalumDist' displayState=':= if(?enableModernWarfare, "shown", "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Controls how Tantalum is generated</Description>
+                    <DisplayName>Modern Warfare Tantalum</DisplayName>
+                    <IfCondition condition=':= (?blockExists("mw:tantalumore")) '>
+                        <Choice value='Vanilla' displayValue='Vanilla' description='Simulates Vanilla Minecraft.' />
+                    </IfCondition>
+                    <Choice value='none' displayValue='None' description='Tantalum is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='mwTantalumFreq' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Frequency multiplier for Modern Warfare Tantalum distributions</Description>
+                    <DisplayName>Modern Warfare Tantalum Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='mwTantalumSize' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Size multiplier for Modern Warfare Tantalum distributions</Description>
+                    <DisplayName>Modern Warfare Tantalum Size</DisplayName>
+                </OptionNumeric>
+            </ConfigSection>
+            <!-- Tantalum Configuration UI Complete -->
+
+            <!-- Mountain Tantalum Configuration UI Starting -->
+            <ConfigSection>
+                <OptionChoice name='mwMountainTantalumDist' displayState=':= if(?enableModernWarfare, "shown", "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Controls how Mountain Tantalum is generated</Description>
+                    <DisplayName>Modern Warfare Mountain Tantalum</DisplayName>
+                    <IfCondition condition=':= (?blockExists("mw:tantalumore")) '>
+                        <Choice value='Vanilla' displayValue='Vanilla' description='Simulates Vanilla Minecraft.' />
+                    </IfCondition>
+                    <Choice value='none' displayValue='None' description='Tantalum is not generated in the world.'/>
+                </OptionChoice>
+                <OptionNumeric name='mwMountainTantalumFreq' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Frequency multiplier for Modern Warfare Mountain Tantalum distributions</Description>
+                    <DisplayName>Modern Warfare Mountain Tantalum Freq.</DisplayName>
+                </OptionNumeric>
+                <OptionNumeric name='mwMountainTantalumSize' default='1' min='0' max='5' displayState=':= if(?enableModernWarfare, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupModernWarfare'>
+                    <Description>Size multiplier for Modern Warfare Mountain Tantalum distributions</Description>
+                    <DisplayName>Modern Warfare Mountain Tantalum Size</DisplayName>
+                </OptionNumeric>
+            </ConfigSection>
+            <!-- Tantalum Configuration UI Complete -->
+        </ConfigSection>
+        <!-- Setup Screen Complete -->
+        <IfCondition condition=':= ?enableModernWarfare'>
+            <!-- Overworld Setup Beginning -->
+            <IfCondition condition=':= ?COGActive'>
+                <!-- Starting Original "Overworld" Block Removal -->
+                <IfCondition condition=':= ?cleanUpModernWarfare'>
+                    <IfCondition condition=':= ?blockExists("minecraft:stone")'>
+                        <Substitute name='mwOverworldBlockSubstitute' block='minecraft:stone'>
+                            <Description>Replace vanilla-generated ore clusters.</Description>
+                            <Comment>The global option deferredPopulationRange must be large enough to catch all ore clusters (>= 32).</Comment>
+                            <Replaces block='mw:copperore' weight='1.0' />
+                            <Replaces block='mw:siliconore' weight='1.0' />
+                            <Replaces block='mw:sulfurore' weight='1.0' />
+                            <Replaces block='mw:leadore' weight='1.0' />
+                            <Replaces block='mw:rubyore' weight='1.0' />
+                            <Replaces block='mw:tinore' weight='1.0' />
+                            <Replaces block='mw:bauxiteore' weight='1.0' />
+                            <Replaces block='mw:titaniumore' weight='1.0' />
+                            <Replaces block='mw:tantalumore' weight='1.0' />
+                        </Substitute>
+                    </IfCondition>
+                </IfCondition>
+                <!-- Original "Overworld" Block Removal Complete -->
+
+                <!-- Adding blocks -->
+
+                <!-- Begin Copper Generation -->
+                <!-- Starting Vanilla Preset for Copper. -->
+                <IfCondition condition=':= mwCopperDist = "Vanilla"'>
+                    <StandardGen name='mwCopperStandard' inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C4733C' drawBoundBox='false' boundBoxColor='0x60C4733C'>
+                        <Description>A master preset for standardgen ore distributions.</Description>
+                        <OreBlock block='mw:copperore' weight='1.0' />
+                        <ReplacesOre block='stone' weight='1.0' />
+                        <Biome name='.*' />
+                        <Setting name='Size' avg=':= 6 * oreSize * mwCopperSize' range=':= 2 * oreSize * mwCopperSize' type='normal' />
+                        <Setting name='Frequency' avg=':= 12 * oreFreq * mwCopperFreq' range=':= 3 * oreFreq * mwCopperFreq' type='normal' scaleTo='base' />
+                        <Setting name='Height' avg=':= 54' range=':= 54' type='uniform' scaleTo='base' />
+                        <Setting name='ParentRangeLimit' avg=':= _default_' range=':= _default_' type='normal' />
+                    </StandardGen>
+                </IfCondition>
+                <!-- Vanilla Preset for Copper is complete. -->
+                <!-- End Copper Generation -->
+
+                <!-- Begin Silicon Generation -->
+                <!-- Starting Vanilla Preset for Silicon. -->
+                <IfCondition condition=':= mwSiliconDist = "Vanilla"'>
+                    <StandardGen name='mwSiliconStandard' inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C4733C' drawBoundBox='false' boundBoxColor='0x60C4733C'>
+                        <Description>A master preset for standardgen ore distributions.</Description>
+                        <OreBlock block='mw:siliconore' weight='1.0' />
+                        <ReplacesOre block='stone' weight='1.0' />
+                        <Biome name='.*' />
+                        <Setting name='Size' avg=':= 4 * oreSize * mwSiliconSize' range=':= 2 * oreSize * mwSiliconSize' type='normal' />
+                        <Setting name='Frequency' avg=':= 16 * oreFreq * mwSiliconFreq' range=':= 3 * oreFreq * mwSiliconFreq' type='normal' scaleTo='base' />
+                        <Setting name='Height' avg=':= 45' range=':= 45' type='uniform' scaleTo='base' />
+                        <Setting name='ParentRangeLimit' avg=':= _default_' range=':= _default_' type='normal' />
+                    </StandardGen>
+                </IfCondition>
+                <!-- Vanilla Preset for Silicon is complete. -->
+                <!-- End Silicon Generation -->
+
+                <!-- Begin Sulfur Generation -->
+                <!-- Starting Vanilla Preset for Sulfur. -->
+                <IfCondition condition=':= mwSulfurDist = "Vanilla"'>
+                    <StandardGen name='mwSulfurStandard' inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C4733C' drawBoundBox='false' boundBoxColor='0x60C4733C'>
+                        <Description>A master preset for standardgen ore distributions.</Description>
+                        <OreBlock block='mw:sulfurore' weight='1.0' />
+                        <ReplacesOre block='stone' weight='1.0' />
+                        <Biome name='.*' />
+                        <Setting name='Size' avg=':= 9 * oreSize * mwSulfurSize' range=':= 3 * oreSize * mwSulfurSize' type='normal' />
+                        <Setting name='Frequency' avg=':= 13 * oreFreq * mwSulfurFreq' range=':= 3 * oreFreq * mwSulfurFreq' type='normal' scaleTo='base' />
+                        <Setting name='Height' avg=':= 45' range=':= 45' type='uniform' scaleTo='base' />
+                        <Setting name='ParentRangeLimit' avg=':= _default_' range=':= _default_' type='normal' />
+                    </StandardGen>
+                </IfCondition>
+                <!-- Vanilla Preset for Sulfur is complete. -->
+                <!-- End Sulfur Generation -->
+
+                <!-- Begin Lead Generation -->
+                <!-- Starting Vanilla Preset for Lead. -->
+                <IfCondition condition=':= mwLeadDist = "Vanilla"'>
+                    <StandardGen name='mwLeadStandard' inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C4733C' drawBoundBox='false' boundBoxColor='0x60C4733C'>
+                        <Description>A master preset for standardgen ore distributions.</Description>
+                        <OreBlock block='mw:leadore' weight='1.0' />
+                        <ReplacesOre block='stone' weight='1.0' />
+                        <Biome name='.*' />
+                        <Setting name='Size' avg=':= 5 * oreSize * mwLeadSize' range=':= 3 * oreSize * mwLeadSize' type='normal' />
+                        <Setting name='Frequency' avg=':= 11 * oreFreq * mwLeadFreq' range=':= 3 * oreFreq * mwLeadFreq' type='normal' scaleTo='base' />
+                        <Setting name='Height' avg=':= 45' range=':= 45' type='uniform' scaleTo='base' />
+                        <Setting name='ParentRangeLimit' avg=':= _default_' range=':= _default_' type='normal' />
+                    </StandardGen>
+                </IfCondition>
+                <!-- Vanilla Preset for Lead is complete. -->
+                <!-- End Lead Generation -->
+
+                <!-- Begin Ruby Generation -->
+                <!-- Starting Vanilla Preset for Ruby. -->
+                <IfCondition condition=':= mwRubyDist = "Vanilla"'>
+                    <StandardGen name='mwRubyStandard' inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C4733C' drawBoundBox='false' boundBoxColor='0x60C4733C'>
+                        <Description>A master preset for standardgen ore distributions.</Description>
+                        <OreBlock block='mw:rubyore' weight='1.0' />
+                        <ReplacesOre block='stone' weight='1.0' />
+                        <Biome name='.*' />
+                        <Setting name='Size' avg=':= 2 * oreSize * mwRubySize' range=':= 1 * oreSize * mwRubySize' type='normal' />
+                        <Setting name='Frequency' avg=':= 8 * oreFreq * mwRubyFreq' range=':= 2 * oreFreq * mwRubyFreq' type='normal' scaleTo='base' />
+                        <Setting name='Height' avg=':= 8' range=':= 8' type='uniform' scaleTo='base' />
+                        <Setting name='ParentRangeLimit' avg=':= _default_' range=':= _default_' type='normal' />
+                    </StandardGen>
+                </IfCondition>
+                <!-- Vanilla Preset for Ruby is complete. -->
+                <!-- End Ruby Generation -->
+
+                <!-- Begin Tin Generation -->
+                <!-- Starting Vanilla Preset for Tin. -->
+                <IfCondition condition=':= mwTinDist = "Vanilla"'>
+                    <StandardGen name='mwTinStandard' inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C4733C' drawBoundBox='false' boundBoxColor='0x60C4733C'>
+                        <Description>A master preset for standardgen ore distributions.</Description>
+                        <OreBlock block='mw:tinore' weight='1.0' />
+                        <ReplacesOre block='stone' weight='1.0' />
+                        <Biome name='.*' />
+                        <Setting name='Size' avg=':= 4 * oreSize * mwTinSize' range=':= 2 * oreSize * mwTinSize' type='normal' />
+                        <Setting name='Frequency' avg=':= 10 * oreFreq * mwTinFreq' range=':= 3 * oreFreq * mwTinFreq' type='normal' scaleTo='base' />
+                        <Setting name='Height' avg=':= 30' range=':= 30' type='uniform' scaleTo='base' />
+                        <Setting name='ParentRangeLimit' avg=':= _default_' range=':= _default_' type='normal' />
+                    </StandardGen>
+                </IfCondition>
+                <!-- Vanilla Preset for Tin is complete. -->
+                <!-- End Tin Generation -->
+
+                <!-- Begin Mountain Tin Generation -->
+                <!-- Starting Vanilla Preset for Mountain Tin. -->
+                <IfCondition condition=':= mwMountainTinDist = "Vanilla"'>
+                    <StandardGen name='mwMountainTinStandard' inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C4733C' drawBoundBox='false' boundBoxColor='0x60C4733C'>
+                        <Description>A master preset for standardgen ore distributions.</Description>
+                        <OreBlock block='mw:tinore' weight='1.0' />
+                        <ReplacesOre block='stone' weight='1.0' />
+                        <BiomeType name='Mountain' />
+                        <BiomeType name='Hills' />
+                        <Biome name='Savanna Plateau' />
+                        <Setting name='Size' avg=':= 4 * oreSize * mwMountainTinSize' range=':= 2 * oreSize * mwMountainTinSize' type='normal' />
+                        <Setting name='Frequency' avg=':= 15 * oreFreq * mwMountainTinFreq' range=':= 5 * oreFreq * mwMountainTinFreq ' type='normal' scaleTo='base' />
+                        <Setting name='Height' avg=':= 128' range=':= 60' type='uniform' scaleTo='base' />
+                        <Setting name='ParentRangeLimit' avg=':= _default_' range=':= _default_' type='normal' />
+                    </StandardGen>
+                </IfCondition>
+                <!-- Vanilla Preset for Mountain Tin is complete. -->
+                <!-- End Mountain Tin Generation -->
+
+                <!-- Begin Bauxite Generation -->
+                <!-- Starting Vanilla Preset for Bauxite. -->
+                <IfCondition condition=':= mwBauxiteDist = "Vanilla"'>
+                    <StandardGen name='mwBauxiteStandard' inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C4733C' drawBoundBox='false' boundBoxColor='0x60C4733C'>
+                        <Description>A master preset for standardgen ore distributions.</Description>
+                        <OreBlock block='mw:bauxiteore' weight='1.0' />
+                        <ReplacesOre block='stone' weight='1.0' />
+                        <Biome name='.*' />
+                        <Setting name='Size' avg=':= 6 * oreSize * mwBauxiteSize' range=':= 2 * oreSize * mwBauxiteSize' type='normal' />
+                        <Setting name='Frequency' avg=':= 15 * oreFreq * mwBauxiteFreq' range=':= 3 * oreFreq * mwBauxiteFreq' type='normal' scaleTo='base' />
+                        <Setting name='Height' avg=':= 30' range=':= 30' type='uniform' scaleTo='base' />
+                        <Setting name='ParentRangeLimit' avg=':= _default_' range=':= _default_' type='normal' />
+                    </StandardGen>
+                </IfCondition>
+                <!-- Vanilla Preset for Bauxite is complete. -->
+                <!-- End Bauxite Generation -->
+
+                <!-- Begin Mountain Bauxite Generation -->
+                <!-- Starting Vanilla Preset for Mountain Bauxite. -->
+                <IfCondition condition=':= mwMountainBauxiteDist = "Vanilla"'>
+                    <StandardGen name='mwMountainBauxiteStandard' inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C4733C' drawBoundBox='false' boundBoxColor='0x60C4733C'>
+                        <Description>A master preset for standardgen ore distributions.</Description>
+                        <OreBlock block='mw:bauxiteore' weight='1.0' />
+                        <ReplacesOre block='stone' weight='1.0' />
+                        <BiomeType name='Mountain' />
+                        <BiomeType name='Hills' />
+                        <Biome name='Savanna Plateau' />
+                        <Setting name='Size' avg=':= 6 * oreSize * mwMountainBauxiteSize' range=':= 2 * oreSize * mwMountainBauxiteSize' type='normal' />
+                        <Setting name='Frequency' avg=':= 22 * oreFreq * mwMountainBauxiteFreq' range=':= 5 * oreFreq * mwMountainBauxiteFreq' type='normal' scaleTo='base' />
+                        <Setting name='Height' avg=':= 128' range=':= 60' type='uniform' scaleTo='base' />
+                        <Setting name='ParentRangeLimit' avg=':= _default_' range=':= _default_' type='normal' />
+                    </StandardGen>
+                </IfCondition>
+                <!-- Vanilla Preset for Mountain Bauxite is complete. -->
+                <!-- End Mountain Bauxite Generation -->
+
+                <!-- Begin Titanium Generation -->
+                <!-- Starting Vanilla Preset for Titanium. -->
+                <IfCondition condition=':= mwTitaniumDist = "Vanilla"'>
+                    <StandardGen name='mwTitaniumStandard' inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C4733C' drawBoundBox='false' boundBoxColor='0x60C4733C'>
+                        <Description>A master preset for standardgen ore distributions.</Description>
+                        <OreBlock block='mw:titaniumore' weight='1.0' />
+                        <ReplacesOre block='stone' weight='1.0' />
+                        <Biome name='.*' />
+                        <Setting name='Size' avg=':= 4 * oreSize * mwTitaniumSize' range=':= 2 * oreSize * mwTitaniumSize' type='normal' />
+                        <Setting name='Frequency' avg=':= 14 * oreFreq * mwTitaniumFreq' range=':= 3 * oreFreq * mwTitaniumFreq' type='normal' scaleTo='base' />
+                        <Setting name='Height' avg=':= 30' range=':= 30' type='uniform' scaleTo='base' />
+                        <Setting name='ParentRangeLimit' avg=':= _default_' range=':= _default_' type='normal' />
+                    </StandardGen>
+                </IfCondition>
+                <!-- Vanilla Preset for Titanium is complete. -->
+                <!-- End Titanium Generation -->
+
+                <!-- Begin Mountain Titanium Generation -->
+                <!-- Starting Vanilla Preset for Mountain Titanium. -->
+                <IfCondition condition=':= mwMountainTitaniumDist = "Vanilla"'>
+                    <StandardGen name='mwMountainTitaniumStandard' inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C4733C' drawBoundBox='false' boundBoxColor='0x60C4733C'>
+                        <Description>A master preset for standardgen ore distributions.</Description>
+                        <OreBlock block='mw:titaniumore' weight='1.0' />
+                        <ReplacesOre block='stone' weight='1.0' />
+                        <BiomeType name='Mountain' />
+                        <BiomeType name='Hills' />
+                        <Biome name='Savanna Plateau' />
+                        <Setting name='Size' avg=':= 4 * oreSize * mwMountainTitaniumSize' range=':= 2 * oreSize * mwMountainTitaniumSize' type='normal' />
+                        <Setting name='Frequency' avg=':= 21 * oreFreq * mwMountainTitaniumFreq' range=':= 5 * oreFreq * mwMountainTitaniumFreq ' type='normal' scaleTo='base' />
+                        <Setting name='Height' avg=':= 128' range=':= 60' type='uniform' scaleTo='base' />
+                        <Setting name='ParentRangeLimit' avg=':= _default_' range=':= _default_' type='normal' />
+                    </StandardGen>
+                </IfCondition>
+                <!-- Vanilla Preset for Mountain Titanium is complete. -->
+                <!-- End Mountain Titanium Generation -->
+
+                <!-- Begin Tantalum Generation -->
+                <!-- Starting Vanilla Preset for Tantalum. -->
+                <IfCondition condition=':= mwTantalumDist = "Vanilla"'>
+                    <StandardGen name='mwTantalumStandard' inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C4733C' drawBoundBox='false' boundBoxColor='0x60C4733C'>
+                        <Description>A master preset for standardgen ore distributions.</Description>
+                        <OreBlock block='mw:tantalumore' weight='1.0' />
+                        <ReplacesOre block='stone' weight='1.0' />
+                        <Biome name='.*' />
+                        <Setting name='Size' avg=':= 4 * oreSize * mwTantalumSize' range=':= 2 * oreSize * mwTantalumSize' type='normal' />
+                        <Setting name='Frequency' avg=':= 9 * oreFreq * mwTantalumFreq' range=':= 3 * oreFreq * mwTantalumFreq' type='normal' scaleTo='base' />
+                        <Setting name='Height' avg=':= 30' range=':= 30' type='uniform' scaleTo='base' />
+                        <Setting name='ParentRangeLimit' avg=':= _default_' range=':= _default_' type='normal' />
+                    </StandardGen>
+                </IfCondition>
+                <!-- Vanilla Preset for Tantalum is complete. -->
+                <!-- End Tantalum Generation -->
+
+                <!-- Begin Mountain Tantalum Generation -->
+                <!-- Starting Vanilla Preset for Mountain Tantalum. -->
+                <IfCondition condition=':= mwMountainTantalumDist = "Vanilla"'>
+                    <StandardGen name='mwMountainTantalumStandard' inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60C4733C' drawBoundBox='false' boundBoxColor='0x60C4733C'>
+                        <Description>A master preset for standardgen ore distributions.</Description>
+                        <OreBlock block='mw:tantalumore' weight='1.0' />
+                        <ReplacesOre block='stone' weight='1.0' />
+                        <BiomeType name='Mountain' />
+                        <BiomeType name='Hills' />
+                        <Biome name='Savanna Plateau' />
+                        <Setting name='Size' avg=':= 4 * oreSize * mwMountainTantalumSize' range=':= 2 * oreSize * mwMountainTantalumSize' type='normal' />
+                        <Setting name='Frequency' avg=':= 14 * oreFreq * mwMountainTantalumFreq' range=':= 5 * oreFreq * mwMountainTantalumFreq ' type='normal' scaleTo='base' />
+                        <Setting name='Height' avg=':= 128' range=':= 60' type='uniform' scaleTo='base' />
+                        <Setting name='ParentRangeLimit' avg=':= _default_' range=':= _default_' type='normal' />
+                    </StandardGen>
+                </IfCondition>
+                <!-- Vanilla Preset for Mountain Tantalum is complete. -->
+                <!-- End Mountain Tantalum Generation -->
+
+                <!-- Finished adding blocks -->
+            </IfCondition>
+            <!-- Overworld Setup Complete -->
+        </IfCondition>
+    </ConfigSection>
+    <!-- Configuration for Custom Ore Generation Complete! -->
+</IfModInstalled>
+<!-- The "Vic's Modern Warfare" mod is now configured. -->
