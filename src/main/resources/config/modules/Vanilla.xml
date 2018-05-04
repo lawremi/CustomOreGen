@@ -306,6 +306,40 @@
     <!-- Mountain Gold Configuration UI Complete -->
 
 
+    <!-- Mesa Gold Configuration UI Starting -->
+    <ConfigSection>
+      <OptionChoice name='vnlaMesaGoldDist'  displayState=':= if(?enableVanilla, "shown", "hidden")' displayGroup='groupVanilla'>
+        <Description>Controls how Mesa Gold is generated</Description>
+        <DisplayName>Vanilla Mesa Gold</DisplayName>
+
+        <IfCondition condition=':= (?blockExists("minecraft:gold_ore")) '>
+		<Choice value='LayeredVeins' displayValue='Layered Veins'>
+            <Description>Small, fairly rare motherlodes with 2-4 horizontal veins each.</Description>
+		</Choice>
+
+          <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
+            <Description>Large irregular clouds filled lightly with ore.</Description>
+          </Choice>
+
+          <Choice value='Vanilla' displayValue='Vanilla'>
+            <Description>Simulates Vanilla Minecraft.</Description>
+          </Choice>
+        </IfCondition>
+
+        <Choice value='none' displayValue='None' description='Mesa Gold is not generated in the world.'/>
+      </OptionChoice>
+      <OptionNumeric name='vnlaMesaGoldFreq' default='1'  min='0' max='5' displayState=':= if(?enableVanilla, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupVanilla'>
+        <Description>Frequency multiplier for Vanilla Mesa Gold distributions</Description>
+        <DisplayName>Mesa Vanilla Gold Freq.</DisplayName>
+      </OptionNumeric>
+      <OptionNumeric name='vnlaMesaGoldSize' default='1'  min='0' max='5' displayState=':= if(?enableVanilla, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupVanilla'>
+        <Description>Size multiplier for Vanilla Mesa Gold distributions</Description>
+        <DisplayName>Vanilla Mesa Gold Size</DisplayName>
+      </OptionNumeric>
+    </ConfigSection>
+    <!-- Mesa Gold Configuration UI Complete -->
+
+
     <!-- Redstone Configuration UI Starting -->
     <ConfigSection>
       <OptionChoice name='vnlaRedstoneDist'  displayState=':= if(?enableVanilla, "shown", "hidden")' displayGroup='groupVanilla'>
@@ -640,38 +674,40 @@
     <IfCondition condition=':= ?COGActive'>
 
       <!-- Starting Original "Overworld" Block Removal -->
+      <IfCondition condition=':= ?cleanUpVanilla'>
+        <IfCondition condition=':= vnlaClayDist != "none"'>
+          <IfCondition condition=':= ?blockExists("minecraft:sand")'>
+            <Substitute name='vnlaOverworldBlockSubstitute2' block='minecraft:sand'>
+              <Description>
+                Replace vanilla-generated ore clusters.
+              </Description>
+              <Comment>
+                The global option deferredPopulationRange  must be large
+                enough to catch all ore  clusters (>= 32).
+              </Comment>
+              <Replaces block='minecraft:clay' weight='1.0' />
+            </Substitute>
+          </IfCondition>
+        </IfCondition>
 
-      <IfCondition condition=':= ?blockExists("minecraft:sand")'>
-        <Substitute name='vnlaOverworldBlockSubstitute2' block='minecraft:sand'>
-          <Description>
-            Replace vanilla-generated ore clusters.
-          </Description>
-          <Comment>
-            The global option deferredPopulationRange  must be large
-            enough to catch all ore  clusters (>= 32).
-          </Comment>
-          <Replaces block='minecraft:clay' weight='1.0' />
-        </Substitute>
-      </IfCondition>
-
-
-      <IfCondition condition=':= ?blockExists("minecraft:stone")'>
-        <Substitute name='vnlaOverworldBlockSubstitute3' block='minecraft:stone'>
-          <Description>
-            Replace vanilla-generated ore clusters.
-          </Description>
-          <Comment>
-            The global option deferredPopulationRange  must be large
-            enough to catch all ore  clusters (>= 32).
-          </Comment>
-          <Replaces block='minecraft:coal_ore' weight='1.0' />
-          <Replaces block='minecraft:diamond_ore' weight='1.0' />
-          <Replaces block='minecraft:emerald_ore' weight='1.0' />
-          <Replaces block='minecraft:gold_ore' weight='1.0' />
-          <Replaces block='minecraft:iron_ore' weight='1.0' />
-          <Replaces block='minecraft:lapis_ore' weight='1.0' />
-          <Replaces block='minecraft:redstone_ore' weight='1.0' />
-        </Substitute>
+        <IfCondition condition=':= ?blockExists("minecraft:stone")'>
+          <Substitute name='vnlaOverworldBlockSubstitute3' block='minecraft:stone'>
+            <Description>
+              Replace vanilla-generated ore clusters.
+            </Description>
+            <Comment>
+              The global option deferredPopulationRange  must be large
+              enough to catch all ore  clusters (>= 32).
+            </Comment>
+            <Replaces block='minecraft:coal_ore' weight='1.0' />
+            <Replaces block='minecraft:diamond_ore' weight='1.0' />
+            <Replaces block='minecraft:emerald_ore' weight='1.0' />
+            <Replaces block='minecraft:gold_ore' weight='1.0' />
+            <Replaces block='minecraft:iron_ore' weight='1.0' />
+            <Replaces block='minecraft:lapis_ore' weight='1.0' />
+            <Replaces block='minecraft:redstone_ore' weight='1.0' />
+          </Substitute>
+        </IfCondition>
       </IfCondition>
 
       <!-- Original "Overworld" Block Removal Complete -->
@@ -1312,6 +1348,112 @@
       <!-- Vanilla Preset for Mountain Gold is complete. -->
 
       <!-- End Mountain Gold Generation -->
+
+
+      <!-- Begin Mesa Gold Generation -->
+
+      <!-- Starting LayeredVeins Preset for Mesa Gold. -->
+      <ConfigSection>
+        <IfCondition condition=':= vnlaMesaGoldDist = "LayeredVeins"'>
+          <Veins name='vnlaMesaGoldVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
+            <Description>Small, fairly rare motherlodes with 2-4 horizontal veins each.</Description>
+            <OreBlock block='minecraft:gold_ore' weight='1.0' />
+            <ReplacesOre block='stone' weight='1.0' />
+            <Biome name='Mesa.*' />
+            <Setting name='MotherlodeFrequency' avg=':= 0.708 * _default_ * vnlaMesaGoldFreq ' range=':= 0.708 * _default_ * vnlaMesaGoldFreq ' type='normal' scaleTo='base' />
+            <Setting name='MotherlodeSize' avg=':= 0.944 * _default_ * vnlaMesaGoldSize ' range=':= 0.944 * _default_ * vnlaMesaGoldSize ' type='normal' />
+            <Setting name='MotherlodeHeight' avg=':= 56 ' range=':= 24 ' type='normal' scaleTo='base' />
+            <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            <Setting name='BranchLength' avg=':= 0.841 * _default_ ' range=':= 0.841 * _default_ ' type='normal' />
+            <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+            <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            <Setting name='SegmentLength' avg=':= _default_ * vnlaMesaGoldSize ' range=':= _default_ * vnlaMesaGoldSize ' type='normal' />
+            <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            <Setting name='SegmentRadius' avg=':= 0.917 * _default_ * vnlaMesaGoldSize ' range=':= 0.917 * _default_ * vnlaMesaGoldSize ' type='normal' />
+            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+          </Veins>
+        </IfCondition>
+      </ConfigSection>
+      <!-- LayeredVeins Preset for Mesa Gold is complete. -->
+
+      <!-- Starting StrategicClouds Preset for Mesa Gold. -->
+      <ConfigSection>
+        <IfCondition condition=':= vnlaMesaGoldDist = "StrategicClouds"'>
+          <Cloud name='vnlaMesaGoldCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
+            <Description>
+              Large irregular clouds filled lightly  with ore. These
+              are huge, spanning several adjacent chunks, and
+              consequently rather rare. They contain a sizeable
+              amount of ore, but it takes some time and effort to
+              mine due to low density. The intent for strategic
+              clouds is that the player will need to actively search
+              for one and then set up a semi-permanent mining base
+              and spend some time actually mining the ore.
+            </Description>
+            <OreBlock block='minecraft:gold_ore' weight='1.0' />
+            <ReplacesOre block='stone' weight='1.0' />
+            <Biome name='Mesa.*'  />
+            <Setting name='CloudRadius' avg=':= 0.899 * _default_ * vnlaMesaGoldSize ' range=':= 0.899 * _default_ * vnlaMesaGoldSize ' type='normal' />
+            <Setting name='CloudThickness' avg=':= 0.899 * _default_ * vnlaMesaGoldSize ' range=':= 0.899 * _default_ * vnlaMesaGoldSize ' type='normal' scaleTo='base' />
+            <Setting name='DistributionFrequency' avg=':= 0.808 * _default_ * vnlaMesaGoldFreq ' range=':= 0.808 * _default_ * vnlaMesaGoldFreq ' type='normal' scaleTo='base' />
+            <Setting name='CloudHeight' avg=':= 56 ' range=':= 24 ' type='normal' scaleTo='base' />
+            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+            <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            <Veins name='vnlaMesaGoldHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
+              <Description>
+                Single blocks, generously  scattered through all
+                heights (density is about that of vanilla iron ore).
+                They will replace dirt and sandstone (but not grass
+                or  sand), so they can be found nearer to the surface
+                than most ores. Intened to be used as a child
+                distribution for large, rare strategic deposits that
+                would otherwise be very difficult to find. Note that
+                the frequency is multiplied by ground level to
+                maintain a constant density, but not by ore frequency
+                because it is assumed that the frequency of the
+                parent distribution will already be scaled by that.
+              </Description>
+              <OreBlock block='minecraft:gold_ore' weight='1.0' />
+              <Replaces block='minecraft:dirt' weight='1.0' />
+              <Replaces block='minecraft:sandstone' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <Replaces block='minecraft:gravel' weight='1.0' />
+              <Replaces block='minecraft:hardened_clay' weight='1.0' />
+              <Replaces block='minecraft:stained_hardened_clay:*' weight='1.0' />
+              <Setting name='MotherlodeFrequency' avg=':= 0.708 * _default_ * vnlaMesaGoldFreq  * 0.1 ' range=':= 0.708 * _default_ * vnlaMesaGoldFreq  * 0.1 ' type='normal' scaleTo='base' />
+            </Veins>
+          </Cloud>
+        </IfCondition>
+      </ConfigSection>
+      <!-- StrategicClouds Preset for Mesa Gold is complete. -->
+
+      <!-- Starting Vanilla Preset for Mesa Gold. -->
+      <ConfigSection>
+        <IfCondition condition=':= vnlaMesaGoldDist = "Vanilla"'>
+          <StandardGen name='vnlaMesaGoldStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60EAEF57' drawBoundBox='false' boundBoxColor='0x60EAEF57'>
+            <Description>A master preset for standardgen ore distributions.</Description>
+            <OreBlock block='minecraft:gold_ore' weight='1.0' />
+            <ReplacesOre block='stone' weight='1.0' />
+            <Biome name='Mesa.*' />
+            <Setting name='Size' avg=':= 8 * oreSize * vnlaMesaGoldSize ' range=':= 2 * oreSize * vnlaMesaGoldSize ' type='normal' />
+            <Setting name='Frequency' avg=':= 4 * oreFreq * vnlaMesaGoldFreq ' range=':= 2 * oreFreq * vnlaMesaGoldFreq ' type='normal' scaleTo='base' />
+            <Setting name='Height' avg=':= 56 ' range=':= 24 ' type='uniform' scaleTo='base' />
+            <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+          </StandardGen>
+        </IfCondition>
+      </ConfigSection>
+      <!-- Vanilla Preset for Mesa Gold is complete. -->
+
+      <!-- End Mesa Gold Generation -->
 
 
       <!-- Begin Redstone Generation -->
@@ -2008,21 +2150,22 @@
 
     <!-- Nether Setup Beginning -->
 
-    <IfCondition condition=':= dimension = "Nether"'>
+    <IfCondition condition=':= dimension = "the_nether"'>
 
       <!-- Starting Original "Nether" Block Removal -->
-
-      <IfCondition condition=':= ?blockExists("minecraft:netherrack")'>
-        <Substitute name='vnlaNetherBlockSubstitute0' block='minecraft:netherrack'>
-          <Description>
-            Replace vanilla-generated ore clusters.
-          </Description>
-          <Comment>
-            The global option deferredPopulationRange  must be large
-            enough to catch all ore  clusters (>= 32).
-          </Comment>
-          <Replaces block='minecraft:quartz_ore' weight='1.0' />
-        </Substitute>
+      <IfCondition condition=':= ?cleanUpVanilla'>
+        <IfCondition condition=':= ?blockExists("minecraft:netherrack")'>
+          <Substitute name='vnlaNetherBlockSubstitute0' block='minecraft:netherrack'>
+            <Description>
+              Replace vanilla-generated ore clusters.
+            </Description>
+            <Comment>
+              The global option deferredPopulationRange  must be large
+              enough to catch all ore  clusters (>= 32).
+            </Comment>
+            <Replaces block='minecraft:quartz_ore' weight='1.0' />
+          </Substitute>
+        </IfCondition>
       </IfCondition>
 
       <!-- Original "Nether" Block Removal Complete -->
