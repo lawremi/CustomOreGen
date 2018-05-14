@@ -10,6 +10,7 @@ import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.BlockDescriptor.BlockInfo;
 import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.TileEntityHelper;
+import CustomOreGen.Util.TouchingDescriptorList;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
