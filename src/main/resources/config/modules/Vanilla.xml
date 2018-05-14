@@ -42,8 +42,10 @@
       <Choice value=':= ?true' displayValue='Yes' description='Allow vanilla ore generation by Minecraft.'/>
       <Choice value=':= ?false' displayValue='No' description='Prevent vanilla ore generation by Minecraft.'/>
     </OptionChoice>
-    <OptionChoice name='cleanUpVanilla' displayName='Use Vanilla Cleanup?' default='true' displayState=':= if(?enableVanilla, "shown", "hidden")' displayGroup='groupVanilla'>
-      <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Vanilla ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
+    <OptionChoice name='cleanUpVanilla' displayName='Use Vanilla Cleanup?' default=':= ?vanillaOreGen &amp; ?enableVanilla' displayState=':= if(?enableVanilla, "shown", "hidden")' displayGroup='groupVanilla'>
+      <Description>
+	Should Custom Ore Generation use the Substitution Pass to remove all instances of Vanilla ore from the world? This is usually only needed if a mod is generating Vanilla ores.
+      </Description>
       <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Vanilla ores.'/>
       <Choice value=':= ?false' displayValue='No' description='Vanilla ores do not need to be cleaned up by a substitution pass.'/>
     </OptionChoice>
@@ -54,15 +56,17 @@
         <Description> Controls how Clay is generated </Description>
         <DisplayName>Vanilla Clay</DisplayName>
         <IfCondition condition=':= (?blockExists("minecraft:clay")) '>
-
-        <Choice value='SmallDeposits' displayValue='Small Deposits'>
-          <Description>
-            Small motherlodes without any branches.
-          </Description>
-        </Choice>
+	  <Choice value='Vanilla' displayValue='Vanilla'>
+            <Description>
+              Minecraft generates clay.
+            </Description>
+          </Choice>
+	  <Choice value='SmallDeposits' displayValue='Small Deposits'>
+            <Description>
+              Small motherlodes without any branches.
+            </Description>
+          </Choice>
         </IfCondition>
-
-        <Choice value='none' displayValue='None' description='Clay is not generated in the world.'/>
       </OptionChoice>
       <OptionNumeric name='vnlaClayFreq' default='1'  min='0' max='5' displayState=':= if(?enableVanilla, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupVanilla'>
         <Description> Frequency multiplier for Vanilla Clay distributions </Description>
@@ -674,8 +678,7 @@
     <IfCondition condition=':= ?COGActive'>
 
       <!-- Starting Original "Overworld" Block Removal -->
-      <IfCondition condition=':= ?cleanUpVanilla'>
-        <IfCondition condition=':= vnlaClayDist != "none"'>
+        <IfCondition condition=':= vnlaClayDist != "Vanilla"'>
           <IfCondition condition=':= ?blockExists("minecraft:sand")'>
             <Substitute name='vnlaOverworldBlockSubstitute2' block='minecraft:sand'>
               <Description>
@@ -690,6 +693,7 @@
           </IfCondition>
         </IfCondition>
 
+	<IfCondition condition=':= ?cleanUpVanilla'>
         <IfCondition condition=':= ?blockExists("minecraft:stone")'>
           <Substitute name='vnlaOverworldBlockSubstitute3' block='minecraft:stone'>
             <Description>
