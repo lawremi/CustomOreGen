@@ -359,7 +359,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
         }
         
         public boolean isCompatible(Biome biome) {
-			return biome.getTemperature() >= minTemperature && biome.getTemperature() <= maxTemperature &&
+			return biome.getDefaultTemperature() >= minTemperature && biome.getDefaultTemperature() <= maxTemperature &&
 				   biome.getRainfall() >= minRainfall && biome.getRainfall() <= maxRainfall &&
 				   biome.decorator.treesPerChunk >= minTreesPerChunk &&
 				   biome.decorator.treesPerChunk <= maxTreesPerChunk &&
