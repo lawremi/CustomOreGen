@@ -78,6 +78,7 @@ public class ForgeInterface
 		case QUARTZ:
 		case REDSTONE:
 			isOre = true;
+			break;
 		default:
 			isOre = false;
         }
