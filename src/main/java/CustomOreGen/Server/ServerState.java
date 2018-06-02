@@ -333,12 +333,8 @@ public class ServerState
         }
         else
         {
-            if (_optionsGuiButton == null)
-            {
-                WorldConfig.loadedOptionOverrides[0] = null;
-                GuiCustomOreGenSettings button = new GuiCustomOreGenSettings(gui);
-                _optionsGuiButton = new GuiOpenMenuButton(gui, 99, 0, 0, 150, 20, "Custom Ore Generation...", button);
-            }
+            GuiCustomOreGenSettings settingsGui = new GuiCustomOreGenSettings(gui);
+            _optionsGuiButton = new GuiOpenMenuButton(gui, 99, 0, 0, 150, 20, "Custom Ore Generation...", settingsGui);
 
             GuiOpenMenuButton button1 = _optionsGuiButton;
             
