@@ -20,6 +20,7 @@ import CustomOreGen.Util.SimpleProfiler;
 import net.minecraft.block.BlockSand;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiCreateWorld;
+import net.minecraft.client.gui.screen.CreateWorldScreen;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -352,8 +353,8 @@ public class ServerState
     }
     
     @SideOnly(Side.CLIENT)
-    public static void updateOptionsButtonVisibility(GuiCreateWorld gui) {
-    	_optionsGuiButton.visible = !(Boolean)ObfuscationReflectionHelper.getPrivateValue(GuiCreateWorld.class, gui, 12);
+    public static void updateOptionsButtonVisibility(CreateWorldScreen gui) {
+    	_optionsGuiButton.visible = !(Boolean)ObfuscationReflectionHelper.getPrivateValue(CreateWorldScreen.class, gui, 12);
     }
     
 	public static void chunkForced(World world, ChunkPos location) {

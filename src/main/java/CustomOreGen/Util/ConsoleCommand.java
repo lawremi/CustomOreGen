@@ -1,5 +1,6 @@
 package CustomOreGen.Util;
 
+/*
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -16,21 +17,22 @@ import CustomOreGen.CustomPacketPayload;
 import CustomOreGen.CustomPacketPayload.PayloadType;
 import CustomOreGen.Config.ConfigParser;
 import CustomOreGen.Server.ServerState;
-import net.minecraft.command.CommandBase;
+//import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.SyntaxErrorException;
+//import net.minecraft.command.ICommandSender;
+//import net.minecraft.command.SyntaxErrorException;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
+//import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.text.TextComponentString;
+//import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
+//import net.minecraft.world.WorldServer;
+ * */
 
-public class ConsoleCommand extends CommandBase
+public class ConsoleCommand //extends CommandBase
 {
-    private final Object _obj;
+	/*private final Object _obj;
     private final Method _method;
 
     @Retention(RetentionPolicy.RUNTIME)
@@ -52,7 +54,7 @@ public class ConsoleCommand extends CommandBase
     public @interface CommandDelegate
     {
     	String[] names() default {};
-    	
+
     	boolean isCheat() default true;
 
     	boolean isDebugging() default true;
@@ -177,7 +179,7 @@ public class ConsoleCommand extends CommandBase
                 {
                     if (getSenderWorldServer(sender) != null)
                     	continue;
-                    
+
                     clazz = Integer.class;
                 }
                 else if (clazz.isArray() && cmdDef == ptypes.length - 1 && this._method.isVarArgs())
@@ -327,7 +329,7 @@ public class ConsoleCommand extends CommandBase
             throw new CommandException("Unkown Error: " + var17.getMessage(), new Object[0]);
         }
     }
-    
+
 	@Override
 	public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
 		CommandDelegate cmdDef = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
@@ -355,6 +357,6 @@ public class ConsoleCommand extends CommandBase
     {
         CommandDelegate cmdDef = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
         return cmdDef != null && cmdDef.isCheat() ? 2 : 0;
-    }
+    }*/
 
 }

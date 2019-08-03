@@ -6,7 +6,7 @@ public class CloudLevelHeightScale implements HeightScale {
 
 	@Override
 	public int getHeight(World world, int x, int z) {
-		return (int)world.provider.getCloudHeight();
+		return (int)world.getWorldInfo().getGenerator().getCloudHeight();
 	}
 
 	@Override

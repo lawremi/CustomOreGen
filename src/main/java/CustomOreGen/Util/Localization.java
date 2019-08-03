@@ -1,10 +1,10 @@
 package CustomOreGen.Util;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class Localization {
 	public static String maybeLocalize(String key, String defaultValue) {
 		String value = defaultValue;
