@@ -65,12 +65,21 @@ public class ForgeInterface
     	ServerState.checkIfServerChanged(world.getServer(), world.getWorldInfo());
         boolean vanillaOreGen = ServerState.getWorldConfig(world).vanillaOreGen;
         boolean isCustom = event.getType() == OreGenEvent.GenerateMinable.EventType.CUSTOM;
-        boolean isOre = event.getType() != OreGenEvent.GenerateMinable.EventType.GRAVEL && 
-        		        event.getType() != OreGenEvent.GenerateMinable.EventType.DIRT &&
-        		        // TODO: remove after we add stone generation to the configs
-        		        event.getType() != OreGenEvent.GenerateMinable.EventType.ANDESITE &&
-        		        event.getType() != OreGenEvent.GenerateMinable.EventType.DIORITE &&
-        		        event.getType() != OreGenEvent.GenerateMinable.EventType.GRANITE; 
+        boolean isOre;
+        switch(event.getType()) {
+		case COAL:
+		case DIAMOND:
+		case EMERALD:
+		case GOLD:
+		case IRON:
+		case LAPIS:
+		case QUARTZ:
+		case REDSTONE:
+			isOre = true;
+			break;
+		default:
+			isOre = false;
+        }
         event.setResult((vanillaOreGen || isCustom || !isOre) ? Result.ALLOW : Result.DENY);
     }
     

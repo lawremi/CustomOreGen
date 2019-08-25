@@ -31,7 +31,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class GuiCustomOreGenSettings extends GuiScreen
 {
     protected final GuiScreen _parentGui;
-    protected int refreshGui = 3;
+    protected int refreshGui = 2;
     protected GuiButton _doneButton = null;
     protected GuiButton _resetButton = null;
     protected GuiCustomOreGenSettings.GuiOptionSlot _optionPanel = null;

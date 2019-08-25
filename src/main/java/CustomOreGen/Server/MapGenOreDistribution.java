@@ -809,7 +809,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             }
             else
             {
-                BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks, besideBlocks);
+                BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks, besideBlocks, touchingBlocks);
                 boolean matched = arrangement.matchesAt(world, random, pos);
                 if (matched)
                 {
