@@ -2,7 +2,7 @@ package CustomOreGen.Config;
 
 import org.w3c.dom.Node;
 
-import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.ModList;
 
 public class ValidatorIfModInstalled extends ValidatorCondition
 {
@@ -14,7 +14,7 @@ public class ValidatorIfModInstalled extends ValidatorCondition
     protected boolean evaluateCondition() throws ParserException
     {
         String modName = (String)this.validateRequiredAttribute(String.class, "name", true);
-        return Loader.isModLoaded(modName);
+        return ModList.get().isLoaded(modName);
     }
     
     public static class Factory implements IValidatorFactory<ValidatorIfModInstalled>

@@ -13,6 +13,8 @@ import java.util.regex.Pattern;
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 {
@@ -125,7 +127,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
         
         //String name = biome.getBiomeName();
         //TODO
-        String name = biome.getRegistryName().getResourcePath();
+        String name = biome.getRegistryName().getNamespace();
         
         for (Descriptor desc : this._descriptors) {
             Matcher matcher;
@@ -162,7 +164,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
             this._compiled = true;
             this._matches.clear();
             
-            for (Biome biome : Biome.REGISTRY) {
+            for (Biome biome : ForgeRegistries.BIOMES) {
                 if (biome != null)
                 {
                 	this.add(biome, this.matchingWeight(biome));
@@ -359,8 +361,8 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
         }
         
         public boolean isCompatible(Biome biome) {
-			return biome.getDefaultTemperature() >= minTemperature && biome.getDefaultTemperature() <= maxTemperature &&
-				   biome.getRainfall() >= minRainfall && biome.getRainfall() <= maxRainfall &&
+			return biome.getTemperature() >= minTemperature && biome.getTemperature() <= maxTemperature &&
+				   biome.getDownfall() >= minRainfall && biome.getDownfall() <= maxRainfall &&
 				   biome.decorator.treesPerChunk >= minTreesPerChunk &&
 				   biome.decorator.treesPerChunk <= maxTreesPerChunk &&
 				   biome.getHeightVariation() >= minHeightVariation &&

@@ -25,8 +25,8 @@ import CustomOreGen.Util.IGeometryBuilder.PrimitiveType;
 import CustomOreGen.Util.Transform;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ClientState
 {
@@ -35,11 +35,11 @@ public class ClientState
     private static World _world = null;
     private static int _dgScanCounter = 0;
     private static int _dgBatchID = 0;
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     private static Map<Long,Integer> _dgListMap = new HashMap<Long, Integer>();
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     private static Set<Long> _chunkDGRequests = new HashSet<Long>();
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     private static IntBuffer _chunkDGListBuffer = null;
     private static Queue<GeometryData> geometryDataQueue = new ConcurrentLinkedQueue<GeometryData>();
 	private static boolean clearDisplayLists;
@@ -52,7 +52,7 @@ public class ClientState
         WIREFRAMEOVERLAY;
     }
 
-    @SideOnly(Side.CLIENT)
+    
     public static void onRenderWorld(Entity cameraPOV, double partialTicks)
     {
     	if (clearDisplayLists) {
@@ -242,13 +242,13 @@ public class ClientState
         }		
 	}
 
-	@SideOnly(Side.CLIENT)
+	
     public static boolean hasWorldChanged(World currentWorld)
     {
         return _world != currentWorld;
     }
 
-    @SideOnly(Side.CLIENT)
+    
     public static void onWorldChanged(World currentWorld)
     {
         _world = currentWorld;
@@ -256,14 +256,14 @@ public class ClientState
         clearDebuggingGeometry();
     }
 
-    @SideOnly(Side.CLIENT)
+    
     public static void addDebuggingGeometry(GeometryData geometryData)
     {
         if (_world != null)
         {
             if (geometryData.batchID == _dgBatchID)
             {
-                if (geometryData.dimensionID == _world.provider.getDimension())
+                if (geometryData.dimensionID == _world.getDimension().getType().getId())
                 {
                 	geometryDataQueue.add(geometryData);
                 }
@@ -271,13 +271,13 @@ public class ClientState
         }
     }
 
-    @SideOnly(Side.CLIENT)
+    
     public static void clearDebuggingGeometry()
     {
     	clearDisplayLists = true;
     }
     
-    @SideOnly(Side.CLIENT)
+    
     private static void clearDebuggingDisplayLists()
     {
     	for (int list : _dgListMap.values()) {

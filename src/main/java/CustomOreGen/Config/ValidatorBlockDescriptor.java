@@ -1,17 +1,15 @@
 package CustomOreGen.Config;
 
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTException;
-import net.minecraft.nbt.NBTTagCompound;
-
 import org.w3c.dom.Node;
+
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.JsonToNBT;
 
 public class ValidatorBlockDescriptor extends ValidatorNode
 {
     public String blocks = null;
     public float weight = 1.0F;
-	public NBTTagCompound nbt;
+	public CompoundNBT nbt;
 	
     protected ValidatorBlockDescriptor(ValidatorNode parent, Node node)
     {
@@ -26,13 +24,8 @@ public class ValidatorBlockDescriptor extends ValidatorNode
         String nbtJson = this.validateNamedAttribute(String.class, "NBT", null, true);
         if (nbtJson != null) {
         	try {
-        		NBTBase base = JsonToNBT.getTagFromJson(nbtJson);
-        		if (base instanceof NBTTagCompound) {
-        			this.nbt = (NBTTagCompound)base;
-        		} else {
-        			throw new ParserException("NBT is not a compound tag");
-        		}
-			} catch (NBTException e) {
+        		this.nbt = JsonToNBT.getTagFromJson(nbtJson);
+			} catch (Exception e) {
 				throw new ParserException("Failed to parse JSON", e);
 			}
         }

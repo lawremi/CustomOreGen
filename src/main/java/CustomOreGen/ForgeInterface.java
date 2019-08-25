@@ -3,21 +3,19 @@ package CustomOreGen;
 import CustomOreGen.Client.ClientState;
 import CustomOreGen.Server.ServerState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiCreateWorld;
-import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.gui.screen.CreateWorldScreen;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.common.ForgeChunkManager.ForceChunkEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.fml.common.eventhandler.Event.Result;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.eventbus.api.Event.Result;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ForgeInterface
 {
@@ -26,14 +24,14 @@ public class ForgeInterface
         CustomOreGenBase.log.debug("Registering Forge interface ...");
         ForgeInterface inst = new ForgeInterface();
         MinecraftForge.EVENT_BUS.register(inst);
-        MinecraftForge.ORE_GEN_BUS.register(inst);
+        //MinecraftForge.ORE_GEN_BUS.register(inst);
         //Enable when ready
         //MinecraftForge.EVENT_BUS.register(MystcraftObserver.instance());
         return inst;
     }
 
     @SubscribeEvent
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public void onRenderWorldLast(RenderWorldLastEvent event)
     {
         ClientState.onRenderWorld(Minecraft.getMinecraft().getRenderViewEntity(), (double)event.getPartialTicks());
@@ -42,13 +40,13 @@ public class ForgeInterface
     @SubscribeEvent
     public void onLoadWorld(WorldEvent.Load event)
     {
-    	World world = event.getWorld();
-        if (world instanceof WorldServer)
+    	World world = event.getWorld().getWorld();
+        if (world instanceof ServerWorld)
         {
-            ServerState.checkIfServerChanged(world.getMinecraftServer(), world.getWorldInfo());
+            ServerState.checkIfServerChanged(world.getServer(), world.getWorldInfo());
             ServerState.getWorldConfig(world);
         }
-        else if (event.getWorld() instanceof WorldClient && ClientState.hasWorldChanged(world))
+        else if (event.getWorld() instanceof ClientWorld && ClientState.hasWorldChanged(world))
         {
             ClientState.onWorldChanged(world);
         }
@@ -64,7 +62,7 @@ public class ForgeInterface
     public void onGenerateMinable(OreGenEvent.GenerateMinable event)
     {
     	World world = event.getWorld();
-    	ServerState.checkIfServerChanged(world.getMinecraftServer(), world.getWorldInfo());
+    	ServerState.checkIfServerChanged(world.getServer(), world.getWorldInfo());
         boolean vanillaOreGen = ServerState.getWorldConfig(world).vanillaOreGen;
         boolean isCustom = event.getType() == OreGenEvent.GenerateMinable.EventType.CUSTOM;
         boolean isOre;
@@ -91,20 +89,20 @@ public class ForgeInterface
     }
     
     @SubscribeEvent
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public void onInitGui(GuiScreenEvent.InitGuiEvent.Post event) {
-        if (event.getGui() instanceof GuiCreateWorld)
+        if (event.getGui() instanceof CreateWorldScreen)
         {
-            ServerState.addOptionsButtonToGui((GuiCreateWorld)event.getGui(), event.getButtonList());
+            ServerState.addOptionsButtonToGui((CreateWorldScreen)event.getGui(), event.getButtonList());
         }
     }
     
     @SubscribeEvent
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public void onActionPerformed(GuiScreenEvent.ActionPerformedEvent.Post event) {
-        if (event.getGui() instanceof GuiCreateWorld)
+        if (event.getGui() instanceof CreateWorldScreen)
         {
-            ServerState.updateOptionsButtonVisibility((GuiCreateWorld)event.getGui());
+            ServerState.updateOptionsButtonVisibility((CreateWorldScreen)event.getGui());
         }
     }
     

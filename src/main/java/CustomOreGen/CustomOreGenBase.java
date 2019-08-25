@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import CustomOreGen.Server.ServerState;
 import CustomOreGen.Server.WorldConfig;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Loader;
 
 public class CustomOreGenBase
@@ -168,7 +169,7 @@ public class CustomOreGenBase
             {
                 _hasMystcraft = -1;
 
-                if (Loader.isModLoaded("Mystcraft"))
+                if (ModList.get().isLoaded("Mystcraft"))
                 {
                 	/* FIXME: re-enable after restoring Mystcraft compatibility
                     MystcraftInterface.init();

@@ -1,7 +1,7 @@
 package CustomOreGen.Util;
 
 import java.util.HashSet;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 
 public class TouchingDescriptor {
@@ -85,40 +85,40 @@ public class TouchingDescriptor {
         positionMapContactTypeFaceAndEdge = createPositionMapConstant(TouchingContactType.FaceAndEdge);
         positionMapContactTypeAny = createPositionMapConstant(TouchingContactType.Any);
 
-        positionMapDirectionAny = createPositionMapConstant(EnumFacing.NORTH);
-        positionMapDirectionAny.addAll(createPositionMapConstant(EnumFacing.EAST));
-        positionMapDirectionAny.addAll(createPositionMapConstant(EnumFacing.SOUTH));
-        positionMapDirectionAny.addAll(createPositionMapConstant(EnumFacing.WEST));
-        positionMapDirectionAny.addAll(createPositionMapConstant(EnumFacing.UP));
-        positionMapDirectionAny.addAll(createPositionMapConstant(EnumFacing.DOWN));
+        positionMapDirectionAny = createPositionMapConstant(Direction.NORTH);
+        positionMapDirectionAny.addAll(createPositionMapConstant(Direction.EAST));
+        positionMapDirectionAny.addAll(createPositionMapConstant(Direction.SOUTH));
+        positionMapDirectionAny.addAll(createPositionMapConstant(Direction.WEST));
+        positionMapDirectionAny.addAll(createPositionMapConstant(Direction.UP));
+        positionMapDirectionAny.addAll(createPositionMapConstant(Direction.DOWN));
 
-        positionMapDirectionNorth = createPositionMapConstant(EnumFacing.NORTH);
-        positionMapDirectionEast = createPositionMapConstant(EnumFacing.EAST);
-        positionMapDirectionSouth = createPositionMapConstant(EnumFacing.SOUTH);
-        positionMapDirectionWest = createPositionMapConstant(EnumFacing.WEST);
-        positionMapDirectionUp = createPositionMapConstant(EnumFacing.UP);
-        positionMapDirectionDown = createPositionMapConstant(EnumFacing.DOWN);
+        positionMapDirectionNorth = createPositionMapConstant(Direction.NORTH);
+        positionMapDirectionEast = createPositionMapConstant(Direction.EAST);
+        positionMapDirectionSouth = createPositionMapConstant(Direction.SOUTH);
+        positionMapDirectionWest = createPositionMapConstant(Direction.WEST);
+        positionMapDirectionUp = createPositionMapConstant(Direction.UP);
+        positionMapDirectionDown = createPositionMapConstant(Direction.DOWN);
 
-        positionMapDirectionNorthSouth = createPositionMapConstant(EnumFacing.SOUTH);
-        positionMapDirectionNorthSouth.addAll(createPositionMapConstant(EnumFacing.NORTH));
-        positionMapDirectionEastWest = createPositionMapConstant(EnumFacing.EAST);
-        positionMapDirectionEastWest.addAll(createPositionMapConstant(EnumFacing.WEST));
+        positionMapDirectionNorthSouth = createPositionMapConstant(Direction.SOUTH);
+        positionMapDirectionNorthSouth.addAll(createPositionMapConstant(Direction.NORTH));
+        positionMapDirectionEastWest = createPositionMapConstant(Direction.EAST);
+        positionMapDirectionEastWest.addAll(createPositionMapConstant(Direction.WEST));
 
-        positionMapDirectionNorthEast = createPositionMapConstant(EnumFacing.NORTH);
-        positionMapDirectionNorthEast.addAll(createPositionMapConstant(EnumFacing.EAST));
-        positionMapDirectionNorthWest = createPositionMapConstant(EnumFacing.NORTH);
-        positionMapDirectionNorthWest.addAll(createPositionMapConstant(EnumFacing.WEST));
-        positionMapDirectionSouthEast = createPositionMapConstant(EnumFacing.SOUTH);
-        positionMapDirectionSouthEast.addAll(createPositionMapConstant(EnumFacing.EAST));
-        positionMapDirectionSouthWest = createPositionMapConstant(EnumFacing.SOUTH);
-        positionMapDirectionSouthWest.addAll(createPositionMapConstant(EnumFacing.WEST));
+        positionMapDirectionNorthEast = createPositionMapConstant(Direction.NORTH);
+        positionMapDirectionNorthEast.addAll(createPositionMapConstant(Direction.EAST));
+        positionMapDirectionNorthWest = createPositionMapConstant(Direction.NORTH);
+        positionMapDirectionNorthWest.addAll(createPositionMapConstant(Direction.WEST));
+        positionMapDirectionSouthEast = createPositionMapConstant(Direction.SOUTH);
+        positionMapDirectionSouthEast.addAll(createPositionMapConstant(Direction.EAST));
+        positionMapDirectionSouthWest = createPositionMapConstant(Direction.SOUTH);
+        positionMapDirectionSouthWest.addAll(createPositionMapConstant(Direction.WEST));
 
-        positionMapDirectionVertical = createPositionMapConstant(EnumFacing.UP);
-        positionMapDirectionVertical.addAll(createPositionMapConstant(EnumFacing.DOWN));
-        positionMapDirectionHorizontal = createPositionMapConstant(EnumFacing.NORTH);
-        positionMapDirectionHorizontal.addAll(createPositionMapConstant(EnumFacing.EAST));
-        positionMapDirectionHorizontal.addAll(createPositionMapConstant(EnumFacing.SOUTH));
-        positionMapDirectionHorizontal.addAll(createPositionMapConstant(EnumFacing.WEST));
+        positionMapDirectionVertical = createPositionMapConstant(Direction.UP);
+        positionMapDirectionVertical.addAll(createPositionMapConstant(Direction.DOWN));
+        positionMapDirectionHorizontal = createPositionMapConstant(Direction.NORTH);
+        positionMapDirectionHorizontal.addAll(createPositionMapConstant(Direction.EAST));
+        positionMapDirectionHorizontal.addAll(createPositionMapConstant(Direction.SOUTH));
+        positionMapDirectionHorizontal.addAll(createPositionMapConstant(Direction.WEST));
 
         positionMapVolumeCube = createPositionMapConstant(TouchingVolume.Any);
         positionMapVolumePlaneXY = createPositionMapConstant(TouchingVolume.PlaneXY);
@@ -299,7 +299,7 @@ public class TouchingDescriptor {
     }
 
     // each direction is the 3x3 wall of blocks next to the player  
-    private static HashSet<BlockPos> createPositionMapConstant(EnumFacing direction) {
+    private static HashSet<BlockPos> createPositionMapConstant(Direction direction) {
         switch (direction) {
         default:
         case NORTH: {

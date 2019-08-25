@@ -4,10 +4,10 @@ import java.util.Iterator;
 import java.util.Set;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.block.BlockState;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -15,14 +15,14 @@ import net.minecraft.world.World;
 @SuppressWarnings("unchecked")
 public class TileEntityHelper {
 
-	public static void readFromPartialNBT(TileEntity te, NBTTagCompound source) {
-		NBTTagCompound dest = new NBTTagCompound();
-		te.writeToNBT(dest);
+	public static void readFromPartialNBT(TileEntity te, CompoundNBT source) {
+		CompoundNBT dest = new CompoundNBT();
+		te.write(dest);
 		mergeNbt(source, dest);
-		te.readFromNBT(dest);
+		te.read(dest);
 	}
 	
-	public static void readFromPartialNBT(World world, int x, int y, int z, NBTTagCompound source) {
+	public static void readFromPartialNBT(World world, int x, int y, int z, CompoundNBT source) {
 		if (source != null) {
 			BlockPos pos = new BlockPos(x, y, z);
 			TileEntity te = world.getTileEntity(pos);
@@ -34,7 +34,7 @@ public class TileEntityHelper {
 			}
 			if (te != null) {
 				TileEntityHelper.readFromPartialNBT(te, source);
-				IBlockState state = world.getBlockState(pos);
+				BlockState state = world.getBlockState(pos);
 				world.notifyBlockUpdate(pos, state, state, 2);
 			}
 		}
@@ -51,13 +51,12 @@ public class TileEntityHelper {
 		}
 	}
 	
-	public static NBTTagCompound tryToCreateGTPrefixBlockNBT(ItemStack ore) {
-		Block block = ((ItemBlock)ore.getItem()).getBlock();
-		NBTTagCompound nbt = null;
+	public static CompoundNBT tryToCreateGTPrefixBlockNBT(ItemStack ore) {
+		Block block = ((BlockItem)ore.getItem()).getBlock();
+		CompoundNBT nbt = null;
 		if (isGTPrefixBlock(block)) {
-			nbt = new NBTTagCompound();
-			nbt.setShort("m", (short)ore.getItemDamage());
-			nbt.setString("id", "gt.MetaBlockTileEntity");
+			nbt = new CompoundNBT();
+			nbt.putString("id", "gt.MetaBlockTileEntity");
 		}
 		return nbt;
 	}
@@ -77,11 +76,11 @@ public class TileEntityHelper {
 		return null;
 	}
 
-	private static void mergeNbt(NBTTagCompound source, NBTTagCompound dest) {
-		Iterator<String> keys = ((Set<String>)source.getKeySet()).iterator(); 
+	private static void mergeNbt(CompoundNBT source, CompoundNBT dest) {
+		Iterator<String> keys = ((Set<String>)source.keySet()).iterator(); 
 		while(keys.hasNext()) {
 			String key = keys.next();
-			dest.setTag(key, source.getTag(key));
+			dest.put(key, source.getCompound(key));
 		}
 	}
 	

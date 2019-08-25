@@ -2,7 +2,7 @@ package CustomOreGen.Util;
 
 import java.util.Random;
 
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -38,7 +38,7 @@ public class BlockArrangement {
         if (descriptor.isEmpty()) {
             return true;
         }
-        IBlockState blockState = world.getBlockState(pos);
+        BlockState blockState = world.getBlockState(pos);
         int fastCheck = descriptor.matchesBlock_fast(blockState);
         if (fastCheck == -1) {
             return descriptor.matchesBlock(blockState, rand);
