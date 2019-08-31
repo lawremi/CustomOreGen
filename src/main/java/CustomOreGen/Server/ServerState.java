@@ -13,37 +13,26 @@ import java.util.Random;
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.GeometryData;
 import CustomOreGen.GeometryRequestData;
-import CustomOreGen.Server.GuiCustomOreGenSettings.GuiOpenMenuButton;
-import CustomOreGen.Util.CogOreGenEvent;
 import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.SimpleProfiler;
-import net.minecraft.block.BlockSand;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiCreateWorld;
 import net.minecraft.client.gui.screen.CreateWorldScreen;
+import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraft.world.chunk.storage.AnvilChunkLoader;
-import net.minecraft.world.chunk.storage.IChunkLoader;
-import net.minecraft.world.gen.ChunkProviderServer;
-import net.minecraft.world.storage.ISaveFormat;
-import net.minecraft.world.storage.SaveFormatOld;
+import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.storage.WorldInfo;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ServerState
 {
     private static MinecraftServer _server = null;
     private static Map<World,WorldConfig> _worldConfigs = new HashMap<World, WorldConfig>();
-    private static GuiOpenMenuButton _optionsGuiButton = null;
+    private static Button _optionsGuiButton = null;
     private static boolean forcingChunk;
 
     public static WorldConfig getWorldConfig(World world)
@@ -134,8 +123,8 @@ public class ServerState
     public static void populateDistributions(Collection<IOreDistribution> distributions, World world, int chunkX, int chunkZ)
     {
         SimpleProfiler.globalProfiler.startSection("Populate");
-        BlockSand.fallInstantly = true;
-        ReflectionHelper.setPrivateValue(World.class, world, true, "scheduledUpdatesAreImmediate","field_72999_e");
+        
+        // FIXME: Before 1.14, we were forcing instant block updates here. Not clear how to do that now.
         
         for (IOreDistribution dist : distributions) {
         	dist.generate(world, chunkX, chunkZ);
@@ -143,12 +132,6 @@ public class ServerState
             dist.cull();
         }
         
-        ReflectionHelper.setPrivateValue(World.class, world, false, "scheduledUpdatesAreImmediate","field_72999_e");
-        BlockSand.fallInstantly = false;
-        if (Loader.isModLoaded("UndergroundBiomes")) {
-        	// FIXME: API not yet available for 1.8.x
-        	// UBAPIHook.ubAPIHook.ubOreTexturizer.redoOres(chunkX*16, chunkZ*16, world);
-        }
         SimpleProfiler.globalProfiler.endSection();
     }
 
@@ -201,7 +184,6 @@ public class ServerState
             	if (allNeighborsPopulated(world, iX, iZ, range)) {
             		//CustomOreGenBase.log.info("[" + iX + "," + iZ + "]: POPULATING");
             		populateDistributions(cfg.getOreDistributions(), world, iX, iZ);
-            		MinecraftForge.ORE_GEN_BUS.post(new CogOreGenEvent(world, rand, new BlockPos(iX*16, 0, iZ*16)));
             	}
             }
         }
@@ -225,27 +207,7 @@ public class ServerState
 	}
 
 	private static boolean chunkHasBeenPopulated(World world, int chunkX, int chunkZ) {
-		// NOTE: We assume the chunk has been populated if it is only on disk, 
-		//       because if we load it to check, it will be populated automatically.
-		return chunkIsLoaded(world, chunkX, chunkZ) ? 
-				world.getChunkFromChunkCoords(chunkX, chunkZ).isTerrainPopulated() : 
-					chunkIsSaved(world, chunkX, chunkZ);
-	}
-
-	private static boolean chunkIsLoaded(World world, int chunkX, int chunkZ) {
-		return world.getChunkProvider().getLoadedChunk(chunkX, chunkZ) != null;
-	}
-	
-	private static boolean chunkIsSaved(World world, int chunkX, int chunkZ) {
-		if (world.getChunkProvider() instanceof ChunkProviderServer) {
-			IChunkLoader loader = ((ChunkProviderServer)world.getChunkProvider()).chunkLoader;
-			if (loader instanceof AnvilChunkLoader) {
-				//if (((AnvilChunkLoader) loader).chunkExists(world, chunkX, chunkZ))
-				//	CustomOreGenBase.log.info("[" + chunkX + "," + chunkZ + "]: saved on disk");
-				return ((AnvilChunkLoader) loader).chunkExists(world, chunkX, chunkZ);
-			}
-		}
-		return false;
+		return world.getChunk(chunkX, chunkZ).getStatus().isAtLeast(ChunkStatus.FEATURES);
 	}
 
 	public static boolean checkIfServerChanged(MinecraftServer currentServer, WorldInfo worldInfo)
@@ -258,12 +220,12 @@ public class ServerState
         {
             if (currentServer != null && worldInfo == null)
             {
-                if (currentServer.worlds == null)
+                if (currentServer.getWorlds()== null)
                 {
                     return false;
                 }
 
-                for (WorldServer world : currentServer.worlds) {
+                for (ServerWorld world : currentServer.getWorlds()) {
                     if (world != null)
                     {
                         worldInfo = world.getWorldInfo();
@@ -294,15 +256,7 @@ public class ServerState
 
         _server = server;
         CustomOreGenBase.log.debug("Server world changed to " + worldInfo.getWorldName());
-        File f = null;
-        ISaveFormat format = _server.getActiveAnvilConverter();
-
-        if (format != null && format instanceof SaveFormatOld)
-        {
-            f = ((SaveFormatOld)format).savesDirectory;
-        }
-
-        f = new File(f, _server.getFolderName());
+        File f = new File(_server.getFolderName());
         WorldConfig config = null;
 
         while (config == null)
@@ -325,8 +279,8 @@ public class ServerState
         }
     }
 
-    @SideOnly(Side.CLIENT)
-    public static void addOptionsButtonToGui(GuiCreateWorld gui, List<GuiButton> buttonList)
+    @OnlyIn(Dist.CLIENT)
+    public static void addOptionsButtonToGui(CreateWorldScreen gui, List<Widget> buttonList)
     {
         if (gui == null)
         {
@@ -335,9 +289,11 @@ public class ServerState
         else
         {
             GuiCustomOreGenSettings settingsGui = new GuiCustomOreGenSettings(gui);
-            _optionsGuiButton = new GuiOpenMenuButton(gui, 99, 0, 0, 150, 20, "Custom Ore Generation...", settingsGui);
+            _optionsGuiButton = new Button(150, 20, 0, 0, "Custom Ore Generation...", (button) -> {
+            	gui.getMinecraft().displayGuiScreen(settingsGui);
+            });
 
-            GuiOpenMenuButton button1 = _optionsGuiButton;
+            Button button1 = _optionsGuiButton;
             
             if (!buttonList.contains(button1))
             {
@@ -348,9 +304,9 @@ public class ServerState
         }
     }
     
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public static void updateOptionsButtonVisibility(CreateWorldScreen gui) {
-    	_optionsGuiButton.visible = !(Boolean)ObfuscationReflectionHelper.getPrivateValue(CreateWorldScreen.class, gui, 12);
+    	_optionsGuiButton.visible = !(Boolean)ObfuscationReflectionHelper.getPrivateValue(CreateWorldScreen.class, gui, "inMoreWorldOptionsDisplay");
     }
     
 	public static void chunkForced(World world, ChunkPos location) {
@@ -367,7 +323,7 @@ public class ServerState
             for (int cZ = location.z - radius; cZ <= location.z + radius; ++cZ)
             {
             	if (cX != location.x && cZ != location.z) {
-            		world.getChunkFromChunkCoords(cX, cZ);
+            		world.getChunk(cX, cZ);
             	}
             }
         }
