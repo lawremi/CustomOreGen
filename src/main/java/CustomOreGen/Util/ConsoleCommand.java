@@ -1,6 +1,5 @@
 package CustomOreGen.Util;
 
-/*
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -28,39 +27,11 @@ import net.minecraft.tileentity.TileEntity;
 //import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 //import net.minecraft.world.WorldServer;
- * */
 
 public class ConsoleCommand //extends CommandBase
 {
 	/*private final Object _obj;
     private final Method _method;
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target( {ElementType.PARAMETER})
-    public @interface ArgName
-    {
-    	String name() default "";
-    }
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target( {ElementType.PARAMETER})
-    public @interface ArgOptional
-    {
-    	String defValue() default "";
-    }
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target( {ElementType.METHOD})
-    public @interface CommandDelegate
-    {
-    	String[] names() default {};
-
-    	boolean isCheat() default true;
-
-    	boolean isDebugging() default true;
-
-    	String desc() default "";
-    }
 
     public static void sendText(ICommandSender recipient, String text)
     {

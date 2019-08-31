@@ -1,6 +1,11 @@
 package CustomOreGen.Server;
 
 import java.io.Serializable;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -8,30 +13,65 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.CustomPacketPayload;
 import CustomOreGen.CustomPacketPayload.PayloadType;
+import CustomOreGen.CustomPacketPayloadHandler;
 import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockDescriptor;
-import CustomOreGen.Util.ConsoleCommand;
-import CustomOreGen.Util.ConsoleCommand.ArgName;
-import CustomOreGen.Util.ConsoleCommand.ArgOptional;
-import CustomOreGen.Util.ConsoleCommand.CommandDelegate;
 import CustomOreGen.Util.PDist;
 import CustomOreGen.Util.PDist.Type;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.command.CommandSource;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.WorldServer;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.ServerWorld;
 
 public class ConsoleCommands
 {
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target( {ElementType.PARAMETER})
+    public @interface ArgName
+    {
+    	String name() default "";
+    }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target( {ElementType.PARAMETER})
+    public @interface ArgOptional
+    {
+    	String defValue() default "";
+    }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target( {ElementType.METHOD})
+    public @interface CommandDelegate
+    {
+    	String[] names() default {};
+
+    	boolean isCheat() default true;
+
+    	boolean isDebugging() default true;
+
+    	String desc() default "";
+    }
+    
+    public static void register(CommandDispatcher<CommandSource> dispatcher) {
+        for (Method method : ConsoleCommands.class.getMethods()) {
+        	if (method.getAnnotation(CommandDelegate.class) != null)
+            {
+                // TODO: process annotations and call builder methods on dispatcher.
+            }
+        }
+    }
+    
     private static void resetClientGeometryCache()
     {
-        (new CustomPacketPayload(PayloadType.DebuggingGeometryReset, (Serializable)null)).sendToAllClients();
+        CustomPacketPayloadHandler.sendToAllClients(new CustomPacketPayload(PayloadType.DebuggingGeometryReset, (Serializable)null));
     }
 
     private static void buildFieldValue(StringBuilder msg, String indent, String name, String desc, Object value)
@@ -92,7 +132,7 @@ public class ConsoleCommands
     public String cogInfo(
             @ArgName(
                     name = "dimension"
-            ) WorldServer world,
+            ) ServerWorld world,
             @ArgName(
                     name = "distribution"
             ) @ArgOptional String distribution,
@@ -114,7 +154,7 @@ public class ConsoleCommands
 
         if (config.world != null)
         {
-            msg.append("Dim " + config.world.provider.getDimension() + ", ");
+            msg.append("Dim " + config.world.getDimension() + ", ");
         }
 
         if (dists != null)
@@ -167,19 +207,16 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Sets the global wireframe rendering mode.  Omit mode to cycle through modes."
     )
-    public void cogWireframeMode(ICommandSender sender,
+    public void cogWireframeMode(CommandSource sender,
             @ArgName(
                     name = "None|Polygon|Wireframe|WireframeOverlay"
             ) @ArgOptional String renderMode)
     {
-        if (sender instanceof EntityPlayerMP)
-        {
-            (new CustomPacketPayload(PayloadType.DebuggingGeometryRenderMode, renderMode)).sendToClient((EntityPlayerMP)sender);
-        }
-        else
-        {
-            throw new IllegalArgumentException("/cogWireframeMode is a client-side command and may only be used by a player.");
-        }
+        try {
+			CustomPacketPayloadHandler.sendTo(new CustomPacketPayload(PayloadType.DebuggingGeometryRenderMode, renderMode), sender.asPlayer());
+		} catch (CommandSyntaxException e) {
+			throw new IllegalArgumentException("/cogWireframeMode is a client-side command and may only be used by a player.");
+		}
     }
 
     @CommandDelegate(
@@ -188,7 +225,7 @@ public class ConsoleCommands
     public String cogClear(
             @ArgName(
                     name = "dimension"
-            ) WorldServer world,
+            ) ServerWorld world,
             @ArgName(
                     name = "distribution"
             )
@@ -211,10 +248,10 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Repopulates chunks in the specified range around the player.  Omit distribution name to repopulate all distributions."
     )
-    public String cogPopulate(ICommandSender sender,
+    public String cogPopulate(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) WorldServer world,
+            ) ServerWorld world,
             @ArgName(
                     name = "chunkRange"
             ) int chunkRange,
@@ -233,15 +270,21 @@ public class ConsoleCommands
     {
         WorldConfig cfg = ServerState.getWorldConfig(world);
         Collection<IOreDistribution> list = cfg.getOreDistributions(distribution);
-        BlockPos senderPos = sender.getPosition();
-        int cX = centerX == null ? senderPos.getX() : centerX.intValue();
+        BlockPos senderPos;
+        try {
+			sender.assertIsEntity();
+		} catch (CommandSyntaxException e) {
+			sendError(sender, e);
+		}
+		senderPos = sender.getEntity().getPosition();
+		int cX = centerX == null ? senderPos.getX() : centerX.intValue();
         int cZ = centerZ == null ? senderPos.getZ() : centerZ.intValue();
 
         for (int chunkX = (cX >> 4) - chunkRange; chunkX <= (cX >> 4) + chunkRange; ++chunkX)
         {
             for (int chunkZ = (cZ >> 4) - chunkRange; chunkZ <= (cZ >> 4) + chunkRange; ++chunkZ)
             {
-                cfg.world.getChunkFromChunkCoords(chunkX, chunkZ);
+                cfg.world.getChunk(chunkX, chunkZ);
                 ServerState.populateDistributions(list, cfg.world, chunkX, chunkZ);
             }
         }
@@ -252,10 +295,10 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Sets the parent distribution.  Omit parent name to clear parent distribution."
     )
-    public String cogParent(ICommandSender sender,
+    public String cogParent(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) WorldServer world,
+            ) ServerWorld world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -295,7 +338,7 @@ public class ConsoleCommands
             }
             catch (Exception var11)
             {
-                ConsoleCommand.sendText(sender, "\u00a7c" + var11.getMessage());
+                sender.sendErrorMessage(new StringTextComponent("\u00a7c" + var11.getMessage()));
             }
         }
 
@@ -303,7 +346,7 @@ public class ConsoleCommands
         return "Changed parent for " + count + " distributions";
     }
 
-    private static int changeBiomeDescriptor(String settingName, ICommandSender sender, WorldServer world, String distribution, String descriptor, float weight, boolean clear)
+    private static int changeBiomeDescriptor(String settingName, CommandSource sender, ServerWorld world, String distribution, String descriptor, float weight, boolean clear)
     {
         int count = 0;
         
@@ -336,7 +379,7 @@ public class ConsoleCommands
                 dist.validate();
             } catch (Exception var12)
             {
-                ConsoleCommand.sendText(sender, "\u00a7c" + var12.getMessage());
+                sendError(sender, var12);
             }
         }
         
@@ -344,7 +387,7 @@ public class ConsoleCommands
         return count;
     }
     
-    private static int changeBlockDescriptor(String settingName, ICommandSender sender, WorldServer world, String distribution, String descriptor, float weight, boolean clear, boolean describesOre, boolean matchFirst, boolean isRegexp, String nbt)
+    private static int changeBlockDescriptor(String settingName, CommandSource sender, ServerWorld world, String distribution, String descriptor, float weight, boolean clear, boolean describesOre, boolean matchFirst, boolean isRegexp, String nbt)
     {
         int count = 0;
         
@@ -372,11 +415,8 @@ public class ConsoleCommands
                         desc.clear();
                     }
 
-                    NBTBase nbtBase = JsonToNBT.getTagFromJson(nbt);
-                    if (!(nbtBase instanceof NBTTagCompound)) {
-                    	throw new IllegalArgumentException("NBT is not a compound tag");
-                    }
-                    desc.add(descriptor, weight, describesOre, isRegexp, matchFirst, nbt == null ? null : (NBTTagCompound)nbtBase);
+                    CompoundNBT compoundNBT = JsonToNBT.getTagFromJson(nbt);
+                    desc.add(descriptor, weight, describesOre, isRegexp, matchFirst, compoundNBT);
                     ++count;
                 }
                 
@@ -385,7 +425,7 @@ public class ConsoleCommands
             }
             catch (Exception var12)
             {
-                ConsoleCommand.sendText(sender, "\u00a7c" + var12.getMessage());
+                sendError(sender, var12);
             }
         }
 
@@ -396,10 +436,10 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Adds an ore block."
     )
-    public String cogAddOreBlock(ICommandSender sender,
+    public String cogAddOreBlock(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) WorldServer world,
+            ) ServerWorld world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -431,10 +471,10 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Sets the ore block (clearing any previous ore blocks)."
     )
-    public String cogSetOreBlock(ICommandSender sender,
+    public String cogSetOreBlock(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) WorldServer world,
+            ) ServerWorld world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -466,10 +506,10 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Adds a replaceable block."
     )
-    public String cogAddReplaceable(ICommandSender sender,
+    public String cogAddReplaceable(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) WorldServer world,
+            ) ServerWorld world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -497,10 +537,10 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Sets the replaceable block (clearing any previous replaceable blocks)."
     )
-    public String cogSetReplaceable(ICommandSender sender,
+    public String cogSetReplaceable(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) WorldServer world,
+            ) ServerWorld world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -528,10 +568,10 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Adds a target biome."
     )
-    public String cogAddBiome(ICommandSender sender,
+    public String cogAddBiome(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) WorldServer world,
+            ) ServerWorld world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -553,10 +593,10 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Sets the target biome (clearing any previous biomes)."
     )
-    public String cogSetBiome(ICommandSender sender,
+    public String cogSetBiome(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) WorldServer world,
+            ) ServerWorld world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -578,10 +618,10 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Sets a distribution setting.  Setting names are the same as the <Setting> names in the config file.  Range and Type are optional (default to 0 and \'uniform\', respectively)."
     )
-    public String cogSetting(ICommandSender sender,
+    public String cogSetting(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) WorldServer world,
+            ) ServerWorld world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -617,7 +657,7 @@ public class ConsoleCommands
             }
             catch (Exception var12)
             {
-                ConsoleCommand.sendText(sender, "\u00a7c" + var12.getMessage());
+                sendError(sender, var12);
             }
         }
 
@@ -628,10 +668,10 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Sets a simple numeric/boolean/string/enum setting.  Setting names are the same as the corresponding attributes in the config file."
     )
-    public String cogSettingEx(ICommandSender sender,
+    public String cogSettingEx(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) WorldServer world,
+            ) ServerWorld world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -655,7 +695,7 @@ public class ConsoleCommands
             }
             catch (Exception var10)
             {
-                ConsoleCommand.sendText(sender, "\u00a7c" + var10.getMessage());
+                sendError(sender, var10.getMessage());
             }
         }
 
@@ -669,7 +709,7 @@ public class ConsoleCommands
     public String cogOptionInfo(
             @ArgName(
                     name = "dimension"
-            ) WorldServer world,
+            ) ServerWorld world,
             @ArgName(
                     name = "option"
             ) @ArgOptional String option,
@@ -688,7 +728,7 @@ public class ConsoleCommands
 
         if (config.world != null)
         {
-            msg.append("Dim " + config.world.provider.getDimension() + ", ");
+            msg.append("Dim " + config.world.getDimension().getType().getRegistryName() + ", ");
         }
 
         if (options != null)
@@ -715,10 +755,10 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Set an option value for the current dimension.  The change lasts until the world configuration is reloaded."
     )
-    public String cogOption(ICommandSender sender,
+    public String cogOption(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) WorldServer world,
+            ) ServerWorld world,
             @ArgName(
                     name = "option"
             ) String option,
@@ -741,7 +781,7 @@ public class ConsoleCommands
             }
             else
             {
-                ConsoleCommand.sendText(sender, "\u00a7cInvalid value \'" + value + "\' for Option \'" + opt.getName() + "\'");
+                sendError(sender, "Invalid value \'" + value + "\' for Option \'" + opt.getName() + "\'");
             }
         }
 
@@ -758,10 +798,10 @@ public class ConsoleCommands
             isDebugging = false,
             desc = "Enabled or disable debugging mode for the current dimension."
     )
-    public String cogEnableDebugging(ICommandSender sender,
+    public String cogEnableDebugging(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) WorldServer world,
+            ) ServerWorld world,
             @ArgName(
                     name = "enable"
             )
@@ -778,11 +818,19 @@ public class ConsoleCommands
     public String cogLoadConfig(
             @ArgName(
                     name = "dimension"
-            ) WorldServer world)
+            ) ServerWorld world)
     {
         ServerState.clearWorldConfig(world);
         String path = ServerState.getWorldConfig(world).dimensionDir.toString();
         resetClientGeometryCache();
         return "Reloaded config data for " + path;
     }
+    
+    private static void sendError(CommandSource source, Exception exception) {
+    	sendError(source, exception.getMessage());
+    }
+
+	private static void sendError(CommandSource source, String message) {
+		source.sendErrorMessage(new StringTextComponent("\u00a7c" + message));
+	}
 }
