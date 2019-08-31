@@ -736,14 +736,14 @@ public class GeometryRenderer implements IGeometryBuilder
             {
                 byte offset = 0;
                 this.vBuffer.position(offset);
-                GL11.glVertexPointer(3, vsize, this.vBuffer.asFloatBuffer());
+                GL11.glVertexPointer(3, GL11.GL_FLOAT, vsize, this.vBuffer.asFloatBuffer());
                 GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
                 int offset1 = offset + 12;
 
                 if (this.hasNormal)
                 {
                     this.vBuffer.position(offset1);
-                    GL11.glNormalPointer(vsize, this.vBuffer.asFloatBuffer());
+                    GL11.glNormalPointer(GL11.GL_FLOAT, vsize, this.vBuffer.asFloatBuffer());
                     GL11.glEnableClientState(GL11.GL_NORMAL_ARRAY);
                     offset1 += 12;
                 }
@@ -751,7 +751,7 @@ public class GeometryRenderer implements IGeometryBuilder
                 if (this.hasColor)
                 {
                     this.vBuffer.position(offset1);
-                    GL11.glColorPointer(4, true, vsize, this.vBuffer);
+                    GL11.glColorPointer(4, GL11.GL_BYTE, vsize, this.vBuffer);
                     GL11.glEnableClientState(GL11.GL_COLOR_ARRAY);
                     offset1 += 4;
                 }
@@ -759,7 +759,7 @@ public class GeometryRenderer implements IGeometryBuilder
                 if (this.texture >= 0)
                 {
                     this.vBuffer.position(offset1);
-                    GL11.glTexCoordPointer(2, vsize, this.vBuffer.asFloatBuffer());
+                    GL11.glTexCoordPointer(2, GL11.GL_FLOAT, vsize, this.vBuffer.asFloatBuffer());
                     GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
                     offset1 += 8;
                 }
