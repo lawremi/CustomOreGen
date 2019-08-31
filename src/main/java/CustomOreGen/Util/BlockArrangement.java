@@ -39,11 +39,7 @@ public class BlockArrangement {
             return true;
         }
         BlockState blockState = world.getBlockState(pos);
-        int fastCheck = descriptor.matchesBlock_fast(blockState);
-        if (fastCheck == -1) {
-            return descriptor.matchesBlock(blockState, rand);
-        }
-        return fastCheck == 1;
+        return descriptor.matchesBlock(blockState, rand);
     }
 
     private boolean touchesAt(World world, Random rand, BlockPos pos) {
