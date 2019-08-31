@@ -11,16 +11,27 @@ import CustomOreGen.Util.BlockDescriptor.BlockInfo;
 import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.TileEntityHelper;
 import CustomOreGen.Util.TouchingDescriptorList;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraft.world.chunk.ChunkStatus;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.GenerationSettings;
+import net.minecraft.world.gen.Heightmap;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.IFeatureConfig;
 
-public class WorldGenSubstitution extends WorldGenerator implements IOreDistribution
+/*
+ * TODO:
+ * 1. Create OreDistributionConfig that extends FeatureConfig and uses @DistributionSetting to handle serialization
+ * 2. Move each distribution's settings to a corresponding extension of OreDistributionConfig
+ * 3. Move the setting accessors from IOreDstribution to OreDistributionConfig. Will require a lot of refactoring. 
+ * 4. Refactor each distribution's generate() into place(), i.e., based on the config
+ */
+public class SubstitutionFeature extends Feature<SubstitutionFeatureConfig> implements IOreDistribution
 {
     @DistributionSetting(
             name = "Name",
@@ -129,9 +140,9 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
     
     protected boolean _valid;
     protected final boolean _canGenerate;
-    protected static final DistributionSettingMap settingMap = new DistributionSettingMap(WorldGenSubstitution.class);
+    protected static final DistributionSettingMap settingMap = new DistributionSettingMap(SubstitutionFeature.class);
 
-    public WorldGenSubstitution(int distributionID, boolean canGenerate)
+    public SubstitutionFeature(int distributionID, boolean canGenerate)
     {
         this.oreBlock = new BlockDescriptor(Blocks.STONE);
         this.replaceableBlocks = new BlockDescriptor();
@@ -155,9 +166,9 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
 
     public void inheritFrom(IOreDistribution inherits) throws IllegalArgumentException
     {
-        if (inherits != null && inherits instanceof WorldGenSubstitution)
+        if (inherits != null && inherits instanceof SubstitutionFeature)
         {
-            settingMap.inheritAll((WorldGenSubstitution)inherits, this);
+            settingMap.inheritAll((SubstitutionFeature)inherits, this);
             this._valid = false;
         }
         else
@@ -262,6 +273,12 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
         }
     }
 
+	@Override
+	public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, IFeatureConfig config) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
     public boolean generate(World world, Random random, BlockPos position)
     {
         if (this._canGenerate && this._valid && this.oreBlock != null)
@@ -282,10 +299,9 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
                 	int chunkZ = depositCZ + dCZ;
                     int chunkX = depositCX + dCX;
 
-                    BlockPos pos = new BlockPos(chunkX * 16, 0, chunkZ * 16);
-                    if (world.isBlockLoaded(pos))
+                    Chunk chunk = (Chunk)world.getChunk(chunkX, chunkZ, ChunkStatus.FEATURES.getParent(), false);
+                    if (chunk != null)
                     {
-                        Chunk chunk = world.getChunkFromChunkCoords(chunkX, chunkZ);
                         int minX = dCX < 0 && -dCX * 2 > hRange ? 8 : 0;
                         int minZ = dCZ < 0 && -dCZ * 2 > hRange ? 8 : 0;
                         int maxX = dCX > 0 && dCX * 2 > hRange ? 8 : 16;
@@ -295,7 +311,7 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
                         {
                             for (int z = minZ; z < maxZ; ++z)
                             {
-                            	Biome biome = chunk.getBiome(new BlockPos(x, 0, z), world.provider.getBiomeProvider());
+                            	Biome biome = chunk.getBiome(new BlockPos(x, 0, z));
 
                                 if (biome == null || this.biomes.getWeight(biome) > 0.5F)
                                 {
@@ -340,25 +356,9 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
             return false;
         }
     }
-
-    private boolean isSurfaceBlock(IBlockState state) {
-    	Material material = state.getMaterial();
-    	return 
-    	  material == Material.CLAY || 
-		  material == Material.GRASS || 
-		  material == Material.GROUND || 
-		  material == Material.ICE ||
-		  material == Material.ROCK ||
-		  material == Material.SAND;
-    }
     
     private int findSurfaceHeight(Chunk chunk, int x, int z) {
-    	int surfh = chunk.getHeightValue(x, z);
-		while (surfh > 0 && !isSurfaceBlock(chunk.getBlockState(x, surfh, z))) 
-		{
-			surfh--;
-		}
-		return surfh;
+    	return chunk.getTopBlockY(Heightmap.Type.WORLD_SURFACE, x, z);
 	}
 
 	public String toString()

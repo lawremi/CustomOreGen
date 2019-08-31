@@ -30,8 +30,8 @@ import CustomOreGen.Server.MapGenCloud;
 import CustomOreGen.Server.MapGenClusters;
 import CustomOreGen.Server.MapGenVeins;
 import CustomOreGen.Server.NumericOption;
+import CustomOreGen.Server.SubstitutionFeature;
 import CustomOreGen.Server.WorldConfig;
-import CustomOreGen.Server.WorldGenSubstitution;
 import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.CIStringMap;
@@ -307,8 +307,8 @@ public class ConfigParser
         addDistributionType("VeinsPreset", MapGenVeins.class, false);
         addDistributionType("Cloud", MapGenCloud.class, true);
         addDistributionType("CloudPreset", MapGenCloud.class, false);
-        addDistributionType("Substitute", WorldGenSubstitution.class, true);
-        addDistributionType("SubstitutePreset", WorldGenSubstitution.class, false);
+        addDistributionType("Substitute", SubstitutionFeature.class, true);
+        addDistributionType("SubstitutePreset", SubstitutionFeature.class, false);
     }
     
     public class ConfigExpressionEvaluator extends ExpressionEvaluator

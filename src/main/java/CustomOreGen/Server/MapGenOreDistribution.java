@@ -2,7 +2,6 @@ package CustomOreGen.Server;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -20,21 +19,22 @@ import CustomOreGen.Util.TileEntityHelper;
 import CustomOreGen.Util.TouchingDescriptorList;
 import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.WireframeShapes;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.block.Blocks;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkPrimer;
-import net.minecraft.world.gen.structure.MapGenStructure;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
-import net.minecraft.world.gen.structure.StructureComponent;
-import net.minecraft.world.gen.structure.StructureStart;
-import net.minecraft.world.gen.structure.template.TemplateManager;
+import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.gen.feature.structure.StructurePiece;
+import net.minecraft.world.gen.feature.structure.StructureStart;
+import net.minecraft.world.gen.feature.template.TemplateManager;
 
-public abstract class MapGenOreDistribution extends MapGenStructure implements IOreDistribution
+public abstract class MapGenOreDistribution extends Structure implements IOreDistribution
 {
     @DistributionSetting(
             name = "Name",
@@ -539,7 +539,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         {
             int minX = chunkX << 4;
             int minZ = chunkZ << 4;
-            StructureBoundingBox bb = new StructureBoundingBox(minX, 0, minZ, minX + 15, world.getHeight(), minZ + 15);
+            MutableBoundingBox bb = new MutableBoundingBox(minX, 0, minZ, minX + 15, world.getHeight(), minZ + 15);
             boolean structureFound = false;
 
             for (int cX = chunkX - super.range; cX <= chunkX + super.range; ++cX)
@@ -571,11 +571,11 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         {
             BlockPos minPos = null;
             int minDist2 = Integer.MAX_VALUE;
-            StructureBoundingBox searchBounds = new StructureBoundingBox(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+            MutableBoundingBox searchBounds = new MutableBoundingBox(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
             for (StructureStart vs : (Collection<StructureStart>)super.structureMap.values()) {
             	if (vs.getBoundingBox().intersectsWith(searchBounds))
                 {
-                	for (StructureComponent vc : (List<StructureComponent>)vs.getComponents()) {
+                	for (StructurePiece vc : vs.getComponents()) {
                 		if (vc.getComponentType() == 0)
                         {
                             BlockPos center = getBoundingBoxCenter(vc.getBoundingBox());
@@ -605,7 +605,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
 
-    private BlockPos getBoundingBoxCenter(StructureBoundingBox box) {
+    private BlockPos getBoundingBoxCenter(MutableBoundingBox box) {
 		return new BlockPos((box.maxX - box.minX)/2 + box.minX, (box.maxY - box.minY)/2 + box.minY, (box.maxZ - box.minZ)/2 + box.minZ);
 	}
 
@@ -703,7 +703,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                         return false;
                     }
 
-                    BlockPos parentPos = parent.getNearestStructure(world, pos);
+                    BlockPos parentPos = parent.getNearestStructure(this.world, pos);
 
                     if (parentPos == null)
                     {
@@ -723,10 +723,11 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             return true;
         }
 
-        public void generateStructure(World world, Random random, StructureBoundingBox bounds)
+        @Override
+        public void generateStructure(IWorld world, Random random, MutableBoundingBox bounds, ChunkPos pos)
         {
             int oldCompleteComponents = this.completeComponents;
-            super.generateStructure(world, random, bounds);
+            super.generateStructure(world, random, bounds, pos);
 
             if (oldCompleteComponents != this.completeComponents && this.completeComponents == super.components.size())
             {
@@ -739,8 +740,8 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         {
             GeometryStream builder;
 
-            for (StructureComponent comp : this.getComponents()) {
-            	StructureBoundingBox bb = comp.getBoundingBox();
+            for (StructurePiece comp : this.getComponents()) {
+            	MutableBoundingBox bb = comp.getBoundingBox();
                 int cX = getBoundingBoxCenter(bb).getX() / 16;
                 int cZ = getBoundingBoxCenter(bb).getZ() / 16;
                 long key = (long)cX << 32 | (long)cZ & 4294967295L;
@@ -756,7 +757,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
     
-    public class Component extends StructureComponent
+    public class Component extends StructurePiece
     {
         public final StructureGroup structureGroup;
         public long populatedBlocks;
@@ -770,7 +771,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             this.structureGroup = structureGroup;
         }
 
-        public boolean addComponentParts(World world, Random random, StructureBoundingBox bounds)
+        public boolean addComponentParts(World world, Random random, MutableBoundingBox bounds)
         {
             int sizeX = Math.min(bounds.maxX, super.boundingBox.maxX) - Math.max(bounds.minX, super.boundingBox.minX) + 1;
             int sizeY = Math.min(bounds.maxY, super.boundingBox.maxY) - Math.max(bounds.minY, super.boundingBox.minY) + 1;
@@ -800,7 +801,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             }
         }
 
-        public boolean attemptPlaceBlock(World world, Random random, int x, int y, int z, StructureBoundingBox bounds)
+        public boolean attemptPlaceBlock(World world, Random random, int x, int y, int z, MutableBoundingBox bounds)
         {
         	BlockPos pos = new BlockPos(x, y, z);
             if (!bounds.isVecInside(pos))
@@ -868,7 +869,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                 color[1] = (float)(wfBBColor >>> 8 & 255L) / 255.0F;
                 color[2] = (float)(wfBBColor & 255L) / 255.0F;
                 gb.setColor(color);
-                StructureBoundingBox bounds = this.getBoundingBox();
+                MutableBoundingBox bounds = this.getBoundingBox();
                 Transform trans = new Transform();
                 trans.scale(0.5F, 0.5F, 0.5F);
                 trans.translate((float)(bounds.maxX + bounds.minX), (float)(bounds.maxY + bounds.minY), (float)(bounds.maxZ + bounds.minZ));
@@ -886,18 +887,6 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                 gb.setColor(color);
             }
         }
-
-        @Override
-		protected void writeStructureToNBT(NBTTagCompound tagCompound) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		protected void readStructureFromNBT(NBTTagCompound tagCompound, TemplateManager template) {
-			// TODO Auto-generated method stub
-			
-		}
     }
 
 	@Override
@@ -918,7 +907,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         {
             if (structurestart.isSizeableStructure())
             {
-                StructureComponent structurecomponent = (StructureComponent)structurestart.getComponents().get(0);
+                StructurePiece structurecomponent = (StructurePiece)structurestart.getComponents().get(0);
                 BlockPos blockpos1 = getBoundingBoxCenter(structurecomponent.getBoundingBox());
                 double d1 = blockpos1.distanceSq(pos);
 
