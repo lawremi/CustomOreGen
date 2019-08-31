@@ -6,39 +6,36 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import org.lwjgl.input.Mouse;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import CustomOreGen.Server.ConfigOption.DisplayGroup;
 import CustomOreGen.Util.Localization;
+import net.java.games.input.Mouse;
+import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiOptionSlider;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiSlot;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.OptionSlider;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.init.SoundEvents;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.SoundEvents;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
-public class GuiCustomOreGenSettings extends GuiScreen
+@OnlyIn(Dist.CLIENT)
+public class GuiCustomOreGenSettings extends Screen
 {
-    protected final GuiScreen _parentGui;
+    protected final Screen _parentGui;
     protected int refreshGui = 2;
-    protected GuiButton _doneButton = null;
-    protected GuiButton _resetButton = null;
+    protected Button _doneButton = null;
+    protected Button _resetButton = null;
     protected GuiCustomOreGenSettings.GuiOptionSlot _optionPanel = null;
     protected GuiGroupPanel _groupPanel = null;
     protected String _toolTip = null;
 
-    public GuiCustomOreGenSettings(GuiScreen parentGui)
+    public GuiCustomOreGenSettings(Screen parentGui)
     {
         this._parentGui = parentGui;
     }
@@ -131,16 +128,16 @@ public class GuiCustomOreGenSettings extends GuiScreen
         }
 
         this._groupPanel = new GuiGroupPanel(0, 20, super.width, 20, currentGroup, visibleGroups1);
-        this._optionPanel = new GuiOptionSlot(Minecraft.getMinecraft(), visibleGroups1.isEmpty() ? 16 : 40, super.height - 30, 25, visibleOptions1);
+        this._optionPanel = new GuiOptionSlot(Minecraft.getInstance(), visibleGroups1.isEmpty() ? 16 : 40, super.height - 30, 25, visibleOptions1);
         this._optionPanel.registerScrollButtons(1, 2);
-        this._doneButton = new GuiButton(0, super.width / 2 - 155, super.height - 24, 150, 20, "Done");
-        this._resetButton = new GuiButton(0, super.width / 2 + 5, super.height - 24, 150, 20, "Defaults");
+        this._doneButton = new Button(super.width / 2 - 155, super.height - 24, 150, 20, "Done");
+        this._resetButton = new Button(super.width / 2 + 5, super.height - 24, 150, 20, "Defaults");
         super.buttonList.add(this._doneButton);
         super.buttonList.add(this._resetButton);
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) throws IOException
+    protected void actionPerformed(Button button) throws IOException
     {
         super.actionPerformed(button);
 
@@ -611,7 +608,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
             }
         }
         
-        class GuiChoiceButton extends GuiButton implements IOptionControl
+        class GuiChoiceButton extends Button implements IOptionControl
         {
             private final ChoiceOption _choice;
             private final int _maxWidth;
@@ -633,7 +630,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 return this._choice;
             }
 
-            public GuiButton getControl()
+            public Button getControl()
             {
                 return this;
             }
@@ -686,7 +683,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
             }
         }
 
-        class GuiNumericSlider extends GuiOptionSlider implements IOptionControl
+        class GuiNumericSlider extends OptionSlider implements IOptionControl
         {
             private final NumericOption _numeric;
             
@@ -705,7 +702,7 @@ public class GuiCustomOreGenSettings extends GuiScreen
                 return this._numeric;
             }
 
-            public GuiButton getControl()
+            public Button getControl()
             {
                 return this;
             }
@@ -766,43 +763,11 @@ public class GuiCustomOreGenSettings extends GuiScreen
         }
     }
 
-    public static class GuiOpenMenuButton extends GuiButton
-    {
-        protected final GuiScreen _parentGui;
-        protected final GuiScreen _targetGui;
-
-        public GuiOpenMenuButton(GuiScreen parentGui, int id, int x, int y, int width, int height, String text, GuiScreen openedGui)
-        {
-            super(id, x, y, width, height, text);
-            this._parentGui = parentGui;
-            this._targetGui = openedGui;
-        }
-
-        public int getWidth()
-        {
-            return super.width;
-        }
-
-        @Override
-        public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
-        {
-            if (super.mousePressed(mc, mouseX, mouseY))
-            {
-                mc.displayGuiScreen(this._targetGui);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
-
     public interface IOptionControl
     {
         ConfigOption getOption();
 
-        GuiButton getControl();
+        Button getControl();
     }
 
 }
