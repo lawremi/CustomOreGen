@@ -1,49 +1,75 @@
 package CustomOreGen;
 
+import java.util.function.Supplier;
+
 import CustomOreGen.CustomPacketPayload.PayloadType;
 import CustomOreGen.Client.ClientState;
 import CustomOreGen.Client.ClientState.WireframeRenderMode;
 import CustomOreGen.Server.ServerState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.network.NetHandlerPlayServer;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.fml.network.NetworkDirection;
+import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 public class CustomPacketPayloadHandler {
 	public CustomPacketPayloadHandler() {
 		
 	}
 	
-	@SideOnly(Side.CLIENT)
-    @SubscribeEvent
-    public void clientCustomPayload(ClientCustomPacketEvent event)
+	private static final String PROTOCOL_VERSION = Integer.toString(1);
+	private static final String CHANNEL_NAME = "CustomOreGen";
+    
+	private static final SimpleChannel CHANNEL = buildChannel(CHANNEL_NAME);
+	
+	private static final SimpleChannel buildChannel(String name) {
+		return NetworkRegistry.ChannelBuilder
+				.named(new ResourceLocation(CustomOreGen.MODID, name))
+				.clientAcceptedVersions(PROTOCOL_VERSION::equals)
+				.serverAcceptedVersions(PROTOCOL_VERSION::equals)
+				.networkProtocolVersion(() -> PROTOCOL_VERSION)
+				.simpleChannel();
+	}
+	
+	public static void register()
+	{
+		CHANNEL.registerMessage(0, CustomPacketPayload.class, CustomPacketPayload::encode, CustomPacketPayload::decode, CustomPacketPayloadHandler::handle);
+	}
+	
+	private static void handle(CustomPacketPayload msg, Supplier<NetworkEvent.Context> ctx) {
+		if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_CLIENT) {
+			handleClient(msg, ctx);
+		} else {
+			handleServer(msg, ctx);
+		}
+	}
+	
+	private static void handleClient(CustomPacketPayload msg, Supplier<NetworkEvent.Context> ctx)
     {
-    	Minecraft mc = Minecraft.getMinecraft();
-    	EntityPlayerSP player = mc.player;
+    	Minecraft mc = Minecraft.getInstance();
+    	ClientPlayerEntity player = mc.player;
         if (mc.world != null && ClientState.hasWorldChanged(mc.world))
         {
             ClientState.onWorldChanged(mc.world);
         }
-
-        CustomPacketPayload payload = CustomPacketPayload.decodePacket(event.getPacket());
-
-        if (payload != null)
+        
+        if (msg != null)
         {
-            switch (payload.type)
+            switch (msg.type)
             {
                 case DebuggingGeometryData:
-                    ClientState.addDebuggingGeometry((GeometryData)payload.data);
+                    ClientState.addDebuggingGeometry((GeometryData)msg.data);
                     break;
 
                 case DebuggingGeometryRenderMode:
-                    String strMode = (String)payload.data;
+                    String strMode = (String)msg.data;
 
                     if ("_DISABLE_".equals(strMode))
                     {
@@ -68,7 +94,7 @@ public class CustomPacketPayloadHandler {
                         }
                         else
                         {
-                            player.sendMessage(new TextComponentString("\u00a7cError: Invalid wireframe mode '" + strMode + "'"));
+                            player.sendMessage(new StringTextComponent("\u00a7cError: Invalid wireframe mode '" + strMode + "'"));
                         }
                     }
                     else
@@ -77,8 +103,8 @@ public class CustomPacketPayloadHandler {
                         mode = (mode + 1) % WireframeRenderMode.values().length;
                         ClientState.dgRenderingMode = WireframeRenderMode.values()[mode];
                     }
-
-                    player.sendMessage(new TextComponentString("COG Client wireframe mode: " + ClientState.dgRenderingMode.name()));
+                    
+                    player.sendMessage(new StringTextComponent("COG Client wireframe mode: " + ClientState.dgRenderingMode.name()));
                     break;
 
                 case DebuggingGeometryReset:
@@ -86,49 +112,72 @@ public class CustomPacketPayloadHandler {
                     break;
 
                 case CommandResponse:
-                    player.sendMessage(new TextComponentString((String)payload.data));
+                    player.sendMessage(new StringTextComponent((String)msg.data));
                     break;
 
                 default:
-                    throw new RuntimeException("Unhandled client packet type " + payload.type);
+                    throw new RuntimeException("Unhandled client packet type " + msg.type);
             }
         }
     }
 
-	@SubscribeEvent
-    public void serverCustomPayload(ServerCustomPacketEvent event)
+	private static void handleServer(CustomPacketPayload msg, Supplier<NetworkEvent.Context> ctx)
     {
-    	EntityPlayerMP player = ((NetHandlerPlayServer)event.getHandler()).player;
+    	ServerPlayerEntity player = ctx.get().getSender();
     	World handlerWorld = player.world;
-        ServerState.checkIfServerChanged(handlerWorld.getMinecraftServer(), handlerWorld.getWorldInfo());
-        CustomPacketPayload payload = CustomPacketPayload.decodePacket(event.getPacket());
-
-        if (payload != null)
+        ServerState.checkIfServerChanged(handlerWorld.getServer(), handlerWorld.getWorldInfo());
+        
+        if (msg != null)
         {
-            switch (payload.type)
+            switch (msg.type)
             {
                 case DebuggingGeometryRequest:
                     GeometryData geometryData = null;
 
-                    if (player.mcServer.getPlayerList().canSendCommands(player.getGameProfile()));
+                    if (player.getServer().getPlayerList().canSendCommands(player.getGameProfile()));
                     {
-                        geometryData = ServerState.getDebuggingGeometryData((GeometryRequestData)payload.data);
+                        geometryData = ServerState.getDebuggingGeometryData((GeometryRequestData)msg.data);
                     }
 
                     if (geometryData == null)
                     {
-                        (new CustomPacketPayload(PayloadType.DebuggingGeometryRenderMode, "_DISABLE_")).sendToClient(player);
+                        sendTo(new CustomPacketPayload(PayloadType.DebuggingGeometryRenderMode, "_DISABLE_"), player);
                     }
                     else
                     {
-                        (new CustomPacketPayload(PayloadType.DebuggingGeometryData, geometryData)).sendToClient(player);
+                        sendTo(new CustomPacketPayload(PayloadType.DebuggingGeometryData, geometryData), player);
                     }
 
                     break;
 
                 default:
-                    throw new RuntimeException("Unhandled server packet type " + payload.type);
+                    throw new RuntimeException("Unhandled server packet type " + msg.type);
             }
         }
     }
+	
+	/**
+	 * Sends a packet to the server.<br>
+	 * Must be called Client side. 
+	 */
+	public static void sendToServer(Object msg)
+	{
+		CHANNEL.sendToServer(msg);
+	}
+	
+	/**
+	 * Send a packet to a specific player.<br>
+	 * Must be called Server side. 
+	 */
+	public static void sendTo(Object msg, ServerPlayerEntity player)
+	{
+		if (!(player instanceof FakePlayer))
+		{
+			CHANNEL.sendTo(msg, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+		}
+	}
+
+	public static void sendToAllClients(Object msg) {
+		CHANNEL.send(PacketDistributor.ALL.noArg(), msg);
+	}
 }

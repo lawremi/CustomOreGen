@@ -17,6 +17,7 @@ import org.lwjgl.opengl.GL11;
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.CustomPacketPayload;
 import CustomOreGen.CustomPacketPayload.PayloadType;
+import CustomOreGen.CustomPacketPayloadHandler;
 import CustomOreGen.GeometryData;
 import CustomOreGen.GeometryRequestData;
 import CustomOreGen.Util.GeometryStream;
@@ -107,8 +108,8 @@ public class ClientState
 
                         if (!_dgListMap.containsKey(key) && _chunkDGRequests.add(key))
                         {
-                            GeometryRequestData request = new GeometryRequestData(_world, iX, iZ, _dgBatchID);
-                            (new CustomPacketPayload(PayloadType.DebuggingGeometryRequest, request)).sendToServer();
+                        	GeometryRequestData request = new GeometryRequestData(_world, iX, iZ, _dgBatchID);
+                        	CustomPacketPayloadHandler.sendToServer(new CustomPacketPayload(PayloadType.DebuggingGeometryRequest, request));
                             --maxRequest;
                         }
                     }
