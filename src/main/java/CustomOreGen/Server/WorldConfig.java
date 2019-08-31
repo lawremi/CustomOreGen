@@ -17,23 +17,24 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
 
 import CustomOreGen.CustomOreGenBase;
-import CustomOreGen.ForgeInterface;
 import CustomOreGen.Config.ConfigParser;
 import CustomOreGen.Config.PropertyIO;
 import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.CIStringMap;
 import CustomOreGen.Util.MapCollection;
+import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.ChunkGeneratorEnd;
-import net.minecraft.world.gen.ChunkGeneratorFlat;
-import net.minecraft.world.gen.ChunkGeneratorHell;
-import net.minecraft.world.gen.ChunkGeneratorOverworld;
-import net.minecraft.world.gen.IChunkGenerator;
-import net.minecraft.world.storage.SaveHandler;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.EndChunkGenerator;
+import net.minecraft.world.gen.FlatChunkGenerator;
+import net.minecraft.world.gen.GenerationSettings;
+import net.minecraft.world.gen.NetherChunkGenerator;
+import net.minecraft.world.gen.OverworldChunkGenerator;
 import net.minecraft.world.storage.WorldInfo;
 
 public class WorldConfig
@@ -94,42 +95,26 @@ public class WorldConfig
         this.loadedOptions = new CIStringMap<String>(new LinkedHashMap<String, String>());
         this.worldProperties = new CIStringMap<Object>(new LinkedHashMap<String, Object>());
         this.biomeSets = new CIStringMap<BiomeDescriptor>();
-        String dimensionBasename;
 
         if (world != null)
         {
-            if (world.getSaveHandler() != null && world.getSaveHandler() instanceof SaveHandler)
+            if (world instanceof ServerWorld)
             {
-                worldBaseDir = ((SaveHandler)world.getSaveHandler()).getWorldDirectory();
+                worldBaseDir = ((ServerWorld)world).getSaveHandler().getWorldDirectory();
             }
             else
             {
                 worldBaseDir = null;
             }
 
-            dimensionBasename = "DIM" + world.provider.getDimension();
-
-            if (world.provider.getDimension() != 0)
-            {
-            	dimensionBasename = ForgeInterface.getWorldDimensionFolder(world);
+            dimensionDir = world.getDimension().getType().getDirectory(worldBaseDir);
+            if (Objects.equal(dimensionDir, worldBaseDir)) {
+            	dimensionDir = new File(worldBaseDir, "DIM0");
+            	if (!dimensionDir.exists())
+                	dimensionDir.mkdir();
             }
-
-            if (worldBaseDir == null)	
-            {
-                dimensionDir = new File(dimensionBasename);
-            }
-            else
-            {
-                dimensionDir = new File(worldBaseDir, dimensionBasename);
-            }
-
+            
             worldInfo = world.getWorldInfo();
-        }
-
-        if (dimensionDir == null && worldBaseDir != null) {
-        	dimensionDir = new File(worldBaseDir, "DIM0");
-            if (!dimensionDir.exists())
-            	dimensionDir.mkdir();
         }
         
         this.world = world;
@@ -323,35 +308,35 @@ public class WorldConfig
         properties.put("world", worldInfo == null ? "" : worldInfo.getWorldName());
         properties.put("world.seed", worldInfo == null ? 0L : worldInfo.getSeed());
         properties.put("world.version", worldInfo == null ? 0 : worldInfo.getSaveVersion());
-        properties.put("world.isHardcore", worldInfo == null ? false : worldInfo.isHardcoreModeEnabled());
+        properties.put("world.isHardcore", worldInfo == null ? false : worldInfo.isHardcore());
         properties.put("world.hasFeatures", worldInfo == null ? false : worldInfo.isMapFeaturesEnabled());
         properties.put("world.hasCheats", worldInfo == null ? false : worldInfo.areCommandsAllowed());
         properties.put("world.gameMode", worldInfo == null ? "" : worldInfo.getGameType().getName());
         properties.put("world.gameMode.id", worldInfo == null ? 0 : worldInfo.getGameType().getID());
-        properties.put("world.type", worldInfo == null ? "" : worldInfo.getTerrainType().getName());
-        properties.put("world.type.version", worldInfo == null ? 0 : worldInfo.getTerrainType().getVersion());
+        properties.put("world.type", worldInfo == null ? "" : world.getWorldType().getName());
+        properties.put("world.type.version", worldInfo == null ? 0 : world.getWorldType().getVersion());
         String genName = "RandomLevelSource";
         String genClass = "ChunkProviderOverworld";
 
         if (world != null)
         {
-            IChunkGenerator chunkGenerator = world.provider.createChunkGenerator();
+            ChunkGenerator<? extends GenerationSettings> chunkGenerator = world.getChunkProvider().getChunkGenerator();
             genName = chunkGenerator.toString();
             genClass = chunkGenerator.getClass().getSimpleName();
 
-            if (chunkGenerator instanceof ChunkGeneratorOverworld)
+            if (chunkGenerator instanceof OverworldChunkGenerator)
             {
                 genClass = "ChunkProviderOverworld";
             }
-            else if (chunkGenerator instanceof ChunkGeneratorFlat)
+            else if (chunkGenerator instanceof FlatChunkGenerator)
             {
                 genClass = "ChunkProviderFlat";
             }
-            else if (chunkGenerator instanceof ChunkGeneratorHell)
+            else if (chunkGenerator instanceof NetherChunkGenerator)
             {
                 genClass = "ChunkProviderHell";
             }
-            else if (chunkGenerator instanceof ChunkGeneratorEnd)
+            else if (chunkGenerator instanceof EndChunkGenerator)
             {
                 genName = "EndRandomLevelSource";
                 genClass = "ChunkProviderEnd";
@@ -360,11 +345,11 @@ public class WorldConfig
 
         properties.put("dimension.generator", genName);
         properties.put("dimension.generator.class", genClass);
-        properties.put("dimension", world == null ? "" : world.provider.getDimensionType().getName());
-        properties.put("dimension.id", world == null ? 0 : world.provider.getDimension());
-        properties.put("dimension.isSurface", world == null ? false : world.provider.isSurfaceWorld());
-        properties.put("dimension.hasNoSky", world == null ? false : world.provider.hasSkyLight());
-        properties.put("dimension.groundLevel", world == null ? 0 : world.provider.getAverageGroundLevel());
+        properties.put("dimension", world == null ? "" : world.getDimension().getType().getRegistryName());
+        properties.put("dimension.id", world == null ? 0 : world.getDimension().getType().getId());
+        properties.put("dimension.isSurface", world == null ? false : world.getDimension().isSurfaceWorld());
+        properties.put("dimension.hasNoSky", world == null ? false : world.getDimension().hasSkyLight());
+        properties.put("dimension.groundLevel", world == null ? 0 : world.getDimension().getHorizon());
         properties.put("dimension.actualHeight", world == null ? 0 : world.getActualHeight());
         properties.put("dimension.height", world == null ? 0 : world.getHeight());
         properties.put("age", false);
