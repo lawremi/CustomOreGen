@@ -1,6 +1,5 @@
 package CustomOreGen.Server;
 
-import CustomOreGen.CustomOreGenBase;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dialog;
@@ -14,10 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import javax.swing.BoxLayout;
 
-import org.lwjgl.LWJGLUtil;
-import org.lwjgl.opengl.Display;
+import javax.swing.BoxLayout;
 
 public class ConfigErrorDialog implements WindowListener, ActionListener
 {
@@ -66,15 +63,9 @@ public class ConfigErrorDialog implements WindowListener, ActionListener
             this._waiting = true;
             this._returnVal = 0;
             this._dialog.setVisible(true);
-            boolean usingLWJGL = CustomOreGenBase.isClassLoaded("org.lwjgl.opengl.Display");
 
             while (this._waiting)
             {
-            	/* On the Mac, LWJGL fails if there is no OpenGL context */
-                if (usingLWJGL && Display.isCreated() && LWJGLUtil.getPlatform() != LWJGLUtil.PLATFORM_MACOSX)
-                {
-                    Display.processMessages();
-                }
             }
 
             this._abort = null;
