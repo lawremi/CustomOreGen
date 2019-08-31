@@ -5,16 +5,17 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import CustomOreGen.Server.ServerState;
 import CustomOreGen.Server.WorldConfig;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.loading.FMLPaths;
 
 public class CustomOreGenBase
 {
-    public static Logger log;
+    public static Logger log = LogManager.getLogger(CustomOreGen.MODID);
     
     public static final String OPTIONS_FILENAME = "CustomOreGen_Options.txt";
 	public static final String BASE_CONFIG_FILENAME = "CustomOreGen_Config.xml";
@@ -158,7 +159,7 @@ public class CustomOreGenBase
     }
 
     public static File getConfigDir() {
-    	return new File(Loader.instance().getConfigDir(), "CustomOreGen");
+    	return FMLPaths.CONFIGDIR.get().resolve(CustomOreGen.MODID).toFile();
     }
     
     public static boolean hasMystcraft()
@@ -187,6 +188,6 @@ public class CustomOreGenBase
     }
     
     public static String getDisplayString() {
-    	return FMLInterface.getDisplayString();
+    	return CustomOreGen.getDisplayString();
     }
 }
