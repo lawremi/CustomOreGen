@@ -24,15 +24,15 @@ public class ValidatorBiomeDescriptor extends ValidatorNode
         float maxTemperature = this.validateNamedAttribute(Float.class, "MaxTemperature", restriction.maxTemperature, true);
         float minRainfall = this.validateNamedAttribute(Float.class, "MinRainfall", restriction.minRainfall, true);
         float maxRainfall = this.validateNamedAttribute(Float.class, "MaxRainfall", restriction.maxRainfall, true);
-        int minTreesPerChunk = this.validateNamedAttribute(Integer.class, "MinTreesPerChunk", restriction.minTreesPerChunk, true);
-        int maxTreesPerChunk = this.validateNamedAttribute(Integer.class, "MaxTreesPerChunk", restriction.maxTreesPerChunk, true);
-        float minHeightVariation = this.validateNamedAttribute(Float.class, "MinHeightVariation", restriction.minHeightVariation, true);
-        float maxHeightVariation = this.validateNamedAttribute(Float.class, "MaxHeightVariation", restriction.maxHeightVariation, true);
+        float minDepth = this.validateNamedAttribute(Float.class, "MinDepth", restriction.minDepth, true);
+        float maxDepth = this.validateNamedAttribute(Float.class, "MaxDepth", restriction.maxDepth, true);
+        float minScale = this.validateNamedAttribute(Float.class, "MinScale", restriction.minScale, true);
+        float maxScale = this.validateNamedAttribute(Float.class, "MaxScale", restriction.maxScale, true);
         this.restriction = new BiomeRestriction(
         		minTemperature, maxTemperature, 
         		minRainfall, maxRainfall,
-        		minTreesPerChunk, maxTreesPerChunk,
-        		minHeightVariation, maxHeightVariation);
+        		minDepth, maxDepth,
+        		minScale, maxScale);
         return true;
     }
     

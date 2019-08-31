@@ -11,15 +11,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 {
     protected LinkedList<Descriptor> _descriptors = new LinkedList<Descriptor>();
-    protected Map<Integer,Float> _matches = new Hashtable<Integer, Float>();
+    protected Map<ResourceLocation,Float> _matches = new Hashtable<ResourceLocation, Float>();
     protected boolean _compiled = false;
     
     private String name;
@@ -37,7 +37,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
     public void copyFrom(BiomeDescriptor source)
     {
         this._descriptors = new LinkedList<Descriptor>(source._descriptors);
-        this._matches = new Hashtable<Integer,Float>(source._matches);
+        this._matches = new Hashtable<ResourceLocation,Float>(source._matches);
         this._compiled = source._compiled;
     }
     
@@ -110,14 +110,14 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
     {
         if (biome != null && weight != 0.0F)
         {
-            Float currentValue = (Float)this._matches.get(Biome.getIdForBiome(biome));
+            Float currentValue = this._matches.get(biome.getRegistryName());
 
             if (currentValue != null)
             {
                 weight += currentValue.floatValue();
             }
 
-            this._matches.put(Biome.getIdForBiome(biome), Float.valueOf(weight));
+            this._matches.put(biome.getRegistryName(), weight);
         }
     }
 
@@ -125,9 +125,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
     {
         float totalWeight = 0.0F;
         
-        //String name = biome.getBiomeName();
-        //TODO
-        String name = biome.getRegistryName().getNamespace();
+        String name = biome.getRegistryName().toString();
         
         for (Descriptor desc : this._descriptors) {
             Matcher matcher;
@@ -176,7 +174,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
     public float getWeight(Biome biome)
     {
         this.compileMatches();
-        Float value = (Float)this._matches.get(Biome.getIdForBiome(biome));
+        Float value = this._matches.get(biome.getRegistryName());
         return value == null ? 0.0F : value.floatValue();
     }
 
@@ -208,9 +206,9 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
         this.compileMatches();
         float value = -1.0F;
         
-        for (Entry<Integer,Float> entry : this._matches.entrySet()) {
+        for (Entry<ResourceLocation,Float> entry : this._matches.entrySet()) {
         	float weight = entry.getValue();
-            Biome biome = Biome.getBiome(entry.getKey());
+            Biome biome = ForgeRegistries.BIOMES.getValue(entry.getKey());
 
             if (weight > 0.0F)
             {
@@ -283,9 +281,9 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 
         int i = 1;
 
-        for (Entry<Integer,Float> entry : this._matches.entrySet()) {
+        for (Entry<ResourceLocation,Float> entry : this._matches.entrySet()) {
         	float weight = entry.getValue();
-            Biome biome = Biome.getBiome(entry.getKey());
+            Biome biome = ForgeRegistries.BIOMES.getValue(entry.getKey());
 
             if (biome == null)
             {
@@ -293,7 +291,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
             }
             else
             {
-                breakdown[i] = biome.getBiomeName();
+                breakdown[i] = biome.getRegistryName().toString();
             }
 
             breakdown[i] = breakdown[i] + " - " + weight;
@@ -338,35 +336,31 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
     public static class BiomeRestriction {
     	public final float minTemperature, maxTemperature;
         public final float minRainfall, maxRainfall;
-        public final int minTreesPerChunk, maxTreesPerChunk;
-        public final float minHeightVariation, maxHeightVariation;
+        public final float minDepth, maxDepth;
+        public final float minScale, maxScale;
         
         public BiomeRestriction(float minTemperature, float maxTemperature, float minRainfall, float maxRainfall,
-        		int minTreesPerChunk, int maxTreesPerChunk, float minHeightVariation, float maxHeightVariation) {
+        		float minDepth, float maxDepth, float minScale, float maxScale) {
         	this.minTemperature = minTemperature;
 			this.maxTemperature = maxTemperature;
 			this.minRainfall = minRainfall;
 			this.maxRainfall = maxRainfall;
-			this.minTreesPerChunk = minTreesPerChunk;
-			this.maxTreesPerChunk = maxTreesPerChunk;
-			this.minHeightVariation = minHeightVariation;
-			this.maxHeightVariation = maxHeightVariation;
+			this.minDepth = minDepth;
+			this.maxDepth = maxDepth;
+			this.minScale = minScale;
+			this.maxScale = maxScale;
         }
         
         public BiomeRestriction() {
-        	this.minTemperature = this.minRainfall = this.minHeightVariation = Float.NEGATIVE_INFINITY;
-			this.maxTemperature = this.maxRainfall = this.maxHeightVariation = Float.POSITIVE_INFINITY;
-			this.minTreesPerChunk = Integer.MIN_VALUE;
-			this.maxTreesPerChunk = Integer.MAX_VALUE;
+        	this.minTemperature = this.minRainfall = this.minDepth = this.minScale = Float.NEGATIVE_INFINITY;
+			this.maxTemperature = this.maxRainfall = this.maxDepth = this.maxScale = Float.POSITIVE_INFINITY;
         }
         
         public boolean isCompatible(Biome biome) {
-			return biome.getTemperature() >= minTemperature && biome.getTemperature() <= maxTemperature &&
+			return biome.getDefaultTemperature() >= minTemperature && biome.getDefaultTemperature() <= maxTemperature &&
 				   biome.getDownfall() >= minRainfall && biome.getDownfall() <= maxRainfall &&
-				   biome.decorator.treesPerChunk >= minTreesPerChunk &&
-				   biome.decorator.treesPerChunk <= maxTreesPerChunk &&
-				   biome.getHeightVariation() >= minHeightVariation &&
-				   biome.getHeightVariation() <= maxHeightVariation;
+				   biome.getDepth() >= minDepth && biome.getDepth() <= maxDepth &&
+				   biome.getScale() >= minScale && biome.getScale() <= maxScale;
 		}
         
     }
