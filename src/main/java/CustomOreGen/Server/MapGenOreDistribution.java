@@ -29,6 +29,7 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.world.chunk.UpgradeData;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
 import net.minecraft.world.gen.feature.structure.StructureStart;
@@ -263,7 +264,7 @@ public abstract class MapGenOreDistribution extends Structure implements IOreDis
                 this.clear();
             }
 
-            this.generate(world, chunkX, chunkZ, new ChunkPrimer());
+			this.generate(world, chunkX, chunkZ, new ChunkPrimer(new ChunkPos(chunkX, chunkZ), UpgradeData.EMPTY));
         }
     }
 
@@ -284,7 +285,7 @@ public abstract class MapGenOreDistribution extends Structure implements IOreDis
         if (this._canGenerate)
         {
             int groupsToSave = (int)(6.0F * Math.min(1.0F, this.frequency.pdist.getMax()) * (float)(2 * super.range + 1) * (float)(2 * super.range + 1));
-
+            
             if (super.structureMap.size() > groupsToSave * 3)
             {
                 StructureGroup group;

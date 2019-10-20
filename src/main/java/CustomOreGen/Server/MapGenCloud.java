@@ -13,8 +13,8 @@ import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.WireframeShapes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class MapGenCloud extends MapGenOreDistribution
 {
@@ -128,7 +128,7 @@ public class MapGenCloud extends MapGenOreDistribution
 
             float[] bb = new float[] { -rMax, -rMax, -rMax, rMax, rMax, rMax};
             transform.transformBB(bb);
-            super.boundingBox = new StructureBoundingBox(MathHelper.floor(bb[0]), MathHelper.floor(bb[1]), MathHelper.floor(bb[2]), MathHelper.floor(bb[3]) + 1, MathHelper.floor(bb[4]) + 1, MathHelper.floor(bb[5]) + 1);
+            super.boundingBox = new MutableBoundingBox(MathHelper.floor(bb[0]), MathHelper.floor(bb[1]), MathHelper.floor(bb[2]), MathHelper.floor(bb[3]) + 1, MathHelper.floor(bb[4]) + 1, MathHelper.floor(bb[5]) + 1);
             float maxSize = (float)Math.max(super.boundingBox.getXSize(), Math.max(super.boundingBox.getYSize(), super.boundingBox.getZSize())) * 0.2F;
             this.noiseLevels = maxSize <= 1.0F ? 0 : (int)(Math.log((double)maxSize) / Math.log(2.0D) + 0.5D);
             this.mat = transform.clone();
@@ -156,7 +156,7 @@ public class MapGenCloud extends MapGenOreDistribution
             return (float)noise;
         }
 
-        public boolean addComponentParts(World world, Random random, StructureBoundingBox bounds)
+        public boolean addComponentParts(World world, Random random, MutableBoundingBox bounds)
         {
             if (this.invMat == null)
             {

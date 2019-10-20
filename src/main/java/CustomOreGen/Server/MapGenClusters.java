@@ -13,8 +13,8 @@ import CustomOreGen.Util.VolumeHelper;
 import CustomOreGen.Util.WireframeShapes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class MapGenClusters extends MapGenOreDistribution
 {
@@ -92,7 +92,7 @@ public class MapGenClusters extends MapGenOreDistribution
             this.ptB[2] = z - segmentZOffset;
             this.ptA[1] = y + (float)random.nextInt(3) - 2.0F;
             this.ptB[1] = y + (float)random.nextInt(3) - 2.0F;
-            super.boundingBox = StructureBoundingBox.getNewBoundingBox();
+            super.boundingBox = MutableBoundingBox.getNewBoundingBox();
             this.rad = new float[this.size + 1];
 
             for (int s = 0; s < this.rad.length; ++s)
@@ -112,7 +112,7 @@ public class MapGenClusters extends MapGenOreDistribution
             }
         }
 
-        public boolean addComponentParts(World world, Random random, StructureBoundingBox bounds)
+        public boolean addComponentParts(World world, Random random, MutableBoundingBox bounds)
         {
             for (int s = 0; s < this.rad.length; ++s)
             {

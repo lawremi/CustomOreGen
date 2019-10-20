@@ -13,8 +13,8 @@ import CustomOreGen.Util.VolumeHelper;
 import CustomOreGen.Util.WireframeShapes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class MapGenVeins extends MapGenOreDistribution
 {
@@ -277,7 +277,7 @@ public class MapGenVeins extends MapGenOreDistribution
 
             float[] bb = new float[] { -rMax, -rMax, -1.0F, rMax, rMax, 1.0F};
             transform.transformBB(bb);
-            super.boundingBox = new StructureBoundingBox(MathHelper.floor(bb[0]), MathHelper.floor(bb[1]), MathHelper.floor(bb[2]), MathHelper.floor(bb[3]) + 1, MathHelper.floor(bb[4]) + 1, MathHelper.floor(bb[5]) + 1);
+            super.boundingBox = new MutableBoundingBox(MathHelper.floor(bb[0]), MathHelper.floor(bb[1]), MathHelper.floor(bb[2]), MathHelper.floor(bb[3]) + 1, MathHelper.floor(bb[4]) + 1, MathHelper.floor(bb[5]) + 1);
             this.context = new interpolationContext();
             this.mat = transform.identity();
         }
@@ -298,7 +298,7 @@ public class MapGenVeins extends MapGenOreDistribution
 
                 float[] pos = new float[3];
                 this.interpolatePosition(pos, 0.5F);
-                StructureBoundingBox bb = new StructureBoundingBox(MathHelper.floor(pos[0] - rMax), MathHelper.floor(pos[1] - rMax), MathHelper.floor(pos[2] - rMax), MathHelper.floor(pos[0] + rMax) + 1, MathHelper.floor(pos[1] + rMax) + 1, MathHelper.floor(pos[2] + rMax) + 1);
+                MutableBoundingBox bb = new MutableBoundingBox(MathHelper.floor(pos[0] - rMax), MathHelper.floor(pos[1] - rMax), MathHelper.floor(pos[2] - rMax), MathHelper.floor(pos[0] + rMax) + 1, MathHelper.floor(pos[1] + rMax) + 1, MathHelper.floor(pos[2] + rMax) + 1);
                 super.boundingBox.expandTo(bb);
             }
         }
@@ -320,7 +320,7 @@ public class MapGenVeins extends MapGenOreDistribution
 
                 float[] pos = new float[3];
                 this.interpolatePosition(pos, t);
-                StructureBoundingBox bb = new StructureBoundingBox(MathHelper.floor(pos[0] - rMax), MathHelper.floor(pos[1] - rMax), MathHelper.floor(pos[2] - rMax), MathHelper.floor(pos[0] + rMax) + 1, MathHelper.floor(pos[1] + rMax) + 1, MathHelper.floor(pos[2] + rMax) + 1);
+                MutableBoundingBox bb = new MutableBoundingBox(MathHelper.floor(pos[0] - rMax), MathHelper.floor(pos[1] - rMax), MathHelper.floor(pos[2] - rMax), MathHelper.floor(pos[0] + rMax) + 1, MathHelper.floor(pos[1] + rMax) + 1, MathHelper.floor(pos[2] + rMax) + 1);
                 super.boundingBox.expandTo(bb);
             }
         }
@@ -379,7 +379,7 @@ public class MapGenVeins extends MapGenOreDistribution
             return t > 0.0F && this.next != null ? (1.0F - t) * this.rad + t * this.next.rad : (t < 0.0F && this.prev != null ? (1.0F + t) * this.rad - t * this.prev.rad : (t <= 0.0F && t > -1.0F ? this.rad : (t > 0.0F && t < 0.5F ? this.rad * MathHelper.sqrt(1.0F - 4.0F * t * t) : 0.0F)));
         }
 
-        public boolean addComponentParts(World world, Random random, StructureBoundingBox bounds)
+        public boolean addComponentParts(World world, Random random, MutableBoundingBox bounds)
         {
             float maxR = orRadiusMult.getMax();
 
@@ -652,7 +652,7 @@ public class MapGenVeins extends MapGenOreDistribution
 
             float[] bb = new float[] { -rMax, -rMax, -rMax, rMax, rMax, rMax};
             transform.transformBB(bb);
-            super.boundingBox = new StructureBoundingBox(MathHelper.floor(bb[0]), MathHelper.floor(bb[1]), MathHelper.floor(bb[2]), MathHelper.floor(bb[3]) + 1, MathHelper.floor(bb[4]) + 1, MathHelper.floor(bb[5]) + 1);
+            super.boundingBox = new MutableBoundingBox(MathHelper.floor(bb[0]), MathHelper.floor(bb[1]), MathHelper.floor(bb[2]), MathHelper.floor(bb[3]) + 1, MathHelper.floor(bb[4]) + 1, MathHelper.floor(bb[5]) + 1);
             this.mat = transform.clone();
 
             if (transform.determinant() != 0.0F)
@@ -665,7 +665,7 @@ public class MapGenVeins extends MapGenOreDistribution
             }
         }
 
-        public boolean addComponentParts(World world, Random random, StructureBoundingBox bounds)
+        public boolean addComponentParts(World world, Random random, MutableBoundingBox bounds)
         {
             if (this.invMat == null)
             {
