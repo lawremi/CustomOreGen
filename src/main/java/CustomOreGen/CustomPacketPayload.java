@@ -19,6 +19,7 @@ import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.common.network.FMLEventChannel;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -48,7 +49,7 @@ public class CustomPacketPayload
         }
     }
 
-    public void sendToClient(EntityPlayerMP player)
+    public void sendToClient(ServerPlayerEntity player)
     {
     	for (FMLProxyPacket packet : this.createPackets()) {
     		channels.get(packet.channel()).sendTo(packet, player);
@@ -191,17 +192,18 @@ public class CustomPacketPayload
         }
     }
 
+    //TODO networking
     public static void registerChannels(Object mod)
     {
-    	registerChannel(mod, CHANNEL_NAME);
-    	registerChannel(mod, XCHANNEL_NAME);
+    	//registerChannel(mod, CHANNEL_NAME);
+    	//registerChannel(mod, XCHANNEL_NAME);
     }
     
-    private static void registerChannel(Object mod, String name) {
+    /*private static void registerChannel(Object mod, String name) {
     	FMLEventChannel channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(name);
         channels.put(name, channel);
         channel.register(mod);
-    }
+    }*/
         
     private class AutoCompressionStream extends OutputStream
     {

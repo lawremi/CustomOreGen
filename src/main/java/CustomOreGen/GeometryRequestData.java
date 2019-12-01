@@ -6,7 +6,8 @@ import java.io.Serializable;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraft.world.dimension.DimensionType;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 public class GeometryRequestData implements Serializable
 {
@@ -22,7 +23,7 @@ public class GeometryRequestData implements Serializable
     public GeometryRequestData(World world, int chunkX, int chunkZ, int batchID)
     {
         this.world = world;
-        this.dimensionID = world == null ? 0 : world.provider.getDimension();
+        this.dimensionID = world == null ? 0 : world.getDimension().getType().getId();
         this.chunkX = chunkX;
         this.chunkZ = chunkZ;
         this.batchID = batchID;
@@ -31,11 +32,11 @@ public class GeometryRequestData implements Serializable
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
     {
         in.defaultReadObject();
-        MinecraftServer ms = FMLCommonHandler.instance().getMinecraftServerInstance();
+        MinecraftServer ms = ServerLifecycleHooks.getCurrentServer();
 
         if (ms != null && ms.isServerRunning())
         {
-            this.world = ms.getWorld(dimensionID);
+            this.world = ms.getWorld(DimensionType.getById(dimensionID));
         }
     }
 }

@@ -1,8 +1,8 @@
 package CustomOreGen.Server;
 
 import CustomOreGen.Util.Localization;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 
 public abstract class ConfigOption
@@ -40,17 +40,17 @@ public abstract class ConfigOption
         return this._description;
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public String getLocalizedDescription() {
     	return this.localize("description", this.getDescription());
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public String getLocalizedDisplayName() {
     	return this.localize("displayName", this.getDisplayName());
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
 	private String localize(String key, String value) {
 		return Localization.maybeLocalize(this.getName() + "." + key, value); 
 	}

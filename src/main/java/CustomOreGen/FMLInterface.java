@@ -2,6 +2,8 @@ package CustomOreGen;
 
 import java.util.Random;
 
+import org.apache.logging.log4j.LogManager;
+
 import CustomOreGen.Client.ClientState;
 import CustomOreGen.Server.ServerState;
 import net.minecraft.client.Minecraft;
@@ -11,49 +13,57 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
+import net.minecraftforge.event.TickEvent.ServerTickEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 @Mod("customoregen")
-public class FMLInterface implements IWorldGenerator
+public class FMLInterface
 {
     public static FMLInterface instance;
     
     public FMLInterface() {
     	instance = this;
-    }
-    
-    /*@EventHandler
-    public void onFMLPreInit(FMLPreInitializationEvent event)
-    {
-        CustomOreGenBase.log = event.getModLog();
-        GameRegistry.registerWorldGenerator(this, Integer.MAX_VALUE);
-        ForgeInterface.createAndRegister();
+        CustomOreGenBase.log = LogManager.getLogger();
+        ForgeInterface.createAndRegister(); //TODO: may need to go in the FMLCommonSetupEvent
+        
+
+        //TODO GameRegistry.registerWorldGenerator(this, Integer.MAX_VALUE);
         CustomPacketPayload.registerChannels(new CustomPacketPayloadHandler());
         MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @EventHandler
-    public void onFMLPostInit(FMLPostInitializationEvent event)
-    {
-    	CustomOreGenBase.onModPostLoad();
+    	
+    	final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+		modEventBus.addListener((FMLCommonSetupEvent event) -> {
+			
+		});
+		modEventBus.addListener((FMLLoadCompleteEvent event) -> {
+	    	CustomOreGenBase.onModPostLoad();
+		});
     }
     
-    @EventHandler
+    @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event)
     {
         ServerState.checkIfServerChanged(event.getServer(), (WorldInfo)null);    
-        registerCommands(event);
+        //TODO: commands. won't be here like this
+        //registerCommands(event);
     }
 
-    private void registerCommands(FMLServerStartingEvent event) {
+    /*private void registerCommands(FMLServerStartingEvent event) {
     	CustomOreGenBase.log.debug("Registering Console command interface ...");
         ConsoleCommands commands = new ConsoleCommands();
         
@@ -65,21 +75,23 @@ public class FMLInterface implements IWorldGenerator
         }
 	}*/
 
-	@Override
+    //TODO: IWorldGenerator is no longer used...anywhere
+	/*@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, ChunkGenerator chunkGenerator, AbstractChunkProvider chunkProvider) {
-		// TODO Auto-generated method stub
-        ServerState.checkIfServerChanged(world.getServer(), world.getWorldInfo());
+		ServerState.checkIfServerChanged(world.getServer(), world.getWorldInfo());
         ServerState.onPopulateChunk(world, chunkX, chunkZ, random);
-	}
+	}*/
 
     @SubscribeEvent
     public void onServerTick(ServerTickEvent event)
     {
     	if (event.phase == TickEvent.Phase.END) {
-    		ServerState.checkIfServerChanged(FMLCommonHandler.instance().getMinecraftServerInstance(), (WorldInfo)null);
+    		ServerState.checkIfServerChanged(ServerLifecycleHooks.getCurrentServer(), (WorldInfo)null);
     	}
     }
 
+    public void onEvent(BreakEvent e) { }
+    
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event)

@@ -5,28 +5,25 @@ import CustomOreGen.Client.ClientState;
 import CustomOreGen.Client.ClientState.WireframeRenderMode;
 import CustomOreGen.Server.ServerState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.network.NetHandlerPlayServer;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class CustomPacketPayloadHandler {
 	public CustomPacketPayloadHandler() {
 		
 	}
 	
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public void clientCustomPayload(ClientCustomPacketEvent event)
     {
-    	Minecraft mc = Minecraft.getMinecraft();
-    	EntityPlayerSP player = mc.player;
+    	Minecraft mc = Minecraft.getInstance();
+    	ClientPlayerEntity player = mc.player;
         if (mc.world != null && ClientState.hasWorldChanged(mc.world))
         {
             ClientState.onWorldChanged(mc.world);
@@ -68,7 +65,7 @@ public class CustomPacketPayloadHandler {
                         }
                         else
                         {
-                            player.sendMessage(new TextComponentString("\u00a7cError: Invalid wireframe mode '" + strMode + "'"));
+                            player.sendMessage(new StringTextComponent("\u00a7cError: Invalid wireframe mode '" + strMode + "'"));
                         }
                     }
                     else
@@ -78,7 +75,7 @@ public class CustomPacketPayloadHandler {
                         ClientState.dgRenderingMode = WireframeRenderMode.values()[mode];
                     }
 
-                    player.sendMessage(new TextComponentString("COG Client wireframe mode: " + ClientState.dgRenderingMode.name()));
+                    player.sendMessage(new StringTextComponent("COG Client wireframe mode: " + ClientState.dgRenderingMode.name()));
                     break;
 
                 case DebuggingGeometryReset:
@@ -86,7 +83,7 @@ public class CustomPacketPayloadHandler {
                     break;
 
                 case CommandResponse:
-                    player.sendMessage(new TextComponentString((String)payload.data));
+                    player.sendMessage(new StringTextComponent((String)payload.data));
                     break;
 
                 default:
@@ -98,9 +95,9 @@ public class CustomPacketPayloadHandler {
 	@SubscribeEvent
     public void serverCustomPayload(ServerCustomPacketEvent event)
     {
-    	EntityPlayerMP player = ((NetHandlerPlayServer)event.getHandler()).player;
+    	ServerPlayerEntity player = ((NetHandlerPlayServer)event.getHandler()).player;
     	World handlerWorld = player.world;
-        ServerState.checkIfServerChanged(handlerWorld.getMinecraftServer(), handlerWorld.getWorldInfo());
+        ServerState.checkIfServerChanged(handlerWorld.getServer(), handlerWorld.getWorldInfo());
         CustomPacketPayload payload = CustomPacketPayload.decodePacket(event.getPacket());
 
         if (payload != null)
@@ -110,7 +107,7 @@ public class CustomPacketPayloadHandler {
                 case DebuggingGeometryRequest:
                     GeometryData geometryData = null;
 
-                    if (player.mcServer.getPlayerList().canSendCommands(player.getGameProfile()));
+                    if (player.server.getPlayerList().canSendCommands(player.getGameProfile()));
                     {
                         geometryData = ServerState.getDebuggingGeometryData((GeometryRequestData)payload.data);
                     }

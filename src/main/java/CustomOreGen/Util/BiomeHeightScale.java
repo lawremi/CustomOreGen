@@ -13,14 +13,14 @@ public class BiomeHeightScale implements HeightScale {
 		if (biome == null) {
 			return new WorldHeightScale().getHeight(world, x, z);
 		}
-		return this.calcBlockHeight(world, biome.getBaseHeight());
+		return this.calcBlockHeight(world, biome.getDepth());
 	}
 
 	private int calcBlockHeight(World world, float rootHeight) {
-		if (world.getWorldInfo().getTerrainType() == WorldType.AMPLIFIED && rootHeight > 0) {
+		if (world.getWorldInfo().getGenerator() == WorldType.AMPLIFIED && rootHeight > 0) {
 			rootHeight = 1.0F + rootHeight * 2.0F; 
 		}
-		return (int)(world.provider.getAverageGroundLevel() + rootHeight * 17);
+		return (int)(world.getSeaLevel()+1 + rootHeight * 17);
 	}
 	
 	@Override

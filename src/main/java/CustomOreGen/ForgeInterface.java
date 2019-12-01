@@ -1,12 +1,16 @@
 package CustomOreGen;
 
+import java.io.File;
+
 import CustomOreGen.Client.ClientState;
 import CustomOreGen.Server.ServerState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.CreateWorldScreen;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerChunkProvider;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -14,8 +18,8 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 public class ForgeInterface
 {
@@ -34,7 +38,7 @@ public class ForgeInterface
     @OnlyIn(Dist.CLIENT)
     public void onRenderWorldLast(RenderWorldLastEvent event)
     {
-        ClientState.onRenderWorld(Minecraft.getMinecraft().getRenderViewEntity(), (double)event.getPartialTicks());
+        ClientState.onRenderWorld(Minecraft.getInstance().getRenderViewEntity(), (double)event.getPartialTicks());
     }
 
     @SubscribeEvent
@@ -58,7 +62,7 @@ public class ForgeInterface
     	// TODO: call populateDistributions, but instruct it to only generate if there is a version, and it's old
     }
     
-    @SubscribeEvent
+    /*@SubscribeEvent
     public void onGenerateMinable(OreGenEvent.GenerateMinable event)
     {
     	World world = event.getWorld();
@@ -81,19 +85,20 @@ public class ForgeInterface
 			isOre = false;
         }
         event.setResult((vanillaOreGen || isCustom || !isOre) ? Result.ALLOW : Result.DENY);
-    }
+    }*/
     
-    @SubscribeEvent
+    //TODO: replacement for ForceChunkEvent
+    /*@SubscribeEvent
     public void onForceChunk(ForceChunkEvent event) {
     	ServerState.chunkForced(event.getTicket().world, event.getLocation());
-    }
+    }*/
     
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public void onInitGui(GuiScreenEvent.InitGuiEvent.Post event) {
         if (event.getGui() instanceof CreateWorldScreen)
         {
-            ServerState.addOptionsButtonToGui((CreateWorldScreen)event.getGui(), event.getButtonList());
+            ServerState.addOptionsButtonToGui((CreateWorldScreen)event.getGui(), event.getWidgetList());
         }
     }
     
@@ -108,6 +113,9 @@ public class ForgeInterface
     
     public static String getWorldDimensionFolder(World world)
     {
-        return world.provider.getSaveFolder();
+    	DimensionSavedDataManager instance = ((ServerChunkProvider)world.getChunkProvider()).getSavedData();
+    	File file = ObfuscationReflectionHelper.getPrivateValue(DimensionSavedDataManager.class, instance , "folder");
+    	return file.getName();
+        //return world.provider.getSaveFolder();
     }
 }

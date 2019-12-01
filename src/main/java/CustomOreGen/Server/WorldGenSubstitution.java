@@ -3,6 +3,8 @@ package CustomOreGen.Server;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.commons.lang3.NotImplementedException;
+
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
 import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockArrangement;
@@ -11,16 +13,22 @@ import CustomOreGen.Util.BlockDescriptor.BlockInfo;
 import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.TileEntityHelper;
 import CustomOreGen.Util.TouchingDescriptorList;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraft.world.chunk.IChunk;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.GenerationSettings;
+import net.minecraft.world.gen.Heightmap.Type;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
 
-public class WorldGenSubstitution extends WorldGenerator implements IOreDistribution
+public class WorldGenSubstitution extends Feature<NoFeatureConfig> implements IOreDistribution
 {
     @DistributionSetting(
             name = "Name",
@@ -133,6 +141,7 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
 
     public WorldGenSubstitution(int distributionID, boolean canGenerate)
     {
+    	super(NoFeatureConfig::deserialize);
         this.oreBlock = new BlockDescriptor(Blocks.STONE);
         this.replaceableBlocks = new BlockDescriptor();
         this.aboveBlocks = new BlockDescriptor();
@@ -153,6 +162,7 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
         this._canGenerate = canGenerate;
     }
 
+	@Override
     public void inheritFrom(IOreDistribution inherits) throws IllegalArgumentException
     {
         if (inherits != null && inherits instanceof WorldGenSubstitution)
@@ -166,48 +176,58 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
         }
     }
 
+	@Override
     public Map<String,String> getDistributionSettingDescriptions()
     {
         return settingMap.getDescriptions();
     }
 
+	@Override
     public Object getDistributionSetting(String settingName)
     {
         return settingMap.get(this, settingName);
     }
 
+	@Override
     public void setDistributionSetting(String settingName, Object value) throws IllegalArgumentException, IllegalAccessException
     {
         settingMap.set(this, settingName, value);
     }
 
+	@Override
     public void generate(World world, int chunkX, int chunkZ) {}
 
+	@Override
     public void populate(World world, int chunkX, int chunkZ)
     {
-        if (this._canGenerate && this._valid && this.oreBlock != null)
+		throw new NotImplementedException("generate uses new params!");
+        /*if (this._canGenerate && this._valid && this.oreBlock != null)
         {
             Random random = new Random(world.getSeed());
             long xSeed = random.nextLong() >> 3;
             long zSeed = random.nextLong() >> 3;
             random.setSeed(xSeed * (long)chunkX + zSeed * (long)chunkZ ^ world.getSeed() ^ this.seed);
             this.generate(world, random, new BlockPos(chunkX * 16, 0, chunkZ * 16));
-        }
+        }*/
     }
 
+	@Override
     public void cull() {}
 
+	@Override
     public void clear()
     {
         this.populatedChunks = 0;
         this.placedBlocks = 0L;
     }
 
+	@Override
     public GeometryStream getDebuggingGeometry(World world, int chunkX, int chunkZ)
     {
         return null;
     }
 
+	@Override
     public boolean validate() throws IllegalStateException
     {
         this._valid = true;
@@ -262,8 +282,15 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
         }
     }
 
-    public boolean generate(World world, Random random, BlockPos position)
-    {
+
+	@Override
+	public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random random, BlockPos position, NoFeatureConfig config) {
+		// TODO Auto-generated method stub
+		//return false;
+	//}
+	//@Override
+    //public boolean generate(World world, Random random, BlockPos position)
+    //{
         if (this._canGenerate && this._valid && this.oreBlock != null)
         {
         	int depositCX = position.getX() / 16;
@@ -283,9 +310,9 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
                     int chunkX = depositCX + dCX;
 
                     BlockPos pos = new BlockPos(chunkX * 16, 0, chunkZ * 16);
-                    if (world.isBlockLoaded(pos))
+                    if (world.isBlockLoaded(pos)) //vanilla still uses this in tons of places
                     {
-                        Chunk chunk = world.getChunkFromChunkCoords(chunkX, chunkZ);
+                        IChunk chunk = world.getChunk(chunkX, chunkZ);
                         int minX = dCX < 0 && -dCX * 2 > hRange ? 8 : 0;
                         int minZ = dCZ < 0 && -dCZ * 2 > hRange ? 8 : 0;
                         int maxX = dCX > 0 && dCX * 2 > hRange ? 8 : 16;
@@ -295,7 +322,7 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
                         {
                             for (int z = minZ; z < maxZ; ++z)
                             {
-                            	Biome biome = chunk.getBiome(new BlockPos(x, 0, z), world.provider.getBiomeProvider());
+                            	Biome biome = chunk.getBiome(new BlockPos(x, 0, z));
 
                                 if (biome == null || this.biomes.getWeight(biome) > 0.5F)
                                 {
@@ -321,7 +348,7 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
                                             if (match != null && world.setBlockState(new BlockPos(worldX, y, worldZ), match.getBlockState(), 2))
                                             {
                                                 ++this.placedBlocks;
-                                                TileEntityHelper.readFromPartialNBT(world, worldX, y, worldZ, match.getNBT());
+                                                TileEntityHelper.readFromPartialNBT((World)world, worldX, y, worldZ, match.getNBT());
                                             }
                                         }
                                     }
@@ -341,26 +368,27 @@ public class WorldGenSubstitution extends WorldGenerator implements IOreDistribu
         }
     }
 
-    private boolean isSurfaceBlock(IBlockState state) {
+    private boolean isSurfaceBlock(BlockState state) {
     	Material material = state.getMaterial();
     	return 
     	  material == Material.CLAY || 
-		  material == Material.GRASS || 
-		  material == Material.GROUND || 
+		  material == Material.ORGANIC || 
+		  material == Material.EARTH || 
 		  material == Material.ICE ||
 		  material == Material.ROCK ||
 		  material == Material.SAND;
     }
     
-    private int findSurfaceHeight(Chunk chunk, int x, int z) {
-    	int surfh = chunk.getHeightValue(x, z);
-		while (surfh > 0 && !isSurfaceBlock(chunk.getBlockState(x, surfh, z))) 
+    private int findSurfaceHeight(IChunk chunk, int x, int z) {
+    	int surfh = chunk.getTopBlockY(Type.WORLD_SURFACE, x, z);
+		while (surfh > 0 && !isSurfaceBlock(chunk.getBlockState(new BlockPos(x,surfh,z)))) 
 		{
 			surfh--;
 		}
 		return surfh;
 	}
 
+	@Override
 	public String toString()
     {
         return this.name;

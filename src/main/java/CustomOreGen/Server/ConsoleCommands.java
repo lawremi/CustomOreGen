@@ -1,6 +1,6 @@
 package CustomOreGen.Server;
 
-import java.io.Serializable;
+/*import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -14,22 +14,17 @@ import CustomOreGen.CustomPacketPayload.PayloadType;
 import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.ConsoleCommand;
-import CustomOreGen.Util.ConsoleCommand.ArgName;
-import CustomOreGen.Util.ConsoleCommand.ArgOptional;
-import CustomOreGen.Util.ConsoleCommand.CommandDelegate;
 import CustomOreGen.Util.PDist;
 import CustomOreGen.Util.PDist.Type;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.WorldServer;
-
+*/
+//TODO: console commands have drastically changed
 public class ConsoleCommands
 {
-    private static void resetClientGeometryCache()
+    /*private static void resetClientGeometryCache()
     {
         (new CustomPacketPayload(PayloadType.DebuggingGeometryReset, (Serializable)null)).sendToAllClients();
     }
@@ -172,7 +167,7 @@ public class ConsoleCommands
                     name = "None|Polygon|Wireframe|WireframeOverlay"
             ) @ArgOptional String renderMode)
     {
-        if (sender instanceof EntityPlayerMP)
+        if (sender instanceof ServerPlayerEntity)
         {
             (new CustomPacketPayload(PayloadType.DebuggingGeometryRenderMode, renderMode)).sendToClient((EntityPlayerMP)sender);
         }
@@ -241,7 +236,7 @@ public class ConsoleCommands
         {
             for (int chunkZ = (cZ >> 4) - chunkRange; chunkZ <= (cZ >> 4) + chunkRange; ++chunkZ)
             {
-                cfg.world.getChunkFromChunkCoords(chunkX, chunkZ);
+                cfg.world.getChunk(chunkX, chunkZ);
                 ServerState.populateDistributions(list, cfg.world, chunkX, chunkZ);
             }
         }
@@ -372,11 +367,8 @@ public class ConsoleCommands
                         desc.clear();
                     }
 
-                    NBTBase nbtBase = JsonToNBT.getTagFromJson(nbt);
-                    if (!(nbtBase instanceof NBTTagCompound)) {
-                    	throw new IllegalArgumentException("NBT is not a compound tag");
-                    }
-                    desc.add(descriptor, weight, describesOre, isRegexp, matchFirst, nbt == null ? null : (NBTTagCompound)nbtBase);
+                    CompoundNBT nbtBase = JsonToNBT.getTagFromJson(nbt);
+                    desc.add(descriptor, weight, describesOre, isRegexp, matchFirst, nbt == null ? null : nbtBase);
                     ++count;
                 }
                 
@@ -784,5 +776,5 @@ public class ConsoleCommands
         String path = ServerState.getWorldConfig(world).dimensionDir.toString();
         resetClientGeometryCache();
         return "Reloaded config data for " + path;
-    }
+    }*/
 }

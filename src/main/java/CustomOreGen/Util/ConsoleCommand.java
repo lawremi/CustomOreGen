@@ -1,5 +1,6 @@
 package CustomOreGen.Util;
 
+//TODO: console commands have drastically changed
 /*
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;

@@ -6,7 +6,8 @@ import java.io.Serializable;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraft.world.dimension.DimensionType;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 public class MystcraftSymbolData implements Serializable
 {
@@ -27,7 +28,7 @@ public class MystcraftSymbolData implements Serializable
 
         if (world != null)
         {
-            this.dimensionID = world.provider.getDimension();
+            this.dimensionID = world.getDimension().getType().getId();
         }
 
         this.symbolName = this.displayName = symbolName;
@@ -36,11 +37,11 @@ public class MystcraftSymbolData implements Serializable
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
     {
         in.defaultReadObject();
-        MinecraftServer ms = FMLCommonHandler.instance().getMinecraftServerInstance();
+        MinecraftServer ms = ServerLifecycleHooks.getCurrentServer();
 
         if (ms != null && ms.isServerRunning())
         {
-            this.world = ms.getWorld(dimensionID);
+            this.world = ms.getWorld(DimensionType.getById(dimensionID));
         }
     }
 }

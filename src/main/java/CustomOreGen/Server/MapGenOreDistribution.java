@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.function.Function;
+
+import com.mojang.datafixers.Dynamic;
 
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
 import CustomOreGen.Util.BiomeDescriptor;
@@ -20,21 +23,25 @@ import CustomOreGen.Util.TileEntityHelper;
 import CustomOreGen.Util.TouchingDescriptorList;
 import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.WireframeShapes;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.block.Blocks;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkPrimer;
-import net.minecraft.world.gen.structure.MapGenStructure;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
-import net.minecraft.world.gen.structure.StructureComponent;
-import net.minecraft.world.gen.structure.StructureStart;
-import net.minecraft.world.gen.structure.template.TemplateManager;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.gen.feature.structure.IStructurePieceType;
+import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.gen.feature.structure.StructurePiece;
+import net.minecraft.world.gen.feature.structure.StructureStart;
+import net.minecraft.world.gen.feature.template.TemplateManager;
 
-public abstract class MapGenOreDistribution extends MapGenStructure implements IOreDistribution
+public abstract class MapGenOreDistribution extends Structure<NoFeatureConfig> implements IOreDistribution
 {
     @DistributionSetting(
             name = "Name",
@@ -195,8 +202,9 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
     private StructureGroup newestGroup;
     protected final DistributionSettingMap _settingMap;
 
-    public MapGenOreDistribution(DistributionSettingMap settingMap, int distributionID, boolean canGenerate)
+    public MapGenOreDistribution(DistributionSettingMap settingMap, int distributionID, boolean canGenerate, Function<Dynamic<?>, ? extends NoFeatureConfig> f)
     {
+    	super(f);
         this.replaceableBlocks = new BlockDescriptor(Blocks.STONE);
         this.aboveBlocks = new BlockDescriptor();
         this.belowBlocks = new BlockDescriptor();
@@ -226,6 +234,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         this.heightOffset = new PDist();
     }
 
+    @Override
     public void inheritFrom(IOreDistribution inherits) throws IllegalArgumentException
     {
         if (inherits != null && this.getClass().isInstance(inherits))
@@ -239,21 +248,25 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
 
+    @Override
     public Map<String,String> getDistributionSettingDescriptions()
     {
         return this._settingMap.getDescriptions();
     }
 
+    @Override
     public Object getDistributionSetting(String settingName)
     {
         return this._settingMap.get(this, settingName);
     }
 
+    @Override
     public void setDistributionSetting(String settingName, Object value) throws IllegalArgumentException, IllegalAccessException
     {
         this._settingMap.set(this, settingName, value);
     }
 
+    @Override
     public synchronized void generate(World world, int chunkX, int chunkZ)
     {
         if (this._canGenerate && this._valid)
@@ -267,6 +280,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
 
+    @Override
     public synchronized void populate(World world, int chunkX, int chunkZ)
     {
         if (this._canGenerate && this._valid)
@@ -279,12 +293,14 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
 
+    @Override
     public synchronized void cull()
     {
         if (this._canGenerate)
         {
             int groupsToSave = (int)(6.0F * Math.min(1.0F, this.frequency.pdist.getMax()) * (float)(2 * super.range + 1) * (float)(2 * super.range + 1));
 
+            //TODO: this map does not exist
             if (super.structureMap.size() > groupsToSave * 3)
             {
                 StructureGroup group;
@@ -309,7 +325,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
                     while (group != null)
                     {
-                        Long key = Long.valueOf(ChunkPos.asLong(group.chunkX, group.chunkZ));
+                        Long key = Long.valueOf(ChunkPos.asLong(group.getChunkPosX(), group.getChunkPosZ()));
                         super.structureMap.remove(key);
                         group = group.olderGroup;
                     }
@@ -318,6 +334,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
 
+    @Override
     public synchronized void clear()
     {
         if (this._canGenerate)
@@ -337,6 +354,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 		return this.frequency.pdist.mean * getAverageOreCount();
 	}
 
+    @Override
 	public GeometryStream getDebuggingGeometry(World world, int chunkX, int chunkZ)
     {
         if (this._canGenerate && this._valid)
@@ -357,6 +375,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
 
+    @Override
     public boolean validate() throws IllegalStateException
     {
         this.clear();
@@ -446,7 +465,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
     // FIXME: copy-and-pasted this from MapGenBase, because MapGenStructure now declares recursiveGenerate as 'final'. 
     // We worked around this by renaming to recursiveGenerate2, which is called by this method. 
-    @Override
+    /*@Override
     public void generate(World par2World, int par3, int par4, ChunkPrimer primer)
     {
         int k = this.range;
@@ -465,9 +484,9 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                 this.recursiveGenerate2(par2World, j1, k1, par3, par4, primer);
             }
         }
-    }
+    }*/
     
-    protected void recursiveGenerate2(World world, int chunkX, int chunkZ, int rootX, int rootZ, ChunkPrimer primer)
+    /*protected void recursiveGenerate2(World world, int chunkX, int chunkZ, int rootX, int rootZ, ChunkPrimer primer)
     {
         if (this.parent != null)
         {
@@ -492,9 +511,9 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                 super.structureMap.put(key, group1);
             }
         }
-    }
-
-    protected boolean canSpawnStructureAtCoords(int chunkX, int chunkZ)
+    }*/
+    
+    /*protected boolean canSpawnStructureAtCoords(int chunkX, int chunkZ)
     {
     	int blockX = chunkX << 4;
     	int blockZ = chunkZ << 4;
@@ -507,9 +526,9 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         	}
         }
         return canSpawn;
-    }
+    }*/
 
-    protected StructureStart getStructureStart(int chunkX, int chunkZ)
+    /*protected StructureStart getStructureStart(int chunkX, int chunkZ)
     {
     	int blockX = chunkX << 4;
     	int blockZ = chunkZ << 4;
@@ -529,7 +548,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
         this.newestGroup = group;
         return group;
-    }
+    }*/
 
     public abstract Component generateStructure(StructureGroup structureGroup, Random rand);
 
@@ -539,7 +558,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         {
             int minX = chunkX << 4;
             int minZ = chunkZ << 4;
-            StructureBoundingBox bb = new StructureBoundingBox(minX, 0, minZ, minX + 15, world.getHeight(), minZ + 15);
+            MutableBoundingBox bb = new MutableBoundingBox(minX, 0, minZ, minX + 15, world.getHeight(), minZ + 15);
             boolean structureFound = false;
 
             for (int cX = chunkX - super.range; cX <= chunkX + super.range; ++cX)
@@ -550,7 +569,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
                     if (group != null && group.isSizeableStructure() && group.getBoundingBox().intersectsWith(bb))
                     {
-                        group.generateStructure(world, random, bb);
+                        group.generateStructure(world, random, bb, new ChunkPos(cX, cZ));
                         structureFound = true;
                     }
                 }
@@ -571,11 +590,11 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         {
             BlockPos minPos = null;
             int minDist2 = Integer.MAX_VALUE;
-            StructureBoundingBox searchBounds = new StructureBoundingBox(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+            MutableBoundingBox searchBounds = new MutableBoundingBox(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
             for (StructureStart vs : (Collection<StructureStart>)super.structureMap.values()) {
             	if (vs.getBoundingBox().intersectsWith(searchBounds))
                 {
-                	for (StructureComponent vc : (List<StructureComponent>)vs.getComponents()) {
+                	for (StructurePiece vc : vs.getComponents()) {
                 		if (vc.getComponentType() == 0)
                         {
                             BlockPos center = getBoundingBoxCenter(vc.getBoundingBox());
@@ -605,10 +624,11 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         }
     }
 
-    private BlockPos getBoundingBoxCenter(StructureBoundingBox box) {
+    private BlockPos getBoundingBoxCenter(MutableBoundingBox box) {
 		return new BlockPos((box.maxX - box.minX)/2 + box.minX, (box.maxY - box.minY)/2 + box.minY, (box.maxZ - box.minZ)/2 + box.minZ);
 	}
 
+    @Override
 	public String toString()
     {
         return this.name;
@@ -616,23 +636,22 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
     public class StructureGroup extends StructureStart
     {
-        public final int structureCount;
-        public int completeComponents;
-        public long completeComponentBlocks;
-        public final int chunkX;
-        public final int chunkZ;
+    	public int structureCount;
         private StructureGroup newerGroup;
         private StructureGroup olderGroup;
+		
+        public int completeComponents;
+        public long completeComponentBlocks;
+        
+		public StructureGroup(Structure<?> p_i51341_1_, int chunkX, int chunkZ, Biome biomeIn, MutableBoundingBox boundsIn, int referenceIn, long seed, int count) {
+			super(p_i51341_1_, chunkX, chunkZ, biomeIn, boundsIn, referenceIn, seed);
+			structureCount = count;
+		}
 
-        public StructureGroup(int chunkX, int chunkZ, int structureCount)
-        {
-            this.completeComponents = 0;
-            this.completeComponentBlocks = 0L;
-            this.chunkX = chunkX;
-            this.chunkZ = chunkZ;
+		@Override
+		public void init(ChunkGenerator<?> generator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn) {
             int trueStructureCount = 0;
-
-            for (int i = 0; i < structureCount; ++i)
+			for (int i = 0; i < structureCount; ++i)
             {
                 Random random = new Random(rand.nextLong());
 
@@ -643,11 +662,33 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             }
 
             this.structureCount = trueStructureCount;
-            this.updateBoundingBox();
+            this.recalculateStructureSize();
 
-            if (ServerState.getWorldConfig(world).debuggingMode && (wfHasBB || wfHasWireframe))
+            //TODO 
+            
+            /*if (ServerState.getWorldConfig(world).debuggingMode && (wfHasBB || wfHasWireframe))
             {
                 this.buildWireframes();
+            }*/
+		}
+		
+		public void buildWireframes()
+        {
+            GeometryStream builder;
+
+            for (StructurePiece comp : this.components) {
+            	MutableBoundingBox bb = comp.getBoundingBox();
+                int cX = getBoundingBoxCenter(bb).getX() / 16;
+                int cZ = getBoundingBoxCenter(bb).getZ() / 16;
+                long key = (long)cX << 32 | (long)cZ & 4294967295L;
+                builder = debuggingGeometryMap.get(key);
+
+                if (builder == null)
+                {
+                    builder = new GeometryStream();
+                    debuggingGeometryMap.put(key, builder);
+                }
+                ((Component)comp).buildWireframe(builder);
             }
         }
 
@@ -723,7 +764,8 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             return true;
         }
 
-        public void generateStructure(World world, Random random, StructureBoundingBox bounds)
+        /*@Override
+        public void generateStructure(World world, Random random, MutableBoundingBox bounds)
         {
             int oldCompleteComponents = this.completeComponents;
             super.generateStructure(world, random, bounds);
@@ -733,45 +775,38 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                 completedStructures += this.structureCount;
                 completedStructureBlocks += this.completeComponentBlocks;
             }
-        }
-
-        public void buildWireframes()
-        {
-            GeometryStream builder;
-
-            for (StructureComponent comp : this.getComponents()) {
-            	StructureBoundingBox bb = comp.getBoundingBox();
-                int cX = getBoundingBoxCenter(bb).getX() / 16;
-                int cZ = getBoundingBoxCenter(bb).getZ() / 16;
-                long key = (long)cX << 32 | (long)cZ & 4294967295L;
-                builder = debuggingGeometryMap.get(key);
-
-                if (builder == null)
-                {
-                    builder = new GeometryStream();
-                    debuggingGeometryMap.put(key, builder);
-                }
-                ((Component)comp).buildWireframe(builder);
-            }
-        }
+        }*/
     }
     
-    public class Component extends StructureComponent
+    public class Component extends StructurePiece
     {
-        public final StructureGroup structureGroup;
+		public final StructureGroup structureGroup;
         public long populatedBlocks;
         public long placedBlocks;
+        protected Component(IStructurePieceType p_i51342_1_, int p_i51342_2_, StructureGroup group) {
+			super(p_i51342_1_, p_i51342_2_);
+            this.populatedBlocks = 0L;
+            this.placedBlocks = 0L;
+            structureGroup = group;
+		}
 
-        public Component(StructureGroup structureGroup)
+        public Component(IStructurePieceType p_i51343_1_, CompoundNBT p_i51343_2_, StructureGroup group) {
+			super(p_i51343_1_, p_i51343_2_);
+            this.populatedBlocks = 0L;
+            this.placedBlocks = 0L;
+            structureGroup = group;
+		}
+		
+        /*public Component(StructureGroup structureGroup)
         {
             super(0);
             this.populatedBlocks = 0L;
             this.placedBlocks = 0L;
             this.structureGroup = structureGroup;
-        }
+        }*/
 
-        public boolean addComponentParts(World world, Random random, StructureBoundingBox bounds)
-        {
+		@Override
+		public boolean addComponentParts(IWorld world, Random random, MutableBoundingBox bounds, ChunkPos p_74875_4_) {
             int sizeX = Math.min(bounds.maxX, super.boundingBox.maxX) - Math.max(bounds.minX, super.boundingBox.minX) + 1;
             int sizeY = Math.min(bounds.maxY, super.boundingBox.maxY) - Math.max(bounds.minY, super.boundingBox.minY) + 1;
             int sizeZ = Math.min(bounds.maxZ, super.boundingBox.maxZ) - Math.max(bounds.minZ, super.boundingBox.minZ) + 1;
@@ -800,7 +835,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             }
         }
 
-        public boolean attemptPlaceBlock(World world, Random random, int x, int y, int z, StructureBoundingBox bounds)
+        public boolean attemptPlaceBlock(World world, Random random, int x, int y, int z, MutableBoundingBox bounds)
         {
         	BlockPos pos = new BlockPos(x, y, z);
             if (!bounds.isVecInside(pos))
@@ -857,7 +892,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             }
         }
 
-        public void buildWireframe(IGeometryBuilder gb)
+		public void buildWireframe(IGeometryBuilder gb)
         {
             float[] color = new float[4];
 
@@ -868,7 +903,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
                 color[1] = (float)(wfBBColor >>> 8 & 255L) / 255.0F;
                 color[2] = (float)(wfBBColor & 255L) / 255.0F;
                 gb.setColor(color);
-                StructureBoundingBox bounds = this.getBoundingBox();
+                MutableBoundingBox bounds = this.getBoundingBox();
                 Transform trans = new Transform();
                 trans.scale(0.5F, 0.5F, 0.5F);
                 trans.translate((float)(bounds.maxX + bounds.minX), (float)(bounds.maxY + bounds.minY), (float)(bounds.maxZ + bounds.minZ));
@@ -887,22 +922,17 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
             }
         }
 
-        @Override
-		protected void writeStructureToNBT(NBTTagCompound tagCompound) {
-			// TODO Auto-generated method stub
-			
-		}
-
 		@Override
-		protected void readStructureFromNBT(NBTTagCompound tagCompound, TemplateManager template) {
+		protected void readAdditional(CompoundNBT tagCompound) {
 			// TODO Auto-generated method stub
 			
 		}
     }
-
-	@Override
-	public BlockPos getNearestStructurePos(World worldIn, BlockPos pos, boolean findUnexplored) {
-		this.world = worldIn;
+    
+    @Override
+    public BlockPos findNearest(World worldIn, ChunkGenerator chunkGenerator, BlockPos pos, int radius, boolean p_211405_5_) {
+    	//TODO: find nearest
+		/*this.world = worldIn;
         this.initializeStructureData(worldIn);
         this.rand.setSeed(worldIn.getSeed());
         long i = this.rand.nextLong();
@@ -936,6 +966,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
         else
         {
             return null;
-        }
+        }*/
+    	return null;
 	}
 }

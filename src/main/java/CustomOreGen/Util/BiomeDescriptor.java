@@ -11,7 +11,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -19,7 +21,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 {
     protected LinkedList<Descriptor> _descriptors = new LinkedList<Descriptor>();
-    protected Map<Integer,Float> _matches = new Hashtable<Integer, Float>();
+    protected Map<ResourceLocation,Float> _matches = new Hashtable<ResourceLocation, Float>();
     protected boolean _compiled = false;
     
     private String name;
@@ -37,7 +39,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
     public void copyFrom(BiomeDescriptor source)
     {
         this._descriptors = new LinkedList<Descriptor>(source._descriptors);
-        this._matches = new Hashtable<Integer,Float>(source._matches);
+        this._matches = new Hashtable<ResourceLocation,Float>(source._matches);
         this._compiled = source._compiled;
     }
     
@@ -110,14 +112,14 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
     {
         if (biome != null && weight != 0.0F)
         {
-            Float currentValue = (Float)this._matches.get(Biome.getIdForBiome(biome));
+            Float currentValue = (Float)this._matches.get(biome.getRegistryName());
 
             if (currentValue != null)
             {
                 weight += currentValue.floatValue();
             }
 
-            this._matches.put(Biome.getIdForBiome(biome), Float.valueOf(weight));
+            this._matches.put(biome.getRegistryName(), Float.valueOf(weight));
         }
     }
 
@@ -125,9 +127,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
     {
         float totalWeight = 0.0F;
         
-        //String name = biome.getBiomeName();
-        //TODO
-        String name = biome.getRegistryName().getNamespace();
+        String name = biome.getRegistryName().toString();
         
         for (Descriptor desc : this._descriptors) {
             Matcher matcher;
@@ -176,7 +176,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
     public float getWeight(Biome biome)
     {
         this.compileMatches();
-        Float value = (Float)this._matches.get(Biome.getIdForBiome(biome));
+        Float value = (Float)this._matches.get(biome.getRegistryName());
         return value == null ? 0.0F : value.floatValue();
     }
 
@@ -208,9 +208,9 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
         this.compileMatches();
         float value = -1.0F;
         
-        for (Entry<Integer,Float> entry : this._matches.entrySet()) {
+        for (Entry<ResourceLocation,Float> entry : this._matches.entrySet()) {
         	float weight = entry.getValue();
-            Biome biome = Biome.getBiome(entry.getKey());
+            Biome biome = ForgeRegistries.BIOMES.getValue(entry.getKey());
 
             if (weight > 0.0F)
             {
@@ -283,9 +283,9 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 
         int i = 1;
 
-        for (Entry<Integer,Float> entry : this._matches.entrySet()) {
+        for (Entry<ResourceLocation,Float> entry : this._matches.entrySet()) {
         	float weight = entry.getValue();
-            Biome biome = Biome.getBiome(entry.getKey());
+            Biome biome = ForgeRegistries.BIOMES.getValue(entry.getKey());
 
             if (biome == null)
             {
@@ -293,7 +293,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
             }
             else
             {
-                breakdown[i] = biome.getBiomeName();
+                breakdown[i] = biome.getDisplayName().getFormattedText();
             }
 
             breakdown[i] = breakdown[i] + " - " + weight;
@@ -361,12 +361,14 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
         }
         
         public boolean isCompatible(Biome biome) {
-			return biome.getTemperature() >= minTemperature && biome.getTemperature() <= maxTemperature &&
+        	BiomeDictionary.makeBestGuess(biome);
+			return biome.getDefaultTemperature() >= minTemperature && biome.getDefaultTemperature() <= maxTemperature &&
 				   biome.getDownfall() >= minRainfall && biome.getDownfall() <= maxRainfall &&
-				   biome.decorator.treesPerChunk >= minTreesPerChunk &&
-				   biome.decorator.treesPerChunk <= maxTreesPerChunk &&
-				   biome.getHeightVariation() >= minHeightVariation &&
-				   biome.getHeightVariation() <= maxHeightVariation;
+				   //TODO: these basically don't exist any more
+				   //biome.decorator.treesPerChunk >= minTreesPerChunk &&
+				   //biome.decorator.treesPerChunk <= maxTreesPerChunk &&
+				   biome.getScale() >= minHeightVariation &&
+				   biome.getScale() <= maxHeightVariation;
 		}
         
     }

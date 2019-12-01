@@ -12,9 +12,12 @@ import CustomOreGen.Util.PDist.Type;
 import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.WireframeShapes;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 public class MapGenCloud extends MapGenOreDistribution
 {
@@ -62,7 +65,7 @@ public class MapGenCloud extends MapGenOreDistribution
 
     public MapGenCloud(int distributionID, boolean canGenerate)
     {
-        super(_cloudSettingsMap, distributionID, canGenerate);
+        super(_cloudSettingsMap, distributionID, canGenerate, NoFeatureConfig::deserialize);
         this.clHeight = new HeightScaledPDist(32.0F, 16.0F, Type.normal);
         this.clInclination = new PDist(0.0F, 0.35F);
         this.orRadiusMult = new PDist(1.0F, 0.1F);
@@ -83,8 +86,8 @@ public class MapGenCloud extends MapGenOreDistribution
 
     public Component generateStructure(StructureGroup structureGroup, Random random)
     {
-        float clX = (random.nextFloat() + (float)structureGroup.chunkX) * 16.0F;
-        float clZ = (random.nextFloat() + (float)structureGroup.chunkZ) * 16.0F;
+        float clX = (random.nextFloat() + (float)structureGroup.getChunkPosX()) * 16.0F;
+        float clZ = (random.nextFloat() + (float)structureGroup.getChunkPosZ()) * 16.0F;
         float clY = this.clHeight.getValue(random, this.world, clX, clZ) + this.heightOffset.getValue(random);
         
         if (!structureGroup.canPlaceComponentAt(0, clX, clY, clZ, random))
@@ -116,7 +119,8 @@ public class MapGenCloud extends MapGenOreDistribution
 
         public DiffuseCloudComponent(StructureGroup structureGroup, Transform transform, Random random)
         {
-            super(structureGroup);
+        	//TODO: we need a structure piece type
+            super(null, 0, structureGroup);
             this.noiseGen = new NoiseGenerator(random);
             this.sizeNoiseMagnitude = Math.abs(clSizeNoise.getValue(random));
             float rMax = (1.0F + this.sizeNoiseMagnitude * 2.0F) * orRadiusMult.getMax();
@@ -128,7 +132,7 @@ public class MapGenCloud extends MapGenOreDistribution
 
             float[] bb = new float[] { -rMax, -rMax, -rMax, rMax, rMax, rMax};
             transform.transformBB(bb);
-            super.boundingBox = new StructureBoundingBox(MathHelper.floor(bb[0]), MathHelper.floor(bb[1]), MathHelper.floor(bb[2]), MathHelper.floor(bb[3]) + 1, MathHelper.floor(bb[4]) + 1, MathHelper.floor(bb[5]) + 1);
+            super.boundingBox = new MutableBoundingBox(MathHelper.floor(bb[0]), MathHelper.floor(bb[1]), MathHelper.floor(bb[2]), MathHelper.floor(bb[3]) + 1, MathHelper.floor(bb[4]) + 1, MathHelper.floor(bb[5]) + 1);
             float maxSize = (float)Math.max(super.boundingBox.getXSize(), Math.max(super.boundingBox.getYSize(), super.boundingBox.getZSize())) * 0.2F;
             this.noiseLevels = maxSize <= 1.0F ? 0 : (int)(Math.log((double)maxSize) / Math.log(2.0D) + 0.5D);
             this.mat = transform.clone();
@@ -156,7 +160,7 @@ public class MapGenCloud extends MapGenOreDistribution
             return (float)noise;
         }
 
-        public boolean addComponentParts(World world, Random random, StructureBoundingBox bounds)
+        public boolean addComponentParts(World world, Random random, MutableBoundingBox bounds)
         {
             if (this.invMat == null)
             {
@@ -224,8 +228,8 @@ public class MapGenCloud extends MapGenOreDistribution
                         }
                     }
                 }
-
-                super.addComponentParts(world, random, bounds);
+                //TODO: chunkpos?
+                super.addComponentParts(world, random, bounds, (ChunkPos)null);
                 return true;
             }
         }
@@ -333,7 +337,25 @@ public class MapGenCloud extends MapGenOreDistribution
 	}
 
 	@Override
-	public BlockPos getNearestStructurePos(World worldIn, BlockPos pos, boolean findUnexplored) {
+	public BlockPos findNearest(World worldIn, ChunkGenerator chunkGenerator, BlockPos pos, int radius, boolean p_211405_5_) {
 		return null;
+	}
+
+	@Override
+	public boolean hasStartAt(ChunkGenerator<?> chunkGen, Random rand, int chunkPosX, int chunkPosZ) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public IStartFactory getStartFactory() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getSize() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

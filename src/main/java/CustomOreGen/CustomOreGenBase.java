@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 import CustomOreGen.Server.ServerState;
 import CustomOreGen.Server.WorldConfig;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.loading.FMLPaths;
 
 public class CustomOreGenBase
 {
@@ -158,7 +158,7 @@ public class CustomOreGenBase
     }
 
     public static File getConfigDir() {
-    	return new File(Loader.instance().getConfigDir(), "CustomOreGen");
+    	return FMLPaths.CONFIGDIR.get().resolve("CustomOreGen").toFile();
     }
     
     public static boolean hasMystcraft()

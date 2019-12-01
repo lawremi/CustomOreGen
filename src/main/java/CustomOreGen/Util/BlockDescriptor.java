@@ -42,6 +42,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         }
         
         public BlockInfo(Block block, int metadata, CompoundNBT nbt) {
+        	//TODO: replace with tags
         	this(metadata == OreDictionary.WILDCARD_VALUE ? block.getDefaultState() : block.getStateFromMeta(metadata),
          	     nbt, metadata == OreDictionary.WILDCARD_VALUE);
         }
