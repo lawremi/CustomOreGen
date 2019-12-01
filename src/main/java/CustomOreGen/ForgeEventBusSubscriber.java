@@ -21,7 +21,6 @@ import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
@@ -95,7 +94,7 @@ public class ForgeEventBusSubscriber
     /*
      * FIXME: Remove the corresponding Feature objects from every biome.
      */
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void onGenerateMinable(OreGenEvent.GenerateMinable event)
     {
     	World world = event.getWorld();
@@ -123,7 +122,7 @@ public class ForgeEventBusSubscriber
     @SubscribeEvent
     public static void onForceChunk(ForceChunkEvent event) {
     	ServerState.chunkForced(event.getTicket().world, event.getLocation());
-    }
+    }*/
     
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
