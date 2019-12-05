@@ -14,7 +14,7 @@ public class CustomOreGen
     public CustomOreGen() {
     	instance = this;
     }
-    
+
 	private static ModContainer getModContainer() {
 		return ModList.get().getModContainerByObject(instance).get();
 	}
