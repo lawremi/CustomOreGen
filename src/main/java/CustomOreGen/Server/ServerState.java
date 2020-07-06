@@ -289,7 +289,7 @@ public class ServerState
         else
         {
             GuiCustomOreGenSettings settingsGui = new GuiCustomOreGenSettings(gui);
-            _optionsGuiButton = new Button(150, 20, 0, 0, "Custom Ore Generation...", (button) -> {
+            _optionsGuiButton = new Button(150, 100, 150, 20, "Custom Ore Generation...", (button) -> {
             	gui.getMinecraft().displayGuiScreen(settingsGui);
             });
 

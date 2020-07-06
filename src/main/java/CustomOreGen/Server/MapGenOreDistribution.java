@@ -30,12 +30,13 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.chunk.UpgradeData;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
 import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 
-public abstract class MapGenOreDistribution extends Structure implements IOreDistribution
+public abstract class MapGenOreDistribution extends Structure<NoFeatureConfig> implements IOreDistribution
 {
     @DistributionSetting(
             name = "Name",
@@ -195,9 +196,11 @@ public abstract class MapGenOreDistribution extends Structure implements IOreDis
     protected final boolean _canGenerate;
     private StructureGroup newestGroup;
     protected final DistributionSettingMap _settingMap;
+    protected int range;
 
     public MapGenOreDistribution(DistributionSettingMap settingMap, int distributionID, boolean canGenerate)
     {
+    	super(NoFeatureConfig::deserialize);
         this.replaceableBlocks = new BlockDescriptor(Blocks.STONE);
         this.aboveBlocks = new BlockDescriptor();
         this.belowBlocks = new BlockDescriptor();

@@ -22,7 +22,7 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 /*
  * TODO:
@@ -31,7 +31,7 @@ import net.minecraft.world.gen.feature.IFeatureConfig;
  * 3. Move the setting accessors from IOreDstribution to OreDistributionConfig. Will require a lot of refactoring. 
  * 4. Refactor each distribution's generate() into place(), i.e., based on the config
  */
-public class SubstitutionFeature extends Feature<SubstitutionFeatureConfig> implements IOreDistribution
+public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOreDistribution
 {
     @DistributionSetting(
             name = "Name",
@@ -144,6 +144,7 @@ public class SubstitutionFeature extends Feature<SubstitutionFeatureConfig> impl
 
     public SubstitutionFeature(int distributionID, boolean canGenerate)
     {
+    	super(NoFeatureConfig::deserialize, canGenerate);
         this.oreBlock = new BlockDescriptor(Blocks.STONE);
         this.replaceableBlocks = new BlockDescriptor();
         this.aboveBlocks = new BlockDescriptor();
@@ -274,7 +275,7 @@ public class SubstitutionFeature extends Feature<SubstitutionFeatureConfig> impl
     }
 
 	@Override
-	public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, IFeatureConfig config) {
+	public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, NoFeatureConfig config) {
 		// TODO Auto-generated method stub
 		return false;
 	}

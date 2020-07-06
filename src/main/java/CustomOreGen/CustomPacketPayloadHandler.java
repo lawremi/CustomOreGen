@@ -31,7 +31,7 @@ public class CustomPacketPayloadHandler {
 	
 	private static final SimpleChannel buildChannel(String name) {
 		return NetworkRegistry.ChannelBuilder
-				.named(new ResourceLocation(CustomOreGen.MODID, name))
+				.named(new ResourceLocation(CustomOreGenBase.MODID, name))
 				.clientAcceptedVersions(PROTOCOL_VERSION::equals)
 				.serverAcceptedVersions(PROTOCOL_VERSION::equals)
 				.networkProtocolVersion(() -> PROTOCOL_VERSION)
