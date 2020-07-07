@@ -313,8 +313,8 @@ public class WorldConfig
         properties.put("world.hasCheats", worldInfo == null ? false : worldInfo.areCommandsAllowed());
         properties.put("world.gameMode", worldInfo == null ? "" : worldInfo.getGameType().getName());
         properties.put("world.gameMode.id", worldInfo == null ? 0 : worldInfo.getGameType().getID());
-        properties.put("world.type", worldInfo == null ? "" : world.getWorldType().getName());
-        properties.put("world.type.version", worldInfo == null ? 0 : world.getWorldType().getVersion());
+        properties.put("world.type", worldInfo == null ? "" : worldInfo.getWorldName());
+        properties.put("world.type.version", worldInfo == null ? 0 : worldInfo.getSaveVersion());
         String genName = "RandomLevelSource";
         String genClass = "ChunkProviderOverworld";
 

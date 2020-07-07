@@ -201,6 +201,7 @@ public class NumericOption extends ConfigOption
     private double round(double value, double factor)
     {
         factor = Math.min(Math.abs(factor), 1000000.0D);
-        return (double)Math.round(value * factor) / factor;
+        double ret = (double)Math.round(value * factor) / factor;
+        return ret;
     }
 }
