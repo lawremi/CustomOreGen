@@ -195,7 +195,8 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
 
     public void generate(World world, int chunkX, int chunkZ) {}
 
-    public void populate(World world, int chunkX, int chunkZ)
+	@Override
+    public void populate(IWorld world, int chunkX, int chunkZ)
     {
         if (this._canGenerate && this._valid && this.oreBlock != null)
         {
@@ -215,7 +216,7 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
         this.placedBlocks = 0L;
     }
 
-    public GeometryStream getDebuggingGeometry(World world, int chunkX, int chunkZ)
+    public GeometryStream getDebuggingGeometry(IWorld world, int chunkX, int chunkZ)
     {
         return null;
     }
@@ -274,13 +275,19 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
         }
     }
 
+    //TODO: validate that this does what we want
 	@Override
 	public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, NoFeatureConfig config) {
-		// TODO Auto-generated method stub
-		return false;
+		return generate(worldIn, rand, pos);
 	}
 
-    public boolean generate(World world, Random random, BlockPos position)
+	//TODO: validate that this does what we want
+	@Override
+	public void generate(IWorld world, int chunkX, int chunkZ) {
+		this.generate(world, world.getRandom(), new BlockPos(chunkX << 4, 0, chunkZ << 4));
+	}
+
+    public boolean generate(IWorld world, Random random, BlockPos position)
     {
         if (this._canGenerate && this._valid && this.oreBlock != null)
         {
@@ -329,7 +336,7 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
                                     	int worldX = chunkX * 16 + x;
                                     	int worldZ = chunkZ * 16 + z;
                                     	BlockPos worldPos = new BlockPos(worldX, y, worldZ);
-                                    	if (arrangement.matchesAt(world, random, worldPos)) {	
+                                    	if (arrangement.matchesAt(world.getWorld(), random, worldPos)) {	
                                             BlockInfo match = this.oreBlock.getMatchingBlock(random);
                                             if (match == null)
                                             {
@@ -338,7 +345,7 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
                                             if (match != null && world.setBlockState(new BlockPos(worldX, y, worldZ), match.getBlockState(), 2))
                                             {
                                                 ++this.placedBlocks;
-                                                TileEntityHelper.readFromPartialNBT(world, worldX, y, worldZ, match.getNBT());
+                                                TileEntityHelper.readFromPartialNBT(world.getWorld(), worldX, y, worldZ, match.getNBT());
                                             }
                                         }
                                     }

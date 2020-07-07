@@ -164,7 +164,7 @@ public class ForgeEventBusSubscriber
     public static void onInitGui(GuiScreenEvent.InitGuiEvent.Post event) {
         if (event.getGui() instanceof CreateWorldScreen)
         {
-            ServerState.addOptionsButtonToGui((CreateWorldScreen)event.getGui(), event.getWidgetList());
+            ServerState.addOptionsButtonToGui((CreateWorldScreen)event.getGui(), event.getWidgetList(), event::addWidget);
         }
     }
     

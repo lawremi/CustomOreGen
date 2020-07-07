@@ -12,8 +12,10 @@ import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.VolumeHelper;
 import CustomOreGen.Util.WireframeShapes;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 public class MapGenClusters extends MapGenOreDistribution
@@ -48,15 +50,15 @@ public class MapGenClusters extends MapGenOreDistribution
     public boolean validate() throws IllegalStateException
     {
         int maxClusterSize = (int)Math.ceil((double)(this.clSize.getMax() / 4.0F));
-        super.range = (maxClusterSize + 15) / 16;
+        range = (maxClusterSize + 15) / 16;
         return super.validate();
     }
 
     public Component generateStructure(StructureGroup structureGroup, Random random)
     {
-        float clX = (random.nextFloat() + (float)structureGroup.chunkX) * 16.0F;
-        float clZ = (random.nextFloat() + (float)structureGroup.chunkZ) * 16.0F;
-        float clY = this.clHeight.getValue(random, this.world, clX, clZ) + this.heightOffset.getValue(random);
+        float clX = (random.nextFloat() + (float)structureGroup.getChunkPosX()) * 16.0F;
+        float clZ = (random.nextFloat() + (float)structureGroup.getChunkPosZ()) * 16.0F;
+        float clY = this.clHeight.getValue(random, this.world.getWorld(), clX, clZ) + this.heightOffset.getValue(random);
         
         if (!structureGroup.canPlaceComponentAt(0, clX, clY, clZ, random))
         {
@@ -112,7 +114,8 @@ public class MapGenClusters extends MapGenOreDistribution
             }
         }
 
-        public boolean addComponentParts(World world, Random random, MutableBoundingBox bounds)
+        @Override
+        public boolean addComponentParts(IWorld world, Random random, MutableBoundingBox bounds, ChunkPos cpos)
         {
             for (int s = 0; s < this.rad.length; ++s)
             {
@@ -154,7 +157,7 @@ public class MapGenClusters extends MapGenOreDistribution
                 }
             }
 
-            super.addComponentParts(world, random, bounds);
+            super.addComponentParts(world, random, bounds, cpos);
             return true;
         }
 

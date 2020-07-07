@@ -12,8 +12,10 @@ import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.VolumeHelper;
 import CustomOreGen.Util.WireframeShapes;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 public class MapGenVeins extends MapGenOreDistribution
@@ -138,15 +140,15 @@ public class MapGenVeins extends MapGenOreDistribution
             r += this.brLength.getMax();
         }
 
-        super.range = (int)(r + 15.9999F) / 16;
+        range = (int)(r + 15.9999F) / 16;
         return super.validate();
     }
 
     public Component generateStructure(StructureGroup structureGroup, Random random)
     {
-        float mlX = (random.nextFloat() + (float)structureGroup.chunkX) * 16.0F;
-        float mlZ = (random.nextFloat() + (float)structureGroup.chunkZ) * 16.0F;
-        float mlY = this.mlHeight.getValue(random, this.world, mlX, mlZ) + this.heightOffset.getValue(random);
+        float mlX = (random.nextFloat() + (float)structureGroup.getChunkPosX()) * 16.0F;
+        float mlZ = (random.nextFloat() + (float)structureGroup.getChunkPosZ()) * 16.0F;
+        float mlY = this.mlHeight.getValue(random, this.world.getWorld(), mlX, mlZ) + this.heightOffset.getValue(random);
         
         if (!structureGroup.canPlaceComponentAt(0, mlX, mlY, mlZ, random))
         {
@@ -169,8 +171,8 @@ public class MapGenVeins extends MapGenOreDistribution
                 segMat.translate(mlX, mlY, mlZ);
                 segMat.rotateY(brRandom.nextFloat() * ((float)Math.PI * 2F));
                 segMat.rotateX(-this.brInclination.getValue(brRandom));
-                float maxHeight = mlY + this.brHeightLimit.getValue(brRandom, this.world, mlX, mlZ);
-                float minHeight = mlY - this.brHeightLimit.getValue(brRandom, this.world, mlX, mlZ);
+                float maxHeight = mlY + this.brHeightLimit.getValue(brRandom, this.world.getWorld(), mlX, mlZ);
+                float minHeight = mlY - this.brHeightLimit.getValue(brRandom, this.world.getWorld(), mlX, mlZ);
                 this.generateBranch(structureGroup, this.brLength.getValue(brRandom), maxHeight, minHeight, segMat, motherlode, brRandom);
             }
 
@@ -379,7 +381,8 @@ public class MapGenVeins extends MapGenOreDistribution
             return t > 0.0F && this.next != null ? (1.0F - t) * this.rad + t * this.next.rad : (t < 0.0F && this.prev != null ? (1.0F + t) * this.rad - t * this.prev.rad : (t <= 0.0F && t > -1.0F ? this.rad : (t > 0.0F && t < 0.5F ? this.rad * MathHelper.sqrt(1.0F - 4.0F * t * t) : 0.0F)));
         }
 
-        public boolean addComponentParts(World world, Random random, MutableBoundingBox bounds)
+        @Override
+        public boolean addComponentParts(IWorld world, Random random, MutableBoundingBox bounds, ChunkPos cpos)
         {
             float maxR = orRadiusMult.getMax();
 
@@ -476,7 +479,7 @@ public class MapGenVeins extends MapGenOreDistribution
             }
             while (height > 0 && this.context.advance(0.7F * (float)height));
 
-            super.addComponentParts(world, random, bounds);
+            super.addComponentParts(world, random, bounds, cpos);
             return true;
         }
 
@@ -665,7 +668,8 @@ public class MapGenVeins extends MapGenOreDistribution
             }
         }
 
-        public boolean addComponentParts(World world, Random random, MutableBoundingBox bounds)
+        @Override
+        public boolean addComponentParts(IWorld world, Random random, MutableBoundingBox bounds, ChunkPos cpos)
         {
             if (this.invMat == null)
             {
@@ -724,7 +728,7 @@ public class MapGenVeins extends MapGenOreDistribution
                     }
                 }
 
-                super.addComponentParts(world, random, bounds);
+                super.addComponentParts(world, random, bounds, cpos);
                 return true;
             }
         }

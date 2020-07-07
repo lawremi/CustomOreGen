@@ -25,7 +25,7 @@ public class CustomPacketPayloadHandler {
 	}
 	
 	private static final String PROTOCOL_VERSION = Integer.toString(1);
-	private static final String CHANNEL_NAME = "CustomOreGen";
+	private static final String CHANNEL_NAME = "customoregen";
     
 	private static final SimpleChannel CHANNEL = buildChannel(CHANNEL_NAME);
 	

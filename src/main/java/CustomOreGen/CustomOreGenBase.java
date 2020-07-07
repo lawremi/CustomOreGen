@@ -12,8 +12,10 @@ import CustomOreGen.Server.ServerState;
 import CustomOreGen.Server.WorldConfig;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLPaths;
 
+@Mod("customoregen")
 public class CustomOreGenBase
 {
     public static CustomOreGenBase instance;

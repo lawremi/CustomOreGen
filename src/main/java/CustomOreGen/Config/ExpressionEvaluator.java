@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
+import net.minecraft.util.ResourceLocation;
+
 public class ExpressionEvaluator
 {
     protected static Map<String,TokenType> _symbolMap = new HashMap<String, TokenType>();
@@ -213,9 +215,15 @@ public class ExpressionEvaluator
                     }
                     else
                     {
-                        if (!lhs1.getClass().isAssignableFrom(rhs1.getClass()))
+                    	if (!lhs1.getClass().isAssignableFrom(rhs1.getClass()))
                         {
-                            throw new EvaluatorException("Cannot compare equality of \'" + lhs1.getClass().getSimpleName() + "\' and \'" + rhs1.getClass().getSimpleName() + "\'.", token);
+                        	if(lhs1 instanceof ResourceLocation) {
+                        		lhs1 = lhs1.toString().toLowerCase();
+                        		rhs1 = rhs1.toString().toLowerCase();
+                        	}
+                        	else {
+                        		throw new EvaluatorException("Cannot compare equality of \'" + lhs1.getClass().getSimpleName() + " (" + lhs1 + ")\' and \'" + rhs1.getClass().getSimpleName() +  " (" + rhs1 + ")\'.", token);
+                        	}
                         }
 
                         equal = rhs1.equals(lhs1);

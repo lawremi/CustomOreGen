@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.function.Consumer;
 
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.GeometryData;
@@ -23,6 +24,7 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkStatus;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -177,16 +179,16 @@ public class ServerState
     public static void onPopulateChunk(World world, int chunkX, int chunkZ, Random rand) {
     	WorldConfig cfg = getWorldConfig(world);
     	int range = (cfg.deferredPopulationRange + 15) / 16;
-    	for (int iX = chunkX - range; iX <= chunkX + range; ++iX)
-        {
-            for (int iZ = chunkZ - range; iZ <= chunkZ + range; ++iZ)
-            {
-            	if (allNeighborsPopulated(world, iX, iZ, range)) {
+    	//for (int iX = chunkX - range; iX <= chunkX + range; ++iX)
+        //{
+            //for (int iZ = chunkZ - range; iZ <= chunkZ + range; ++iZ)
+            //{
+            	//if (allNeighborsPopulated(world, iX, iZ, range)) {
             		//CustomOreGenBase.log.info("[" + iX + "," + iZ + "]: POPULATING");
-            		populateDistributions(cfg.getOreDistributions(), world, iX, iZ);
-            	}
-            }
-        }
+            		populateDistributions(cfg.getOreDistributions(), world, chunkX, chunkZ);
+            	//}
+            //}
+        //}
     }
 
     private static boolean allNeighborsPopulated(World world, int chunkX, int chunkZ, int range) {
@@ -256,7 +258,7 @@ public class ServerState
 
         _server = server;
         CustomOreGenBase.log.debug("Server world changed to " + worldInfo.getWorldName());
-        File f = new File(_server.getFolderName());
+        File f = new File(_server.getWorld(DimensionType.OVERWORLD).getSaveHandler().getWorldDirectory().getAbsolutePath());
         WorldConfig config = null;
 
         while (config == null)
@@ -280,7 +282,7 @@ public class ServerState
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static void addOptionsButtonToGui(CreateWorldScreen gui, List<Widget> buttonList)
+    public static void addOptionsButtonToGui(CreateWorldScreen gui, List<Widget> buttonList, Consumer<Widget> add)
     {
         if (gui == null)
         {
@@ -299,7 +301,7 @@ public class ServerState
             {
                 button1.x = (gui.width - button1.getWidth()) / 2;
                 button1.y = 165;
-                buttonList.add(button1);
+                add.accept(button1);
             }
         }
     }

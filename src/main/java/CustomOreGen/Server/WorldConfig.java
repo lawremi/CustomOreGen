@@ -100,7 +100,7 @@ public class WorldConfig
         {
             if (world instanceof ServerWorld)
             {
-                worldBaseDir = ((ServerWorld)world).getSaveHandler().getWorldDirectory();
+                worldBaseDir = ((ServerWorld)world.getWorld()).getSaveHandler().getWorldDirectory();
             }
             else
             {

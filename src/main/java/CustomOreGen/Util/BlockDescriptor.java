@@ -14,6 +14,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -213,7 +214,14 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             for (Descriptor desc : this._descriptors) {
             	if (desc.describesOre) {
             		ResourceLocation tagName = new ResourceLocation(desc.description);
-            		for (Block block : BlockTags.getCollection().get(tagName).getAllElements()) {
+            		Tag<Block> tag = BlockTags.getCollection().get(tagName);
+            		if(tag == null) {
+            			tag = BlockTags.getCollection().get(new ResourceLocation("forge",desc.description));
+            		}
+            		if(tag == null) {
+            			throw new RuntimeException(desc.description + " does not match any tags.");
+            		}
+            		for (Block block : tag.getAllElements()) {
             			this.add(block, desc.weight);
             			if (desc.matchFirst) {
             				break;
