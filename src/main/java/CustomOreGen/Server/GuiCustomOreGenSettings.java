@@ -5,11 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import org.apache.logging.log4j.Level;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
-import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.Server.ConfigOption.DisplayGroup;
 import CustomOreGen.Util.Localization;
 import net.minecraft.client.Minecraft;

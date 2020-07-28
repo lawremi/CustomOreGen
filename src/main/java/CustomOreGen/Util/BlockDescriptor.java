@@ -9,6 +9,8 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.regex.Pattern;
 
+import com.google.common.collect.ImmutableList;
+
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -229,9 +231,28 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             		}
             	} else if (desc.regexp) {
             		for (Block block : ForgeRegistries.BLOCKS) {
-                    	float weight = desc.regexMatch(block);
-                    	this.add(block, desc.nbt, weight);
-                    	if (weight > 0 && desc.matchFirst) {
+            			//desc.regexMatch compares against states
+                    	float[] weights = desc.regexMatch(block);
+                    	this.add(block, desc.nbt, weights[0]);
+                    	if (weights[0] > 0 && desc.matchFirst) {
+                    		break;
+                    	}
+                    	boolean matched = false;
+                    	for (int m = 0; m < weights.length && !matched; ++m)
+                    	{
+                    		if (weights[m] > 0) {
+                    			if(m == 0 )
+                    				this.add(block, desc.nbt, weights[m]);
+                    			else {
+                                	ImmutableList<BlockState> states = block.getStateContainer().getValidStates();
+                                	this.add(states.get(m-1), desc.nbt, weights[m]);
+                    			}
+                    			if (desc.matchFirst) {
+                    				matched = true;
+                    			}
+                    		}
+                    	}
+                    	if (matched) {
                     		break;
                     	}
                     }
@@ -430,15 +451,31 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         	}
         }
         
-        public float regexMatch(Block block)
+        public float[] regexMatch(Block block)
         {
+            float[] weights = new float[1];
             String name = block.getRegistryName().toString();
-            
-            if (this.getPattern().matcher(name).matches())
+        	
+            if (!this.getPattern().matcher(name).matches())
             {
-            	return this.weight;
+            	ImmutableList<BlockState> states = block.getStateContainer().getValidStates();
+                weights = new float[states.size() + 1];
+                int m=1;
+            	for (BlockState state : states)
+            	{
+            		//TODO: this might be improved
+            		if (this.getPattern().matcher(state.toString()).matches())
+            		{
+            			weights[m] += this.weight;
+            			m++;
+            		}
+            	}
             }
-            return 0;
+            else
+            {
+            	weights[0] += this.weight;
+            }
+            return weights;
         }
         
         public String toString()

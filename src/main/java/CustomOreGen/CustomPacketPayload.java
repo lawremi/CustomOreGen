@@ -20,7 +20,7 @@ public class CustomPacketPayload
     public static void encode(CustomPacketPayload msg, PacketBuffer buf)
     {
         buf.writeByte((byte)msg.type.ordinal());
-        buf.writeBytes(SerializationUtils.serialize(msg.data));
+        buf.writeByteArray(SerializationUtils.serialize(msg.data));
     }
     
     public static CustomPacketPayload decode(PacketBuffer buf)

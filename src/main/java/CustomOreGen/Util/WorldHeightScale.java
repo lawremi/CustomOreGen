@@ -1,7 +1,6 @@
 package CustomOreGen.Util;
 
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 
 public class WorldHeightScale implements HeightScale {
 

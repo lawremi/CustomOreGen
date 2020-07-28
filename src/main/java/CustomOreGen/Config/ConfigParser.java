@@ -298,7 +298,7 @@ public class ConfigParser
     {
         addDistributionType(distributionName, (IDistributionFactory)(new StdDistFactory(clazz, canGenerate)));
     }
-
+    
     static
     {
         addDistributionType("StandardGen", MapGenClusters.class, true);
