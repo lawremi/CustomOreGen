@@ -12,8 +12,10 @@ import CustomOreGen.Util.PDist.Type;
 import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.WireframeShapes;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 public class MapGenCloud extends MapGenOreDistribution
@@ -77,15 +79,15 @@ public class MapGenCloud extends MapGenOreDistribution
         float r = Math.max(this.clRadius.getMax(), this.clThickness.pdist.getMax());
         r *= 1.0F + this.clSizeNoise.getMax() * 2.0F;
         r *= this.orRadiusMult.getMax();
-        super.range = (int)(r + 15.9999F) / 16;
+        range = (int)(r + 15.9999F) / 16;
         return super.validate();
     }
 
     public Component generateStructure(StructureGroup structureGroup, Random random)
     {
-        float clX = (random.nextFloat() + (float)structureGroup.chunkX) * 16.0F;
-        float clZ = (random.nextFloat() + (float)structureGroup.chunkZ) * 16.0F;
-        float clY = this.clHeight.getValue(random, this.world, clX, clZ) + this.heightOffset.getValue(random);
+        float clX = (random.nextFloat() + (float)structureGroup.getChunkPosX()) * 16.0F;
+        float clZ = (random.nextFloat() + (float)structureGroup.getChunkPosZ()) * 16.0F;
+        float clY = this.clHeight.getValue(random, this.world.getWorld(), clX, clZ) + this.heightOffset.getValue(random);
         
         if (!structureGroup.canPlaceComponentAt(0, clX, clY, clZ, random))
         {
@@ -98,7 +100,7 @@ public class MapGenCloud extends MapGenOreDistribution
             clMat.rotateZInto(0.0F, 1.0F, 0.0F);
             clMat.rotateZ(random.nextFloat() * ((float)Math.PI * 2F));
             clMat.rotateY(this.clInclination.getValue(random));
-            float thickness = this.clThickness.getValue(random, this.world, clX, clZ);
+            float thickness = this.clThickness.getValue(random, this.world.getWorld(), clX, clZ);
             clMat.scale(this.clRadius.getValue(random), this.clRadius.getValue(random), thickness);
             DiffuseCloudComponent cloud = new DiffuseCloudComponent(structureGroup, clMat, random);
             structureGroup.addComponent(cloud, (Component)null);
@@ -156,7 +158,8 @@ public class MapGenCloud extends MapGenOreDistribution
             return (float)noise;
         }
 
-        public boolean addComponentParts(World world, Random random, MutableBoundingBox bounds)
+        @Override
+        public boolean addComponentParts(IWorld world, Random random, MutableBoundingBox bounds, ChunkPos cpos)
         {
             if (this.invMat == null)
             {
@@ -216,7 +219,7 @@ public class MapGenCloud extends MapGenOreDistribution
                                 if (orVolumeNoiseCutoff.getMin() <= 1.0F && 
                                 	(orVolumeNoiseCutoff.getMax() <= 0.0F || 
                                 	 (this.getNoise(pos[0], pos[1], pos[2]) + 1.0F) / 2.0F >= orVolumeNoiseCutoff.getValue(random)) && 
-                                	orDensity.getIntValue(random, world, x, z) >= 1)
+                                	orDensity.getIntValue(random, world.getWorld(), x, z) >= 1)
                                 {
                                     this.attemptPlaceBlock(world, random, x, y, z, bounds);
                                 }
@@ -225,7 +228,7 @@ public class MapGenCloud extends MapGenOreDistribution
                     }
                 }
 
-                super.addComponentParts(world, random, bounds);
+                super.addComponentParts(world, random, bounds, cpos);
                 return true;
             }
         }

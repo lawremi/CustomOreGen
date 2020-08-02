@@ -12,11 +12,9 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 public class CustomPacketPayloadHandler {
@@ -25,13 +23,13 @@ public class CustomPacketPayloadHandler {
 	}
 	
 	private static final String PROTOCOL_VERSION = Integer.toString(1);
-	private static final String CHANNEL_NAME = "CustomOreGen";
+	private static final String CHANNEL_NAME = "customoregen";
     
 	private static final SimpleChannel CHANNEL = buildChannel(CHANNEL_NAME);
 	
 	private static final SimpleChannel buildChannel(String name) {
 		return NetworkRegistry.ChannelBuilder
-				.named(new ResourceLocation(CustomOreGen.MODID, name))
+				.named(new ResourceLocation(CustomOreGenBase.MODID, name))
 				.clientAcceptedVersions(PROTOCOL_VERSION::equals)
 				.serverAcceptedVersions(PROTOCOL_VERSION::equals)
 				.networkProtocolVersion(() -> PROTOCOL_VERSION)
@@ -69,7 +67,7 @@ public class CustomPacketPayloadHandler {
                     break;
 
                 case DebuggingGeometryRenderMode:
-                    String strMode = (String)msg.data;
+                    /*String strMode = (String)msg.data;
 
                     if ("_DISABLE_".equals(strMode))
                     {
@@ -97,7 +95,7 @@ public class CustomPacketPayloadHandler {
                             player.sendMessage(new StringTextComponent("\u00a7cError: Invalid wireframe mode '" + strMode + "'"));
                         }
                     }
-                    else
+                    else*/
                     {
                         int mode = ClientState.dgRenderingMode == null ? 0 : ClientState.dgRenderingMode.ordinal();
                         mode = (mode + 1) % WireframeRenderMode.values().length;
@@ -112,7 +110,7 @@ public class CustomPacketPayloadHandler {
                     break;
 
                 case CommandResponse:
-                    player.sendMessage(new StringTextComponent((String)msg.data));
+                    //player.sendMessage(new StringTextComponent((String)msg.data));
                     break;
 
                 default:
@@ -141,7 +139,7 @@ public class CustomPacketPayloadHandler {
 
                     if (geometryData == null)
                     {
-                        sendTo(new CustomPacketPayload(PayloadType.DebuggingGeometryRenderMode, "_DISABLE_"), player);
+                        //sendTo(new CustomPacketPayload(PayloadType.DebuggingGeometryRenderMode, "_DISABLE_"), player);
                     }
                     else
                     {
@@ -162,7 +160,7 @@ public class CustomPacketPayloadHandler {
 	 */
 	public static void sendToServer(Object msg)
 	{
-		CHANNEL.sendToServer(msg);
+		//CHANNEL.sendToServer(msg);
 	}
 	
 	/**
@@ -171,13 +169,13 @@ public class CustomPacketPayloadHandler {
 	 */
 	public static void sendTo(Object msg, ServerPlayerEntity player)
 	{
-		if (!(player instanceof FakePlayer))
+		/*if (!(player instanceof FakePlayer))
 		{
 			CHANNEL.sendTo(msg, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
-		}
+		}*/
 	}
 
 	public static void sendToAllClients(Object msg) {
-		CHANNEL.send(PacketDistributor.ALL.noArg(), msg);
+		//CHANNEL.send(PacketDistributor.ALL.noArg(), msg);
 	}
 }

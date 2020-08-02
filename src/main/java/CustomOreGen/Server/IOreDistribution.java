@@ -1,8 +1,9 @@
 package CustomOreGen.Server;
 
-import CustomOreGen.Util.GeometryStream;
 import java.util.Map;
-import net.minecraft.world.World;
+
+import CustomOreGen.Util.GeometryStream;
+import net.minecraft.world.IWorld;
 
 public interface IOreDistribution
 {
@@ -12,15 +13,15 @@ public interface IOreDistribution
 
     void setDistributionSetting(String name, Object value) throws IllegalArgumentException, IllegalAccessException;
 
-    void generate(World world, int chunkX, int chunkZ);
+    void generate(IWorld world, int chunkX, int chunkZ);
 
-    void populate(World world, int chunkX, int chunkY);
+    void populate(IWorld world, int chunkX, int chunkY);
 
     void cull();
 
     void clear();
 
-    GeometryStream getDebuggingGeometry(World world, int chunkX, int chunkY);
+    GeometryStream getDebuggingGeometry(IWorld world, int chunkX, int chunkY);
 
     boolean validate() throws IllegalStateException;
 

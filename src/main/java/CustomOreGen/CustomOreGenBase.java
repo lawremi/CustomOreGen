@@ -10,12 +10,18 @@ import org.apache.logging.log4j.Logger;
 
 import CustomOreGen.Server.ServerState;
 import CustomOreGen.Server.WorldConfig;
+import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLPaths;
 
+@Mod("customoregen")
 public class CustomOreGenBase
 {
-    public static Logger log = LogManager.getLogger(CustomOreGen.MODID);
+    public static CustomOreGenBase instance;
+    
+    public static final String MODID = "customoregen";
+    public static Logger log = LogManager.getLogger();
     
     public static final String OPTIONS_FILENAME = "CustomOreGen_Options.txt";
 	public static final String BASE_CONFIG_FILENAME = "CustomOreGen_Config.xml";
@@ -23,6 +29,10 @@ public class CustomOreGenBase
 
     private static int _hasMystcraft = 0;
 
+    public CustomOreGenBase() {
+    	instance = this;
+    }
+    
     public static boolean isClassLoaded(String className)
     {
         try
@@ -159,7 +169,7 @@ public class CustomOreGenBase
     }
 
     public static File getConfigDir() {
-    	return FMLPaths.CONFIGDIR.get().resolve(CustomOreGen.MODID).toFile();
+    	return FMLPaths.CONFIGDIR.get().resolve(MODID).toFile();
     }
     
     public static boolean hasMystcraft()
@@ -187,7 +197,12 @@ public class CustomOreGenBase
         return _hasMystcraft == 1;
     }
     
-    public static String getDisplayString() {
-    	return CustomOreGen.getDisplayString();
-    }
+	private static ModContainer getModContainer() {
+		return ModList.get().getModContainerByObject(instance).get();
+	}
+
+	public static String getDisplayString() {
+		ModContainer metadata = getModContainer();
+    	return metadata.getModId() + " " + metadata.getModInfo().getVersion();
+	}
 }
