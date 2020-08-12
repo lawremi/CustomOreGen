@@ -1,0 +1,714 @@
+<!-- =================================================================
+     Custom Ore Generation "Neotech" Module: This configuration covers
+     copper, tin, lead, and silver.
+     ================================================================= -->
+
+
+<!-- A mod for ore processing. Configuration by leagris. -->
+
+
+
+
+<!-- Is the "Neotech" mod on the system?  Let's find out! -->
+<IfModInstalled name="neotech">
+
+  <!-- Starting Configuration for Custom Ore Generation. -->
+  <ConfigSection>
+
+
+
+
+
+    <!-- Setup Screen Configuration -->
+    <ConfigSection>
+      <OptionDisplayGroup name='groupNeotech' displayName='Neotech' displayState='shown'>
+        <Description>
+          Distribution options for Neotech Ores.
+        </Description>
+      </OptionDisplayGroup>
+      <OptionChoice name='enableNeotech' displayName='Handle Neotech Setup?' default='true' displayState='shown_dynamic' displayGroup='groupNeotech'>
+        <Description> Should Custom Ore Generation handle Neotech ore generation? </Description>
+        <Choice value=':= ?true' displayValue='Yes' description='Use Custom Ore Generation to handle Neotech ores.'/>
+        <Choice value=':= ?false' displayValue='No' description='Neotech ores will be handled by Minecraft directly.'/>
+      </OptionChoice>
+      <OptionChoice name='cleanUpNeotech' displayName='Use Neotech Cleanup?' default='true' displayState=':= if(?enableNeotech, "shown", "hidden")' displayGroup='groupNeotech'>
+        <Description> Should Custom Ore Generation use the Substitution Pass to remove all instances of Neotech ore from the world?  If the mod's oregen can be turned off in its configuration, then it's recommended to do so, as the substitution pass can slow the game significantly.  If this option is disabled without disabling the mod's own ore generation, you'll end up with two oregens working at once, flooding the world with ore.  Enabled by default to ensure the ores are completely removed. </Description>
+        <Choice value=':= ?true' displayValue='Yes' description='Use the substitution pass to clean up Neotech ores.'/>
+        <Choice value=':= ?false' displayValue='No' description='Neotech ores do not need to be cleaned up by a substitution pass.'/>
+      </OptionChoice>
+
+      <!-- Copper Configuration UI Starting -->
+      <ConfigSection>
+        <OptionChoice name='neotechCopperDist'  displayState=':= if(?enableNeotech, "shown", "hidden")' displayGroup='groupNeotech'>
+          <Description> Controls how Copper is generated </Description>
+          <DisplayName>Neotech Copper</DisplayName>
+          <IfCondition condition=':= (?blockExists("neotech:orecopper")) '>
+
+          <Choice value='LayeredVeins' displayValue='Layered Veins'>
+            <Description>
+              Small, fairly rare motherlodes with 2-4 horizontal veins each.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("neotech:orecopper")) '>
+
+          <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
+            <Description>
+              Large irregular clouds filled lightly with ore.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("neotech:orecopper")) '>
+
+          <Choice value='Vanilla' displayValue='Vanilla'>
+            <Description>
+              Simulates Vanilla Minecraft.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <Choice value='none' displayValue='None' description='Copper is not generated in the world.'/>
+        </OptionChoice>
+        <OptionNumeric name='neotechCopperFreq' default='1'  min='0' max='5' displayState=':= if(?enableNeotech, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupNeotech'>
+          <Description> Frequency multiplier for Neotech Copper distributions </Description>
+          <DisplayName>Neotech Copper Freq.</DisplayName>
+        </OptionNumeric>
+        <OptionNumeric name='neotechCopperSize' default='1'  min='0' max='5' displayState=':= if(?enableNeotech, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupNeotech'>
+          <Description> Size multiplier for Neotech Copper distributions </Description>
+          <DisplayName>Neotech Copper Size</DisplayName>
+        </OptionNumeric>
+      </ConfigSection>
+      <!-- Copper Configuration UI Complete -->
+
+
+      <!-- Tin Configuration UI Starting -->
+      <ConfigSection>
+        <OptionChoice name='neotechTinDist'  displayState=':= if(?enableNeotech, "shown", "hidden")' displayGroup='groupNeotech'>
+          <Description> Controls how Tin is generated </Description>
+          <DisplayName>Neotech Tin</DisplayName>
+          <IfCondition condition=':= (?blockExists("neotech:oretin")) '>
+
+          <Choice value='LayeredVeins' displayValue='Layered Veins'>
+            <Description>
+              Small, fairly rare motherlodes with 2-4 horizontal veins each.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("neotech:oretin")) '>
+
+          <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
+            <Description>
+              Large irregular clouds filled lightly with ore.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("neotech:oretin")) '>
+
+          <Choice value='Vanilla' displayValue='Vanilla'>
+            <Description>
+              Simulates Vanilla Minecraft.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <Choice value='none' displayValue='None' description='Tin is not generated in the world.'/>
+        </OptionChoice>
+        <OptionNumeric name='neotechTinFreq' default='1'  min='0' max='5' displayState=':= if(?enableNeotech, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupNeotech'>
+          <Description> Frequency multiplier for Neotech Tin distributions </Description>
+          <DisplayName>Neotech Tin Freq.</DisplayName>
+        </OptionNumeric>
+        <OptionNumeric name='neotechTinSize' default='1'  min='0' max='5' displayState=':= if(?enableNeotech, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupNeotech'>
+          <Description> Size multiplier for Neotech Tin distributions </Description>
+          <DisplayName>Neotech Tin Size</DisplayName>
+        </OptionNumeric>
+      </ConfigSection>
+      <!-- Tin Configuration UI Complete -->
+
+
+      <!-- Lead Configuration UI Starting -->
+      <ConfigSection>
+        <OptionChoice name='neotechLeadDist'  displayState=':= if(?enableNeotech, "shown", "hidden")' displayGroup='groupNeotech'>
+          <Description> Controls how Lead is generated </Description>
+          <DisplayName>Neotech Lead</DisplayName>
+          <IfCondition condition=':= (?blockExists("neotech:orelead")) '>
+
+          <Choice value='LayeredVeins' displayValue='Layered Veins'>
+            <Description>
+              Small, fairly rare motherlodes with 2-4 horizontal veins each.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("neotech:orelead")) '>
+
+          <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
+            <Description>
+              Large irregular clouds filled lightly with ore.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("neotech:orelead")) '>
+
+          <Choice value='Vanilla' displayValue='Vanilla'>
+            <Description>
+              Simulates Vanilla Minecraft.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <Choice value='none' displayValue='None' description='Lead is not generated in the world.'/>
+        </OptionChoice>
+        <OptionNumeric name='neotechLeadFreq' default='1'  min='0' max='5' displayState=':= if(?enableNeotech, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupNeotech'>
+          <Description> Frequency multiplier for Neotech Lead distributions </Description>
+          <DisplayName>Neotech Lead Freq.</DisplayName>
+        </OptionNumeric>
+        <OptionNumeric name='neotechLeadSize' default='1'  min='0' max='5' displayState=':= if(?enableNeotech, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupNeotech'>
+          <Description> Size multiplier for Neotech Lead distributions </Description>
+          <DisplayName>Neotech Lead Size</DisplayName>
+        </OptionNumeric>
+      </ConfigSection>
+      <!-- Lead Configuration UI Complete -->
+
+
+      <!-- Silver Configuration UI Starting -->
+      <ConfigSection>
+        <OptionChoice name='neotechSilverDist'  displayState=':= if(?enableNeotech, "shown", "hidden")' displayGroup='groupNeotech'>
+          <Description> Controls how Silver is generated </Description>
+          <DisplayName>Neotech Silver</DisplayName>
+          <IfCondition condition=':= (?blockExists("neotech:oresilver")) '>
+
+          <Choice value='LayeredVeins' displayValue='Layered Veins'>
+            <Description>
+              Small, fairly rare motherlodes with 2-4 horizontal veins each.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("neotech:oresilver")) '>
+
+          <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
+            <Description>
+              Large irregular clouds filled lightly with ore.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <IfCondition condition=':= (?blockExists("neotech:oresilver")) '>
+
+          <Choice value='Vanilla' displayValue='Vanilla'>
+            <Description>
+              Simulates Vanilla Minecraft.
+            </Description>
+          </Choice>
+          </IfCondition>
+
+          <Choice value='none' displayValue='None' description='Silver is not generated in the world.'/>
+        </OptionChoice>
+        <OptionNumeric name='neotechSilverFreq' default='1'  min='0' max='5' displayState=':= if(?enableNeotech, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupNeotech'>
+          <Description> Frequency multiplier for Neotech Silver distributions </Description>
+          <DisplayName>Neotech Silver Freq.</DisplayName>
+        </OptionNumeric>
+        <OptionNumeric name='neotechSilverSize' default='1'  min='0' max='5' displayState=':= if(?enableNeotech, if(?advOptions, "shown", "hidden"), "hidden")' displayGroup='groupNeotech'>
+          <Description> Size multiplier for Neotech Silver distributions </Description>
+          <DisplayName>Neotech Silver Size</DisplayName>
+        </OptionNumeric>
+      </ConfigSection>
+      <!-- Silver Configuration UI Complete -->
+
+    </ConfigSection>
+    <!-- Setup Screen Complete -->
+
+    <IfCondition condition=':= ?enableNeotech'>
+
+
+
+
+      <!-- Overworld Setup Beginning -->
+
+      <IfCondition condition=':= ?COGActive'>
+
+        <!-- Starting Original "Overworld" Block Removal -->
+        <!-- Original "Overworld" Block Removal Complete -->
+
+        <!-- Adding blocks -->
+
+        <!-- Begin Copper Generation -->
+
+        <!-- Starting LayeredVeins Preset for Copper. -->
+        <ConfigSection>
+          <IfCondition condition=':= neotechCopperDist = "LayeredVeins"'>
+            <Veins name='neotechCopperVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E3B78E' drawBoundBox='false' boundBoxColor='0x60E3B78E'>
+              <Description>
+                Small, fairly rare motherlodes  with 2-4 horizontal
+                veins each.
+              </Description>
+              <OreBlock block='neotech:orecopper' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <Biome name='.*'  />
+              <Setting name='MotherlodeFrequency' avg=':= 1.938 * _default_ * neotechCopperFreq ' range=':= 1.938 * _default_ * neotechCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeSize' avg=':= 1.117 * _default_ * neotechCopperSize ' range=':= 1.117 * _default_ * neotechCopperSize ' type='normal' />
+              <Setting name='MotherlodeHeight' avg=':= 55 ' range=':= 30 ' type='uniform' scaleTo='base' />
+              <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchLength' avg=':= 1.392 * _default_ ' range=':= 1.392 * _default_ ' type='normal' />
+              <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentLength' avg=':= _default_ * neotechCopperSize ' range=':= _default_ * neotechCopperSize ' type='normal' />
+              <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentRadius' avg=':= 1.180 * _default_ * neotechCopperSize ' range=':= 1.180 * _default_ * neotechCopperSize ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </Veins>
+          </IfCondition>
+        </ConfigSection>
+        <!-- LayeredVeins Preset for Copper is complete. -->
+
+
+        <!-- Starting StrategicClouds Preset for Copper. -->
+        <ConfigSection>
+          <IfCondition condition=':= neotechCopperDist = "StrategicClouds"'>
+            <Cloud name='neotechCopperCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E3B78E' drawBoundBox='false' boundBoxColor='0x60E3B78E'>
+              <Description>
+                Large irregular clouds filled  lightly with ore.
+                These are  huge, spanning several adjacent  chunks,
+                and consequently rather  rare.  They contain a
+                sizeable  amount of ore, but it takes some  time and
+                effort to mine due to  low density. The intent for
+                strategic clouds is that the  player will need to
+                actively  search for one and then set up a  semi-
+                permanent mining base and  spend some time actually
+                mining  the ore.
+              </Description>
+              <OreBlock block='neotech:orecopper' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <Biome name='.*'  />
+              <Setting name='CloudRadius' avg=':= 1.488 * _default_ * neotechCopperSize ' range=':= 1.488 * _default_ * neotechCopperSize ' type='normal' />
+              <Setting name='CloudThickness' avg=':= 1.488 * _default_ * neotechCopperSize ' range=':= 1.488 * _default_ * neotechCopperSize ' type='normal' scaleTo='base' />
+              <Setting name='DistributionFrequency' avg=':= 2.213 * _default_ * neotechCopperFreq ' range=':= 2.213 * _default_ * neotechCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='CloudHeight' avg=':= 55 ' range=':= 30 ' type='uniform' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Veins name='neotechCopperHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E3B78E' drawBoundBox='false' boundBoxColor='0x60E3B78E'>
+                <Description>
+                  Single blocks, generously  scattered through all
+                  heights  (density is about that of  vanilla iron
+                  ore). They will  replace dirt and sandstone  (but
+                  not grass or sand), so  they can be found nearer to
+                  the surface than most ores.  Intened to be used as a
+                  child  distribution for large, rare  strategic
+                  deposits that would  otherwise be very difficult  to
+                  find.  Note that the  frequency is multiplied by
+                  ground level to maintain a  constant density, but
+                  not by  ore frequency because it is  assumed that
+                  the frequency of  the parent distribution will
+                  already be scaled by that.
+                </Description>
+                <OreBlock block='neotech:orecopper' weight='1.0' />
+                <Replaces block='minecraft:dirt' weight='1.0' />
+                <Replaces block='minecraft:sandstone' weight='1.0' />
+                <ReplacesOre block='stone' weight='1.0' />
+                <Replaces block='minecraft:gravel' weight='1.0' />
+                <Setting name='MotherlodeFrequency' avg=':= 1.938 * _default_ * neotechCopperFreq  * 0.1 ' range=':= 1.938 * _default_ * neotechCopperFreq  * 0.1 ' type='normal' scaleTo='base' />
+              </Veins>
+            </Cloud>
+          </IfCondition>
+        </ConfigSection>
+        <!-- StrategicClouds Preset for Copper is complete. -->
+
+
+        <!-- Starting Vanilla Preset for Copper. -->
+        <ConfigSection>
+          <IfCondition condition=':= neotechCopperDist = "Vanilla"'>
+            <StandardGen name='neotechCopperStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E3B78E' drawBoundBox='false' boundBoxColor='0x60E3B78E'>
+              <Description>
+                A master preset for standardgen  ore distributions.
+              </Description>
+              <OreBlock block='neotech:orecopper' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <Biome name='.*'  />
+              <Setting name='Size' avg=':= 12.0 * oreSize * neotechCopperSize ' range=':= 6.0 * oreSize * neotechCopperSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 6.0 * oreFreq * neotechCopperFreq ' range=':= 6.0 * oreFreq * neotechCopperFreq ' type='normal' scaleTo='base' />
+              <Setting name='Height' avg=':= 55 ' range=':= 30 ' type='uniform' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </StandardGen>
+          </IfCondition>
+        </ConfigSection>
+        <!-- Vanilla Preset for Copper is complete. -->
+
+        <!-- End Copper Generation -->
+
+
+        <!-- Begin Tin Generation -->
+
+        <!-- Starting LayeredVeins Preset for Tin. -->
+        <ConfigSection>
+          <IfCondition condition=':= neotechTinDist = "LayeredVeins"'>
+            <Veins name='neotechTinVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x60D1EDF1'>
+              <Description>
+                Small, fairly rare motherlodes  with 2-4 horizontal
+                veins each.
+              </Description>
+              <OreBlock block='neotech:oretin' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <Biome name='.*'  />
+              <Setting name='MotherlodeFrequency' avg=':= 1.839 * _default_ * neotechTinFreq ' range=':= 1.839 * _default_ * neotechTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeSize' avg=':= 1.107 * _default_ * neotechTinSize ' range=':= 1.107 * _default_ * neotechTinSize ' type='normal' />
+              <Setting name='MotherlodeHeight' avg=':= 35 ' range=':= 30 ' type='uniform' scaleTo='base' />
+              <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchLength' avg=':= 1.356 * _default_ ' range=':= 1.356 * _default_ ' type='normal' />
+              <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentLength' avg=':= _default_ * neotechTinSize ' range=':= _default_ * neotechTinSize ' type='normal' />
+              <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentRadius' avg=':= 1.165 * _default_ * neotechTinSize ' range=':= 1.165 * _default_ * neotechTinSize ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </Veins>
+          </IfCondition>
+        </ConfigSection>
+        <!-- LayeredVeins Preset for Tin is complete. -->
+
+
+        <!-- Starting StrategicClouds Preset for Tin. -->
+        <ConfigSection>
+          <IfCondition condition=':= neotechTinDist = "StrategicClouds"'>
+            <Cloud name='neotechTinCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x60D1EDF1'>
+              <Description>
+                Large irregular clouds filled  lightly with ore.
+                These are  huge, spanning several adjacent  chunks,
+                and consequently rather  rare.  They contain a
+                sizeable  amount of ore, but it takes some  time and
+                effort to mine due to  low density. The intent for
+                strategic clouds is that the  player will need to
+                actively  search for one and then set up a  semi-
+                permanent mining base and  spend some time actually
+                mining  the ore.
+              </Description>
+              <OreBlock block='neotech:oretin' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <Biome name='.*'  />
+              <Setting name='CloudRadius' avg=':= 1.449 * _default_ * neotechTinSize ' range=':= 1.449 * _default_ * neotechTinSize ' type='normal' />
+              <Setting name='CloudThickness' avg=':= 1.449 * _default_ * neotechTinSize ' range=':= 1.449 * _default_ * neotechTinSize ' type='normal' scaleTo='base' />
+              <Setting name='DistributionFrequency' avg=':= 2.100 * _default_ * neotechTinFreq ' range=':= 2.100 * _default_ * neotechTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='CloudHeight' avg=':= 35 ' range=':= 30 ' type='uniform' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Veins name='neotechTinHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x60D1EDF1'>
+                <Description>
+                  Single blocks, generously  scattered through all
+                  heights  (density is about that of  vanilla iron
+                  ore). They will  replace dirt and sandstone  (but
+                  not grass or sand), so  they can be found nearer to
+                  the surface than most ores.  Intened to be used as a
+                  child  distribution for large, rare  strategic
+                  deposits that would  otherwise be very difficult  to
+                  find.  Note that the  frequency is multiplied by
+                  ground level to maintain a  constant density, but
+                  not by  ore frequency because it is  assumed that
+                  the frequency of  the parent distribution will
+                  already be scaled by that.
+                </Description>
+                <OreBlock block='neotech:oretin' weight='1.0' />
+                <Replaces block='minecraft:dirt' weight='1.0' />
+                <Replaces block='minecraft:sandstone' weight='1.0' />
+                <ReplacesOre block='stone' weight='1.0' />
+                <Replaces block='minecraft:gravel' weight='1.0' />
+                <Setting name='MotherlodeFrequency' avg=':= 1.839 * _default_ * neotechTinFreq  * 0.1 ' range=':= 1.839 * _default_ * neotechTinFreq  * 0.1 ' type='normal' scaleTo='base' />
+              </Veins>
+            </Cloud>
+          </IfCondition>
+        </ConfigSection>
+        <!-- StrategicClouds Preset for Tin is complete. -->
+
+
+        <!-- Starting Vanilla Preset for Tin. -->
+        <ConfigSection>
+          <IfCondition condition=':= neotechTinDist = "Vanilla"'>
+            <StandardGen name='neotechTinStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60D1EDF1' drawBoundBox='false' boundBoxColor='0x60D1EDF1'>
+              <Description>
+                A master preset for standardgen  ore distributions.
+              </Description>
+              <OreBlock block='neotech:oretin' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <Biome name='.*'  />
+              <Setting name='Size' avg=':= 12.0 * oreSize * neotechTinSize ' range=':= 6.0 * oreSize * neotechTinSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 6.0 * oreFreq * neotechTinFreq ' range=':= 6.0 * oreFreq * neotechTinFreq ' type='normal' scaleTo='base' />
+              <Setting name='Height' avg=':= 35 ' range=':= 30 ' type='uniform' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </StandardGen>
+          </IfCondition>
+        </ConfigSection>
+        <!-- Vanilla Preset for Tin is complete. -->
+
+        <!-- End Tin Generation -->
+
+
+        <!-- Begin Lead Generation -->
+
+        <!-- Starting LayeredVeins Preset for Lead. -->
+        <ConfigSection>
+          <IfCondition condition=':= neotechLeadDist = "LayeredVeins"'>
+            <Veins name='neotechLeadVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60829199' drawBoundBox='false' boundBoxColor='0x60829199'>
+              <Description>
+                Small, fairly rare motherlodes  with 2-4 horizontal
+                veins each.
+              </Description>
+              <OreBlock block='neotech:orelead' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <Biome name='.*'  />
+              <Setting name='MotherlodeFrequency' avg=':= 1.001 * _default_ * neotechLeadFreq ' range=':= 1.001 * _default_ * neotechLeadFreq ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeSize' avg=':= 1.000 * _default_ * neotechLeadSize ' range=':= 1.000 * _default_ * neotechLeadSize ' type='normal' />
+              <Setting name='MotherlodeHeight' avg=':= 35.0 ' range=':= 30.0 ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchLength' avg=':= 1.000 * _default_ ' range=':= 1.000 * _default_ ' type='normal' />
+              <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentLength' avg=':= _default_ * neotechLeadSize ' range=':= _default_ * neotechLeadSize ' type='normal' />
+              <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentRadius' avg=':= 1.000 * _default_ * neotechLeadSize ' range=':= 1.000 * _default_ * neotechLeadSize ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </Veins>
+          </IfCondition>
+        </ConfigSection>
+        <!-- LayeredVeins Preset for Lead is complete. -->
+
+
+        <!-- Starting StrategicClouds Preset for Lead. -->
+        <ConfigSection>
+          <IfCondition condition=':= neotechLeadDist = "StrategicClouds"'>
+            <Cloud name='neotechLeadCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60829199' drawBoundBox='false' boundBoxColor='0x60829199'>
+              <Description>
+                Large irregular clouds filled  lightly with ore.
+                These are  huge, spanning several adjacent  chunks,
+                and consequently rather  rare.  They contain a
+                sizeable  amount of ore, but it takes some  time and
+                effort to mine due to  low density. The intent for
+                strategic clouds is that the  player will need to
+                actively  search for one and then set up a  semi-
+                permanent mining base and  spend some time actually
+                mining  the ore.
+              </Description>
+              <OreBlock block='neotech:orelead' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <Biome name='.*'  />
+              <Setting name='CloudRadius' avg=':= 1.069 * _default_ * neotechLeadSize ' range=':= 1.069 * _default_ * neotechLeadSize ' type='normal' />
+              <Setting name='CloudThickness' avg=':= 1.069 * _default_ * neotechLeadSize ' range=':= 1.069 * _default_ * neotechLeadSize ' type='normal' scaleTo='base' />
+              <Setting name='DistributionFrequency' avg=':= 1.143 * _default_ * neotechLeadFreq ' range=':= 1.143 * _default_ * neotechLeadFreq ' type='normal' scaleTo='base' />
+              <Setting name='CloudHeight' avg=':= 35.0 ' range=':= 30.0 ' type='normal' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Veins name='neotechLeadHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60829199' drawBoundBox='false' boundBoxColor='0x60829199'>
+                <Description>
+                  Single blocks, generously  scattered through all
+                  heights  (density is about that of  vanilla iron
+                  ore). They will  replace dirt and sandstone  (but
+                  not grass or sand), so  they can be found nearer to
+                  the surface than most ores.  Intened to be used as a
+                  child  distribution for large, rare  strategic
+                  deposits that would  otherwise be very difficult  to
+                  find.  Note that the  frequency is multiplied by
+                  ground level to maintain a  constant density, but
+                  not by  ore frequency because it is  assumed that
+                  the frequency of  the parent distribution will
+                  already be scaled by that.
+                </Description>
+                <OreBlock block='neotech:orelead' weight='1.0' />
+                <Replaces block='minecraft:dirt' weight='1.0' />
+                <Replaces block='minecraft:sandstone' weight='1.0' />
+                <ReplacesOre block='stone' weight='1.0' />
+                <Replaces block='minecraft:gravel' weight='1.0' />
+                <Setting name='MotherlodeFrequency' avg=':= 1.001 * _default_ * neotechLeadFreq  * 0.1 ' range=':= 1.001 * _default_ * neotechLeadFreq  * 0.1 ' type='normal' scaleTo='base' />
+              </Veins>
+            </Cloud>
+          </IfCondition>
+        </ConfigSection>
+        <!-- StrategicClouds Preset for Lead is complete. -->
+
+
+        <!-- Starting Vanilla Preset for Lead. -->
+        <ConfigSection>
+          <IfCondition condition=':= neotechLeadDist = "Vanilla"'>
+            <StandardGen name='neotechLeadStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60829199' drawBoundBox='false' boundBoxColor='0x60829199'>
+              <Description>
+                A master preset for standardgen  ore distributions.
+              </Description>
+              <OreBlock block='neotech:orelead' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <Biome name='.*'  />
+              <Setting name='Size' avg=':= 12.0 * oreSize * neotechLeadSize ' range=':= 6.0 * oreSize * neotechLeadSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 6.0 * oreFreq * neotechLeadFreq ' range=':= 6.0 * oreFreq * neotechLeadFreq ' type='normal' scaleTo='base' />
+              <Setting name='Height' avg=':= 35.0 ' range=':= 30.0 ' type='normal' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </StandardGen>
+          </IfCondition>
+        </ConfigSection>
+        <!-- Vanilla Preset for Lead is complete. -->
+
+        <!-- End Lead Generation -->
+
+
+        <!-- Begin Silver Generation -->
+
+        <!-- Starting LayeredVeins Preset for Silver. -->
+        <ConfigSection>
+          <IfCondition condition=':= neotechSilverDist = "LayeredVeins"'>
+            <Veins name='neotechSilverVeins'  inherits='PresetLayeredVeins' branchType='Bezier' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+              <Description>
+                Small, fairly rare motherlodes  with 2-4 horizontal
+                veins each.
+              </Description>
+              <OreBlock block='neotech:oresilver' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <Biome name='.*'  />
+              <Setting name='MotherlodeFrequency' avg=':= 1.226 * _default_ * neotechSilverFreq ' range=':= 1.226 * _default_ * neotechSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeSize' avg=':= 1.035 * _default_ * neotechSilverSize ' range=':= 1.035 * _default_ * neotechSilverSize ' type='normal' />
+              <Setting name='MotherlodeHeight' avg=':= 35.0 ' range=':= 30.0 ' type='normal' scaleTo='base' />
+              <Setting name='MotherlodeRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='BranchLength' avg=':= 1.107 * _default_ ' range=':= 1.107 * _default_ ' type='normal' />
+              <Setting name='BranchHeightLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='SegmentForkFrequency' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentForkLengthMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentLength' avg=':= _default_ * neotechSilverSize ' range=':= _default_ * neotechSilverSize ' type='normal' />
+              <Setting name='SegmentAngle' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentPitch' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='SegmentRadius' avg=':= 1.052 * _default_ * neotechSilverSize ' range=':= 1.052 * _default_ * neotechSilverSize ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </Veins>
+          </IfCondition>
+        </ConfigSection>
+        <!-- LayeredVeins Preset for Silver is complete. -->
+
+
+        <!-- Starting StrategicClouds Preset for Silver. -->
+        <ConfigSection>
+          <IfCondition condition=':= neotechSilverDist = "StrategicClouds"'>
+            <Cloud name='neotechSilverCloud'  inherits='PresetStrategicCloud' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+              <Description>
+                Large irregular clouds filled  lightly with ore.
+                These are  huge, spanning several adjacent  chunks,
+                and consequently rather  rare.  They contain a
+                sizeable  amount of ore, but it takes some  time and
+                effort to mine due to  low density. The intent for
+                strategic clouds is that the  player will need to
+                actively  search for one and then set up a  semi-
+                permanent mining base and  spend some time actually
+                mining  the ore.
+              </Description>
+              <OreBlock block='neotech:oresilver' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <Biome name='.*'  />
+              <Setting name='CloudRadius' avg=':= 1.183 * _default_ * neotechSilverSize ' range=':= 1.183 * _default_ * neotechSilverSize ' type='normal' />
+              <Setting name='CloudThickness' avg=':= 1.183 * _default_ * neotechSilverSize ' range=':= 1.183 * _default_ * neotechSilverSize ' type='normal' scaleTo='base' />
+              <Setting name='DistributionFrequency' avg=':= 1.400 * _default_ * neotechSilverFreq ' range=':= 1.400 * _default_ * neotechSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='CloudHeight' avg=':= 35.0 ' range=':= 30.0 ' type='normal' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudSizeNoise' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='CloudInclination' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreDensity' avg=':= _default_ ' range=':= _default_ ' type='normal' scaleTo='base' />
+              <Setting name='OreVolumeNoiseCutoff' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Setting name='OreRadiusMult' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+              <Veins name='neotechSilverHintVeins' branchType='Bezier'  inherits='PresetHintVeins' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+                <Description>
+                  Single blocks, generously  scattered through all
+                  heights  (density is about that of  vanilla iron
+                  ore). They will  replace dirt and sandstone  (but
+                  not grass or sand), so  they can be found nearer to
+                  the surface than most ores.  Intened to be used as a
+                  child  distribution for large, rare  strategic
+                  deposits that would  otherwise be very difficult  to
+                  find.  Note that the  frequency is multiplied by
+                  ground level to maintain a  constant density, but
+                  not by  ore frequency because it is  assumed that
+                  the frequency of  the parent distribution will
+                  already be scaled by that.
+                </Description>
+                <OreBlock block='neotech:oresilver' weight='1.0' />
+                <Replaces block='minecraft:dirt' weight='1.0' />
+                <Replaces block='minecraft:sandstone' weight='1.0' />
+                <ReplacesOre block='stone' weight='1.0' />
+                <Replaces block='minecraft:gravel' weight='1.0' />
+                <Setting name='MotherlodeFrequency' avg=':= 1.226 * _default_ * neotechSilverFreq  * 0.1 ' range=':= 1.226 * _default_ * neotechSilverFreq  * 0.1 ' type='normal' scaleTo='base' />
+              </Veins>
+            </Cloud>
+          </IfCondition>
+        </ConfigSection>
+        <!-- StrategicClouds Preset for Silver is complete. -->
+
+
+        <!-- Starting Vanilla Preset for Silver. -->
+        <ConfigSection>
+          <IfCondition condition=':= neotechSilverDist = "Vanilla"'>
+            <StandardGen name='neotechSilverStandard'  inherits='PresetStandardGen' drawWireframe=':= drawWireframes' wireframeColor='0x60E3F2F7' drawBoundBox='false' boundBoxColor='0x60E3F2F7'>
+              <Description>
+                A master preset for standardgen  ore distributions.
+              </Description>
+              <OreBlock block='neotech:oresilver' weight='1.0' />
+              <ReplacesOre block='stone' weight='1.0' />
+              <Biome name='.*'  />
+              <Setting name='Size' avg=':= 12 * oreSize * neotechSilverSize ' range=':= 6 * oreSize * neotechSilverSize ' type='normal' />
+              <Setting name='Frequency' avg=':= 6.0 * oreFreq * neotechSilverFreq ' range=':= 6.0 * oreFreq * neotechSilverFreq ' type='normal' scaleTo='base' />
+              <Setting name='Height' avg=':= 35.0 ' range=':= 30.0 ' type='normal' scaleTo='base' />
+              <Setting name='ParentRangeLimit' avg=':= _default_ ' range=':= _default_ ' type='normal' />
+            </StandardGen>
+          </IfCondition>
+        </ConfigSection>
+        <!-- Vanilla Preset for Silver is complete. -->
+
+        <!-- End Silver Generation -->
+
+        <!-- Finished adding blocks -->
+
+      </IfCondition>
+      <!-- Overworld Setup Complete -->
+
+    </IfCondition>
+
+  </ConfigSection>
+  <!-- Configuration for Custom Ore Generation Complete! -->
+
+</IfModInstalled>
+<!-- The "Neotech" mod is now configured. -->
+
+
+
+
+
+<!-- =================================================================
+     This file was made using the Sprocket Advanced Configuration
+     Generator.  If you wish to make your own configurations for a mod
+     not currently supported by Custom Ore Generation, and you don't
+     want the hassle of writing XML, you can find the generator script
+     at its GitHub page: http://https://github.com/reteo/Sprocket
+     ================================================================= -->
