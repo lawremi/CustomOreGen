@@ -345,7 +345,7 @@ public class WorldConfig
 
         properties.put("dimension.generator", genName);
         properties.put("dimension.generator.class", genClass);
-        properties.put("dimension", world == null ? "" : world.getDimension().getType().getRegistryName());
+        properties.put("dimension", world == null ? "" : world.getDimension().getType().getRegistryName().getPath());
         properties.put("dimension.id", world == null ? 0 : world.getDimension().getType().getId());
         properties.put("dimension.isSurface", world == null ? false : world.getDimension().isSurfaceWorld());
         properties.put("dimension.hasNoSky", world == null ? false : world.getDimension().hasSkyLight());

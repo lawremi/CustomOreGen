@@ -839,7 +839,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 			else
 			{
 				BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks, besideBlocks, touchingBlocks);
-				boolean matched = arrangement.matchesAt(world.getWorld(), random, pos);
+				boolean matched = arrangement.matchesAt(world, random, pos);
 				if (matched)
 				{
 					BlockInfo match = oreBlock.getMatchingBlock(random);

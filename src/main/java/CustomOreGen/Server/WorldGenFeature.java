@@ -28,7 +28,8 @@ public class WorldGenFeature extends Feature<NoFeatureConfig> {
 	public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, NoFeatureConfig config) {
         ServerState.checkIfServerChanged(worldIn.getWorld().getServer(), worldIn.getWorldInfo());
         ChunkPos p = new ChunkPos(pos);
-        ServerState.onPopulateChunk(worldIn.getWorld(), p.x, p.z, worldIn.getRandom()); //TOOD: should use IWorld, not World
+        WorldConfig cfg = ServerState.getWorldConfig(worldIn.getWorld());
+        ServerState.onPopulateChunk(cfg, worldIn, p.x, p.z, worldIn.getRandom()); //TOOD: should use IWorld, not World
 		return false;
 	}
 }

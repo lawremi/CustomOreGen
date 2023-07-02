@@ -5,6 +5,7 @@ import java.util.Random;
 import javax.annotation.Nonnull;
 
 import CustomOreGen.Server.ServerState;
+import CustomOreGen.Server.WorldConfig;
 import CustomOreGen.Server.WorldGenFeature;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -28,12 +29,13 @@ public class ModEventBusSubscriber {
      *        However, the population step falls outside of the system. There could be a populating Feature that runs after the rest.
      *        Better would be a Forge event when a chunk changes status. Population could run after FEATURES completion.
      */
-	@Deprecated
+	/*@Deprecated
 	@SuppressWarnings("rawtypes")
 	public void generate(Random random, int chunkX, int chunkZ, World world, ChunkGenerator chunkGenerator, AbstractChunkProvider chunkProvider) {
 		ServerState.checkIfServerChanged(world.getServer(), world.getWorldInfo());
-        ServerState.onPopulateChunk(world, chunkX, chunkZ, random);
-	}
+		WorldConfig cfg = ServerState.getWorldConfig(world);
+		ServerState.onPopulateChunk(cfg, chunkGenerator, chunkProvider, chunkX, chunkZ, random);
+	}*/
 
     @SubscribeEvent
 	public static void onFMLPreInit(FMLCommonSetupEvent event) {
