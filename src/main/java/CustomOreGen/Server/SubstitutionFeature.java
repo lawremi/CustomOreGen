@@ -16,8 +16,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkStatus;
+import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.Heightmap;
@@ -307,7 +307,7 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
                 	int chunkZ = depositCZ + dCZ;
                     int chunkX = depositCX + dCX;
 
-                    Chunk chunk = (Chunk)world.getChunk(chunkX, chunkZ, ChunkStatus.FEATURES.getParent(), false);
+                    IChunk chunk = world.getChunk(chunkX, chunkZ, ChunkStatus.FEATURES.getParent(), false);
                     if (chunk != null)
                     {
                         int minX = dCX < 0 && -dCX * 2 > hRange ? 8 : 0;
@@ -336,7 +336,7 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
                                     	int worldX = chunkX * 16 + x;
                                     	int worldZ = chunkZ * 16 + z;
                                     	BlockPos worldPos = new BlockPos(worldX, y, worldZ);
-                                    	if (arrangement.matchesAt(world.getWorld(), random, worldPos)) {	
+                                    	if (arrangement.matchesAt(world, random, worldPos)) {	
                                             BlockInfo match = this.oreBlock.getMatchingBlock(random);
                                             if (match == null)
                                             {
@@ -365,7 +365,7 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
         }
     }
     
-    private int findSurfaceHeight(Chunk chunk, int x, int z) {
+    private int findSurfaceHeight(IChunk chunk, int x, int z) {
     	return chunk.getTopBlockY(Heightmap.Type.WORLD_SURFACE, x, z);
 	}
 

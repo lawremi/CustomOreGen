@@ -22,6 +22,7 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.dimension.DimensionType;
@@ -122,13 +123,14 @@ public class ServerState
     }
 
     // TODO: add force option; if true then we will generate even when there is no version
-    public static void populateDistributions(Collection<IOreDistribution> distributions, World world, int chunkX, int chunkZ)
+    public static void populateDistributions(Collection<IOreDistribution> distributions, IWorld world, int chunkX, int chunkZ)
     {
         SimpleProfiler.globalProfiler.startSection("Populate");
         
         // FIXME: Before 1.14, we were forcing instant block updates here. Not clear how to do that now.
         
         for (IOreDistribution dist : distributions) {
+        	System.out.println(dist.toString());
         	dist.generate(world, chunkX, chunkZ);
             dist.populate(world, chunkX, chunkZ);
             dist.cull();
@@ -176,22 +178,22 @@ public class ServerState
         }
     }
 
-    public static void onPopulateChunk(World world, int chunkX, int chunkZ, Random rand) {
-    	WorldConfig cfg = getWorldConfig(world);
+    public static void onPopulateChunk(WorldConfig cfg, IWorld world, int chunkX, int chunkZ, Random rand) {
     	int range = (cfg.deferredPopulationRange + 15) / 16;
     	//for (int iX = chunkX - range; iX <= chunkX + range; ++iX)
-        //{
+        {
             //for (int iZ = chunkZ - range; iZ <= chunkZ + range; ++iZ)
-            //{
-            	//if (allNeighborsPopulated(world, iX, iZ, range)) {
+            {
+            	//if (allNeighborsPopulated(world, iX, iZ, range))
+            	{
             		//CustomOreGenBase.log.info("[" + iX + "," + iZ + "]: POPULATING");
             		populateDistributions(cfg.getOreDistributions(), world, chunkX, chunkZ);
-            	//}
-            //}
-        //}
+            	}
+            }
+        }
     }
 
-    private static boolean allNeighborsPopulated(World world, int chunkX, int chunkZ, int range) {
+    private static boolean allNeighborsPopulated(IWorld world, int chunkX, int chunkZ, int range) {
     	int area = 4 * range * (range + 1) + 1;
     	int neighborCount = 0;
         for (int iX = chunkX - range; iX <= chunkX + range; ++iX)
@@ -208,7 +210,7 @@ public class ServerState
 		return neighborCount == area; 
 	}
 
-	private static boolean chunkHasBeenPopulated(World world, int chunkX, int chunkZ) {
+	private static boolean chunkHasBeenPopulated(IWorld world, int chunkX, int chunkZ) {
 		return world.getChunk(chunkX, chunkZ).getStatus().isAtLeast(ChunkStatus.FEATURES);
 	}
 

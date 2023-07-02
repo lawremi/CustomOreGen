@@ -4,7 +4,7 @@ import java.util.Random;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.IWorld;
 
 public class BlockArrangement {
     private BlockDescriptor center, above, below, beside;
@@ -20,7 +20,7 @@ public class BlockArrangement {
         this.touching = touching;
     }
 
-    public boolean matchesAt(World world, Random rand, BlockPos pos) {
+    public boolean matchesAt(IWorld world, Random rand, BlockPos pos) {
         return 
             this.descriptorMatchesAt(center, world, rand, pos) &&
             this.descriptorMatchesAt(above, world, rand, pos.up()) &&
@@ -34,7 +34,7 @@ public class BlockArrangement {
             this.touchesAt(world, rand, pos);
     }
 
-    private boolean descriptorMatchesAt(BlockDescriptor descriptor, World world, Random rand, BlockPos pos) {
+    private boolean descriptorMatchesAt(BlockDescriptor descriptor, IWorld world, Random rand, BlockPos pos) {
         if (descriptor.isEmpty()) {
             return true;
         }
@@ -42,7 +42,7 @@ public class BlockArrangement {
         return descriptor.matchesBlock(blockState, rand);
     }
 
-    private boolean touchesAt(World world, Random rand, BlockPos pos) {
+    private boolean touchesAt(IWorld world, Random rand, BlockPos pos) {
         if (this.touching.size() <= 0)
             return true;
 
@@ -78,7 +78,7 @@ public class BlockArrangement {
         return false;
     }
 
-    private boolean touchesAt(TouchingDescriptor descriptor, World world, Random rand, BlockPos pos) {
+    private boolean touchesAt(TouchingDescriptor descriptor, IWorld world, Random rand, BlockPos pos) {
         int numberOfTouches = 0;
 
         // search each required block position
