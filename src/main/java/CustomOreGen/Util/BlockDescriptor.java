@@ -12,13 +12,13 @@ import java.util.regex.Pattern;
 import com.google.common.collect.ImmutableList;
 
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.tags.ITag;
 
 public class BlockDescriptor implements Copyable<BlockDescriptor>
 {
@@ -26,20 +26,20 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
     {
         private BlockState blockState;
         private boolean ignoreState;
-        private CompoundNBT nbt;
+        private CompoundTag nbt;
         
-        private BlockInfo(BlockState blockState, CompoundNBT nbt, boolean ignoreState) {
+        private BlockInfo(BlockState blockState, CompoundTag nbt, boolean ignoreState) {
         	this.blockState = blockState;
         	this.nbt = nbt;
         	this.ignoreState = ignoreState;
         }
         
-        public BlockInfo(BlockState blockState, CompoundNBT nbt) {
+        public BlockInfo(BlockState blockState, CompoundTag nbt) {
 	        this(blockState, nbt, false);
         }
         
-        public BlockInfo(Block block, CompoundNBT nbt) {
-        	this(block.getDefaultState(), nbt, true);
+        public BlockInfo(Block block, CompoundTag nbt) {
+        	this(block.defaultBlockState(), nbt, true);
         }
         
         @Override
@@ -66,7 +66,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         public BlockState getBlockState() {
         	return this.blockState;
         }
-        public CompoundNBT getNBT() {
+        public CompoundTag getNBT() {
 			return this.nbt;
 		}
         public boolean ignoresState() {
@@ -133,11 +133,11 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         return this.add(descriptor, 1.0F, false, false, false, null);
     }
 
-    public BlockDescriptor add(String descriptor, float weight, CompoundNBT nbt) {
+    public BlockDescriptor add(String descriptor, float weight, CompoundTag nbt) {
     	return this.add(descriptor, weight, false, false, false, nbt);
     }
     
-    public BlockDescriptor add(String descriptor, float weight, boolean describesOre, boolean matchFirst, boolean regexp, CompoundNBT nbt)
+    public BlockDescriptor add(String descriptor, float weight, boolean describesOre, boolean matchFirst, boolean regexp, CompoundTag nbt)
     {
         if (descriptor != null && weight != 0.0F)
         {
@@ -165,12 +165,12 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
     	this.add(new BlockInfo(block, null), weight);
     }
     
-    private void add(Block block, CompoundNBT nbt, float weight)
+    private void add(Block block, CompoundTag nbt, float weight)
     {
     	this.add(new BlockInfo(block, nbt), weight);
     }
     
-    private void add(BlockState blockState, CompoundNBT nbt, float weight)
+    private void add(BlockState blockState, CompoundTag nbt, float weight)
     {
     	this.add(new BlockInfo(blockState, nbt), weight);
     }
@@ -179,10 +179,11 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
     {
     	BlockState blockState = blockInfo.getBlockState();
     	Block block = blockState.getBlock();
-    	CompoundNBT nbt = blockInfo.getNBT();
-    	if (nbt != null && !block.hasTileEntity(blockState)) {
+    	CompoundTag nbt = blockInfo.getNBT();
+    	if (nbt != null && !blockState.hasBlockEntity()) {
+    		ResourceLocation name = ForgeRegistries.BLOCKS.getKey(block);
     		throw new IllegalArgumentException("NBT specified, but matching block " + 
-    				block.getTranslationKey() + " lacks tile entity");
+    				name + " lacks tile entity");
     	}
         if (weight != 0.0F)
         {
@@ -216,14 +217,12 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             for (Descriptor desc : this._descriptors) {
             	if (desc.describesOre) {
             		ResourceLocation tagName = new ResourceLocation(desc.description);
-            		Tag<Block> tag = BlockTags.getCollection().get(tagName);
-            		if(tag == null) {
-            			tag = BlockTags.getCollection().get(new ResourceLocation("forge",desc.description));
-            		}
-            		if(tag == null) {
+            		TagKey<Block> tagkey = TagKey.create(ForgeRegistries.Keys.BLOCKS, tagName);
+            		ITag<Block> tag = ForgeRegistries.BLOCKS.tags().getTag(tagkey);
+            		if(!tag.isBound()) {
             			throw new RuntimeException(desc.description + " does not match any tags.");
             		}
-            		for (Block block : tag.getAllElements()) {
+            		for (Block block : tag.stream().toList()) {
             			this.add(block, desc.weight);
             			if (desc.matchFirst) {
             				break;
@@ -244,7 +243,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
                     			if(m == 0 )
                     				this.add(block, desc.nbt, weights[m]);
                     			else {
-                                	ImmutableList<BlockState> states = block.getStateContainer().getValidStates();
+                                	ImmutableList<BlockState> states = block.getStateDefinition().getPossibleStates();
                                 	this.add(states.get(m-1), desc.nbt, weights[m]);
                     			}
                     			if (desc.matchFirst) {
@@ -274,7 +273,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         return Collections.unmodifiableMap(this._matches);
     }
 
-    public float getWeight(BlockState blockState, CompoundNBT nbt)
+    public float getWeight(BlockState blockState, CompoundTag nbt)
     {
         this.compileMatches();
         float value = 0.0F;
@@ -419,10 +418,10 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         public final boolean describesOre;
         public final boolean matchFirst;
         public final boolean regexp;
-        public final CompoundNBT nbt;
+        public final CompoundTag nbt;
         private Pattern pattern = null;
         
-        public Descriptor(String description, float weight, boolean describesOre, boolean matchFirst, boolean regexp, CompoundNBT nbt)
+        public Descriptor(String description, float weight, boolean describesOre, boolean matchFirst, boolean regexp, CompoundTag nbt)
         {
             this.description = description;
             this.weight = weight;
@@ -454,11 +453,11 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         public float[] regexMatch(Block block)
         {
             float[] weights = new float[1];
-            String name = block.getRegistryName().toString();
+            String name = ForgeRegistries.BLOCKS.getKey(block).toString();
         	
             if (!this.getPattern().matcher(name).matches())
             {
-            	ImmutableList<BlockState> states = block.getStateContainer().getValidStates();
+            	ImmutableList<BlockState> states = block.getStateDefinition().getPossibleStates();
                 weights = new float[states.size() + 1];
                 int m=1;
             	for (BlockState state : states)

@@ -2,14 +2,13 @@ package CustomOreGen.Config;
 
 import org.w3c.dom.Node;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.CompoundTag;
 
 public class ValidatorBlockDescriptor extends ValidatorNode
 {
     public String blocks = null;
     public float weight = 1.0F;
-	public CompoundNBT nbt;
+	public CompoundTag nbt;
 	
     protected ValidatorBlockDescriptor(ValidatorNode parent, Node node)
     {

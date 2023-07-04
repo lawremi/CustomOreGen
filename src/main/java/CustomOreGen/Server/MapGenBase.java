@@ -1,8 +1,8 @@
 package CustomOreGen.Server;
 
 import java.util.Random;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.level.ILevel;
+import net.minecraft.level.chunk.ChunkPrimer;
 
 public class MapGenBase
 {
@@ -11,12 +11,12 @@ public class MapGenBase
     /** The RNG used by the MapGen classes. */
     protected Random rand = new Random();
     /** This world object. */
-    protected IWorld world;
+    protected ILevel world;
 
-    public void generate(IWorld worldIn, int x, int z, ChunkPrimer primer)
+    public void generate(ILevel worldIn, int x, int z, ChunkPrimer primer)
     {
         int i = this.range;
-        this.world = worldIn;
+        this.level = worldIn;
         this.rand.setSeed(worldIn.getSeed());
         long j = this.rand.nextLong();
         long k = this.rand.nextLong();
@@ -46,7 +46,7 @@ public class MapGenBase
     /**
      * Recursively called by generate()
      */
-    protected void recursiveGenerate(IWorld worldIn, int chunkX, int chunkZ, int originalX, int originalZ, ChunkPrimer chunkPrimerIn)
+    protected void recursiveGenerate(ILevel worldIn, int chunkX, int chunkZ, int originalX, int originalZ, ChunkPrimer chunkPrimerIn)
     {
     }
 }

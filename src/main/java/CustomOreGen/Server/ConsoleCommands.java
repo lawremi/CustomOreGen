@@ -24,12 +24,15 @@ import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.PDist;
 import CustomOreGen.Util.PDist.Type;
-import net.minecraft.command.CommandSource;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.commands.CommandSource;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.LiteralContents;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 
 public class ConsoleCommands
 {
@@ -132,7 +135,7 @@ public class ConsoleCommands
     public String cogInfo(
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "distribution"
             ) @ArgOptional String distribution,
@@ -154,7 +157,7 @@ public class ConsoleCommands
 
         if (config.world != null)
         {
-            msg.append("Dim " + config.world.getDimension() + ", ");
+            msg.append("Dim " + config.world.dimension() + ", ");
         }
 
         if (dists != null)
@@ -213,8 +216,9 @@ public class ConsoleCommands
             ) @ArgOptional String renderMode)
     {
         try {
-			CustomPacketPayloadHandler.sendTo(new CustomPacketPayload(PayloadType.DebuggingGeometryRenderMode, renderMode), sender.asPlayer());
-		} catch (CommandSyntaxException e) {
+        	ServerPlayer player = (ServerPlayer)sender;
+			CustomPacketPayloadHandler.sendTo(new CustomPacketPayload(PayloadType.DebuggingGeometryRenderMode, renderMode), player);
+		} catch (Exception e) {
 			throw new IllegalArgumentException("/cogWireframeMode is a client-side command and may only be used by a player.");
 		}
     }
@@ -225,7 +229,7 @@ public class ConsoleCommands
     public String cogClear(
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "distribution"
             )
@@ -251,7 +255,7 @@ public class ConsoleCommands
     public String cogPopulate(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "chunkRange"
             ) int chunkRange,
@@ -271,12 +275,12 @@ public class ConsoleCommands
         WorldConfig cfg = ServerState.getWorldConfig(world);
         Collection<IOreDistribution> list = cfg.getOreDistributions(distribution);
         BlockPos senderPos;
-        try {
-			sender.assertIsEntity();
-		} catch (CommandSyntaxException e) {
-			sendError(sender, e);
-		}
-		senderPos = sender.getEntity().getPosition();
+        if(!(sender instanceof Entity)) {
+        	sendError(sender, new Exception("Sender is not an entity"));
+        	return "";
+        }
+        Entity senderEntity = (Entity)sender;
+		senderPos = senderEntity.blockPosition();
 		int cX = centerX == null ? senderPos.getX() : centerX.intValue();
         int cZ = centerZ == null ? senderPos.getZ() : centerZ.intValue();
 
@@ -298,7 +302,7 @@ public class ConsoleCommands
     public String cogParent(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -338,7 +342,7 @@ public class ConsoleCommands
             }
             catch (Exception var11)
             {
-                sender.sendErrorMessage(new StringTextComponent("\u00a7c" + var11.getMessage()));
+            	sender.sendSystemMessage(MutableComponent.create(new LiteralContents("\u00a7c" + var11.getMessage())));
             }
         }
 
@@ -346,7 +350,7 @@ public class ConsoleCommands
         return "Changed parent for " + count + " distributions";
     }
 
-    private static int changeBiomeDescriptor(String settingName, CommandSource sender, ServerWorld world, String distribution, String descriptor, float weight, boolean clear)
+    private static int changeBiomeDescriptor(String settingName, CommandSource sender, ServerLevel world, String distribution, String descriptor, float weight, boolean clear)
     {
         int count = 0;
         
@@ -387,7 +391,7 @@ public class ConsoleCommands
         return count;
     }
     
-    private static int changeBlockDescriptor(String settingName, CommandSource sender, ServerWorld world, String distribution, String descriptor, float weight, boolean clear, boolean describesOre, boolean matchFirst, boolean isRegexp, String nbt)
+    private static int changeBlockDescriptor(String settingName, CommandSource sender, ServerLevel world, String distribution, String descriptor, float weight, boolean clear, boolean describesOre, boolean matchFirst, boolean isRegexp, String nbt)
     {
         int count = 0;
         
@@ -415,7 +419,7 @@ public class ConsoleCommands
                         desc.clear();
                     }
 
-                    CompoundNBT compoundNBT = JsonToNBT.getTagFromJson(nbt);
+                    CompoundTag compoundNBT = JsonToNBT.getTagFromJson(nbt);
                     desc.add(descriptor, weight, describesOre, isRegexp, matchFirst, compoundNBT);
                     ++count;
                 }
@@ -439,7 +443,7 @@ public class ConsoleCommands
     public String cogAddOreBlock(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -474,7 +478,7 @@ public class ConsoleCommands
     public String cogSetOreBlock(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -509,7 +513,7 @@ public class ConsoleCommands
     public String cogAddReplaceable(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -540,7 +544,7 @@ public class ConsoleCommands
     public String cogSetReplaceable(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -571,7 +575,7 @@ public class ConsoleCommands
     public String cogAddBiome(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -596,7 +600,7 @@ public class ConsoleCommands
     public String cogSetBiome(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -621,7 +625,7 @@ public class ConsoleCommands
     public String cogSetting(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -671,7 +675,7 @@ public class ConsoleCommands
     public String cogSettingEx(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -709,7 +713,7 @@ public class ConsoleCommands
     public String cogOptionInfo(
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "option"
             ) @ArgOptional String option,
@@ -728,7 +732,7 @@ public class ConsoleCommands
 
         if (config.world != null)
         {
-            msg.append("Dim " + config.world.getDimension().getType().getRegistryName() + ", ");
+            msg.append("Dim " + config.world.dimension().location() + ", ");
         }
 
         if (options != null)
@@ -758,7 +762,7 @@ public class ConsoleCommands
     public String cogOption(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "option"
             ) String option,
@@ -801,7 +805,7 @@ public class ConsoleCommands
     public String cogEnableDebugging(CommandSource sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "enable"
             )
@@ -818,7 +822,7 @@ public class ConsoleCommands
     public String cogLoadConfig(
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world)
+            ) ServerLevel world)
     {
         ServerState.clearWorldConfig(world);
         String path = ServerState.getWorldConfig(world).dimensionDir.toString();
@@ -831,6 +835,6 @@ public class ConsoleCommands
     }
 
 	private static void sendError(CommandSource source, String message) {
-		source.sendErrorMessage(new StringTextComponent("\u00a7c" + message));
+		source.sendSystemMessage(MutableComponent.create(new LiteralContents("\u00a7c" + message)));
 	}
 }

@@ -8,27 +8,28 @@ import com.mojang.datafixers.Dynamic;
 import CustomOreGen.CustomOreGenBase;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.level.ILevel;
+import net.minecraft.level.level.levelgen.ChunkGenerator;
+import net.minecraft.level.level.levelgen.GenerationSettings;
+import net.minecraft.level.level.levelgen.feature.Feature;
+import net.minecraft.level.level.levelgen.feature.NoFeatureConfig;
 import net.minecraftforge.registries.ObjectHolder;
 
-public class WorldGenFeature extends Feature<NoFeatureConfig> {
+public class LevelGenFeature extends Feature<NoFeatureConfig> {
 
 	@ObjectHolder(value = CustomOreGenBase.MODID+":cog_feature")
 	public static final Feature<NoFeatureConfig> FEATURE = null;
 
-	public WorldGenFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> configFactoryIn) {
+	public LevelGenFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> configFactoryIn) {
 		super(configFactoryIn, false); //bool: do block updates or not
 	}
 
 	@Override
-	public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, NoFeatureConfig config) {
-        ServerState.checkIfServerChanged(worldIn.getWorld().getServer(), worldIn.getWorldInfo());
+	public boolean place(ILevel worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, NoFeatureConfig config) {
+        ServerState.checkIfServerChanged(worldIn.getLevel().getServer(), worldIn.getLevelInfo());
         ChunkPos p = new ChunkPos(pos);
-        ServerState.onPopulateChunk(worldIn.getWorld(), p.x, p.z, worldIn.getRandom()); //TOOD: should use IWorld, not World
+        WorldConfig cfg = ServerState.getWorldConfig(worldIn.getLevel());
+        ServerState.onPopulateChunk(cfg, worldIn, p.x, p.z, worldIn.getRandom()); //TOOD: should use ILevel, not Level
 		return false;
 	}
 }

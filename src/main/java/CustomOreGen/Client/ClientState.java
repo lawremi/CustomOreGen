@@ -24,8 +24,8 @@ import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.GeometryStream.GeometryStreamException;
 import CustomOreGen.Util.IGeometryBuilder.PrimitiveType;
 import CustomOreGen.Util.Transform;
-import net.minecraft.entity.Entity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -33,7 +33,7 @@ public class ClientState
 {
     public static WireframeRenderMode dgRenderingMode = WireframeRenderMode.WIREFRAMEOVERLAY;
     public static boolean dgEnabled = true;
-    private static World _world = null;
+    private static Level _world = null;
     private static int _dgScanCounter = 0;
     private static int _dgBatchID = 0;
     @OnlyIn(Dist.CLIENT)
@@ -54,7 +54,7 @@ public class ClientState
     }
 
     
-    public static void onRenderWorld(Entity cameraPOV, double partialTicks)
+    public static void onRenderLevel(Entity cameraPOV, double partialTicks)
     {
     	if (clearDisplayLists) {
     		clearDebuggingDisplayLists();
@@ -64,9 +64,9 @@ public class ClientState
         {
         	buildGeometryDisplayLists();
 	    
-            double posX = cameraPOV.lastTickPosX + (cameraPOV.posX - cameraPOV.lastTickPosX) * partialTicks;
-            double posY = cameraPOV.lastTickPosY + (cameraPOV.posY - cameraPOV.lastTickPosY) * partialTicks;
-            double posZ = cameraPOV.lastTickPosZ + (cameraPOV.posZ - cameraPOV.lastTickPosZ) * partialTicks;
+            double posX = cameraPOV.xOld + (cameraPOV.getX() - cameraPOV.xOld) * partialTicks;
+            double posY = cameraPOV.yOld + (cameraPOV.getY() - cameraPOV.yOld) * partialTicks;
+            double posZ = cameraPOV.zOld + (cameraPOV.getZ() - cameraPOV.zOld) * partialTicks;
 
             if (_dgScanCounter == 0)
             {
@@ -244,16 +244,16 @@ public class ClientState
 	}
 
 	
-    public static boolean hasWorldChanged(World currentWorld)
+    public static boolean hasLevelChanged(Level currentLevel)
     {
-        return _world != currentWorld;
+        return _world != currentLevel;
     }
 
     
-    public static void onWorldChanged(World currentWorld)
+    public static void onLevelChanged(Level currentLevel)
     {
-        _world = currentWorld;
-        CustomOreGenBase.log.debug("Client world changed to " + (_world == null ? null : _world.getWorldInfo().getWorldName()));
+        _world = currentLevel;
+        CustomOreGenBase.log.debug("Client world changed to " + (_world == null ? null : _world.dimension().location()));
         clearDebuggingGeometry();
     }
 
@@ -264,7 +264,7 @@ public class ClientState
         {
             if (geometryData.batchID == _dgBatchID)
             {
-                if (geometryData.dimensionID == _world.getDimension().getType().getId())
+                if (geometryData.dimensionID == _world.dimension().location())
                 {
                 	geometryDataQueue.add(geometryData);
                 }

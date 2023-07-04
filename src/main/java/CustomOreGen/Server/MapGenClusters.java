@@ -15,8 +15,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.level.ILevel;
+import net.minecraft.world.level.Level;
 
 public class MapGenClusters extends MapGenOreDistribution
 {
@@ -58,7 +58,7 @@ public class MapGenClusters extends MapGenOreDistribution
     {
         float clX = (random.nextFloat() + (float)structureGroup.getChunkPosX()) * 16.0F;
         float clZ = (random.nextFloat() + (float)structureGroup.getChunkPosZ()) * 16.0F;
-        float clY = this.clHeight.getValue(random, this.world.getWorld(), clX, clZ) + this.heightOffset.getValue(random);
+        float clY = this.clHeight.getValue(random, this.level.getLevel(), clX, clZ) + this.heightOffset.getValue(random);
         
         if (!structureGroup.canPlaceComponentAt(0, clX, clY, clZ, random))
         {
@@ -115,7 +115,7 @@ public class MapGenClusters extends MapGenOreDistribution
         }
 
         @Override
-        public boolean addComponentParts(IWorld world, Random random, MutableBoundingBox bounds, ChunkPos cpos)
+        public boolean addComponentParts(ILevel world, Random random, MutableBoundingBox bounds, ChunkPos cpos)
         {
             for (int s = 0; s < this.rad.length; ++s)
             {
@@ -235,7 +235,7 @@ public class MapGenClusters extends MapGenOreDistribution
 	}
 
 	@Override
-	public BlockPos getNearestStructurePos(World worldIn, BlockPos pos, boolean findUnexplored) {
+	public BlockPos getNearestStructurePos(Level worldIn, BlockPos pos, boolean findUnexplored) {
 		return null;
 	}
 

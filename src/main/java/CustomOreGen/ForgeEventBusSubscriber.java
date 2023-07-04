@@ -7,42 +7,34 @@ import com.mojang.brigadier.CommandDispatcher;
 import CustomOreGen.Client.ClientState;
 import CustomOreGen.Server.ConsoleCommands;
 import CustomOreGen.Server.ServerState;
-import CustomOreGen.Server.WorldGenFeature;
-import net.minecraft.block.Block;
+import CustomOreGen.Server.LevelGenFeature;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.CreateWorldScreen;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.command.CommandSource;
-import net.minecraft.tags.Tag;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.GenerationStage.Decoration;
-import net.minecraft.world.gen.feature.BlockBlobConfig;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
-import net.minecraft.world.gen.feature.IFeatureConfig;
-import net.minecraft.world.gen.feature.OreFeatureConfig;
-import net.minecraft.world.gen.feature.ReplaceBlockConfig;
-import net.minecraft.world.gen.feature.SphereReplaceConfig;
-import net.minecraft.world.gen.placement.IPlacementConfig;
-import net.minecraft.world.gen.placement.Placement;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.WorldInfo;
+import net.minecraft.client.gui.screens.worldselection.CreateWorldScreen;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.commands.CommandSource;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.storage.WorldData;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.event.RenderLevelLastEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.event.world.ChunkEvent;
-import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.event.level.ChunkEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 @EventBusSubscriber(modid = CustomOreGenBase.MODID)
@@ -56,11 +48,11 @@ public class ForgeEventBusSubscriber
         	removeAllOreGenerators(Tags.Blocks.ORES, biome);
         	//UNDERGROUND_DECORATION happens after UNDERGROUND_ORES
         	//Uses Placement.NOPE IPlacementConfig.NO_PLACEMENT_CONFIG as the feature will handle itself
-    		biome.addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Biome.createDecoratedFeature(WorldGenFeature.FEATURE, IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
+    		biome.addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Biome.createDecoratedFeature(LevelGenFeature.FEATURE, IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
     	}
     }
     
-    private static void removeAllOreGenerators(Tag<Block> tag, Biome biome) {
+    private static void removeAllOreGenerators(TagKey<Block> tag, Biome biome) {
 		Iterator<ConfiguredFeature<?>> it = biome.getFeatures(Decoration.UNDERGROUND_ORES).iterator();
 		while(it.hasNext()) { //for each feature in that biome
 			ConfiguredFeature<?> feature = it.next();
@@ -99,7 +91,7 @@ public class ForgeEventBusSubscriber
     @SubscribeEvent
     public static void onServerStarting(FMLServerStartingEvent event)
     {
-        ServerState.checkIfServerChanged(event.getServer(), (WorldInfo)null);    
+        ServerState.checkIfServerChanged(event.getServer(), (WorldData)null);    
         registerCommands(event.getCommandDispatcher());
     }
 
@@ -117,39 +109,39 @@ public class ForgeEventBusSubscriber
     	}
         Minecraft mc = Minecraft.getInstance();
 
-        if (mc.world != null && ClientState.hasWorldChanged(mc.world))
+        if (mc.level != null && ClientState.hasLevelChanged(mc.level))
         {
-            ClientState.onWorldChanged(mc.world);
+            ClientState.onLevelChanged(mc.level);
         }
     }
 
     @SubscribeEvent
     public static void onClientLogin(PlayerLoggedInEvent event)
     {
-        World handlerWorld = event.getPlayer().world;
-        ServerState.checkIfServerChanged(handlerWorld.getServer(), 
-        		handlerWorld.getWorldInfo());
+        Level handlerLevel = event.getEntity().level;
+        ServerState.checkIfServerChanged(handlerLevel.getServer(), 
+        		handlerLevel.getLevelData());
     }
     
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
-    public static void onRenderWorldLast(RenderWorldLastEvent event)
+    public static void onRenderLevelLast(RenderLevelStageEvent event)
     {
-        ClientState.onRenderWorld(Minecraft.getInstance().getRenderViewEntity(), (double)event.getPartialTicks());
+        ClientState.onRenderLevel(Minecraft.getInstance().getCameraEntity(), (double)event.getPartialTick());
     }
 
     @SubscribeEvent
-    public static void onLoadWorld(WorldEvent.Load event)
+    public static void onLoadLevel(LevelEvent.Load event)
     {
-    	World world = event.getWorld().getWorld();
-        if (world instanceof ServerWorld)
+    	LevelAccessor world = event.getLevel();
+        if (world instanceof ServerLevel sWorld)
         {
-            ServerState.checkIfServerChanged(world.getServer(), world.getWorldInfo());
-            ServerState.getWorldConfig(world);
+            ServerState.checkIfServerChanged(sWorld.getServer(), sWorld.getLevelData());
+            ServerState.getWorldConfig(sWorld);
         }
-        else if (event.getWorld() instanceof ClientWorld && ClientState.hasWorldChanged(world))
+        else if (event.getLevel() instanceof ClientLevel cWorld && ClientState.hasLevelChanged(cWorld))
         {
-            ClientState.onWorldChanged(world);
+            ClientState.onLevelChanged(cWorld);
         }
     }
 
@@ -161,19 +153,19 @@ public class ForgeEventBusSubscriber
     
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
-    public static void onInitGui(GuiScreenEvent.InitGuiEvent.Post event) {
-        if (event.getGui() instanceof CreateWorldScreen)
+    public static void onInitGui(ScreenEvent.Init.Post event) {
+        if (event.getScreen() instanceof CreateWorldScreen)
         {
-            ServerState.addOptionsButtonToGui((CreateWorldScreen)event.getGui(), event.getWidgetList(), event::addWidget);
+            ServerState.addOptionsButtonToGui((CreateWorldScreen)event.getScreen(), event.getListenersList(), event::addListener);
         }
     }
     
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
-    public static void onActionPerformed(GuiScreenEvent.ActionPerformedEvent.Post event) {
-        if (event.getGui() instanceof CreateWorldScreen)
+    public static void onActionPerformed(ScreenEvent.MouseButtonReleased.Post event) {
+        if (event.getScreen() instanceof CreateWorldScreen)
         {
-            ServerState.updateOptionsButtonVisibility((CreateWorldScreen)event.getGui());
+            ServerState.updateOptionsButtonVisibility((CreateWorldScreen)event.getScreen());
         }
     }
 }

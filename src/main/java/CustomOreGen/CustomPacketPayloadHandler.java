@@ -7,15 +7,17 @@ import CustomOreGen.Client.ClientState;
 import CustomOreGen.Client.ClientState.WireframeRenderMode;
 import CustomOreGen.Server.ServerState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkEvent;
-import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.LiteralContents;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.simple.SimpleChannel;
 
 public class CustomPacketPayloadHandler {
 	public CustomPacketPayloadHandler() {
@@ -52,10 +54,10 @@ public class CustomPacketPayloadHandler {
 	private static void handleClient(CustomPacketPayload msg, Supplier<NetworkEvent.Context> ctx)
     {
     	Minecraft mc = Minecraft.getInstance();
-    	ClientPlayerEntity player = mc.player;
-        if (mc.world != null && ClientState.hasWorldChanged(mc.world))
+    	LocalPlayer player = mc.player;
+        if (mc.level != null && ClientState.hasLevelChanged(mc.level))
         {
-            ClientState.onWorldChanged(mc.world);
+            ClientState.onLevelChanged(mc.level);
         }
         
         if (msg != null)
@@ -102,7 +104,7 @@ public class CustomPacketPayloadHandler {
                         ClientState.dgRenderingMode = WireframeRenderMode.values()[mode];
                     }
                     
-                    player.sendMessage(new StringTextComponent("COG Client wireframe mode: " + ClientState.dgRenderingMode.name()));
+                    player.sendSystemMessage(MutableComponent.create(new LiteralContents("COG Client wireframe mode: " + ClientState.dgRenderingMode.name())));
                     break;
 
                 case DebuggingGeometryReset:
@@ -121,9 +123,9 @@ public class CustomPacketPayloadHandler {
 
 	private static void handleServer(CustomPacketPayload msg, Supplier<NetworkEvent.Context> ctx)
     {
-    	ServerPlayerEntity player = ctx.get().getSender();
-    	World handlerWorld = player.world;
-        ServerState.checkIfServerChanged(handlerWorld.getServer(), handlerWorld.getWorldInfo());
+    	ServerPlayer player = ctx.get().getSender();
+    	ServerLevel handlerLevel = player.getLevel();
+        ServerState.checkIfServerChanged(handlerLevel.getServer(), handlerLevel.getLevelData());
         
         if (msg != null)
         {
@@ -132,7 +134,7 @@ public class CustomPacketPayloadHandler {
                 case DebuggingGeometryRequest:
                     GeometryData geometryData = null;
 
-                    if (player.getServer().getPlayerList().canSendCommands(player.getGameProfile()));
+                    if (player.getServer().getPlayerList().isOp(player.getGameProfile()));
                     {
                         geometryData = ServerState.getDebuggingGeometryData((GeometryRequestData)msg.data);
                     }
@@ -167,7 +169,7 @@ public class CustomPacketPayloadHandler {
 	 * Send a packet to a specific player.<br>
 	 * Must be called Server side. 
 	 */
-	public static void sendTo(Object msg, ServerPlayerEntity player)
+	public static void sendTo(Object msg, ServerPlayer player)
 	{
 		/*if (!(player instanceof FakePlayer))
 		{

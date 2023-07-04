@@ -3,26 +3,26 @@ package CustomOreGen.Util;
 import java.util.Iterator;
 import java.util.Set;
 
-import net.minecraft.block.Block;
+import net.minecraft.level.level.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 @SuppressWarnings("unchecked")
 public class TileEntityHelper {
 
-	public static void readFromPartialNBT(TileEntity te, CompoundNBT source) {
-		CompoundNBT dest = new CompoundNBT();
+	public static void readFromPartialNBT(TileEntity te, CompoundTag source) {
+		CompoundTag dest = new CompoundTag();
 		te.write(dest);
 		mergeNbt(source, dest);
 		te.read(dest);
 	}
 	
-	public static void readFromPartialNBT(World world, int x, int y, int z, CompoundNBT source) {
+	public static void readFromPartialNBT(Level world, int x, int y, int z, CompoundTag source) {
 		if (source != null) {
 			BlockPos pos = new BlockPos(x, y, z);
 			TileEntity te = world.getTileEntity(pos);
@@ -51,11 +51,11 @@ public class TileEntityHelper {
 		}
 	}
 	
-	public static CompoundNBT tryToCreateGTPrefixBlockNBT(ItemStack ore) {
+	public static CompoundTag tryToCreateGTPrefixBlockNBT(ItemStack ore) {
 		Block block = ((BlockItem)ore.getItem()).getBlock();
-		CompoundNBT nbt = null;
+		CompoundTag nbt = null;
 		if (isGTPrefixBlock(block)) {
-			nbt = new CompoundNBT();
+			nbt = new CompoundTag();
 			nbt.putString("id", "gt.MetaBlockTileEntity");
 		}
 		return nbt;
@@ -76,7 +76,7 @@ public class TileEntityHelper {
 		return null;
 	}
 
-	private static void mergeNbt(CompoundNBT source, CompoundNBT dest) {
+	private static void mergeNbt(CompoundTag source, CompoundTag dest) {
 		Iterator<String> keys = ((Set<String>)source.keySet()).iterator(); 
 		while(keys.hasNext()) {
 			String key = keys.next();

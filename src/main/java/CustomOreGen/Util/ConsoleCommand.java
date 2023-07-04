@@ -20,13 +20,13 @@ import CustomOreGen.Server.ServerState;
 import net.minecraft.command.CommandException;
 //import net.minecraft.command.ICommandSender;
 //import net.minecraft.command.SyntaxErrorException;
-import net.minecraft.entity.Entity;
+import net.minecraft.level.entity.Entity;
 //import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 //import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.World;
-//import net.minecraft.world.WorldServer;
+import net.minecraft.world.level.Level;
+//import net.minecraft.level.level.LevelServer;
 
 public class ConsoleCommand //extends CommandBase
 {
@@ -50,13 +50,13 @@ public class ConsoleCommand //extends CommandBase
         }
     }
 
-    public static WorldServer getSenderWorldServer(ICommandSender sender)
+    public static LevelServer getSenderLevelServer(ICommandSender sender)
     {
-        World entityWorld = null;
+        Level entityLevel = null;
 
         if (sender instanceof Entity)
         {
-            entityWorld = ((Entity)sender).world;
+            entityLevel = ((Entity)sender).level;
         }
         else
         {
@@ -65,17 +65,17 @@ public class ConsoleCommand //extends CommandBase
                 return null;
             }
 
-            entityWorld = ((TileEntity)sender).getWorld();
+            entityLevel = ((TileEntity)sender).getLevel();
         }
 
-        if (entityWorld == null)
+        if (entityLevel == null)
         {
             return null;
         }
         else
         {
-        	int dim = entityWorld.provider.getDimension();
-            return sender.getServer().getWorld(dim);
+        	int dim = entityLevel.provider.getDimension();
+            return sender.getServer().getLevel(dim);
         }
     }
 
@@ -131,8 +131,8 @@ public class ConsoleCommand //extends CommandBase
 
             if (pantns != null && cmdDef < pantns.length && pantns[cmdDef] != null)
             {
-                Annotation[] senderWorld = pantns[cmdDef];   
-                for (Annotation annot : senderWorld) {
+                Annotation[] senderLevel = pantns[cmdDef];   
+                for (Annotation annot : senderLevel) {
                 	if (annot instanceof ArgName)
                     {
                         name = ((ArgName)annot).name();
@@ -146,9 +146,9 @@ public class ConsoleCommand //extends CommandBase
 
             if (!clazz.isAssignableFrom(ICommandSender.class))
             {
-                if (clazz.isAssignableFrom(WorldServer.class))
+                if (clazz.isAssignableFrom(LevelServer.class))
                 {
-                    if (getSenderWorldServer(sender) != null)
+                    if (getSenderLevelServer(sender) != null)
                     	continue;
 
                     clazz = Integer.class;
@@ -236,14 +236,14 @@ public class ConsoleCommand //extends CommandBase
                 {
                     pvalues[pidx] = sender;
                 }
-                else if (clazz.isAssignableFrom(WorldServer.class))
+                else if (clazz.isAssignableFrom(LevelServer.class))
                 {
-                    pvalues[pidx] = getSenderWorldServer(sender);
+                    pvalues[pidx] = getSenderLevelServer(sender);
 
                     if (pvalues[pidx] == null)
                     {
                     	Integer dimId = ConfigParser.parseString(Integer.class, ex < args.length ? args[ex++] : defValue);
-                        pvalues[pidx] = dimId == null ? null : sender.getServer().getWorld(dimId.intValue());
+                        pvalues[pidx] = dimId == null ? null : sender.getServer().getLevel(dimId.intValue());
 
                         if (pvalues[pidx] == null && required)
                         {
@@ -307,13 +307,13 @@ public class ConsoleCommand //extends CommandBase
 
         if (cmdDef == null || cmdDef.isDebugging())
         {
-            WorldServer senderWorld = getSenderWorldServer(sender);
+            LevelServer senderLevel = getSenderLevelServer(sender);
 
-            if (senderWorld != null)
+            if (senderLevel != null)
             {
-                ServerState.checkIfServerChanged(server, senderWorld.getWorldInfo());
+                ServerState.checkIfServerChanged(server, senderLevel.getLevelInfo());
 
-                if (!ServerState.getWorldConfig(senderWorld).debuggingMode)
+                if (!ServerState.getWorldConfig(senderLevel).debuggingMode)
                 {
                     return false;
                 }

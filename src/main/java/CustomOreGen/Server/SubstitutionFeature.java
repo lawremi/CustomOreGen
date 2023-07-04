@@ -11,18 +11,18 @@ import CustomOreGen.Util.BlockDescriptor.BlockInfo;
 import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.TileEntityHelper;
 import CustomOreGen.Util.TouchingDescriptorList;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.ChunkStatus;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
-import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.chunk.ChunkStatus;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.SpikeConfiguration;
 
 /*
  * TODO:
@@ -31,7 +31,7 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
  * 3. Move the setting accessors from IOreDstribution to OreDistributionConfig. Will require a lot of refactoring. 
  * 4. Refactor each distribution's generate() into place(), i.e., based on the config
  */
-public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOreDistribution
+public class SubstitutionFeature extends Feature<NoneFeatureConfiguration> implements IOreDistribution
 {
     @DistributionSetting(
             name = "Name",
@@ -144,7 +144,7 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
 
     public SubstitutionFeature(int distributionID, boolean canGenerate)
     {
-    	super(NoFeatureConfig::deserialize, canGenerate);
+    	super(NoneFeatureConfiguration::deserialize, canGenerate);
         this.oreBlock = new BlockDescriptor(Blocks.STONE);
         this.replaceableBlocks = new BlockDescriptor();
         this.aboveBlocks = new BlockDescriptor();
@@ -193,10 +193,10 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
         settingMap.set(this, settingName, value);
     }
 
-    public void generate(World world, int chunkX, int chunkZ) {}
+    //public void generate(Level world, int chunkX, int chunkZ) {}
 
 	@Override
-    public void populate(IWorld world, int chunkX, int chunkZ)
+    public void populate(ILevel world, int chunkX, int chunkZ)
     {
         if (this._canGenerate && this._valid && this.oreBlock != null)
         {
@@ -216,7 +216,7 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
         this.placedBlocks = 0L;
     }
 
-    public GeometryStream getDebuggingGeometry(IWorld world, int chunkX, int chunkZ)
+    public GeometryStream getDebuggingGeometry(ILevel world, int chunkX, int chunkZ)
     {
         return null;
     }
@@ -275,19 +275,23 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
         }
     }
 
-    //TODO: validate that this does what we want
+    /*//TODO: validate that this does what we want
 	@Override
-	public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, NoFeatureConfig config) {
+	public boolean place(ILevel worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, NoneFeatureConfiguration config) {
 		return generate(worldIn, rand, pos);
 	}
 
 	//TODO: validate that this does what we want
 	@Override
-	public void generate(IWorld world, int chunkX, int chunkZ) {
+	public void generate(ILevel world, int chunkX, int chunkZ) {
 		this.generate(world, world.getRandom(), new BlockPos(chunkX << 4, 0, chunkZ << 4));
-	}
+	}*/
+	@Override
+    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
+		return generate(context.level(), context.random(), context.origin());
+    }
 
-    public boolean generate(IWorld world, Random random, BlockPos position)
+    public boolean generate(WorldGenLevel world, RandomSource random, BlockPos position)
     {
         if (this._canGenerate && this._valid && this.oreBlock != null)
         {
@@ -307,7 +311,7 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
                 	int chunkZ = depositCZ + dCZ;
                     int chunkX = depositCX + dCX;
 
-                    Chunk chunk = (Chunk)world.getChunk(chunkX, chunkZ, ChunkStatus.FEATURES.getParent(), false);
+                    ChunkAccess chunk = world.getChunk(chunkX, chunkZ, ChunkStatus.FEATURES.getParent(), false);
                     if (chunk != null)
                     {
                         int minX = dCX < 0 && -dCX * 2 > hRange ? 8 : 0;
@@ -319,7 +323,7 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
                         {
                             for (int z = minZ; z < maxZ; ++z)
                             {
-                            	Biome biome = chunk.getBiome(new BlockPos(x, 0, z));
+                            	Biome biome = chunk.getNoiseBiome(x, 0, z).get();
 
                                 if (biome == null || this.biomes.getWeight(biome) > 0.5F)
                                 {
@@ -336,7 +340,7 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
                                     	int worldX = chunkX * 16 + x;
                                     	int worldZ = chunkZ * 16 + z;
                                     	BlockPos worldPos = new BlockPos(worldX, y, worldZ);
-                                    	if (arrangement.matchesAt(world.getWorld(), random, worldPos)) {	
+                                    	if (arrangement.matchesAt(world, random, worldPos)) {	
                                             BlockInfo match = this.oreBlock.getMatchingBlock(random);
                                             if (match == null)
                                             {
@@ -345,7 +349,7 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
                                             if (match != null && world.setBlockState(new BlockPos(worldX, y, worldZ), match.getBlockState(), 2))
                                             {
                                                 ++this.placedBlocks;
-                                                TileEntityHelper.readFromPartialNBT(world.getWorld(), worldX, y, worldZ, match.getNBT());
+                                                TileEntityHelper.readFromPartialNBT(world.getLevel(), worldX, y, worldZ, match.getNBT());
                                             }
                                         }
                                     }
@@ -365,7 +369,7 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
         }
     }
     
-    private int findSurfaceHeight(Chunk chunk, int x, int z) {
+    private int findSurfaceHeight(IChunk chunk, int x, int z) {
     	return chunk.getTopBlockY(Heightmap.Type.WORLD_SURFACE, x, z);
 	}
 

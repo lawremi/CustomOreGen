@@ -120,13 +120,13 @@ public class ConfigParser
         
         validator.addGlobalValidator(Node.ELEMENT_NODE, "Config", new ValidatorRoot.Factory(topLevelNodes));
 
-        if (this.target.worldInfo == null)
+        if (this.target.levelInfo == null)
         {
             this.rng = null;
         }
         else
         {
-            this.rng = new Random(this.target.worldInfo.getSeed());
+            this.rng = new Random(this.target.levelInfo.getSeed());
             this.rng.nextInt();
         }
 
@@ -342,7 +342,7 @@ public class ConfigParser
             }
             else
             {
-                Object property = target.getWorldProperty(identifier);
+                Object property = target.getLevelProperty(identifier);
 
                 if (property != null)
                 {

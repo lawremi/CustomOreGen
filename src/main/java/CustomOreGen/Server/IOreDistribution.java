@@ -3,7 +3,7 @@ package CustomOreGen.Server;
 import java.util.Map;
 
 import CustomOreGen.Util.GeometryStream;
-import net.minecraft.world.IWorld;
+import net.minecraft.level.ILevel;
 
 public interface IOreDistribution
 {
@@ -13,15 +13,15 @@ public interface IOreDistribution
 
     void setDistributionSetting(String name, Object value) throws IllegalArgumentException, IllegalAccessException;
 
-    void generate(IWorld world, int chunkX, int chunkZ);
+    void generate(ILevel world, int chunkX, int chunkZ);
 
-    void populate(IWorld world, int chunkX, int chunkY);
+    void populate(ILevel world, int chunkX, int chunkY);
 
     void cull();
 
     void clear();
 
-    GeometryStream getDebuggingGeometry(IWorld world, int chunkX, int chunkY);
+    GeometryStream getDebuggingGeometry(ILevel world, int chunkX, int chunkY);
 
     boolean validate() throws IllegalStateException;
 

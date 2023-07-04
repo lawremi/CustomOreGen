@@ -15,8 +15,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.level.ILevel;
+import net.minecraft.world.level.Level;
 
 public class MapGenVeins extends MapGenOreDistribution
 {
@@ -148,7 +148,7 @@ public class MapGenVeins extends MapGenOreDistribution
     {
         float mlX = (random.nextFloat() + (float)structureGroup.getChunkPosX()) * 16.0F;
         float mlZ = (random.nextFloat() + (float)structureGroup.getChunkPosZ()) * 16.0F;
-        float mlY = this.mlHeight.getValue(random, this.world.getWorld(), mlX, mlZ) + this.heightOffset.getValue(random);
+        float mlY = this.mlHeight.getValue(random, this.level.getLevel(), mlX, mlZ) + this.heightOffset.getValue(random);
         
         if (!structureGroup.canPlaceComponentAt(0, mlX, mlY, mlZ, random))
         {
@@ -171,8 +171,8 @@ public class MapGenVeins extends MapGenOreDistribution
                 segMat.translate(mlX, mlY, mlZ);
                 segMat.rotateY(brRandom.nextFloat() * ((float)Math.PI * 2F));
                 segMat.rotateX(-this.brInclination.getValue(brRandom));
-                float maxHeight = mlY + this.brHeightLimit.getValue(brRandom, this.world.getWorld(), mlX, mlZ);
-                float minHeight = mlY - this.brHeightLimit.getValue(brRandom, this.world.getWorld(), mlX, mlZ);
+                float maxHeight = mlY + this.brHeightLimit.getValue(brRandom, this.level.getLevel(), mlX, mlZ);
+                float minHeight = mlY - this.brHeightLimit.getValue(brRandom, this.level.getLevel(), mlX, mlZ);
                 this.generateBranch(structureGroup, this.brLength.getValue(brRandom), maxHeight, minHeight, segMat, motherlode, brRandom);
             }
 
@@ -382,7 +382,7 @@ public class MapGenVeins extends MapGenOreDistribution
         }
 
         @Override
-        public boolean addComponentParts(IWorld world, Random random, MutableBoundingBox bounds, ChunkPos cpos)
+        public boolean addComponentParts(ILevel world, Random random, MutableBoundingBox bounds, ChunkPos cpos)
         {
             float maxR = orRadiusMult.getMax();
 
@@ -669,7 +669,7 @@ public class MapGenVeins extends MapGenOreDistribution
         }
 
         @Override
-        public boolean addComponentParts(IWorld world, Random random, MutableBoundingBox bounds, ChunkPos cpos)
+        public boolean addComponentParts(ILevel world, Random random, MutableBoundingBox bounds, ChunkPos cpos)
         {
             if (this.invMat == null)
             {
@@ -790,7 +790,7 @@ public class MapGenVeins extends MapGenOreDistribution
 	}
 
 	//@Override
-	public BlockPos getClosestStrongholdPos(World worldIn, BlockPos pos, boolean p_180706_3_) {
+	public BlockPos getClosestStrongholdPos(Level worldIn, BlockPos pos, boolean p_180706_3_) {
 		return null;
 	}
 

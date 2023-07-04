@@ -7,22 +7,19 @@ import java.util.Vector;
 
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import CustomOreGen.Server.ConfigOption.DisplayGroup;
 import CustomOreGen.Util.Localization;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraft.client.gui.SlotGui;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.AbstractSlider;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.client.gui.widget.button.AbstractButton;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.gui.components.AbstractButton;
+import net.minecraft.client.gui.components.AbstractSliderButton;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.LiteralContents;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -39,7 +36,7 @@ public class GuiCustomOreGenSettings extends Screen
 
 	public GuiCustomOreGenSettings(Screen parentGui)
 	{
-		super(new StringTextComponent("Custom Ore Gen"));
+		super(MutableComponent.create(new LiteralContents("Custom Ore Gen")));
 		this._parentGui = parentGui;
 	}
 
@@ -47,7 +44,7 @@ public class GuiCustomOreGenSettings extends Screen
 	public void init()
 	{
 		super.init();
-		super.buttons.clear();
+		super.clearWidgets();
 		ConfigOption.DisplayGroup currentGroup = this._groupPanel == null ? null : this._groupPanel.getSelectedGroup();
 
 		if (this.refreshGui >= 2)
@@ -135,18 +132,26 @@ public class GuiCustomOreGenSettings extends Screen
 		//TODO: fix buttons
 		//this._optionPanel.registerScrollButtons(1, 2);
 		if(_doneButton == null) {
-			this._doneButton = this.addButton(new Button(super.width / 2 - 155, super.height - 24, 150, 20, "Done", this::actionPerformed));
-			this._resetButton = this.addButton(new Button(super.width / 2 + 5, super.height - 24, 150, 20, "Defaults", this::actionPerformed));
+			this._doneButton = Button.builder(makeComponent("Done"), this::actionPerformed)
+					.pos(super.width / 2 - 155, super.height - 24)
+					.size(150, 20).build();
+			this._resetButton = Button.builder(makeComponent("Defaults"), this::actionPerformed)
+					.pos(super.width / 2 +5, super.height - 24)
+					.size(150, 20).build();
 		}
 		else {
-			this.addButton(_doneButton);
-			this.addButton(_resetButton);
+			this.addWidget(_doneButton);
+			this.addWidget(_resetButton);
 		}
+	}
+
+	private Component makeComponent(String string) {
+		return MutableComponent.create(new LiteralContents(string));
 	}
 
 	@Override
 	public boolean mouseClicked(double p_mouseClicked_1_, double p_mouseClicked_3_, int p_mouseClicked_5_) {
-		for(IGuiEventListener iguieventlistener : this.children()) {
+		for(GuiEventListener iguieventlistener : this.children()) {
 			if (iguieventlistener.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_)) {
 				this.setFocused(iguieventlistener);
 				if (p_mouseClicked_5_ == 0) {
@@ -159,7 +164,7 @@ public class GuiCustomOreGenSettings extends Screen
 		this._optionPanel.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_);
 		this._groupPanel.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_);
 		for(IOptionControl control : _optionPanel._optionControls) {
-			Widget wid = control.getControl();
+			GuiEventListener wid = control.getControl();
 			if(wid.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_)) {
 				this.setFocused(wid);
 				if (p_mouseClicked_5_ == 0) {
@@ -197,7 +202,7 @@ public class GuiCustomOreGenSettings extends Screen
 		//super.actionPerformed(button);
 		if (button == this._doneButton)
 		{
-			super.minecraft.displayGuiScreen(this._parentGui);
+			super.minecraft.forceSetScreen(_parentGui);
 		}
 		else if (button == this._resetButton)
 		{
@@ -223,8 +228,15 @@ public class GuiCustomOreGenSettings extends Screen
         this._groupPanel.mouseClicked(mouseX, mouseY, buttonID);
         this._optionPanel.handleMouseInput();
     }*/
-
 	@Override
+	public void render(PoseStack p_96562_, int mouseX, int mouseY, float partialTick) {
+		this.renderBackground(p_96562_);
+		this._optionPanel.render(mouseX, mouseY, partialTick);
+		this._groupPanel.render(mouseX, mouseY, partialTick);
+		this.drawCenteredString(super.font, "CustomOreGen Options", super.width / 2, 4, 16777215);
+		super.render(mouseX, mouseY, partialTick);
+	}
+	/*@Override
 	public void render(int mouseX, int mouseY, float partialTick)
 	{
 		this.renderBackground();
@@ -280,7 +292,7 @@ public class GuiCustomOreGenSettings extends Screen
 		{
 			this.init();
 		}
-	}
+	}*/
 
 	public class GuiGroupPanel
 	{
@@ -329,7 +341,7 @@ public class GuiCustomOreGenSettings extends Screen
 				ConfigOption.DisplayGroup group = c < 0 ? null : groups.get(c);
 				String ALL = Localization.maybeLocalize("ALL.displayName", "ALL");
 				String text = c < 0 ? "[ " + ALL + " ]" : group.getLocalizedDisplayName();
-				int btnWidth = font.getStringWidth(text) + 10;
+				int btnWidth = font.width(text) + 10;
 				GuiGroupButton control = new GuiGroupButton(scrollWidth, 0, btnWidth, height, text, group);
 				this._groupButtons.add(control);
 
@@ -347,8 +359,12 @@ public class GuiCustomOreGenSettings extends Screen
 
 			if (this._scrollOffsetMax < 0)
 			{
-				this._groupScrollLButton = new Button(x + 4, y, 20, height, "<", this::onPressed);
-				this._groupScrollRButton = new Button(x + width - 24, y, 20, height, ">", this::onPressed);
+				this._groupScrollLButton = Button.builder(makeComponent("<"), this::onPressed)
+						.pos(x + 4, y)
+						.size(20, height).build();
+				this._groupScrollRButton = Button.builder(makeComponent(">"), this::onPressed)
+						.pos(x + width - 24, y)
+						.size(20, height).build();
 				this._scrollHInset = 26;
 				this._scrollOffsetMax = width - 2 * this._scrollHInset - scrollWidth;
 				this._scrollOffsetX = Math.min(Math.max(curSelX - this._scrollHInset, this._scrollOffsetMax), 0);
@@ -424,7 +440,7 @@ public class GuiCustomOreGenSettings extends Screen
                 this._currentButton = null;
 
                 for(IOptionControl control : this._groupButtons) {
-        			Widget wid = control.getControl();
+        			GuiEventListener wid = control.getControl();
         			if(wid.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_)) {
         				this._parentGui.setFocused(wid);
         				if (p_mouseClicked_5_ == 0) {
@@ -713,7 +729,7 @@ public class GuiCustomOreGenSettings extends Screen
 			}
 		}
 
-		class GuiNumericSlider extends AbstractSlider implements IOptionControl
+		class GuiNumericSlider extends AbstractSliderButton implements IOptionControl
 		{
 			private final NumericOption _numeric;
 
@@ -804,7 +820,7 @@ public class GuiCustomOreGenSettings extends Screen
 	{
 		ConfigOption getOption();
 
-		Widget getControl();
+		GuiEventListener getControl();
 	}
 
 }

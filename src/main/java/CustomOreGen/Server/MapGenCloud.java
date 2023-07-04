@@ -15,8 +15,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.level.ILevel;
+import net.minecraft.world.level.Level;
 
 public class MapGenCloud extends MapGenOreDistribution
 {
@@ -87,7 +87,7 @@ public class MapGenCloud extends MapGenOreDistribution
     {
         float clX = (random.nextFloat() + (float)structureGroup.getChunkPosX()) * 16.0F;
         float clZ = (random.nextFloat() + (float)structureGroup.getChunkPosZ()) * 16.0F;
-        float clY = this.clHeight.getValue(random, this.world.getWorld(), clX, clZ) + this.heightOffset.getValue(random);
+        float clY = this.clHeight.getValue(random, this.level.getLevel(), clX, clZ) + this.heightOffset.getValue(random);
         
         if (!structureGroup.canPlaceComponentAt(0, clX, clY, clZ, random))
         {
@@ -100,7 +100,7 @@ public class MapGenCloud extends MapGenOreDistribution
             clMat.rotateZInto(0.0F, 1.0F, 0.0F);
             clMat.rotateZ(random.nextFloat() * ((float)Math.PI * 2F));
             clMat.rotateY(this.clInclination.getValue(random));
-            float thickness = this.clThickness.getValue(random, this.world.getWorld(), clX, clZ);
+            float thickness = this.clThickness.getValue(random, this.level.getLevel(), clX, clZ);
             clMat.scale(this.clRadius.getValue(random), this.clRadius.getValue(random), thickness);
             DiffuseCloudComponent cloud = new DiffuseCloudComponent(structureGroup, clMat, random);
             structureGroup.addComponent(cloud, (Component)null);
@@ -159,7 +159,7 @@ public class MapGenCloud extends MapGenOreDistribution
         }
 
         @Override
-        public boolean addComponentParts(IWorld world, Random random, MutableBoundingBox bounds, ChunkPos cpos)
+        public boolean addComponentParts(ILevel world, Random random, MutableBoundingBox bounds, ChunkPos cpos)
         {
             if (this.invMat == null)
             {
@@ -219,7 +219,7 @@ public class MapGenCloud extends MapGenOreDistribution
                                 if (orVolumeNoiseCutoff.getMin() <= 1.0F && 
                                 	(orVolumeNoiseCutoff.getMax() <= 0.0F || 
                                 	 (this.getNoise(pos[0], pos[1], pos[2]) + 1.0F) / 2.0F >= orVolumeNoiseCutoff.getValue(random)) && 
-                                	orDensity.getIntValue(random, world.getWorld(), x, z) >= 1)
+                                	orDensity.getIntValue(random, world.getLevel(), x, z) >= 1)
                                 {
                                     this.attemptPlaceBlock(world, random, x, y, z, bounds);
                                 }
@@ -336,7 +336,7 @@ public class MapGenCloud extends MapGenOreDistribution
 	}
 
 	@Override
-	public BlockPos getNearestStructurePos(World worldIn, BlockPos pos, boolean findUnexplored) {
+	public BlockPos getNearestStructurePos(Level worldIn, BlockPos pos, boolean findUnexplored) {
 		return null;
 	}
 }

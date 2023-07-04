@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.apache.commons.lang3.SerializationUtils;
 
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 
 public class CustomPacketPayload
 {
@@ -17,13 +17,13 @@ public class CustomPacketPayload
         this.data = data;
     }
 
-    public static void encode(CustomPacketPayload msg, PacketBuffer buf)
+    public static void encode(CustomPacketPayload msg, FriendlyByteBuf buf)
     {
         buf.writeByte((byte)msg.type.ordinal());
         buf.writeByteArray(SerializationUtils.serialize(msg.data));
     }
     
-    public static CustomPacketPayload decode(PacketBuffer buf)
+    public static CustomPacketPayload decode(FriendlyByteBuf buf)
     {
     	PayloadType type1 = PayloadType.values()[buf.readByte()];
     	Serializable data1 = (Serializable)SerializationUtils.deserialize(buf.readByteArray());

@@ -10,34 +10,35 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.GeometryData;
 import CustomOreGen.GeometryRequestData;
 import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.SimpleProfiler;
-import net.minecraft.client.gui.screen.CreateWorldScreen;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.components.tabs.TabNavigationBar;
+import net.minecraft.client.gui.screens.worldselection.CreateWorldScreen;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.LiteralContents;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.ChunkStatus;
-import net.minecraft.world.dimension.DimensionType;
-import net.minecraft.world.storage.WorldInfo;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.WorldData;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 public class ServerState
 {
     private static MinecraftServer _server = null;
-    private static Map<World,WorldConfig> _worldConfigs = new HashMap<World, WorldConfig>();
+    private static Map<Level,WorldConfig> _worldConfigs = new HashMap<Level, WorldConfig>();
     private static Button _optionsGuiButton = null;
     private static boolean forcingChunk;
 
-    public static WorldConfig getWorldConfig(World world)
+    public static WorldConfig getWorldConfig(Level world)
     {
         WorldConfig cfg = _worldConfigs.get(world);
 
@@ -66,7 +67,7 @@ public class ServerState
         return cfg;
     }
 
-    public static void clearWorldConfig(World world)
+    public static void clearWorldConfig(Level world)
     {
         _worldConfigs.remove(world);
     }
@@ -122,13 +123,14 @@ public class ServerState
     }
 
     // TODO: add force option; if true then we will generate even when there is no version
-    public static void populateDistributions(Collection<IOreDistribution> distributions, World world, int chunkX, int chunkZ)
+    public static void populateDistributions(Collection<IOreDistribution> distributions, Level world, int chunkX, int chunkZ)
     {
         SimpleProfiler.globalProfiler.startSection("Populate");
         
         // FIXME: Before 1.14, we were forcing instant block updates here. Not clear how to do that now.
         
         for (IOreDistribution dist : distributions) {
+        	System.out.println(dist.toString());
         	dist.generate(world, chunkX, chunkZ);
             dist.populate(world, chunkX, chunkZ);
             dist.cull();
@@ -143,13 +145,13 @@ public class ServerState
         {
             return null;
         }
-        else if (request.world == null)
+        else if (request.level == null)
         {
             return null;
         }
         else
         {
-            WorldConfig cfg = getWorldConfig(request.world);
+            WorldConfig cfg = getWorldConfig(request.level);
 
             if (!cfg.debuggingMode)
             {
@@ -161,8 +163,8 @@ public class ServerState
 
                 for (IOreDistribution dist : cfg.getOreDistributions())
                 {
-                    dist.generate(request.world, request.chunkX, request.chunkZ);
-                    GeometryStream stream = dist.getDebuggingGeometry(request.world, request.chunkX, request.chunkZ);
+                    dist.generate(request.level, request.chunkX, request.chunkZ);
+                    GeometryStream stream = dist.getDebuggingGeometry(request.level, request.chunkX, request.chunkZ);
 
                     if (stream != null)
                     {
@@ -176,22 +178,22 @@ public class ServerState
         }
     }
 
-    public static void onPopulateChunk(World world, int chunkX, int chunkZ, Random rand) {
-    	WorldConfig cfg = getWorldConfig(world);
+    public static void onPopulateChunk(WorldConfig cfg, ILevel world, int chunkX, int chunkZ, Random rand) {
     	int range = (cfg.deferredPopulationRange + 15) / 16;
     	//for (int iX = chunkX - range; iX <= chunkX + range; ++iX)
-        //{
+        {
             //for (int iZ = chunkZ - range; iZ <= chunkZ + range; ++iZ)
-            //{
-            	//if (allNeighborsPopulated(world, iX, iZ, range)) {
+            {
+            	//if (allNeighborsPopulated(world, iX, iZ, range))
+            	{
             		//CustomOreGenBase.log.info("[" + iX + "," + iZ + "]: POPULATING");
             		populateDistributions(cfg.getOreDistributions(), world, chunkX, chunkZ);
-            	//}
-            //}
-        //}
+            	}
+            }
+        }
     }
 
-    private static boolean allNeighborsPopulated(World world, int chunkX, int chunkZ, int range) {
+    private static boolean allNeighborsPopulated(ILevel world, int chunkX, int chunkZ, int range) {
     	int area = 4 * range * (range + 1) + 1;
     	int neighborCount = 0;
         for (int iX = chunkX - range; iX <= chunkX + range; ++iX)
@@ -208,11 +210,11 @@ public class ServerState
 		return neighborCount == area; 
 	}
 
-	private static boolean chunkHasBeenPopulated(World world, int chunkX, int chunkZ) {
+	private static boolean chunkHasBeenPopulated(ILevel world, int chunkX, int chunkZ) {
 		return world.getChunk(chunkX, chunkZ).getStatus().isAtLeast(ChunkStatus.FEATURES);
 	}
 
-	public static boolean checkIfServerChanged(MinecraftServer currentServer, WorldInfo worldInfo)
+	public static boolean checkIfServerChanged(MinecraftServer currentServer, WorldData worldInfo)
     {
         if (_server == currentServer)
         {
@@ -222,15 +224,15 @@ public class ServerState
         {
             if (currentServer != null && worldInfo == null)
             {
-                if (currentServer.getWorlds()== null)
+                if (currentServer.getLevels()== null)
                 {
                     return false;
                 }
 
-                for (ServerWorld world : currentServer.getWorlds()) {
+                for (ServerLevel world : currentServer.getLevels()) {
                     if (world != null)
                     {
-                        worldInfo = world.getWorldInfo();
+                        worldInfo = world.getLevelInfo();
                     }
 
                     if (worldInfo != null)
@@ -251,14 +253,14 @@ public class ServerState
         }
     }
 
-    public static void onServerChanged(MinecraftServer server, WorldInfo worldInfo)
+    public static void onServerChanged(MinecraftServer server, LevelInfo worldInfo)
     {
         _worldConfigs.clear();
         WorldConfig.loadedOptionOverrides[1] = WorldConfig.loadedOptionOverrides[2] = null;
 
         _server = server;
-        CustomOreGenBase.log.debug("Server world changed to " + worldInfo.getWorldName());
-        File f = new File(_server.getWorld(DimensionType.OVERWORLD).getSaveHandler().getWorldDirectory().getAbsolutePath());
+        CustomOreGenBase.log.debug("Server world changed to " + worldInfo.getLevelName());
+        File f = new File(_server.getLevel(DimensionType.OVERWORLD).getSaveHandler().getLevelDirectory().getAbsolutePath());
         WorldConfig config = null;
 
         while (config == null)
@@ -282,7 +284,7 @@ public class ServerState
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static void addOptionsButtonToGui(CreateWorldScreen gui, List<Widget> buttonList, Consumer<Widget> add)
+    public static void addOptionsButtonToGui(CreateWorldScreen gui, List<GuiEventListener> buttonList, Consumer<GuiEventListener> add)
     {
         if (gui == null)
         {
@@ -291,16 +293,22 @@ public class ServerState
         else
         {
             GuiCustomOreGenSettings settingsGui = new GuiCustomOreGenSettings(gui);
-            _optionsGuiButton = new Button(150, 100, 150, 20, "Custom Ore Generation...", (button) -> {
-            	gui.getMinecraft().displayGuiScreen(settingsGui);
-            });
-
+            
+            var action = new Button.OnPress() {
+                @Override
+                public void onPress(Button b) {
+                	gui.getMinecraft().forceSetScreen(settingsGui);
+                }
+            };
+            
+            _optionsGuiButton = Button.builder(MutableComponent.create(new LiteralContents("Custom Ore Generation...")), action).build();
+            
             Button button1 = _optionsGuiButton;
             
             if (!buttonList.contains(button1))
             {
-                button1.x = (gui.width - button1.getWidth()) / 2;
-                button1.y = 165;
+            	button1.setX(gui.width - button1.getWidth() / 2);
+            	button1.setY(165);
                 add.accept(button1);
             }
         }
@@ -308,10 +316,13 @@ public class ServerState
     
     @OnlyIn(Dist.CLIENT)
     public static void updateOptionsButtonVisibility(CreateWorldScreen gui) {
-    	_optionsGuiButton.visible = !(Boolean)ObfuscationReflectionHelper.getPrivateValue(CreateWorldScreen.class, gui, "inMoreWorldOptionsDisplay");
+    	//TabNavigationBar bar;
+    	//bar.getFocused().getTabOrderGroup()
+    	
+    	_optionsGuiButton.visible = true;//!(Boolean)ObfuscationReflectionHelper.getPrivateValue(CreateWorldScreen.class, gui, "inMoreLevelOptionsDisplay");
     }
     
-	public static void chunkForced(World world, ChunkPos location) {
+	public static void chunkForced(Level world, ChunkPos location) {
 		if (forcingChunk) { // prevent infinite recursion when there are multiple chunk loaders
 			return;
 		}

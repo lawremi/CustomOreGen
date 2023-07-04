@@ -2,12 +2,13 @@ package CustomOreGen;
 
 import java.io.Serializable;
 
-import net.minecraft.world.World;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 
 public class GeometryRequestData implements Serializable
 {
-    public transient World world;
-    public int dimensionID;
+    public transient Level world;
+    public ResourceLocation dimensionID;
     public int chunkX;
     public int chunkZ;
     public int batchID;
@@ -15,10 +16,10 @@ public class GeometryRequestData implements Serializable
 
     public GeometryRequestData() {}
 
-    public GeometryRequestData(World world, int chunkX, int chunkZ, int batchID)
+    public GeometryRequestData(Level world, int chunkX, int chunkZ, int batchID)
     {
         this.world = world;
-        this.dimensionID = world == null ? 0 : world.dimension.getType().getId();
+        this.dimensionID = world == null ? null : world.dimension().location();
         this.chunkX = chunkX;
         this.chunkZ = chunkZ;
         this.batchID = batchID;

@@ -2,8 +2,8 @@ package CustomOreGen.Util;
 
 import java.util.Random;
 
-import net.minecraft.world.chunk.IChunk;
-import net.minecraftforge.event.world.ChunkEvent;
+import net.minecraft.level.chunk.IChunk;
+import net.minecraftforge.event.level.ChunkEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
 
 /**

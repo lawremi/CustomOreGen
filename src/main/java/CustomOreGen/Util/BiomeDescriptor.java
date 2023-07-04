@@ -11,9 +11,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class BiomeDescriptor implements Copyable<BiomeDescriptor>
@@ -110,14 +110,14 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
     {
         if (biome != null && weight != 0.0F)
         {
-            Float currentValue = this._matches.get(biome.getRegistryName());
+            Float currentValue = this._matches.get(ForgeRegistries.BIOMES.getKey(biome));
 
             if (currentValue != null)
             {
                 weight += currentValue.floatValue();
             }
 
-            this._matches.put(biome.getRegistryName(), weight);
+            this._matches.put(ForgeRegistries.BIOMES.getKey(biome), weight);
         }
     }
 
@@ -125,7 +125,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
     {
         float totalWeight = 0.0F;
         
-        String name = biome.getRegistryName().toString();
+        String name = ForgeRegistries.BIOMES.getKey(biome).toString();
         
         for (Descriptor desc : this._descriptors) {
             Matcher matcher;
@@ -133,13 +133,14 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
             	continue;
             
             if (desc.describesType) {
-				BiomeDictionary.Type type = BiomeDictionary.Type.getType(desc.description.toUpperCase());
-            	// instead of this, because we do not want to add a new type if it does not exist:
+            	// TODO: the biome dictionary "type" system functionally does not exist any more
+            	// net.minecraftforge.common.BiomeManager is the closest thing
+            	
             	//BiomeDictionary.Type type = BiomeDictionary.Type.getType(desc.description);
-            	if (BiomeDictionary.hasType(biome, type))
-            	{
-            		totalWeight += desc.weight;
-            	}
+				//if (BiomeDictionary.hasType(biome, type))
+            	//{
+            	//	totalWeight += desc.weight;
+            	//}
             } else {
             	if (name != null)
             	{
@@ -174,7 +175,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
     public float getWeight(Biome biome)
     {
         this.compileMatches();
-        Float value = this._matches.get(biome.getRegistryName());
+        Float value = this._matches.get(ForgeRegistries.BIOMES.getKey(biome));
         return value == null ? 0.0F : value.floatValue();
     }
 
@@ -291,7 +292,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
             }
             else
             {
-                breakdown[i] = biome.getRegistryName().toString();
+                breakdown[i] = ForgeRegistries.BIOMES.getKey(biome).toString();
             }
 
             breakdown[i] = breakdown[i] + " - " + weight;
@@ -357,8 +358,8 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
         }
         
         public boolean isCompatible(Biome biome) {
-			return biome.getDefaultTemperature() >= minTemperature && biome.getDefaultTemperature() <= maxTemperature &&
-				   biome.getDownfall() >= minRainfall && biome.getDownfall() <= maxRainfall &&
+			return biome.getBaseTemperature() >= minTemperature && biome.getBaseTemperature() <= maxTemperature &&
+				   biome.getModifiedClimateSettings().downfall() >= minRainfall && biome.getModifiedClimateSettings().downfall() <= maxRainfall &&
 				   biome.getDepth() >= minDepth && biome.getDepth() <= maxDepth &&
 				   biome.getScale() >= minScale && biome.getScale() <= maxScale;
 		}
