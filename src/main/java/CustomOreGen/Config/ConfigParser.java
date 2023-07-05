@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -40,7 +40,7 @@ public class ConfigParser
 {
     public final WorldConfig target;
     public final ConfigExpressionEvaluator defaultEvaluator = new ConfigExpressionEvaluator();
-    protected Random rng = null;
+    protected RandomSource rng = null;
     protected final DocumentBuilder domBuilder;
     protected final SAXParser saxParser;
     private static final Map<String,IValidatorFactory<ValidatorDistribution>> distributionValidators = 
@@ -120,13 +120,13 @@ public class ConfigParser
         
         validator.addGlobalValidator(Node.ELEMENT_NODE, "Config", new ValidatorRoot.Factory(topLevelNodes));
 
-        if (this.target.levelInfo == null)
+        if (this.target.worldInfo == null)
         {
             this.rng = null;
         }
         else
         {
-            this.rng = new Random(this.target.levelInfo.getSeed());
+            this.rng = new Random(this.target.worldInfo.worldGenOptions().seed());
             this.rng.nextInt();
         }
 

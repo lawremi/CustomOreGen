@@ -13,7 +13,6 @@ import net.minecraft.network.chat.contents.LiteralContents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
@@ -125,7 +124,7 @@ public class CustomPacketPayloadHandler {
     {
     	ServerPlayer player = ctx.get().getSender();
     	ServerLevel handlerLevel = player.getLevel();
-        ServerState.checkIfServerChanged(handlerLevel.getServer(), handlerLevel.getLevelData());
+        ServerState.checkIfServerChanged(handlerLevel.getServer(), handlerLevel.getServer().getWorldData());
         
         if (msg != null)
         {

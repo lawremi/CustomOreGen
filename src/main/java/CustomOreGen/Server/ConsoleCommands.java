@@ -14,7 +14,6 @@ import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.CustomPacketPayload;
@@ -27,12 +26,12 @@ import CustomOreGen.Util.PDist.Type;
 import net.minecraft.commands.CommandSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagParser;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.LiteralContents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 
 public class ConsoleCommands
 {
@@ -157,7 +156,7 @@ public class ConsoleCommands
 
         if (config.world != null)
         {
-            msg.append("Dim " + config.world.dimension() + ", ");
+            msg.append("Dim " + config.world.dimensionType().effectsLocation() + ", ");
         }
 
         if (dists != null)
@@ -419,7 +418,7 @@ public class ConsoleCommands
                         desc.clear();
                     }
 
-                    CompoundTag compoundNBT = JsonToNBT.getTagFromJson(nbt);
+                    CompoundTag compoundNBT = TagParser.parseTag(nbt);
                     desc.add(descriptor, weight, describesOre, isRegexp, matchFirst, compoundNBT);
                     ++count;
                 }
@@ -732,7 +731,7 @@ public class ConsoleCommands
 
         if (config.world != null)
         {
-            msg.append("Dim " + config.world.dimension().location() + ", ");
+            msg.append("Dim " + config.world.dimensionType().effectsLocation() + ", ");
         }
 
         if (options != null)

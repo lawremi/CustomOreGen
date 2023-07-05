@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.ImmutableList;
@@ -15,6 +14,7 @@ import CustomOreGen.Server.DistributionSettingMap.Copyable;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -294,7 +294,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         return value;
     }
 
-    public boolean matchesBlock(BlockState blockState, Random rand)
+    public boolean matchesBlock(BlockState blockState, RandomSource rand)
     {
         float weight = this.getWeight(blockState, null);
 
@@ -306,7 +306,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         {
             if (rand == null)
             {
-                rand = new Random();
+                rand = RandomSource.create();
             }
 
             return rand.nextFloat() < weight;
@@ -317,7 +317,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         }
     }
 
-    public BlockInfo getMatchingBlock(Random rand)
+    public BlockInfo getMatchingBlock(RandomSource rand)
     {
         this.compileMatches();
         float value = -1.0F;
@@ -337,7 +337,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
                 {
                     if (rand == null)
                     {
-                        rand = new Random();
+                        rand = RandomSource.create();
                     }
 
                     value = rand.nextFloat();

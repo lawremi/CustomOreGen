@@ -1,6 +1,6 @@
 package CustomOreGen.Util;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
 
@@ -62,7 +62,7 @@ public class PDist implements Copyable<PDist>
         return this.mean - this.range;
     }
 
-    public float getValue(Random rand)
+    public float getValue(RandomSource rand)
     {
         if (this.range == 0.0F)
         {
@@ -109,7 +109,7 @@ public class PDist implements Copyable<PDist>
         }
     }
 
-    private float inverseGaussian(double mu, double lambda, Random rand) {
+    private float inverseGaussian(double mu, double lambda, RandomSource rand) {
     	/*Function taken from Wikipedia article on Inverse Gaussian Distribution*/
     	
     	double v = rand.nextGaussian();   // sample from a normal distribution with a mean of 0 and 1 standard deviation
@@ -122,13 +122,13 @@ public class PDist implements Copyable<PDist>
     }
 
     
-    public int getIntValue(Random rand)
+    public int getIntValue(RandomSource rand)
     {
         float fval = this.getValue(rand);
         return roundToInt(fval, rand);
     }
 
-    public static int roundToInt(float fval, Random rand) {
+    public static int roundToInt(float fval, RandomSource rand) {
     	int ival = (int)fval;
         fval -= (float)ival;
 

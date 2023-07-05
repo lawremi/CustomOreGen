@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -179,7 +179,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
         return value == null ? 0.0F : value.floatValue();
     }
 
-    public boolean matchesBiome(Biome biome, Random rand)
+    public boolean matchesBiome(Biome biome, RandomSource rand)
     {
         float weight = this.getWeight(biome);
 
@@ -191,7 +191,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
         {
             if (rand == null)
             {
-                rand = new Random();
+                rand = RandomSource.create();
             }
 
             return rand.nextFloat() < weight;
@@ -202,7 +202,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
         }
     }
 
-    public Biome getMatchingBiome(Random rand)
+    public Biome getMatchingBiome(RandomSource rand)
     {
         this.compileMatches();
         float value = -1.0F;
@@ -222,7 +222,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
                 {
                     if (rand == null)
                     {
-                        rand = new Random();
+                        rand = RandomSource.create();
                     }
 
                     value = rand.nextFloat();

@@ -1,12 +1,12 @@
 package CustomOreGen.Util;
 
-import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 
 public class SeaLevelHeightScale implements HeightScale {
 
 	@Override
-	public int getHeight(Level world, int x, int z) {
-		return world.getSeaLevel();
+	public int getHeight(LevelAccessor world, int x, int z) {
+		return world.getSeaLevel();	
 	}
 
 	@Override

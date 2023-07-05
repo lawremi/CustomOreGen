@@ -1,7 +1,7 @@
 package CustomOreGen.Server;
 
 import java.util.Map;
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
 import CustomOreGen.Util.BiomeDescriptor;
@@ -9,16 +9,20 @@ import CustomOreGen.Util.BlockArrangement;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.BlockDescriptor.BlockInfo;
 import CustomOreGen.Util.GeometryStream;
-import CustomOreGen.Util.TileEntityHelper;
+import CustomOreGen.Util.BlockEntityHelper;
 import CustomOreGen.Util.TouchingDescriptorList;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.chunk.ChunkStatus;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
@@ -144,7 +148,7 @@ public class SubstitutionFeature extends Feature<NoneFeatureConfiguration> imple
 
     public SubstitutionFeature(int distributionID, boolean canGenerate)
     {
-    	super(NoneFeatureConfiguration::deserialize, canGenerate);
+    	super(NoneFeatureConfiguration.CODEC);
         this.oreBlock = new BlockDescriptor(Blocks.STONE);
         this.replaceableBlocks = new BlockDescriptor();
         this.aboveBlocks = new BlockDescriptor();
@@ -196,14 +200,15 @@ public class SubstitutionFeature extends Feature<NoneFeatureConfiguration> imple
     //public void generate(Level world, int chunkX, int chunkZ) {}
 
 	@Override
-    public void populate(ILevel world, int chunkX, int chunkZ)
+    public void populate(WorldGenLevel world, int chunkX, int chunkZ)
     {
         if (this._canGenerate && this._valid && this.oreBlock != null)
         {
-            Random random = new Random(world.getSeed());
+        	long seed = world.getServer().getWorldData().worldGenOptions().seed();
+            RandomSource random = RandomSource.create(seed);
             long xSeed = random.nextLong() >> 3;
             long zSeed = random.nextLong() >> 3;
-            random.setSeed(xSeed * (long)chunkX + zSeed * (long)chunkZ ^ world.getSeed() ^ this.seed);
+            random.setSeed(xSeed * (long)chunkX + zSeed * (long)chunkZ ^ seed ^ this.seed);
             this.generate(world, random, new BlockPos(chunkX * 16, 0, chunkZ * 16));
         }
     }
@@ -216,7 +221,7 @@ public class SubstitutionFeature extends Feature<NoneFeatureConfiguration> imple
         this.placedBlocks = 0L;
     }
 
-    public GeometryStream getDebuggingGeometry(ILevel world, int chunkX, int chunkZ)
+    public GeometryStream getDebuggingGeometry(LevelAccessor world, int chunkX, int chunkZ)
     {
         return null;
     }
@@ -274,24 +279,18 @@ public class SubstitutionFeature extends Feature<NoneFeatureConfiguration> imple
             return this._valid && this._canGenerate;
         }
     }
-
-    /*//TODO: validate that this does what we want
-	@Override
-	public boolean place(ILevel worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, NoneFeatureConfiguration config) {
-		return generate(worldIn, rand, pos);
-	}
-
-	//TODO: validate that this does what we want
-	@Override
-	public void generate(ILevel world, int chunkX, int chunkZ) {
-		this.generate(world, world.getRandom(), new BlockPos(chunkX << 4, 0, chunkZ << 4));
-	}*/
+	
 	@Override
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
 		return generate(context.level(), context.random(), context.origin());
     }
 
-    public boolean generate(WorldGenLevel world, RandomSource random, BlockPos position)
+	@Override
+	public void generate(LevelAccessor world, int chunkX, int chunkZ) {
+		this.generate(world, world.getRandom(), new BlockPos(chunkX << 4, 0, chunkZ << 4));
+	}
+
+    public boolean generate(LevelAccessor world, RandomSource random, BlockPos position)
     {
         if (this._canGenerate && this._valid && this.oreBlock != null)
         {
@@ -346,10 +345,10 @@ public class SubstitutionFeature extends Feature<NoneFeatureConfiguration> imple
                                             {
                                                 return false;
                                             }
-                                            if (match != null && world.setBlockState(new BlockPos(worldX, y, worldZ), match.getBlockState(), 2))
+                                            if (match != null && world.setBlock(new BlockPos(worldX, y, worldZ), match.getBlockState(), 2))
                                             {
                                                 ++this.placedBlocks;
-                                                TileEntityHelper.readFromPartialNBT(world.getLevel(), worldX, y, worldZ, match.getNBT());
+                                                BlockEntityHelper.readFromPartialNBT(world, worldX, y, worldZ, match.getNBT());
                                             }
                                         }
                                     }
@@ -369,8 +368,8 @@ public class SubstitutionFeature extends Feature<NoneFeatureConfiguration> imple
         }
     }
     
-    private int findSurfaceHeight(IChunk chunk, int x, int z) {
-    	return chunk.getTopBlockY(Heightmap.Type.WORLD_SURFACE, x, z);
+    private int findSurfaceHeight(ChunkAccess chunk, int x, int z) {
+    	return chunk.getHeight(Heightmap.Types.WORLD_SURFACE_WG, x, z);
 	}
 
 	public String toString()

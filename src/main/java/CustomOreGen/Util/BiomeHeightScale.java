@@ -1,26 +1,28 @@
 package CustomOreGen.Util;
 
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.level.level.LevelType;
-import net.minecraft.level.level.biome.Biome;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.biome.Biome;
 
 public class BiomeHeightScale implements HeightScale {
 
 	@Override
-	public int getHeight(Level world, int x, int z) {
-		Biome biome = world.getBiome(new BlockPos(x, 0, z));
+	public int getHeight(LevelAccessor world, int x, int z) {
+		Biome biome = world.getBiome(new BlockPos(x, 0, z)).get();
 		if (biome == null) {
-			return new LevelHeightScale().getHeight(world, x, z);
+			return new WorldHeightScale().getHeight(world, x, z);
 		}
-		return this.calcBlockHeight(world, biome.getDepth());
+		return this.calcBlockHeight(world, biome.getGenerationSettings());
+		//worldgen density functions
+		//worldgen world_preset
 	}
 
 	private int calcBlockHeight(Level world, float rootHeight) {
-		if (world.getLevelType() == LevelType.AMPLIFIED && rootHeight > 0) {
+		/*if (world.getLevelType() == LevelType.AMPLIFIED && rootHeight > 0) {
 			rootHeight = 1.0F + rootHeight * 2.0F; 
-		}
-		return (int)(world.getHorizon() + rootHeight * 17);
+		}*/
+		return (int)(world.getSeaLevel() + rootHeight * 17);
 	}
 	
 	@Override

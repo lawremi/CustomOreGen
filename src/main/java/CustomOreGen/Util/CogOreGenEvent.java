@@ -1,8 +1,8 @@
 package CustomOreGen.Util;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
-import net.minecraft.level.chunk.IChunk;
+import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraftforge.event.level.ChunkEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
 
@@ -15,14 +15,14 @@ import net.minecraftforge.eventbus.api.Cancelable;
  * This event does not have a result. {@link HasResult} <br>
  **/ 
 public class CogOreGenEvent extends ChunkEvent {
-    private final Random rand;
+    private final RandomSource rand;
     
-    public CogOreGenEvent(IChunk chunk, Random rand) {
+    public CogOreGenEvent(ChunkAccess chunk, RandomSource rand) {
     	super(chunk);
         this.rand = rand;
     }
 
-    public Random getRand()
+    public RandomSource getRand()
     {
         return rand;
     }

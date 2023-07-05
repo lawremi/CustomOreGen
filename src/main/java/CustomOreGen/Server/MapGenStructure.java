@@ -1,17 +1,17 @@
 package CustomOreGen.Server;
 
 import java.util.Iterator;
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 import javax.annotation.Nullable;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.level.ILevel;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
 import net.minecraft.level.chunk.ChunkPrimer;
 import net.minecraft.level.chunk.ChunkStatus;
@@ -84,7 +84,7 @@ public abstract class MapGenStructure extends MapGenBase
         }*/
     }
 
-    public synchronized boolean generateStructure(ILevel worldIn, Random randomIn, ChunkPos chunkCoord)
+    public synchronized boolean generateStructure(LevelAccessor worldIn, RandomSource randomIn, ChunkPos chunkCoord)
     {
         this.initializeStructureData(world);
         int i = (chunkCoord.x << 4) + 8;
@@ -178,7 +178,7 @@ public abstract class MapGenStructure extends MapGenBase
     @Nullable
     public abstract BlockPos getNearestStructurePos(Level worldIn, BlockPos pos, boolean findUnexplored);
 
-    protected void initializeStructureData(ILevel world)
+    protected void initializeStructureData(LevelAccessor world)
     {
         
     }
@@ -199,7 +199,7 @@ public abstract class MapGenStructure extends MapGenBase
         int j = p_191069_2_.getZ() >> 4;
         int k = 0;
 
-        for (Random random = new Random(); k <= p_191069_7_; ++k)
+        for (RandomSource random = new Random(); k <= p_191069_7_; ++k)
         {
             for (int l = -k; l <= k; ++l)
             {
@@ -226,7 +226,7 @@ public abstract class MapGenStructure extends MapGenBase
 
                         int l1 = j1 / p_191069_3_;
                         int i2 = k1 / p_191069_3_;
-                        Random random1 = worldIn.rand;//worldIn.setRandomSeed(l1, i2, p_191069_5_);
+                        RandomSource random1 = worldIn.rand;//worldIn.setRandomSeed(l1, i2, p_191069_5_);
                         l1 = l1 * p_191069_3_;
                         i2 = i2 * p_191069_3_;
 

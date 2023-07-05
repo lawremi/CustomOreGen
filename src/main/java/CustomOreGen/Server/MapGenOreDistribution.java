@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
 import CustomOreGen.Util.BiomeDescriptor;
@@ -16,26 +16,22 @@ import CustomOreGen.Util.HeightScaledPDist;
 import CustomOreGen.Util.IGeometryBuilder;
 import CustomOreGen.Util.PDist;
 import CustomOreGen.Util.PDist.Type;
-import CustomOreGen.Util.TileEntityHelper;
+import CustomOreGen.Util.BlockEntityHelper;
 import CustomOreGen.Util.TouchingDescriptorList;
 import CustomOreGen.Util.Transform;
 import CustomOreGen.Util.WireframeShapes;
-import net.minecraft.block.Blocks;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.level.ILevel;
+import net.minecraft.util.Mth;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.chunk.UpgradeData;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.StructurePiece;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.level.level.biome.Biome;
-import net.minecraft.level.chunk.ChunkPrimer;
-import net.minecraft.level.chunk.UpgradeData;
-import net.minecraft.level.level.levelgen.ChunkGenerator;
-import net.minecraft.level.level.levelgen.feature.structure.IStructurePieceType;
-import net.minecraft.level.level.levelgen.feature.structure.StructurePiece;
-import net.minecraft.level.level.levelgen.feature.structure.StructureStart;
-import net.minecraft.level.level.levelgen.feature.template.TemplateManager;
 
 public abstract class MapGenOreDistribution extends MapGenStructure implements IOreDistribution
 {
@@ -257,7 +253,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 		this._settingMap.set(this, settingName, value);
 	}
 
-	public synchronized void generate(ILevel world, int chunkX, int chunkZ)
+	public synchronized void generate(LevelAccessor world, int chunkX, int chunkZ)
 	{
 		if (this._canGenerate && this._valid)
 		{
@@ -270,14 +266,14 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 		}
 	}
 
-	public synchronized void populate(ILevel world, int chunkX, int chunkZ)
+	public synchronized void populate(LevelAccessor world, int chunkX, int chunkZ)
 	{
 		if (this._canGenerate && this._valid)
 		{
-			Random random = new Random(world.getSeed());
+			RandomSource random = new Random(world.getServer().getWorldData().worldGenOptions().seed());
 			long xSeed = random.nextLong() >> 3;
 			long zSeed = random.nextLong() >> 3;
-			random.setSeed(xSeed * (long)chunkX + zSeed * (long)chunkZ ^ world.getSeed() ^ this.seed);
+			random.setSeed(xSeed * (long)chunkX + zSeed * (long)chunkZ ^ world.getServer().getWorldData().worldGenOptions().seed() ^ this.seed);
 			this.generateStructuresInChunk(world, random, chunkX, chunkZ);
 		}
 	}
@@ -342,7 +338,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 	}
 
 	@Override
-	public GeometryStream getDebuggingGeometry(ILevel world, int chunkX, int chunkZ)
+	public GeometryStream getDebuggingGeometry(LevelAccessor world, int chunkX, int chunkZ)
 	{
 		if (this._canGenerate && this._valid)
 		{
@@ -452,7 +448,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 	// FIXME: copy-and-pasted this from MapGenBase, because MapGenStructure now declares recursiveGenerate as 'final'. 
 	// We worked around this by renaming to recursiveGenerate2, which is called by this method. 
 	@Override
-	public void generate(ILevel par2Level, int par3, int par4, ChunkPrimer primer)
+	public void generate(LevelAccessor par2Level, int par3, int par4, ChunkPrimer primer)
 	{
 		int k = 0;//this.range;
 		this.level = par2Level;
@@ -472,7 +468,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 		}
 	}
 
-	protected void recursiveGenerate2(ILevel world, int chunkX, int chunkZ, int rootX, int rootZ, ChunkPrimer primer)
+	protected void recursiveGenerate2(LevelAccessor world, int chunkX, int chunkZ, int rootX, int rootZ, ChunkPrimer primer)
 	{
 		if (this.parent != null)
 		{
@@ -505,10 +501,10 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 		int blockZ = chunkZ << 4;
 		boolean canSpawn = false;
 		if (this._canGenerate && this._valid) {
-			if (this.frequency.getMax(this.level.getLevel(), blockX, blockZ) >= 1.0F) {
+			if (this.frequency.getMax(this.world, blockX, blockZ) >= 1.0F) {
 				canSpawn = true; 
 			} else {
-				canSpawn = this.frequency.getIntValue(super.rand, this.level.getLevel(), blockX, blockZ) == 1;
+				canSpawn = this.frequency.getIntValue(super.rand, this.world, blockX, blockZ) == 1;
 			}
 		}
 		return canSpawn;
@@ -518,8 +514,8 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 	{
 		int blockX = chunkX << 4;
 		int blockZ = chunkZ << 4;
-		int count = this.frequency.getMax(this.level.getLevel(), blockX, blockZ) >= 1.0F ? 
-				this.frequency.getIntValue(super.rand, this.level.getLevel(), blockX, blockZ) : 1;
+		int count = this.frequency.getMax(this.world, blockX, blockZ) >= 1.0F ? 
+				this.frequency.getIntValue(super.rand, this.world, blockX, blockZ) : 1;
 				StructureGroup group = new StructureGroup(chunkX, chunkZ, count);
 				group.newerGroup = null;
 				group.olderGroup = this.newestGroup;
@@ -536,9 +532,9 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 				return group;
 	}
 
-	public abstract Component generateStructure(StructureGroup structureGroup, Random rand);
+	public abstract Component generateStructure(StructureGroup structureGroup, RandomSource rand);
 
-	private boolean generateStructuresInChunk(ILevel world, Random random, int chunkX, int chunkZ)
+	private boolean generateStructuresInChunk(LevelAccessor world, RandomSource random, int chunkX, int chunkZ)
 	{
 		if (this._canGenerate && this._valid)
 		{
@@ -570,7 +566,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 		}
 	}
 
-	public BlockPos getNearestStructure(ILevel world, BlockPos pos)
+	public BlockPos getNearestStructure(LevelAccessor world, BlockPos pos)
 	{
 		if (this._canGenerate && this._valid)
 		{
@@ -636,7 +632,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
 			for (int i = 0; i < structureCount; ++i)
 			{
-				Random random = new Random(rand.nextLong());
+				RandomSource random = new Random(rand.nextLong());
 
 				if (MapGenOreDistribution.this.generateStructure(this, random) != null)
 				{
@@ -688,17 +684,17 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 			}
 		}
 
-		public boolean canPlaceComponentAt(int componentType, float x, float y, float z, Random random)
+		public boolean canPlaceComponentAt(int componentType, float x, float y, float z, RandomSource random)
 		{
-			int iX = MathHelper.floor(x);
-			int iY = MathHelper.floor(y);
-			int iZ = MathHelper.floor(z);
+			int iX = Mth.floor(x);
+			int iY = Mth.floor(y);
+			int iZ = Mth.floor(z);
 
 			BlockPos pos = new BlockPos(iX, iY, iZ);
 
 			if (componentType == 0)
 			{
-				Biome dist = world.getBiome(pos);
+				Biome dist = world.getBiome(pos).get();
 
 				if (dist != null && !biomes.matchesBiome(dist, random))
 				{
@@ -745,7 +741,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 		}
 
 		@Override
-		public void generateStructure(ILevel world, Random random, MutableBoundingBox bounds, ChunkPos pos)
+		public void generateStructure(LevelAccessor world, RandomSource random, MutableBoundingBox bounds, ChunkPos pos)
 		{
 			int oldCompleteComponents = this.completeComponents;
 			super.generateStructure(world, random, bounds, pos);
@@ -790,27 +786,27 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 		public long populatedBlocks;
 		public long placedBlocks;
 
-		public Component(StructureGroup structureGroup)
+		public Component(StructureGroup structureGroup, BoundingBox boundingBox)
 		{
-			super(IStructurePieceType.BTP,0);//TODO: need a structure piece type
+			super(StructurePieceType.BURIED_TREASURE_PIECE, 0, boundingBox);//TODO: need a structure piece type
 			this.populatedBlocks = 0L;
 			this.placedBlocks = 0L;
 			this.structureGroup = structureGroup;
 		}
 
 		@Override
-		public boolean addComponentParts(ILevel worldIn, Random randomIn, MutableBoundingBox bounds, ChunkPos pos)
+		public boolean addComponentParts(LevelAccessor worldIn, RandomSource randomIn, MutableBoundingBox bounds, ChunkPos pos)
 		{
-			int sizeX = Math.min(bounds.maxX, super.boundingBox.maxX) - Math.max(bounds.minX, super.boundingBox.minX) + 1;
-			int sizeY = Math.min(bounds.maxY, super.boundingBox.maxY) - Math.max(bounds.minY, super.boundingBox.minY) + 1;
-			int sizeZ = Math.min(bounds.maxZ, super.boundingBox.maxZ) - Math.max(bounds.minZ, super.boundingBox.minZ) + 1;
+			int sizeX = Math.min(bounds.maxX, super.boundingBox.maxX()) - Math.max(bounds.minX, super.boundingBox.minX()) + 1;
+			int sizeY = Math.min(bounds.maxY, super.boundingBox.maxY()) - Math.max(bounds.minY, super.boundingBox.minY()) + 1;
+			int sizeZ = Math.min(bounds.maxZ, super.boundingBox.maxZ()) - Math.max(bounds.minZ, super.boundingBox.minZ()) + 1;
 
 			if (sizeX > 0 && sizeY > 0 && sizeZ > 0)
 			{
 				this.populatedBlocks += (long)(sizeX * sizeY * sizeZ);
-				sizeX = super.boundingBox.maxX - super.boundingBox.minX + 1;
-				sizeY = Math.min(world.getHeight() - 1, super.boundingBox.maxY) - Math.max(0, super.boundingBox.minY) + 1;
-				sizeZ = super.boundingBox.maxZ - super.boundingBox.minZ + 1;
+				sizeX = super.boundingBox.maxX() - super.boundingBox.minX() + 1;
+				sizeY = Math.min(world.getHeight() - 1, super.boundingBox.maxY()) - Math.max(0, super.boundingBox.minY()) + 1;
+				sizeZ = super.boundingBox.maxZ() - super.boundingBox.minZ() + 1;
 				long totalVolume = (long)(sizeX * sizeY * sizeZ);
 
 				if (this.populatedBlocks == totalVolume && this.structureGroup != null)
@@ -829,7 +825,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 			}
 		}
 
-		public boolean attemptPlaceBlock(ILevel world, Random random, int x, int y, int z, MutableBoundingBox bounds)
+		public boolean attemptPlaceBlock(LevelAccessor world, RandomSource random, int x, int y, int z, MutableBoundingBox bounds)
 		{
 			BlockPos pos = new BlockPos(x, y, z);
 			if (!bounds.isVecInside(pos))
@@ -850,11 +846,11 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 					}
 					else
 					{
-						boolean placed = world.setBlockState(pos, match.getBlockState(), 2);
+						boolean placed = world.setBlock(pos, match.getBlockState(), 2);
 
 						if (placed)
 						{
-							TileEntityHelper.readFromPartialNBT(world.getLevel(), x, y, z, match.getNBT());
+							BlockEntityHelper.readFromPartialNBT(world, x, y, z, match.getNBT());
 							++this.placedBlocks;
 							++MapGenOreDistribution.this.placedBlocks;
 						}
@@ -924,14 +920,14 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 
 	@Override
 	public BlockPos getNearestStructurePos(Level worldIn, BlockPos pos, boolean findUnexplored) {
-		this.level = worldIn;
+		this.world = worldIn;
 		this.initializeStructureData(worldIn);
-		this.rand.setSeed(worldIn.getSeed());
+		this.rand.setSeed(worldIn.getServer().getWorldData().worldGenOptions().seed());
 		long i = this.rand.nextLong();
 		long j = this.rand.nextLong();
 		long k = (long)(pos.getX() >> 4) * i;
 		long l = (long)(pos.getZ() >> 4) * j;
-		this.rand.setSeed(k ^ l ^ worldIn.getSeed());
+		this.rand.setSeed(k ^ l ^ worldIn.getServer().getWorldData().worldGenOptions().seed());
 		this.recursiveGenerate(worldIn, pos.getX() >> 4, pos.getZ() >> 4, 0, 0, (ChunkPrimer)null);
 		double d0 = Double.MAX_VALUE;
 		BlockPos blockpos = null;

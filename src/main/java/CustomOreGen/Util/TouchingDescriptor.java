@@ -1,8 +1,9 @@
 package CustomOreGen.Util;
 
 import java.util.HashSet;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 
 public class TouchingDescriptor {
     BlockDescriptor blockDescriptor;

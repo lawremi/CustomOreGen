@@ -17,13 +17,13 @@ import CustomOreGen.CustomPacketPayload.PayloadType;
 import CustomOreGen.Config.ConfigParser;
 import CustomOreGen.Server.ServerState;
 //import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
+//import net.minecraft.command.CommandException;
 //import net.minecraft.command.ICommandSender;
 //import net.minecraft.command.SyntaxErrorException;
-import net.minecraft.level.entity.Entity;
+//import net.minecraft.level.entity.Entity;
 //import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 //import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.level.Level;
 //import net.minecraft.level.level.LevelServer;
@@ -60,12 +60,12 @@ public class ConsoleCommand //extends CommandBase
         }
         else
         {
-            if (!(sender instanceof TileEntity))
+            if (!(sender instanceof BlockEntity))
             {
                 return null;
             }
 
-            entityLevel = ((TileEntity)sender).getLevel();
+            entityLevel = ((BlockEntity)sender).getLevel();
         }
 
         if (entityLevel == null)

@@ -8,9 +8,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.GeometryData;
@@ -19,26 +18,28 @@ import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.SimpleProfiler;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.client.gui.components.tabs.TabNavigationBar;
 import net.minecraft.client.gui.screens.worldselection.CreateWorldScreen;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.LiteralContents;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.chunk.ChunkStatus;
+import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 import net.minecraft.world.level.storage.WorldData;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 public class ServerState
 {
     private static MinecraftServer _server = null;
-    private static Map<Level,WorldConfig> _worldConfigs = new HashMap<Level, WorldConfig>();
+    private static Map<LevelAccessor,WorldConfig> _worldConfigs = new HashMap<LevelAccessor, WorldConfig>();
     private static Button _optionsGuiButton = null;
     private static boolean forcingChunk;
 
-    public static WorldConfig getWorldConfig(Level world)
+    public static WorldConfig getWorldConfig(LevelAccessor world)
     {
         WorldConfig cfg = _worldConfigs.get(world);
 
@@ -46,7 +47,7 @@ public class ServerState
         {
             try
             {
-                cfg = new WorldConfig(world);
+            	cfg = new WorldConfig(world);
                 validateOptions(cfg.getConfigOptions(), true);
                 validateDistributions(cfg.getOreDistributions(), true);
             }
@@ -123,7 +124,7 @@ public class ServerState
     }
 
     // TODO: add force option; if true then we will generate even when there is no version
-    public static void populateDistributions(Collection<IOreDistribution> distributions, Level world, int chunkX, int chunkZ)
+    public static void populateDistributions(Collection<IOreDistribution> distributions, LevelAccessor world, int chunkX, int chunkZ)
     {
         SimpleProfiler.globalProfiler.startSection("Populate");
         
@@ -145,13 +146,13 @@ public class ServerState
         {
             return null;
         }
-        else if (request.level == null)
+        else if (request.world == null)
         {
             return null;
         }
         else
         {
-            WorldConfig cfg = getWorldConfig(request.level);
+            WorldConfig cfg = getWorldConfig(request.world);
 
             if (!cfg.debuggingMode)
             {
@@ -163,8 +164,8 @@ public class ServerState
 
                 for (IOreDistribution dist : cfg.getOreDistributions())
                 {
-                    dist.generate(request.level, request.chunkX, request.chunkZ);
-                    GeometryStream stream = dist.getDebuggingGeometry(request.level, request.chunkX, request.chunkZ);
+                    dist.generate(request.world, request.chunkX, request.chunkZ);
+                    GeometryStream stream = dist.getDebuggingGeometry(request.world, request.chunkX, request.chunkZ);
 
                     if (stream != null)
                     {
@@ -178,7 +179,7 @@ public class ServerState
         }
     }
 
-    public static void onPopulateChunk(WorldConfig cfg, ILevel world, int chunkX, int chunkZ, Random rand) {
+    public static void onPopulateChunk(WorldConfig cfg, LevelAccessor world, int chunkX, int chunkZ, RandomSource rand) {
     	int range = (cfg.deferredPopulationRange + 15) / 16;
     	//for (int iX = chunkX - range; iX <= chunkX + range; ++iX)
         {
@@ -193,7 +194,8 @@ public class ServerState
         }
     }
 
-    private static boolean allNeighborsPopulated(ILevel world, int chunkX, int chunkZ, int range) {
+    @SuppressWarnings("unused")
+	private static boolean allNeighborsPopulated(LevelAccessor world, int chunkX, int chunkZ, int range) {
     	int area = 4 * range * (range + 1) + 1;
     	int neighborCount = 0;
         for (int iX = chunkX - range; iX <= chunkX + range; ++iX)
@@ -210,8 +212,8 @@ public class ServerState
 		return neighborCount == area; 
 	}
 
-	private static boolean chunkHasBeenPopulated(ILevel world, int chunkX, int chunkZ) {
-		return world.getChunk(chunkX, chunkZ).getStatus().isAtLeast(ChunkStatus.FEATURES);
+	private static boolean chunkHasBeenPopulated(LevelAccessor world, int chunkX, int chunkZ) {
+		return world.getChunk(chunkX, chunkZ).getStatus().isOrAfter(ChunkStatus.FEATURES);
 	}
 
 	public static boolean checkIfServerChanged(MinecraftServer currentServer, WorldData worldInfo)
@@ -224,23 +226,7 @@ public class ServerState
         {
             if (currentServer != null && worldInfo == null)
             {
-                if (currentServer.getLevels()== null)
-                {
-                    return false;
-                }
-
-                for (ServerLevel world : currentServer.getLevels()) {
-                    if (world != null)
-                    {
-                        worldInfo = world.getLevelInfo();
-                    }
-
-                    if (worldInfo != null)
-                    {
-                        break;
-                    }                	
-                }
-                
+            	worldInfo = currentServer.getWorldData();
             }
 
             if (worldInfo == null)
@@ -253,14 +239,14 @@ public class ServerState
         }
     }
 
-    public static void onServerChanged(MinecraftServer server, LevelInfo worldInfo)
+    public static void onServerChanged(MinecraftServer server, WorldData worldInfo)
     {
         _worldConfigs.clear();
         WorldConfig.loadedOptionOverrides[1] = WorldConfig.loadedOptionOverrides[2] = null;
 
         _server = server;
         CustomOreGenBase.log.debug("Server world changed to " + worldInfo.getLevelName());
-        File f = new File(_server.getLevel(DimensionType.OVERWORLD).getSaveHandler().getLevelDirectory().getAbsolutePath());
+		File f = new File(_server.getLevel( Level.OVERWORLD).getSaveHandler().getLevelDirectory().getAbsolutePath());
         WorldConfig config = null;
 
         while (config == null)

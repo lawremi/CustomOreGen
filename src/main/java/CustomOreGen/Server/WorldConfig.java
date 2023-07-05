@@ -27,8 +27,8 @@ import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.CIStringMap;
 import CustomOreGen.Util.MapCollection;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.FlatLevelSource;
 import net.minecraft.world.level.storage.WorldData;
@@ -37,7 +37,7 @@ public class WorldConfig
 {
 	@SuppressWarnings("unchecked")
 	public static Collection<ConfigOption>[] loadedOptionOverrides = new Collection[3];
-    public final Level world;
+    public final LevelAccessor world;
     public final WorldData worldInfo;
     public final File globalConfigDir;
     public final File worldBaseDir;
@@ -58,7 +58,7 @@ public class WorldConfig
     {
         try
         {
-            return new WorldConfig((File)null, (WorldData)null, (File)null, (Level)null, (File)null);
+            return new WorldConfig((File)null, (WorldData)null, (File)null, (LevelAccessor)null, (File)null);
         }
         catch (Exception var1)
         {
@@ -68,20 +68,20 @@ public class WorldConfig
 
     public WorldConfig() throws IOException, ParserConfigurationException, SAXException
     {
-        this(CustomOreGenBase.getConfigDir(), (WorldData)null, (File)null, (Level)null, (File)null);
+        this(CustomOreGenBase.getConfigDir(), (WorldData)null, (File)null, (LevelAccessor)null, (File)null);
     }
 
     public WorldConfig(WorldData worldInfo, File worldBaseDir) throws IOException, ParserConfigurationException, SAXException
     {
-        this(CustomOreGenBase.getConfigDir(), worldInfo, worldBaseDir, (Level)null, (File)null);
+        this(CustomOreGenBase.getConfigDir(), worldInfo, worldBaseDir, (LevelAccessor)null, (File)null);
     }
 
-    public WorldConfig(Level world) throws IOException, ParserConfigurationException, SAXException
+    public WorldConfig(LevelAccessor world) throws IOException, ParserConfigurationException, SAXException
     {
         this(CustomOreGenBase.getConfigDir(), (WorldData)null, (File)null, world, (File)null);
     }
 
-    private WorldConfig(File globalConfigDir, WorldData worldInfo, File worldBaseDir, Level world, File dimensionDir) throws IOException, ParserConfigurationException, SAXException
+    private WorldConfig(File globalConfigDir, WorldData worldInfo, File worldBaseDir, LevelAccessor world2, File dimensionDir) throws IOException, ParserConfigurationException, SAXException
     {
         this.deferredPopulationRange = 0;
         this.debuggingMode = false;
@@ -92,29 +92,29 @@ public class WorldConfig
         this.worldProperties = new CIStringMap<Object>(new LinkedHashMap<String, Object>());
         this.biomeSets = new CIStringMap<BiomeDescriptor>();
 
-        if (world != null)
+        if (world2 != null)
         {
-            if (world instanceof ServerLevel)
+            if (world2 instanceof ServerLevelAccessor)
             {
-                worldBaseDir = ((ServerLevel)world).getSaveHandler().getLevelDirectory();
+                worldBaseDir = ((ServerLevelAccessor)world2).getSaveHandler().getLevelDirectory();
             }
             else
             {
                 worldBaseDir = null;
             }
 
-            dimensionDir = world.dimension().getType().getDirectory(worldBaseDir);
+            dimensionDir = world2.dimensionType().getDirectory(worldBaseDir);
             if (Objects.equal(dimensionDir, worldBaseDir)) {
             	dimensionDir = new File(worldBaseDir, "DIM0");
             	if (!dimensionDir.exists())
                 	dimensionDir.mkdir();
             }
-            worldInfo = ((ServerLevel)world).getWorldData();
+            worldInfo = ((ServerLevelAccessor)world2).getServer().getWorldData();
         }
         
-        this.world = world;
+        this.world = world2;
         this.worldInfo = worldInfo;
-        populateworldProperties(this.worldProperties, world, worldInfo);
+        populateworldProperties(this.worldProperties, world2, worldInfo);
         this.worldBaseDir = worldBaseDir;
         this.dimensionDir = dimensionDir;
         this.globalConfigDir = globalConfigDir;
@@ -189,7 +189,7 @@ public class WorldConfig
             if (optionsFile != null)
             {
             	putOptions(this.configOptions.values(), this.loadedOptions);
-            	if (world != null) {
+            	if (world2 != null) {
             		Map<String,String> dimLevelOptions = setdiffOptions(this.loadedOptions, saveLevelOptions);
             		loadOptions(optionsFile, loadedOptionOverrides[2], dimLevelOptions);
             		saveOptions(optionsFile, dimLevelOptions);
@@ -298,7 +298,7 @@ public class WorldConfig
         return -1;
     }
 
-    private static void populateworldProperties(Map<String,Object> properties, Level world, WorldData worldInfo)
+    private static void populateworldProperties(Map<String,Object> properties, LevelAccessor world2, WorldData worldInfo)
     {
         properties.put("world", worldInfo == null ? "" : worldInfo.getLevelName());
         properties.put("world.seed", worldInfo == null ? 0L : worldInfo.worldGenOptions().seed());
@@ -313,7 +313,7 @@ public class WorldConfig
         //String genName = "RandomLevelSource";
         //String genClass = "ChunkProviderOverworld";
 
-        if (world != null)
+        if (world2 != null)
         {
 
             //ChunkGenerator<? extends GenerationSettings> chunkGenerator = world.getChunkProvider().getChunkGenerator();
@@ -341,13 +341,13 @@ public class WorldConfig
 
         //properties.put("dimension.generator", genName);
         //properties.put("dimension.generator.class", genClass);
-        properties.put("dimension", world == null ? "" : world.dimension().location().getPath());
-        properties.put("dimension.id", world == null ? 0 : world.dimension().location());
-        properties.put("dimension.isSurface", world == null ? false : world.dimensionType().hasSkyLight());
-        properties.put("dimension.hasNoSky", world == null ? false : !world.dimensionType().hasSkyLight());
-        properties.put("dimension.groundLevel", world == null ? 0 : world.getSeaLevel());
-        properties.put("dimension.actualHeight", world == null ? 0 : world.getMaxBuildHeight());
-        properties.put("dimension.height", world == null ? 0 : world.getHeight());
+        properties.put("dimension", world2 == null ? "" : world2.dimensionType().effectsLocation().getPath());
+        properties.put("dimension.id", world2 == null ? 0 : world2.dimensionType().effectsLocation());
+        properties.put("dimension.isSurface", world2 == null ? false : world2.dimensionType().hasSkyLight());
+        properties.put("dimension.hasNoSky", world2 == null ? false : world2.dimensionType().hasCeiling());
+        properties.put("dimension.groundLevel", world2 == null ? 0 : world2.getSeaLevel());
+        properties.put("dimension.actualHeight", world2 == null ? 0 : world2.getMaxBuildHeight());
+        properties.put("dimension.height", world2 == null ? 0 : world2.getHeight());
         properties.put("age", false);
     }
 

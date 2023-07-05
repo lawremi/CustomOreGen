@@ -1,6 +1,6 @@
 package CustomOreGen.Util;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class NoiseGenerator
 {
@@ -15,7 +15,7 @@ public class NoiseGenerator
 
     public NoiseGenerator() {}
 
-    public NoiseGenerator(Random random)
+    public NoiseGenerator(RandomSource random)
     {
         if (random != null)
         {
