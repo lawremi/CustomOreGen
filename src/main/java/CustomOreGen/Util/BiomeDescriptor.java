@@ -6,343 +6,353 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import net.minecraft.util.RandomSource;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.mojang.datafixers.util.Pair;
+
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderGetter;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Climate.Parameter;
+import net.minecraft.world.level.biome.Climate.ParameterPoint;
+import net.minecraft.world.level.biome.MultiNoiseBiomeSourceParameterList;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 {
-    protected LinkedList<Descriptor> _descriptors = new LinkedList<Descriptor>();
-    protected Map<ResourceLocation,Float> _matches = new Hashtable<ResourceLocation, Float>();
-    protected boolean _compiled = false;
-    
-    private String name;
+	protected LinkedList<Descriptor> _descriptors = new LinkedList<Descriptor>();
+	protected Map<ResourceLocation,Float> _matches = new Hashtable<ResourceLocation, Float>();
+	protected boolean _compiled = false;
 
-    public BiomeDescriptor()
-    {
-        this.clear();
-    }
+	private String name;
 
-    public BiomeDescriptor(String descriptor)
-    {
-        this.set(descriptor);
-    }
-    
-    public void copyFrom(BiomeDescriptor source)
-    {
-        this._descriptors = new LinkedList<Descriptor>(source._descriptors);
-        this._matches = new Hashtable<ResourceLocation,Float>(source._matches);
-        this._compiled = source._compiled;
-    }
-    
-    public String getName() {
-    	return name;
-    }
-    
-    public void setName(String name) {
-    	this.name = name;
-    }
-    
-    public BiomeDescriptor set(String descriptor)
-    {
-        this.clear();
-
-        if (descriptor != null)
-        {
-            this.add(descriptor);
-        }
-
-        return this;
-    }
-
-    public BiomeDescriptor add(String descriptor)
-    {
-        return this.add(descriptor, 1.0F);
-    }
-
-    public BiomeDescriptor add(String descriptor, float weight)
-    {
-        return this.add(descriptor, 1.0F, new BiomeRestriction(), false);
-    }
-    
-    public BiomeDescriptor add(String descriptor, float weight, BiomeRestriction climate, boolean describesType)
-    {
-        if (descriptor != null && weight != 0.0F)
-        {
-            this._compiled = false;
-            this._descriptors.add(new Descriptor(descriptor, weight, climate, describesType));
-        }
-
-        return this;
-    }
-    
-    public BiomeDescriptor addAll(BiomeDescriptor descriptor, float weight) {
-    	this._compiled = false;
-    	if (weight == 1.0F) {
-    		this._descriptors.addAll(descriptor._descriptors);
-    	} else {
-    		for (Descriptor desc : descriptor._descriptors) {
-    			add(desc.description, desc.weight * weight, desc.climate, desc.describesType);
-    		}
-    	}
-    	return this;
+	public BiomeDescriptor()
+	{
+		this.clear();
 	}
 
-    public BiomeDescriptor clear()
-    {
-        this._compiled = false;
-        this._descriptors.clear();
-        return this;
-    }
+	public BiomeDescriptor(String descriptor)
+	{
+		this.set(descriptor);
+	}
 
-    public List<Descriptor> getDescriptors()
-    {
-        return Collections.unmodifiableList(this._descriptors);
-    }
+	public void copyFrom(BiomeDescriptor source)
+	{
+		this._descriptors = new LinkedList<Descriptor>(source._descriptors);
+		this._matches = new Hashtable<ResourceLocation,Float>(source._matches);
+		this._compiled = source._compiled;
+	}
 
-    protected void add(Biome biome, float weight)
-    {
-        if (biome != null && weight != 0.0F)
-        {
-            Float currentValue = this._matches.get(ForgeRegistries.BIOMES.getKey(biome));
+	public String getName() {
+		return name;
+	}
 
-            if (currentValue != null)
-            {
-                weight += currentValue.floatValue();
-            }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-            this._matches.put(ForgeRegistries.BIOMES.getKey(biome), weight);
-        }
-    }
+	public BiomeDescriptor set(String descriptor)
+	{
+		this.clear();
 
-    protected float matchingWeight(Biome biome)
-    {
-        float totalWeight = 0.0F;
-        
-        String name = ForgeRegistries.BIOMES.getKey(biome).toString();
-        
-        for (Descriptor desc : this._descriptors) {
-            Matcher matcher;
-            if (!desc.climate.isCompatible(biome))
-            	continue;
-            
-            if (desc.describesType) {
-            	// TODO: the biome dictionary "type" system functionally does not exist any more
-            	// net.minecraftforge.common.BiomeManager is the closest thing
-            	
-            	//BiomeDictionary.Type type = BiomeDictionary.Type.getType(desc.description);
+		if (descriptor != null)
+		{
+			this.add(descriptor);
+		}
+
+		return this;
+	}
+
+	public BiomeDescriptor add(String descriptor)
+	{
+		return this.add(descriptor, 1.0F);
+	}
+
+	public BiomeDescriptor add(String descriptor, float weight)
+	{
+		return this.add(descriptor, 1.0F, new BiomeRestriction(), false);
+	}
+
+	public BiomeDescriptor add(String descriptor, float weight, BiomeRestriction climate, boolean describesType)
+	{
+		if (descriptor != null && weight != 0.0F)
+		{
+			this._compiled = false;
+			this._descriptors.add(new Descriptor(descriptor, weight, climate, describesType));
+		}
+
+		return this;
+	}
+
+	public BiomeDescriptor addAll(BiomeDescriptor descriptor, float weight) {
+		this._compiled = false;
+		if (weight == 1.0F) {
+			this._descriptors.addAll(descriptor._descriptors);
+		} else {
+			for (Descriptor desc : descriptor._descriptors) {
+				add(desc.description, desc.weight * weight, desc.climate, desc.describesType);
+			}
+		}
+		return this;
+	}
+
+	public BiomeDescriptor clear()
+	{
+		this._compiled = false;
+		this._descriptors.clear();
+		return this;
+	}
+
+	public List<Descriptor> getDescriptors()
+	{
+		return Collections.unmodifiableList(this._descriptors);
+	}
+
+	protected void add(Biome biome, float weight)
+	{
+		if (biome != null && weight != 0.0F)
+		{
+			Float currentValue = this._matches.get(ForgeRegistries.BIOMES.getKey(biome));
+
+			if (currentValue != null)
+			{
+				weight += currentValue.floatValue();
+			}
+
+			this._matches.put(ForgeRegistries.BIOMES.getKey(biome), weight);
+		}
+	}
+
+	protected float matchingWeight(Biome biome)
+	{
+		float totalWeight = 0.0F;
+
+		String name = ForgeRegistries.BIOMES.getKey(biome).toString();
+
+		for (Descriptor desc : this._descriptors) {
+			Matcher matcher;
+			if (!desc.climate.isCompatible(biome))
+				continue;
+
+			if (desc.describesType) {
+				// TODO: the biome dictionary "type" system functionally does not exist any more
+				// net.minecraftforge.common.BiomeManager is the closest thing
+
+				//BiomeDictionary.Type type = BiomeDictionary.Type.getType(desc.description);
 				//if (BiomeDictionary.hasType(biome, type))
-            	//{
-            	//	totalWeight += desc.weight;
-            	//}
-            } else {
-            	if (name != null)
-            	{
-            		matcher = desc.getPattern().matcher(name);
+					//{
+					//	totalWeight += desc.weight;
+					//}
+			} else {
+				if (name != null)
+				{
+					matcher = desc.getPattern().matcher(name);
 
-            		if (matcher.matches())
-            		{
-            			totalWeight += desc.weight;
-            		}
-            	}
-            }
-        }
-        return totalWeight;
-    }
+					if (matcher.matches())
+					{
+						totalWeight += desc.weight;
+					}
+				}
+			}
+		}
+		return totalWeight;
+	}
 
-    protected void compileMatches()
-    {
-        if (!this._compiled)
-        {
-            this._compiled = true;
-            this._matches.clear();
-            
-            for (Biome biome : ForgeRegistries.BIOMES) {
-                if (biome != null)
-                {
-                	this.add(biome, this.matchingWeight(biome));
-                }
-            }
-        }
-    }
-    
-    public float getWeight(Biome biome)
-    {
-        this.compileMatches();
-        Float value = this._matches.get(ForgeRegistries.BIOMES.getKey(biome));
-        return value == null ? 0.0F : value.floatValue();
-    }
+	protected void compileMatches()
+	{
+		if (!this._compiled)
+		{
+			this._compiled = true;
+			this._matches.clear();
 
-    public boolean matchesBiome(Biome biome, RandomSource rand)
-    {
-        float weight = this.getWeight(biome);
+			for (Biome biome : ForgeRegistries.BIOMES) {
+				if (biome != null)
+				{
+					this.add(biome, this.matchingWeight(biome));
+				}
+			}
+		}
+	}
 
-        if (weight <= 0.0F)
-        {
-            return false;
-        }
-        else if (weight < 1.0F)
-        {
-            if (rand == null)
-            {
-                rand = RandomSource.create();
-            }
+	public float getWeight(Biome biome)
+	{
+		this.compileMatches();
+		Float value = this._matches.get(ForgeRegistries.BIOMES.getKey(biome));
+		return value == null ? 0.0F : value.floatValue();
+	}
 
-            return rand.nextFloat() < weight;
-        }
-        else
-        {
-            return true;
-        }
-    }
+	public boolean matchesBiome(Biome biome, RandomSource rand)
+	{
+		float weight = this.getWeight(biome);
 
-    public Biome getMatchingBiome(RandomSource rand)
-    {
-        this.compileMatches();
-        float value = -1.0F;
-        
-        for (Entry<ResourceLocation,Float> entry : this._matches.entrySet()) {
-        	float weight = entry.getValue();
-            Biome biome = ForgeRegistries.BIOMES.getValue(entry.getKey());
+		if (weight <= 0.0F)
+		{
+			return false;
+		}
+		else if (weight < 1.0F)
+		{
+			if (rand == null)
+			{
+				rand = RandomSource.create();
+			}
 
-            if (weight > 0.0F)
-            {
-                if (weight >= 1.0F)
-                {
-                    return biome;
-                }
+			return rand.nextFloat() < weight;
+		}
+		else
+		{
+			return true;
+		}
+	}
 
-                if (value < 0.0F)
-                {
-                    if (rand == null)
-                    {
-                        rand = RandomSource.create();
-                    }
+	public Biome getMatchingBiome(RandomSource rand)
+	{
+		this.compileMatches();
+		float value = -1.0F;
 
-                    value = rand.nextFloat();
-                }
+		for (Entry<ResourceLocation,Float> entry : this._matches.entrySet()) {
+			float weight = entry.getValue();
+			Biome biome = ForgeRegistries.BIOMES.getValue(entry.getKey());
 
-                value -= weight;
+			if (weight > 0.0F)
+			{
+				if (weight >= 1.0F)
+				{
+					return biome;
+				}
 
-                if (value < 0.0F)
-                {
-                    return biome;
-                }
-            }
+				if (value < 0.0F)
+				{
+					if (rand == null)
+					{
+						rand = RandomSource.create();
+					}
 
-        }
-        return null;
-    }
+					value = rand.nextFloat();
+				}
 
-    public float getTotalMatchWeight()
-    {
-        this.compileMatches();
-        float weight = 0.0F;
-        
-        for (Float val : this._matches.values()) {
-        	if (val.floatValue() > 0.0F)
-            {
-                weight += val.floatValue();
-            }
-        }
-        return weight;
-    }
+				value -= weight;
 
-    public String toString()
-    {
-        switch (this._descriptors.size())
-        {
-            case 0:
-                return "[no biomes]";
+				if (value < 0.0F)
+				{
+					return biome;
+				}
+			}
 
-            case 1:
-                return ((Descriptor)this._descriptors.get(0)).toString();
+		}
+		return null;
+	}
 
-            default:
-                return this._descriptors.toString();
-        }
-    }
+	public float getTotalMatchWeight()
+	{
+		this.compileMatches();
+		float weight = 0.0F;
 
-    public String[] toDetailedString()
-    {
-        this.compileMatches();
-        String[] breakdown = new String[this._matches.size() + 1];
-        breakdown[0] = this._matches.size() + " biome matches";
+		for (Float val : this._matches.values()) {
+			if (val.floatValue() > 0.0F)
+			{
+				weight += val.floatValue();
+			}
+		}
+		return weight;
+	}
 
-        if (this._matches.size() > 0)
-        {
-            breakdown[0] = breakdown[0] + ':';
-        }
+	public String toString()
+	{
+		switch (this._descriptors.size())
+		{
+		case 0:
+			return "[no biomes]";
 
-        int i = 1;
+		case 1:
+			return ((Descriptor)this._descriptors.get(0)).toString();
 
-        for (Entry<ResourceLocation,Float> entry : this._matches.entrySet()) {
-        	float weight = entry.getValue();
-            Biome biome = ForgeRegistries.BIOMES.getValue(entry.getKey());
+		default:
+			return this._descriptors.toString();
+		}
+	}
 
-            if (biome == null)
-            {
-                breakdown[i] = "[??]";
-            }
-            else
-            {
-                breakdown[i] = ForgeRegistries.BIOMES.getKey(biome).toString();
-            }
+	public String[] toDetailedString()
+	{
+		this.compileMatches();
+		String[] breakdown = new String[this._matches.size() + 1];
+		breakdown[0] = this._matches.size() + " biome matches";
 
-            breakdown[i] = breakdown[i] + " - " + weight;
-            ++i;
-        }
-        
-        return breakdown;
-    }
+		if (this._matches.size() > 0)
+		{
+			breakdown[0] = breakdown[0] + ':';
+		}
 
-    private static class Descriptor
-    {
-        public final String description;
-        public final float weight;
-        public final BiomeRestriction climate;
-        public final boolean describesType;
-        private Pattern pattern = null;
+		int i = 1;
 
-        public Descriptor(String description, float weight, BiomeRestriction climate, boolean describesType)
-        {
-            this.description = description;
-            this.weight = weight;
+		for (Entry<ResourceLocation,Float> entry : this._matches.entrySet()) {
+			float weight = entry.getValue();
+			Biome biome = ForgeRegistries.BIOMES.getValue(entry.getKey());
+
+			if (biome == null)
+			{
+				breakdown[i] = "[??]";
+			}
+			else
+			{
+				breakdown[i] = ForgeRegistries.BIOMES.getKey(biome).toString();
+			}
+
+			breakdown[i] = breakdown[i] + " - " + weight;
+			++i;
+		}
+
+		return breakdown;
+	}
+
+	private static class Descriptor
+	{
+		public final String description;
+		public final float weight;
+		public final BiomeRestriction climate;
+		public final boolean describesType;
+		private Pattern pattern = null;
+
+		public Descriptor(String description, float weight, BiomeRestriction climate, boolean describesType)
+		{
+			this.description = description;
+			this.weight = weight;
 			this.climate = climate;
-            this.describesType = describesType;
-        }
+			this.describesType = describesType;
+		}
 
-        public Pattern getPattern()
-        {
-            if (this.pattern == null)
-            {
-                this.pattern = Pattern.compile(this.description, Pattern.CASE_INSENSITIVE);
-            }
+		public Pattern getPattern()
+		{
+			if (this.pattern == null)
+			{
+				this.pattern = Pattern.compile(this.description, Pattern.CASE_INSENSITIVE);
+			}
 
-            return this.pattern;
-        }
+			return this.pattern;
+		}
 
-        public String toString()
-        {
-            return this.description + " - " + Float.toString(this.weight);
-        }
-    }
-    
-    public static class BiomeRestriction {
-    	public final float minTemperature, maxTemperature;
-        public final float minRainfall, maxRainfall;
-        public final float minDepth, maxDepth;
-        public final float minScale, maxScale;
-        
-        public BiomeRestriction(float minTemperature, float maxTemperature, float minRainfall, float maxRainfall,
-        		float minDepth, float maxDepth, float minScale, float maxScale) {
-        	this.minTemperature = minTemperature;
+		public String toString()
+		{
+			return this.description + " - " + Float.toString(this.weight);
+		}
+	}
+
+	public static class BiomeRestriction {
+		public final float minTemperature, maxTemperature;
+		public final float minRainfall, maxRainfall;
+		public final float minDepth, maxDepth;
+		public final float minScale, maxScale;
+
+		public BiomeRestriction(float minTemperature, float maxTemperature, float minRainfall, float maxRainfall,
+				float minDepth, float maxDepth, float minScale, float maxScale) {
+			this.minTemperature = minTemperature;
 			this.maxTemperature = maxTemperature;
 			this.minRainfall = minRainfall;
 			this.maxRainfall = maxRainfall;
@@ -350,20 +360,57 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 			this.maxDepth = maxDepth;
 			this.minScale = minScale;
 			this.maxScale = maxScale;
-        }
-        
-        public BiomeRestriction() {
-        	this.minTemperature = this.minRainfall = this.minDepth = this.minScale = Float.NEGATIVE_INFINITY;
-			this.maxTemperature = this.maxRainfall = this.maxDepth = this.maxScale = Float.POSITIVE_INFINITY;
-        }
-        
-        public boolean isCompatible(Biome biome) {
-			return biome.getBaseTemperature() >= minTemperature && biome.getBaseTemperature() <= maxTemperature &&
-				   biome.getModifiedClimateSettings().downfall() >= minRainfall && biome.getModifiedClimateSettings().downfall() <= maxRainfall &&
-				   biome.getDepth() >= minDepth && biome.getDepth() <= maxDepth &&
-				   biome.getScale() >= minScale && biome.getScale() <= maxScale;
 		}
-        
-    }
 
+		public BiomeRestriction() {
+			this.minTemperature = this.minRainfall = this.minDepth = this.minScale = Float.NEGATIVE_INFINITY;
+			this.maxTemperature = this.maxRainfall = this.maxDepth = this.maxScale = Float.POSITIVE_INFINITY;
+		}
+
+		public boolean isCompatible(Biome biome) {
+			return biome.getBaseTemperature() >= minTemperature && biome.getBaseTemperature() <= maxTemperature &&
+					biome.getModifiedClimateSettings().downfall() >= minRainfall && biome.getModifiedClimateSettings().downfall() <= maxRainfall &&
+					getDepth(biome) >= minDepth && getDepth(biome) <= maxDepth &&
+					getScale(biome) >= minScale && getScale(biome) <= maxScale;
+		}
+	}
+	
+	public static ParameterPoint getParameters(Biome biome) {
+		RegistryAccess.Frozen registryaccess$frozen = RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY);
+		HolderGetter<Biome> holdergetter = registryaccess$frozen.lookup(Registries.BIOME).get();
+		MultiNoiseBiomeSourceParameterList par = new MultiNoiseBiomeSourceParameterList(MultiNoiseBiomeSourceParameterList.Preset.OVERWORLD, holdergetter);
+		
+		for(Pair<ParameterPoint, Holder<Biome>> val : par.parameters().values()) {
+			if(val.getSecond().get() == biome) {
+				return val.getFirst();
+			}
+		}
+		return null;
+	}
+
+	public static float getDepth(Biome biome) {
+		Parameter depth = getParameters(biome).depth();
+		return (depth.min() + depth.max()) / 2;
+	}
+
+	public static float getScale(Biome biome) {
+		Parameter cont = getParameters(biome).continentalness();
+		Parameter eros = getParameters(biome).erosion();
+		float contAvg = (cont.max() + cont.min()) / 2f;
+		float erosAvg = 1 - ((eros.max() + eros.min()) / 2f);
+		return (contAvg + erosAvg) / 2f;
+	}
+
+	// TODO: this is random BS math
+	public static int getHeight(Biome biome, int sea, int rootHeight) {
+		ParameterPoint p = getParameters(biome);
+		if(p == null) return sea;
+		Parameter depth = p.depth();
+		Parameter cont = p.continentalness();
+		Parameter eros = p.erosion();
+		float contAvg = (cont.max() + cont.min()) / 2f;
+		float erosAvg = 1 - ((eros.max() + eros.min()) / 2f);
+		float depthAvg = (depth.max() + depth.min()) / 2f;
+		return Mth.floor(((contAvg + erosAvg) / 2 * rootHeight) + (depthAvg * sea));
+	}
 }

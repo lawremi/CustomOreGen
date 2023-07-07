@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import net.minecraft.util.RandomSource;
 import java.util.function.Consumer;
 
 import CustomOreGen.CustomOreGenBase;
@@ -18,16 +17,17 @@ import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.SimpleProfiler;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.navigation.ScreenAxis;
 import net.minecraft.client.gui.screens.worldselection.CreateWorldScreen;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.LiteralContents;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.ChunkStatus;
-import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 import net.minecraft.world.level.storage.WorldData;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -133,7 +133,7 @@ public class ServerState
         for (IOreDistribution dist : distributions) {
         	System.out.println(dist.toString());
         	dist.generate(world, chunkX, chunkZ);
-            dist.populate(world, chunkX, chunkZ);
+        	dist.populate((WorldGenLevel)world, chunkX, chunkZ);
             dist.cull();
         }
         
@@ -246,7 +246,7 @@ public class ServerState
 
         _server = server;
         CustomOreGenBase.log.debug("Server world changed to " + worldInfo.getLevelName());
-		File f = new File(_server.getLevel( Level.OVERWORLD).getSaveHandler().getLevelDirectory().getAbsolutePath());
+		/*File f = new File(_server.getLevel( Level.OVERWORLD).getSaveHandler().getLevelDirectory().getAbsolutePath());
         WorldConfig config = null;
 
         while (config == null)
@@ -266,7 +266,7 @@ public class ServerState
 
                 config = null;
             }
-        }
+        }*/
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -293,8 +293,12 @@ public class ServerState
             
             if (!buttonList.contains(button1))
             {
-            	button1.setX(gui.width - button1.getWidth() / 2);
-            	button1.setY(165);
+            	int n = gui.children().size();
+            	
+            	GuiEventListener b = gui.children().get(n-1);
+            	
+            	button1.setX(b.getRectangle().getCenterInAxis(ScreenAxis.HORIZONTAL));
+            	button1.setY(b.getRectangle().bottom() + 1);
                 add.accept(button1);
             }
         }
@@ -302,10 +306,28 @@ public class ServerState
     
     @OnlyIn(Dist.CLIENT)
     public static void updateOptionsButtonVisibility(CreateWorldScreen gui) {
+    	net.minecraft.client.gui.components.tabs.TabNavigationBar tabBar = (net.minecraft.client.gui.components.tabs.TabNavigationBar)gui.renderables.get(0);
+    	int j = 0;
+    	for(GuiEventListener child : tabBar.children()) {
+    		net.minecraft.client.gui.components.TabButton tb = ((net.minecraft.client.gui.components.TabButton)child);
+    		if(tb.isFocused()) {
+    			break;
+    		}
+    		j++;
+    	}
+    	
+    	GuiEventListener b = gui.children().get(0);
+    	
+    	_optionsGuiButton.setX(b.getRectangle().getCenterInAxis(ScreenAxis.HORIZONTAL) - _optionsGuiButton.getWidth()/2);
+    	
+    	b = gui.children().get(gui.children().size() - 1);
+    	
+    	_optionsGuiButton.setY(b.getRectangle().bottom() + 1);
+        
     	//TabNavigationBar bar;
     	//bar.getFocused().getTabOrderGroup()
     	
-    	_optionsGuiButton.visible = true;//!(Boolean)ObfuscationReflectionHelper.getPrivateValue(CreateWorldScreen.class, gui, "inMoreLevelOptionsDisplay");
+    	_optionsGuiButton.visible = j == 1;//!(Boolean)ObfuscationReflectionHelper.getPrivateValue(CreateWorldScreen.class, gui, "inMoreLevelOptionsDisplay");
     }
     
 	public static void chunkForced(Level world, ChunkPos location) {

@@ -1,32 +1,27 @@
 package CustomOreGen.Server;
 
 import java.util.Map;
-import net.minecraft.util.RandomSource;
 
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
 import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockArrangement;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.BlockDescriptor.BlockInfo;
-import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.BlockEntityHelper;
+import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.TouchingDescriptorList;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.SpikeConfiguration;
 
 /*
  * TODO:
@@ -165,7 +160,7 @@ public class SubstitutionFeature extends Feature<NoneFeatureConfiguration> imple
         this.placedBlocks = 0L;
         this._valid = false;
         this.name = "Substitute_" + distributionID;
-        this.seed = (new Random((long)distributionID)).nextLong();
+        this.seed = (RandomSource.create((long)distributionID)).nextLong();
         this._canGenerate = canGenerate;
     }
 

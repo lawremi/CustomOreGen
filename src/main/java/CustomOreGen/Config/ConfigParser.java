@@ -7,7 +7,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import net.minecraft.util.RandomSource;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -35,6 +34,7 @@ import CustomOreGen.Server.WorldConfig;
 import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.CIStringMap;
+import net.minecraft.util.RandomSource;
 
 public class ConfigParser
 {
@@ -126,7 +126,7 @@ public class ConfigParser
         }
         else
         {
-            this.rng = new Random(this.target.worldInfo.worldGenOptions().seed());
+            this.rng = RandomSource.create(this.target.worldInfo.worldGenOptions().seed());
             this.rng.nextInt();
         }
 

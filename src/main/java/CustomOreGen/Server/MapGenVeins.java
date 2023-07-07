@@ -1,7 +1,5 @@
 package CustomOreGen.Server;
 
-import net.minecraft.util.RandomSource;
-
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
 import CustomOreGen.Util.HeightScaledPDist;
 import CustomOreGen.Util.IGeometryBuilder;
@@ -13,9 +11,13 @@ import CustomOreGen.Util.VolumeHelper;
 import CustomOreGen.Util.WireframeShapes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
 
 public class MapGenVeins extends MapGenOreDistribution
 {
@@ -143,13 +145,13 @@ public class MapGenVeins extends MapGenOreDistribution
         return super.validate();
     }
 
-    public Component generateStructure(StructureGroup structureGroup, RandomSource random)
+    public Component generateStructure(StructureStart structureGroup, RandomSource random)
     {
-        float mlX = (random.nextFloat() + (float)structureGroup.getChunkPosX()) * 16.0F;
-        float mlZ = (random.nextFloat() + (float)structureGroup.getChunkPosZ()) * 16.0F;
+        float mlX = (random.nextFloat() + (float)structureGroup.getChunkPos().x) * 16.0F;
+        float mlZ = (random.nextFloat() + (float)structureGroup.getChunkPos().z) * 16.0F;
         float mlY = this.mlHeight.getValue(random, this.world, mlX, mlZ) + this.heightOffset.getValue(random);
         
-        if (!structureGroup.canPlaceComponentAt(0, mlX, mlY, mlZ, random))
+        if (/*!structureGroup.canPlaceComponentAt(0, mlX, mlY, mlZ, random)*/true)
         {
             return null;
         }
@@ -161,7 +163,8 @@ public class MapGenVeins extends MapGenOreDistribution
             mlMat.rotateY(random.nextFloat() * ((float)Math.PI * 2F));
             mlMat.scale(this.mlSize.getValue(random), this.mlSize.getValue(random), this.mlSize.getValue(random));
             SolidSphereComponent motherlode = new SolidSphereComponent(structureGroup, mlMat);
-            structureGroup.addComponent(motherlode, (Component)null);
+            
+            //structureGroup.addComponent(motherlode, (Component)null);
 
             for (int br = this.brFrequency.getIntValue(random); br > 0; --br)
             {
@@ -172,14 +175,14 @@ public class MapGenVeins extends MapGenOreDistribution
                 segMat.rotateX(-this.brInclination.getValue(brRandom));
                 float maxHeight = mlY + this.brHeightLimit.getValue(brRandom, this.world, mlX, mlZ);
                 float minHeight = mlY - this.brHeightLimit.getValue(brRandom, this.world, mlX, mlZ);
-                this.generateBranch(structureGroup, this.brLength.getValue(brRandom), maxHeight, minHeight, segMat, motherlode, brRandom);
+                //this.generateBranch(structureGroup, this.brLength.getValue(brRandom), maxHeight, minHeight, segMat, motherlode, brRandom);
             }
 
             return motherlode;
         }
     }
 
-    public void generateBranch(StructureGroup structureGroup, float length, float maxHeight, float minHeight, Transform mat, Component parent, RandomSource random)
+    public void generateBranch(StructureStart structureGroup, float length, float maxHeight, float minHeight, Transform mat, Component parent, RandomSource random)
     {
         float[] pos = new float[3];
 
@@ -209,7 +212,7 @@ public class MapGenVeins extends MapGenOreDistribution
                     component = new BezierTubeComponent(structureGroup, segMat);
             }
 
-            structureGroup.addComponent((Component)component, (Component)parent);
+            //structureGroup.addComponent((Component)component, (Component)parent);
             parent = component;
             mat.translate(0.0F, 0.0F, segLen);
             pos[0] = 0.0F;
@@ -222,7 +225,7 @@ public class MapGenVeins extends MapGenOreDistribution
                 return;
             }
 
-            if (!structureGroup.canPlaceComponentAt(((Component)component).getComponentType() + 1, pos[0], pos[1], pos[2], random))
+            if (/*!structureGroup.canPlaceComponentAt(((Component)component).getGenDepth() + 1, pos[0], pos[1], pos[2], random)*/true)
             {
                 return;
             }
@@ -234,7 +237,7 @@ public class MapGenVeins extends MapGenOreDistribution
 
             for (int axisTheta = this.sgForkFrequency.getIntValue(random); axisTheta > 0; --axisTheta)
             {
-                RandomSource fkRandom = new Random(random.nextLong());
+                RandomSource fkRandom = RandomSource.create(random.nextLong());
                 Transform fkMat = mat.clone();
                 float axisTheta1 = fkRandom.nextFloat() * ((float)Math.PI * 2F);
                 fkMat.rotate(this.sgAngle.getValue(fkRandom), Mth.cos(axisTheta1), Mth.sin(axisTheta1), 0.0F);
@@ -248,6 +251,11 @@ public class MapGenVeins extends MapGenOreDistribution
             mat.transform(rot);
         }
     }
+
+	@Override
+	public void populate(WorldGenLevel world, int chunkX, int chunkY) {
+		// TODO Auto-generated method stub
+	}
     
     private class BezierTubeComponent extends Component
     {
@@ -259,9 +267,9 @@ public class MapGenVeins extends MapGenOreDistribution
         protected final interpolationContext context;
         protected final Transform mat;
 
-        public BezierTubeComponent(StructureGroup structureGroup, Transform transform)
+        public BezierTubeComponent(StructureStart structureGroup, Transform transform)
         {
-            super(structureGroup);
+            super(structureGroup, new BoundingBox(0,0,0,0,0,0));
             this.mid = new float[] {0.0F, 0.0F, 0.0F};
             transform.transformVector(this.mid);
             this.end = new float[] {0.0F, 0.0F, 1.0F};
@@ -278,7 +286,7 @@ public class MapGenVeins extends MapGenOreDistribution
 
             float[] bb = new float[] { -rMax, -rMax, -1.0F, rMax, rMax, 1.0F};
             transform.transformBB(bb);
-            super.boundingBox = new MutableBoundingBox(Mth.floor(bb[0]), Mth.floor(bb[1]), Mth.floor(bb[2]), Mth.floor(bb[3]) + 1, Mth.floor(bb[4]) + 1, Mth.floor(bb[5]) + 1);
+            super.boundingBox = new BoundingBox(Mth.floor(bb[0]), Mth.floor(bb[1]), Mth.floor(bb[2]), Mth.floor(bb[3]) + 1, Mth.floor(bb[4]) + 1, Mth.floor(bb[5]) + 1);
             this.context = new interpolationContext();
             this.mat = transform.identity();
         }
@@ -299,12 +307,13 @@ public class MapGenVeins extends MapGenOreDistribution
 
                 float[] pos = new float[3];
                 this.interpolatePosition(pos, 0.5F);
-                MutableBoundingBox bb = new MutableBoundingBox(Mth.floor(pos[0] - rMax), Mth.floor(pos[1] - rMax), Mth.floor(pos[2] - rMax), Mth.floor(pos[0] + rMax) + 1, Mth.floor(pos[1] + rMax) + 1, Mth.floor(pos[2] + rMax) + 1);
-                super.boundingBox.expandTo(bb);
+                BoundingBox bb = new BoundingBox(Mth.floor(pos[0] - rMax), Mth.floor(pos[1] - rMax), Mth.floor(pos[2] - rMax), Mth.floor(pos[0] + rMax) + 1, Mth.floor(pos[1] + rMax) + 1, Mth.floor(pos[2] + rMax) + 1);
+                super.boundingBox.encapsulate(bb);
             }
         }
 
-        public void setParent(Component comp)
+        @SuppressWarnings("deprecation")
+		public void setParent(Component comp)
         {
             super.setParent(comp);
             this.prev = comp instanceof BezierTubeComponent ? (BezierTubeComponent)comp : null;
@@ -321,8 +330,8 @@ public class MapGenVeins extends MapGenOreDistribution
 
                 float[] pos = new float[3];
                 this.interpolatePosition(pos, t);
-                MutableBoundingBox bb = new MutableBoundingBox(Mth.floor(pos[0] - rMax), Mth.floor(pos[1] - rMax), Mth.floor(pos[2] - rMax), Mth.floor(pos[0] + rMax) + 1, Mth.floor(pos[1] + rMax) + 1, Mth.floor(pos[2] + rMax) + 1);
-                super.boundingBox.expandTo(bb);
+                BoundingBox bb = new BoundingBox(Mth.floor(pos[0] - rMax), Mth.floor(pos[1] - rMax), Mth.floor(pos[2] - rMax), Mth.floor(pos[0] + rMax) + 1, Mth.floor(pos[1] + rMax) + 1, Mth.floor(pos[2] + rMax) + 1);
+                super.boundingBox.encapsulate(bb);
             }
         }
 
@@ -381,7 +390,7 @@ public class MapGenVeins extends MapGenOreDistribution
         }
 
         @Override
-        public boolean addComponentParts(LevelAccessor world, RandomSource random, MutableBoundingBox bounds, ChunkPos cpos)
+        public boolean addComponentParts(LevelAccessor world, RandomSource random, BoundingBox bounds, ChunkPos cpos)
         {
             float maxR = orRadiusMult.getMax();
 
@@ -424,7 +433,7 @@ public class MapGenVeins extends MapGenOreDistribution
                     bb[4] = maxR;
                     bb[5] = 1.0F;
                     this.mat.transformBB(bb);
-                    boolean intersects = bb[3] >= (float)bounds.minX && bb[0] <= (float)bounds.maxX && bb[5] >= (float)bounds.minZ && bb[2] <= (float)bounds.maxZ && bb[4] >= (float)bounds.minY && bb[1] <= (float)bounds.maxY;
+                    boolean intersects = bb[3] >= (float)bounds.minX() && bb[0] <= (float)bounds.maxX() && bb[5] >= (float)bounds.minZ() && bb[2] <= (float)bounds.maxZ() && bb[4] >= (float)bounds.minY() && bb[1] <= (float)bounds.maxY();
 
                     if (intersects)
                     {
@@ -642,9 +651,9 @@ public class MapGenVeins extends MapGenOreDistribution
         protected final Transform mat;
         protected final Transform invMat;
 
-        public SolidSphereComponent(StructureGroup structureGroup, Transform transform)
+        public SolidSphereComponent(StructureStart structureGroup, Transform transform)
         {
-            super(structureGroup);
+            super(structureGroup, new BoundingBox(0,0,0,0,0,0));
             float rMax = orRadiusMult.getMax();
 
             if (rMax < 0.0F)
@@ -654,7 +663,7 @@ public class MapGenVeins extends MapGenOreDistribution
 
             float[] bb = new float[] { -rMax, -rMax, -rMax, rMax, rMax, rMax};
             transform.transformBB(bb);
-            super.boundingBox = new MutableBoundingBox(Mth.floor(bb[0]), Mth.floor(bb[1]), Mth.floor(bb[2]), Mth.floor(bb[3]) + 1, Mth.floor(bb[4]) + 1, Mth.floor(bb[5]) + 1);
+            super.boundingBox = new BoundingBox(Mth.floor(bb[0]), Mth.floor(bb[1]), Mth.floor(bb[2]), Mth.floor(bb[3]) + 1, Mth.floor(bb[4]) + 1, Mth.floor(bb[5]) + 1);
             this.mat = transform.clone();
 
             if (transform.determinant() != 0.0F)
@@ -668,7 +677,7 @@ public class MapGenVeins extends MapGenOreDistribution
         }
 
         @Override
-        public boolean addComponentParts(LevelAccessor world, RandomSource random, MutableBoundingBox bounds, ChunkPos cpos)
+        public boolean addComponentParts(LevelAccessor world, RandomSource random, BoundingBox bounds, ChunkPos cpos)
         {
             if (this.invMat == null)
             {
@@ -694,11 +703,11 @@ public class MapGenVeins extends MapGenOreDistribution
                 minR2 *= minR2;
                 float[] pos = new float[3];
 
-                for (int x = Math.max(super.boundingBox.minX, bounds.minX); x <= Math.min(super.boundingBox.maxX, bounds.maxX); ++x)
+                for (int x = Math.max(super.boundingBox.minX(), bounds.minX()); x <= Math.min(super.boundingBox.maxX(), bounds.maxX()); ++x)
                 {
-                    for (int y = Math.max(super.boundingBox.minY, bounds.minY); y <= Math.min(super.boundingBox.maxY, bounds.maxY); ++y)
+                    for (int y = Math.max(super.boundingBox.minY(), bounds.minY()); y <= Math.min(super.boundingBox.maxY(), bounds.maxY()); ++y)
                     {
-                        for (int z = Math.max(super.boundingBox.minZ, bounds.minZ); z <= Math.min(super.boundingBox.maxZ, bounds.maxZ); ++z)
+                        for (int z = Math.max(super.boundingBox.minZ(), bounds.minZ()); z <= Math.min(super.boundingBox.maxZ(), bounds.maxZ()); ++z)
                         {
                             pos[0] = (float)x + 0.5F;
                             pos[1] = (float)y + 0.5F;

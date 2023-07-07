@@ -1,7 +1,5 @@
 package CustomOreGen.Server;
 
-import net.minecraft.util.RandomSource;
-
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
 import CustomOreGen.Util.HeightScaledPDist;
 import CustomOreGen.Util.IGeometryBuilder;
@@ -13,10 +11,13 @@ import CustomOreGen.Util.VolumeHelper;
 import CustomOreGen.Util.WireframeShapes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
 
 public class MapGenClusters extends MapGenOreDistribution
 {
@@ -54,9 +55,14 @@ public class MapGenClusters extends MapGenOreDistribution
         return super.validate();
     }
 
-    public Component generateStructure(StructureGroup structureGroup, RandomSource random)
+	@Override
+	public void populate(WorldGenLevel world, int chunkX, int chunkY) {
+		
+	}
+
+    public Component generateStructure(StructureStart structureGroup, RandomSource random)
     {
-        float clX = (random.nextFloat() + (float)structureGroup.getChunkPosX()) * 16.0F;
+        /*float clX = (random.nextFloat() + (float)structureGroup.getChunkPosX()) * 16.0F;
         float clZ = (random.nextFloat() + (float)structureGroup.getChunkPosZ()) * 16.0F;
         float clY = this.clHeight.getValue(random, this.world, clX, clZ) + this.heightOffset.getValue(random);
         
@@ -69,19 +75,21 @@ public class MapGenClusters extends MapGenOreDistribution
             ClusterComponent cluster = new ClusterComponent(structureGroup, clX, clY, clZ, random);
             structureGroup.addComponent(cluster, (Component)null);
             return cluster;
-        }
+        }*/
+    	return null;
     }
     
-    private class ClusterComponent extends Component
+    @SuppressWarnings("unused")
+	private class ClusterComponent extends Component
     {
         protected final int size;
         protected final float[] ptA;
         protected final float[] ptB;
         protected final float[] rad;
 
-        public ClusterComponent(StructureGroup structureGroup, float x, float y, float z, RandomSource random)
+        public ClusterComponent(StructureStart structureGroup, float x, float y, float z, RandomSource random)
         {
-            super(structureGroup);
+            super(structureGroup, new BoundingBox((int)x, (int)y, (int)z, (int)x, (int)y, (int)z));
             this.size = Math.max(0, clSize.getIntValue(random));
             double horizAngle = (double)random.nextFloat() * Math.PI;
             this.ptA = new float[3];
@@ -94,7 +102,6 @@ public class MapGenClusters extends MapGenOreDistribution
             this.ptB[2] = z - segmentZOffset;
             this.ptA[1] = y + (float)random.nextInt(3) - 2.0F;
             this.ptB[1] = y + (float)random.nextInt(3) - 2.0F;
-            super.boundingBox = BoundingBox.fromCorners(getLocatorPosition(), getLocatorPosition());
             this.rad = new float[this.size + 1];
 
             for (int s = 0; s < this.rad.length; ++s)
@@ -105,17 +112,18 @@ public class MapGenClusters extends MapGenOreDistribution
                 float xCenter = this.ptA[0] + (this.ptB[0] - this.ptA[0]) * ns;
                 float yCenter = this.ptA[1] + (this.ptB[1] - this.ptA[1]) * ns;
                 float zCenter = this.ptA[2] + (this.ptB[2] - this.ptA[2]) * ns;
-                super.boundingBox.minX = Math.min(super.boundingBox.minX, Mth.floor(xCenter - this.rad[s]));
-                super.boundingBox.minY = Math.min(super.boundingBox.minY, Mth.floor(yCenter - this.rad[s]));
-                super.boundingBox.minZ = Math.min(super.boundingBox.minZ, Mth.floor(zCenter - this.rad[s]));
-                super.boundingBox.maxX = Math.max(super.boundingBox.maxX, Mth.ceil(xCenter + this.rad[s]));
-                super.boundingBox.maxY = Math.max(super.boundingBox.maxY, Mth.ceil(yCenter + this.rad[s]));
-                super.boundingBox.maxZ = Math.max(super.boundingBox.maxZ, Mth.ceil(zCenter + this.rad[s]));
+                int minX = Math.min(super.boundingBox.minX(), Mth.floor(xCenter - this.rad[s]));
+                int minY = Math.min(super.boundingBox.minY(), Mth.floor(yCenter - this.rad[s]));
+                int minZ = Math.min(super.boundingBox.minZ(), Mth.floor(zCenter - this.rad[s]));
+                int maxX = Math.max(super.boundingBox.maxX(), Mth.ceil(xCenter + this.rad[s]));
+                int maxY = Math.max(super.boundingBox.maxY(), Mth.ceil(yCenter + this.rad[s]));
+                int maxZ = Math.max(super.boundingBox.maxZ(), Mth.ceil(zCenter + this.rad[s]));
+                this.boundingBox = new BoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
             }
         }
 
         @Override
-        public boolean addComponentParts(LevelAccessor world, RandomSource random, MutableBoundingBox bounds, ChunkPos cpos)
+        public boolean addComponentParts(LevelAccessor world, RandomSource random, BoundingBox bounds, ChunkPos cpos)
         {
             for (int s = 0; s < this.rad.length; ++s)
             {
@@ -123,12 +131,12 @@ public class MapGenClusters extends MapGenOreDistribution
                 float xCenter = this.ptA[0] + (this.ptB[0] - this.ptA[0]) * ns;
                 float yCenter = this.ptA[1] + (this.ptB[1] - this.ptA[1]) * ns;
                 float zCenter = this.ptA[2] + (this.ptB[2] - this.ptA[2]) * ns;
-                int xMin = Math.max(Mth.floor(xCenter - this.rad[s]), bounds.minX);
-                int xMax = Math.min(Mth.floor(xCenter + this.rad[s]), bounds.maxX);
-                int yMin = Math.max(Mth.floor(yCenter - this.rad[s]), bounds.minY);
-                int yMax = Math.min(Mth.ceil(yCenter + this.rad[s]), bounds.maxY);
-                int zMin = Math.max(Mth.ceil(zCenter - this.rad[s]), bounds.minZ);
-                int zMax = Math.min(Mth.ceil(zCenter + this.rad[s]), bounds.maxZ);
+                int xMin = Math.max(Mth.floor(xCenter - this.rad[s]), bounds.minX());
+                int xMax = Math.min(Mth.floor(xCenter + this.rad[s]), bounds.maxX());
+                int yMin = Math.max(Mth.floor(yCenter - this.rad[s]), bounds.minY());
+                int yMax = Math.min(Mth.ceil(yCenter + this.rad[s]), bounds.maxY());
+                int zMin = Math.max(Mth.ceil(zCenter - this.rad[s]), bounds.minZ());
+                int zMax = Math.min(Mth.ceil(zCenter + this.rad[s]), bounds.maxZ());
 
                 for (int tgtX = xMin; tgtX <= xMax; ++tgtX)
                 {

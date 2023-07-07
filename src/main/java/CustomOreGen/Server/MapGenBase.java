@@ -1,9 +1,8 @@
 package CustomOreGen.Server;
 
 import net.minecraft.util.RandomSource;
-
-import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.chunk.ChunkAccess;
 
 public class MapGenBase
 {
@@ -14,7 +13,7 @@ public class MapGenBase
     /** This world object. */
     protected LevelAccessor world;
 
-    public void generate(LevelAccessor worldIn, int x, int z, WorldGenRegion primer)
+    public void generate(LevelAccessor worldIn, int x, int z, ChunkAccess primer)
     {
         int i = this.range;
         this.world = worldIn;
@@ -48,7 +47,7 @@ public class MapGenBase
     /**
      * Recursively called by generate()
      */
-    protected void recursiveGenerate(LevelAccessor worldIn, int chunkX, int chunkZ, int originalX, int originalZ, WorldGenRegion chunkPrimerIn)
+    protected void recursiveGenerate(LevelAccessor worldIn, int chunkX, int chunkZ, int originalX, int originalZ, ChunkAccess chunkPrimerIn)
     {
     }
 }

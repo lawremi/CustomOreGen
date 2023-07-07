@@ -27,11 +27,13 @@ import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.CIStringMap;
 import CustomOreGen.Util.MapCollection;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.FlatLevelSource;
+import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.level.storage.DimensionDataStorage;
 import net.minecraft.world.level.storage.WorldData;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 public class WorldConfig
 {
@@ -92,18 +94,17 @@ public class WorldConfig
         this.worldProperties = new CIStringMap<Object>(new LinkedHashMap<String, Object>());
         this.biomeSets = new CIStringMap<BiomeDescriptor>();
 
-        if (world2 != null)
+        if (world2 instanceof Level worldLv)
         {
-            if (world2 instanceof ServerLevelAccessor)
+            if (world2 instanceof ServerLevelAccessor sLevel)
             {
-                worldBaseDir = ((ServerLevelAccessor)world2).getSaveHandler().getLevelDirectory();
+            	worldBaseDir = ObfuscationReflectionHelper.getPrivateValue(DimensionDataStorage.class, sLevel.getLevel().getServer().overworld().getDataStorage(), "dataFolder");
             }
             else
             {
                 worldBaseDir = null;
             }
-
-            dimensionDir = world2.dimensionType().getDirectory(worldBaseDir);
+            DimensionType.getStorageFolder(worldLv.dimension(), worldBaseDir.toPath());
             if (Objects.equal(dimensionDir, worldBaseDir)) {
             	dimensionDir = new File(worldBaseDir, "DIM0");
             	if (!dimensionDir.exists())

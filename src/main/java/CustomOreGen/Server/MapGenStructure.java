@@ -1,7 +1,6 @@
 package CustomOreGen.Server;
 
 import java.util.Iterator;
-import net.minecraft.util.RandomSource;
 
 import javax.annotation.Nullable;
 
@@ -9,14 +8,14 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.level.chunk.ChunkPrimer;
-import net.minecraft.level.chunk.ChunkStatus;
-import net.minecraft.level.level.levelgen.feature.structure.StructurePiece;
-import net.minecraft.level.level.levelgen.feature.structure.StructureStart;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.ChunkStatus;
+import net.minecraft.world.level.levelgen.structure.StructurePiece;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
 
 public abstract class MapGenStructure extends MapGenBase
 {
@@ -32,7 +31,7 @@ public abstract class MapGenStructure extends MapGenBase
     /**
      * Recursively called by generate()
      */
-    protected final synchronized void recursiveGenerate(Level worldIn, final int chunkX, final int chunkZ, int originalX, int originalZ, ChunkPrimer chunkPrimerIn)
+    protected final synchronized void recursiveGenerate(Level worldIn, final int chunkX, final int chunkZ, int originalX, int originalZ, ChunkAccess chunkPrimerIn)
     {
         /*this.initializeStructureData(worldIn);
 
@@ -86,37 +85,37 @@ public abstract class MapGenStructure extends MapGenBase
 
     public synchronized boolean generateStructure(LevelAccessor worldIn, RandomSource randomIn, ChunkPos chunkCoord)
     {
-        this.initializeStructureData(world);
-        int i = (chunkCoord.x << 4) + 8;
-        int j = (chunkCoord.z << 4) + 8;
         boolean flag = false;
+        this.initializeStructureData(world);
+        /*int i = (chunkCoord.x << 4) + 8;
+        int j = (chunkCoord.z << 4) + 8;
         ObjectIterator<StructureStart> objectiterator = this.structureMap.values().iterator();
 
         while (objectiterator.hasNext())
         {
             StructureStart structurestart = objectiterator.next();
 
-            if (structurestart.isValid() && /*structurestart.isValidForPostProcess(chunkCoord) &&*/ structurestart.getBoundingBox().intersectsWith(i, j, i + 15, j + 15))
+            if (structurestart.isValid() && /*structurestart.isValidForPostProcess(chunkCoord) &&*/ /*structurestart.getBoundingBox().intersects(i, j, i + 15, j + 15))
             {
-                structurestart.generateStructure(world, randomIn, new MutableBoundingBox(i, j, i + 15, j + 15), chunkCoord);
+                structurestart.generateStructure(world, randomIn, BoundingBox.fromCorners(new Vec3i(i, 0, j), new Vec3i(i+15, 0, j+15)), chunkCoord);
                 //structurestart.notifyPostProcessAt(chunkCoord);
                 flag = true;
-                this.setStructureStart(structurestart.getChunkPosX(), structurestart.getChunkPosZ(), structurestart);
+                this.setStructureStart(structurestart.getChunkPos().x, structurestart.getChunkPos().z, structurestart);
             }
-        }
+        }*/
 
         return flag;
     }
 
     public boolean isInsideStructure(BlockPos pos)
     {
-        if (this.level == null)
+        if (this.world == null)
         {
             return false;
         }
         else
         {
-            this.initializeStructureData(this.level);
+            this.initializeStructureData(this.world);
             return this.getStructureAt(pos) != null;
         }
     }
@@ -131,9 +130,9 @@ public abstract class MapGenStructure extends MapGenBase
         {
             StructureStart structurestart = objectiterator.next();
 
-            if (structurestart.isValid() && structurestart.getBoundingBox().isVecInside(pos))
+            if (structurestart.isValid() && structurestart.getBoundingBox().isInside(pos))
             {
-                Iterator<StructurePiece> iterator = structurestart.getComponents().iterator();
+                Iterator<StructurePiece> iterator = structurestart.getPieces().iterator();
 
                 while (true)
                 {
@@ -144,7 +143,7 @@ public abstract class MapGenStructure extends MapGenBase
 
                     StructurePiece structurecomponent = iterator.next();
 
-                    if (structurecomponent.getBoundingBox().isVecInside(pos))
+                    if (structurecomponent.getBoundingBox().isInside(pos))
                     {
                         break;
                     }
@@ -166,7 +165,7 @@ public abstract class MapGenStructure extends MapGenBase
         {
             StructureStart structurestart = objectiterator.next();
 
-            if (structurestart.isValid() && structurestart.getBoundingBox().isVecInside(pos))
+            if (structurestart.isValid() && structurestart.getBoundingBox().isInside(pos))
             {
                 return true;
             }
@@ -183,11 +182,11 @@ public abstract class MapGenStructure extends MapGenBase
         
     }
 
-    private void setStructureStart(int chunkX, int chunkZ, StructureStart start)
+    /*private void setStructureStart(int chunkX, int chunkZ, StructureStart start)
     {
-        //this.structureData.writeInstance(start.writeStructureComponentsToNBT(chunkX, chunkZ), chunkX, chunkZ);
-        //this.structureData.markDirty();
-    }
+        this.structureData.writeInstance(start.writeStructureComponentsToNBT(chunkX, chunkZ), chunkX, chunkZ);
+        this.structureData.markDirty();
+    }*/
 
     protected abstract boolean canSpawnStructureAtCoords(int chunkX, int chunkZ);
 
@@ -199,7 +198,7 @@ public abstract class MapGenStructure extends MapGenBase
         int j = p_191069_2_.getZ() >> 4;
         int k = 0;
 
-        for (RandomSource random = new Random(); k <= p_191069_7_; ++k)
+        for (RandomSource random = RandomSource.create(); k <= p_191069_7_; ++k)
         {
             for (int l = -k; l <= k; ++l)
             {
@@ -226,7 +225,7 @@ public abstract class MapGenStructure extends MapGenBase
 
                         int l1 = j1 / p_191069_3_;
                         int i2 = k1 / p_191069_3_;
-                        RandomSource random1 = worldIn.rand;//worldIn.setRandomSeed(l1, i2, p_191069_5_);
+                        RandomSource random1 = worldIn.random;//worldIn.setRandomSeed(l1, i2, p_191069_5_);
                         l1 = l1 * p_191069_3_;
                         i2 = i2 * p_191069_3_;
 
@@ -241,12 +240,12 @@ public abstract class MapGenStructure extends MapGenBase
                             i2 = i2 + random1.nextInt(p_191069_3_ - p_191069_4_);
                         }
 
-                        MapGenBase.setupChunkSeed(worldIn.getSeed(), random, l1, i2);
+                        MapGenBase.setupChunkSeed(worldIn.getServer().getWorldData().worldGenOptions().seed(), random, l1, i2);
                         random.nextInt();
 
                         if (p_191069_1_.canSpawnStructureAtCoords(l1, i2))
                         {
-                            if (!findUnexplored || !worldIn.getChunk(l1, i2).getStatus().isAtLeast(ChunkStatus.FEATURES))
+                            if (!findUnexplored || !worldIn.getChunk(l1, i2).getStatus().isOrAfter(ChunkStatus.FEATURES))
                             {
                                 return new BlockPos((l1 << 4) + 8, 64, (i2 << 4) + 8);
                             }

@@ -297,7 +297,7 @@ public class ClientState
         }
 
         dgEnabled = true;
-        _dgScanCounter = (new Random()).nextInt(40);
+        _dgScanCounter = (RandomSource.create()).nextInt(40);
         ++_dgBatchID;
     }
 }

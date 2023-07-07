@@ -80,6 +80,14 @@ public abstract class ConfigOption
         return this._displayGroup;
     }
 
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof ConfigOption grp) {
+			return grp._name.equalsIgnoreCase(_name);
+		}
+		return super.equals(obj);
+	}
+
     public abstract Object getValue();
 
     public abstract boolean setValue(Object var1);

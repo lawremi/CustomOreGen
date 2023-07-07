@@ -2,19 +2,11 @@ package CustomOreGen.Server;
 
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
 import CustomOreGen.Util.HeightScaledPDist;
-import CustomOreGen.Util.IGeometryBuilder;
-import CustomOreGen.Util.IGeometryBuilder.PrimitiveType;
-import CustomOreGen.Util.NoiseGenerator;
 import CustomOreGen.Util.PDist;
 import CustomOreGen.Util.PDist.Type;
-import CustomOreGen.Util.Transform;
-import CustomOreGen.Util.WireframeShapes;
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
 
 public class MapGenCloud extends MapGenOreDistribution
 {
@@ -81,9 +73,9 @@ public class MapGenCloud extends MapGenOreDistribution
         return super.validate();
     }
 
-    public Component generateStructure(StructureGroup structureGroup, RandomSource random)
+    public Component generateStructure(StructureStart structureGroup, RandomSource random)
     {
-        float clX = (random.nextFloat() + (float)structureGroup.getChunkPosX()) * 16.0F;
+        /*float clX = (random.nextFloat() + (float)structureGroup.getChunkPosX()) * 16.0F;
         float clZ = (random.nextFloat() + (float)structureGroup.getChunkPosZ()) * 16.0F;
         float clY = this.clHeight.getValue(random, this.world, clX, clZ) + this.heightOffset.getValue(random);
         
@@ -103,10 +95,16 @@ public class MapGenCloud extends MapGenOreDistribution
             DiffuseCloudComponent cloud = new DiffuseCloudComponent(structureGroup, clMat, random);
             structureGroup.addComponent(cloud, (Component)null);
             return cloud;
-        }
+        }*/
+    	return null;
     }
+
+	@Override
+	public void populate(WorldGenLevel world, int chunkX, int chunkY) {
+		
+	}
     
-    private class DiffuseCloudComponent extends Component
+    /*private class DiffuseCloudComponent extends Component
     {
         protected final Transform mat;
         protected final Transform invMat;
@@ -173,11 +171,11 @@ public class MapGenCloud extends MapGenOreDistribution
                 minNoisyR2 *= minNoisyR2;
                 float[] pos = new float[3];
 
-                for (int x = Math.max(super.boundingBox.minX, bounds.minX); x <= Math.min(super.boundingBox.maxX, bounds.maxX); ++x)
+                for (int x = Math.max(super.boundingBox.minX(), bounds.minX()); x <= Math.min(super.boundingBox.maxX(), bounds.maxX); ++x)
                 {
-                    for (int y = Math.min(super.boundingBox.maxY, bounds.maxY); y >= Math.max(super.boundingBox.minY, bounds.minY); --y)
+                    for (int y = Math.min(super.boundingBox.maxY(), bounds.maxY); y >= Math.max(super.boundingBox.minY(), bounds.minY()); --y)
                     {
-                        for (int z = Math.max(super.boundingBox.minZ, bounds.minZ); z <= Math.min(super.boundingBox.maxZ, bounds.maxZ); ++z)
+                        for (int z = Math.max(super.boundingBox.minZ(), bounds.minZ()); z <= Math.min(super.boundingBox.maxZ(), bounds.maxZ); ++z)
                         {
                             pos[0] = (float)x + 0.5F;
                             pos[1] = (float)y + 0.5F;
@@ -319,6 +317,11 @@ public class MapGenCloud extends MapGenOreDistribution
     }
 
 	@Override
+	public BlockPos getNearestStructurePos(Level worldIn, BlockPos pos, boolean findUnexplored) {
+		return null;
+	}*/
+
+	@Override
 	public String getStructureName() {
 		return "COG:Cloud";
 	}
@@ -331,10 +334,5 @@ public class MapGenCloud extends MapGenOreDistribution
 		PDist simplex = new PDist(0.5F, 0.1F, Type.normal);
 		double aboveNoiseCutoff = (1 - simplex.cdf(this.orVolumeNoiseCutoff.mean));
 		return v * this.orDensity.pdist.mean * aboveNoiseCutoff;
-	}
-
-	@Override
-	public BlockPos getNearestStructurePos(Level worldIn, BlockPos pos, boolean findUnexplored) {
-		return null;
 	}
 }

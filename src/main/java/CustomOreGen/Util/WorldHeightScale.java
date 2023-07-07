@@ -4,6 +4,7 @@ import net.minecraft.world.level.LevelAccessor;
 
 public class WorldHeightScale implements HeightScale {
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public int getHeight(LevelAccessor world, int x, int z) {
 		/*if (world.provider.isSkyColored()) {
@@ -14,7 +15,6 @@ public class WorldHeightScale implements HeightScale {
 		
 		//if(world.dimensionType().hasCeiling()) { ? }
 		//return (int) world.getHeight();
-		
 		return world.getSeaLevel();
 	}
 
