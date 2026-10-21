@@ -43,7 +43,7 @@
         <OptionChoice name='ticoCobaltDist'  displayState=':= if(?enableTinkersConstruct, "shown", "hidden")' displayGroup='groupTinkersConstruct'>
           <Description> Controls how Cobalt is generated </Description>
           <DisplayName>Tinkers Construct Cobalt</DisplayName>
-          <IfCondition condition=':= (?blockExists("tconstruct:ore")) '>
+          <IfCondition condition=':= (?blockExists("tconstruct:cobalt_ore")) '>
 
           <Choice value='SmallDeposits' displayValue='Small Deposits'>
             <Description>
@@ -52,7 +52,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("tconstruct:ore")) '>
+          <IfCondition condition=':= (?blockExists("tconstruct:cobalt_ore")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -61,7 +61,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("tconstruct:ore")) '>
+          <IfCondition condition=':= (?blockExists("tconstruct:cobalt_ore")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -89,7 +89,7 @@
         <OptionChoice name='ticoArditeDist'  displayState=':= if(?enableTinkersConstruct, "shown", "hidden")' displayGroup='groupTinkersConstruct'>
           <Description> Controls how Ardite is generated </Description>
           <DisplayName>Tinkers Construct Ardite</DisplayName>
-          <IfCondition condition=':= (?blockExists("tconstruct:ore:1")) '>
+          <IfCondition condition=':= (?blockExists("tconstruct:ardite_ore")) '>
 
           <Choice value='SmallDeposits' displayValue='Small Deposits'>
             <Description>
@@ -98,7 +98,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("tconstruct:ore:1")) '>
+          <IfCondition condition=':= (?blockExists("tconstruct:ardite_ore")) '>
 
           <Choice value='StrategicClouds' displayValue='Strategic Clouds'>
             <Description>
@@ -107,7 +107,7 @@
           </Choice>
           </IfCondition>
 
-          <IfCondition condition=':= (?blockExists("tconstruct:ore:1")) '>
+          <IfCondition condition=':= (?blockExists("tconstruct:ardite_ore")) '>
 
           <Choice value='Vanilla' displayValue='Vanilla'>
             <Description>
@@ -139,7 +139,7 @@
 
       <!-- Nether Setup Beginning -->
 
-      <IfCondition condition=':= dimension = "Nether"'>
+      <IfCondition condition=':= dimension = "the_nether"'>
 
         <!-- Starting Original "Nether" Block Removal -->
 
@@ -153,8 +153,8 @@
                 The global option  deferredPopulationRange must be
                 large enough to catch all ore  clusters (>= 32).
               </Comment>
-              <Replaces block='tconstruct:ore' weight='1.0' />
-              <Replaces block='tconstruct:ore:1' weight='1.0' />
+              <Replaces block='tconstruct:cobalt_ore' weight='1.0' />
+              <Replaces block='tconstruct:ardite_ore' weight='1.0' />
             </Substitute>
           </IfCondition>
         </IfCondition>
@@ -173,7 +173,7 @@
                 Small motherlodes without any  branches.  Similar to
                 the  deposits produced by StandardGen  distributions.
               </Description>
-              <OreBlock block='tconstruct:ore' weight='1.0' />
+              <OreBlock block='tconstruct:cobalt_ore' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 1.084 * _default_ * ticoCobaltFreq ' range=':= 1.084 * _default_ * ticoCobaltFreq ' type='normal' scaleTo='base' />
@@ -213,7 +213,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='tconstruct:ore' weight='1.0' />
+              <OreBlock block='tconstruct:cobalt_ore' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='CloudRadius' avg=':= 0.995 * _default_ * ticoCobaltSize ' range=':= 0.995 * _default_ * ticoCobaltSize ' type='normal' />
@@ -241,10 +241,10 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='tconstruct:ore' weight='1.0' />
+                <OreBlock block='tconstruct:cobalt_ore' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
-                <ReplacesOre block='stone' weight='1.0' />
+                <ReplacesOre block='minecraft:stone_ore_replaceables' weight='1.0' />
                 <Replaces block='minecraft:gravel' weight='1.0' />
                 <Setting name='MotherlodeFrequency' avg=':= 1.084 * _default_ * ticoCobaltFreq  * 0.1 ' range=':= 1.084 * _default_ * ticoCobaltFreq  * 0.1 ' type='normal' scaleTo='base' />
               </Veins>
@@ -261,7 +261,7 @@
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='tconstruct:ore' weight='1.0' />
+              <OreBlock block='tconstruct:cobalt_ore' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='Size' avg=':= 2.0 * oreSize * ticoCobaltSize ' range=':= 1.0 * oreSize * ticoCobaltSize ' type='normal' />
@@ -286,7 +286,7 @@
                 Small motherlodes without any  branches.  Similar to
                 the  deposits produced by StandardGen  distributions.
               </Description>
-              <OreBlock block='tconstruct:ore:1' weight='1.0' />
+              <OreBlock block='tconstruct:ardite_ore' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='MotherlodeFrequency' avg=':= 1.084 * _default_ * ticoArditeFreq ' range=':= 1.084 * _default_ * ticoArditeFreq ' type='normal' scaleTo='base' />
@@ -326,7 +326,7 @@
                 permanent mining base and  spend some time actually
                 mining  the ore.
               </Description>
-              <OreBlock block='tconstruct:ore:1' weight='1.0' />
+              <OreBlock block='tconstruct:ardite_ore' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='CloudRadius' avg=':= 0.995 * _default_ * ticoArditeSize ' range=':= 0.995 * _default_ * ticoArditeSize ' type='normal' />
@@ -354,10 +354,10 @@
                   the frequency of  the parent distribution will
                   already be scaled by that.
                 </Description>
-                <OreBlock block='tconstruct:ore:1' weight='1.0' />
+                <OreBlock block='tconstruct:ardite_ore' weight='1.0' />
                 <Replaces block='minecraft:dirt' weight='1.0' />
                 <Replaces block='minecraft:sandstone' weight='1.0' />
-                <ReplacesOre block='stone' weight='1.0' />
+                <ReplacesOre block='minecraft:stone_ore_replaceables' weight='1.0' />
                 <Replaces block='minecraft:gravel' weight='1.0' />
                 <Setting name='MotherlodeFrequency' avg=':= 1.084 * _default_ * ticoArditeFreq  * 0.1 ' range=':= 1.084 * _default_ * ticoArditeFreq  * 0.1 ' type='normal' scaleTo='base' />
               </Veins>
@@ -374,7 +374,7 @@
               <Description>
                 A master preset for standardgen  ore distributions.
               </Description>
-              <OreBlock block='tconstruct:ore:1' weight='1.0' />
+              <OreBlock block='tconstruct:ardite_ore' weight='1.0' />
               <Replaces block='minecraft:netherrack' weight='1.0' />
               <Biome name='.*'  />
               <Setting name='Size' avg=':= 2.0 * oreSize * ticoArditeSize ' range=':= 1.0 * oreSize * ticoArditeSize ' type='normal' />

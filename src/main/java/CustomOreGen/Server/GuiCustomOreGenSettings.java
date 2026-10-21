@@ -156,18 +156,13 @@ public class GuiCustomOreGenSettings extends Screen
 		this._optionPanel = new GuiOptionSlot(Minecraft.getInstance(), visibleGroups1.isEmpty() ? 16 : 40, super.height - 30,  25, visibleOptions1, this);
 		//TODO: fix buttons
 		//this._optionPanel.registerScrollButtons(1, 2);
-		if(_doneButton == null) {
-			this._doneButton = Button.builder(makeComponent("Done"), this::actionPerformed)
-					.pos(super.width / 2 - 155, super.height - 24)
-					.size(150, 20).build();
-			this._resetButton = Button.builder(makeComponent("Defaults"), this::actionPerformed)
-					.pos(super.width / 2 +5, super.height - 24)
-					.size(150, 20).build();
-		}
-		else {
-			this.addWidget(_doneButton);
-			this.addWidget(_resetButton);
-		}
+		// Rebuilt on every init so they follow the current screen size; clearWidgets() above removed the old ones.
+		this._doneButton = this.addRenderableWidget(Button.builder(makeComponent("Done"), this::actionPerformed)
+				.pos(super.width / 2 - 155, super.height - 24)
+				.size(150, 20).build());
+		this._resetButton = this.addRenderableWidget(Button.builder(makeComponent("Defaults"), this::actionPerformed)
+				.pos(super.width / 2 +5, super.height - 24)
+				.size(150, 20).build());
 		this.repositionElements();
 	}
 	
@@ -244,7 +239,7 @@ public class GuiCustomOreGenSettings extends Screen
 	{
 		if (button == this._doneButton)
 		{
-			super.minecraft.forceSetScreen(_parentGui);
+			this.onClose();
 		}
 		else if (button == this._resetButton)
 		{
@@ -267,6 +262,12 @@ public class GuiCustomOreGenSettings extends Screen
 		{
 			this.init();
 		}
+	}
+
+	// Escape and Done both return to the screen that opened us (Create World), not to no screen.
+	@Override
+	public void onClose() {
+		super.minecraft.setScreen(_parentGui);
 	}
 
 	@Override

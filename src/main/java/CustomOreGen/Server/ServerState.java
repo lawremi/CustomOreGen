@@ -1,9 +1,9 @@
 package CustomOreGen.Server;
 
 import java.awt.Frame;
-import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,6 +15,8 @@ import CustomOreGen.GeometryData;
 import CustomOreGen.GeometryRequestData;
 import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.SimpleProfiler;
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
+import it.unimi.dsi.fastutil.longs.LongSet;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.navigation.ScreenAxis;
@@ -22,11 +24,12 @@ import net.minecraft.client.gui.screens.worldselection.CreateWorldScreen;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.LiteralContents;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.RandomSource;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.storage.WorldData;
 import net.minecraftforge.api.distmarker.Dist;
@@ -35,11 +38,28 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class ServerState
 {
     private static MinecraftServer _server = null;
-    private static Map<LevelAccessor,WorldConfig> _worldConfigs = new HashMap<LevelAccessor, WorldConfig>();
+    // Read from several worldgen threads at once.
+    private static Map<LevelAccessor,WorldConfig> _worldConfigs = new ConcurrentHashMap<LevelAccessor, WorldConfig>();
+    // Chunks whose FEATURES step has reached COG this session, per dimension. See onChunkFeaturesDone.
+    private static final Map<ServerLevel,LongSet> _featuresDone = new HashMap<ServerLevel, LongSet>();
+    private static int _populatedChunkCount = 0;
     private static Button _optionsGuiButton = null;
     private static boolean forcingChunk;
 
     public static WorldConfig getWorldConfig(LevelAccessor world)
+    {
+        WorldConfig cfg = _worldConfigs.get(world);
+        return cfg != null ? cfg : loadWorldConfig(world);
+    }
+
+    /** True if a config is already loaded for this world and it has debugging mode on. Never loads one. */
+    public static boolean isDebuggingMode(LevelAccessor world)
+    {
+        WorldConfig cfg = world == null ? null : _worldConfigs.get(world);
+        return cfg != null && cfg.debuggingMode;
+    }
+
+    private static synchronized WorldConfig loadWorldConfig(LevelAccessor world)
     {
         WorldConfig cfg = _worldConfigs.get(world);
 
@@ -131,7 +151,6 @@ public class ServerState
         // FIXME: Before 1.14, we were forcing instant block updates here. Not clear how to do that now.
         
         for (IOreDistribution dist : distributions) {
-        	System.out.println(dist.toString());
         	dist.generate(world, chunkX, chunkZ);
         	dist.populate((WorldGenLevel)world, chunkX, chunkZ);
             dist.cull();
@@ -179,42 +198,85 @@ public class ServerState
         }
     }
 
-    public static void onPopulateChunk(WorldConfig cfg, LevelAccessor world, int chunkX, int chunkZ, RandomSource rand) {
-    	int range = (cfg.deferredPopulationRange + 15) / 16;
-    	//for (int iX = chunkX - range; iX <= chunkX + range; ++iX)
+    /**
+     * Called from LevelGenFeature as the last feature of a chunk's FEATURES step, with that chunk's
+     * WorldGenRegion. This is COG's deferred population rule for 1.18+.
+     *
+     * During its FEATURES step a chunk may write into any chunk of its own 3x3, so a chunk's blocks are
+     * not final (vanilla and other mods' ore blobs can still spill into it) until every chunk in its 3x3
+     * has finished FEATURES. COG must run after that: Substitute distributions remove vanilla ore, and
+     * then COG places its own. So each chunk marks itself done here, then populates every chunk in its
+     * 3x3 whose whole 3x3 is now done. Exactly one chunk is the last of any given 3x3, so every chunk is
+     * populated exactly once; and it always happens before that chunk can light (LIGHT requires its 3x3
+     * at FEATURES), so before any player sees it.
+     *
+     * Population writes only into the chunk being populated, which is always within the generating
+     * chunk's 3x3 write area. Structure layout reaches further, but only reads the seed and generator.
+     */
+    public static void onChunkFeaturesDone(WorldGenLevel region, int chunkX, int chunkZ)
+    {
+        ServerLevel level = region.getLevel();
+        WorldConfig cfg = getWorldConfig(level);
+
+        // Serialized so that two chunks of the same 3x3 finishing at once cannot both miss being last.
+        synchronized (_featuresDone)
         {
-            //for (int iZ = chunkZ - range; iZ <= chunkZ + range; ++iZ)
+            LongSet done = _featuresDone.computeIfAbsent(level, k -> new LongOpenHashSet());
+            done.add(ChunkPos.asLong(chunkX, chunkZ));
+
+            for (int dX = -1; dX <= 1; ++dX)
             {
-            	//if (allNeighborsPopulated(world, iX, iZ, range))
-            	{
-            		//CustomOreGenBase.log.info("[" + iX + "," + iZ + "]: POPULATING");
-            		populateDistributions(cfg.getOreDistributions(), world, chunkX, chunkZ);
-            	}
+                for (int dZ = -1; dZ <= 1; ++dZ)
+                {
+                    if (neighborhoodFeaturesDone(region, done, chunkX + dX, chunkZ + dZ))
+                    {
+                        populateDistributions(cfg.getOreDistributions(), region, chunkX + dX, chunkZ + dZ);
+
+                        if (++_populatedChunkCount % 64 == 0)
+                        {
+                            logPopulationSummary(level, cfg);
+                        }
+                    }
+                }
             }
         }
     }
 
-    @SuppressWarnings("unused")
-	private static boolean allNeighborsPopulated(LevelAccessor world, int chunkX, int chunkZ, int range) {
-    	int area = 4 * range * (range + 1) + 1;
-    	int neighborCount = 0;
-        for (int iX = chunkX - range; iX <= chunkX + range; ++iX)
+    private static void logPopulationSummary(ServerLevel level, WorldConfig cfg)
+    {
+        StringBuilder sb = new StringBuilder();
+        for (IOreDistribution dist : cfg.getOreDistributions())
         {
-            for (int iZ = chunkZ - range; iZ <= chunkZ + range; ++iZ)
+            Object placed = dist.getDistributionSetting("placedBlocks");
+            if (placed instanceof Number n && n.longValue() > 0)
             {
-            	if (chunkHasBeenPopulated(world, iX, iZ)) 
-            	{
-            		//CustomOreGenBase.log.info("[" + iX + "," + iZ + "]: populated neighbor");
-            		neighborCount++;
-            	}
+                sb.append(' ').append(dist).append('=').append(n.longValue());
             }
         }
-		return neighborCount == area; 
-	}
+        CustomOreGenBase.log.debug("Populated " + _populatedChunkCount + " chunks (latest in " + level.dimension().location() + "); blocks placed:" + (sb.length() == 0 ? " none" : sb));
+    }
 
-	private static boolean chunkHasBeenPopulated(LevelAccessor world, int chunkX, int chunkZ) {
-		return world.getChunk(chunkX, chunkZ).getStatus().isOrAfter(ChunkStatus.FEATURES);
-	}
+    private static boolean neighborhoodFeaturesDone(WorldGenLevel region, LongSet done, int chunkX, int chunkZ)
+    {
+        for (int iX = chunkX - 1; iX <= chunkX + 1; ++iX)
+        {
+            for (int iZ = chunkZ - 1; iZ <= chunkZ + 1; ++iZ)
+            {
+                if (done.contains(ChunkPos.asLong(iX, iZ)))
+                {
+                    continue;
+                }
+                // Finished in an earlier session (or before this chunk's step began). The FEATURES region
+                // holds chunks out to 8 away, so these 5x5 lookups never leave it.
+                ChunkAccess chunk = region.getChunk(iX, iZ, ChunkStatus.EMPTY, false);
+                if (chunk == null || !chunk.getStatus().isOrAfter(ChunkStatus.FEATURES))
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
 	public static boolean checkIfServerChanged(MinecraftServer currentServer, WorldData worldInfo)
     {
@@ -242,6 +304,10 @@ public class ServerState
     public static void onServerChanged(MinecraftServer server, WorldData worldInfo)
     {
         _worldConfigs.clear();
+        synchronized (_featuresDone)
+        {
+            _featuresDone.clear();
+        }
         WorldConfig.loadedOptionOverrides[1] = WorldConfig.loadedOptionOverrides[2] = null;
 
         _server = server;

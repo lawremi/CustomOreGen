@@ -1,18 +1,21 @@
 package CustomOreGen.Client;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.IntBuffer;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Queue;
-import net.minecraft.util.RandomSource;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexBuffer;
+import com.mojang.blaze3d.vertex.VertexFormat;
 
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.CustomPacketPayload;
@@ -24,10 +27,15 @@ import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.GeometryStream.GeometryStreamException;
 import CustomOreGen.Util.IGeometryBuilder.PrimitiveType;
 import CustomOreGen.Util.Transform;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 
 public class ClientState
 {
@@ -36,12 +44,12 @@ public class ClientState
     private static Level _world = null;
     private static int _dgScanCounter = 0;
     private static int _dgBatchID = 0;
+    // Uploaded geometry per chunk; replaces the GL display lists used before 1.17 (core profile has none).
     @OnlyIn(Dist.CLIENT)
-    private static Map<Long,Integer> _dgListMap = new HashMap<Long, Integer>();
+    private static Map<Long,ChunkGeometry> _dgChunkGeometry = new HashMap<Long, ChunkGeometry>();
     @OnlyIn(Dist.CLIENT)
     private static Set<Long> _chunkDGRequests = new HashSet<Long>();
-    @OnlyIn(Dist.CLIENT)
-    private static IntBuffer _chunkDGListBuffer = null;
+    // Filled from the network thread's enqueued work, drained on the render thread.
     private static Queue<GeometryData> geometryDataQueue = new ConcurrentLinkedQueue<GeometryData>();
 	private static boolean clearDisplayLists;
 
@@ -53,111 +61,158 @@ public class ClientState
         WIREFRAMEOVERLAY;
     }
 
-    
-    public static void onRenderLevel(Entity cameraPOV, double partialTicks)
+    @OnlyIn(Dist.CLIENT)
+    private static class ChunkGeometry
     {
+    	final VertexBuffer lines;
+    	final VertexBuffer polygons;
+
+    	ChunkGeometry(VertexBuffer lines, VertexBuffer polygons)
+    	{
+    		this.lines = lines;
+    		this.polygons = polygons;
+    	}
+
+    	void close()
+    	{
+    		if (this.lines != null) this.lines.close();
+    		if (this.polygons != null) this.polygons.close();
+    	}
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static void onRenderLevel(RenderLevelStageEvent event)
+    {
+    	if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS)
+    	{
+    		return;
+    	}
+
     	if (clearDisplayLists) {
     		clearDebuggingDisplayLists();
     		clearDisplayLists = false;
     	}
+
         if (_world != null && dgEnabled && dgRenderingMode != null && dgRenderingMode != WireframeRenderMode.NONE)
         {
         	buildGeometryDisplayLists();
-	    
-            double posX = cameraPOV.xOld + (cameraPOV.getX() - cameraPOV.xOld) * partialTicks;
-            double posY = cameraPOV.yOld + (cameraPOV.getY() - cameraPOV.yOld) * partialTicks;
-            double posZ = cameraPOV.zOld + (cameraPOV.getZ() - cameraPOV.zOld) * partialTicks;
+        	Vec3 camera = event.getCamera().getPosition();
 
             if (_dgScanCounter == 0)
             {
                 _dgScanCounter = 60;
-                byte scanRange = 16;
-                int maxRequest = 50 - _chunkDGRequests.size() * 20;
-                int chunkX = (int)posX / 16;
-                int chunkZ = (int)posZ / 16;
-
-                for (int r = 0; maxRequest > 0 && r <= scanRange; ++r)
-                {
-                    int iX = chunkX - r;
-                    int iZ = chunkZ - r;
-
-                    for (int i = 0; maxRequest > 0 && i <= r * 8; ++i)
-                    {
-                        if (i < r * 2)
-                        {
-                            ++iX;
-                        }
-                        else if (i < r * 4)
-                        {
-                            ++iZ;
-                        }
-                        else if (i < r * 6)
-                        {
-                            --iX;
-                        }
-                        else if (i < r * 8)
-                        {
-                            --iZ;
-                        }
-                        else if (r != 0)
-                        {
-                            continue;
-                        }
-
-                        long key = (long)iX << 32 | (long)iZ & 4294967295L;
-
-                        if (!_dgListMap.containsKey(key) && _chunkDGRequests.add(key))
-                        {
-                        	GeometryRequestData request = new GeometryRequestData(_world, iX, iZ, _dgBatchID);
-                        	CustomPacketPayloadHandler.sendToServer(new CustomPacketPayload(PayloadType.DebuggingGeometryRequest, request));
-                            --maxRequest;
-                        }
-                    }
-                }
+                requestNearbyGeometry(camera);
             }
             else
             {
                 --_dgScanCounter;
             }
 
-            if (_chunkDGListBuffer != null)
+            if (!_dgChunkGeometry.isEmpty())
             {
-                GL11.glPushMatrix();
-                GL11.glTranslated(-posX, -posY, -posZ);
-                GL11.glDisable(GL11.GL_CULL_FACE);
-                GL11.glDisable(GL11.GL_TEXTURE_2D);
-                GL11.glEnable(GL11.GL_BLEND);
-                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-                if (dgRenderingMode == WireframeRenderMode.WIREFRAMEOVERLAY)
-                {
-                    GL11.glDisable(GL11.GL_DEPTH_TEST);
-                }
-
-                if (dgRenderingMode != WireframeRenderMode.POLYGON)
-                {
-                    GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
-                }
-
-                _chunkDGListBuffer.rewind();
-                GL11.glCallLists(_chunkDGListBuffer);
-
-                if (dgRenderingMode != WireframeRenderMode.POLYGON)
-                {
-                    GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
-                }
-
-                if (dgRenderingMode == WireframeRenderMode.WIREFRAMEOVERLAY)
-                {
-                    GL11.glEnable(GL11.GL_DEPTH_TEST);
-                }
-
-                GL11.glDisable(GL11.GL_BLEND);
-                GL11.glEnable(GL11.GL_TEXTURE_2D);
-                GL11.glEnable(GL11.GL_CULL_FACE);
-                GL11.glPopMatrix();
+            	drawGeometry(event.getPoseStack(), event.getProjectionMatrix(), camera);
             }
         }
+    }
+
+    private static void requestNearbyGeometry(Vec3 camera)
+    {
+    	byte scanRange = 16;
+    	int maxRequest = 50 - _chunkDGRequests.size() * 20;
+    	int chunkX = Mth.floor(camera.x) >> 4;
+    	int chunkZ = Mth.floor(camera.z) >> 4;
+
+    	for (int r = 0; maxRequest > 0 && r <= scanRange; ++r)
+    	{
+    		int iX = chunkX - r;
+    		int iZ = chunkZ - r;
+
+    		for (int i = 0; maxRequest > 0 && i <= r * 8; ++i)
+    		{
+    			if (i < r * 2)
+    			{
+    				++iX;
+    			}
+    			else if (i < r * 4)
+    			{
+    				++iZ;
+    			}
+    			else if (i < r * 6)
+    			{
+    				--iX;
+    			}
+    			else if (i < r * 8)
+    			{
+    				--iZ;
+    			}
+    			else if (r != 0)
+    			{
+    				continue;
+    			}
+
+    			long key = (long)iX << 32 | (long)iZ & 4294967295L;
+
+    			if (!_dgChunkGeometry.containsKey(key) && _chunkDGRequests.add(key))
+    			{
+    				GeometryRequestData request = new GeometryRequestData(_world, iX, iZ, _dgBatchID);
+    				CustomPacketPayloadHandler.sendToServer(new CustomPacketPayload(PayloadType.DebuggingGeometryRequest, request));
+    				--maxRequest;
+    			}
+    		}
+    	}
+    }
+
+    private static void drawGeometry(PoseStack poseStack, Matrix4f projection, Vec3 camera)
+    {
+    	poseStack.pushPose();
+    	poseStack.translate(-camera.x, -camera.y, -camera.z);
+    	Matrix4f modelView = poseStack.last().pose();
+    	ShaderInstance shader = GameRenderer.getPositionColorShader();
+
+    	RenderSystem.enableBlend();
+    	RenderSystem.defaultBlendFunc();
+    	RenderSystem.disableCull();
+    	RenderSystem.depthMask(false);
+
+    	if (dgRenderingMode == WireframeRenderMode.WIREFRAMEOVERLAY)
+    	{
+    		RenderSystem.disableDepthTest();
+    	}
+
+    	for (ChunkGeometry geometry : _dgChunkGeometry.values())
+    	{
+    		if (geometry.lines != null)
+    		{
+    			geometry.lines.bind();
+    			geometry.lines.drawWithShader(modelView, projection, shader);
+    		}
+    	}
+
+    	if (dgRenderingMode != WireframeRenderMode.POLYGON)
+    	{
+    		RenderSystem.polygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
+    	}
+
+    	for (ChunkGeometry geometry : _dgChunkGeometry.values())
+    	{
+    		if (geometry.polygons != null)
+    		{
+    			geometry.polygons.bind();
+    			geometry.polygons.drawWithShader(modelView, projection, shader);
+    		}
+    	}
+
+    	if (dgRenderingMode != WireframeRenderMode.POLYGON)
+    	{
+    		RenderSystem.polygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
+    	}
+
+    	VertexBuffer.unbind();
+    	RenderSystem.enableDepthTest();
+    	RenderSystem.depthMask(true);
+    	RenderSystem.enableCull();
+    	RenderSystem.disableBlend();
+    	poseStack.popPose();
     }
 
     private static void buildGeometryDisplayLists() {
@@ -165,18 +220,15 @@ public class ClientState
     		buildGeometryDisplayList(geometryDataQueue.remove());
     	}
     }
-    
+
     private static void buildGeometryDisplayList(GeometryData geometryData) {
         GeometryRenderer renderer = new GeometryRenderer();
 
         try
         {
-            Iterator<GeometryStream> displayList = geometryData.geometry.iterator();
-
-            while (displayList.hasNext())
+            for (GeometryStream stream : geometryData.geometry)
             {
-                GeometryStream key = (GeometryStream)displayList.next();
-                key.executeStream(renderer);
+                stream.executeStream(renderer);
             }
         }
         catch (GeometryStreamException var8)
@@ -184,72 +236,55 @@ public class ClientState
             throw new RuntimeException(var8);
         }
 
-        int displayLists = GL11.glGenLists(1);
+        // Faint outline of the chunk itself, so it's visible which chunks have been received.
+        renderer.setPositionTransform((new Transform()).translate((float)(geometryData.chunkX * 16 + 8), -1.0F, (float)(geometryData.chunkZ * 16 + 8)).scale(7.5F, 1.0F, 7.5F));
+        renderer.setColor(new float[] {0.0F, 1.0F, 0.0F, 0.15F});
+        renderer.setVertexMode(PrimitiveType.LINE, new int[] {1});
+        renderer.addVertex(new float[] { -1.0F, 0.0F, -1.0F});
+        renderer.addVertex(new float[] { -1.0F, 0.0F, 1.0F});
+        renderer.addVertex(new float[] {1.0F, 0.0F, 1.0F});
+        renderer.addVertex(new float[] {1.0F, 0.0F, -1.0F});
+        renderer.addVertexRef(4);
 
-        if (displayLists != 0)
+        BufferBuilder lines = new BufferBuilder(256);
+        lines.begin(VertexFormat.Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR);
+        BufferBuilder polygons = new BufferBuilder(256);
+        polygons.begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
+        renderer.emit(lines, polygons);
+
+        ChunkGeometry geometry = new ChunkGeometry(upload(lines), upload(polygons));
+        long key = (long)geometryData.chunkX << 32 | (long)geometryData.chunkZ & 4294967295L;
+        ChunkGeometry previous = _dgChunkGeometry.put(key, geometry);
+
+        if (previous != null)
         {
-            GL11.glNewList(displayLists, GL11.GL_COMPILE);
-            renderer.setPositionTransform((new Transform()).translate((float)(geometryData.chunkX * 16 + 8), -1.0F, (float)(geometryData.chunkZ * 16 + 8)).scale(7.5F, 1.0F, 7.5F));
-            renderer.setColor(new float[] {0.0F, 1.0F, 0.0F, 0.15F});
-            renderer.setVertexMode(PrimitiveType.LINE, new int[] {1});
-            renderer.addVertex(new float[] { -1.0F, 0.0F, -1.0F});
-            renderer.addVertex(new float[] { -1.0F, 0.0F, 1.0F});
-            renderer.addVertex(new float[] {1.0F, 0.0F, 1.0F});
-            renderer.addVertex(new float[] {1.0F, 0.0F, -1.0F});
-            renderer.addVertexRef(4);
-            renderer.draw();
-            GL11.glEndList();
-            long key = (long)geometryData.chunkX << 32 | (long)geometryData.chunkZ & 4294967295L;
-            Integer curValue = _dgListMap.get(key);
-            int limit;
+        	previous.close();
+        }
 
-            if (curValue != null && curValue != 0)
-            {
-                for (limit = 0; limit < _chunkDGListBuffer.limit(); ++limit)
-                {
-                    if (_chunkDGListBuffer.get(limit) == curValue)
-                    {
-                        _chunkDGListBuffer.put(limit, displayLists);
-                        break;
-                    }
-                }
-
-                GL11.glDeleteLists(curValue, 1);
-            }
-            else if (_chunkDGListBuffer == null)
-            {
-                _chunkDGListBuffer = ByteBuffer.allocateDirect(512).order(ByteOrder.nativeOrder()).asIntBuffer();
-                _chunkDGListBuffer.limit(1);
-                _chunkDGListBuffer.put(0, displayLists);
-            }
-            else
-            {
-                limit = _chunkDGListBuffer.limit();
-
-                if (limit == _chunkDGListBuffer.capacity())
-                {
-                    IntBuffer oldBuffer = _chunkDGListBuffer;
-                    _chunkDGListBuffer = ByteBuffer.allocateDirect(limit * 8).order(ByteOrder.nativeOrder()).asIntBuffer();
-                    oldBuffer.rewind();
-                    _chunkDGListBuffer.put(oldBuffer);
-                }
-
-                _chunkDGListBuffer.limit(limit + 1);
-                _chunkDGListBuffer.put(limit, displayLists);
-            }
-
-            _dgListMap.put(key, displayLists);
-            _chunkDGRequests.remove(key);
-        }		
+        _chunkDGRequests.remove(key);
 	}
 
-	
+    private static VertexBuffer upload(BufferBuilder builder)
+    {
+    	BufferBuilder.RenderedBuffer rendered = builder.endOrDiscardIfEmpty();
+
+    	if (rendered == null)
+    	{
+    		return null;
+    	}
+
+    	VertexBuffer buffer = new VertexBuffer();
+    	buffer.bind();
+    	buffer.upload(rendered);
+    	VertexBuffer.unbind();
+    	return buffer;
+    }
+
     public static boolean hasLevelChanged(Level currentLevel)
     {
         return _world != currentLevel;
     }
 
-    
     public static void onLevelChanged(Level currentLevel)
     {
         _world = currentLevel;
@@ -257,47 +292,32 @@ public class ClientState
         clearDebuggingGeometry();
     }
 
-    
     public static void addDebuggingGeometry(GeometryData geometryData)
     {
-        if (_world != null)
+        if (_world != null && geometryData.batchID == _dgBatchID && _world.dimension().location().equals(geometryData.dimensionID))
         {
-            if (geometryData.batchID == _dgBatchID)
-            {
-                if (geometryData.dimensionID == _world.dimension().location())
-                {
-                	geometryDataQueue.add(geometryData);
-                }
-            }
+        	geometryDataQueue.add(geometryData);
         }
     }
 
-    
     public static void clearDebuggingGeometry()
     {
     	clearDisplayLists = true;
     }
-    
-    
+
+    // Runs on the render thread (from onRenderLevel), since it frees GPU buffers.
     private static void clearDebuggingDisplayLists()
     {
-    	for (int list : _dgListMap.values()) {
-    		if (list != 0)
-            {
-                GL11.glDeleteLists(list, 1);
-            }
+    	for (ChunkGeometry geometry : _dgChunkGeometry.values())
+    	{
+    		geometry.close();
     	}
-        
-        _dgListMap.clear();
+
+        _dgChunkGeometry.clear();
         _chunkDGRequests.clear();
-
-        if (_chunkDGListBuffer != null)
-        {
-            _chunkDGListBuffer.limit(0);
-        }
-
+        geometryDataQueue.clear();
+        ++_dgBatchID;
         dgEnabled = true;
         _dgScanCounter = (RandomSource.create()).nextInt(40);
-        ++_dgBatchID;
     }
 }

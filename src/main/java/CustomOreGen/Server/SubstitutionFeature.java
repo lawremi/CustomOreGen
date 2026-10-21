@@ -11,6 +11,7 @@ import CustomOreGen.Util.BlockEntityHelper;
 import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.TouchingDescriptorList;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.QuartPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
@@ -280,21 +281,23 @@ public class SubstitutionFeature extends Feature<NoneFeatureConfiguration> imple
 		return generate(context.level(), context.random(), context.origin());
     }
 
+	// Substitutions have no layout to precompute; all the work happens in populate().
 	@Override
-	public void generate(LevelAccessor world, int chunkX, int chunkZ) {
-		this.generate(world, world.getRandom(), new BlockPos(chunkX << 4, 0, chunkZ << 4));
-	}
+	public void generate(LevelAccessor world, int chunkX, int chunkZ) {}
 
     public boolean generate(LevelAccessor world, RandomSource random, BlockPos position)
     {
         if (this._canGenerate && this._valid && this.oreBlock != null)
         {
-        	int depositCX = position.getX() / 16;
-            int depositCZ = position.getZ() / 16;
-            int cRange = (this.additionalRange + 15) / 16;
+        	int depositCX = position.getX() >> 4;
+            int depositCZ = position.getZ() >> 4;
+            // additionalRange was how pre-1.13 COG reached ore spilled in from neighbors. Population is now
+            // deferred until no neighbor can write here (ServerState.onChunkFeaturesDone), so only this
+            // chunk is scanned; writing into neighbors would also leave the generation region's write area.
+            int cRange = 0;
             int hRange = (this.additionalRange + 7) / 8;
-            int minh = Math.max(0, this.minHeight);
-            int maxh = Math.min(world.getHeight() - 1, this.maxHeight);
+            int minh = Math.max(world.getMinBuildHeight(), this.minHeight);
+            int maxh = Math.min(world.getMaxBuildHeight() - 1, this.maxHeight);
             BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks,
                     besideBlocks, touchingBlocks);
 
@@ -317,7 +320,8 @@ public class SubstitutionFeature extends Feature<NoneFeatureConfiguration> imple
                         {
                             for (int z = minZ; z < maxZ; ++z)
                             {
-                            	Biome biome = chunk.getNoiseBiome(x, 0, z).get();
+                            	// Noise biomes are stored per 4x4x4 cell, addressed in quart (block / 4) coordinates.
+                            	Biome biome = chunk.getNoiseBiome(QuartPos.fromBlock(x), QuartPos.fromBlock(world.getSeaLevel()), QuartPos.fromBlock(z)).get();
 
                                 if (biome == null || this.biomes.getWeight(biome) > 0.5F)
                                 {

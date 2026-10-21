@@ -2,10 +2,13 @@ package CustomOreGen.Util;
 
 import java.util.Collections;
 import java.util.Hashtable;
+import java.util.IdentityHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,17 +17,19 @@ import com.mojang.datafixers.util.Pair;
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Climate.Parameter;
 import net.minecraft.world.level.biome.Climate.ParameterPoint;
 import net.minecraft.world.level.biome.MultiNoiseBiomeSourceParameterList;
+import net.minecraft.core.Registry;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 {
@@ -120,14 +125,14 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 	{
 		if (biome != null && weight != 0.0F)
 		{
-			Float currentValue = this._matches.get(ForgeRegistries.BIOMES.getKey(biome));
+			Float currentValue = this._matches.get(biomeKey(biome));
 
 			if (currentValue != null)
 			{
 				weight += currentValue.floatValue();
 			}
 
-			this._matches.put(ForgeRegistries.BIOMES.getKey(biome), weight);
+			this._matches.put(biomeKey(biome), weight);
 		}
 	}
 
@@ -135,7 +140,8 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 	{
 		float totalWeight = 0.0F;
 
-		String name = ForgeRegistries.BIOMES.getKey(biome).toString();
+		ResourceLocation key = biomeKey(biome);
+		String name = key == null ? null : key.toString();
 
 		for (Descriptor desc : this._descriptors) {
 			Matcher matcher;
@@ -143,20 +149,18 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 				continue;
 
 			if (desc.describesType) {
-				// TODO: the biome dictionary "type" system functionally does not exist any more
-				// net.minecraftforge.common.BiomeManager is the closest thing
-
-				//BiomeDictionary.Type type = BiomeDictionary.Type.getType(desc.description);
-				//if (BiomeDictionary.hasType(biome, type))
-					//{
-					//	totalWeight += desc.weight;
-					//}
+				if (hasBiomeType(biome, desc.description))
+				{
+					totalWeight += desc.weight;
+				}
 			} else {
 				if (name != null)
 				{
+					// Patterns written before 1.13 name biomes without a namespace ("desert"), so also
+					// try the path alone.
 					matcher = desc.getPattern().matcher(name);
 
-					if (matcher.matches())
+					if (matcher.matches() || desc.getPattern().matcher(key.getPath()).matches())
 					{
 						totalWeight += desc.weight;
 					}
@@ -173,7 +177,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 			this._compiled = true;
 			this._matches.clear();
 
-			for (Biome biome : ForgeRegistries.BIOMES) {
+			for (Biome biome : allBiomes()) {
 				if (biome != null)
 				{
 					this.add(biome, this.matchingWeight(biome));
@@ -185,7 +189,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 	public float getWeight(Biome biome)
 	{
 		this.compileMatches();
-		Float value = this._matches.get(ForgeRegistries.BIOMES.getKey(biome));
+		Float value = this._matches.get(biomeKey(biome));
 		return value == null ? 0.0F : value.floatValue();
 	}
 
@@ -219,7 +223,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 
 		for (Entry<ResourceLocation,Float> entry : this._matches.entrySet()) {
 			float weight = entry.getValue();
-			Biome biome = ForgeRegistries.BIOMES.getValue(entry.getKey());
+			Biome biome = biomeByKey(entry.getKey());
 
 			if (weight > 0.0F)
 			{
@@ -294,7 +298,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 
 		for (Entry<ResourceLocation,Float> entry : this._matches.entrySet()) {
 			float weight = entry.getValue();
-			Biome biome = ForgeRegistries.BIOMES.getValue(entry.getKey());
+			Biome biome = biomeByKey(entry.getKey());
 
 			if (biome == null)
 			{
@@ -302,7 +306,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 			}
 			else
 			{
-				breakdown[i] = ForgeRegistries.BIOMES.getKey(biome).toString();
+				breakdown[i] = biomeKey(biome).toString();
 			}
 
 			breakdown[i] = breakdown[i] + " - " + weight;
@@ -368,34 +372,62 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 		}
 
 		public boolean isCompatible(Biome biome) {
+			// Depth and scale come from the overworld climate table, which most restrictions don't use and
+			// which has no entry for nether/end biomes; only consult it when the restriction needs it.
 			return biome.getBaseTemperature() >= minTemperature && biome.getBaseTemperature() <= maxTemperature &&
 					biome.getModifiedClimateSettings().downfall() >= minRainfall && biome.getModifiedClimateSettings().downfall() <= maxRainfall &&
-					getDepth(biome) >= minDepth && getDepth(biome) <= maxDepth &&
-					getScale(biome) >= minScale && getScale(biome) <= maxScale;
+					(unbounded(minDepth, maxDepth) || inRange(getDepth(biome), minDepth, maxDepth)) &&
+					(unbounded(minScale, maxScale) || inRange(getScale(biome), minScale, maxScale));
+		}
+
+		private static boolean unbounded(float min, float max) {
+			return min == Float.NEGATIVE_INFINITY && max == Float.POSITIVE_INFINITY;
+		}
+
+		// NaN (no climate entry for this biome) is never in range.
+		private static boolean inRange(float value, float min, float max) {
+			return value >= min && value <= max;
 		}
 	}
-	
-	public static ParameterPoint getParameters(Biome biome) {
-		RegistryAccess.Frozen registryaccess$frozen = RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY);
-		HolderGetter<Biome> holdergetter = registryaccess$frozen.lookup(Registries.BIOME).get();
-		MultiNoiseBiomeSourceParameterList par = new MultiNoiseBiomeSourceParameterList(MultiNoiseBiomeSourceParameterList.Preset.OVERWORLD, holdergetter);
-		
-		for(Pair<ParameterPoint, Holder<Biome>> val : par.parameters().values()) {
-			if(val.getSecond().get() == biome) {
-				return val.getFirst();
-			}
+
+	private static Registry<Biome> _parametersFor = null;
+	private static Map<Biome, ParameterPoint> _parameters = null;
+
+	/**
+	 * The biome's first cell in the overworld climate table, or null if it has none (nether, end, or
+	 * modded biomes) or no server is running. Built once per server biome registry.
+	 */
+	public static synchronized ParameterPoint getParameters(Biome biome) {
+		MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+		if (server == null) {
+			return null;
 		}
-		return null;
+		Registry<Biome> biomes = server.registryAccess().registryOrThrow(Registries.BIOME);
+		if (biomes != _parametersFor) {
+			HolderGetter<Biome> holdergetter = server.registryAccess().lookupOrThrow(Registries.BIOME);
+			MultiNoiseBiomeSourceParameterList par = new MultiNoiseBiomeSourceParameterList(MultiNoiseBiomeSourceParameterList.Preset.OVERWORLD, holdergetter);
+			Map<Biome, ParameterPoint> parameters = new IdentityHashMap<Biome, ParameterPoint>();
+			for(Pair<ParameterPoint, Holder<Biome>> val : par.parameters().values()) {
+				parameters.putIfAbsent(val.getSecond().value(), val.getFirst());
+			}
+			_parameters = parameters;
+			_parametersFor = biomes;
+		}
+		return _parameters.get(biome);
 	}
 
 	public static float getDepth(Biome biome) {
-		Parameter depth = getParameters(biome).depth();
+		ParameterPoint p = getParameters(biome);
+		if (p == null) return Float.NaN;
+		Parameter depth = p.depth();
 		return (depth.min() + depth.max()) / 2;
 	}
 
 	public static float getScale(Biome biome) {
-		Parameter cont = getParameters(biome).continentalness();
-		Parameter eros = getParameters(biome).erosion();
+		ParameterPoint p = getParameters(biome);
+		if (p == null) return Float.NaN;
+		Parameter cont = p.continentalness();
+		Parameter eros = p.erosion();
 		float contAvg = (cont.max() + cont.min()) / 2f;
 		float erosAvg = 1 - ((eros.max() + eros.min()) / 2f);
 		return (contAvg + erosAvg) / 2f;
@@ -412,5 +444,62 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 		float erosAvg = 1 - ((eros.max() + eros.min()) / 2f);
 		float depthAvg = (depth.max() + depth.min()) / 2f;
 		return Mth.floor(((contAvg + erosAvg) / 2 * rootHeight) + (depthAvg * sea));
+	}
+
+	// Biomes are data-driven since 1.18: the Biome objects a running world hands out belong to the
+	// server's biome registry, not ForgeRegistries.BIOMES, so keys must be looked up there.
+	private static Registry<Biome> serverBiomes()
+	{
+		MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+		return server == null ? null : server.registryAccess().registryOrThrow(Registries.BIOME);
+	}
+
+	// Biome Dictionary types (BiomeType in configs) became biome tags in 1.18: Forge's forge:is_<type>
+	// for most, vanilla's minecraft:is_<type> for the rest. These two were renamed along the way.
+	private static final Map<String, String> BIOME_TYPE_ALIASES = Map.of("mesa", "badlands", "hills", "hill");
+
+	private static boolean hasBiomeType(Biome biome, String type)
+	{
+		Registry<Biome> biomes = serverBiomes();
+		if (biomes == null)
+		{
+			return false;
+		}
+		Optional<Holder.Reference<Biome>> holder = biomes.getResourceKey(biome).flatMap(biomes::getHolder);
+		if (holder.isEmpty())
+		{
+			return false;
+		}
+		String name = type.toLowerCase(Locale.ROOT);
+		name = BIOME_TYPE_ALIASES.getOrDefault(name, name);
+		for (String namespace : new String[] { "forge", "minecraft" })
+		{
+			ResourceLocation tag = ResourceLocation.tryBuild(namespace, "is_" + name);
+			if (tag != null && holder.get().is(TagKey.create(Registries.BIOME, tag)))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static Iterable<Biome> allBiomes()
+	{
+		Registry<Biome> biomes = serverBiomes();
+		return biomes != null ? biomes : ForgeRegistries.BIOMES;
+	}
+
+	private static ResourceLocation biomeKey(Biome biome)
+	{
+		Registry<Biome> biomes = serverBiomes();
+		ResourceLocation key = biomes == null ? null : biomes.getKey(biome);
+		return key != null ? key : ForgeRegistries.BIOMES.getKey(biome);
+	}
+
+	private static Biome biomeByKey(ResourceLocation key)
+	{
+		Registry<Biome> biomes = serverBiomes();
+		Biome biome = biomes == null ? null : biomes.get(key);
+		return biome != null ? biome : ForgeRegistries.BIOMES.getValue(key);
 	}
 }

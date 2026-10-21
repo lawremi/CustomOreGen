@@ -2,33 +2,33 @@ package CustomOreGen.Server;
 
 import com.mojang.serialization.Codec;
 
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
+/**
+ * customoregen:cog_feature. Attached to the last generation step (top_layer_modification) of every
+ * biome by the biome modifiers in data/customoregen/forge/biome_modifier, and placed once per chunk
+ * (its placed feature has no placement modifiers, so the origin is the chunk's corner). Being last means
+ * this chunk's own feature writes are finished; see ServerState.onChunkFeaturesDone for the rest.
+ */
 public class LevelGenFeature extends Feature<NoneFeatureConfiguration> {
 
-	//@ObjectHolder(value = CustomOreGenBase.MODID+":cog_feature")
-	//public static final Feature<NoneFeatureConfiguration> FEATURE = null;
-	
-	public LevelGenFeature(Codec<NoneFeatureConfiguration> p_65786_) {
-		super(p_65786_);
+	public LevelGenFeature(Codec<NoneFeatureConfiguration> codec) {
+		super(codec);
 	}
 
 	@Override
 	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		//context.chunkGenerator();
-		WorldConfig cfg = ServerState.getWorldConfig(context.level());
-		return false;
-	}
+		WorldGenLevel region = context.level();
+		ServerLevel level = region.getLevel();
+		ServerState.checkIfServerChanged(level.getServer(), level.getServer().getWorldData());
 
-	//ChunkAccess
-	/*@Override
-	public boolean place(LevelAccessor worldIn, ChunkGenerator<? extends GenerationSettings> generator, RandomSource rand, BlockPos pos, NoneFeatureConfiguration config) {
-        ServerState.checkIfServerChanged(worldIn.getLevel().getServer(), worldIn.getLevelInfo());
-        ChunkPos p = new ChunkPos(pos);
-        WorldConfig cfg = ServerState.getWorldConfig(worldIn.getLevel());
-        ServerState.onPopulateChunk(cfg, worldIn, p.x, p.z, worldIn.getRandom()); //TOOD: should use LevelAccessor, not Level
-		return false;
-	}*/
+		ChunkPos chunk = new ChunkPos(context.origin());
+		ServerState.onChunkFeaturesDone(region, chunk.x, chunk.z);
+		return true;
+	}
 }

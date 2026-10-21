@@ -15,9 +15,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraft.world.level.levelgen.structure.StructureStart;
 
 public class MapGenVeins extends MapGenOreDistribution
 {
@@ -145,13 +143,13 @@ public class MapGenVeins extends MapGenOreDistribution
         return super.validate();
     }
 
-    public Component generateStructure(StructureStart structureGroup, RandomSource random)
+    public Component generateStructure(StructureGroup structureGroup, RandomSource random)
     {
-        float mlX = (random.nextFloat() + (float)structureGroup.getChunkPos().x) * 16.0F;
-        float mlZ = (random.nextFloat() + (float)structureGroup.getChunkPos().z) * 16.0F;
+        float mlX = (random.nextFloat() + (float)structureGroup.chunkX) * 16.0F;
+        float mlZ = (random.nextFloat() + (float)structureGroup.chunkZ) * 16.0F;
         float mlY = this.mlHeight.getValue(random, this.world, mlX, mlZ) + this.heightOffset.getValue(random);
         
-        if (/*!structureGroup.canPlaceComponentAt(0, mlX, mlY, mlZ, random)*/true)
+        if (!structureGroup.canPlaceComponentAt(0, mlX, mlY, mlZ, random))
         {
             return null;
         }
@@ -163,8 +161,7 @@ public class MapGenVeins extends MapGenOreDistribution
             mlMat.rotateY(random.nextFloat() * ((float)Math.PI * 2F));
             mlMat.scale(this.mlSize.getValue(random), this.mlSize.getValue(random), this.mlSize.getValue(random));
             SolidSphereComponent motherlode = new SolidSphereComponent(structureGroup, mlMat);
-            
-            //structureGroup.addComponent(motherlode, (Component)null);
+            structureGroup.addComponent(motherlode, (Component)null);
 
             for (int br = this.brFrequency.getIntValue(random); br > 0; --br)
             {
@@ -175,14 +172,14 @@ public class MapGenVeins extends MapGenOreDistribution
                 segMat.rotateX(-this.brInclination.getValue(brRandom));
                 float maxHeight = mlY + this.brHeightLimit.getValue(brRandom, this.world, mlX, mlZ);
                 float minHeight = mlY - this.brHeightLimit.getValue(brRandom, this.world, mlX, mlZ);
-                //this.generateBranch(structureGroup, this.brLength.getValue(brRandom), maxHeight, minHeight, segMat, motherlode, brRandom);
+                this.generateBranch(structureGroup, this.brLength.getValue(brRandom), maxHeight, minHeight, segMat, motherlode, brRandom);
             }
 
             return motherlode;
         }
     }
 
-    public void generateBranch(StructureStart structureGroup, float length, float maxHeight, float minHeight, Transform mat, Component parent, RandomSource random)
+    public void generateBranch(StructureGroup structureGroup, float length, float maxHeight, float minHeight, Transform mat, Component parent, RandomSource random)
     {
         float[] pos = new float[3];
 
@@ -212,7 +209,7 @@ public class MapGenVeins extends MapGenOreDistribution
                     component = new BezierTubeComponent(structureGroup, segMat);
             }
 
-            //structureGroup.addComponent((Component)component, (Component)parent);
+            structureGroup.addComponent((Component)component, (Component)parent);
             parent = component;
             mat.translate(0.0F, 0.0F, segLen);
             pos[0] = 0.0F;
@@ -225,7 +222,7 @@ public class MapGenVeins extends MapGenOreDistribution
                 return;
             }
 
-            if (/*!structureGroup.canPlaceComponentAt(((Component)component).getGenDepth() + 1, pos[0], pos[1], pos[2], random)*/true)
+            if (!structureGroup.canPlaceComponentAt(((Component)component).getGenDepth() + 1, pos[0], pos[1], pos[2], random))
             {
                 return;
             }
@@ -252,11 +249,6 @@ public class MapGenVeins extends MapGenOreDistribution
         }
     }
 
-	@Override
-	public void populate(WorldGenLevel world, int chunkX, int chunkY) {
-		// TODO Auto-generated method stub
-	}
-    
     private class BezierTubeComponent extends Component
     {
         protected float[] mid;
@@ -267,7 +259,7 @@ public class MapGenVeins extends MapGenOreDistribution
         protected final interpolationContext context;
         protected final Transform mat;
 
-        public BezierTubeComponent(StructureStart structureGroup, Transform transform)
+        public BezierTubeComponent(StructureGroup structureGroup, Transform transform)
         {
             super(structureGroup, new BoundingBox(0,0,0,0,0,0));
             this.mid = new float[] {0.0F, 0.0F, 0.0F};
@@ -651,7 +643,7 @@ public class MapGenVeins extends MapGenOreDistribution
         protected final Transform mat;
         protected final Transform invMat;
 
-        public SolidSphereComponent(StructureStart structureGroup, Transform transform)
+        public SolidSphereComponent(StructureGroup structureGroup, Transform transform)
         {
             super(structureGroup, new BoundingBox(0,0,0,0,0,0));
             float rMax = orRadiusMult.getMax();

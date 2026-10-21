@@ -47,6 +47,8 @@ public class WorldConfig
     public int deferredPopulationRange;
     public boolean debuggingMode;
     public boolean vanillaOreGen;
+    /** Whether Minecraft's noise-based large ore veins (copper/granite, iron/tuff) generate. */
+    public boolean vanillaOreVeins;
     public boolean custom;
     private Map<String,IOreDistribution> oreDistributions;
     private Map<String,ConfigOption> configOptions;
@@ -88,6 +90,7 @@ public class WorldConfig
         this.deferredPopulationRange = 0;
         this.debuggingMode = false;
         this.vanillaOreGen = false;
+        this.vanillaOreVeins = false;
         this.oreDistributions = new LinkedHashMap<String,IOreDistribution>();
         this.configOptions = new CIStringMap<ConfigOption>(new LinkedHashMap<String, ConfigOption>());
         this.loadedOptions = new CIStringMap<String>(new LinkedHashMap<String, String>());
@@ -232,7 +235,20 @@ public class WorldConfig
             {
                 CustomOreGenBase.log.warn("Choice Option \'" + vangen + "\' not found in config file - defaulting to \'" + this.vanillaOreGen + "\'.");
             }
-            
+
+            this.vanillaOreVeins = this.vanillaOreGen;
+            vangen = (ConfigOption)this.configOptions.get("vanillaOreVeins");
+
+            if (vangen != null && vangen instanceof ChoiceOption)
+            {
+                String value = (String)vangen.getValue();
+                this.vanillaOreVeins = value == null ? this.vanillaOreGen : value.equalsIgnoreCase("on") || value.equalsIgnoreCase("true");
+            }
+            else
+            {
+                CustomOreGenBase.log.warn("Choice Option \'" + vangen + "\' not found in config file - defaulting to vanillaOreGen (\'" + this.vanillaOreVeins + "\').");
+            }
+
         }
     }
 

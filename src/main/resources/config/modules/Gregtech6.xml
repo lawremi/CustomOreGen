@@ -17,7 +17,7 @@
   <ConfigSection>
 
     <OptionChoice name='GregtechActive'
-                  default=':= dimension.generator = "RandomLevelSource" | dimension.generator = "ATGLevelSource"'
+                  default=':= dimension = "overworld"'
                   displayGroup='groupInternal'>
       <Choice value='true' displayValue='On'/>
       <Choice value='false' displayValue='Off'/>
@@ -58,8 +58,8 @@
       </BiomeSet>
 
       <BiomeSet name='stratovolcano'>
-        <Biome name='extreme_hills'/>
-        <Biome name='smaller_extreme_hills'/>
+        <Biome name='windswept_hills'/>
+        <Biome name='windswept_hills'/>
       </BiomeSet>
 
       <BiomeSet name='caldera'>
@@ -84,7 +84,7 @@
         <Biome name='alps'/> <!-- BOP -->
         <Biome name='highlands'/> <!-- BOP -->
         <Biome name='crag'/> <!-- BOP -->
-        <Biome name='ice_mountains'/>
+        <Biome name='snowy_slopes'/>
       </BiomeSet>
 
       <BiomeSet name='island'>
@@ -525,7 +525,7 @@
         <Substitute name='GTOreRemovalGravel' block='minecraft:gravel'>
           <ReplacesRegexp block='gregtech:gt.meta.ore.*gravel'/>
         </Substitute>
-        <Substitute name='GTOreRemovalRedSand' block='minecraft:sand:1'>
+        <Substitute name='GTOreRemovalRedSand' block='minecraft:red_sand'>
           <ReplacesRegexp block='gregtech:gt.meta.ore.*redsand'/>
         </Substitute>
         <Substitute name='GTOreRemovalSand' block='minecraft:sand'>
@@ -536,59 +536,59 @@
       <IfCondition condition=":=?GregtechOverride &amp; ?GregtechActive">
         <Substitute name='GTOverrideSubstitute' block='minecraft:stone'>
           <IfCondition condition=":=?GregtechGenCoal">
-            <ReplacesOre block='oreCoal'/>
+            <ReplacesOre block='forge:ores/coal'/>
           </IfCondition>
           <IfCondition condition=":=?GregtechGenIron">
-            <ReplacesOre block='oreIron'/>
+            <ReplacesOre block='forge:ores/iron'/>
           </IfCondition>
           <IfCondition condition=":=?GregtechGenCopper">
-            <ReplacesOre block='oreCopper'/>
+            <ReplacesOre block='forge:ores/copper'/>
           </IfCondition>
           <IfCondition condition=":=?GregtechGenTin">
-            <ReplacesOre block='oreTin'/>
+            <ReplacesOre block='forge:ores/tin'/>
           </IfCondition>
           <IfCondition condition=":=?GregtechGenAluminum">
-            <ReplacesOre block='oreBauxite'/>
+            <ReplacesOre block='forge:ores/bauxite'/>
           </IfCondition>
           <IfCondition condition=":=?GregtechGenMercury">
-            <ReplacesOre block='oreCinnabar'/>
+            <ReplacesOre block='forge:ores/cinnabar'/>
           </IfCondition>
           <IfCondition condition=":=?GregtechGenLeadZinc">
-            <ReplacesOre block='oreLead'/>
-            <ReplacesOre block='oreZinc'/>
+            <ReplacesOre block='forge:ores/lead'/>
+            <ReplacesOre block='forge:ores/zinc'/>
           </IfCondition>
           <IfCondition condition=":=?GregtechGenNickel">
-            <ReplacesOre block='oreNickel'/>
+            <ReplacesOre block='forge:ores/nickel'/>
           </IfCondition>
           <IfCondition condition=":=?GregtechGenChromium">
-            <ReplacesOre block='oreChromium'/>
+            <ReplacesOre block='forge:ores/chromium'/>
           </IfCondition>
           <IfCondition condition=":=?GregtechGenTitanium">
-            <ReplacesOre block='oreTitanium'/>
+            <ReplacesOre block='forge:ores/titanium'/>
           </IfCondition>
           <IfCondition condition=":=?GregtechGenMolybdenum">
-            <ReplacesOre block='oreMolydenum'/>
+            <ReplacesOre block='forge:ores/molybdenum'/>
           </IfCondition>
           <IfCondition condition=":=?GregtechGenManganese">
-            <ReplacesOre block='oreManganese'/>
+            <ReplacesOre block='forge:ores/manganese'/>
           </IfCondition>
           <IfCondition condition=":=?GregtechGenSalt">
-            <ReplacesOre block='oreSalt'/>
+            <ReplacesOre block='forge:ores/salt'/>
           </IfCondition>
           <IfCondition condition=":=?GregtechGenUranium">
-            <ReplacesOre block='oreUranium'/>
+            <ReplacesOre block='forge:ores/uranium'/>
           </IfCondition>
           <IfCondition condition=":=?GregtechGenApatite">
-            <ReplacesOre block='oreApatite'/>
+            <ReplacesOre block='forge:ores/apatite'/>
           </IfCondition>
           <IfCondition condition=":=?GregtechGenGold">
-            <ReplacesOre block='oreGold'/>
+            <ReplacesOre block='forge:ores/gold'/>
           </IfCondition>
           <IfCondition condition=":=?GregtechGenDiamond">
-            <ReplacesOre block='oreDiamond'/>
+            <ReplacesOre block='forge:ores/diamond'/>
           </IfCondition>
           <IfCondition condition=":=?GregtechGenLapis">
-            <ReplacesOre block='oreLapis'/>
+            <ReplacesOre block='forge:ores/lapis'/>
           </IfCondition>
         </Substitute>
       </IfCondition>
@@ -605,7 +605,7 @@
         <Setting name='CloudHeight' range='2' type='uniform'/>
         <Setting name='OreDensity' avg='1.0'/>
         <Setting name='OreVolumeNoiseCutoff' avg='0'/>
-        <ReplacesOre block='stone'/>
+        <ReplacesOre block='minecraft:stone_ore_replaceables'/>
       </CloudPreset>
 
       <CloudPreset name='PresetStratumContinental'
@@ -640,7 +640,7 @@
           <BiomeSet inherits='continental' weight='0.5'/>
           <BiomeSet inherits='oceanic'/>
           <BiomeSet inherits='volcanic'/>
-          <ReplacesOre block='stone'/>
+          <ReplacesOre block='minecraft:stone_ore_replaceables'/>
       </VeinsPreset>
 
       <CloudPreset name='PresetSedimentaryContinental'
@@ -745,7 +745,7 @@
         <BiomeSet inherits='continental'/>
         <BiomeSet inherits='folded'/>
         <Replaces block='minecraft:sandstone'/>
-        <ReplacesOre block='stone'/>
+        <ReplacesOre block='minecraft:stone_ore_replaceables'/>
       </CloudPreset>
 
       <CloudPreset name='PresetSedStrategicCloudOceanic'
@@ -1023,7 +1023,7 @@
           <Biome name='badlands' weight='0.5'/> <!-- BOP -->
           <Replaces block='minecraft:dirt'/>
           <Replaces block='minecraft:sand'/>
-          <ReplacesOre block='stone'/>
+          <ReplacesOre block='minecraft:stone_ore_replaceables'/>
           <OreBlock block='gregtech:gt.meta.ore.normal.redsand:1'
                     nbt='{m:8202, id:"gt.MetaBlockTileEntity"}'/>
         </StandardGenPreset>
@@ -1123,10 +1123,10 @@
                    avg=':= 55/64 * dimension.groundLevel'
                    range='5'/>
           <Replaces block='minecraft:dirt'/>
-          <ReplacesOre block='stone'/>
+          <ReplacesOre block='minecraft:stone_ore_replaceables'/>
         </CloudPreset>
         
-        <CloudPreset name='PresetLaterite' block='minecraft:hardened_clay'
+        <CloudPreset name='PresetLaterite' block='minecraft:terracotta'
                      inherits='PresetRichSoil'
                      drawWireframe='false'>
           <WireframeColor>0xFFFF1100</WireframeColor>
@@ -1139,7 +1139,7 @@
                      inherits='PresetLaterite'>
           <WireframeColor>0xFFFF11FF</WireframeColor>
           <Setting name='DistributionFrequency' avg='0.02'/>
-          <OreBlock block='minecraft:sand:1' weight='0.5'/>
+          <OreBlock block='minecraft:red_sand' weight='0.5'/>
           <OreBlock block='gregtech:gt.meta.ore.normal.redsand:3'
                     nbt='{m:9105, id:"gt.MetaBlockTileEntity"}'
                     weight='0.5'/>
@@ -1149,7 +1149,7 @@
                      inherits='PresetLaterite'>
           <WireframeColor>0xFF1111FF</WireframeColor>
           <Setting name='DistributionFrequency' avg='0.01'/>
-          <OreBlock block='minecraft:hardened_clay' weight='0.70'/>
+          <OreBlock block='minecraft:terracotta' weight='0.70'/>
           <OreBlock block='gregtech:gt.meta.ore.small.redsand:2'
                     nbt='{m:9137, id:"gt.MetaBlockTileEntity"}'
                     weight='0.15'/>
@@ -1480,9 +1480,9 @@
           <BiomeType name='wet' weight='-1'/>
           <Replaces block='minecraft:sandstone'/>
           <Replaces block='minecraft:dirt'/>
-          <Replaces block='minecraft:hardened_clay'/>
+          <Replaces block='minecraft:terracotta'/>
           <Replaces block='minecraft:sand'/>
-          <ReplacesOre block='stone'/>
+          <ReplacesOre block='minecraft:stone_ore_replaceables'/>
           <WireframeColor>0xFF11FF00</WireframeColor>
         </CloudPreset>
         <CloudPreset name='PresetEvaporiteLimestone'
@@ -1580,7 +1580,7 @@
           <Setting name='CloudHeight' avg=':= 25/64 * dimension.groundLevel'
                    range=':= 5/64 * dimension.groundLevel'/>
           <Setting name='DistributionFrequency' avg='0.004'/>
-          <ReplacesOre block='stone'/>
+          <ReplacesOre block='minecraft:stone_ore_replaceables'/>
           <Replaces block='minecraft:dirt'/>
           <Replaces block='minecraft:sand'/>
           <WireframeColor>0xFFFFFF00</WireframeColor>
@@ -2214,7 +2214,7 @@
           <VeinsPreset name='PresetLayeredVeinsDolomite'
                        inherits='PresetLayeredVeinsLite'>
             <Replaces block='gregtech:gt.meta.ore.normal.default'/>
-            <ReplacesOre block='stone'/>
+            <ReplacesOre block='minecraft:stone_ore_replaceables'/>
             <Replaces block='gregtech:gt.meta.ore.normal.default'/>
             <Setting name='MotherlodeRangeLimit' avg='4' range='2'/>
             <Setting name='MotherlodeHeight'
@@ -2260,7 +2260,7 @@
                        inherits='PresetSphaleriteGalena'
                        drawWireframe='false'
                        wireframeColor='0xFFFF00FF'>
-            <ReplacesOre block='stone'/>
+            <ReplacesOre block='minecraft:stone_ore_replaceables'/>
             <Replaces block='gregtech:gt.meta.ore.normal.default'/>
             <Setting name='DistributionFrequency' avg=':= 1.2 * oreFreq'/>
             <Setting name='MotherlodeHeight'
@@ -2342,7 +2342,7 @@
         <VeinsPreset name='PresetSkarnVeins'
                      inherits='PresetLayeredVeinsLite'
                      drawWireframe='false'>
-          <ReplacesOre block='stone'/>
+          <ReplacesOre block='minecraft:stone_ore_replaceables'/>
           <Replaces block='gregtech:gt.meta.ore.normal.default'/>
           <Setting name='MotherlodeHeight'
                    avg=':= 40/64 * dimension.groundLevel'
@@ -2476,7 +2476,7 @@
                      drawWireframe='false'
                      wireframeColor='0xFF555500'>
           <Setting name='DistributionFrequency' avg='0.005'/>
-          <ReplacesOre block='stone'/>
+          <ReplacesOre block='minecraft:stone_ore_replaceables'/>
           <Setting name='CloudHeight'
                    avg=':= 50/64 * dimension.groundLevel'
                    range=':= 5/64 * dimension.groundLevel'/>
@@ -2490,7 +2490,7 @@
                      drawWireframe='false'
                      wireframeColor='0xFFFFFFFF'>
           <Setting name='DistributionFrequency' avg='0.003'/>
-          <ReplacesOre block='stone'/>
+          <ReplacesOre block='minecraft:stone_ore_replaceables'/>
           <Setting name='CloudRadius' avg=':= 1.3 * _default_'
                    range=':= 1.3 * _default_'/>
           <Setting name='CloudHeight'
@@ -2623,7 +2623,7 @@
                      inherits='PresetLayeredVeinsVolcanic'
                      drawWireframe='false'
                      wireframeColor='0xFF000000'>
-          <ReplacesOre block='stone'/>
+          <ReplacesOre block='minecraft:stone_ore_replaceables'/>
           <OreBlock block='gregtech:gt.meta.ore.normal.blackgranite:4'
                     weight='0.75'
                     nbt='{m:9138, id:"gt.MetaBlockTileEntity"}'/>
@@ -2676,7 +2676,7 @@
           <BiomeType name='ocean'/>
           <Replaces block='minecraft:sand'/>
           <Replaces block='minecraft:dirt'/>
-          <ReplacesOre block='stone'/>
+          <ReplacesOre block='minecraft:stone_ore_replaceables'/>
           <OreBlock block='gregtech:gt.meta.ore.normal.sandstone:2' weight='0.8'
                     nbt='{m:9150, id:"gt.MetaBlockTileEntity"}'/>
           <OreBlock block='minecraft:sandstone' weight='0.2'/>
@@ -2708,7 +2708,7 @@
                      inherits='PresetMetamorphicContinental'
                      drawWireframe='false'
                      wireframeColor='0xFF000000'>
-          <ReplacesOre block='stone'/>
+          <ReplacesOre block='minecraft:stone_ore_replaceables'/>
           <Setting name='CloudHeight' avg='45' range='5'/>
           <Setting name='DistributionFrequency' avg='0.002'/>
         </CloudPreset>
@@ -2834,10 +2834,10 @@
                      wireframeColor='0xFFFF00FF'>
           <Setting name='CloudHeight' avg=':=60/64 * dimension.groundLevel'
                    range=':=2/64 * dimension.groundLevel'/>
-          <ReplacesOre block='stone'/>
+          <ReplacesOre block='minecraft:stone_ore_replaceables'/>
           <Replaces block='minecraft:sandstone'/>
           <Replaces block='minecraft:sand'/>
-          <Replaces block='minecraft:hardened_clay'/>
+          <Replaces block='minecraft:terracotta'/>
           <Setting name='DistributionFrequency' avg=':= 6 * _default_'/>
           <Setting name='OreDensity' avg=':=1.5 * _default_'/>
           <BiomeType name='sandy'/>
@@ -2850,7 +2850,7 @@
                      wireframeColor='0xFF0000FF'>
           <Setting name='CloudHeight' avg=':=60/64 * dimension.groundLevel'
                    range=':=2/64 * dimension.groundLevel'/>
-          <ReplacesOre block='stone'/>
+          <ReplacesOre block='minecraft:stone_ore_replaceables'/>
           <Replaces block='minecraft:dirt'/>
           <Setting name='DistributionFrequency' avg=':= 12 * _default_'/>
           <Setting name='OreDensity' avg=':=1.5 * _default_'/>
@@ -2946,7 +2946,7 @@
           <Setting name='MotherlodeSize' avg=':= 0.5 * _default_'/>
           <Setting name='SegmentRadius' avg=':= 0.5 * _default_'/>
           <Setting name='OreDensity' avg='1' range='0'/>
-          <ReplacesOre block='stone'/>
+          <ReplacesOre block='minecraft:stone_ore_replaceables'/>
           <Replaces block='minecraft:dirt'/>
           <Replaces block='minecraft:gravel'/>
           <ReplacesRegexp block='gregtech:gt.meta.ore.*.default'/>

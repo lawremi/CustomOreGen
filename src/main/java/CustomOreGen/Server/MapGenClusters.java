@@ -15,9 +15,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraft.world.level.levelgen.structure.StructureStart;
 
 public class MapGenClusters extends MapGenOreDistribution
 {
@@ -55,15 +53,10 @@ public class MapGenClusters extends MapGenOreDistribution
         return super.validate();
     }
 
-	@Override
-	public void populate(WorldGenLevel world, int chunkX, int chunkY) {
-		
-	}
-
-    public Component generateStructure(StructureStart structureGroup, RandomSource random)
+    public Component generateStructure(StructureGroup structureGroup, RandomSource random)
     {
-        /*float clX = (random.nextFloat() + (float)structureGroup.getChunkPosX()) * 16.0F;
-        float clZ = (random.nextFloat() + (float)structureGroup.getChunkPosZ()) * 16.0F;
+        float clX = (random.nextFloat() + (float)structureGroup.chunkX) * 16.0F;
+        float clZ = (random.nextFloat() + (float)structureGroup.chunkZ) * 16.0F;
         float clY = this.clHeight.getValue(random, this.world, clX, clZ) + this.heightOffset.getValue(random);
         
         if (!structureGroup.canPlaceComponentAt(0, clX, clY, clZ, random))
@@ -75,19 +68,17 @@ public class MapGenClusters extends MapGenOreDistribution
             ClusterComponent cluster = new ClusterComponent(structureGroup, clX, clY, clZ, random);
             structureGroup.addComponent(cluster, (Component)null);
             return cluster;
-        }*/
-    	return null;
+        }
     }
     
-    @SuppressWarnings("unused")
-	private class ClusterComponent extends Component
+    private class ClusterComponent extends Component
     {
         protected final int size;
         protected final float[] ptA;
         protected final float[] ptB;
         protected final float[] rad;
 
-        public ClusterComponent(StructureStart structureGroup, float x, float y, float z, RandomSource random)
+        public ClusterComponent(StructureGroup structureGroup, float x, float y, float z, RandomSource random)
         {
             super(structureGroup, new BoundingBox((int)x, (int)y, (int)z, (int)x, (int)y, (int)z));
             this.size = Math.max(0, clSize.getIntValue(random));

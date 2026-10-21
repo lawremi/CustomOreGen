@@ -1,6 +1,7 @@
 package CustomOreGen;
 
 import CustomOreGen.Server.LevelGenFeature;
+import CustomOreGen.Server.VanillaOreRemovalModifier;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -30,9 +31,15 @@ public class ModEventBusSubscriber {
     @SubscribeEvent
     public static void registerFeature(RegisterEvent event) {
     	if(event.getRegistryKey() == ForgeRegistries.Keys.FEATURES) {
+			System.out.println("ModEventBusSubscriber registerFeature");
     		event.getForgeRegistry().register(
-    				new ResourceLocation(CustomOreGenBase.MODID, "cog_feature"), 
+    				new ResourceLocation(CustomOreGenBase.MODID, "cog_feature"),
     				new LevelGenFeature(NoneFeatureConfiguration.CODEC));
+    	}
+    	if(event.getRegistryKey() == ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS) {
+    		event.getForgeRegistry().register(
+    				new ResourceLocation(CustomOreGenBase.MODID, "remove_vanilla_ores"),
+    				VanillaOreRemovalModifier.CODEC);
     	}
     }
     

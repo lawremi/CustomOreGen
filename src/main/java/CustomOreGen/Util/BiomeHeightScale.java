@@ -1,23 +1,16 @@
 package CustomOreGen.Util;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.levelgen.NoiseChunk;
 
 public class BiomeHeightScale implements HeightScale {
 
+	// Biomes no longer carry a base height (1.18+); terrain height comes from noise, so the
+	// closest equivalent is the generator's preliminary surface height at this column.
 	@Override
 	public int getHeight(LevelAccessor world, int x, int z) {
-		int def = new WorldHeightScale().getHeight(world, x, z);
-		Biome biome = world.getBiome(new BlockPos(x, 0, z)).get();
-		if (biome == null) {
-			return def;
-		}
-		NoiseChunk noise = world.getChunk(new BlockPos(x, 0, z)).getOrCreateNoiseChunk((a) -> null);
-		return noise.preliminarySurfaceLevel(x, z);
+		return WorldGenQueries.getSurfaceHeight(world, x, z);
 	}
-	
+
 	@Override
 	public String getName() {
 		return "biome";

@@ -129,7 +129,6 @@ public class ConfigParser
             this.rng = RandomSource.create(this.target.worldInfo.worldGenOptions().seed());
             this.rng.nextInt();
         }
-
         validator.validate();
     }
 

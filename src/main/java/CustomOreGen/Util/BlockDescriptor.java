@@ -6,10 +6,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.ImmutableList;
 
+import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -216,11 +219,17 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             
             for (Descriptor desc : this._descriptors) {
             	if (desc.describesOre) {
-            		ResourceLocation tagName = new ResourceLocation(desc.description);
+            		ResourceLocation tagName = parseId(desc.description);
+            		if (tagName == null) {
+            			continue;
+            		}
             		TagKey<Block> tagkey = TagKey.create(ForgeRegistries.Keys.BLOCKS, tagName);
             		ITag<Block> tag = ForgeRegistries.BLOCKS.tags().getTag(tagkey);
+            		// A tag nothing installed defines (e.g. forge:ores/zinc without a zinc mod) matches nothing,
+            		// rather than failing the whole world config.
             		if(!tag.isBound()) {
-            			throw new RuntimeException(desc.description + " does not match any tags.");
+            			warnOnce("Block tag '" + desc.description + "' is not defined by any loaded mod; it matches nothing.");
+            			continue;
             		}
             		for (Block block : tag.stream().toList()) {
             			this.add(block, desc.weight);
@@ -256,12 +265,15 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
                     	}
                     }
             	} else {
-            		Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(desc.getBlockName()));
+            		ResourceLocation id = parseId(desc.getBlockName());
             		/*
-            		 * TODO: support block state on 'desc' and construct + register here 
+            		 * TODO: support block state on 'desc' and construct + register here
             		 */
-            		if (block != null)
-            		  this.add(block, desc.nbt, desc.weight);
+            		// getValue() returns air for unknown IDs, which would make every outdated ID mean "air".
+            		if (id != null && ForgeRegistries.BLOCKS.containsKey(id))
+            		  this.add(ForgeRegistries.BLOCKS.getValue(id), desc.nbt, desc.weight);
+            		else if (id != null)
+            			warnOnce("Block '" + desc.getBlockName() + "' is not registered; it matches nothing.");
             	}
             }
         }
@@ -411,6 +423,30 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         return breakdown;
     }
     
+    private static final Set<String> _warned = ConcurrentHashMap.newKeySet();
+
+    private static void warnOnce(String message)
+    {
+    	if (_warned.add(message))
+    	{
+    		CustomOreGenBase.log.warn(message);
+    	}
+    }
+
+    /**
+     * A namespaced ID, or null (with a warning) if it isn't a valid one. Pre-1.13 configs use IDs such as
+     * "Mekanism:OreBlock" or "minecraft:sand:1" (capitals, metadata) that are no longer valid.
+     */
+    private static ResourceLocation parseId(String id)
+    {
+    	ResourceLocation location = ResourceLocation.tryParse(id);
+    	if (location == null)
+    	{
+    		warnOnce("'" + id + "' is not a valid block or tag ID (capitals and :metadata are pre-1.13); it matches nothing.");
+    	}
+    	return location;
+    }
+
     private class Descriptor
     {
         public final String description;

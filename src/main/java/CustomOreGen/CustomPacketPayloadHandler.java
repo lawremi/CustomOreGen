@@ -3,31 +3,33 @@ package CustomOreGen;
 import java.util.function.Supplier;
 
 import CustomOreGen.CustomPacketPayload.PayloadType;
-import CustomOreGen.Client.ClientState;
-import CustomOreGen.Client.ClientState.WireframeRenderMode;
 import CustomOreGen.Server.ServerState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.contents.LiteralContents;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 
 public class CustomPacketPayloadHandler {
 	public CustomPacketPayloadHandler() {
-		
+
 	}
-	
-	private static final String PROTOCOL_VERSION = Integer.toString(1);
+
+	// 2: payloads are encoded field by field instead of with Java serialization.
+	private static final String PROTOCOL_VERSION = Integer.toString(2);
 	private static final String CHANNEL_NAME = "customoregen";
-    
+
 	private static final SimpleChannel CHANNEL = buildChannel(CHANNEL_NAME);
-	
+
 	private static final SimpleChannel buildChannel(String name) {
 		return NetworkRegistry.ChannelBuilder
 				.named(new ResourceLocation(CustomOreGenBase.MODID, name))
@@ -36,147 +38,85 @@ public class CustomPacketPayloadHandler {
 				.networkProtocolVersion(() -> PROTOCOL_VERSION)
 				.simpleChannel();
 	}
-	
+
 	public static void register()
 	{
 		CHANNEL.registerMessage(0, CustomPacketPayload.class, CustomPacketPayload::encode, CustomPacketPayload::decode, CustomPacketPayloadHandler::handle);
 	}
-	
+
+	// Packets arrive on the network thread; everything that touches game state runs on the main thread.
 	private static void handle(CustomPacketPayload msg, Supplier<NetworkEvent.Context> ctx) {
-		if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_CLIENT) {
-			handleClient(msg, ctx);
+		NetworkEvent.Context context = ctx.get();
+		if (context.getDirection() == NetworkDirection.PLAY_TO_CLIENT) {
+			context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> CustomOreGen.Client.ClientPacketHandler.handle(msg)));
 		} else {
-			handleServer(msg, ctx);
+			ServerPlayer player = context.getSender();
+			context.enqueueWork(() -> handleServer(msg, player));
 		}
+		context.setPacketHandled(true);
 	}
-	
-	private static void handleClient(CustomPacketPayload msg, Supplier<NetworkEvent.Context> ctx)
+
+	private static void handleServer(CustomPacketPayload msg, ServerPlayer player)
     {
-    	Minecraft mc = Minecraft.getInstance();
-    	LocalPlayer player = mc.player;
-        if (mc.level != null && ClientState.hasLevelChanged(mc.level))
+		if (player == null || msg == null)
+		{
+			return;
+		}
+		MinecraftServer server = player.getServer();
+        ServerState.checkIfServerChanged(server, server.getWorldData());
+
+        switch (msg.type)
         {
-            ClientState.onLevelChanged(mc.level);
-        }
-        
-        if (msg != null)
-        {
-            switch (msg.type)
-            {
-                case DebuggingGeometryData:
-                    ClientState.addDebuggingGeometry((GeometryData)msg.data);
-                    break;
+            case DebuggingGeometryRequest:
+            	// Wireframes reveal where ore is, so only operators (or the single-player host) get them.
+            	if (!server.getPlayerList().isOp(player.getGameProfile()) && !server.isSingleplayerOwner(player.getGameProfile()))
+            	{
+            		return;
+            	}
+                GeometryRequestData request = (GeometryRequestData)msg.data;
+                ServerLevel level = server.getLevel(ResourceKey.create(Registries.DIMENSION, request.dimensionID));
+                if (level == null)
+                {
+                	return;
+                }
+                request.world = level;
+                GeometryData geometryData = ServerState.getDebuggingGeometryData(request);
 
-                case DebuggingGeometryRenderMode:
-                    /*String strMode = (String)msg.data;
+                // Null means debugging mode is off for that dimension; the client is told to start over
+                // (DebuggingGeometryReset) when it gets turned on.
+                if (geometryData != null)
+                {
+                    sendTo(new CustomPacketPayload(PayloadType.DebuggingGeometryData, geometryData), player);
+                }
+                break;
 
-                    if ("_DISABLE_".equals(strMode))
-                    {
-                        ClientState.dgEnabled = false;
-                        return;
-                    }
-
-                    if (strMode != null)
-                    {
-                        WireframeRenderMode idx = null;
-                        for (WireframeRenderMode mode : WireframeRenderMode.values()) {
-                        	if (mode.name().equalsIgnoreCase(strMode))
-                            {
-                                idx = mode;
-                                break;
-                            }
-                        }
-                        
-                        if (idx != null)
-                        {
-                            ClientState.dgRenderingMode = idx;
-                        }
-                        else
-                        {
-                            player.sendMessage(new StringTextComponent("\u00a7cError: Invalid wireframe mode '" + strMode + "'"));
-                        }
-                    }
-                    else*/
-                    {
-                        int mode = ClientState.dgRenderingMode == null ? 0 : ClientState.dgRenderingMode.ordinal();
-                        mode = (mode + 1) % WireframeRenderMode.values().length;
-                        ClientState.dgRenderingMode = WireframeRenderMode.values()[mode];
-                    }
-                    
-                    player.sendSystemMessage(MutableComponent.create(new LiteralContents("COG Client wireframe mode: " + ClientState.dgRenderingMode.name())));
-                    break;
-
-                case DebuggingGeometryReset:
-                    ClientState.clearDebuggingGeometry();
-                    break;
-
-                case CommandResponse:
-                    //player.sendMessage(new StringTextComponent((String)msg.data));
-                    break;
-
-                default:
-                    throw new RuntimeException("Unhandled client packet type " + msg.type);
-            }
+            default:
+                CustomOreGenBase.log.warn("Ignoring unexpected packet type " + msg.type + " from " + player.getName().getString());
         }
     }
 
-	private static void handleServer(CustomPacketPayload msg, Supplier<NetworkEvent.Context> ctx)
-    {
-    	ServerPlayer player = ctx.get().getSender();
-    	ServerLevel handlerLevel = player.getLevel();
-        ServerState.checkIfServerChanged(handlerLevel.getServer(), handlerLevel.getServer().getWorldData());
-        
-        if (msg != null)
-        {
-            switch (msg.type)
-            {
-                case DebuggingGeometryRequest:
-                    GeometryData geometryData = null;
-
-                    if (player.getServer().getPlayerList().isOp(player.getGameProfile()));
-                    {
-                        geometryData = ServerState.getDebuggingGeometryData((GeometryRequestData)msg.data);
-                    }
-
-                    if (geometryData == null)
-                    {
-                        //sendTo(new CustomPacketPayload(PayloadType.DebuggingGeometryRenderMode, "_DISABLE_"), player);
-                    }
-                    else
-                    {
-                        sendTo(new CustomPacketPayload(PayloadType.DebuggingGeometryData, geometryData), player);
-                    }
-
-                    break;
-
-                default:
-                    throw new RuntimeException("Unhandled server packet type " + msg.type);
-            }
-        }
-    }
-	
 	/**
 	 * Sends a packet to the server.<br>
-	 * Must be called Client side. 
+	 * Must be called Client side.
 	 */
 	public static void sendToServer(Object msg)
 	{
-		//CHANNEL.sendToServer(msg);
+		CHANNEL.sendToServer(msg);
 	}
-	
+
 	/**
 	 * Send a packet to a specific player.<br>
-	 * Must be called Server side. 
+	 * Must be called Server side.
 	 */
 	public static void sendTo(Object msg, ServerPlayer player)
 	{
-		/*if (!(player instanceof FakePlayer))
+		if (!(player instanceof FakePlayer))
 		{
-			CHANNEL.sendTo(msg, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
-		}*/
+			CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), msg);
+		}
 	}
 
 	public static void sendToAllClients(Object msg) {
-		//CHANNEL.send(PacketDistributor.ALL.noArg(), msg);
+		CHANNEL.send(PacketDistributor.ALL.noArg(), msg);
 	}
 }
