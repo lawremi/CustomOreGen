@@ -33,12 +33,12 @@ public class ModEventBusSubscriber {
     	if(event.getRegistryKey() == ForgeRegistries.Keys.FEATURES) {
 			System.out.println("ModEventBusSubscriber registerFeature");
     		event.getForgeRegistry().register(
-    				new ResourceLocation(CustomOreGenBase.MODID, "cog_feature"),
+    				ResourceLocation.fromNamespaceAndPath(CustomOreGenBase.MODID, "cog_feature"),
     				new LevelGenFeature(NoneFeatureConfiguration.CODEC));
     	}
     	if(event.getRegistryKey() == ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS) {
     		event.getForgeRegistry().register(
-    				new ResourceLocation(CustomOreGenBase.MODID, "remove_vanilla_ores"),
+    				ResourceLocation.fromNamespaceAndPath(CustomOreGenBase.MODID, "remove_vanilla_ores"),
     				VanillaOreRemovalModifier.CODEC);
     	}
     }

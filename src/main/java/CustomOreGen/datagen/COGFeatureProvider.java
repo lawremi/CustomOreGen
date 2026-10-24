@@ -36,7 +36,7 @@ public class COGFeatureProvider extends JsonCodecProvider<BiomeModifier> {
 
 	public <T extends BiomeModifier> void add(String modifier, T instance)
     {
-        JsonElement json = BiomeModifier.DIRECT_CODEC.encodeStart(JsonOps.INSTANCE, instance).getOrThrow(false, s -> {});
+        JsonElement json = BiomeModifier.DIRECT_CODEC.encodeStart(JsonOps.INSTANCE, instance).getOrThrow();
         this.toSerialize.put(modifier, json);
     }
 }

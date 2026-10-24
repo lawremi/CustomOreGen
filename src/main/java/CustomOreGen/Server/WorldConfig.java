@@ -322,7 +322,7 @@ public class WorldConfig
         properties.put("world.version", worldInfo == null ? 0 : worldInfo.getVersion());
         properties.put("world.isHardcore", worldInfo == null ? false : worldInfo.isHardcore());
         properties.put("world.hasFeatures", worldInfo == null ? false : worldInfo.worldGenOptions().generateStructures());
-        properties.put("world.hasCheats", worldInfo == null ? false : worldInfo.getAllowCommands());
+        properties.put("world.hasCheats", worldInfo == null ? false : worldInfo.isAllowCommands());
         properties.put("world.gameMode", worldInfo == null ? "" : worldInfo.getGameType().getName());
         properties.put("world.gameMode.id", worldInfo == null ? 0 : worldInfo.getGameType().getName());
         properties.put("world.type", worldInfo == null ? "" : worldInfo.getLevelName());

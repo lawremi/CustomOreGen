@@ -2,6 +2,7 @@ package CustomOreGen.Util;
 
 import java.util.Collections;
 import java.util.Hashtable;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -210,6 +211,13 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
 		}
 	}
 
+    /** The tag itself, plus its c: or forge: twin. */
+    public static List<ResourceLocation> equivalentTags(ResourceLocation tag)
+    {
+    	String twin = tag.getNamespace().equals("forge") ? "c" : tag.getNamespace().equals("c") ? "forge" : null;
+    	return twin == null ? List.of(tag) : List.of(tag, ResourceLocation.fromNamespaceAndPath(twin, tag.getPath()));
+    }
+
     protected void compileMatches()
     {
         if (!this._compiled)
@@ -223,15 +231,22 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             		if (tagName == null) {
             			continue;
             		}
-            		TagKey<Block> tagkey = TagKey.create(ForgeRegistries.Keys.BLOCKS, tagName);
-            		ITag<Block> tag = ForgeRegistries.BLOCKS.tags().getTag(tagkey);
+            		// forge: and c: name the same tags: Forge 1.21 is partway through moving to the shared c:
+            		// namespace, and mods use either, so a tag in one also matches the blocks in the other.
+            		Set<Block> tagged = new LinkedHashSet<Block>();
+            		for (ResourceLocation name : equivalentTags(tagName)) {
+            			ITag<Block> tag = ForgeRegistries.BLOCKS.tags().getTag(TagKey.create(ForgeRegistries.Keys.BLOCKS, name));
+            			if (tag.isBound()) {
+            				tag.stream().forEach(tagged::add);
+            			}
+            		}
             		// A tag nothing installed defines (e.g. forge:ores/zinc without a zinc mod) matches nothing,
             		// rather than failing the whole world config.
-            		if(!tag.isBound()) {
+            		if(tagged.isEmpty()) {
             			warnOnce("Block tag '" + desc.description + "' is not defined by any loaded mod; it matches nothing.");
             			continue;
             		}
-            		for (Block block : tag.stream().toList()) {
+            		for (Block block : tagged) {
             			this.add(block, desc.weight);
             			if (desc.matchFirst) {
             				break;

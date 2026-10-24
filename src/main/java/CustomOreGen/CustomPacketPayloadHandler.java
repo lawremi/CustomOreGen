@@ -1,7 +1,5 @@
 package CustomOreGen;
 
-import java.util.function.Supplier;
-
 import CustomOreGen.CustomPacketPayload.PayloadType;
 import CustomOreGen.Server.ServerState;
 import net.minecraft.core.registries.Registries;
@@ -11,13 +9,11 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkDirection;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.ChannelBuilder;
 import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.network.simple.SimpleChannel;
+import net.minecraftforge.network.SimpleChannel;
 
 public class CustomPacketPayloadHandler {
 	public CustomPacketPayloadHandler() {
@@ -25,33 +21,33 @@ public class CustomPacketPayloadHandler {
 	}
 
 	// 2: payloads are encoded field by field instead of with Java serialization.
-	private static final String PROTOCOL_VERSION = Integer.toString(2);
+	private static final int PROTOCOL_VERSION = 2;
 	private static final String CHANNEL_NAME = "customoregen";
 
 	private static final SimpleChannel CHANNEL = buildChannel(CHANNEL_NAME);
 
 	private static final SimpleChannel buildChannel(String name) {
-		return NetworkRegistry.ChannelBuilder
-				.named(new ResourceLocation(CustomOreGenBase.MODID, name))
-				.clientAcceptedVersions(PROTOCOL_VERSION::equals)
-				.serverAcceptedVersions(PROTOCOL_VERSION::equals)
-				.networkProtocolVersion(() -> PROTOCOL_VERSION)
+		return ChannelBuilder
+				.named(ResourceLocation.fromNamespaceAndPath(CustomOreGenBase.MODID, name))
+				.networkProtocolVersion(PROTOCOL_VERSION)
 				.simpleChannel();
 	}
 
 	public static void register()
 	{
-		CHANNEL.registerMessage(0, CustomPacketPayload.class, CustomPacketPayload::encode, CustomPacketPayload::decode, CustomPacketPayloadHandler::handle);
+		CHANNEL.messageBuilder(CustomPacketPayload.class, 0)
+				.encoder(CustomPacketPayload::encode)
+				.decoder(CustomPacketPayload::decode)
+				.consumerMainThread(CustomPacketPayloadHandler::handle)
+				.add();
 	}
 
-	// Packets arrive on the network thread; everything that touches game state runs on the main thread.
-	private static void handle(CustomPacketPayload msg, Supplier<NetworkEvent.Context> ctx) {
-		NetworkEvent.Context context = ctx.get();
-		if (context.getDirection() == NetworkDirection.PLAY_TO_CLIENT) {
-			context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> CustomOreGen.Client.ClientPacketHandler.handle(msg)));
+	// Registered with consumerMainThread, so this already runs on the main thread.
+	private static void handle(CustomPacketPayload msg, CustomPayloadEvent.Context context) {
+		if (context.isClientSide()) {
+			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> CustomOreGen.Client.ClientPacketHandler.handle(msg));
 		} else {
-			ServerPlayer player = context.getSender();
-			context.enqueueWork(() -> handleServer(msg, player));
+			handleServer(msg, context.getSender());
 		}
 		context.setPacketHandled(true);
 	}
@@ -101,7 +97,7 @@ public class CustomPacketPayloadHandler {
 	 */
 	public static void sendToServer(Object msg)
 	{
-		CHANNEL.sendToServer(msg);
+		CHANNEL.send(msg, PacketDistributor.SERVER.noArg());
 	}
 
 	/**
@@ -110,13 +106,14 @@ public class CustomPacketPayloadHandler {
 	 */
 	public static void sendTo(Object msg, ServerPlayer player)
 	{
-		if (!(player instanceof FakePlayer))
+		// Forge no longer has FakePlayer; fake players are the ones without a real connection.
+		if (player.connection != null && player.connection.getConnection() != null)
 		{
-			CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), msg);
+			CHANNEL.send(msg, PacketDistributor.PLAYER.with(player));
 		}
 	}
 
 	public static void sendToAllClients(Object msg) {
-		CHANNEL.send(PacketDistributor.ALL.noArg(), msg);
+		CHANNEL.send(msg, PacketDistributor.ALL.noArg());
 	}
 }

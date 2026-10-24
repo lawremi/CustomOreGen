@@ -2,7 +2,7 @@ package CustomOreGen.Server;
 
 import java.util.List;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.Holder;
@@ -26,7 +26,7 @@ import net.minecraftforge.common.world.ModifiableBiomeInfo;
  */
 public record VanillaOreRemovalModifier(HolderSet<Biome> biomes) implements BiomeModifier
 {
-	public static final Codec<VanillaOreRemovalModifier> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+	public static final MapCodec<VanillaOreRemovalModifier> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
 			Biome.LIST_CODEC.fieldOf("biomes").forGetter(VanillaOreRemovalModifier::biomes)
 		).apply(builder, VanillaOreRemovalModifier::new));
 
@@ -49,14 +49,14 @@ public record VanillaOreRemovalModifier(HolderSet<Biome> biomes) implements Biom
 	}
 
 	@Override
-	public Codec<? extends BiomeModifier> codec()
+	public MapCodec<? extends BiomeModifier> codec()
 	{
 		return CODEC;
 	}
 
 	/**
 	 * A minecraft: placed feature that places ore (an ore or scattered_ore feature whose targets include a
-	 * block tagged forge:ores). Dirt, gravel, granite, tuff, etc. blobs use the same feature type but
+	 * block tagged c:ores). Dirt, gravel, granite, tuff, etc. blobs use the same feature type but
 	 * aren't ores, so they stay.
 	 */
 	private static boolean isVanillaOreFeature(Holder<PlacedFeature> placed)

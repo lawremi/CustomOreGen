@@ -12,8 +12,9 @@ import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.MeshData;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
@@ -110,6 +111,7 @@ public class ClientState
 
             if (!_dgChunkGeometry.isEmpty())
             {
+            	// At this stage the event's "pose stack" is the camera rotation matrix.
             	drawGeometry(event.getPoseStack(), event.getProjectionMatrix(), camera);
             }
         }
@@ -162,11 +164,9 @@ public class ClientState
     	}
     }
 
-    private static void drawGeometry(PoseStack poseStack, Matrix4f projection, Vec3 camera)
+    private static void drawGeometry(Matrix4f cameraRotation, Matrix4f projection, Vec3 camera)
     {
-    	poseStack.pushPose();
-    	poseStack.translate(-camera.x, -camera.y, -camera.z);
-    	Matrix4f modelView = poseStack.last().pose();
+    	Matrix4f modelView = new Matrix4f(cameraRotation).translate((float)-camera.x, (float)-camera.y, (float)-camera.z);
     	ShaderInstance shader = GameRenderer.getPositionColorShader();
 
     	RenderSystem.enableBlend();
@@ -212,7 +212,6 @@ public class ClientState
     	RenderSystem.depthMask(true);
     	RenderSystem.enableCull();
     	RenderSystem.disableBlend();
-    	poseStack.popPose();
     }
 
     private static void buildGeometryDisplayLists() {
@@ -246,13 +245,15 @@ public class ClientState
         renderer.addVertex(new float[] {1.0F, 0.0F, -1.0F});
         renderer.addVertexRef(4);
 
-        BufferBuilder lines = new BufferBuilder(256);
-        lines.begin(VertexFormat.Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR);
-        BufferBuilder polygons = new BufferBuilder(256);
-        polygons.begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
-        renderer.emit(lines, polygons);
+        ChunkGeometry geometry;
 
-        ChunkGeometry geometry = new ChunkGeometry(upload(lines), upload(polygons));
+        try (ByteBufferBuilder lineBytes = new ByteBufferBuilder(256); ByteBufferBuilder polygonBytes = new ByteBufferBuilder(256))
+        {
+        	BufferBuilder lines = new BufferBuilder(lineBytes, VertexFormat.Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR);
+        	BufferBuilder polygons = new BufferBuilder(polygonBytes, VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
+        	renderer.emit(lines, polygons);
+        	geometry = new ChunkGeometry(upload(lines), upload(polygons));
+        }
         long key = (long)geometryData.chunkX << 32 | (long)geometryData.chunkZ & 4294967295L;
         ChunkGeometry previous = _dgChunkGeometry.put(key, geometry);
 
@@ -266,16 +267,16 @@ public class ClientState
 
     private static VertexBuffer upload(BufferBuilder builder)
     {
-    	BufferBuilder.RenderedBuffer rendered = builder.endOrDiscardIfEmpty();
+    	MeshData mesh = builder.build();
 
-    	if (rendered == null)
+    	if (mesh == null)
     	{
     		return null;
     	}
 
-    	VertexBuffer buffer = new VertexBuffer();
+    	VertexBuffer buffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
     	buffer.bind();
-    	buffer.upload(rendered);
+    	buffer.upload(mesh);
     	VertexBuffer.unbind();
     	return buffer;
     }

@@ -209,7 +209,7 @@ public class ConsoleCommand
             {
             	for (String line : result.toString().split("\n"))
             	{
-            		sender.sendSuccess(Component.literal(line), false);
+            		sender.sendSuccess(() -> Component.literal(line), false);
             	}
             }
             return 1;
@@ -235,7 +235,7 @@ public class ConsoleCommand
     	}
     	try
     	{
-    		return sender.getServer().getLevel(ResourceKey.create(Registries.DIMENSION, new ResourceLocation(value)));
+    		return sender.getServer().getLevel(ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(value)));
     	}
     	catch (ResourceLocationException e)
     	{

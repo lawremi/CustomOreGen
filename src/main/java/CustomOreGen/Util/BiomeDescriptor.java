@@ -454,9 +454,18 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 		return server == null ? null : server.registryAccess().registryOrThrow(Registries.BIOME);
 	}
 
-	// Biome Dictionary types (BiomeType in configs) became biome tags in 1.18: Forge's forge:is_<type>
-	// for most, vanilla's minecraft:is_<type> for the rest. These two were renamed along the way.
-	private static final Map<String, String> BIOME_TYPE_ALIASES = Map.of("mesa", "badlands", "hills", "hill");
+	// Biome Dictionary types (BiomeType in configs) became biome tags in 1.18: forge:is_<type>, moving to
+	// the shared c:is_<type> in 1.21 (Forge 1.21.1 still has some under forge:), with vanilla's
+	// minecraft:is_<type> for the rest. Types whose c: tag has another name also try that name; sandy has
+	// no c: tag, so it also tries the biomes the old forge:is_sandy held.
+	private static final Map<String, List<String>> BIOME_TYPE_ALIASES = Map.of(
+			"mesa", List.of("badlands"),
+			"hills", List.of("hill"),
+			"coniferous", List.of("tree/coniferous"),
+			"dense", List.of("dense_vegetation"),
+			"sparse", List.of("sparse_vegetation"),
+			"water", List.of("aquatic"),
+			"sandy", List.of("desert", "badlands", "beach"));
 
 	private static boolean hasBiomeType(Biome biome, String type)
 	{
@@ -471,13 +480,18 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 			return false;
 		}
 		String name = type.toLowerCase(Locale.ROOT);
-		name = BIOME_TYPE_ALIASES.getOrDefault(name, name);
-		for (String namespace : new String[] { "forge", "minecraft" })
+		List<String> tagNames = new LinkedList<String>();
+		tagNames.add(name);
+		tagNames.addAll(BIOME_TYPE_ALIASES.getOrDefault(name, List.of()));
+		for (String tagName : tagNames)
 		{
-			ResourceLocation tag = ResourceLocation.tryBuild(namespace, "is_" + name);
-			if (tag != null && holder.get().is(TagKey.create(Registries.BIOME, tag)))
+			for (String namespace : new String[] { "c", "forge", "minecraft" })
 			{
-				return true;
+				ResourceLocation tag = ResourceLocation.tryBuild(namespace, "is_" + tagName);
+				if (tag != null && holder.get().is(TagKey.create(Registries.BIOME, tag)))
+				{
+					return true;
+				}
 			}
 		}
 		return false;

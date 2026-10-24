@@ -32,7 +32,7 @@ public class COGDataGenerator {
 
 		}
 		if(event.includeServer()) {
-			ResourceLocation placedFeatureRL = new ResourceLocation(CustomOreGenBase.MODID, "ore_removal");
+			ResourceLocation placedFeatureRL = ResourceLocation.fromNamespaceAndPath(CustomOreGenBase.MODID, "ore_removal");
 			//RemoveFeaturesBiomeModifier l;
 			generator.addProvider(event.includeServer(), new COGFeatureProvider(packOutput, fileHelper, CustomOreGenBase.MODID));
 		}

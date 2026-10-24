@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.Vector;
 import java.util.function.Consumer;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import CustomOreGen.Server.ConfigOption.DisplayGroup;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.client.gui.components.AbstractSliderButton;
@@ -24,7 +22,6 @@ import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.contents.LiteralContents;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -46,7 +43,7 @@ public class GuiCustomOreGenSettings extends Screen
 
 	public GuiCustomOreGenSettings(Screen parentGui)
 	{
-		super(MutableComponent.create(new LiteralContents("Custom Ore Gen")));
+		super(Component.literal("Custom Ore Gen"));
 		this._parentGui = parentGui;
 	}
 
@@ -182,7 +179,7 @@ public class GuiCustomOreGenSettings extends Screen
 	}
 
 	private Component makeComponent(String string) {
-		return MutableComponent.create(new LiteralContents(string));
+		return Component.literal(string);
 	}
 
 	@Override
@@ -229,10 +226,10 @@ public class GuiCustomOreGenSettings extends Screen
 	}
 
 	@Override
-	public boolean mouseScrolled(double p_mouseScrolled_1_, double p_mouseScrolled_3_, double p_mouseScrolled_5_) {
+	public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
 		if(_optionPanel != null)
-			_optionPanel.mouseScrolled(p_mouseScrolled_1_, p_mouseScrolled_3_, p_mouseScrolled_5_);
-		return super.mouseScrolled(p_mouseScrolled_1_, p_mouseScrolled_3_, p_mouseScrolled_5_);
+			_optionPanel.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
+		return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
 	}
 
 	protected void actionPerformed(Button button)
@@ -248,14 +245,14 @@ public class GuiCustomOreGenSettings extends Screen
 	}
 	
 	@Override
-	public void render(PoseStack pose, int mouseX, int mouseY, float partialTick) {
-		this.renderBackground(pose);
-		this._optionPanel.render(pose, mouseX, mouseY, partialTick);
-		drawCenteredString(pose, font, "CustomOreGen Options", super.width / 2, tabNavigationBar.getRectangle().bottom() + 4, 16777215);
-		super.render(pose, mouseX, mouseY, partialTick);
+	public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+		// Screen.render draws the background (only one blur is allowed per frame) and then the widgets.
+		super.render(graphics, mouseX, mouseY, partialTick);
+		this._optionPanel.render(graphics, mouseX, mouseY, partialTick);
+		graphics.drawCenteredString(font, "CustomOreGen Options", super.width / 2, tabNavigationBar.getRectangle().bottom() + 4, 16777215);
 		
 		if (this._toolTip != null) {
-			this.renderTooltip(pose, Component.literal(_toolTip), mouseX, mouseY);
+			this.setTooltipForNextRenderPass(Component.literal(_toolTip));
 		}
 
 		if (this.refreshGui > 0)
@@ -268,11 +265,6 @@ public class GuiCustomOreGenSettings extends Screen
 	@Override
 	public void onClose() {
 		super.minecraft.setScreen(_parentGui);
-	}
-
-	@Override
-	public void tick() {
-		this.tabManager.tickCurrent();
 	}
 
 	@Override
@@ -305,7 +297,7 @@ public class GuiCustomOreGenSettings extends Screen
 		protected IOptionControl _clickTarget;
 		
 		public GuiOptionSlot(Minecraft instance, int y0, int y1, int slotHeight, Vector<ConfigOption> options, GuiCustomOreGenSettings parentGui) {
-			super(instance, GuiCustomOreGenSettings.this.width, GuiCustomOreGenSettings.this.height, y0, y1, slotHeight);
+			super(instance, GuiCustomOreGenSettings.this.width, y1 - y0, y0, slotHeight);
 			this._parentGui = parentGui;
 			this._optionControls = new Vector<IOptionControl>();
 			this._clickTarget = null;
@@ -333,7 +325,7 @@ public class GuiCustomOreGenSettings extends Screen
 		}
 
 		@Override
-		protected void renderItem(PoseStack pose, int mouseX, int mouseY, float partialTick, int index, int slotX, int slotY, int slotW, int slotH) {
+		protected void renderItem(GuiGraphics graphics, int mouseX, int mouseY, float partialTick, int index, int slotX, int slotY, int slotW, int slotH) {
 			IOptionControl optCtrl = (IOptionControl)this._optionControls.get(index);
 			ConfigOption option = optCtrl.getOption();
 			AbstractWidget control = optCtrl.getControl();
@@ -342,7 +334,7 @@ public class GuiCustomOreGenSettings extends Screen
 			int nameX = 2 * width / 5 - 15 - nameW;
 			int nameH = font.lineHeight;
 			int nameY = slotY + 8;
-			GuiComponent.drawString(pose, font, Component.literal(optionName), nameX, nameY, 16777215);
+			graphics.drawString(font, Component.literal(optionName), nameX, nameY, 16777215);
 
 			if (mouseX >= nameX && mouseX <= nameX + nameW && mouseY >= nameY && mouseY <= nameY + nameH && this.isMouseOver(mouseX, mouseY))
 			{
@@ -351,17 +343,17 @@ public class GuiCustomOreGenSettings extends Screen
 			//TODO: fix this
 			//if(control == null) return;
 			control.setY(slotY + 3);
-			control.render(pose, mouseX, mouseY, partialTick);
+			control.render(graphics, mouseX, mouseY, partialTick);
 		}
 
 		@Override
-		public void updateNarration(NarrationElementOutput p_169152_) {
+		protected void updateWidgetNarration(NarrationElementOutput p_169152_) {
 			
 		}
 		
 		private static class Entry extends ObjectSelectionList.Entry<GuiOptionSlot.Entry> {
 			@Override
-			public void render(PoseStack p_93523_, int p_93524_, int p_93525_, int p_93526_, int p_93527_, int p_93528_, int p_93529_, int p_93530_, boolean p_93531_, float p_93532_) {
+			public void render(GuiGraphics p_93523_, int p_93524_, int p_93525_, int p_93526_, int p_93527_, int p_93528_, int p_93529_, int p_93530_, boolean p_93531_, float p_93532_) {
 				
 			}
 

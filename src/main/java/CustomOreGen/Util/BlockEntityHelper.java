@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -16,9 +17,10 @@ import net.minecraft.world.level.block.state.BlockState;
 public class BlockEntityHelper {
 
 	public static void readFromPartialNBT(BlockEntity te, CompoundTag source) {
-		CompoundTag dest = te.saveWithFullMetadata();
+		HolderLookup.Provider registries = te.getLevel().registryAccess();
+		CompoundTag dest = te.saveWithFullMetadata(registries);
 		mergeNbt(source, dest);
-		te.load(dest);
+		te.loadWithComponents(dest, registries);
 	}
 
 	public static void readFromPartialNBT(LevelAccessor world, int x, int y, int z, CompoundTag source) {

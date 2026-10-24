@@ -794,7 +794,7 @@ public class GeometryRenderer implements IGeometryBuilder
                 }
             }
 
-            builder.vertex(x, y, z).color(r, g, b, a).endVertex();
+            builder.addVertex(x, y, z).setColor(r, g, b, a);
         }
     }
 

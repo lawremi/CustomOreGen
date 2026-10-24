@@ -21,8 +21,8 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.navigation.ScreenAxis;
 import net.minecraft.client.gui.screens.worldselection.CreateWorldScreen;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.contents.LiteralContents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
@@ -30,7 +30,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.ChunkStatus;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.storage.WorldData;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -269,7 +269,7 @@ public class ServerState
                 // Finished in an earlier session (or before this chunk's step began). The FEATURES region
                 // holds chunks out to 8 away, so these 5x5 lookups never leave it.
                 ChunkAccess chunk = region.getChunk(iX, iZ, ChunkStatus.EMPTY, false);
-                if (chunk == null || !chunk.getStatus().isOrAfter(ChunkStatus.FEATURES))
+                if (chunk == null || !chunk.getPersistedStatus().isOrAfter(ChunkStatus.FEATURES))
                 {
                     return false;
                 }
@@ -353,7 +353,7 @@ public class ServerState
                 }
             };
             
-            _optionsGuiButton = Button.builder(MutableComponent.create(new LiteralContents("Custom Ore Generation...")), action).build();
+            _optionsGuiButton = Button.builder(Component.literal("Custom Ore Generation..."), action).build();
             
             Button button1 = _optionsGuiButton;
             
