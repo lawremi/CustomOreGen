@@ -13,6 +13,7 @@ import java.util.function.Consumer;
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.GeometryData;
 import CustomOreGen.GeometryRequestData;
+import CustomOreGen.Util.CogOreGenEvent;
 import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.SimpleProfiler;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
@@ -25,6 +26,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -34,6 +36,7 @@ import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.storage.WorldData;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.MinecraftForge;
 
 public class ServerState
 {
@@ -231,6 +234,7 @@ public class ServerState
                     if (neighborhoodFeaturesDone(region, done, chunkX + dX, chunkZ + dZ))
                     {
                         populateDistributions(cfg.getOreDistributions(), region, chunkX + dX, chunkZ + dZ);
+                        postOreGenEvent(region, chunkX + dX, chunkZ + dZ);
 
                         if (++_populatedChunkCount % 64 == 0)
                         {
@@ -240,6 +244,14 @@ public class ServerState
                 }
             }
         }
+    }
+
+    /** Tells other mods (such as ore indicator plants) that a chunk's ores are final. */
+    private static void postOreGenEvent(WorldGenLevel region, int chunkX, int chunkZ)
+    {
+        ChunkAccess chunk = region.getChunk(chunkX, chunkZ);
+        RandomSource rand = RandomSource.create(region.getSeed() ^ ChunkPos.asLong(chunkX, chunkZ));
+        MinecraftForge.EVENT_BUS.post(new CogOreGenEvent(region, chunk, rand));
     }
 
     private static void logPopulationSummary(ServerLevel level, WorldConfig cfg)

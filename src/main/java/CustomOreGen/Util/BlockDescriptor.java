@@ -12,9 +12,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
+import net.minecraft.commands.arguments.blocks.BlockStateParser;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -279,11 +282,18 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
                     		break;
                     	}
                     }
+            	} else if (desc.description.indexOf('[') >= 0) {
+            		// A block state, as in commands: namespace:block[property=value,...]. Only that state
+            		// matches, and it is the state placed.
+            		BlockState state = parseState(desc.description);
+            		if (state != null)
+            			this.add(state, desc.nbt, desc.weight);
             	} else {
             		ResourceLocation id = parseId(desc.getBlockName());
-            		/*
-            		 * TODO: support block state on 'desc' and construct + register here
-            		 */
+            		if (!desc.getBlockName().equals(desc.description)) {
+            			warnOnce("Block '" + desc.description + "' uses a pre-1.13 metadata suffix, which is ignored; use a block state such as "
+            					+ desc.getBlockName() + "[property=value].");
+            		}
             		// getValue() returns air for unknown IDs, which would make every outdated ID mean "air".
             		if (id != null && ForgeRegistries.BLOCKS.containsKey(id))
             		  this.add(ForgeRegistries.BLOCKS.getValue(id), desc.nbt, desc.weight);
@@ -452,6 +462,20 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
      * A namespaced ID, or null (with a warning) if it isn't a valid one. Pre-1.13 configs use IDs such as
      * "Mekanism:OreBlock" or "minecraft:sand:1" (capitals, metadata) that are no longer valid.
      */
+    /** Parses namespace:block[property=value,...], or warns and returns null. */
+    private static BlockState parseState(String description)
+    {
+    	try
+    	{
+    		return BlockStateParser.parseForBlock(BuiltInRegistries.BLOCK.asLookup(), description, false).blockState();
+    	}
+    	catch (CommandSyntaxException e)
+    	{
+    		warnOnce("Block state '" + description + "' is not valid (" + e.getMessage() + "); it matches nothing.");
+    		return null;
+    	}
+    }
+
     private static ResourceLocation parseId(String id)
     {
     	ResourceLocation location = ResourceLocation.tryParse(id);
