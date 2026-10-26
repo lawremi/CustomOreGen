@@ -2,20 +2,21 @@ package CustomOreGen;
 
 import CustomOreGen.Server.LevelGenFeature;
 import CustomOreGen.Server.VanillaOreRemovalModifier;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegisterEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import net.neoforged.neoforge.registries.RegisterEvent;
 
 @EventBusSubscriber(modid = CustomOreGenBase.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ModEventBusSubscriber {
     @SubscribeEvent
-	public static void onFMLPreInit(FMLCommonSetupEvent event) {
-    	CustomPacketPayloadHandler.register();
+	public static void registerPayloads(RegisterPayloadHandlersEvent event) {
+    	CustomPacketPayloadHandler.register(event);
     }
     
     /**
@@ -30,17 +31,10 @@ public class ModEventBusSubscriber {
      */
     @SubscribeEvent
     public static void registerFeature(RegisterEvent event) {
-    	if(event.getRegistryKey() == ForgeRegistries.Keys.FEATURES) {
-			System.out.println("ModEventBusSubscriber registerFeature");
-    		event.getForgeRegistry().register(
-    				ResourceLocation.fromNamespaceAndPath(CustomOreGenBase.MODID, "cog_feature"),
-    				new LevelGenFeature(NoneFeatureConfiguration.CODEC));
-    	}
-    	if(event.getRegistryKey() == ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS) {
-    		event.getForgeRegistry().register(
-    				ResourceLocation.fromNamespaceAndPath(CustomOreGenBase.MODID, "remove_vanilla_ores"),
-    				VanillaOreRemovalModifier.CODEC);
-    	}
+    	event.register(Registries.FEATURE, ResourceLocation.fromNamespaceAndPath(CustomOreGenBase.MODID, "cog_feature"),
+    			() -> new LevelGenFeature(NoneFeatureConfiguration.CODEC));
+    	event.register(NeoForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, ResourceLocation.fromNamespaceAndPath(CustomOreGenBase.MODID, "remove_vanilla_ores"),
+    			() -> VanillaOreRemovalModifier.CODEC);
     }
     
     @SubscribeEvent

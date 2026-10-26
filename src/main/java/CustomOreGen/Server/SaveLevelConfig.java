@@ -5,7 +5,7 @@ import java.io.File;
 import CustomOreGen.CustomOreGenBase;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.storage.LevelResource;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 /**
  * The options that apply to the whole server rather than one dimension, read once per server start

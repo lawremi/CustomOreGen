@@ -3,17 +3,16 @@ package CustomOreGen;
 import CustomOreGen.CustomPacketPayload.PayloadType;
 import CustomOreGen.Server.ServerState;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.event.network.CustomPayloadEvent;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.ChannelBuilder;
-import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.network.SimpleChannel;
+import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public class CustomPacketPayloadHandler {
 	public CustomPacketPayloadHandler() {
@@ -21,35 +20,33 @@ public class CustomPacketPayloadHandler {
 	}
 
 	// 2: payloads are encoded field by field instead of with Java serialization.
-	private static final int PROTOCOL_VERSION = 2;
-	private static final String CHANNEL_NAME = "customoregen";
+	private static final String PROTOCOL_VERSION = "2";
 
-	private static final SimpleChannel CHANNEL = buildChannel(CHANNEL_NAME);
+	/** COG's payload as a network packet (it encodes itself, as it did on Forge's channel). */
+	public record Packet(CustomPacketPayload msg) implements net.minecraft.network.protocol.common.custom.CustomPacketPayload {
+		public static final Type<Packet> TYPE = new Type<Packet>(ResourceLocation.fromNamespaceAndPath(CustomOreGenBase.MODID, "customoregen"));
+		public static final StreamCodec<FriendlyByteBuf, Packet> STREAM_CODEC = StreamCodec.of(
+				(buf, packet) -> CustomPacketPayload.encode(packet.msg(), buf),
+				buf -> new Packet(CustomPacketPayload.decode(buf)));
 
-	private static final SimpleChannel buildChannel(String name) {
-		return ChannelBuilder
-				.named(ResourceLocation.fromNamespaceAndPath(CustomOreGenBase.MODID, name))
-				.networkProtocolVersion(PROTOCOL_VERSION)
-				.simpleChannel();
-	}
-
-	public static void register()
-	{
-		CHANNEL.messageBuilder(CustomPacketPayload.class, 0)
-				.encoder(CustomPacketPayload::encode)
-				.decoder(CustomPacketPayload::decode)
-				.consumerMainThread(CustomPacketPayloadHandler::handle)
-				.add();
-	}
-
-	// Registered with consumerMainThread, so this already runs on the main thread.
-	private static void handle(CustomPacketPayload msg, CustomPayloadEvent.Context context) {
-		if (context.isClientSide()) {
-			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> CustomOreGen.Client.ClientPacketHandler.handle(msg));
-		} else {
-			handleServer(msg, context.getSender());
+		@Override
+		public Type<Packet> type() {
+			return TYPE;
 		}
-		context.setPacketHandled(true);
+	}
+
+	public static void register(RegisterPayloadHandlersEvent event)
+	{
+		// Handlers run on the main thread.
+		event.registrar(PROTOCOL_VERSION).playBidirectional(Packet.TYPE, Packet.STREAM_CODEC, CustomPacketPayloadHandler::handle);
+	}
+
+	private static void handle(Packet packet, IPayloadContext context) {
+		if (context.flow().isClientbound()) {
+			CustomOreGen.Client.ClientPacketHandler.handle(packet.msg());
+		} else {
+			handleServer(packet.msg(), (ServerPlayer)context.player());
+		}
 	}
 
 	private static void handleServer(CustomPacketPayload msg, ServerPlayer player)
@@ -95,25 +92,25 @@ public class CustomPacketPayloadHandler {
 	 * Sends a packet to the server.<br>
 	 * Must be called Client side.
 	 */
-	public static void sendToServer(Object msg)
+	public static void sendToServer(CustomPacketPayload msg)
 	{
-		CHANNEL.send(msg, PacketDistributor.SERVER.noArg());
+		PacketDistributor.sendToServer(new Packet(msg));
 	}
 
 	/**
 	 * Send a packet to a specific player.<br>
 	 * Must be called Server side.
 	 */
-	public static void sendTo(Object msg, ServerPlayer player)
+	public static void sendTo(CustomPacketPayload msg, ServerPlayer player)
 	{
-		// Forge no longer has FakePlayer; fake players are the ones without a real connection.
+		// Fake players are the ones without a real connection.
 		if (player.connection != null && player.connection.getConnection() != null)
 		{
-			CHANNEL.send(msg, PacketDistributor.PLAYER.with(player));
+			PacketDistributor.sendToPlayer(player, new Packet(msg));
 		}
 	}
 
-	public static void sendToAllClients(Object msg) {
-		CHANNEL.send(msg, PacketDistributor.ALL.noArg());
+	public static void sendToAllClients(CustomPacketPayload msg) {
+		PacketDistributor.sendToAllPlayers(new Packet(msg));
 	}
 }

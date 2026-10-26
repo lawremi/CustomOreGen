@@ -50,11 +50,11 @@ public final class WorldGenQueries
 		ServerLevel level = serverLevel(world);
 		if (level == null)
 		{
-			return world.getBiome(new BlockPos(x, y, z)).get();
+			return world.getBiome(new BlockPos(x, y, z)).value();
 		}
 		ServerChunkCache source = level.getChunkSource();
 		return source.getGenerator().getBiomeSource()
 				.getNoiseBiome(QuartPos.fromBlock(x), QuartPos.fromBlock(y), QuartPos.fromBlock(z), source.randomState().sampler())
-				.get();
+				.value();
 	}
 }

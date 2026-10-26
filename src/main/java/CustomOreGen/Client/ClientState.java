@@ -34,9 +34,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 
 public class ClientState
 {
@@ -111,8 +111,8 @@ public class ClientState
 
             if (!_dgChunkGeometry.isEmpty())
             {
-            	// At this stage the event's "pose stack" is the camera rotation matrix.
-            	drawGeometry(event.getPoseStack(), event.getProjectionMatrix(), camera);
+            	// At this stage the model-view matrix is the camera rotation.
+            	drawGeometry(event.getModelViewMatrix(), event.getProjectionMatrix(), camera);
             }
         }
     }

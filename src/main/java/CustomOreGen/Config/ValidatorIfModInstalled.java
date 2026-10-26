@@ -2,7 +2,7 @@ package CustomOreGen.Config;
 
 import org.w3c.dom.Node;
 
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 
 public class ValidatorIfModInstalled extends ValidatorCondition
 {

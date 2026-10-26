@@ -28,8 +28,7 @@ import net.minecraft.world.level.biome.Climate.ParameterPoint;
 import net.minecraft.world.level.biome.MultiNoiseBiomeSourceParameterList;
 import net.minecraft.core.Registry;
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 {
@@ -500,20 +499,21 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 	private static Iterable<Biome> allBiomes()
 	{
 		Registry<Biome> biomes = serverBiomes();
-		return biomes != null ? biomes : ForgeRegistries.BIOMES;
+		// Biomes are data-pack registry entries: without a server there are none.
+		return biomes != null ? biomes : List.of();
 	}
 
 	private static ResourceLocation biomeKey(Biome biome)
 	{
 		Registry<Biome> biomes = serverBiomes();
 		ResourceLocation key = biomes == null ? null : biomes.getKey(biome);
-		return key != null ? key : ForgeRegistries.BIOMES.getKey(biome);
+		return key;
 	}
 
 	private static Biome biomeByKey(ResourceLocation key)
 	{
 		Registry<Biome> biomes = serverBiomes();
 		Biome biome = biomes == null ? null : biomes.get(key);
-		return biome != null ? biome : ForgeRegistries.BIOMES.getValue(key);
+		return biome;
 	}
 }

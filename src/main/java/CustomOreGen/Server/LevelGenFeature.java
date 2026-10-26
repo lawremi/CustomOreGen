@@ -11,7 +11,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 
 /**
  * customoregen:cog_feature. Attached to the last generation step (top_layer_modification) of every
- * biome by the biome modifiers in data/customoregen/forge/biome_modifier, and placed once per chunk
+ * biome by the biome modifiers in data/customoregen/neoforge/biome_modifier, and placed once per chunk
  * (its placed feature has no placement modifiers, so the origin is the chunk's corner). Being last means
  * this chunk's own feature writes are finished; see ServerState.onChunkFeaturesDone for the rest.
  */

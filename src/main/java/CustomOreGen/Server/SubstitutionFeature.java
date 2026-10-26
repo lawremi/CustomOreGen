@@ -321,7 +321,7 @@ public class SubstitutionFeature extends Feature<NoneFeatureConfiguration> imple
                             for (int z = minZ; z < maxZ; ++z)
                             {
                             	// Noise biomes are stored per 4x4x4 cell, addressed in quart (block / 4) coordinates.
-                            	Biome biome = chunk.getNoiseBiome(QuartPos.fromBlock(x), QuartPos.fromBlock(world.getSeaLevel()), QuartPos.fromBlock(z)).get();
+                            	Biome biome = chunk.getNoiseBiome(QuartPos.fromBlock(x), QuartPos.fromBlock(world.getSeaLevel()), QuartPos.fromBlock(z)).value();
 
                                 if (biome == null || this.biomes.getWeight(biome) > 0.5F)
                                 {

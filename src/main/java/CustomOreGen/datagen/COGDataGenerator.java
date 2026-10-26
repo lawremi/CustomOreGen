@@ -12,10 +12,10 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class COGDataGenerator {
@@ -34,7 +34,7 @@ public class COGDataGenerator {
 		if(event.includeServer()) {
 			ResourceLocation placedFeatureRL = ResourceLocation.fromNamespaceAndPath(CustomOreGenBase.MODID, "ore_removal");
 			//RemoveFeaturesBiomeModifier l;
-			generator.addProvider(event.includeServer(), new COGFeatureProvider(packOutput, fileHelper, CustomOreGenBase.MODID));
+			generator.addProvider(event.includeServer(), new COGFeatureProvider(packOutput, lookupProvider, fileHelper, CustomOreGenBase.MODID));
 		}
 	}
 }

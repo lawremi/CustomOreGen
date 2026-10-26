@@ -17,15 +17,15 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
 import net.minecraft.commands.arguments.blocks.BlockStateParser;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.tags.ITag;
 
 public class BlockDescriptor implements Copyable<BlockDescriptor>
 {
@@ -120,7 +120,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
     }
 
 	public BlockDescriptor set(Block block) {
-		return this.set(ForgeRegistries.BLOCKS.getKey(block).toString());
+		return this.set(BuiltInRegistries.BLOCK.getKey(block).toString());
 	}
 	
     public BlockDescriptor set(String descriptor)
@@ -188,7 +188,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
     	Block block = blockState.getBlock();
     	CompoundTag nbt = blockInfo.getNBT();
     	if (nbt != null && !blockState.hasBlockEntity()) {
-    		ResourceLocation name = ForgeRegistries.BLOCKS.getKey(block);
+    		ResourceLocation name = BuiltInRegistries.BLOCK.getKey(block);
     		throw new IllegalArgumentException("NBT specified, but matching block " + 
     				name + " lacks tile entity");
     	}
@@ -238,10 +238,8 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             		// namespace, and mods use either, so a tag in one also matches the blocks in the other.
             		Set<Block> tagged = new LinkedHashSet<Block>();
             		for (ResourceLocation name : equivalentTags(tagName)) {
-            			ITag<Block> tag = ForgeRegistries.BLOCKS.tags().getTag(TagKey.create(ForgeRegistries.Keys.BLOCKS, name));
-            			if (tag.isBound()) {
-            				tag.stream().forEach(tagged::add);
-            			}
+            			BuiltInRegistries.BLOCK.getTag(TagKey.create(Registries.BLOCK, name))
+            				.ifPresent(tag -> tag.stream().map(Holder::value).forEach(tagged::add));
             		}
             		// A tag nothing installed defines (e.g. forge:ores/zinc without a zinc mod) matches nothing,
             		// rather than failing the whole world config.
@@ -256,7 +254,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             			}
             		}
             	} else if (desc.regexp) {
-            		for (Block block : ForgeRegistries.BLOCKS) {
+            		for (Block block : BuiltInRegistries.BLOCK) {
             			//desc.regexMatch compares against states
                     	float[] weights = desc.regexMatch(block);
                     	this.add(block, desc.nbt, weights[0]);
@@ -295,8 +293,8 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             					+ desc.getBlockName() + "[property=value].");
             		}
             		// getValue() returns air for unknown IDs, which would make every outdated ID mean "air".
-            		if (id != null && ForgeRegistries.BLOCKS.containsKey(id))
-            		  this.add(ForgeRegistries.BLOCKS.getValue(id), desc.nbt, desc.weight);
+            		if (id != null && BuiltInRegistries.BLOCK.containsKey(id))
+            		  this.add(BuiltInRegistries.BLOCK.get(id), desc.nbt, desc.weight);
             		else if (id != null)
             			warnOnce("Block '" + desc.getBlockName() + "' is not registered; it matches nothing.");
             	}
@@ -439,7 +437,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         	float weight = entry.getValue().weight;
             Block block = entry.getKey().getBlock();
             
-            breakdown[i] = ForgeRegistries.BLOCKS.getKey(block).toString();
+            breakdown[i] = BuiltInRegistries.BLOCK.getKey(block).toString();
             breakdown[i] += " (" + weight + ")";
             
             ++i;
@@ -528,7 +526,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         public float[] regexMatch(Block block)
         {
             float[] weights = new float[1];
-            String name = ForgeRegistries.BLOCKS.getKey(block).toString();
+            String name = BuiltInRegistries.BLOCK.getKey(block).toString();
         	
             if (!this.getPattern().matcher(name).matches())
             {

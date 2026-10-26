@@ -3,11 +3,13 @@ package CustomOreGen.datagen;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
 import com.google.gson.JsonElement;
 import com.mojang.serialization.JsonOps;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderOwner;
 import net.minecraft.core.HolderSet;
 import net.minecraft.data.PackOutput;
@@ -16,20 +18,20 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.common.data.JsonCodecProvider;
-import net.minecraftforge.common.world.BiomeModifier;
-import net.minecraftforge.common.world.ForgeBiomeModifiers.RemoveFeaturesBiomeModifier;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.data.JsonCodecProvider;
+import net.neoforged.neoforge.common.world.BiomeModifier;
+import net.neoforged.neoforge.common.world.BiomeModifiers.RemoveFeaturesBiomeModifier;
 
 public class COGFeatureProvider extends JsonCodecProvider<BiomeModifier> {
     private final Map<String, JsonElement> toSerialize = new HashMap<>();
 
-	public COGFeatureProvider(PackOutput output, ExistingFileHelper existingFileHelper, String modid) {
-		super(output, existingFileHelper, modid, JsonOps.INSTANCE, PackType.SERVER_DATA, "worldgen/placed_feature", RemoveFeaturesBiomeModifier.DIRECT_CODEC, Map.of());
+	public COGFeatureProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper existingFileHelper, String modid) {
+		super(output, PackOutput.Target.DATA_PACK, "worldgen/placed_feature", PackType.SERVER_DATA, BiomeModifier.DIRECT_CODEC, registries, modid, existingFileHelper);
 	}
 
 	@Override
-	protected void gather(BiConsumer<ResourceLocation, BiomeModifier> consumer) {
+	protected void gather() {
 		//HolderOwner owner;
 		//add(new RemoveFeaturesBiomeModifier(new HolderSet.Named(owner, BiomeTags.IS_OVERWORLD), Set.of(), Set.of(Decoration.UNDERGROUND_ORES)));
 	}

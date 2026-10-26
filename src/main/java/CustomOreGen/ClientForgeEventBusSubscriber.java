@@ -5,14 +5,13 @@ import CustomOreGen.Server.ServerState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.worldselection.CreateWorldScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.client.event.ScreenEvent;
-import net.minecraftforge.event.TickEvent.ClientTickEvent;
-import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.level.LevelEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.client.event.ScreenEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 
 /**
  * Forge-bus events that only exist on the client. Forge 1.21 no longer allows @OnlyIn on subscriber
@@ -22,11 +21,8 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 public class ClientForgeEventBusSubscriber
 {
     @SubscribeEvent
-    public static void onClientTick(ClientTickEvent event)
+    public static void onClientTick(ClientTickEvent.Post event)
     {
-    	if (event.phase != Phase.END) {
-    		return;
-    	}
         Minecraft mc = Minecraft.getInstance();
 
         if (mc.level != null && ClientState.hasLevelChanged(mc.level))

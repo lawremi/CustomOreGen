@@ -34,9 +34,9 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.storage.WorldData;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.NeoForge;
 
 public class ServerState
 {
@@ -251,7 +251,7 @@ public class ServerState
     {
         ChunkAccess chunk = region.getChunk(chunkX, chunkZ);
         RandomSource rand = RandomSource.create(region.getSeed() ^ ChunkPos.asLong(chunkX, chunkZ));
-        MinecraftForge.EVENT_BUS.post(new CogOreGenEvent(region, chunk, rand));
+        NeoForge.EVENT_BUS.post(new CogOreGenEvent(region, chunk, rand));
     }
 
     private static void logPopulationSummary(ServerLevel level, WorldConfig cfg)
