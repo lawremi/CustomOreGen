@@ -1,42 +1,33 @@
 package CustomOreGen.Client;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.joml.Matrix4f;
-import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.ByteBufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.MeshData;
-import com.mojang.blaze3d.vertex.VertexBuffer;
-import com.mojang.blaze3d.vertex.VertexFormat;
 
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.CustomPacketPayload;
 import CustomOreGen.CustomPacketPayload.PayloadType;
-import CustomOreGen.CustomPacketPayloadHandler;
 import CustomOreGen.GeometryData;
 import CustomOreGen.GeometryRequestData;
 import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.GeometryStream.GeometryStreamException;
 import CustomOreGen.Util.IGeometryBuilder.PrimitiveType;
 import CustomOreGen.Util.Transform;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.client.Minecraft;
+import net.minecraft.gizmos.GizmoProperties;
+import net.minecraft.gizmos.GizmoStyle;
+import net.minecraft.gizmos.Gizmos;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 
 public class ClientState
 {
@@ -46,9 +37,7 @@ public class ClientState
     private static int _dgScanCounter = 0;
     private static int _dgBatchID = 0;
     // Uploaded geometry per chunk; replaces the GL display lists used before 1.17 (core profile has none).
-    @OnlyIn(Dist.CLIENT)
     private static Map<Long,ChunkGeometry> _dgChunkGeometry = new HashMap<Long, ChunkGeometry>();
-    @OnlyIn(Dist.CLIENT)
     private static Set<Long> _chunkDGRequests = new HashSet<Long>();
     // Filled from the network thread's enqueued work, drained on the render thread.
     private static Queue<GeometryData> geometryDataQueue = new ConcurrentLinkedQueue<GeometryData>();
@@ -62,33 +51,15 @@ public class ClientState
         WIREFRAMEOVERLAY;
     }
 
-    @OnlyIn(Dist.CLIENT)
-    private static class ChunkGeometry
+    /** A chunk's geometry: line vertex pairs and triangle vertex triples, drawn as gizmos each tick. */
+    private record ChunkGeometry(List<GeometryRenderer.Vertex> lines, List<GeometryRenderer.Vertex> polygons) { }
+
+    /**
+     * Called each client tick, while Minecraft collects the tick's debug gizmos (which it draws until the next
+     * tick): requests geometry for nearby chunks and draws what has arrived.
+     */
+    public static void onClientTick(Minecraft mc)
     {
-    	final VertexBuffer lines;
-    	final VertexBuffer polygons;
-
-    	ChunkGeometry(VertexBuffer lines, VertexBuffer polygons)
-    	{
-    		this.lines = lines;
-    		this.polygons = polygons;
-    	}
-
-    	void close()
-    	{
-    		if (this.lines != null) this.lines.close();
-    		if (this.polygons != null) this.polygons.close();
-    	}
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public static void onRenderLevel(RenderLevelStageEvent event)
-    {
-    	if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS)
-    	{
-    		return;
-    	}
-
     	if (clearDisplayLists) {
     		clearDebuggingDisplayLists();
     		clearDisplayLists = false;
@@ -97,11 +68,11 @@ public class ClientState
         if (_world != null && dgEnabled && dgRenderingMode != null && dgRenderingMode != WireframeRenderMode.NONE)
         {
         	buildGeometryDisplayLists();
-        	Vec3 camera = event.getCamera().getPosition();
+        	Vec3 camera = mc.gameRenderer.mainCamera().position();
 
             if (_dgScanCounter == 0)
             {
-                _dgScanCounter = 60;
+                _dgScanCounter = 20;
                 requestNearbyGeometry(camera);
             }
             else
@@ -111,8 +82,7 @@ public class ClientState
 
             if (!_dgChunkGeometry.isEmpty())
             {
-            	// At this stage the model-view matrix is the camera rotation.
-            	drawGeometry(event.getModelViewMatrix(), event.getProjectionMatrix(), camera);
+            	drawGeometry();
             }
         }
     }
@@ -157,61 +127,55 @@ public class ClientState
     			if (!_dgChunkGeometry.containsKey(key) && _chunkDGRequests.add(key))
     			{
     				GeometryRequestData request = new GeometryRequestData(_world, iX, iZ, _dgBatchID);
-    				CustomPacketPayloadHandler.sendToServer(new CustomPacketPayload(PayloadType.DebuggingGeometryRequest, request));
+    				ClientPacketHandler.sendToServer(new CustomPacketPayload(PayloadType.DebuggingGeometryRequest, request));
     				--maxRequest;
     			}
     		}
     	}
     }
 
-    private static void drawGeometry(Matrix4f cameraRotation, Matrix4f projection, Vec3 camera)
+    private static void drawGeometry()
     {
-    	Matrix4f modelView = new Matrix4f(cameraRotation).translate((float)-camera.x, (float)-camera.y, (float)-camera.z);
-    	ShaderInstance shader = GameRenderer.getPositionColorShader();
-
-    	RenderSystem.enableBlend();
-    	RenderSystem.defaultBlendFunc();
-    	RenderSystem.disableCull();
-    	RenderSystem.depthMask(false);
-
-    	if (dgRenderingMode == WireframeRenderMode.WIREFRAMEOVERLAY)
-    	{
-    		RenderSystem.disableDepthTest();
-    	}
+    	boolean onTop = dgRenderingMode == WireframeRenderMode.WIREFRAMEOVERLAY;
 
     	for (ChunkGeometry geometry : _dgChunkGeometry.values())
     	{
-    		if (geometry.lines != null)
+    		List<GeometryRenderer.Vertex> lines = geometry.lines();
+    		for (int i = 0; i + 1 < lines.size(); i += 2)
     		{
-    			geometry.lines.bind();
-    			geometry.lines.drawWithShader(modelView, projection, shader);
+    			draw(Gizmos.line(vec(lines.get(i)), vec(lines.get(i + 1)), lines.get(i).argb()), onTop);
+    		}
+
+    		List<GeometryRenderer.Vertex> polygons = geometry.polygons();
+    		for (int i = 0; i + 2 < polygons.size(); i += 3)
+    		{
+    			GeometryRenderer.Vertex a = polygons.get(i), b = polygons.get(i + 1), c = polygons.get(i + 2);
+    			if (dgRenderingMode == WireframeRenderMode.POLYGON)
+    			{
+    				// A triangle, as a quad with its last corner repeated.
+    				draw(Gizmos.rect(vec(a), vec(b), vec(c), vec(c), GizmoStyle.fill(a.argb())), onTop);
+    			}
+    			else
+    			{
+    				draw(Gizmos.line(vec(a), vec(b), a.argb()), onTop);
+    				draw(Gizmos.line(vec(b), vec(c), a.argb()), onTop);
+    				draw(Gizmos.line(vec(c), vec(a), a.argb()), onTop);
+    			}
     		}
     	}
+    }
 
-    	if (dgRenderingMode != WireframeRenderMode.POLYGON)
+    private static void draw(GizmoProperties gizmo, boolean onTop)
+    {
+    	if (onTop)
     	{
-    		RenderSystem.polygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
+    		gizmo.setAlwaysOnTop();
     	}
+    }
 
-    	for (ChunkGeometry geometry : _dgChunkGeometry.values())
-    	{
-    		if (geometry.polygons != null)
-    		{
-    			geometry.polygons.bind();
-    			geometry.polygons.drawWithShader(modelView, projection, shader);
-    		}
-    	}
-
-    	if (dgRenderingMode != WireframeRenderMode.POLYGON)
-    	{
-    		RenderSystem.polygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
-    	}
-
-    	VertexBuffer.unbind();
-    	RenderSystem.enableDepthTest();
-    	RenderSystem.depthMask(true);
-    	RenderSystem.enableCull();
-    	RenderSystem.disableBlend();
+    private static Vec3 vec(GeometryRenderer.Vertex v)
+    {
+    	return new Vec3(v.x(), v.y(), v.z());
     }
 
     private static void buildGeometryDisplayLists() {
@@ -245,41 +209,15 @@ public class ClientState
         renderer.addVertex(new float[] {1.0F, 0.0F, -1.0F});
         renderer.addVertexRef(4);
 
-        ChunkGeometry geometry;
-
-        try (ByteBufferBuilder lineBytes = new ByteBufferBuilder(256); ByteBufferBuilder polygonBytes = new ByteBufferBuilder(256))
-        {
-        	BufferBuilder lines = new BufferBuilder(lineBytes, VertexFormat.Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR);
-        	BufferBuilder polygons = new BufferBuilder(polygonBytes, VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
-        	renderer.emit(lines, polygons);
-        	geometry = new ChunkGeometry(upload(lines), upload(polygons));
-        }
+        List<GeometryRenderer.Vertex> lines = new ArrayList<GeometryRenderer.Vertex>();
+        List<GeometryRenderer.Vertex> polygons = new ArrayList<GeometryRenderer.Vertex>();
+        renderer.emit(lines, polygons);
+        ChunkGeometry geometry = new ChunkGeometry(lines, polygons);
         long key = (long)geometryData.chunkX << 32 | (long)geometryData.chunkZ & 4294967295L;
-        ChunkGeometry previous = _dgChunkGeometry.put(key, geometry);
-
-        if (previous != null)
-        {
-        	previous.close();
-        }
+        _dgChunkGeometry.put(key, geometry);
 
         _chunkDGRequests.remove(key);
 	}
-
-    private static VertexBuffer upload(BufferBuilder builder)
-    {
-    	MeshData mesh = builder.build();
-
-    	if (mesh == null)
-    	{
-    		return null;
-    	}
-
-    	VertexBuffer buffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
-    	buffer.bind();
-    	buffer.upload(mesh);
-    	VertexBuffer.unbind();
-    	return buffer;
-    }
 
     public static boolean hasLevelChanged(Level currentLevel)
     {
@@ -289,13 +227,13 @@ public class ClientState
     public static void onLevelChanged(Level currentLevel)
     {
         _world = currentLevel;
-        CustomOreGenBase.log.debug("Client world changed to " + (_world == null ? null : _world.dimension().location()));
+        CustomOreGenBase.log.debug("Client world changed to " + (_world == null ? null : _world.dimension().identifier()));
         clearDebuggingGeometry();
     }
 
     public static void addDebuggingGeometry(GeometryData geometryData)
     {
-        if (_world != null && geometryData.batchID == _dgBatchID && _world.dimension().location().equals(geometryData.dimensionID))
+        if (_world != null && geometryData.batchID == _dgBatchID && _world.dimension().identifier().equals(geometryData.dimensionID))
         {
         	geometryDataQueue.add(geometryData);
         }
@@ -309,10 +247,6 @@ public class ClientState
     // Runs on the render thread (from onRenderLevel), since it frees GPU buffers.
     private static void clearDebuggingDisplayLists()
     {
-    	for (ChunkGeometry geometry : _dgChunkGeometry.values())
-    	{
-    		geometry.close();
-    	}
 
         _dgChunkGeometry.clear();
         _chunkDGRequests.clear();

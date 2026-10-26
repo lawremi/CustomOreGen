@@ -7,9 +7,10 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
-import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.feature.AbstractOreFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.world.BiomeModifier;
@@ -34,7 +35,7 @@ public record VanillaOreRemovalModifier(HolderSet<Biome> biomes) implements Biom
 	private static final Decoration[] ORE_STEPS = { Decoration.UNDERGROUND_ORES, Decoration.UNDERGROUND_DECORATION };
 
 	@Override
-	public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder)
+	public void modify(RegistryAccess registries, Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder)
 	{
 		if (phase != Phase.REMOVE || !this.biomes.contains(biome) || SaveLevelConfig.vanillaOreGen())
 		{
@@ -61,14 +62,14 @@ public record VanillaOreRemovalModifier(HolderSet<Biome> biomes) implements Biom
 	 */
 	private static boolean isVanillaOreFeature(Holder<PlacedFeature> placed)
 	{
-		boolean vanilla = placed.unwrapKey().map(key -> key.location().getNamespace().equals("minecraft")).orElse(false);
+		boolean vanilla = placed.unwrapKey().map(key -> key.identifier().getNamespace().equals("minecraft")).orElse(false);
 		if (!vanilla)
 		{
 			return false;
 		}
-		if (placed.value().feature().value().config() instanceof OreConfiguration ore)
+		if (placed.value().feature().value() instanceof AbstractOreFeature ore)
 		{
-			return ore.targetStates.stream().anyMatch(target -> target.state.is(Tags.Blocks.ORES));
+			return ore.targetStates().stream().anyMatch(target -> target.state().is(Tags.BlockItems.ORES.block()));
 		}
 		return false;
 	}

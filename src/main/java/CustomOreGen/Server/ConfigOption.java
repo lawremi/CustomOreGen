@@ -1,8 +1,6 @@
 package CustomOreGen.Server;
 
 import CustomOreGen.Util.Localization;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 
 public abstract class ConfigOption
@@ -40,17 +38,14 @@ public abstract class ConfigOption
         return this._description;
     }
 
-    @OnlyIn(Dist.CLIENT)
     public String getLocalizedDescription() {
     	return this.localize("description", this.getDescription());
     }
 
-    @OnlyIn(Dist.CLIENT)
     public String getLocalizedDisplayName() {
     	return this.localize("displayName", this.getDisplayName());
     }
 
-    @OnlyIn(Dist.CLIENT)
 	private String localize(String key, String value) {
 		return Localization.maybeLocalize(this.getName() + "." + key, value); 
 	}

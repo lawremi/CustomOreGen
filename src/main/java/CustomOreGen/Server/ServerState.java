@@ -6,9 +6,7 @@ import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.GeometryData;
@@ -18,12 +16,6 @@ import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.SimpleProfiler;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.client.gui.navigation.ScreenAxis;
-import net.minecraft.client.gui.screens.worldselection.CreateWorldScreen;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -34,8 +26,6 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.storage.WorldData;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.common.NeoForge;
 
 public class ServerState
@@ -46,7 +36,6 @@ public class ServerState
     // Chunks whose FEATURES step has reached COG this session, per dimension. See onChunkFeaturesDone.
     private static final Map<ServerLevel,LongSet> _featuresDone = new HashMap<ServerLevel, LongSet>();
     private static int _populatedChunkCount = 0;
-    private static Button _optionsGuiButton = null;
     private static boolean forcingChunk;
 
     public static WorldConfig getWorldConfig(LevelAccessor world)
@@ -225,7 +214,7 @@ public class ServerState
         synchronized (_featuresDone)
         {
             LongSet done = _featuresDone.computeIfAbsent(level, k -> new LongOpenHashSet());
-            done.add(ChunkPos.asLong(chunkX, chunkZ));
+            done.add(ChunkPos.pack(chunkX, chunkZ));
 
             for (int dX = -1; dX <= 1; ++dX)
             {
@@ -250,7 +239,7 @@ public class ServerState
     private static void postOreGenEvent(WorldGenLevel region, int chunkX, int chunkZ)
     {
         ChunkAccess chunk = region.getChunk(chunkX, chunkZ);
-        RandomSource rand = RandomSource.create(region.getSeed() ^ ChunkPos.asLong(chunkX, chunkZ));
+        RandomSource rand = RandomSource.create(region.getSeed() ^ ChunkPos.pack(chunkX, chunkZ));
         NeoForge.EVENT_BUS.post(new CogOreGenEvent(region, chunk, rand));
     }
 
@@ -265,7 +254,7 @@ public class ServerState
                 sb.append(' ').append(dist).append('=').append(n.longValue());
             }
         }
-        CustomOreGenBase.log.debug("Populated " + _populatedChunkCount + " chunks (latest in " + level.dimension().location() + "); blocks placed:" + (sb.length() == 0 ? " none" : sb));
+        CustomOreGenBase.log.debug("Populated " + _populatedChunkCount + " chunks (latest in " + level.dimension().identifier() + "); blocks placed:" + (sb.length() == 0 ? " none" : sb));
     }
 
     private static boolean neighborhoodFeaturesDone(WorldGenLevel region, LongSet done, int chunkX, int chunkZ)
@@ -274,7 +263,7 @@ public class ServerState
         {
             for (int iZ = chunkZ - 1; iZ <= chunkZ + 1; ++iZ)
             {
-                if (done.contains(ChunkPos.asLong(iX, iZ)))
+                if (done.contains(ChunkPos.pack(iX, iZ)))
                 {
                     continue;
                 }
@@ -347,67 +336,6 @@ public class ServerState
         }*/
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public static void addOptionsButtonToGui(CreateWorldScreen gui, List<GuiEventListener> buttonList, Consumer<GuiEventListener> add)
-    {
-        if (gui == null)
-        {
-            _optionsGuiButton = null;
-        }
-        else
-        {
-            GuiCustomOreGenSettings settingsGui = new GuiCustomOreGenSettings(gui);
-            
-            var action = new Button.OnPress() {
-                @Override
-                public void onPress(Button b) {
-                	gui.getMinecraft().forceSetScreen(settingsGui);
-                }
-            };
-            
-            _optionsGuiButton = Button.builder(Component.literal("Custom Ore Generation..."), action).build();
-            
-            Button button1 = _optionsGuiButton;
-            
-            if (!buttonList.contains(button1))
-            {
-            	int n = gui.children().size();
-            	
-            	GuiEventListener b = gui.children().get(n-1);
-            	
-            	button1.setX(b.getRectangle().getCenterInAxis(ScreenAxis.HORIZONTAL));
-            	button1.setY(b.getRectangle().bottom() + 1);
-                add.accept(button1);
-            }
-        }
-    }
-    
-    @OnlyIn(Dist.CLIENT)
-    public static void updateOptionsButtonVisibility(CreateWorldScreen gui) {
-    	net.minecraft.client.gui.components.tabs.TabNavigationBar tabBar = (net.minecraft.client.gui.components.tabs.TabNavigationBar)gui.renderables.get(0);
-    	int j = 0;
-    	for(GuiEventListener child : tabBar.children()) {
-    		net.minecraft.client.gui.components.TabButton tb = ((net.minecraft.client.gui.components.TabButton)child);
-    		if(tb.isFocused()) {
-    			break;
-    		}
-    		j++;
-    	}
-    	
-    	GuiEventListener b = gui.children().get(0);
-    	
-    	_optionsGuiButton.setX(b.getRectangle().getCenterInAxis(ScreenAxis.HORIZONTAL) - _optionsGuiButton.getWidth()/2);
-    	
-    	b = gui.children().get(gui.children().size() - 1);
-    	
-    	_optionsGuiButton.setY(b.getRectangle().bottom() + 1);
-        
-    	//TabNavigationBar bar;
-    	//bar.getFocused().getTabOrderGroup()
-    	
-    	_optionsGuiButton.visible = j == 1;//!(Boolean)ObfuscationReflectionHelper.getPrivateValue(CreateWorldScreen.class, gui, "inMoreLevelOptionsDisplay");
-    }
-    
 	public static void chunkForced(Level world, ChunkPos location) {
 		if (forcingChunk) { // prevent infinite recursion when there are multiple chunk loaders
 			return;
@@ -417,11 +345,11 @@ public class ServerState
 		WorldConfig cfg = getWorldConfig(world);
 		int radius = (cfg.deferredPopulationRange + 15) / 16;
         
-        for (int cX = location.x - radius; cX <= location.x + radius; ++cX)
+        for (int cX = location.x() - radius; cX <= location.x() + radius; ++cX)
         {
-            for (int cZ = location.z - radius; cZ <= location.z + radius; ++cZ)
+            for (int cZ = location.z() - radius; cZ <= location.z() + radius; ++cZ)
             {
-            	if (cX != location.x && cZ != location.z) {
+            	if (cX != location.x() && cZ != location.z()) {
             		world.getChunk(cX, cZ);
             	}
             }

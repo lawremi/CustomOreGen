@@ -13,12 +13,11 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderOwner;
 import net.minecraft.core.HolderSet;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.common.data.JsonCodecProvider;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.BiomeModifiers.RemoveFeaturesBiomeModifier;
@@ -26,8 +25,8 @@ import net.neoforged.neoforge.common.world.BiomeModifiers.RemoveFeaturesBiomeMod
 public class COGFeatureProvider extends JsonCodecProvider<BiomeModifier> {
     private final Map<String, JsonElement> toSerialize = new HashMap<>();
 
-	public COGFeatureProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper existingFileHelper, String modid) {
-		super(output, PackOutput.Target.DATA_PACK, "worldgen/placed_feature", PackType.SERVER_DATA, BiomeModifier.DIRECT_CODEC, registries, modid, existingFileHelper);
+	public COGFeatureProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, String modid) {
+		super(output, PackOutput.Target.DATA_PACK, "worldgen/placed_feature", BiomeModifier.DIRECT_CODEC, registries, modid);
 	}
 
 	@Override

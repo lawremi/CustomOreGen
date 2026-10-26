@@ -106,7 +106,7 @@ public class CustomPacketPayload
 
     private static void writeRequest(GeometryRequestData request, FriendlyByteBuf buf)
     {
-        buf.writeResourceLocation(request.dimensionID);
+        buf.writeIdentifier(request.dimensionID);
         buf.writeVarInt(request.chunkX);
         buf.writeVarInt(request.chunkZ);
         buf.writeVarInt(request.batchID);
@@ -114,7 +114,7 @@ public class CustomPacketPayload
 
     private static void readRequest(GeometryRequestData request, FriendlyByteBuf buf)
     {
-        request.dimensionID = buf.readResourceLocation();
+        request.dimensionID = buf.readIdentifier();
         request.chunkX = buf.readVarInt();
         request.chunkZ = buf.readVarInt();
         request.batchID = buf.readVarInt();

@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -27,13 +28,17 @@ import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.CIStringMap;
 import CustomOreGen.Util.MapCollection;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.dimension.DimensionType;
-import net.minecraft.world.level.storage.DimensionDataStorage;
+import net.minecraft.world.level.levelgen.WorldOptions;
+import net.minecraft.world.level.storage.SavedDataStorage;
 import net.minecraft.world.level.storage.WorldData;
 import net.neoforged.fml.util.ObfuscationReflectionHelper;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 public class WorldConfig
 {
@@ -101,7 +106,7 @@ public class WorldConfig
         {
             if (world2 instanceof ServerLevelAccessor sLevel)
             {
-            	worldBaseDir = ObfuscationReflectionHelper.getPrivateValue(DimensionDataStorage.class, sLevel.getLevel().getServer().overworld().getDataStorage(), "dataFolder");
+            	worldBaseDir = ((Path)ObfuscationReflectionHelper.getPrivateValue(SavedDataStorage.class, sLevel.getLevel().getServer().overworld().getDataStorage(), "dataFolder")).toFile();
             }
             else
             {
@@ -315,13 +320,35 @@ public class WorldConfig
         return -1;
     }
 
+    /** The world's generation options (no longer in WorldData): the running server's, or null before there is one. */
+    public static WorldOptions worldOptions()
+    {
+        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+        return server == null ? null : server.getWorldGenSettings().options();
+    }
+
+    public static long worldSeed()
+    {
+        WorldOptions options = worldOptions();
+        return options == null ? 0L : options.seed();
+    }
+
+    /**
+     * The dimension's id ("minecraft:overworld"...). Before 26.x this read the dimension type's effects location,
+     * which is the same for vanilla's dimensions.
+     */
+    public static Identifier dimensionId(LevelAccessor world)
+    {
+        return world instanceof ServerLevelAccessor level ? level.getLevel().dimension().identifier() : null;
+    }
+
     private static void populateworldProperties(Map<String,Object> properties, LevelAccessor world2, WorldData worldInfo)
     {
         properties.put("world", worldInfo == null ? "" : worldInfo.getLevelName());
-        properties.put("world.seed", worldInfo == null ? 0L : worldInfo.worldGenOptions().seed());
+        properties.put("world.seed", worldInfo == null ? 0L : worldSeed());
         properties.put("world.version", worldInfo == null ? 0 : worldInfo.getVersion());
         properties.put("world.isHardcore", worldInfo == null ? false : worldInfo.isHardcore());
-        properties.put("world.hasFeatures", worldInfo == null ? false : worldInfo.worldGenOptions().generateStructures());
+        properties.put("world.hasFeatures", worldInfo == null ? false : worldOptions() != null && worldOptions().generateStructures());
         properties.put("world.hasCheats", worldInfo == null ? false : worldInfo.isAllowCommands());
         properties.put("world.gameMode", worldInfo == null ? "" : worldInfo.getGameType().getName());
         properties.put("world.gameMode.id", worldInfo == null ? 0 : worldInfo.getGameType().getName());
@@ -358,12 +385,12 @@ public class WorldConfig
 
         //properties.put("dimension.generator", genName);
         //properties.put("dimension.generator.class", genClass);
-        properties.put("dimension", world2 == null ? "" : world2.dimensionType().effectsLocation().getPath());
-        properties.put("dimension.id", world2 == null ? 0 : world2.dimensionType().effectsLocation());
+        properties.put("dimension", dimensionId(world2) == null ? "" : dimensionId(world2).getPath());
+        properties.put("dimension.id", dimensionId(world2) == null ? 0 : dimensionId(world2));
         properties.put("dimension.isSurface", world2 == null ? false : world2.dimensionType().hasSkyLight());
         properties.put("dimension.hasNoSky", world2 == null ? false : world2.dimensionType().hasCeiling());
         properties.put("dimension.groundLevel", world2 == null ? 0 : world2.getSeaLevel());
-        properties.put("dimension.actualHeight", world2 == null ? 0 : world2.getMaxBuildHeight());
+        properties.put("dimension.actualHeight", world2 == null ? 0 : world2.getMaxY() + 1);
         properties.put("dimension.height", world2 == null ? 0 : world2.getHeight());
         properties.put("age", false);
     }

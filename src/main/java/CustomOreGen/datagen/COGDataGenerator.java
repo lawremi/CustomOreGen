@@ -11,30 +11,23 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.RegistryOps;
-import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = CustomOreGenBase.MODID)
 public class COGDataGenerator {
 	@SubscribeEvent
-	public static void gatherData(GatherDataEvent event) {
+	public static void gatherData(GatherDataEvent.Server event) {
 		DataGenerator generator = event.getGenerator();
-		ExistingFileHelper fileHelper = event.getExistingFileHelper();
 		PackOutput packOutput = generator.getPackOutput();
-		CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
+		CompletableFuture<HolderLookup.Provider> lookupProvider = event.getWorldLookupProvider();
 		RegistryAccess registryAccess = RegistryAccess.EMPTY;
 		RegistryOps<JsonElement> registryOps = RegistryOps.create(JsonOps.INSTANCE, registryAccess);
 
-		if(event.includeClient()) {
-
-		}
-		if(event.includeServer()) {
-			ResourceLocation placedFeatureRL = ResourceLocation.fromNamespaceAndPath(CustomOreGenBase.MODID, "ore_removal");
-			//RemoveFeaturesBiomeModifier l;
-			generator.addProvider(event.includeServer(), new COGFeatureProvider(packOutput, lookupProvider, fileHelper, CustomOreGenBase.MODID));
-		}
+		Identifier placedFeatureRL = Identifier.fromNamespaceAndPath(CustomOreGenBase.MODID, "ore_removal");
+		//RemoveFeaturesBiomeModifier l;
+		event.addProvider(new COGFeatureProvider(packOutput, lookupProvider, CustomOreGenBase.MODID));
 	}
 }

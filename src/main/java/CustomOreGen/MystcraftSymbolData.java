@@ -2,13 +2,13 @@ package CustomOreGen;
 
 import java.io.Serializable;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.Level;
 
 public class MystcraftSymbolData implements Serializable
 {
     public transient Level world;
-    public ResourceLocation dimensionID = null;
+    public Identifier dimensionID = null;
     public String symbolName;
     public int count = 0;
     public String displayName = "";
@@ -24,7 +24,7 @@ public class MystcraftSymbolData implements Serializable
 
         if (world != null)
         {
-            this.dimensionID = world.dimension().location();
+            this.dimensionID = world.dimension().identifier();
         }
 
         this.symbolName = this.displayName = symbolName;

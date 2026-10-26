@@ -18,7 +18,7 @@ import CustomOreGen.Server.DistributionSettingMap.Copyable;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -33,7 +33,7 @@ import net.neoforged.neoforge.server.ServerLifecycleHooks;
 public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 {
 	protected LinkedList<Descriptor> _descriptors = new LinkedList<Descriptor>();
-	protected Map<ResourceLocation,Float> _matches = new Hashtable<ResourceLocation, Float>();
+	protected Map<Identifier,Float> _matches = new Hashtable<Identifier, Float>();
 	protected boolean _compiled = false;
 
 	private String name;
@@ -51,7 +51,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 	public void copyFrom(BiomeDescriptor source)
 	{
 		this._descriptors = new LinkedList<Descriptor>(source._descriptors);
-		this._matches = new Hashtable<ResourceLocation,Float>(source._matches);
+		this._matches = new Hashtable<Identifier,Float>(source._matches);
 		this._compiled = source._compiled;
 	}
 
@@ -139,7 +139,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 	{
 		float totalWeight = 0.0F;
 
-		ResourceLocation key = biomeKey(biome);
+		Identifier key = biomeKey(biome);
 		String name = key == null ? null : key.toString();
 
 		for (Descriptor desc : this._descriptors) {
@@ -220,7 +220,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 		this.compileMatches();
 		float value = -1.0F;
 
-		for (Entry<ResourceLocation,Float> entry : this._matches.entrySet()) {
+		for (Entry<Identifier,Float> entry : this._matches.entrySet()) {
 			float weight = entry.getValue();
 			Biome biome = biomeByKey(entry.getKey());
 
@@ -295,7 +295,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 
 		int i = 1;
 
-		for (Entry<ResourceLocation,Float> entry : this._matches.entrySet()) {
+		for (Entry<Identifier,Float> entry : this._matches.entrySet()) {
 			float weight = entry.getValue();
 			Biome biome = biomeByKey(entry.getKey());
 
@@ -401,7 +401,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 		if (server == null) {
 			return null;
 		}
-		Registry<Biome> biomes = server.registryAccess().registryOrThrow(Registries.BIOME);
+		Registry<Biome> biomes = server.registryAccess().lookupOrThrow(Registries.BIOME);
 		if (biomes != _parametersFor) {
 			HolderGetter<Biome> holdergetter = server.registryAccess().lookupOrThrow(Registries.BIOME);
 			MultiNoiseBiomeSourceParameterList par = new MultiNoiseBiomeSourceParameterList(MultiNoiseBiomeSourceParameterList.Preset.OVERWORLD, holdergetter);
@@ -450,7 +450,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 	private static Registry<Biome> serverBiomes()
 	{
 		MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-		return server == null ? null : server.registryAccess().registryOrThrow(Registries.BIOME);
+		return server == null ? null : server.registryAccess().lookupOrThrow(Registries.BIOME);
 	}
 
 	// Biome Dictionary types (BiomeType in configs) became biome tags in 1.18: forge:is_<type>, moving to
@@ -473,7 +473,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 		{
 			return false;
 		}
-		Optional<Holder.Reference<Biome>> holder = biomes.getResourceKey(biome).flatMap(biomes::getHolder);
+		Optional<Holder.Reference<Biome>> holder = biomes.getResourceKey(biome).flatMap(biomes::get);
 		if (holder.isEmpty())
 		{
 			return false;
@@ -486,7 +486,7 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 		{
 			for (String namespace : new String[] { "c", "forge", "minecraft" })
 			{
-				ResourceLocation tag = ResourceLocation.tryBuild(namespace, "is_" + tagName);
+				Identifier tag = Identifier.tryBuild(namespace, "is_" + tagName);
 				if (tag != null && holder.get().is(TagKey.create(Registries.BIOME, tag)))
 				{
 					return true;
@@ -503,17 +503,17 @@ public class BiomeDescriptor implements Copyable<BiomeDescriptor>
 		return biomes != null ? biomes : List.of();
 	}
 
-	private static ResourceLocation biomeKey(Biome biome)
+	private static Identifier biomeKey(Biome biome)
 	{
 		Registry<Biome> biomes = serverBiomes();
-		ResourceLocation key = biomes == null ? null : biomes.getKey(biome);
+		Identifier key = biomes == null ? null : biomes.getKey(biome);
 		return key;
 	}
 
-	private static Biome biomeByKey(ResourceLocation key)
+	private static Biome biomeByKey(Identifier key)
 	{
 		Registry<Biome> biomes = serverBiomes();
-		Biome biome = biomes == null ? null : biomes.get(key);
+		Biome biome = biomes == null ? null : biomes.getValue(key);
 		return biome;
 	}
 }

@@ -157,7 +157,7 @@ public class ConsoleCommands
 
         if (config.world != null)
         {
-            msg.append("Dim " + config.world.dimensionType().effectsLocation() + ", ");
+            msg.append("Dim " + WorldConfig.dimensionId(config.world) + ", ");
         }
 
         if (dists != null)
@@ -417,7 +417,7 @@ public class ConsoleCommands
                         desc.clear();
                     }
 
-                    CompoundTag compoundNBT = TagParser.parseTag(nbt);
+                    CompoundTag compoundNBT = TagParser.parseCompoundFully(nbt);
                     desc.add(descriptor, weight, describesOre, isRegexp, matchFirst, compoundNBT);
                     ++count;
                 }
@@ -730,7 +730,7 @@ public class ConsoleCommands
 
         if (config.world != null)
         {
-            msg.append("Dim " + config.world.dimensionType().effectsLocation() + ", ");
+            msg.append("Dim " + WorldConfig.dimensionId(config.world) + ", ");
         }
 
         if (options != null)
@@ -831,7 +831,7 @@ public class ConsoleCommands
     // Per-dimension config folders are never created (WorldConfig leaves dimensionDir null), so fall back
     // to naming the dimension.
     private static String describe(WorldConfig cfg, ServerLevel world) {
-    	return cfg.dimensionDir != null ? cfg.dimensionDir.toString() : world.dimension().location().toString();
+    	return cfg.dimensionDir != null ? cfg.dimensionDir.toString() : world.dimension().identifier().toString();
     }
 
     private static void sendError(CommandSourceStack source, Exception exception) {

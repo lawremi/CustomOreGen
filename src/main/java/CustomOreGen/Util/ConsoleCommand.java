@@ -15,13 +15,13 @@ import CustomOreGen.Server.ConsoleCommands.ArgName;
 import CustomOreGen.Server.ConsoleCommands.ArgOptional;
 import CustomOreGen.Server.ConsoleCommands.CommandDelegate;
 import CustomOreGen.Server.ServerState;
-import net.minecraft.ResourceLocationException;
+import net.minecraft.IdentifierException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 
 /**
@@ -63,7 +63,7 @@ public class ConsoleCommand
     	for (String name : this.getNames())
     	{
     		LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal(name)
-    				.requires(source -> !cheat || source.hasPermission(2))
+    				.requires(source -> !cheat || Commands.hasPermission(Commands.LEVEL_GAMEMASTERS).test(source))
     				.executes(ctx -> this.execute(ctx, ""))
     				.then(Commands.argument("args", StringArgumentType.greedyString())
     						.executes(ctx -> this.execute(ctx, StringArgumentType.getString(ctx, "args"))));
@@ -235,9 +235,9 @@ public class ConsoleCommand
     	}
     	try
     	{
-    		return sender.getServer().getLevel(ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(value)));
+    		return sender.getServer().getLevel(ResourceKey.create(Registries.DIMENSION, Identifier.parse(value)));
     	}
-    	catch (ResourceLocationException e)
+    	catch (IdentifierException e)
     	{
     		return null;
     	}

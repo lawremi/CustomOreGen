@@ -6,7 +6,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -24,7 +24,7 @@ public class CustomPacketPayloadHandler {
 
 	/** COG's payload as a network packet (it encodes itself, as it did on Forge's channel). */
 	public record Packet(CustomPacketPayload msg) implements net.minecraft.network.protocol.common.custom.CustomPacketPayload {
-		public static final Type<Packet> TYPE = new Type<Packet>(ResourceLocation.fromNamespaceAndPath(CustomOreGenBase.MODID, "customoregen"));
+		public static final Type<Packet> TYPE = new Type<Packet>(Identifier.fromNamespaceAndPath(CustomOreGenBase.MODID, "customoregen"));
 		public static final StreamCodec<FriendlyByteBuf, Packet> STREAM_CODEC = StreamCodec.of(
 				(buf, packet) -> CustomPacketPayload.encode(packet.msg(), buf),
 				buf -> new Packet(CustomPacketPayload.decode(buf)));
@@ -37,16 +37,12 @@ public class CustomPacketPayloadHandler {
 
 	public static void register(RegisterPayloadHandlersEvent event)
 	{
-		// Handlers run on the main thread.
+		// Handlers run on the main thread. The client's is registered on the client (ClientForgeEventBusSubscriber).
 		event.registrar(PROTOCOL_VERSION).playBidirectional(Packet.TYPE, Packet.STREAM_CODEC, CustomPacketPayloadHandler::handle);
 	}
 
 	private static void handle(Packet packet, IPayloadContext context) {
-		if (context.flow().isClientbound()) {
-			CustomOreGen.Client.ClientPacketHandler.handle(packet.msg());
-		} else {
-			handleServer(packet.msg(), (ServerPlayer)context.player());
-		}
+		handleServer(packet.msg(), (ServerPlayer)context.player());
 	}
 
 	private static void handleServer(CustomPacketPayload msg, ServerPlayer player)
@@ -55,14 +51,14 @@ public class CustomPacketPayloadHandler {
 		{
 			return;
 		}
-		MinecraftServer server = player.getServer();
+		MinecraftServer server = player.level().getServer();
         ServerState.checkIfServerChanged(server, server.getWorldData());
 
         switch (msg.type)
         {
             case DebuggingGeometryRequest:
             	// Wireframes reveal where ore is, so only operators (or the single-player host) get them.
-            	if (!server.getPlayerList().isOp(player.getGameProfile()) && !server.isSingleplayerOwner(player.getGameProfile()))
+            	if (!server.getPlayerList().isOp(player.nameAndId()) && !server.isSingleplayerOwner(player.nameAndId()))
             	{
             		return;
             	}
@@ -87,15 +83,6 @@ public class CustomPacketPayloadHandler {
                 CustomOreGenBase.log.warn("Ignoring unexpected packet type " + msg.type + " from " + player.getName().getString());
         }
     }
-
-	/**
-	 * Sends a packet to the server.<br>
-	 * Must be called Client side.
-	 */
-	public static void sendToServer(CustomPacketPayload msg)
-	{
-		PacketDistributor.sendToServer(new Packet(msg));
-	}
 
 	/**
 	 * Send a packet to a specific player.<br>

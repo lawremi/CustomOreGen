@@ -17,7 +17,7 @@ public class MapGenBase
     {
         int i = this.range;
         this.world = worldIn;
-        long seed = worldIn.getServer().getWorldData().worldGenOptions().seed();
+        long seed = worldIn.getServer().getWorldGenSettings().options().seed();
         this.rand.setSeed(seed);
         long j = this.rand.nextLong();
         long k = this.rand.nextLong();

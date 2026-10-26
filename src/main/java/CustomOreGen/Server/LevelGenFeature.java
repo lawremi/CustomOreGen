@@ -1,13 +1,16 @@
 package CustomOreGen.Server;
 
-import com.mojang.serialization.Codec;
 
+import com.mojang.serialization.MapCodec;
+
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+
 
 /**
  * customoregen:cog_feature. Attached to the last generation step (top_layer_modification) of every
@@ -15,20 +18,21 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
  * (its placed feature has no placement modifiers, so the origin is the chunk's corner). Being last means
  * this chunk's own feature writes are finished; see ServerState.onChunkFeaturesDone for the rest.
  */
-public class LevelGenFeature extends Feature<NoneFeatureConfiguration> {
+public record LevelGenFeature() implements Feature {
+	public static final MapCodec<LevelGenFeature> CODEC = MapCodec.unit(LevelGenFeature::new);
 
-	public LevelGenFeature(Codec<NoneFeatureConfiguration> codec) {
-		super(codec);
+	@Override
+	public MapCodec<LevelGenFeature> codec() {
+		return CODEC;
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel region = context.level();
+	public boolean place(WorldGenLevel region, ChunkGenerator generator, RandomSource random, BlockPos origin) {
 		ServerLevel level = region.getLevel();
 		ServerState.checkIfServerChanged(level.getServer(), level.getServer().getWorldData());
 
-		ChunkPos chunk = new ChunkPos(context.origin());
-		ServerState.onChunkFeaturesDone(region, chunk.x, chunk.z);
+		ChunkPos chunk = ChunkPos.containing(origin);
+		ServerState.onChunkFeaturesDone(region, chunk.x(), chunk.z());
 		return true;
 	}
 }

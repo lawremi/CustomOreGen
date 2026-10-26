@@ -6,15 +6,18 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import com.mojang.blaze3d.vertex.BufferBuilder;
 
 import CustomOreGen.Util.IGeometryBuilder;
 import CustomOreGen.Util.Transform;
 
 public class GeometryRenderer implements IGeometryBuilder
 {
+    /** An emitted vertex: its position and color (ARGB). */
+    public record Vertex(float x, float y, float z, int argb) { }
+
     private int _curBufferIdx = -1;
     private Transform _posTrans = null;
     private Transform _nmlTrans = null;
@@ -266,11 +269,10 @@ public class GeometryRenderer implements IGeometryBuilder
     }
 
     /**
-     * Writes everything added so far into two POSITION_COLOR builders: lines into one begun in
-     * DEBUG_LINES mode, triangles and quads (as triangle pairs) into one begun in TRIANGLES mode. Points,
-     * normals and textures are not drawn.
+     * Writes everything added so far into two vertex lists: lines as vertex pairs, triangles and quads
+     * (as triangle pairs) as vertex triples. Points, normals and textures are not drawn.
      */
-    public void emit(BufferBuilder lines, BufferBuilder polygons)
+    public void emit(List<Vertex> lines, List<Vertex> polygons)
     {
         for (VertexBuffer buffer : this._vertexBuffers)
         {
@@ -731,7 +733,7 @@ public class GeometryRenderer implements IGeometryBuilder
             this.xBuffer.put(index);
         }
 
-        public void emit(BufferBuilder lines, BufferBuilder polygons)
+        public void emit(List<Vertex> lines, List<Vertex> polygons)
         {
             int xCount = this.getIndexCount();
 
@@ -771,7 +773,7 @@ public class GeometryRenderer implements IGeometryBuilder
             }
         }
 
-        private void emitVertex(BufferBuilder builder, int index)
+        private void emitVertex(List<Vertex> out, int index)
         {
             int base = index * this.getVertexSize();
             float x = this.vBuffer.getFloat(base);
@@ -794,7 +796,7 @@ public class GeometryRenderer implements IGeometryBuilder
                 }
             }
 
-            builder.addVertex(x, y, z).setColor(r, g, b, a);
+            out.add(new Vertex(x, y, z, a << 24 | r << 16 | g << 8 | b));
         }
     }
 

@@ -53,8 +53,8 @@ public final class WorldGenQueries
 			return world.getBiome(new BlockPos(x, y, z)).value();
 		}
 		ServerChunkCache source = level.getChunkSource();
-		return source.getGenerator().getBiomeSource()
-				.getNoiseBiome(QuartPos.fromBlock(x), QuartPos.fromBlock(y), QuartPos.fromBlock(z), source.randomState().sampler())
+		return source.getGenerator().getBiomeSource().createUncachedResolver(source.randomState())
+				.getNoiseBiome(QuartPos.fromBlock(x), QuartPos.fromBlock(y), QuartPos.fromBlock(z))
 				.value();
 	}
 }

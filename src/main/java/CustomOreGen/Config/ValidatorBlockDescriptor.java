@@ -24,7 +24,7 @@ public class ValidatorBlockDescriptor extends ValidatorNode
         String nbtJson = this.validateNamedAttribute(String.class, "NBT", null, true);
         if (nbtJson != null) {
         	try {
-        		this.nbt = TagParser.parseTag(nbtJson);
+        		this.nbt = TagParser.parseCompoundFully(nbtJson);
 			} catch (Exception e) {
 				throw new ParserException("Failed to parse JSON", e);
 			}

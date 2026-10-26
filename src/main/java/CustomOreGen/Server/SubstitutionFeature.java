@@ -20,9 +20,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 /*
  * TODO:
@@ -31,7 +28,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
  * 3. Move the setting accessors from IOreDstribution to OreDistributionConfig. Will require a lot of refactoring. 
  * 4. Refactor each distribution's generate() into place(), i.e., based on the config
  */
-public class SubstitutionFeature extends Feature<NoneFeatureConfiguration> implements IOreDistribution
+public class SubstitutionFeature implements IOreDistribution
 {
     @DistributionSetting(
             name = "Name",
@@ -144,7 +141,6 @@ public class SubstitutionFeature extends Feature<NoneFeatureConfiguration> imple
 
     public SubstitutionFeature(int distributionID, boolean canGenerate)
     {
-    	super(NoneFeatureConfiguration.CODEC);
         this.oreBlock = new BlockDescriptor(Blocks.STONE);
         this.replaceableBlocks = new BlockDescriptor();
         this.aboveBlocks = new BlockDescriptor();
@@ -200,7 +196,7 @@ public class SubstitutionFeature extends Feature<NoneFeatureConfiguration> imple
     {
         if (this._canGenerate && this._valid && this.oreBlock != null)
         {
-        	long seed = world.getServer().getWorldData().worldGenOptions().seed();
+        	long seed = world.getServer().getWorldGenSettings().options().seed();
             RandomSource random = RandomSource.create(seed);
             long xSeed = random.nextLong() >> 3;
             long zSeed = random.nextLong() >> 3;
@@ -276,9 +272,8 @@ public class SubstitutionFeature extends Feature<NoneFeatureConfiguration> imple
         }
     }
 	
-	@Override
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		return generate(context.level(), context.random(), context.origin());
+    public boolean place(WorldGenLevel level, RandomSource random, BlockPos origin) {
+		return generate(level, random, origin);
     }
 
 	// Substitutions have no layout to precompute; all the work happens in populate().
@@ -296,8 +291,8 @@ public class SubstitutionFeature extends Feature<NoneFeatureConfiguration> imple
             // chunk is scanned; writing into neighbors would also leave the generation region's write area.
             int cRange = 0;
             int hRange = (this.additionalRange + 7) / 8;
-            int minh = Math.max(world.getMinBuildHeight(), this.minHeight);
-            int maxh = Math.min(world.getMaxBuildHeight() - 1, this.maxHeight);
+            int minh = Math.max(world.getMinY(), this.minHeight);
+            int maxh = Math.min(world.getMaxY(), this.maxHeight);
             BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks,
                     besideBlocks, touchingBlocks);
 

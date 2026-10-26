@@ -39,7 +39,7 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
-import net.minecraft.world.level.levelgen.structure.StructurePieceAccessor;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
 
@@ -413,7 +413,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 	private StructureGroup getCachedStructureGroup(int chunkX, int chunkZ)
 	{
 		// Moves the group to the most-recently-used end, so cull() evicts the least recently used.
-		return this.structureMap.getAndMoveToLast(ChunkPos.asLong(chunkX, chunkZ));
+		return this.structureMap.getAndMoveToLast(ChunkPos.pack(chunkX, chunkZ));
 	}
 
 	// FIXME: copy-and-pasted this from MapGenBase, because MapGenStructure now declares recursiveGenerate as 'final'.
@@ -448,7 +448,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 		{
 			return level.getSeed();
 		}
-		return world.getServer().getWorldData().worldGenOptions().seed();
+		return world.getServer().getWorldGenSettings().options().seed();
 	}
 
 	protected void recursiveGenerate2(LevelAccessor world, int chunkX, int chunkZ, int rootX, int rootZ, ChunkAccess primer)
@@ -472,7 +472,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 			if (this.canSpawnStructureAtCoords(chunkX, chunkZ))
 			{
 				group1 = this.createStructureGroup(chunkX, chunkZ);
-				this.structureMap.putAndMoveToLast(ChunkPos.asLong(chunkX, chunkZ), group1);
+				this.structureMap.putAndMoveToLast(ChunkPos.pack(chunkX, chunkZ), group1);
 			}
 		}
 	}
@@ -509,7 +509,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 		{
 			int minX = chunkX << 4;
 			int minZ = chunkZ << 4;
-			BoundingBox bb = new BoundingBox(minX, world.getMinBuildHeight(), minZ, minX + 15, world.getMaxBuildHeight() - 1, minZ + 15);
+			BoundingBox bb = new BoundingBox(minX, world.getMinY(), minZ, minX + 15, world.getMaxY(), minZ + 15);
 			ChunkPos chunkPos = new ChunkPos(chunkX, chunkZ);
 			boolean structureFound = false;
 
@@ -736,7 +736,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 		public void buildWireframes()
 		{
 			// A group evicted by cull() and rebuilt later must not add its wireframes a second time.
-			if (!wireframedGroups.add(ChunkPos.asLong(this.chunkX, this.chunkZ)))
+			if (!wireframedGroups.add(ChunkPos.pack(this.chunkX, this.chunkZ)))
 			{
 				return;
 			}
@@ -775,7 +775,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 		}
 
 		@Override
-		public void addChildren(StructurePiece p_226835_, StructurePieceAccessor p_226836_, RandomSource p_226837_) {
+		public void addChildren(StructurePiece p_226835_, StructurePiecesBuilder p_226836_, RandomSource p_226837_) {
 			//TODO: addComponentParts?
 		}
 
@@ -794,7 +794,7 @@ public abstract class MapGenOreDistribution extends MapGenStructure implements I
 			{
 				this.populatedBlocks += (long)(sizeX * sizeY * sizeZ);
 				sizeX = super.boundingBox.maxX() - super.boundingBox.minX() + 1;
-				sizeY = Math.min(worldIn.getMaxBuildHeight() - 1, super.boundingBox.maxY()) - Math.max(worldIn.getMinBuildHeight(), super.boundingBox.minY()) + 1;
+				sizeY = Math.min(worldIn.getMaxY(), super.boundingBox.maxY()) - Math.max(worldIn.getMinY(), super.boundingBox.minY()) + 1;
 				sizeZ = super.boundingBox.maxZ() - super.boundingBox.minZ() + 1;
 				long totalVolume = (long)(sizeX * sizeY * sizeZ);
 
