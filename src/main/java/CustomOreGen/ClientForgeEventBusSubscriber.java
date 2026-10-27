@@ -12,6 +12,7 @@ import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.RenderFrameEvent;
 import net.neoforged.neoforge.client.network.event.RegisterClientPayloadHandlersEvent;
 
 /**
@@ -39,6 +40,12 @@ public class ClientForgeEventBusSubscriber
         }
 
         ClientState.onClientTick(mc);
+    }
+
+    @SubscribeEvent
+    public static void onRenderFrame(RenderFrameEvent.Pre event)
+    {
+        ClientState.onRenderFrame(Minecraft.getInstance());
     }
 
     @SubscribeEvent

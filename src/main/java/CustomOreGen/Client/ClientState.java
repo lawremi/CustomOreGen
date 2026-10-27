@@ -1,6 +1,7 @@
 package CustomOreGen.Client;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -42,6 +43,9 @@ public class ClientState
     // Filled from the network thread's enqueued work, drained on the render thread.
     private static Queue<GeometryData> geometryDataQueue = new ConcurrentLinkedQueue<GeometryData>();
 	private static boolean clearDisplayLists;
+	private static final byte SCAN_RANGE = 16;
+	/** Lines and polygons drawn per frame, well under the vertex buffer's limit (and cheap enough to rebuild). */
+	private static final int MAX_PRIMITIVES_PER_FRAME = 500000;
 
     public enum WireframeRenderMode
     {
@@ -54,10 +58,12 @@ public class ClientState
     /** A chunk's geometry: line vertex pairs and triangle vertex triples, drawn as gizmos each tick. */
     private record ChunkGeometry(List<GeometryRenderer.Vertex> lines, List<GeometryRenderer.Vertex> polygons) { }
 
-    /**
-     * Called each client tick, while Minecraft collects the tick's debug gizmos (which it draws until the next
-     * tick): requests geometry for nearby chunks and draws what has arrived.
-     */
+    private static boolean isDrawing()
+    {
+        return _world != null && dgEnabled && dgRenderingMode != null && dgRenderingMode != WireframeRenderMode.NONE;
+    }
+
+    /** Called each client tick: builds the geometry that has arrived and requests geometry for nearby chunks. */
     public static void onClientTick(Minecraft mc)
     {
     	if (clearDisplayLists) {
@@ -65,7 +71,7 @@ public class ClientState
     		clearDisplayLists = false;
     	}
 
-        if (_world != null && dgEnabled && dgRenderingMode != null && dgRenderingMode != WireframeRenderMode.NONE)
+        if (isDrawing())
         {
         	buildGeometryDisplayLists();
         	Vec3 camera = mc.gameRenderer.mainCamera().position();
@@ -73,23 +79,40 @@ public class ClientState
             if (_dgScanCounter == 0)
             {
                 _dgScanCounter = 20;
+                dropDistantGeometry(camera);
                 requestNearbyGeometry(camera);
             }
             else
             {
                 --_dgScanCounter;
             }
-
-            if (!_dgChunkGeometry.isEmpty())
-            {
-            	drawGeometry();
-            }
         }
+    }
+
+    /**
+     * Called each frame, while Minecraft collects the frame's gizmos. (Per-tick gizmos aren't drained while the
+     * game is paused or frozen, so drawing every tick piled them up until the vertex buffer overflowed.)
+     */
+    public static void onRenderFrame(Minecraft mc)
+    {
+        if (isDrawing() && !_dgChunkGeometry.isEmpty())
+        {
+        	drawGeometry(mc.gameRenderer.mainCamera().position());
+        }
+    }
+
+    /** Forgets chunks well outside the scan range, so the drawn geometry stays bounded as the player travels. */
+    private static void dropDistantGeometry(Vec3 camera)
+    {
+    	int chunkX = Mth.floor(camera.x) >> 4;
+    	int chunkZ = Mth.floor(camera.z) >> 4;
+    	int keepRange = SCAN_RANGE + 2;
+    	_dgChunkGeometry.keySet().removeIf(key -> Math.abs((int)(key >> 32) - chunkX) > keepRange || Math.abs((int)(long)key - chunkZ) > keepRange);
     }
 
     private static void requestNearbyGeometry(Vec3 camera)
     {
-    	byte scanRange = 16;
+    	byte scanRange = SCAN_RANGE;
     	int maxRequest = 50 - _chunkDGRequests.size() * 20;
     	int chunkX = Mth.floor(camera.x) >> 4;
     	int chunkZ = Mth.floor(camera.z) >> 4;
@@ -134,12 +157,29 @@ public class ClientState
     	}
     }
 
-    private static void drawGeometry()
+    /**
+     * Draws the received chunks nearest first, until the frame's primitive budget is spent. (Gizmos are rebuilt
+     * into one vertex buffer each frame, which holds at most 16.7M vertices; a full scan of dense ore is more.)
+     */
+    private static void drawGeometry(Vec3 camera)
     {
     	boolean onTop = dgRenderingMode == WireframeRenderMode.WIREFRAMEOVERLAY;
+    	int chunkX = Mth.floor(camera.x) >> 4;
+    	int chunkZ = Mth.floor(camera.z) >> 4;
+    	List<Long> keys = new ArrayList<Long>(_dgChunkGeometry.keySet());
+    	keys.sort(Comparator.comparingInt(key -> Math.max(Math.abs((int)(key >> 32) - chunkX), Math.abs((int)(long)key - chunkZ))));
+    	int budget = MAX_PRIMITIVES_PER_FRAME;
 
-    	for (ChunkGeometry geometry : _dgChunkGeometry.values())
+    	for (Long key : keys)
     	{
+    		ChunkGeometry geometry = _dgChunkGeometry.get(key);
+    		int cost = geometry.lines().size() / 2 + geometry.polygons().size() / 3 * (dgRenderingMode == WireframeRenderMode.POLYGON ? 1 : 3);
+    		if (cost > budget)
+    		{
+    			break;
+    		}
+    		budget -= cost;
+
     		List<GeometryRenderer.Vertex> lines = geometry.lines();
     		for (int i = 0; i + 1 < lines.size(); i += 2)
     		{
