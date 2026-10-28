@@ -1,83 +1,43 @@
 package CustomOreGen.Util;
 
 import java.lang.annotation.Annotation;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
-import CustomOreGen.CustomPacketPayload;
-import CustomOreGen.CustomPacketPayload.PayloadType;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+
 import CustomOreGen.Config.ConfigParser;
+import CustomOreGen.Server.ConsoleCommands.ArgName;
+import CustomOreGen.Server.ConsoleCommands.ArgOptional;
+import CustomOreGen.Server.ConsoleCommands.CommandDelegate;
 import CustomOreGen.Server.ServerState;
-//import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
-//import net.minecraft.command.ICommandSender;
-//import net.minecraft.command.SyntaxErrorException;
-import net.minecraft.entity.Entity;
-//import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.tileentity.TileEntity;
-//import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.World;
-//import net.minecraft.world.WorldServer;
+import net.minecraft.IdentifierException;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 
-public class ConsoleCommand //extends CommandBase
+/**
+ * Exposes one @CommandDelegate method as a Brigadier command: "/name" with an optional greedy string of
+ * whitespace-separated arguments, parsed against the method's parameters as the pre-1.13 CommandBase
+ * wrapper did (ConfigParser.parseString, @ArgName / @ArgOptional, a trailing varargs parameter).
+ *
+ * A CommandSourceStack parameter receives the sender. A ServerLevel parameter receives the sender's
+ * dimension when the sender is an entity; otherwise (the server console) it consumes an argument naming
+ * the dimension, such as minecraft:overworld.
+ */
+public class ConsoleCommand
 {
-	/*private final Object _obj;
+	private final Object _obj;
     private final Method _method;
-
-    public static void sendText(ICommandSender recipient, String text)
-    {
-        if (text != null && recipient != null)
-        {
-        	for (String line : text.split("\n")) {
-        		if (recipient instanceof EntityPlayerMP)
-        		{
-        			(new CustomPacketPayload(PayloadType.CommandResponse, line)).sendToClient((EntityPlayerMP)recipient);
-        		}
-	            else
-	            {
-	            	recipient.sendMessage(new TextComponentString(line));
-	            }
-        	}
-        }
-    }
-
-    public static WorldServer getSenderWorldServer(ICommandSender sender)
-    {
-        World entityWorld = null;
-
-        if (sender instanceof Entity)
-        {
-            entityWorld = ((Entity)sender).world;
-        }
-        else
-        {
-            if (!(sender instanceof TileEntity))
-            {
-                return null;
-            }
-
-            entityWorld = ((TileEntity)sender).getWorld();
-        }
-
-        if (entityWorld == null)
-        {
-            return null;
-        }
-        else
-        {
-        	int dim = entityWorld.provider.getDimension();
-            return sender.getServer().getWorld(dim);
-        }
-    }
+    private final CommandDelegate _delegate;
 
     public ConsoleCommand(Object obj, Method method)
     {
@@ -85,201 +45,160 @@ public class ConsoleCommand //extends CommandBase
         {
             throw new RuntimeException("Method \'" + method.getName() + "\' for class " + method.getDeclaringClass().getSimpleName() + " requires an object instance");
         }
-        else
-        {
-            this._obj = obj;
-            this._method = method;
-        }
+
+        this._obj = obj;
+        this._method = method;
+        this._delegate = method.getAnnotation(CommandDelegate.class);
     }
 
-    public ConsoleCommand(Method method)
-    {
-        this((Object)null, method);
-    }
-
-    @Override
     public String getName()
     {
-        CommandDelegate cmdDef = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
-        return cmdDef != null && cmdDef.names() != null && cmdDef.names().length > 0 ? cmdDef.names()[0] : this._method.getName();
+        return this._delegate != null && this._delegate.names().length > 0 ? this._delegate.names()[0] : this._method.getName();
     }
 
-    @Override
-    public List<String> getAliases()
+    public void register(CommandDispatcher<CommandSourceStack> dispatcher)
     {
-        CommandDelegate cmdDef = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
-        return cmdDef != null && cmdDef.names() != null && cmdDef.names().length > 1 ? Arrays.asList(Arrays.copyOfRange(cmdDef.names(), 1, cmdDef.names().length)) : Collections.<String>emptyList();
+    	boolean cheat = this._delegate == null || this._delegate.isCheat();
+
+    	for (String name : this.getNames())
+    	{
+    		LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal(name)
+    				.requires(source -> !cheat || Commands.hasPermission(Commands.LEVEL_GAMEMASTERS).test(source))
+    				.executes(ctx -> this.execute(ctx, ""))
+    				.then(Commands.argument("args", StringArgumentType.greedyString())
+    						.executes(ctx -> this.execute(ctx, StringArgumentType.getString(ctx, "args"))));
+    		dispatcher.register(command);
+    	}
     }
 
-    @Override
-    public String getUsage(ICommandSender sender)
+    private String[] getNames()
     {
-        return this.getCommandHelp(sender, false);
+    	return this._delegate != null && this._delegate.names().length > 0 ? this._delegate.names() : new String[] { this._method.getName() };
     }
 
-    public String getCommandHelp(ICommandSender sender, boolean verbose)
+    public String getCommandHelp(CommandSourceStack sender, boolean verbose)
     {
         StringBuilder out = new StringBuilder("/" + this.getName());
         Class<?>[] ptypes = this._method.getParameterTypes();
-        Annotation[][] pantns = this._method.getParameterAnnotations();
 
-        for (int cmdDef = 0; cmdDef < ptypes.length; ++cmdDef)
+        for (int pidx = 0; pidx < ptypes.length; ++pidx)
         {
-            Class<?> clazz = ptypes[cmdDef];
-            String name = "arg" + cmdDef + ":" + clazz.getSimpleName();
-            boolean required = true;
+            Class<?> clazz = ptypes[pidx];
+            String name = getArgName(pidx);
+            boolean required = getArgOptional(pidx) == null;
 
-            if (pantns != null && cmdDef < pantns.length && pantns[cmdDef] != null)
+            if (clazz == CommandSourceStack.class)
             {
-                Annotation[] senderWorld = pantns[cmdDef];   
-                for (Annotation annot : senderWorld) {
-                	if (annot instanceof ArgName)
-                    {
-                        name = ((ArgName)annot).name();
-                    }
-                    else if (annot instanceof ArgOptional)
-                    {
-                        required = false;
-                    }
-                }
+            	continue;
+            }
+            if (clazz == ServerLevel.class && sender.getEntity() != null)
+            {
+            	continue;
+            }
+            if (clazz.isArray() && pidx == ptypes.length - 1 && this._method.isVarArgs())
+            {
+                name = " ... ";
+                required = false;
             }
 
-            if (!clazz.isAssignableFrom(ICommandSender.class))
-            {
-                if (clazz.isAssignableFrom(WorldServer.class))
-                {
-                    if (getSenderWorldServer(sender) != null)
-                    	continue;
-
-                    clazz = Integer.class;
-                }
-                else if (clazz.isArray() && cmdDef == ptypes.length - 1 && this._method.isVarArgs())
-                {
-                    name = " ... ";
-                    required = false;
-                }
-
-                out.append(' ');
-
-                if (required)
-                {
-                    out.append('<');
-                }
-                else
-                {
-                    out.append('[');
-                }
-
-                out.append(name);
-
-                if (required)
-                {
-                    out.append('>');
-                }
-                else
-                {
-                    out.append(']');
-                }
-            }
+            out.append(required ? " <" : " [").append(name).append(required ? '>' : ']');
         }
 
-        CommandDelegate delegate = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
-
-        if (verbose && delegate != null && delegate.desc() != null && !delegate.desc().isEmpty())
+        if (verbose && this._delegate != null && !this._delegate.desc().isEmpty())
         {
-            out.append("\n  ");
-            out.append(delegate.desc());
+            out.append("\n  ").append(this._delegate.desc());
         }
 
         return out.toString();
     }
 
-    @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+    private int execute(CommandContext<CommandSourceStack> ctx, String argString)
+    {
+    	CommandSourceStack sender = ctx.getSource();
+    	String trimmed = argString.trim();
+    	String[] args = trimmed.isEmpty() ? new String[0] : trimmed.split("\\s+");
         Class<?>[] ptypes = this._method.getParameterTypes();
-        Annotation[][] pantns = this._method.getParameterAnnotations();
         Object[] pvalues = new Object[ptypes.length];
+        ServerLevel level = null;
 
         try
         {
-            int ex = 0;
+            int argIdx = 0;
 
             for (int pidx = 0; pidx < ptypes.length; ++pidx)
             {
                 Class<?> clazz = ptypes[pidx];
-                String name = "arg" + pidx + ":" + clazz.getSimpleName();
-                String defValue = null;
-                boolean required = true;
+                String name = getArgName(pidx);
+                ArgOptional optional = getArgOptional(pidx);
+                String defValue = optional == null || optional.defValue().isEmpty() ? null : optional.defValue();
 
-                if (pantns != null && pidx < pantns.length && pantns[pidx] != null)
-                {
-                    for (Annotation annot : pantns[pidx]) {
-                    	if (annot instanceof ArgName)
-                        {
-                            name = ((ArgName)annot).name();
-                        }
-                        else if (annot instanceof ArgOptional)
-                        {
-                            required = false;
-                            defValue = ((ArgOptional)annot).defValue();
-
-                            if (defValue.isEmpty())
-                            {
-                                defValue = null;
-                            }
-                        }
-
-                    }
-                }
-
-                if (clazz.isAssignableFrom(ICommandSender.class))
+                if (clazz == CommandSourceStack.class)
                 {
                     pvalues[pidx] = sender;
                 }
-                else if (clazz.isAssignableFrom(WorldServer.class))
+                else if (clazz == ServerLevel.class)
                 {
-                    pvalues[pidx] = getSenderWorldServer(sender);
+                	if (sender.getEntity() != null)
+                	{
+                		pvalues[pidx] = sender.getLevel();
+                	}
+                	else
+                	{
+                		pvalues[pidx] = parseDimension(sender, argIdx < args.length ? args[argIdx++] : defValue);
+                	}
 
-                    if (pvalues[pidx] == null)
+                    if (pvalues[pidx] == null && optional == null)
                     {
-                    	Integer dimId = ConfigParser.parseString(Integer.class, ex < args.length ? args[ex++] : defValue);
-                        pvalues[pidx] = dimId == null ? null : sender.getServer().getWorld(dimId.intValue());
-
-                        if (pvalues[pidx] == null && required)
-                        {
-                            throw new SyntaxErrorException("Missing or invalid dimension ID for required argument \'" + name + "\'", new Object[0]);
-                        }
+                        throw new IllegalArgumentException("Missing or invalid dimension (e.g. minecraft:overworld) for required argument \'" + name + "\'");
                     }
+                    level = (ServerLevel)pvalues[pidx];
                 }
                 else if (clazz.isArray() && pidx == ptypes.length - 1 && this._method.isVarArgs())
                 {
-                    pvalues[pidx] = Array.newInstance(clazz.getComponentType(), args.length - ex);
+                    pvalues[pidx] = Array.newInstance(clazz.getComponentType(), args.length - argIdx);
 
                     for (int i = 0; i < Array.getLength(pvalues[pidx]); ++i)
                     {
-                        Object pvalue = ConfigParser.parseString(clazz.getComponentType(), args[ex++]);
-                        Array.set(pvalues[pidx], i, pvalue);
+                        Array.set(pvalues[pidx], i, ConfigParser.parseString(clazz.getComponentType(), args[argIdx++]));
                     }
                 }
                 else
                 {
-                    pvalues[pidx] = ConfigParser.parseString(clazz, ex < args.length ? args[ex++] : defValue);
+                    pvalues[pidx] = ConfigParser.parseString(clazz, argIdx < args.length ? args[argIdx++] : defValue);
 
-                    if (pvalues[pidx] == null && required)
+                    if (pvalues[pidx] == null)
                     {
-                        throw new SyntaxErrorException("Missing required argument \'" + name + "\'", new Object[0]);
+                    	if (optional == null)
+                    	{
+                    		throw new IllegalArgumentException("Missing required argument \'" + name + "\'");
+                    	}
+                    	// Optional primitives with no default (e.g. boolean flags) get the zero value.
+                    	pvalues[pidx] = defaultValue(clazz);
                     }
                 }
             }
 
-            if (ex < args.length)
+            if (argIdx < args.length)
             {
-                throw new SyntaxErrorException("Too many arguments", new Object[0]);
+                throw new IllegalArgumentException("Too many arguments");
             }
         }
-        catch (IllegalArgumentException var18)
+        catch (IllegalArgumentException e)
         {
-            throw new SyntaxErrorException(var18.getMessage(), new Object[0]);
+        	sender.sendFailure(Component.literal(e.getMessage()));
+        	sender.sendFailure(Component.literal("Usage: " + this.getCommandHelp(sender, true)));
+            return 0;
+        }
+
+        if ((this._delegate == null || this._delegate.isDebugging()) && level != null)
+        {
+        	ServerState.checkIfServerChanged(sender.getServer(), sender.getServer().getWorldData());
+
+        	if (!ServerState.getWorldConfig(level).debuggingMode)
+        	{
+        		sender.sendFailure(Component.literal("/" + this.getName() + " needs debugging mode; turn it on with /cogEnableDebugging"));
+        		return 0;
+        	}
         }
 
         try
@@ -288,46 +207,71 @@ public class ConsoleCommand //extends CommandBase
 
             if (result != null)
             {
-                sendText(sender, result.toString());
+            	for (String line : result.toString().split("\n"))
+            	{
+            		sender.sendSuccess(() -> Component.literal(line), false);
+            	}
             }
+            return 1;
         }
-        catch (InvocationTargetException var16)
+        catch (InvocationTargetException e)
         {
-            throw new CommandException("Error: " + var16.getCause().getMessage(), new Object[0]);
+        	Throwable cause = e.getCause() == null ? e : e.getCause();
+        	sender.sendFailure(Component.literal("Error: " + cause.getMessage()));
+        	return 0;
         }
-        catch (Exception var17)
+        catch (Exception e)
         {
-            throw new CommandException("Unkown Error: " + var17.getMessage(), new Object[0]);
+        	sender.sendFailure(Component.literal("Unknown Error: " + e.getMessage()));
+        	return 0;
         }
     }
 
-	@Override
-	public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-		CommandDelegate cmdDef = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
-
-        if (cmdDef == null || cmdDef.isDebugging())
-        {
-            WorldServer senderWorld = getSenderWorldServer(sender);
-
-            if (senderWorld != null)
-            {
-                ServerState.checkIfServerChanged(server, senderWorld.getWorldInfo());
-
-                if (!ServerState.getWorldConfig(senderWorld).debuggingMode)
-                {
-                    return false;
-                }
-            }
-        }
-
-        return super.checkPermission(server, sender);
-    }
-
-    @Override
-    public int getRequiredPermissionLevel()
+    private static ServerLevel parseDimension(CommandSourceStack sender, String value)
     {
-        CommandDelegate cmdDef = (CommandDelegate)this._method.getAnnotation(CommandDelegate.class);
-        return cmdDef != null && cmdDef.isCheat() ? 2 : 0;
-    }*/
+    	if (value == null)
+    	{
+    		return null;
+    	}
+    	try
+    	{
+    		return sender.getServer().getLevel(ResourceKey.create(Registries.DIMENSION, Identifier.parse(value)));
+    	}
+    	catch (IdentifierException e)
+    	{
+    		return null;
+    	}
+    }
 
+    private static Object defaultValue(Class<?> clazz)
+    {
+    	if (!clazz.isPrimitive()) return null;
+    	if (clazz == boolean.class) return false;
+    	if (clazz == char.class) return '\0';
+    	return ConfigParser.parseString(clazz, "0");
+    }
+
+    private String getArgName(int pidx)
+    {
+    	for (Annotation annot : this._method.getParameterAnnotations()[pidx])
+    	{
+    		if (annot instanceof ArgName argName)
+    		{
+    			return argName.name();
+    		}
+    	}
+    	return "arg" + pidx + ":" + this._method.getParameterTypes()[pidx].getSimpleName();
+    }
+
+    private ArgOptional getArgOptional(int pidx)
+    {
+    	for (Annotation annot : this._method.getParameterAnnotations()[pidx])
+    	{
+    		if (annot instanceof ArgOptional optional)
+    		{
+    			return optional;
+    		}
+    	}
+    	return null;
+    }
 }

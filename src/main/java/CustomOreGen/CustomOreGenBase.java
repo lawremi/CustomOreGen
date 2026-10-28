@@ -10,10 +10,10 @@ import org.apache.logging.log4j.Logger;
 
 import CustomOreGen.Server.ServerState;
 import CustomOreGen.Server.WorldConfig;
-import net.minecraftforge.fml.ModContainer;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.loading.FMLPaths;
 
 @Mod("customoregen")
 public class CustomOreGenBase
@@ -198,7 +198,7 @@ public class CustomOreGenBase
     }
     
 	private static ModContainer getModContainer() {
-		return ModList.get().getModContainerByObject(instance).get();
+		return ModList.get().getModContainerById(MODID).get();
 	}
 
 	public static String getDisplayString() {

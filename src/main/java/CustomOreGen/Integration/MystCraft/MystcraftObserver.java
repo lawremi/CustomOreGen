@@ -14,14 +14,14 @@ public class MystcraftObserver {
 	/*
     @SubscribeEvent
     public void onDenseOres(DenseOresEvent event) {
-    	ServerState.checkIfServerChanged(MinecraftServer.getServer(), event.worldObj.getWorldInfo());
-    	WorldConfig config = ServerState.getWorldConfig(event.worldObj);
+    	ServerState.checkIfServerChanged(MinecraftServer.getServer(), event.levelObj.getLevelInfo());
+    	WorldConfig config = ServerState.getWorldConfig(event.levelObj);
     	BlockDescriptor desc = config.getEquivalentBlockDescriptor();
-    	WorldGenSubstitution substitution = new WorldGenSubstitution(config.getOreDistributions().size(), true);
+    	LevelGenSubstitution substitution = new LevelGenSubstitution(config.getOreDistributions().size(), true);
     	BlockDescriptor subDesc = (BlockDescriptor) substitution.getDistributionSetting("OreBlock");
     	subDesc.clear();
     	subDesc.add(desc, 0.33F);
-    	substitution.populate(event.worldObj, event.xPos, event.zPos);
+    	substitution.populate(event.levelObj, event.xPos, event.zPos);
     }
     */
 }

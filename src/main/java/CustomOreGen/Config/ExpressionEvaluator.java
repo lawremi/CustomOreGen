@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class ExpressionEvaluator
 {
@@ -217,7 +217,7 @@ public class ExpressionEvaluator
                     {
                     	if (!lhs1.getClass().isAssignableFrom(rhs1.getClass()))
                         {
-                        	if(lhs1 instanceof ResourceLocation) {
+                        	if(lhs1 instanceof Identifier) {
                         		lhs1 = lhs1.toString().toLowerCase();
                         		rhs1 = rhs1.toString().toLowerCase();
                         	}

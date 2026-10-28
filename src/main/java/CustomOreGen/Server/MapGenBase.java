@@ -1,23 +1,24 @@
 package CustomOreGen.Server;
 
-import java.util.Random;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.chunk.ChunkAccess;
 
 public class MapGenBase
 {
     /** The number of Chunks to gen-check in any given direction. */
     protected int range = 8;
     /** The RNG used by the MapGen classes. */
-    protected Random rand = new Random();
+    protected RandomSource rand = RandomSource.create();
     /** This world object. */
-    protected IWorld world;
+    protected LevelAccessor world;
 
-    public void generate(IWorld worldIn, int x, int z, ChunkPrimer primer)
+    public void generate(LevelAccessor worldIn, int x, int z, ChunkAccess primer)
     {
         int i = this.range;
         this.world = worldIn;
-        this.rand.setSeed(worldIn.getSeed());
+        long seed = worldIn.getServer().getWorldGenSettings().options().seed();
+        this.rand.setSeed(seed);
         long j = this.rand.nextLong();
         long k = this.rand.nextLong();
 
@@ -27,13 +28,13 @@ public class MapGenBase
             {
                 long j1 = (long)l * j;
                 long k1 = (long)i1 * k;
-                this.rand.setSeed(j1 ^ k1 ^ worldIn.getSeed());
+                this.rand.setSeed(j1 ^ k1 ^ seed);
                 this.recursiveGenerate(worldIn, l, i1, x, z, primer);
             }
         }
     }
 
-    public static void setupChunkSeed(long p_191068_0_, Random p_191068_2_, int p_191068_3_, int p_191068_4_)
+    public static void setupChunkSeed(long p_191068_0_, RandomSource p_191068_2_, int p_191068_3_, int p_191068_4_)
     {
         p_191068_2_.setSeed(p_191068_0_);
         long i = p_191068_2_.nextLong();
@@ -46,7 +47,7 @@ public class MapGenBase
     /**
      * Recursively called by generate()
      */
-    protected void recursiveGenerate(IWorld worldIn, int chunkX, int chunkZ, int originalX, int originalZ, ChunkPrimer chunkPrimerIn)
+    protected void recursiveGenerate(LevelAccessor worldIn, int chunkX, int chunkZ, int originalX, int originalZ, ChunkAccess chunkPrimerIn)
     {
     }
 }

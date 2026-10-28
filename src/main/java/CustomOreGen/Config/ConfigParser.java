@@ -7,7 +7,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -35,12 +34,13 @@ import CustomOreGen.Server.WorldConfig;
 import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.CIStringMap;
+import net.minecraft.util.RandomSource;
 
 public class ConfigParser
 {
     public final WorldConfig target;
     public final ConfigExpressionEvaluator defaultEvaluator = new ConfigExpressionEvaluator();
-    protected Random rng = null;
+    protected RandomSource rng = null;
     protected final DocumentBuilder domBuilder;
     protected final SAXParser saxParser;
     private static final Map<String,IValidatorFactory<ValidatorDistribution>> distributionValidators = 
@@ -126,10 +126,9 @@ public class ConfigParser
         }
         else
         {
-            this.rng = new Random(this.target.worldInfo.getSeed());
+            this.rng = RandomSource.create(WorldConfig.worldSeed());
             this.rng.nextInt();
         }
-
         validator.validate();
     }
 
@@ -342,7 +341,7 @@ public class ConfigParser
             }
             else
             {
-                Object property = target.getWorldProperty(identifier);
+                Object property = target.getLevelProperty(identifier);
 
                 if (property != null)
                 {

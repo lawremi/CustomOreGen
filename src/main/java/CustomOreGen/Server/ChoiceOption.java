@@ -4,8 +4,6 @@ import java.util.LinkedHashMap;
 
 import CustomOreGen.Util.CIStringMap;
 import CustomOreGen.Util.Localization;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ChoiceOption extends ConfigOption
 {
@@ -124,17 +122,14 @@ public class ChoiceOption extends ConfigOption
         return display == null ? null : display[1];
     }
 
-    @OnlyIn(Dist.CLIENT)
     public String getLocalizedValueDescription() {
     	return this.localize("description", this.getValueDescription());
     }
 
-    @OnlyIn(Dist.CLIENT)
     public String getLocalizedDisplayValue() {
     	return this.localize("displayValue", this.getDisplayValue());
     }
 
-    @OnlyIn(Dist.CLIENT)
 	private String localize(String key, String value) {
 		return Localization.maybeLocalize(this.getName() + "." + this.getValue() + "." + key, value); 
 	}

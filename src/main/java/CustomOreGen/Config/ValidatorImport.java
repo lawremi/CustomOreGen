@@ -46,22 +46,27 @@ public class ValidatorImport extends ValidatorNode
         {
             ArrayList<Node> contents = new ArrayList<Node>(files.size());
             for (File file : files) {
-            	Element importRoot = this.getNode().getOwnerDocument().createElement("ImportedDoc");
-                this.getNode().appendChild(importRoot);
-                importRoot.setUserData("value", file, (UserDataHandler)null);
-
-                try
-                {
-                    this.getParser().saxParser.parse(file, new LineAwareSAXHandler(importRoot));
-                }
-                catch (Exception var10)
-                {
-                    throw new ParserException(var10.getMessage(), this.getNode(), var10);
-                }
-
-                (new ValidatorUnchecked(this, importRoot)).validate();
-                contents.add(importRoot);
-
+            	try {
+	            	Element importRoot = this.getNode().getOwnerDocument().createElement("ImportedDoc");
+	                this.getNode().appendChild(importRoot);
+	                importRoot.setUserData("value", file, (UserDataHandler)null);
+	
+	                try
+	                {
+	                    this.getParser().saxParser.parse(file, new LineAwareSAXHandler(importRoot));
+	                }
+	                catch (Exception var10)
+	                {
+	                    throw new ParserException(var10.getMessage(), this.getNode(), var10);
+	                }
+	
+	                (new ValidatorUnchecked(this, importRoot)).validate();
+	                contents.add(importRoot);
+            	}
+            	catch(RuntimeException ex) {
+                	System.out.println("Error parsing " + file.getName() + ":");
+                	throw ex;
+            	}
             }
 
             this.replaceWithNodeContents(contents.toArray(new Node[contents.size()]));

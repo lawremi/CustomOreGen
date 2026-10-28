@@ -1,12 +1,12 @@
 package CustomOreGen.Util;
 
-import net.minecraft.world.World;
+import net.minecraft.world.level.LevelAccessor;
 
 public class PositionHeightScale implements HeightScale {
 
 	@Override
-	public int getHeight(World world, int x, int z) {
-		return new BiomeHeightScale().getHeight(world, x, z);
+	public int getHeight(LevelAccessor world, int x, int z) {
+		return WorldGenQueries.getSurfaceHeight(world, x, z);
 	}
 
 	@Override

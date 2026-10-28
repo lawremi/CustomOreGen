@@ -2,14 +2,14 @@ package CustomOreGen.Config;
 
 import org.w3c.dom.Node;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagParser;
 
 public class ValidatorBlockDescriptor extends ValidatorNode
 {
     public String blocks = null;
     public float weight = 1.0F;
-	public CompoundNBT nbt;
+	public CompoundTag nbt;
 	
     protected ValidatorBlockDescriptor(ValidatorNode parent, Node node)
     {
@@ -24,7 +24,7 @@ public class ValidatorBlockDescriptor extends ValidatorNode
         String nbtJson = this.validateNamedAttribute(String.class, "NBT", null, true);
         if (nbtJson != null) {
         	try {
-        		this.nbt = JsonToNBT.getTagFromJson(nbtJson);
+        		this.nbt = TagParser.parseCompoundFully(nbtJson);
 			} catch (Exception e) {
 				throw new ParserException("Failed to parse JSON", e);
 			}

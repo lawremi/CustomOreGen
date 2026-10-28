@@ -1,11 +1,12 @@
 package CustomOreGen.Util;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
 import CustomOreGen.Util.PDist.Type;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 
 /* Conceptually, HeightScaledPDist could be an extension of PDist, or a decorator. 
  * It requires the world location to calculate some version of the height, or
@@ -48,23 +49,23 @@ public class HeightScaledPDist implements Copyable<HeightScaledPDist> {
 		this.scaleTo = other.scaleTo;
 	}
 	
-	private float scale(float val, World world, int x, int z) {
+	private float scale(float val, LevelAccessor world, int x, int z) {
 		return val * scaleTo.getHeight(world, x, z) / scaleFrom.getHeight(world, x, z);
 	}
 	
-	public float getValue(Random rand, World world, int x, int z) {
+	public float getValue(RandomSource rand, LevelAccessor world, int x, int z) {
 		return scale(pdist.getValue(rand), world, x, z); 
 	}
 
-	public float getValue(Random rand, World world, float x, float z) {
-		return scale(pdist.getValue(rand), world, MathHelper.floor(x), MathHelper.floor(z)); 
+	public float getValue(RandomSource rand, LevelAccessor world, float x, float z) {
+		return scale(pdist.getValue(rand), world, Mth.floor(x), Mth.floor(z)); 
 	}
 	
-	public float getMax(World world, int x, int z) {
+	public float getMax(LevelAccessor world, int x, int z) {
 		return scale(pdist.getMax(), world, x, z);
 	}
 
-	public float getMin(World world, int x, int z) {
+	public float getMin(LevelAccessor world, int x, int z) {
 		return scale(pdist.getMin(), world, x, z);
 	}
 	
@@ -79,7 +80,7 @@ public class HeightScaledPDist implements Copyable<HeightScaledPDist> {
 		return this;
 	}
 	
-	public int getIntValue(Random rand, World world, int x, int z)
+	public int getIntValue(RandomSource rand, LevelAccessor world, int x, int z)
     {
         float fval = this.getValue(rand, world, x, z);
         return PDist.roundToInt(fval, rand);

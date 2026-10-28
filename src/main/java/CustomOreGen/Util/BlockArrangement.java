@@ -1,10 +1,9 @@
 package CustomOreGen.Util;
 
-import java.util.Random;
-
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class BlockArrangement {
     private BlockDescriptor center, above, below, beside;
@@ -20,11 +19,11 @@ public class BlockArrangement {
         this.touching = touching;
     }
 
-    public boolean matchesAt(World world, Random rand, BlockPos pos) {
+    public boolean matchesAt(LevelAccessor world, RandomSource rand, BlockPos pos) {
         return 
             this.descriptorMatchesAt(center, world, rand, pos) &&
-            this.descriptorMatchesAt(above, world, rand, pos.up()) &&
-            this.descriptorMatchesAt(below, world, rand, pos.down()) && 
+            this.descriptorMatchesAt(above, world, rand, pos.above()) &&
+            this.descriptorMatchesAt(below, world, rand, pos.below()) && 
             
             (this.descriptorMatchesAt(beside, world, rand, pos.north()) ||
             this.descriptorMatchesAt(beside, world, rand, pos.east()) ||
@@ -34,7 +33,7 @@ public class BlockArrangement {
             this.touchesAt(world, rand, pos);
     }
 
-    private boolean descriptorMatchesAt(BlockDescriptor descriptor, World world, Random rand, BlockPos pos) {
+    private boolean descriptorMatchesAt(BlockDescriptor descriptor, LevelAccessor world, RandomSource rand, BlockPos pos) {
         if (descriptor.isEmpty()) {
             return true;
         }
@@ -42,7 +41,7 @@ public class BlockArrangement {
         return descriptor.matchesBlock(blockState, rand);
     }
 
-    private boolean touchesAt(World world, Random rand, BlockPos pos) {
+    private boolean touchesAt(LevelAccessor world, RandomSource rand, BlockPos pos) {
         if (this.touching.size() <= 0)
             return true;
 
@@ -78,12 +77,12 @@ public class BlockArrangement {
         return false;
     }
 
-    private boolean touchesAt(TouchingDescriptor descriptor, World world, Random rand, BlockPos pos) {
+    private boolean touchesAt(TouchingDescriptor descriptor, LevelAccessor world, RandomSource rand, BlockPos pos) {
         int numberOfTouches = 0;
 
         // search each required block position
         for (BlockPos positionDelta : descriptor.deltaPositionMap) {
-            if (descriptorMatchesAt(descriptor.blockDescriptor, world, rand, pos.add(positionDelta))) {
+            if (descriptorMatchesAt(descriptor.blockDescriptor, world, rand, pos.offset(positionDelta))) {
                 numberOfTouches++;
             }
         }

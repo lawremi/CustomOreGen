@@ -1,17 +1,21 @@
 package CustomOreGen.Util;
 
-import net.minecraft.world.World;
+import net.minecraft.world.level.LevelAccessor;
 
 public class WorldHeightScale implements HeightScale {
 
+	@SuppressWarnings("deprecation")
 	@Override
-	public int getHeight(World world, int x, int z) {
+	public int getHeight(LevelAccessor world, int x, int z) {
 		/*if (world.provider.isSkyColored()) {
 			return world.provider.getActualHeight();
 		}
 		return world.provider.getAverageGroundLevel();*/
 		//TODO: this is the best I can find for ground level.
-		return (int) world.getWorldInfo().getGenerator().getHorizon(world);
+		
+		//if(world.dimensionType().hasCeiling()) { ? }
+		//return (int) world.getHeight();
+		return world.getSeaLevel();
 	}
 
 	@Override

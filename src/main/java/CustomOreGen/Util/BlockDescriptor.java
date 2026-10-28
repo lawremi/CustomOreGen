@@ -2,23 +2,30 @@ package CustomOreGen.Util;
 
 import java.util.Collections;
 import java.util.Hashtable;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
+import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.Server.DistributionSettingMap.Copyable;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.commands.arguments.blocks.BlockStateParser;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.Identifier;
+import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class BlockDescriptor implements Copyable<BlockDescriptor>
 {
@@ -26,20 +33,20 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
     {
         private BlockState blockState;
         private boolean ignoreState;
-        private CompoundNBT nbt;
+        private CompoundTag nbt;
         
-        private BlockInfo(BlockState blockState, CompoundNBT nbt, boolean ignoreState) {
+        private BlockInfo(BlockState blockState, CompoundTag nbt, boolean ignoreState) {
         	this.blockState = blockState;
         	this.nbt = nbt;
         	this.ignoreState = ignoreState;
         }
         
-        public BlockInfo(BlockState blockState, CompoundNBT nbt) {
+        public BlockInfo(BlockState blockState, CompoundTag nbt) {
 	        this(blockState, nbt, false);
         }
         
-        public BlockInfo(Block block, CompoundNBT nbt) {
-        	this(block.getDefaultState(), nbt, true);
+        public BlockInfo(Block block, CompoundTag nbt) {
+        	this(block.defaultBlockState(), nbt, true);
         }
         
         @Override
@@ -66,7 +73,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         public BlockState getBlockState() {
         	return this.blockState;
         }
-        public CompoundNBT getNBT() {
+        public CompoundTag getNBT() {
 			return this.nbt;
 		}
         public boolean ignoresState() {
@@ -113,7 +120,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
     }
 
 	public BlockDescriptor set(Block block) {
-		return this.set(ForgeRegistries.BLOCKS.getKey(block).toString());
+		return this.set(BuiltInRegistries.BLOCK.getKey(block).toString());
 	}
 	
     public BlockDescriptor set(String descriptor)
@@ -133,11 +140,11 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         return this.add(descriptor, 1.0F, false, false, false, null);
     }
 
-    public BlockDescriptor add(String descriptor, float weight, CompoundNBT nbt) {
+    public BlockDescriptor add(String descriptor, float weight, CompoundTag nbt) {
     	return this.add(descriptor, weight, false, false, false, nbt);
     }
     
-    public BlockDescriptor add(String descriptor, float weight, boolean describesOre, boolean matchFirst, boolean regexp, CompoundNBT nbt)
+    public BlockDescriptor add(String descriptor, float weight, boolean describesOre, boolean matchFirst, boolean regexp, CompoundTag nbt)
     {
         if (descriptor != null && weight != 0.0F)
         {
@@ -165,12 +172,12 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
     	this.add(new BlockInfo(block, null), weight);
     }
     
-    private void add(Block block, CompoundNBT nbt, float weight)
+    private void add(Block block, CompoundTag nbt, float weight)
     {
     	this.add(new BlockInfo(block, nbt), weight);
     }
     
-    private void add(BlockState blockState, CompoundNBT nbt, float weight)
+    private void add(BlockState blockState, CompoundTag nbt, float weight)
     {
     	this.add(new BlockInfo(blockState, nbt), weight);
     }
@@ -179,10 +186,11 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
     {
     	BlockState blockState = blockInfo.getBlockState();
     	Block block = blockState.getBlock();
-    	CompoundNBT nbt = blockInfo.getNBT();
-    	if (nbt != null && !block.hasTileEntity(blockState)) {
+    	CompoundTag nbt = blockInfo.getNBT();
+    	if (nbt != null && !blockState.hasBlockEntity()) {
+    		Identifier name = BuiltInRegistries.BLOCK.getKey(block);
     		throw new IllegalArgumentException("NBT specified, but matching block " + 
-    				block.getTranslationKey() + " lacks tile entity");
+    				name + " lacks tile entity");
     	}
         if (weight != 0.0F)
         {
@@ -206,6 +214,13 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
 		}
 	}
 
+    /** The tag itself, plus its c: or forge: twin. */
+    public static List<Identifier> equivalentTags(Identifier tag)
+    {
+    	String twin = tag.getNamespace().equals("forge") ? "c" : tag.getNamespace().equals("c") ? "forge" : null;
+    	return twin == null ? List.of(tag) : List.of(tag, Identifier.fromNamespaceAndPath(twin, tag.getPath()));
+    }
+
     protected void compileMatches()
     {
         if (!this._compiled)
@@ -215,22 +230,31 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
             
             for (Descriptor desc : this._descriptors) {
             	if (desc.describesOre) {
-            		ResourceLocation tagName = new ResourceLocation(desc.description);
-            		Tag<Block> tag = BlockTags.getCollection().get(tagName);
-            		if(tag == null) {
-            			tag = BlockTags.getCollection().get(new ResourceLocation("forge",desc.description));
+            		Identifier tagName = parseId(desc.description);
+            		if (tagName == null) {
+            			continue;
             		}
-            		if(tag == null) {
-            			throw new RuntimeException(desc.description + " does not match any tags.");
+            		// forge: and c: name the same tags: Forge 1.21 is partway through moving to the shared c:
+            		// namespace, and mods use either, so a tag in one also matches the blocks in the other.
+            		Set<Block> tagged = new LinkedHashSet<Block>();
+            		for (Identifier name : equivalentTags(tagName)) {
+            			BuiltInRegistries.BLOCK.get(TagKey.create(Registries.BLOCK, name))
+            				.ifPresent(tag -> tag.stream().map(Holder::value).forEach(tagged::add));
             		}
-            		for (Block block : tag.getAllElements()) {
+            		// A tag nothing installed defines (e.g. forge:ores/zinc without a zinc mod) matches nothing,
+            		// rather than failing the whole world config.
+            		if(tagged.isEmpty()) {
+            			warnOnce("Block tag '" + desc.description + "' is not defined by any loaded mod; it matches nothing.");
+            			continue;
+            		}
+            		for (Block block : tagged) {
             			this.add(block, desc.weight);
             			if (desc.matchFirst) {
             				break;
             			}
             		}
             	} else if (desc.regexp) {
-            		for (Block block : ForgeRegistries.BLOCKS) {
+            		for (Block block : BuiltInRegistries.BLOCK) {
             			//desc.regexMatch compares against states
                     	float[] weights = desc.regexMatch(block);
                     	this.add(block, desc.nbt, weights[0]);
@@ -244,7 +268,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
                     			if(m == 0 )
                     				this.add(block, desc.nbt, weights[m]);
                     			else {
-                                	ImmutableList<BlockState> states = block.getStateContainer().getValidStates();
+                                	ImmutableList<BlockState> states = block.getStateDefinition().getPossibleStates();
                                 	this.add(states.get(m-1), desc.nbt, weights[m]);
                     			}
                     			if (desc.matchFirst) {
@@ -256,13 +280,23 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
                     		break;
                     	}
                     }
+            	} else if (desc.description.indexOf('[') >= 0) {
+            		// A block state, as in commands: namespace:block[property=value,...]. Only that state
+            		// matches, and it is the state placed.
+            		BlockState state = parseState(desc.description);
+            		if (state != null)
+            			this.add(state, desc.nbt, desc.weight);
             	} else {
-            		Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(desc.getBlockName()));
-            		/*
-            		 * TODO: support block state on 'desc' and construct + register here 
-            		 */
-            		if (block != null)
-            		  this.add(block, desc.nbt, desc.weight);
+            		Identifier id = parseId(desc.getBlockName());
+            		if (!desc.getBlockName().equals(desc.description)) {
+            			warnOnce("Block '" + desc.description + "' uses a pre-1.13 metadata suffix, which is ignored; use a block state such as "
+            					+ desc.getBlockName() + "[property=value].");
+            		}
+            		// getValue() returns air for unknown IDs, which would make every outdated ID mean "air".
+            		if (id != null && BuiltInRegistries.BLOCK.containsKey(id))
+            		  this.add(BuiltInRegistries.BLOCK.getValue(id), desc.nbt, desc.weight);
+            		else if (id != null)
+            			warnOnce("Block '" + desc.getBlockName() + "' is not registered; it matches nothing.");
             	}
             }
         }
@@ -274,7 +308,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         return Collections.unmodifiableMap(this._matches);
     }
 
-    public float getWeight(BlockState blockState, CompoundNBT nbt)
+    public float getWeight(BlockState blockState, CompoundTag nbt)
     {
         this.compileMatches();
         float value = 0.0F;
@@ -295,7 +329,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         return value;
     }
 
-    public boolean matchesBlock(BlockState blockState, Random rand)
+    public boolean matchesBlock(BlockState blockState, RandomSource rand)
     {
         float weight = this.getWeight(blockState, null);
 
@@ -307,7 +341,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         {
             if (rand == null)
             {
-                rand = new Random();
+                rand = RandomSource.create();
             }
 
             return rand.nextFloat() < weight;
@@ -318,7 +352,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         }
     }
 
-    public BlockInfo getMatchingBlock(Random rand)
+    public BlockInfo getMatchingBlock(RandomSource rand)
     {
         this.compileMatches();
         float value = -1.0F;
@@ -338,7 +372,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
                 {
                     if (rand == null)
                     {
-                        rand = new Random();
+                        rand = RandomSource.create();
                     }
 
                     value = rand.nextFloat();
@@ -403,7 +437,7 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         	float weight = entry.getValue().weight;
             Block block = entry.getKey().getBlock();
             
-            breakdown[i] = ForgeRegistries.BLOCKS.getKey(block).toString();
+            breakdown[i] = BuiltInRegistries.BLOCK.getKey(block).toString();
             breakdown[i] += " (" + weight + ")";
             
             ++i;
@@ -412,6 +446,44 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         return breakdown;
     }
     
+    private static final Set<String> _warned = ConcurrentHashMap.newKeySet();
+
+    private static void warnOnce(String message)
+    {
+    	if (_warned.add(message))
+    	{
+    		CustomOreGenBase.log.warn(message);
+    	}
+    }
+
+    /**
+     * A namespaced ID, or null (with a warning) if it isn't a valid one. Pre-1.13 configs use IDs such as
+     * "Mekanism:OreBlock" or "minecraft:sand:1" (capitals, metadata) that are no longer valid.
+     */
+    /** Parses namespace:block[property=value,...], or warns and returns null. */
+    private static BlockState parseState(String description)
+    {
+    	try
+    	{
+    		return BlockStateParser.parseForBlock(BuiltInRegistries.BLOCK, description, false).blockState();
+    	}
+    	catch (CommandSyntaxException e)
+    	{
+    		warnOnce("Block state '" + description + "' is not valid (" + e.getMessage() + "); it matches nothing.");
+    		return null;
+    	}
+    }
+
+    private static Identifier parseId(String id)
+    {
+    	Identifier location = Identifier.tryParse(id);
+    	if (location == null)
+    	{
+    		warnOnce("'" + id + "' is not a valid block or tag ID (capitals and :metadata are pre-1.13); it matches nothing.");
+    	}
+    	return location;
+    }
+
     private class Descriptor
     {
         public final String description;
@@ -419,10 +491,10 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         public final boolean describesOre;
         public final boolean matchFirst;
         public final boolean regexp;
-        public final CompoundNBT nbt;
+        public final CompoundTag nbt;
         private Pattern pattern = null;
         
-        public Descriptor(String description, float weight, boolean describesOre, boolean matchFirst, boolean regexp, CompoundNBT nbt)
+        public Descriptor(String description, float weight, boolean describesOre, boolean matchFirst, boolean regexp, CompoundTag nbt)
         {
             this.description = description;
             this.weight = weight;
@@ -454,11 +526,11 @@ public class BlockDescriptor implements Copyable<BlockDescriptor>
         public float[] regexMatch(Block block)
         {
             float[] weights = new float[1];
-            String name = block.getRegistryName().toString();
+            String name = BuiltInRegistries.BLOCK.getKey(block).toString();
         	
             if (!this.getPattern().matcher(name).matches())
             {
-            	ImmutableList<BlockState> states = block.getStateContainer().getValidStates();
+            	ImmutableList<BlockState> states = block.getStateDefinition().getPossibleStates();
                 weights = new float[states.size() + 1];
                 int m=1;
             	for (BlockState state : states)

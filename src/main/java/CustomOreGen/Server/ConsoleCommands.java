@@ -14,7 +14,6 @@ import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.CustomPacketPayload;
@@ -22,14 +21,17 @@ import CustomOreGen.CustomPacketPayload.PayloadType;
 import CustomOreGen.CustomPacketPayloadHandler;
 import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockDescriptor;
+import CustomOreGen.Util.ConsoleCommand;
 import CustomOreGen.Util.PDist;
 import CustomOreGen.Util.PDist.Type;
-import net.minecraft.command.CommandSource;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagParser;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 
 public class ConsoleCommands
 {
@@ -60,11 +62,12 @@ public class ConsoleCommands
     	String desc() default "";
     }
     
-    public static void register(CommandDispatcher<CommandSource> dispatcher) {
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
+    	ConsoleCommands commands = new ConsoleCommands();
         for (Method method : ConsoleCommands.class.getMethods()) {
         	if (method.getAnnotation(CommandDelegate.class) != null)
             {
-                // TODO: process annotations and call builder methods on dispatcher.
+                new ConsoleCommand(commands, method).register(dispatcher);
             }
         }
     }
@@ -132,7 +135,7 @@ public class ConsoleCommands
     public String cogInfo(
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "distribution"
             ) @ArgOptional String distribution,
@@ -154,7 +157,7 @@ public class ConsoleCommands
 
         if (config.world != null)
         {
-            msg.append("Dim " + config.world.getDimension() + ", ");
+            msg.append("Dim " + WorldConfig.dimensionId(config.world) + ", ");
         }
 
         if (dists != null)
@@ -207,16 +210,15 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Sets the global wireframe rendering mode.  Omit mode to cycle through modes."
     )
-    public void cogWireframeMode(CommandSource sender,
+    public void cogWireframeMode(CommandSourceStack sender,
             @ArgName(
                     name = "None|Polygon|Wireframe|WireframeOverlay"
             ) @ArgOptional String renderMode)
     {
-        try {
-			CustomPacketPayloadHandler.sendTo(new CustomPacketPayload(PayloadType.DebuggingGeometryRenderMode, renderMode), sender.asPlayer());
-		} catch (CommandSyntaxException e) {
+        if (!(sender.getEntity() instanceof ServerPlayer player)) {
 			throw new IllegalArgumentException("/cogWireframeMode is a client-side command and may only be used by a player.");
 		}
+		CustomPacketPayloadHandler.sendTo(new CustomPacketPayload(PayloadType.DebuggingGeometryRenderMode, renderMode), player);
     }
 
     @CommandDelegate(
@@ -225,7 +227,7 @@ public class ConsoleCommands
     public String cogClear(
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "distribution"
             )
@@ -248,10 +250,10 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Repopulates chunks in the specified range around the player.  Omit distribution name to repopulate all distributions."
     )
-    public String cogPopulate(CommandSource sender,
+    public String cogPopulate(CommandSourceStack sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "chunkRange"
             ) int chunkRange,
@@ -271,12 +273,12 @@ public class ConsoleCommands
         WorldConfig cfg = ServerState.getWorldConfig(world);
         Collection<IOreDistribution> list = cfg.getOreDistributions(distribution);
         BlockPos senderPos;
-        try {
-			sender.assertIsEntity();
-		} catch (CommandSyntaxException e) {
-			sendError(sender, e);
-		}
-		senderPos = sender.getEntity().getPosition();
+        Entity senderEntity = sender.getEntity();
+        if(senderEntity == null && (centerX == null || centerZ == null)) {
+        	sendError(sender, new Exception("centerX and centerZ are required when not run by an entity"));
+        	return "";
+        }
+		senderPos = senderEntity == null ? BlockPos.ZERO : senderEntity.blockPosition();
 		int cX = centerX == null ? senderPos.getX() : centerX.intValue();
         int cZ = centerZ == null ? senderPos.getZ() : centerZ.intValue();
 
@@ -295,10 +297,10 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Sets the parent distribution.  Omit parent name to clear parent distribution."
     )
-    public String cogParent(CommandSource sender,
+    public String cogParent(CommandSourceStack sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -338,7 +340,7 @@ public class ConsoleCommands
             }
             catch (Exception var11)
             {
-                sender.sendErrorMessage(new StringTextComponent("\u00a7c" + var11.getMessage()));
+            	sendError(sender, var11.getMessage());
             }
         }
 
@@ -346,7 +348,7 @@ public class ConsoleCommands
         return "Changed parent for " + count + " distributions";
     }
 
-    private static int changeBiomeDescriptor(String settingName, CommandSource sender, ServerWorld world, String distribution, String descriptor, float weight, boolean clear)
+    private static int changeBiomeDescriptor(String settingName, CommandSourceStack sender, ServerLevel world, String distribution, String descriptor, float weight, boolean clear)
     {
         int count = 0;
         
@@ -387,7 +389,7 @@ public class ConsoleCommands
         return count;
     }
     
-    private static int changeBlockDescriptor(String settingName, CommandSource sender, ServerWorld world, String distribution, String descriptor, float weight, boolean clear, boolean describesOre, boolean matchFirst, boolean isRegexp, String nbt)
+    private static int changeBlockDescriptor(String settingName, CommandSourceStack sender, ServerLevel world, String distribution, String descriptor, float weight, boolean clear, boolean describesOre, boolean matchFirst, boolean isRegexp, String nbt)
     {
         int count = 0;
         
@@ -415,7 +417,7 @@ public class ConsoleCommands
                         desc.clear();
                     }
 
-                    CompoundNBT compoundNBT = JsonToNBT.getTagFromJson(nbt);
+                    CompoundTag compoundNBT = TagParser.parseCompoundFully(nbt);
                     desc.add(descriptor, weight, describesOre, isRegexp, matchFirst, compoundNBT);
                     ++count;
                 }
@@ -436,10 +438,10 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Adds an ore block."
     )
-    public String cogAddOreBlock(CommandSource sender,
+    public String cogAddOreBlock(CommandSourceStack sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -471,10 +473,10 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Sets the ore block (clearing any previous ore blocks)."
     )
-    public String cogSetOreBlock(CommandSource sender,
+    public String cogSetOreBlock(CommandSourceStack sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -506,10 +508,10 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Adds a replaceable block."
     )
-    public String cogAddReplaceable(CommandSource sender,
+    public String cogAddReplaceable(CommandSourceStack sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -537,10 +539,10 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Sets the replaceable block (clearing any previous replaceable blocks)."
     )
-    public String cogSetReplaceable(CommandSource sender,
+    public String cogSetReplaceable(CommandSourceStack sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -568,10 +570,10 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Adds a target biome."
     )
-    public String cogAddBiome(CommandSource sender,
+    public String cogAddBiome(CommandSourceStack sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -593,10 +595,10 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Sets the target biome (clearing any previous biomes)."
     )
-    public String cogSetBiome(CommandSource sender,
+    public String cogSetBiome(CommandSourceStack sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -618,10 +620,10 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Sets a distribution setting.  Setting names are the same as the <Setting> names in the config file.  Range and Type are optional (default to 0 and \'uniform\', respectively)."
     )
-    public String cogSetting(CommandSource sender,
+    public String cogSetting(CommandSourceStack sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -668,10 +670,10 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Sets a simple numeric/boolean/string/enum setting.  Setting names are the same as the corresponding attributes in the config file."
     )
-    public String cogSettingEx(CommandSource sender,
+    public String cogSettingEx(CommandSourceStack sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "distribution"
             ) String distribution,
@@ -709,7 +711,7 @@ public class ConsoleCommands
     public String cogOptionInfo(
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "option"
             ) @ArgOptional String option,
@@ -728,7 +730,7 @@ public class ConsoleCommands
 
         if (config.world != null)
         {
-            msg.append("Dim " + config.world.getDimension().getType().getRegistryName() + ", ");
+            msg.append("Dim " + WorldConfig.dimensionId(config.world) + ", ");
         }
 
         if (options != null)
@@ -755,10 +757,10 @@ public class ConsoleCommands
     @CommandDelegate(
             desc = "Set an option value for the current dimension.  The change lasts until the world configuration is reloaded."
     )
-    public String cogOption(CommandSource sender,
+    public String cogOption(CommandSourceStack sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "option"
             ) String option,
@@ -788,7 +790,7 @@ public class ConsoleCommands
         WorldConfig.loadedOptionOverrides[2] = options;
         ServerState.clearWorldConfig(world);
         cfg = ServerState.getWorldConfig(world);
-        String dim = cfg.dimensionDir.toString();
+        String dim = describe(cfg, world);
         WorldConfig.loadedOptionOverrides[2] = null;
         resetClientGeometryCache();
         return "Changed " + count + " options for " + dim;
@@ -798,10 +800,10 @@ public class ConsoleCommands
             isDebugging = false,
             desc = "Enabled or disable debugging mode for the current dimension."
     )
-    public String cogEnableDebugging(CommandSource sender,
+    public String cogEnableDebugging(CommandSourceStack sender,
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world,
+            ) ServerLevel world,
             @ArgName(
                     name = "enable"
             )
@@ -818,19 +820,25 @@ public class ConsoleCommands
     public String cogLoadConfig(
             @ArgName(
                     name = "dimension"
-            ) ServerWorld world)
+            ) ServerLevel world)
     {
         ServerState.clearWorldConfig(world);
-        String path = ServerState.getWorldConfig(world).dimensionDir.toString();
+        String path = describe(ServerState.getWorldConfig(world), world);
         resetClientGeometryCache();
         return "Reloaded config data for " + path;
     }
     
-    private static void sendError(CommandSource source, Exception exception) {
+    // Per-dimension config folders are never created (WorldConfig leaves dimensionDir null), so fall back
+    // to naming the dimension.
+    private static String describe(WorldConfig cfg, ServerLevel world) {
+    	return cfg.dimensionDir != null ? cfg.dimensionDir.toString() : world.dimension().identifier().toString();
+    }
+
+    private static void sendError(CommandSourceStack source, Exception exception) {
     	sendError(source, exception.getMessage());
     }
 
-	private static void sendError(CommandSource source, String message) {
-		source.sendErrorMessage(new StringTextComponent("\u00a7c" + message));
+	private static void sendError(CommandSourceStack source, String message) {
+		source.sendFailure(Component.literal(message));
 	}
 }

@@ -1,28 +1,25 @@
 package CustomOreGen.Server;
 
 import java.util.Map;
-import java.util.Random;
 
 import CustomOreGen.Server.DistributionSettingMap.DistributionSetting;
 import CustomOreGen.Util.BiomeDescriptor;
 import CustomOreGen.Util.BlockArrangement;
 import CustomOreGen.Util.BlockDescriptor;
 import CustomOreGen.Util.BlockDescriptor.BlockInfo;
+import CustomOreGen.Util.BlockEntityHelper;
 import CustomOreGen.Util.GeometryStream;
-import CustomOreGen.Util.TileEntityHelper;
 import CustomOreGen.Util.TouchingDescriptorList;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.ChunkStatus;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
-import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.QuartPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
+import net.minecraft.world.level.levelgen.Heightmap;
 
 /*
  * TODO:
@@ -31,7 +28,7 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
  * 3. Move the setting accessors from IOreDstribution to OreDistributionConfig. Will require a lot of refactoring. 
  * 4. Refactor each distribution's generate() into place(), i.e., based on the config
  */
-public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOreDistribution
+public class SubstitutionFeature implements IOreDistribution
 {
     @DistributionSetting(
             name = "Name",
@@ -144,7 +141,6 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
 
     public SubstitutionFeature(int distributionID, boolean canGenerate)
     {
-    	super(NoFeatureConfig::deserialize, canGenerate);
         this.oreBlock = new BlockDescriptor(Blocks.STONE);
         this.replaceableBlocks = new BlockDescriptor();
         this.aboveBlocks = new BlockDescriptor();
@@ -161,7 +157,7 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
         this.placedBlocks = 0L;
         this._valid = false;
         this.name = "Substitute_" + distributionID;
-        this.seed = (new Random((long)distributionID)).nextLong();
+        this.seed = (RandomSource.create((long)distributionID)).nextLong();
         this._canGenerate = canGenerate;
     }
 
@@ -193,17 +189,18 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
         settingMap.set(this, settingName, value);
     }
 
-    public void generate(World world, int chunkX, int chunkZ) {}
+    //public void generate(Level world, int chunkX, int chunkZ) {}
 
 	@Override
-    public void populate(IWorld world, int chunkX, int chunkZ)
+    public void populate(WorldGenLevel world, int chunkX, int chunkZ)
     {
         if (this._canGenerate && this._valid && this.oreBlock != null)
         {
-            Random random = new Random(world.getSeed());
+        	long seed = world.getServer().getWorldGenSettings().options().seed();
+            RandomSource random = RandomSource.create(seed);
             long xSeed = random.nextLong() >> 3;
             long zSeed = random.nextLong() >> 3;
-            random.setSeed(xSeed * (long)chunkX + zSeed * (long)chunkZ ^ world.getSeed() ^ this.seed);
+            random.setSeed(xSeed * (long)chunkX + zSeed * (long)chunkZ ^ seed ^ this.seed);
             this.generate(world, random, new BlockPos(chunkX * 16, 0, chunkZ * 16));
         }
     }
@@ -216,7 +213,7 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
         this.placedBlocks = 0L;
     }
 
-    public GeometryStream getDebuggingGeometry(IWorld world, int chunkX, int chunkZ)
+    public GeometryStream getDebuggingGeometry(LevelAccessor world, int chunkX, int chunkZ)
     {
         return null;
     }
@@ -274,29 +271,28 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
             return this._valid && this._canGenerate;
         }
     }
+	
+    public boolean place(WorldGenLevel level, RandomSource random, BlockPos origin) {
+		return generate(level, random, origin);
+    }
 
-    //TODO: validate that this does what we want
+	// Substitutions have no layout to precompute; all the work happens in populate().
 	@Override
-	public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, NoFeatureConfig config) {
-		return generate(worldIn, rand, pos);
-	}
+	public void generate(LevelAccessor world, int chunkX, int chunkZ) {}
 
-	//TODO: validate that this does what we want
-	@Override
-	public void generate(IWorld world, int chunkX, int chunkZ) {
-		this.generate(world, world.getRandom(), new BlockPos(chunkX << 4, 0, chunkZ << 4));
-	}
-
-    public boolean generate(IWorld world, Random random, BlockPos position)
+    public boolean generate(LevelAccessor world, RandomSource random, BlockPos position)
     {
         if (this._canGenerate && this._valid && this.oreBlock != null)
         {
-        	int depositCX = position.getX() / 16;
-            int depositCZ = position.getZ() / 16;
-            int cRange = (this.additionalRange + 15) / 16;
+        	int depositCX = position.getX() >> 4;
+            int depositCZ = position.getZ() >> 4;
+            // additionalRange was how pre-1.13 COG reached ore spilled in from neighbors. Population is now
+            // deferred until no neighbor can write here (ServerState.onChunkFeaturesDone), so only this
+            // chunk is scanned; writing into neighbors would also leave the generation region's write area.
+            int cRange = 0;
             int hRange = (this.additionalRange + 7) / 8;
-            int minh = Math.max(0, this.minHeight);
-            int maxh = Math.min(world.getHeight() - 1, this.maxHeight);
+            int minh = Math.max(world.getMinY(), this.minHeight);
+            int maxh = Math.min(world.getMaxY(), this.maxHeight);
             BlockArrangement arrangement = new BlockArrangement(replaceableBlocks, aboveBlocks, belowBlocks,
                     besideBlocks, touchingBlocks);
 
@@ -307,7 +303,7 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
                 	int chunkZ = depositCZ + dCZ;
                     int chunkX = depositCX + dCX;
 
-                    Chunk chunk = (Chunk)world.getChunk(chunkX, chunkZ, ChunkStatus.FEATURES.getParent(), false);
+                    ChunkAccess chunk = world.getChunk(chunkX, chunkZ, ChunkStatus.FEATURES.getParent(), false);
                     if (chunk != null)
                     {
                         int minX = dCX < 0 && -dCX * 2 > hRange ? 8 : 0;
@@ -319,7 +315,8 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
                         {
                             for (int z = minZ; z < maxZ; ++z)
                             {
-                            	Biome biome = chunk.getBiome(new BlockPos(x, 0, z));
+                            	// Noise biomes are stored per 4x4x4 cell, addressed in quart (block / 4) coordinates.
+                            	Biome biome = chunk.getNoiseBiome(QuartPos.fromBlock(x), QuartPos.fromBlock(world.getSeaLevel()), QuartPos.fromBlock(z)).value();
 
                                 if (biome == null || this.biomes.getWeight(biome) > 0.5F)
                                 {
@@ -336,16 +333,16 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
                                     	int worldX = chunkX * 16 + x;
                                     	int worldZ = chunkZ * 16 + z;
                                     	BlockPos worldPos = new BlockPos(worldX, y, worldZ);
-                                    	if (arrangement.matchesAt(world.getWorld(), random, worldPos)) {	
+                                    	if (arrangement.matchesAt(world, random, worldPos)) {	
                                             BlockInfo match = this.oreBlock.getMatchingBlock(random);
                                             if (match == null)
                                             {
                                                 return false;
                                             }
-                                            if (match != null && world.setBlockState(new BlockPos(worldX, y, worldZ), match.getBlockState(), 2))
+                                            if (match != null && world.setBlock(new BlockPos(worldX, y, worldZ), match.getBlockState(), 2))
                                             {
                                                 ++this.placedBlocks;
-                                                TileEntityHelper.readFromPartialNBT(world.getWorld(), worldX, y, worldZ, match.getNBT());
+                                                BlockEntityHelper.readFromPartialNBT(world, worldX, y, worldZ, match.getNBT());
                                             }
                                         }
                                     }
@@ -365,8 +362,8 @@ public class SubstitutionFeature extends Feature<NoFeatureConfig> implements IOr
         }
     }
     
-    private int findSurfaceHeight(Chunk chunk, int x, int z) {
-    	return chunk.getTopBlockY(Heightmap.Type.WORLD_SURFACE, x, z);
+    private int findSurfaceHeight(ChunkAccess chunk, int x, int z) {
+    	return chunk.getHeight(Heightmap.Types.WORLD_SURFACE_WG, x, z);
 	}
 
 	public String toString()

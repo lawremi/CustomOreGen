@@ -1,11 +1,11 @@
 package CustomOreGen.Util;
 
-import net.minecraft.world.World;
+import net.minecraft.world.level.LevelAccessor;
 
 public class BaseHeightScale implements HeightScale {
 
 	@Override
-	public int getHeight(World world, int x, int z) {
+	public int getHeight(LevelAccessor world, int x, int z) {
 		return 64;
 	}
 

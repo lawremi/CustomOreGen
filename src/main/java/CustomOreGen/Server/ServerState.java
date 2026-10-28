@@ -1,43 +1,57 @@
 package CustomOreGen.Server;
 
 import java.awt.Frame;
-import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
-import java.util.function.Consumer;
 
 import CustomOreGen.CustomOreGenBase;
 import CustomOreGen.GeometryData;
 import CustomOreGen.GeometryRequestData;
+import CustomOreGen.Util.CogOreGenEvent;
 import CustomOreGen.Util.GeometryStream;
 import CustomOreGen.Util.SimpleProfiler;
-import net.minecraft.client.gui.screen.CreateWorldScreen;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.client.gui.widget.button.Button;
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
+import it.unimi.dsi.fastutil.longs.LongSet;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.ChunkStatus;
-import net.minecraft.world.dimension.DimensionType;
-import net.minecraft.world.storage.WorldInfo;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
+import net.minecraft.world.level.storage.WorldData;
+import net.neoforged.neoforge.common.NeoForge;
 
 public class ServerState
 {
     private static MinecraftServer _server = null;
-    private static Map<World,WorldConfig> _worldConfigs = new HashMap<World, WorldConfig>();
-    private static Button _optionsGuiButton = null;
+    // Read from several worldgen threads at once.
+    private static Map<LevelAccessor,WorldConfig> _worldConfigs = new ConcurrentHashMap<LevelAccessor, WorldConfig>();
+    // Chunks whose FEATURES step has reached COG this session, per dimension. See onChunkFeaturesDone.
+    private static final Map<ServerLevel,LongSet> _featuresDone = new HashMap<ServerLevel, LongSet>();
+    private static int _populatedChunkCount = 0;
     private static boolean forcingChunk;
 
-    public static WorldConfig getWorldConfig(World world)
+    public static WorldConfig getWorldConfig(LevelAccessor world)
+    {
+        WorldConfig cfg = _worldConfigs.get(world);
+        return cfg != null ? cfg : loadWorldConfig(world);
+    }
+
+    /** True if a config is already loaded for this world and it has debugging mode on. Never loads one. */
+    public static boolean isDebuggingMode(LevelAccessor world)
+    {
+        WorldConfig cfg = world == null ? null : _worldConfigs.get(world);
+        return cfg != null && cfg.debuggingMode;
+    }
+
+    private static synchronized WorldConfig loadWorldConfig(LevelAccessor world)
     {
         WorldConfig cfg = _worldConfigs.get(world);
 
@@ -45,7 +59,7 @@ public class ServerState
         {
             try
             {
-                cfg = new WorldConfig(world);
+            	cfg = new WorldConfig(world);
                 validateOptions(cfg.getConfigOptions(), true);
                 validateDistributions(cfg.getOreDistributions(), true);
             }
@@ -66,7 +80,7 @@ public class ServerState
         return cfg;
     }
 
-    public static void clearWorldConfig(World world)
+    public static void clearWorldConfig(Level world)
     {
         _worldConfigs.remove(world);
     }
@@ -122,7 +136,7 @@ public class ServerState
     }
 
     // TODO: add force option; if true then we will generate even when there is no version
-    public static void populateDistributions(Collection<IOreDistribution> distributions, World world, int chunkX, int chunkZ)
+    public static void populateDistributions(Collection<IOreDistribution> distributions, LevelAccessor world, int chunkX, int chunkZ)
     {
         SimpleProfiler.globalProfiler.startSection("Populate");
         
@@ -130,7 +144,7 @@ public class ServerState
         
         for (IOreDistribution dist : distributions) {
         	dist.generate(world, chunkX, chunkZ);
-            dist.populate(world, chunkX, chunkZ);
+        	dist.populate((WorldGenLevel)world, chunkX, chunkZ);
             dist.cull();
         }
         
@@ -176,43 +190,96 @@ public class ServerState
         }
     }
 
-    public static void onPopulateChunk(World world, int chunkX, int chunkZ, Random rand) {
-    	WorldConfig cfg = getWorldConfig(world);
-    	int range = (cfg.deferredPopulationRange + 15) / 16;
-    	//for (int iX = chunkX - range; iX <= chunkX + range; ++iX)
-        //{
-            //for (int iZ = chunkZ - range; iZ <= chunkZ + range; ++iZ)
-            //{
-            	//if (allNeighborsPopulated(world, iX, iZ, range)) {
-            		//CustomOreGenBase.log.info("[" + iX + "," + iZ + "]: POPULATING");
-            		populateDistributions(cfg.getOreDistributions(), world, chunkX, chunkZ);
-            	//}
-            //}
-        //}
-    }
+    /**
+     * Called from LevelGenFeature as the last feature of a chunk's FEATURES step, with that chunk's
+     * WorldGenRegion. This is COG's deferred population rule for 1.18+.
+     *
+     * During its FEATURES step a chunk may write into any chunk of its own 3x3, so a chunk's blocks are
+     * not final (vanilla and other mods' ore blobs can still spill into it) until every chunk in its 3x3
+     * has finished FEATURES. COG must run after that: Substitute distributions remove vanilla ore, and
+     * then COG places its own. So each chunk marks itself done here, then populates every chunk in its
+     * 3x3 whose whole 3x3 is now done. Exactly one chunk is the last of any given 3x3, so every chunk is
+     * populated exactly once; and it always happens before that chunk can light (LIGHT requires its 3x3
+     * at FEATURES), so before any player sees it.
+     *
+     * Population writes only into the chunk being populated, which is always within the generating
+     * chunk's 3x3 write area. Structure layout reaches further, but only reads the seed and generator.
+     */
+    public static void onChunkFeaturesDone(WorldGenLevel region, int chunkX, int chunkZ)
+    {
+        ServerLevel level = region.getLevel();
+        WorldConfig cfg = getWorldConfig(level);
 
-    private static boolean allNeighborsPopulated(World world, int chunkX, int chunkZ, int range) {
-    	int area = 4 * range * (range + 1) + 1;
-    	int neighborCount = 0;
-        for (int iX = chunkX - range; iX <= chunkX + range; ++iX)
+        // Serialized so that two chunks of the same 3x3 finishing at once cannot both miss being last.
+        synchronized (_featuresDone)
         {
-            for (int iZ = chunkZ - range; iZ <= chunkZ + range; ++iZ)
+            LongSet done = _featuresDone.computeIfAbsent(level, k -> new LongOpenHashSet());
+            done.add(ChunkPos.pack(chunkX, chunkZ));
+
+            for (int dX = -1; dX <= 1; ++dX)
             {
-            	if (chunkHasBeenPopulated(world, iX, iZ)) 
-            	{
-            		//CustomOreGenBase.log.info("[" + iX + "," + iZ + "]: populated neighbor");
-            		neighborCount++;
-            	}
+                for (int dZ = -1; dZ <= 1; ++dZ)
+                {
+                    if (neighborhoodFeaturesDone(region, done, chunkX + dX, chunkZ + dZ))
+                    {
+                        populateDistributions(cfg.getOreDistributions(), region, chunkX + dX, chunkZ + dZ);
+                        postOreGenEvent(region, chunkX + dX, chunkZ + dZ);
+
+                        if (++_populatedChunkCount % 64 == 0)
+                        {
+                            logPopulationSummary(level, cfg);
+                        }
+                    }
+                }
             }
         }
-		return neighborCount == area; 
-	}
+    }
 
-	private static boolean chunkHasBeenPopulated(World world, int chunkX, int chunkZ) {
-		return world.getChunk(chunkX, chunkZ).getStatus().isAtLeast(ChunkStatus.FEATURES);
-	}
+    /** Tells other mods (such as ore indicator plants) that a chunk's ores are final. */
+    private static void postOreGenEvent(WorldGenLevel region, int chunkX, int chunkZ)
+    {
+        ChunkAccess chunk = region.getChunk(chunkX, chunkZ);
+        RandomSource rand = RandomSource.create(region.getSeed() ^ ChunkPos.pack(chunkX, chunkZ));
+        NeoForge.EVENT_BUS.post(new CogOreGenEvent(region, chunk, rand));
+    }
 
-	public static boolean checkIfServerChanged(MinecraftServer currentServer, WorldInfo worldInfo)
+    private static void logPopulationSummary(ServerLevel level, WorldConfig cfg)
+    {
+        StringBuilder sb = new StringBuilder();
+        for (IOreDistribution dist : cfg.getOreDistributions())
+        {
+            Object placed = dist.getDistributionSetting("placedBlocks");
+            if (placed instanceof Number n && n.longValue() > 0)
+            {
+                sb.append(' ').append(dist).append('=').append(n.longValue());
+            }
+        }
+        CustomOreGenBase.log.debug("Populated " + _populatedChunkCount + " chunks (latest in " + level.dimension().identifier() + "); blocks placed:" + (sb.length() == 0 ? " none" : sb));
+    }
+
+    private static boolean neighborhoodFeaturesDone(WorldGenLevel region, LongSet done, int chunkX, int chunkZ)
+    {
+        for (int iX = chunkX - 1; iX <= chunkX + 1; ++iX)
+        {
+            for (int iZ = chunkZ - 1; iZ <= chunkZ + 1; ++iZ)
+            {
+                if (done.contains(ChunkPos.pack(iX, iZ)))
+                {
+                    continue;
+                }
+                // Finished in an earlier session (or before this chunk's step began). The FEATURES region
+                // holds chunks out to 8 away, so these 5x5 lookups never leave it.
+                ChunkAccess chunk = region.getChunk(iX, iZ, ChunkStatus.EMPTY, false);
+                if (chunk == null || !chunk.getPersistedStatus().isOrAfter(ChunkStatus.FEATURES))
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+	public static boolean checkIfServerChanged(MinecraftServer currentServer, WorldData worldInfo)
     {
         if (_server == currentServer)
         {
@@ -222,23 +289,7 @@ public class ServerState
         {
             if (currentServer != null && worldInfo == null)
             {
-                if (currentServer.getWorlds()== null)
-                {
-                    return false;
-                }
-
-                for (ServerWorld world : currentServer.getWorlds()) {
-                    if (world != null)
-                    {
-                        worldInfo = world.getWorldInfo();
-                    }
-
-                    if (worldInfo != null)
-                    {
-                        break;
-                    }                	
-                }
-                
+            	worldInfo = currentServer.getWorldData();
             }
 
             if (worldInfo == null)
@@ -251,14 +302,18 @@ public class ServerState
         }
     }
 
-    public static void onServerChanged(MinecraftServer server, WorldInfo worldInfo)
+    public static void onServerChanged(MinecraftServer server, WorldData worldInfo)
     {
         _worldConfigs.clear();
+        synchronized (_featuresDone)
+        {
+            _featuresDone.clear();
+        }
         WorldConfig.loadedOptionOverrides[1] = WorldConfig.loadedOptionOverrides[2] = null;
 
         _server = server;
-        CustomOreGenBase.log.debug("Server world changed to " + worldInfo.getWorldName());
-        File f = new File(_server.getWorld(DimensionType.OVERWORLD).getSaveHandler().getWorldDirectory().getAbsolutePath());
+        CustomOreGenBase.log.debug("Server world changed to " + worldInfo.getLevelName());
+		/*File f = new File(_server.getLevel( Level.OVERWORLD).getSaveHandler().getLevelDirectory().getAbsolutePath());
         WorldConfig config = null;
 
         while (config == null)
@@ -278,40 +333,10 @@ public class ServerState
 
                 config = null;
             }
-        }
+        }*/
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public static void addOptionsButtonToGui(CreateWorldScreen gui, List<Widget> buttonList, Consumer<Widget> add)
-    {
-        if (gui == null)
-        {
-            _optionsGuiButton = null;
-        }
-        else
-        {
-            GuiCustomOreGenSettings settingsGui = new GuiCustomOreGenSettings(gui);
-            _optionsGuiButton = new Button(150, 100, 150, 20, "Custom Ore Generation...", (button) -> {
-            	gui.getMinecraft().displayGuiScreen(settingsGui);
-            });
-
-            Button button1 = _optionsGuiButton;
-            
-            if (!buttonList.contains(button1))
-            {
-                button1.x = (gui.width - button1.getWidth()) / 2;
-                button1.y = 165;
-                add.accept(button1);
-            }
-        }
-    }
-    
-    @OnlyIn(Dist.CLIENT)
-    public static void updateOptionsButtonVisibility(CreateWorldScreen gui) {
-    	_optionsGuiButton.visible = !(Boolean)ObfuscationReflectionHelper.getPrivateValue(CreateWorldScreen.class, gui, "inMoreWorldOptionsDisplay");
-    }
-    
-	public static void chunkForced(World world, ChunkPos location) {
+	public static void chunkForced(Level world, ChunkPos location) {
 		if (forcingChunk) { // prevent infinite recursion when there are multiple chunk loaders
 			return;
 		}
@@ -320,11 +345,11 @@ public class ServerState
 		WorldConfig cfg = getWorldConfig(world);
 		int radius = (cfg.deferredPopulationRange + 15) / 16;
         
-        for (int cX = location.x - radius; cX <= location.x + radius; ++cX)
+        for (int cX = location.x() - radius; cX <= location.x() + radius; ++cX)
         {
-            for (int cZ = location.z - radius; cZ <= location.z + radius; ++cZ)
+            for (int cZ = location.z() - radius; cZ <= location.z() + radius; ++cZ)
             {
-            	if (cX != location.x && cZ != location.z) {
+            	if (cX != location.x() && cZ != location.z()) {
             		world.getChunk(cX, cZ);
             	}
             }

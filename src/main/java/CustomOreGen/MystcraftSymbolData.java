@@ -2,12 +2,13 @@ package CustomOreGen;
 
 import java.io.Serializable;
 
-import net.minecraft.world.World;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.Level;
 
 public class MystcraftSymbolData implements Serializable
 {
-    public transient World world;
-    public int dimensionID = 0;
+    public transient Level world;
+    public Identifier dimensionID = null;
     public String symbolName;
     public int count = 0;
     public String displayName = "";
@@ -17,13 +18,13 @@ public class MystcraftSymbolData implements Serializable
 
     public MystcraftSymbolData() {}
 
-    public MystcraftSymbolData(World world, String symbolName)
+    public MystcraftSymbolData(Level world, String symbolName)
     {
         this.world = world;
 
         if (world != null)
         {
-            this.dimensionID = world.dimension.getType().getId();
+            this.dimensionID = world.dimension().identifier();
         }
 
         this.symbolName = this.displayName = symbolName;

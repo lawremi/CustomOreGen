@@ -6,15 +6,18 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.lwjgl.opengl.GL11;
 
 import CustomOreGen.Util.IGeometryBuilder;
 import CustomOreGen.Util.Transform;
 
 public class GeometryRenderer implements IGeometryBuilder
 {
+    /** An emitted vertex: its position and color (ARGB). */
+    public record Vertex(float x, float y, float z, int argb) { }
+
     private int _curBufferIdx = -1;
     private Transform _posTrans = null;
     private Transform _nmlTrans = null;
@@ -265,16 +268,20 @@ public class GeometryRenderer implements IGeometryBuilder
         this.processVertices();
     }
 
-    public void draw()
+    /**
+     * Writes everything added so far into two vertex lists: lines as vertex pairs, triangles and quads
+     * (as triangle pairs) as vertex triples. Points, normals and textures are not drawn.
+     */
+    public void emit(List<Vertex> lines, List<Vertex> polygons)
     {
         for (VertexBuffer buffer : this._vertexBuffers)
         {
-            buffer.drawBuffer();
+            buffer.emit(lines, polygons);
         }
 
         if (this._dbgNormalLines != null)
         {
-            this._dbgNormalLines.drawBuffer();
+            this._dbgNormalLines.emit(lines, polygons);
         }
     }
 
@@ -726,68 +733,70 @@ public class GeometryRenderer implements IGeometryBuilder
             this.xBuffer.put(index);
         }
 
-        public void drawBuffer()
+        public void emit(List<Vertex> lines, List<Vertex> polygons)
         {
-            int vCount = this.getVertexCount();
-            int vsize = this.getVertexSize();
             int xCount = this.getIndexCount();
 
-            if (this.renderMode >= 0 && vCount != 0 && xCount != 0)
+            switch (this.renderMode)
             {
-                byte offset = 0;
-                this.vBuffer.position(offset);
-                GL11.glVertexPointer(3, GL11.GL_FLOAT, vsize, this.vBuffer.asFloatBuffer());
-                GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
-                int offset1 = offset + 12;
+                case 1: // lines
+                    for (int i = 0; i + 1 < xCount; i += 2)
+                    {
+                        this.emitVertex(lines, this.xBuffer.get(i));
+                        this.emitVertex(lines, this.xBuffer.get(i + 1));
+                    }
+                    break;
 
-                if (this.hasNormal)
+                case 4: // triangles
+                    for (int i = 0; i + 2 < xCount; i += 3)
+                    {
+                        this.emitVertex(polygons, this.xBuffer.get(i));
+                        this.emitVertex(polygons, this.xBuffer.get(i + 1));
+                        this.emitVertex(polygons, this.xBuffer.get(i + 2));
+                    }
+                    break;
+
+                case 7: // quads, split into two triangles
+                    for (int i = 0; i + 3 < xCount; i += 4)
+                    {
+                        this.emitVertex(polygons, this.xBuffer.get(i));
+                        this.emitVertex(polygons, this.xBuffer.get(i + 1));
+                        this.emitVertex(polygons, this.xBuffer.get(i + 2));
+                        this.emitVertex(polygons, this.xBuffer.get(i));
+                        this.emitVertex(polygons, this.xBuffer.get(i + 2));
+                        this.emitVertex(polygons, this.xBuffer.get(i + 3));
+                    }
+                    break;
+
+                default: // points are not drawn
+                    break;
+            }
+        }
+
+        private void emitVertex(List<Vertex> out, int index)
+        {
+            int base = index * this.getVertexSize();
+            float x = this.vBuffer.getFloat(base);
+            float y = this.vBuffer.getFloat(base + 4);
+            float z = this.vBuffer.getFloat(base + 8);
+            int r = 255, g = 255, b = 255, a = 255;
+
+            if (this.hasColor)
+            {
+                // Packed by addVertex as RGBA bytes in memory order.
+                int c = this.vBuffer.getInt(base + (this.hasNormal ? 24 : 12));
+
+                if (ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN)
                 {
-                    this.vBuffer.position(offset1);
-                    GL11.glNormalPointer(GL11.GL_FLOAT, vsize, this.vBuffer.asFloatBuffer());
-                    GL11.glEnableClientState(GL11.GL_NORMAL_ARRAY);
-                    offset1 += 12;
+                    r = c & 255; g = c >> 8 & 255; b = c >> 16 & 255; a = c >>> 24;
                 }
-
-                if (this.hasColor)
+                else
                 {
-                    this.vBuffer.position(offset1);
-                    GL11.glColorPointer(4, GL11.GL_BYTE, vsize, this.vBuffer);
-                    GL11.glEnableClientState(GL11.GL_COLOR_ARRAY);
-                    offset1 += 4;
-                }
-
-                if (this.texture >= 0)
-                {
-                    this.vBuffer.position(offset1);
-                    GL11.glTexCoordPointer(2, GL11.GL_FLOAT, vsize, this.vBuffer.asFloatBuffer());
-                    GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
-                    offset1 += 8;
-                }
-
-                if (this.texture >= 0 && this.texture != GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D))
-                {
-                    GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.texture);
-                }
-
-                this.xBuffer.rewind();
-                GL11.glDrawElements(this.renderMode, this.xBuffer);
-                GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
-
-                if (this.hasNormal)
-                {
-                    GL11.glDisableClientState(GL11.GL_NORMAL_ARRAY);
-                }
-
-                if (this.hasColor)
-                {
-                    GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);
-                }
-
-                if (this.texture >= 0)
-                {
-                    GL11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
+                    r = c >>> 24; g = c >> 16 & 255; b = c >> 8 & 255; a = c & 255;
                 }
             }
+
+            out.add(new Vertex(x, y, z, a << 24 | r << 16 | g << 8 | b));
         }
     }
 
